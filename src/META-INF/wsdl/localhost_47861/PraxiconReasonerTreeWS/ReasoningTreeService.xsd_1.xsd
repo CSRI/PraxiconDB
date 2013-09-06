@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2-hudson-752-. --><xs:schema xmlns:tns="http://realtree.utils.praxicon.poeticon.csri/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://realtree.utils.praxicon.poeticon.csri/">
+
+<xs:element name="getTree" type="tns:getTree" />
+
+<xs:element name="getTreeResponse" type="tns:getTreeResponse" />
+
+<xs:complexType name="getTree">
+<xs:sequence>
+<xs:element name="query" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getTreeResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:entityTree" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="entityTree">
+<xs:sequence>
+<xs:element name="root" type="tns:entityNode" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="entityNode">
+<xs:sequence>
+<xs:element name="children" type="tns:entityNode" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+<xs:element name="entityID" type="xs:long" minOccurs="0" />
+<xs:element name="name" type="xs:string" minOccurs="0" />
+<xs:element name="numberInPath" type="xs:int" />
+<xs:element name="parentID" type="xs:long" minOccurs="0" />
+<xs:element name="parentNumberInPath" type="xs:int" />
+<xs:element name="parentType" type="xs:string" minOccurs="0" />
+<xs:element name="typeOfNode" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

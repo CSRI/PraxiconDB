@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project name="XDoclet Tutorial Examples" default="gensrc" basedir=".">
+    <property file="${basedir}/build.properties"/>
+
+    <path id="xdoclet.class.path">
+        <fileset dir="${xdoclet.lib.dir}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="prepare">
+        <tstamp>
+            <format property="TODAY" pattern="yyyy-MM-dd"/>
+        </tstamp>
+        <taskdef
+            name="xdoclet"
+            classname="xdoclet.DocletTask"
+            classpathref="xdoclet.class.path"
+            />
+        <mkdir dir="${classes.dir}"/>
+        <mkdir dir="${xdoclet.gen-src.dir}"/>
+    </target>
+
+
+    <target name="gensrc" depends="prepare" description="invoke XDoclet to generate code">
+		<xdoclet
+            destdir="${xdoclet.gen-src.dir}"
+            excludedtags="@version,@author,@todo"
+            force="${xdoclet.force}"
+            verbose="true"
+            >
+            <fileset dir="${xdoclet.src.dir}">
+                <include name="**/*.java"/>
+            </fileset>
+
+            <template 
+            	destinationFile="jaxb.index"
+            	templateFile="${xdoclet.template.dir}/jaxb.xdt"
+            	subTaskName="Creating jaxv.index file"
+            	>
+            </template>
+        </xdoclet>
+		
+		<xdoclet
+            destdir="${xdoclet.gen-src.dir}"
+            excludedtags="@version,@author,@todo"
+            force="${xdoclet.force}"
+            verbose="true"
+            >
+            <fileset dir="${xdoclet.src.dir}">
+                <include name="**/*.java"/>
+            </fileset>
+
+            <template
+            	destinationFile="PraxiconXMLTags.html"
+            	templateFile="${xdoclet.template.dir}/xmlHelpFile.xdt"
+            	subTaskName="Creating praxicon's XML help file"
+            	>
+            </template>
+        </xdoclet>
+    </target>
+
+
+
+</project>

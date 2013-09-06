@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2.1-hudson-28-. --><xs:schema xmlns:tns="http://realtree.utils.praxicon.poeticon.csri/" xmlns:ns1="http://jaxb.dev.java.net/array" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://realtree.utils.praxicon.poeticon.csri/">
+
+<xs:import namespace="http://jaxb.dev.java.net/array" schemaLocation="http://localhost:8080/PraxiconTreeService/PraxiconTree?xsd=2" />
+
+<xs:element name="HelloWorld" type="tns:HelloWorld" />
+
+<xs:element name="HelloWorldResponse" type="tns:HelloWorldResponse" />
+
+<xs:element name="getImageBytes" type="tns:getImageBytes" />
+
+<xs:element name="getImageBytesResponse" type="tns:getImageBytesResponse" />
+
+<xs:element name="getTree" type="tns:getTree" />
+
+<xs:element name="getTreeResponse" type="tns:getTreeResponse" />
+
+<xs:element name="queryPRAXICON" type="tns:queryPRAXICON" />
+
+<xs:element name="queryPRAXICONResponse" type="tns:queryPRAXICONResponse" />
+
+<xs:complexType name="getImageBytes">
+<xs:sequence>
+<xs:element name="nameOfImage" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getImageBytesResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:byte" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="HelloWorld">
+<xs:sequence>
+<xs:element name="name" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="HelloWorldResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="queryPRAXICON">
+<xs:sequence>
+<xs:element name="objectsAround" type="xs:anyType" minOccurs="0" maxOccurs="unbounded" />
+<xs:element name="query" type="xs:string" minOccurs="0" />
+<xs:element name="noObjects" type="xs:anyType" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="queryPRAXICONResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:iitResponse" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="iitResponse">
+<xs:sequence>
+<xs:element name="response" type="tns:iitAction" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="iitAction">
+<xs:sequence>
+<xs:element name="movement" type="xs:string" minOccurs="0" />
+<xs:element name="object1" type="tns:iitObject" minOccurs="0" />
+<xs:element name="object2" type="tns:iitObject" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="iitObject">
+<xs:sequence>
+<xs:element name="images" type="ns1:byteArray" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+<xs:element name="name" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getTree">
+<xs:sequence>
+<xs:element name="query" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getTreeResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:entityTree" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="entityTree">
+<xs:sequence>
+<xs:element name="root" type="tns:entityNode" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="entityNode">
+<xs:sequence>
+<xs:element name="children" type="tns:entityNode" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+<xs:element name="entityID" type="xs:long" minOccurs="0" />
+<xs:element name="name" type="xs:string" minOccurs="0" />
+<xs:element name="numberInPath" type="xs:int" />
+<xs:element name="parentID" type="xs:long" minOccurs="0" />
+<xs:element name="parentNumberInPath" type="xs:int" />
+<xs:element name="parentType" type="xs:string" minOccurs="0" />
+<xs:element name="typeOfNode" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

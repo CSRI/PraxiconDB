@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<entity id="1" name="thing%1:04:00::">
+    <is_basic_level>false</is_basic_level>
+    <type>ABSTRACT</type>
+    <description></description>
+    <lr id="1">
+        <entry id="1">
+            <lang>EN</lang>
+            <part_of_speech>NOUN</part_of_speech>
+            <text>thing</text>
+        </entry>
+    </lr>
+    <origin>NO</origin>
+    <p_status>LITERAL</p_status>
+    <source>WORDNET</source>
+    <status>CONSTANT</status>
+</entity>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<entity id="2" name="action%1:04:02::">
+    <is_basic_level>false</is_basic_level>
+    <type>ABSTRACT</type>
+    <description></description>
+    <lr id="2">
+        <entry id="2">
+            <lang>EN</lang>
+            <part_of_speech>NOUN</part_of_speech>
+            <text>action</text>
+        </entry>
+    </lr>
+    <origin>ENTITY</origin>
+    <p_status>LITERAL</p_status>
+    <union_of_intersections_of_relations id="1" inherent="false" percentage="0.0">
+        <intersections_of_relations id="1">
+            <relation_chain id="1" name="">
+                <relation_order order="0">
+                    <relation id="1" obj="thing%1:04:00::" subject="action%1:04:02::">
+                        <type right-to-left_name="TOKEN_TYPE" left-to-right_name="TYPE_TOKEN" id="1"/>
+                    </relation>
+                </relation_order>
+            </relation_chain>
+        </intersections_of_relations>
+    </union_of_intersections_of_relations>
+    <union_of_intersections_of_relations id="2" inherent="false" percentage="0.0">
+        <intersections_of_relations id="2">
+            <relation_chain id="2" name="">
+                <relation_order order="0">
+                    <relation id="2" obj="kindness%1:04:00::" subject="action%1:04:02::">
+                        <type right-to-left_name="TOKEN_TYPE" left-to-right_name="TYPE_TOKEN" id="1"/>
+                    </relation>
+                </relation_order>
+            </relation_chain>
+        </intersections_of_relations>
+    </union_of_intersections_of_relations>
+    <union_of_intersections_of_relations id="11" inherent="false" percentage="0.0">
+        <intersections_of_relations id="11">
+            <relation_chain id="11" name="">
+                <relation_order order="0">
+                    <relation id="11" obj="achievement%1:04:00::" subject="action%1:04:02::">
+                        <type right-to-left_name="TOKEN_TYPE" left-to-right_name="TYPE_TOKEN" id="1"/>
+                    </relation>
+                </relation_order>
+            </relation_chain>
+        </intersections_of_relations>
+    </union_of_intersections_of_relations>
+    <union_of_intersections_of_relations id="33" inherent="false" percentage="0.0">
+        <intersections_of_relations id="33">
+            <relation_chain id="35" name="">
+                <relation_order order="0">
+                    <relation id="35" obj="alienation%1:04:00::" subject="action%1:04:02::">
+                        <type right-to-left_name="TOKEN_TYPE" left-to-right_name="TYPE_TOKEN" id="1"/>
+                    </relation>
+                </relation_order>
+            </relation_chain>
+        </intersections_of_relations>
+    </union_of_intersections_of_relations>
+    <union_of_intersections_of_relations id="34" inherent="false" percentage="0.0">
+        <intersections_of_relations id="34">
+            <relation_chain id="36" name="">
+                <relation_order order="0">
+                    <relation id="36" obj="application%1:04:00::" subject="action%1:04:02::">
+                        <type right-to-left_name="TOKEN_TYPE" left-to-right_name="TYPE_TOKEN" id="1"/>
+                    </relation>
+                </relation_order>
+            </relation_chain>
+        </intersections_of_relations>
+    </union_of_intersections_of_relations>
+    <source>WORDNET</source>
+    <status>CONSTANT</status>
+</entity>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<entity id="3" name="kindness%1:04:00::">
+    <is_basic_level>false</is_basic_level>
+    <type>ABSTRACT</type>
+    <description></description>
+    <lr id="3">
+        <entry id="3">
+            <lang>EN</lang>
+            <part_of_speech>NOUN</part_of_speech>
+            <text>kindness</text>
+        </entry>
+        <entry id="4">
+            <lang>EN</lang>
+            <part_of_speech>NOUN</part_of_speech>
+            <text>benignity</text>
+        </entry>
+    </lr>
+    <origin>NO</origin>
+    <p_status>LITERAL</p_status>
+    <source>WORDNET</source>
+    <status>CONSTANT</status>
+</entity>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<entity id="4" name="benevolence%1:04:00::">
+    <is_basic_level>false</is_basic_level>
+    <type>ABSTRACT</type>
+    <description></description>
+    <lr id="4">
+        <entry id="5">
+            <lang>EN</lang>
+            <part_of_speech>NOUN</part_of_speech>
+            <text>benefaction</text>
+        </entry>
+        <entry id="6">
+            <lang>EN</lang>
+            <part_of_speech>NOUN</part_of_speech>
+            <text>benevolence</text>
+        </entry>
+    </lr>
+    <origin>NO</origin>
+    <p_status>LITERAL</p_status>
+    <union_of_intersections_of_relations id="3" inherent="false" percentage="0.0">
+        <intersections_of_relations id="3">
+            <relation_chain id="3" name="">
+                <relation_order order="0">
+                    <relation id="3" obj="benevolence%1:04:00::" subject="kindness%1:04:00::">
+                        <type right-to-left_name="TOKEN_TYPE" left-to-right_name="TYPE_TOKEN" id="1"/>
+                    </relation>
+                </relation_order>
+            </relation_chain>
+        </intersections_of_relations>
+    </union_of_intersections_of_relations>
+    <source>WORDNET</source>
+    <status>CONSTANT</status>
+</entity>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<entity id="5" name="cupboard_love%1:04:00::">
+    <is_basic_level>false</is_basic_level>
+    <type>ABSTRACT</type>
+    <description></description>
+    <lr id="5">
+        <entry id="7">
+            <lang>EN</lang>
+            <part_of_speech>NOUN</part_of_speech>
+            <text>cupboard love</text>
+        </entry>
+    </lr>
+    <origin>NO</origin>
+    <p_status>LITERAL</p_status>
+    <union_of_intersections_of_relations id="4" inherent="false" percentage="0.0">
+        <intersections_of_relations id="4">
+            <relation_chain id="4" name="">
+                <relation_order order="0">
+                    <relation id="4" obj="cupboard_love%1:04:00::" subject="kindness%1:04:00::">
+                        <type right-to-left_name="TOKEN_TYPE" left-to-right_name="TYPE_TOKEN" id="1"/>
+                    </relation>
+                </relation_order>
+            </relation_chain>
+        </intersections_of_relations>
+    </union_of_intersections_of_relations>
+    <source>WORDNET</source>
+    <status>CONSTANT</status>
+</entity>

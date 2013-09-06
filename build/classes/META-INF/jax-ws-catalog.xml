@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://localhost:47861/PraxiconReasonerTreeWS/ReasoningTreeService?wsdl" uri="wsdl/localhost_47861/PraxiconReasonerTreeWS/ReasoningTreeService.wsdl"/>
+    <system systemId="http://localhost:47861/PraxiconReasonerTreeWS/ReasoningTreeService?xsd=1" uri="wsdl/localhost_47861/PraxiconReasonerTreeWS/ReasoningTreeService.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/PraxiconTreeService/PraxiconTree?WSDL" uri="wsdl/localhost_15301/PraxiconTreeService/PraxiconTree.wsdl"/>
+    <system systemId="http://localhost:8080/PraxiconTreeService/PraxiconTree?xsd=1" uri="wsdl/localhost_15301/PraxiconTreeService/PraxiconTree.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/PraxiconTreeService/PraxiconTree?xsd=2" uri="wsdl/localhost_15301/PraxiconTreeService/PraxiconTree.xsd_2.xsd"/>
+</catalog>
+
+
+

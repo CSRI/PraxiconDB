@@ -1,0 +1,32 @@
+<html>
+	<head>
+		<title>
+			Praxicon's XML Tags Index
+		</title>
+	</head>
+	<body bgcolor="#ffffff">
+		<TABLE BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+			<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+				<TD COLSPAN=2><FONT SIZE="+2"><B>Praxicon's XML Tags Index</B></FONT></TD>
+			</TR>
+			<XDtClass:forAllClasses>
+				<XDtField:forAllFields>
+					<XDtField:ifHasFieldTag tagName="xmlcomments.args">
+						<TR>
+							<TD WIDTH="20%"><B><XDtField:ifHasFieldTag tagName="xmlcomments.args" paramName="xmltag"><XDtField:fieldTagValue  tagName="xmlcomments.args" paramName="xmltag"/></XDtField:ifHasFieldTag></B></TD>
+							<TD WIDTH="80%"><XDtField:ifHasFieldTag tagName="xmlcomments.args" paramName="xmldescription"><XDtField:fieldTagValue  tagName="xmlcomments.args" paramName="xmldescription"/></XDtField:ifHasFieldTag></TD>
+						</TR>
+					</XDtField:ifHasFieldTag>
+				</XDtField:forAllFields>
+				<XDtMethod:forAllMethods superclasses="false">
+					<XDtMethod:ifHasMethodTag tagName="xmlcomments.args">
+						<TR>
+							<TD WIDTH="20%"><B><XDtMethod:ifHasMethodTag tagName="xmlcomments.args" paramName="xmltag"><XDtMethod:methodTagValue  tagName="xmlcomments.args" paramName="xmltag"/></XDtMethod:ifHasMethodTag></B></TD>
+							<TD WIDTH="80%"><XDtMethod:ifHasMethodTag tagName="xmlcomments.args" paramName="xmldescription"><XDtMethod:methodTagValue  tagName="xmlcomments.args" paramName="xmldescription"/></XDtMethod:ifHasMethodTag></TD>
+						</TR>
+					</XDtMethod:ifHasMethodTag>
+				</XDtMethod:forAllMethods>
+			</XDtClass:forAllClasses>
+	   </TABLE>
+	</body>
+</html>
