@@ -144,11 +144,11 @@ public class VisualRepresentation implements Serializable {
         }
         if (this.mediaType.equalsIgnoreCase("image"))
         {
-            return Constants.ImagePath + representation;
+            return Constants.imagePath + representation;
         }
         else
         {
-            return Constants.VideoPath + representation;
+            return Constants.videoPath + representation;
         }
     }
 
