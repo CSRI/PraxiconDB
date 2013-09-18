@@ -1,23 +1,37 @@
 # Database settings (for now you should use mysql db)
-db.host=              # URL of the db server (default:localhost)
-db.port=              # Port the db server listens to (default:3306)
-db.name=            # Name of the database (default:praxicon)
-db.username=          # Username of db user
-db.password=          # Password of user
+# URL of the db server (default:localhost)
+db.host=
+# Port the db server listens to (default:3306)
+db.port=
+# Name of the database (default:praxicon)
+db.name=
+# Username of db user
+db.username=
+# Password of user
+db.password=
 
 
 # Some paths
-path.images=            # Images reside here
-path.ImageNet=          # ImageNet images reside here
-path.LabelMe=           # LabelMe images reside here
-path.videos=            # Videos reside here
-path.sounds=            # Sounds reside here
+# Images reside here
+path.images=
+# ImageNet images reside here
+path.ImageNet=
+# LabelMe images reside here
+path.LabelMe=
+# Videos reside here
+path.videos=
+# Sounds reside here
+path.sounds=
 
 # Some URLs
-url.LabelMe=            # LabelMe URL
-url.LabelMeImages=      # LabelMe images URL
-url.ImageNet=           # ImageNet URL
+# LabelMe URL
+url.LabelMe=
+# LabelMe images URL
+url.LabelMeImages=
+# ImageNet URL
+url.ImageNet=
 
 # Some constants
-const.variableSolverWeight=  # Weight for variable solver
+# Weight for variable solver
+const.variableSolverWeight=
 

@@ -26,11 +26,11 @@ public class Constants {
     public static String dbPass;
 
     // Path constants
-    public static String ImagePath;
-    public static String ImagePathLabelMe;
-    public static String ImagePathImageNet;
-    public static String VideoPath;
-    public static String SoundPath;
+    public static String imagePath;
+    public static String imagePathLabelMe;
+    public static String imagePathImageNet;
+    public static String videoPath;
+    public static String soundPath;
 
     // URL constants
     public static String LabelMeURL;
@@ -59,7 +59,7 @@ public class Constants {
     public static CollectionOfConcepts wordNetConcepts;
 
 
-    public Constants() throws FileNotFoundException, IOException{
+    public static void Constants() throws FileNotFoundException, IOException{
 
         Properties props = new Properties();
         FileInputStream fis = new FileInputStream("settings.properties");
@@ -77,27 +77,27 @@ public class Constants {
         /**
          * The path to the image resources
          */
-        ImagePath = props.getProperty("path.images");
+        imagePath = props.getProperty("path.images");
 
         /**
          * The path to the LabelMe image resources
          */
-        ImagePathLabelMe = props.getProperty("path.LabelMe");
+        imagePathLabelMe = props.getProperty("path.LabelMe");
 
         /**
          * The path to the ImageNet image resources
          */
-        ImagePathImageNet = props.getProperty("path.ImageNet");
+        imagePathImageNet = props.getProperty("path.ImageNet");
 
         /**
          * The path to the video resources
          */
-        VideoPath = props.getProperty("path.videos");
+        videoPath = props.getProperty("path.videos");
 
         /**
          * * The path to the sound resources
          */
-        SoundPath = props.getProperty("path.sounds");
+        soundPath = props.getProperty("path.sounds");
 
         /**
          * The URL string to labelMe
@@ -118,6 +118,8 @@ public class Constants {
          * A weight that it is being used by the variable solver (the weight of an inherent relation)
          */
         weightForVariableSolver = Double.parseDouble(props.getProperty("const.variableSolverWeight"));
+        System.out.println("db.username: " + dbName);
+        System.out.println("db.host: " + dbHost);
 
     }
 
