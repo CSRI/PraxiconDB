@@ -40,7 +40,6 @@ public class Constants {
     // Other constants
     public static double weightForVariableSolver;
 
-
     /**
      * This is used by the similarity functions, to store which objects we have already visited
      */
@@ -57,7 +56,6 @@ public class Constants {
      * It is used in the Wordnet mode (where we do not have any db)
      */
     public static CollectionOfConcepts wordNetConcepts;
-
 
     public static void Constants() throws FileNotFoundException, IOException{
 
@@ -118,8 +116,6 @@ public class Constants {
          * A weight that it is being used by the variable solver (the weight of an inherent relation)
          */
         weightForVariableSolver = Double.parseDouble(props.getProperty("const.variableSolverWeight"));
-        System.out.println("db.username: " + dbName);
-        System.out.println("db.host: " + dbHost);
 
     }
 
