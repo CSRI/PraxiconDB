@@ -1,9 +1,9 @@
 # Database settings (for now you should use mysql db)
-jdbc.host=              # URL of the db server (default:localhost)
-jdbc.port=              # Port the db server listens to (default:3306)
-jdbc.DBName=            # Name of the database (default:praxicon)
-jdbc.username=          # Username of db user
-jdbc.password=          # Password of user
+db.host=              # URL of the db server (default:localhost)
+db.port=              # Port the db server listens to (default:3306)
+db.name=            # Name of the database (default:praxicon)
+db.username=          # Username of db user
+db.password=          # Password of user
 
 
 # Some paths
