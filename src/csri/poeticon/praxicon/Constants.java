@@ -26,18 +26,52 @@ public class Constants {
     public static String dbPass;
 
     // Path constants
+    /**
+     * The path to the image resources
+     */
     public static String imagePath;
+
+    /**
+     * The path to the LabelMe image resources
+     */
     public static String imagePathLabelMe;
+
+    /**
+     * The path to the ImageNet image resources
+     */
     public static String imagePathImageNet;
+
+    /**
+     * The path to the video resources
+     */
     public static String videoPath;
+
+    /**
+     * * The path to the sound resources
+     */
     public static String soundPath;
 
     // URL constants
+
+    /**
+     * The URL string to labelMe
+     */
     public static String LabelMeURL;
+
+    /**
+     * The URL string to labelMe actual images
+     */
     public static String LabelMeImagesURL;
+
+    /**
+     * The URL string to ImageNet
+     */
     public static String ImageNetURL;
 
     // Other constants
+    /**
+     * A weight that it is being used by the variable solver (the weight of an inherent relation)
+     */
     public static double weightForVariableSolver;
 
     /**
@@ -72,51 +106,14 @@ public class Constants {
         dbUser = props.getProperty("db.username");
         dbPass = props.getProperty("db.password");
 
-        /**
-         * The path to the image resources
-         */
         imagePath = props.getProperty("path.images");
-
-        /**
-         * The path to the LabelMe image resources
-         */
         imagePathLabelMe = props.getProperty("path.LabelMe");
-
-        /**
-         * The path to the ImageNet image resources
-         */
         imagePathImageNet = props.getProperty("path.ImageNet");
-
-        /**
-         * The path to the video resources
-         */
         videoPath = props.getProperty("path.videos");
-
-        /**
-         * * The path to the sound resources
-         */
         soundPath = props.getProperty("path.sounds");
-
-        /**
-         * The URL string to labelMe
-         */
         LabelMeURL = props.getProperty("url.LabelMe");
-
-        /**
-         * The URL string to labelMe actual images
-         */
         LabelMeImagesURL = props.getProperty("url.LabelMeImages");
-
-        /**
-         * The URL string to ImageNet
-         */
         ImageNetURL = props.getProperty("url.ImageNet");
-
-        /**
-         * A weight that it is being used by the variable solver (the weight of an inherent relation)
-         */
         weightForVariableSolver = Double.parseDouble(props.getProperty("const.variableSolverWeight"));
-
     }
-
 }
