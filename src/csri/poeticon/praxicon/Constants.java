@@ -2,24 +2,50 @@ package csri.poeticon.praxicon;
 
 import csri.poeticon.praxicon.db.entities.CollectionOfConcepts;
 import csri.poeticon.praxicon.db.entities.Concept;
+import java.util.Properties;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Hashtable;
 
 /**
- *
- * @author Erevodifwntas
- *
- * All the constants and globals of the project
+ * All the constants and globals of the project. 
+ * All properties taken from "settings.properties" file.
+ * 
+ * @author Dimitris Mavroeidis
+ * @date 18/09/2013
+ * 
  */
 public class Constants {
-    
-    /**
-     * These paths are used by the server version of the praxicon
-     */
-    /*
-    public static String ImagePath = "http://10.1.2.9:8080/Praxicon/resources/images/";
-    public static String VideoPath = "http://10.1.2.9:8080/Praxicon/resources/videos/";
-    public static String SoundPath = "http://10.1.2.9:8080/Praxicon/resources/sounds/";*/
 
+    // DB settings constants
+    public static String dbHost;
+    public static String dbPort;
+    public static String dbName;
+    public static String dbUser;
+    public static String dbPass;
+
+    // Path constants
+    public static String ImagePath;
+    public static String ImagePathLabelMe;
+    public static String ImagePathImageNet;
+    public static String VideoPath;
+    public static String SoundPath;
+
+    // URL constants
+    public static String LabelMeURL;
+    public static String LabelMeImagesURL;
+    public static String ImageNetURL;
+
+    // Other constants
+    public static double weightForVariableSolver;
+
+
+    /**
+     * This is used by the similarity functions, to store which objects we have already visited
+     */
+    public static Hashtable<String, Concept> conceptsVisited = new Hashtable();
+    
     /**
      * A global variable that contains all the concepts that have been loaded from an xml.
      * It is used in the XML mode (where we do not have any db)
@@ -32,51 +58,67 @@ public class Constants {
      */
     public static CollectionOfConcepts wordNetConcepts;
 
-    /**
-     * The path to the image resources
-     */
-    public static String ImagePath = "file:c:/Praxicon/resources/images/";
 
-    /**
-     * The path to the LabelMe image resources
-     */
-    public static String ImagePathLabelMe = "C:/Praxicon/resources/images/LabelMe/";
+    public Constants() throws FileNotFoundException, IOException{
 
-    /**
-     * The path to the ImageNet image resources
-     */
-    public static String ImagePathImageNet = "C:/Praxicon/resources/images/ImageNet/";
-    /**
-     * The path to the video resources
-     */
-    public static String VideoPath = "file:c:/Praxicon/resources/videos/";
-    /**
-     * * The path to the sound resources
-     */
-    public static String SoundPath = "file:c:/Praxicon/resources/sounds/";
+        Properties props = new Properties();
+        FileInputStream fis = new FileInputStream("settings.properties");
+        props.load(fis);
 
-    /**
-     * This is used by the similarity functions, to store which objects we have already visited
-     */
-    public static Hashtable<String, Concept> conceptsVisited = new Hashtable();
-    /**
-     * A weight that it is being used by the variable solver (the weight of an inherent relation)
-     */
-    public static double weightForVariableSolver = 100;
+        /**
+         * Get database settings.
+         */
+        dbHost = props.getProperty("db.host");
+        dbPort = props.getProperty("db.port");
+        dbName = props.getProperty("db.name");
+        dbUser = props.getProperty("db.username");
+        dbPass = props.getProperty("db.password");
 
-    /**
-     * The url string to labelMe
-     */
-    public static String LABELME="http://people.csail.mit.edu/torralba/research/LabelMe/js/LabelMeQueryObjectFast.cgi?query=";
+        /**
+         * The path to the image resources
+         */
+        ImagePath = props.getProperty("path.images");
 
-    /**
-     * The url string to labelMe actual images
-     */
-    public static String LABELME_IMAGES="http://labelme.csail.mit.edu/Images/";
+        /**
+         * The path to the LabelMe image resources
+         */
+        ImagePathLabelMe = props.getProperty("path.LabelMe");
 
-    /**
-     * The url string to ImageNet
-     */
-    public static String IMAGENET="http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=";
+        /**
+         * The path to the ImageNet image resources
+         */
+        ImagePathImageNet = props.getProperty("path.ImageNet");
+
+        /**
+         * The path to the video resources
+         */
+        VideoPath = props.getProperty("path.videos");
+
+        /**
+         * * The path to the sound resources
+         */
+        SoundPath = props.getProperty("path.sounds");
+
+        /**
+         * The URL string to labelMe
+         */
+        LabelMeURL = props.getProperty("url.LabelMe");
+
+        /**
+         * The URL string to labelMe actual images
+         */
+        LabelMeImagesURL = props.getProperty("url.LabelMeImages");
+
+        /**
+         * The URL string to ImageNet
+         */
+        ImageNetURL = props.getProperty("url.ImageNet");
+
+        /**
+         * A weight that it is being used by the variable solver (the weight of an inherent relation)
+         */
+        weightForVariableSolver = Double.parseDouble(props.getProperty("const.variableSolverWeight"));
+
+    }
 
 }

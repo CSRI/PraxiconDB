@@ -1,0 +1,23 @@
+# Database settings (for now you should use mysql db)
+jdbc.host=              # URL of the db server (default:localhost)
+jdbc.port=              # Port the db server listens to (default:3306)
+jdbc.DBName=            # Name of the database (default:praxicon)
+jdbc.username=          # Username of db user
+jdbc.password=          # Password of user
+
+
+# Some paths
+path.images=            # Images reside here
+path.ImageNet=          # ImageNet images reside here
+path.LabelMe=           # LabelMe images reside here
+path.videos=            # Videos reside here
+path.sounds=            # Sounds reside here
+
+# Some URLs
+url.LabelMe=            # LabelMe URL
+url.LabelMeImages=      # LabelMe images URL
+url.ImageNet=           # ImageNet URL
+
+# Some constants
+const.variableSolverWeight=  # Weight for variable solver
+
