@@ -248,7 +248,7 @@ public class UnionOfIntersections implements Serializable {
                     }
                     chain.getRelations().get(k).setRelationOrder(chain.getRelations().get(k).getRelationOrder()+1);
                 }
-                relation.setObj(c);
+                relation.setObject(c);
                 chain.addRelation(relation, 1);
             }
         }

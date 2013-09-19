@@ -40,7 +40,7 @@ public class RelationChainDaoImplXML extends JpaDao<Long, RelationChain> impleme
                         List<Relation> rc = con.getRelations().get(i).getIntersections().get(j).getRelations().get(k).getActualRelations();
                         for (int l = 0; l < rc.size(); l++)
                         {
-                            if (rc.get(l).getSubject().getName().equalsIgnoreCase(c.getName()) || rc.get(l).getObj().getName().equalsIgnoreCase(c.getName()))
+                            if (rc.get(l).getSubject().getName().equalsIgnoreCase(c.getName()) || rc.get(l).getObject().getName().equalsIgnoreCase(c.getName()))
                             {
                                 res.add(con.getRelations().get(i).getIntersections().get(j).getRelations().get(k));
                                 break;

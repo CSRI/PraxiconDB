@@ -55,7 +55,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
             List<Concept> res = new ArrayList<Concept>();
             for (int i = 0; i < rels.size(); i++)
             {
-                res.add(rels.get(i).getObj());
+                res.add(rels.get(i).getObject());
             }
          return res;
         }
@@ -86,9 +86,9 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
                 List<Relation> relations = rc.getActualRelations();
                 for(Relation tmpR: relations)
                 {
-                    if (!tmpR.getObj().equals(c))
+                    if (!tmpR.getObject().equals(c))
                     {
-                        res.add(tmpR.getObj());
+                        res.add(tmpR.getObject());
                     }
                     if (!tmpR.getSubject().equals(c))
                     {
@@ -118,9 +118,9 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
         for (int i = 0; i < objRels.size(); i++)
         {
             Relation r = objRels.get(i);
-            if (r.getObj().equals(c))
+            if (r.getObject().equals(c))
             {
-                r.setObj(r.getSubject());
+                r.setObject(r.getSubject());
                 r.setSubject(c);
                 TypeOfRelation tmpType = new TypeOfRelation();
                 TypeOfRelation.RELATION_NAME tmp = r.getType().getBackwardName();
@@ -190,7 +190,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
         for (int i = 0; i < objRels.size(); i++)
         {
             Relation r = objRels.get(i);
-            if (r.getObj().equals(c))
+            if (r.getObject().equals(c))
             {
                 if (!res.contains(r.getSubject()))
                 {
@@ -199,9 +199,9 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
             }
             else
             {
-                if (!res.contains(r.getObj()))
+                if (!res.contains(r.getObject()))
                 {
-                    res.add(r.getObj());
+                    res.add(r.getObject());
                 }
             }
 
@@ -255,7 +255,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
                 "where e.subject = ?1 and e.obj = ?2 and e.type = ?3"
                 );
         q.setParameter(1, entity.getSubject());
-        q.setParameter(2, entity.getObj());
+        q.setParameter(2, entity.getObject());
         q.setParameter(3, entity.getType());
         return q;
     }

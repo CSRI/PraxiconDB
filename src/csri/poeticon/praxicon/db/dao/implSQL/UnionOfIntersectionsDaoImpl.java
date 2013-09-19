@@ -77,7 +77,7 @@ public class UnionOfIntersectionsDaoImpl extends JpaDao<Long, UnionOfIntersectio
                 for (int k = 0; k < relations.size() && !stop; k++)
                 {
                     if (relations.get(k).getSubject().equals(c)
-                            || relations.get(k).getObj().equals(c))
+                            || relations.get(k).getObject().equals(c))
                     {
                         RelationChain chain = new RelationChain();
                         RelationChain chainBack = new RelationChain();
@@ -101,8 +101,8 @@ public class UnionOfIntersectionsDaoImpl extends JpaDao<Long, UnionOfIntersectio
                             type.setBackwardName(r.getType().getForwardName());
                             Relation newRelation = new Relation();
                             newRelation.setType(type);
-                            newRelation.setObj(r.getSubject());
-                            newRelation.setSubject(r.getObj());
+                            newRelation.setObject(r.getSubject());
+                            newRelation.setSubject(r.getObject());
                             chainBack.addRelation(newRelation, chain.getRelations().size()+1);
                         }
                         IntersectionOfRelations inter = new IntersectionOfRelations();
@@ -152,7 +152,7 @@ public class UnionOfIntersectionsDaoImpl extends JpaDao<Long, UnionOfIntersectio
         Relation rel = new Relation();
         rel.setType(rt);
         rel.setSubject(owner);
-        rel.setObj(value);
+        rel.setObject(value);
         RelationChain rc = new RelationChain();
         rc.addRelation(rel, 0);
         IntersectionOfRelations inter = new IntersectionOfRelations();

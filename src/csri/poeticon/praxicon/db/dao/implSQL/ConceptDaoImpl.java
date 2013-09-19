@@ -231,7 +231,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
                     for (int rel = 0; rel < tmpRelationChain.getRelations().size(); rel++) {
                         if (tmpRelationChain.getRelations().get(rel).getRelationOrder() == 0) {
                             TypeOfRelation tmpTypeOfRelation = tmpRelationChain.getRelations().get(rel).getRelation().getType();
-                            if (conB.equals(tmpRelationChain.getRelations().get(rel).getRelation().getObj())) {
+                            if (conB.equals(tmpRelationChain.getRelations().get(rel).getRelation().getObject())) {
                                 if (tmpTypeOfRelation.getForwardName() == TypeOfRelation.RELATION_NAME.valueOf(relation) || tmpTypeOfRelation.getBackwardName()==TypeOfRelation.RELATION_NAME.valueOf(relation)) {
                                     return true;
                                 }
@@ -259,7 +259,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
                 for (int relationChain = 0; relationChain < tmpIntersection.getRelations().size(); relationChain++) {
                     RelationChain tmpRelationChain = tmpIntersection.getRelations().get(relationChain);
                     for (int rel = 0; rel < tmpRelationChain.getRelations().size(); rel++) {
-                        if (conB.equals(tmpRelationChain.getRelations().get(rel).getRelation().getObj())
+                        if (conB.equals(tmpRelationChain.getRelations().get(rel).getRelation().getObject())
                                 || conB.equals(tmpRelationChain.getRelations().get(rel).getRelation().getSubject())) {
                             return tmpUnion;
                         }
@@ -474,8 +474,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
     private void updateObjOfRelations(Concept newCon, Concept oldCon) {
         for (int i = 0; i < newCon.getObjOfRelations().size(); i++) {
             if (!oldCon.getObjOfRelations().contains(newCon.getObjOfRelations().get(i))) {
-                if (newCon.getObjOfRelations().get(i).getObj().equals(newCon)) {
-                    newCon.getObjOfRelations().get(i).setObj(oldCon);
+                if (newCon.getObjOfRelations().get(i).getObject().equals(newCon)) {
+                    newCon.getObjOfRelations().get(i).setObject(oldCon);
                 } else {
                     newCon.getObjOfRelations().get(i).setSubject(oldCon);
                 }
@@ -508,8 +508,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
                             if (rel.getSubject().getName().equalsIgnoreCase(newCon.getName())) {
                                 rel.setSubject(oldCon);
                             } else {
-                                if (rel.getObj().getName().equalsIgnoreCase(newCon.getName())) {
-                                    rel.setObj(oldCon);
+                                if (rel.getObject().getName().equalsIgnoreCase(newCon.getName())) {
+                                    rel.setObject(oldCon);
                                 }
                             }
                         }
@@ -784,10 +784,10 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
         for (int i = 0; i < relations.size(); i++) {
             if (relations.get(i).getType().getForwardName() == TypeOfRelation.RELATION_NAME.TYPE_TOKEN
                     && relations.get(i).getSubject().equals(c)) {
-                res.add(relations.get(i).getObj());
+                res.add(relations.get(i).getObject());
             } else {
                 if (relations.get(i).getType().getForwardName() == TypeOfRelation.RELATION_NAME.TOKEN_TYPE
-                        && relations.get(i).getObj().equals(c)) {
+                        && relations.get(i).getObject().equals(c)) {
                     res.add(relations.get(i).getSubject());
                 }
             }
@@ -809,13 +809,13 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
         List<Relation> relations = rDao.allRelationsOf(c);
         for (int i = 0; i < relations.size(); i++) {
             if (relations.get(i).getType().getForwardName() == TypeOfRelation.RELATION_NAME.TYPE_TOKEN
-                    && relations.get(i).getObj().equals(c)) {
+                    && relations.get(i).getObject().equals(c)) {
                 res.add(relations.get(i).getSubject());
             } else {
                 if (relations.get(i).getType().getForwardName() == TypeOfRelation.RELATION_NAME.TOKEN_TYPE
                         && relations.get(i).getSubject().equals(c)) {
-                    res.add(relations.get(i).getObj());
-                    //System.out.println("Parent of "+c.getName()+" is "+relations.get(i).getObj().getName());
+                    res.add(relations.get(i).getObject());
+                    //System.out.println("Parent of "+c.getName()+" is "+relations.get(i).getObject().getName());
                 }
             }
         }
@@ -836,14 +836,14 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
         List<Relation> relations = rDao.allRelationsOf(c);
         for (int i = 0; i < relations.size(); i++) {
             if (relations.get(i).getType().getForwardName() == TypeOfRelation.RELATION_NAME.HAS_INSTANCE
-                    && relations.get(i).getObj().equals(c)) {
+                    && relations.get(i).getObject().equals(c)) {
                 res.add(relations.get(i).getSubject());
                 //System.out.println("Parent of "+c.getName()+" is "+relations.get(i).getSubject().getName());
             } else {
                 if (relations.get(i).getType().getForwardName() == TypeOfRelation.RELATION_NAME.INSTANCE_OF
                         && relations.get(i).getSubject().equals(c)) {
-                    res.add(relations.get(i).getObj());
-                    //System.out.println("Parent of "+c.getName()+" is "+relations.get(i).getObj().getName());
+                    res.add(relations.get(i).getObject());
+                    //System.out.println("Parent of "+c.getName()+" is "+relations.get(i).getObject().getName());
                 }
             }
         }
@@ -864,14 +864,14 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
         List<Relation> relations = rDao.allRelationsOf(c);
         for (int i = 0; i < relations.size(); i++) {
             if (relations.get(i).getType().getForwardName() == TypeOfRelation.RELATION_NAME.INSTANCE_OF
-                    && relations.get(i).getObj().equals(c)) {
+                    && relations.get(i).getObject().equals(c)) {
                 res.add(relations.get(i).getSubject());
                 //System.out.println("Parent of "+c.getName()+" is "+relations.get(i).getSubject().getName());
             } else {
                 if (relations.get(i).getType().getForwardName() == TypeOfRelation.RELATION_NAME.HAS_INSTANCE
                         && relations.get(i).getSubject().equals(c)) {
-                    res.add(relations.get(i).getObj());
-                    //System.out.println("Parent of "+c.getName()+" is "+relations.get(i).getObj().getName());
+                    res.add(relations.get(i).getObject());
+                    //System.out.println("Parent of "+c.getName()+" is "+relations.get(i).getObject().getName());
                 }
             }
         }
@@ -968,7 +968,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
             {
                 if(tmpR.get(i).getSubject().equals(c))
                 {
-                    res.add(tmpR.get(i).getObj());
+                    res.add(tmpR.get(i).getObject());
                 }
                 else
                 {

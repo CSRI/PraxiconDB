@@ -228,23 +228,6 @@ public class Relation implements Serializable {
         this.mainFunctions = mainFunctions;
     }
 
-    /**
-     * @deprecated  As of now, replaced by
-     * getObject()
-     */
-    @XmlTransient
-    public Concept getObj() {
-        return obj;
-    }
-
-    /**
-     * @deprecated  As of now, replaced by
-     * setObject(Concept obj)
-     */
-    public void setObj(Concept obj) {
-        this.obj = obj;
-    }
-
     @XmlTransient
     public Concept getObject() {
         return obj;
@@ -856,7 +839,7 @@ public class Relation implements Serializable {
 
     @Override
     public String toString() {
-        return this.getSubject() + " " + this.getType().getForwardName() + " " + this.getObj();
+        return this.getSubject() + " " + this.getType().getForwardName() + " " + this.getObject();
     }
 
     public void afterUnmarshal(Unmarshaller u, Object parent) {

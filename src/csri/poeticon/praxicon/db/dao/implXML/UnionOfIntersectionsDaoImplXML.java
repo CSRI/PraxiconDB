@@ -67,16 +67,16 @@ public class UnionOfIntersectionsDaoImplXML extends JpaDao<Long, UnionOfIntersec
                             List<Relation> rc = con.getRelations().get(i).getIntersections().get(j).getRelations().get(k).getActualRelations();
                             for (int l = 0; l < rc.size(); l++)
                             {
-                                if (rc.get(l).getSubject().getName().equalsIgnoreCase(c.getName()) || rc.get(l).getObj().getName().equalsIgnoreCase(c.getName()))
+                                if (rc.get(l).getSubject().getName().equalsIgnoreCase(c.getName()) || rc.get(l).getObject().getName().equalsIgnoreCase(c.getName()))
                                 {
                                     Relation r = rc.get(l);
                                     if (!containsRelation(res, r))
                                     {
                                         Relation newR;
-                                        if (r.getObj().getName().equalsIgnoreCase(c.getName()))
+                                        if (r.getObject().getName().equalsIgnoreCase(c.getName()))
                                         {
                                             newR = new Relation();
-                                            newR.setObj(r.getSubject());
+                                            newR.setObject(r.getSubject());
                                             newR.setSubject(c);
                                             TypeOfRelation.RELATION_NAME tmp = r.getType().getBackwardName();
                                             newR.setType(new TypeOfRelation());

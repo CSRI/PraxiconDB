@@ -150,7 +150,7 @@ public class SentenceToAnalyze implements Serializable {
             goal.setForwardName(TypeOfRelation.RELATION_NAME.ACTION_GOAL);
             goal.setBackwardName(TypeOfRelation.RELATION_NAME.GOAL_ACTION);
             rel.setSubject(res);
-            rel.setObj(g);
+            rel.setObject(g);
             rel.setType(goal);
             rChain.addRelation(rel, 0);
             inter.addRelationChain(rChain);
@@ -166,7 +166,7 @@ public class SentenceToAnalyze implements Serializable {
             goalC.setForwardName(TypeOfRelation.RELATION_NAME.GOAL_ACTION);
             goalC.setBackwardName(TypeOfRelation.RELATION_NAME.ACTION_GOAL);
             relC.setSubject(g);
-            relC.setObj(res);
+            relC.setObject(res);
             relC.setType(goalC);
             rChainC.addRelation(relC, 0);
             interC.addRelationChain(rChainC);
@@ -193,7 +193,7 @@ public class SentenceToAnalyze implements Serializable {
             tool.setForwardName(TypeOfRelation.RELATION_NAME.ACTION_TOOL);
             tool.setBackwardName(TypeOfRelation.RELATION_NAME.TOOL_ACTION);
             rel.setSubject(res);
-            rel.setObj(t);
+            rel.setObject(t);
             rel.setType(tool);
             rChain.addRelation(rel, 0);
             inter.addRelationChain(rChain);
@@ -209,7 +209,7 @@ public class SentenceToAnalyze implements Serializable {
             goalC.setForwardName(TypeOfRelation.RELATION_NAME.TOOL_ACTION);
             goalC.setBackwardName(TypeOfRelation.RELATION_NAME.ACTION_TOOL);
             relC.setSubject(t);
-            relC.setObj(res);
+            relC.setObject(res);
             relC.setType(goalC);
             rChainC.addRelation(relC, 0);
             interC.addRelationChain(rChainC);
@@ -237,7 +237,7 @@ public class SentenceToAnalyze implements Serializable {
             obj.setForwardName(TypeOfRelation.RELATION_NAME.ACTION_OBJECT);
             obj.setBackwardName(TypeOfRelation.RELATION_NAME.OBJECT_ACTION);
             rel.setSubject(res);
-            rel.setObj(affectedObject);
+            rel.setObject(affectedObject);
             rel.setType(obj);
             rChain.addRelation(rel, 0);
             inter.addRelationChain(rChain);
@@ -252,7 +252,7 @@ public class SentenceToAnalyze implements Serializable {
             goalC.setForwardName(TypeOfRelation.RELATION_NAME.OBJECT_ACTION);
             goalC.setBackwardName(TypeOfRelation.RELATION_NAME.ACTION_OBJECT);
             relC.setSubject(affectedObject);
-            relC.setObj(res);
+            relC.setObject(res);
             relC.setType(goalC);
             rChainC.addRelation(relC, 0);
             interC.addRelationChain(rChainC);

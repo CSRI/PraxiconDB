@@ -274,23 +274,23 @@ public class RelationChain implements Serializable {
                         {
                             if( i == 0)
                             {
-                                sb.append(this.getRelations().get(j).getRelation().getSubject().getName()).append(" ").append(this.getRelations().get(j).getRelation().getType().getForwardName().name().toUpperCase()).append(" ").append(this.getRelations().get(j).getRelation().getObj().getName());
+                                sb.append(this.getRelations().get(j).getRelation().getSubject().getName()).append(" ").append(this.getRelations().get(j).getRelation().getType().getForwardName().name().toUpperCase()).append(" ").append(this.getRelations().get(j).getRelation().getObject().getName());
                             }
                             else
                             {
-                                sb.append(", ").append(this.getRelations().get(j).getRelation().getSubject().getName()).append(" ").append(this.getRelations().get(j).getRelation().getType().getBackwardName().name().toUpperCase()).append(" ").append(this.getRelations().get(j).getRelation().getObj().getName());
+                                sb.append(", ").append(this.getRelations().get(j).getRelation().getSubject().getName()).append(" ").append(this.getRelations().get(j).getRelation().getType().getBackwardName().name().toUpperCase()).append(" ").append(this.getRelations().get(j).getRelation().getObject().getName());
                             }
-                            start = this.getRelations().get(j).getRelation().getObj();
+                            start = this.getRelations().get(j).getRelation().getObject();
                         }
                         else
                         {
                             if( i == 0)
                             {
-                                sb.append(this.getRelations().get(j).getRelation().getSubject().getName()).append(" ").append(this.getRelations().get(j).getRelation().getType().getForwardName().name().toUpperCase()).append(" ").append(this.getRelations().get(j).getRelation().getObj().getName());
+                                sb.append(this.getRelations().get(j).getRelation().getObject().getName()).append(" ").append(this.getRelations().get(j).getRelation().getType().getForwardName().name().toUpperCase()).append(" ").append(this.getRelations().get(j).getRelation().getObject().getName());
                             }
                             else
                             {
-                                sb.append(", ").append(this.getRelations().get(j).getRelation().getObj().getName()).append(" ").append(this.getRelations().get(j).getRelation().getType().getBackwardName().name().toUpperCase()).append(" ").append(this.getRelations().get(j).getRelation().getSubject().getName());
+                                sb.append(", ").append(this.getRelations().get(j).getRelation().getObject().getName()).append(" ").append(this.getRelations().get(j).getRelation().getType().getBackwardName().name().toUpperCase()).append(" ").append(this.getRelations().get(j).getRelation().getSubject().getName());
                             }
                             start = this.getRelations().get(j).getRelation().getSubject();
                         }
