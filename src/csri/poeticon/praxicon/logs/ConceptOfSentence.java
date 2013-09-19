@@ -143,8 +143,7 @@ public class ConceptOfSentence implements Serializable {
     public void setConcept(Concept concept)
     {
         this.concept = concept.getId();
-        if (concept.getStatus() == Concept.Status.VARIABLE ||
-                concept.getP_status() == Concept.P_Status.ANALOGY)
+        if (concept.getStatus() == Concept.Status.VARIABLE)
         {
             this.setIsVariable(true);
         }

@@ -307,6 +307,4 @@ public class RelationChain implements Serializable {
             return "There is a problem with the database (Relations)";
         }
     }
-
-
 }

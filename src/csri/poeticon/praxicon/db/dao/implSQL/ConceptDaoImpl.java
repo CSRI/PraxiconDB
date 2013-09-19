@@ -35,26 +35,27 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
     @Override
     public List<Concept> getBasicLevel(Concept c)
     {
-        if (c.getOrigin() == Concept.Origin.MOVEMENT)
+// Temporarily disabled the block below until cleared
+//        if (c.getOrigin() == Concept.Origin.MOVEMENT)
+//        {
+//            return getBasicLevelOfMovementOriginConcept(c);
+//        }
+//      else
+//        {
+        if(c.getConceptType() == Concept.Type.ABSTRACT)
         {
-            return getBasicLevelOfMovementOriginConcept(c);
+            return getBasicLevelOfAnAbstractConcept(c);
         }
         else
         {
-            if(c.getConceptType() == Concept.Type.ABSTRACT)
+            if(c.getConceptType() == Concept.Type.ENTITY ||
+                    c.getConceptType() == Concept.Type.MOVEMENT ||
+                    c.getConceptType() == Concept.Type.FEATURE)
             {
-                return getBasicLevelOfAnAbstractConcept(c);
-            }
-            else
-            {
-                if(c.getConceptType() == Concept.Type.ENTITY ||
-                        c.getConceptType() == Concept.Type.MOVEMENT ||
-                        c.getConceptType() == Concept.Type.FEATURE)
-                {
-                    return getBasicLevelOfAnEntityConcept(c);
-                }
+                return getBasicLevelOfAnEntityConcept(c);
             }
         }
+//        }
 
         return new ArrayList<Concept>();
     }
@@ -69,7 +70,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
     {
         List<Concept> res = new ArrayList<Concept>();
 
-        if(c.isBasicLevel() != Concept.IsBasicLevel.YES && c.getConceptType() == Concept.Type.ABSTRACT)
+        if(c.isBasicLevel() != Concept.SpecificityLevel.BASIC_LEVEL && c.getConceptType() == Concept.Type.ABSTRACT)
         {
             List<Concept> children = getChildrenOf(c);
             for (int i = 0; i < children.size(); i++)
@@ -79,7 +80,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
         }
         else
         {
-            if(c.isBasicLevel() == Concept.IsBasicLevel.YES)
+            if(c.isBasicLevel() == Concept.SpecificityLevel.BASIC_LEVEL)
             {
                 res.add(c);
             }
@@ -98,7 +99,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
     {
         List<Concept> res = new ArrayList<Concept>();
 
-        if(con.isBasicLevel() != Concept.IsBasicLevel.YES && con.getConceptType() != Concept.Type.ABSTRACT)
+        if(con.isBasicLevel() != Concept.SpecificityLevel.BASIC_LEVEL && con.getConceptType() != Concept.Type.ABSTRACT)
         {
             List<Concept> parents = getParentsOf(con);
             for (int i = 0; i < parents.size(); i++)
@@ -117,7 +118,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
         }
         else
         {
-            if(con.isBasicLevel() == Concept.IsBasicLevel.YES)
+            if(con.isBasicLevel() == Concept.SpecificityLevel.BASIC_LEVEL)
             {
                 res.add(con);
             }
@@ -136,7 +137,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
     {
         List<Concept> res = new ArrayList<Concept>();
 
-        if(c.isBasicLevel() == Concept.IsBasicLevel.YES)
+        if(c.isBasicLevel() == Concept.SpecificityLevel.BASIC_LEVEL)
         {
             res.add(c);
         }
@@ -157,7 +158,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
     {
         List<Concept> res = new ArrayList<Concept>();
 
-        if(con.isBasicLevel() != Concept.IsBasicLevel.YES)
+        if(con.isBasicLevel() != Concept.SpecificityLevel.BASIC_LEVEL)
         {
             List<Concept> parents = getParentsOf(con);
             for (int i = 0; i < parents.size(); i++)
@@ -176,7 +177,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
         }
         else
         {
-            if(con.isBasicLevel() == Concept.IsBasicLevel.YES)
+            if(con.isBasicLevel() == Concept.SpecificityLevel.BASIC_LEVEL)
             {
                 res.add(con);
             }
@@ -186,7 +187,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
     }
 
     /**
-     * Finds all the Basic Level concepts for the given concept, moveing only down in the hierarchy.
+     * Finds all the Basic Level concepts for the given concept, moving only down in the hierarchy.
      * @param c concept to be checked
      * @return The list of BL
      */
@@ -194,7 +195,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
     {
         List<Concept> res = new ArrayList<Concept>();
 
-        if(con.isBasicLevel() != Concept.IsBasicLevel.YES)
+        if(con.isBasicLevel() != Concept.SpecificityLevel.BASIC_LEVEL)
         {
             List<Concept> children = getChildrenOf(con);
             for (int i = 0; i < children.size(); i++)
@@ -204,7 +205,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
         }
         else
         {
-            if(con.isBasicLevel() == Concept.IsBasicLevel.YES)
+            if(con.isBasicLevel() == Concept.SpecificityLevel.BASIC_LEVEL)
             {
                 res.add(con);
             }
@@ -292,7 +293,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
         q.setParameter(1, concept.getName());
         q.setParameter(2, concept.getConceptType());
         q.setParameter(3, concept.getStatus());
-        q.setParameter(4, concept.getP_status());
+        q.setParameter(4, concept.getPragmaticStatus());
         return q;
     }
 
@@ -557,7 +558,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
         }
 
         oldCon.setConceptType(newCon.getConceptType());
-        oldCon.setP_status(newCon.getP_status());
+        oldCon.setPragmaticStatus(newCon.getPragmaticStatus());
         oldCon.setStatus(newCon.getStatus());
         oldCon.setBasicLevel(newCon.isBasicLevel());
         oldCon.setDescription(newCon.getDescription());
@@ -583,8 +584,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
             if (oldCon.getConceptType() == null  || oldCon.getConceptType() == Concept.Type.UNKNOWN) {
                 oldCon.setConceptType(newCon.getConceptType());
             }
-            if (oldCon.getP_status() == null) {
-                oldCon.setP_status(newCon.getP_status());
+            if (oldCon.getPragmaticStatus() == null) {
+                oldCon.setPragmaticStatus(newCon.getPragmaticStatus());
             }
             if (oldCon.getStatus() == null ) {
                 oldCon.setStatus(newCon.getStatus());
@@ -623,8 +624,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
             if (oldCon.getConceptType() == null || oldCon.getConceptType() == Concept.Type.UNKNOWN) {
                 oldCon.setConceptType(newCon.getConceptType());
             }
-            if (oldCon.getP_status() == null ) {
-                oldCon.setP_status(newCon.getP_status());
+            if (oldCon.getPragmaticStatus() == null ) {
+                oldCon.setPragmaticStatus(newCon.getPragmaticStatus());
             }
             if (oldCon.getStatus() == null ) {
                 oldCon.setStatus(newCon.getStatus());
@@ -670,8 +671,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
             if (oldCon.getConceptType() == null  || oldCon.getConceptType()== Concept.Type.UNKNOWN) {
                 oldCon.setConceptType(newCon.getConceptType());
             }
-            if (oldCon.getP_status() == null  ) {
-                oldCon.setP_status(newCon.getP_status());
+            if (oldCon.getPragmaticStatus() == null  ) {
+                oldCon.setPragmaticStatus(newCon.getPragmaticStatus());
             }
             if (oldCon.getStatus() == null ) {
                 oldCon.setStatus(newCon.getStatus());
@@ -680,9 +681,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
                 oldCon.setBasicLevel(newCon.isBasicLevel());
             if (oldCon.getDescription() == null || oldCon.getDescription().equalsIgnoreCase("") || oldCon.getDescription().equalsIgnoreCase("Unknown")) {
                 oldCon.setDescription(newCon.getDescription());
-            }
-            if (newCon.getOrigin()!=null) {
-                oldCon.setOrigin(newCon.getOrigin());
             }
             if (newCon.getSource()!=null && !newCon.getSource().isEmpty()) {
                 oldCon.setSource(newCon.getSource());
