@@ -38,16 +38,16 @@ import javax.persistence.Enumerated;
 
 /**
  *
- * @author Erevodifwntas
+ * @author Dimitris Mavroeidis
  */
 @XmlRootElement(name="entity")
 @Entity
 @EntityListeners(ConceptListener.class)
-@Table(name="CONCEPT")
+@Table(name="Concept")
 public class Concept implements Serializable {
 
     public static enum Type {
-        ENTITY, ABSTRACT, FEATURE, MOVEMENT, UNKNOWN;
+        ABSTRACT, ENTITY, FEATURE, MOVEMENT, UNKNOWN;
         @Override
         public String toString()
         {
@@ -55,8 +55,8 @@ public class Concept implements Serializable {
         }
     }
 
-    public static enum P_Status {
-        LITERAL, FIGURATIVE_NOUN_STATE, FIGURATIVE_NOUN_GROUP, FIGURATIVE_NOUN_PERSON, ANALOGY ;
+    public static enum SpecificityLevel {
+        BASIC_LEVEL, ABOVE_BASIC_LEVEL, BELOW_BASIC_LEVEL, UNKNOWN;
         @Override
         public String toString()
         {
@@ -65,7 +65,7 @@ public class Concept implements Serializable {
     }
 
     public static enum Status {
-        COMPLEX_CONSTANT, COMPLEX_TEMPLATE, CONSTANT, VARIABLE, TEMPLATE, INSTANCE;
+        CONSTANT, VARIABLE, TEMPLATE;
         @Override
         public String toString()
         {
@@ -73,8 +73,8 @@ public class Concept implements Serializable {
         }
     }
 
-    public static enum Source {
-        WORDNET, CONGITIVE;
+    public static enum UniqueInstance {
+        YES, NO, UNKNOWN ;
         @Override
         public String toString()
         {
@@ -82,8 +82,8 @@ public class Concept implements Serializable {
         }
     }
 
-    public static enum Origin {
-        ENTITY, MOVEMENT,NO,VERB, FEATURE,UNKNOWN;
+    public static enum PragmaticStatus {
+        FIGURATIVE, LITERAL, UNKNOWN ;
         @Override
         public String toString()
         {
@@ -91,54 +91,49 @@ public class Concept implements Serializable {
         }
     }
 
-    public static enum IsBasicLevel {
-        YES,NO,UNKNOWN;
-        @Override
-        public String toString()
-        {
-            return this.name();
-        }
-    }
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
-    @Column(name="CONCEPT_ID")
+    @Column(name="ConceptId")
     protected Long id;
 
-    @Column(name="TYPE")
-    @Enumerated(EnumType.STRING)
-    protected Type conceptType;
+    @Column(name="Name")
+    String name;
 
-    @Column(name="STATUS")
+    @Column(name="Type")
+    @Enumerated(EnumType.STRING)
+    protected Type concept_type;
+
+    @Column(name="SpecificityLevel")
+    @Enumerated(EnumType.STRING)
+    protected SpecificityLevel specificity_level;
+
+    @Column(name="Status")
     @Enumerated(EnumType.STRING)
     protected Status status;
 
-    @Column(name="BASIC_LEVEL")
+    @Column(name="UniqueInstance")
     @Enumerated(EnumType.STRING)
-    protected IsBasicLevel basicLevel;
+    protected UniqueInstance unique_instance;
 
-    @Column(name="P_STATUS")
+    @Column(name="PragmaticStatus")
     @Enumerated(EnumType.STRING)
-    protected P_Status p_status;
+    protected PragmaticStatus pragmatic_status;
 
-    @Column(name="DESCRIPTION")
-    protected String description;
-
-    @Column(name="ORIGIN")
-    @Enumerated(EnumType.STRING)
-    protected Origin origin;
-
-    @Column(name="SOURCE")
+    @Column(name="Source")
     protected String source;
+
+    @Column(name="Comment")
+    protected String description;
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
-        name="CONCEPT_LRGROUP",
-        joinColumns={@JoinColumn(name="CONCEPT_ID")},
-        inverseJoinColumns={@JoinColumn(name="LR_GROUP_ID")}
+        name="Concept_LanguageResource",
+        joinColumns={@JoinColumn(name="ConceptId")},
+        inverseJoinColumns={@JoinColumn(name="LanguageResourceId")}
     )
     private List<LRGroup> LRs;
 
@@ -150,9 +145,6 @@ public class Concept implements Serializable {
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "concept")
     private List<UnionOfIntersections> relations;
-
-    @Column(name="NAME")
-    String name;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "obj")
     private List<Relation> objOfRelations;
@@ -195,9 +187,17 @@ public class Concept implements Serializable {
      */
     public String getLevelType()
     {
-        if(isBasicLevel() == Concept.IsBasicLevel.YES)
+        if(isBasicLevel() == Concept.SpecificityLevel.BASIC_LEVEL)
         {
             return "basic_level";
+        }
+        else if (isBasicLevel() == Concept.SpecificityLevel.ABOVE_BASIC_LEVEL)
+        {
+            return "above_basic_level";
+        }
+        else if (isBasicLevel() == Concept.SpecificityLevel.BELOW_BASIC_LEVEL)
+        {
+            return "below_basic_level";
         }
         else
         {
@@ -224,33 +224,6 @@ public class Concept implements Serializable {
         return "";
     }
 
-    /**
-     * @xmlcomments.args
-     *	   xmltag="&lt;origin&gt;"
-     *     xmldescription="This tag defines the origin of the concept"
-     */
-    @XmlElement(name="origin")
-    public Origin getOrigin()
-    {
-        return origin;
-    }
-
-    public void setOrigin(String origin)
-    {
-        if(origin.equalsIgnoreCase("_"))
-        {
-            this.origin = Origin.NO;
-        }
-        else
-        {
-            this.origin = Origin.valueOf(origin.toUpperCase());
-        }
-    }
-
-    public void setOrigin(Origin origin)
-    {
-        this.origin = origin;
-    }
 
     /**
      * @xmlcomments.args
@@ -302,42 +275,58 @@ public class Concept implements Serializable {
      *     xmldescription="This tag defines if the entity is basic level"
      */
     @XmlElement(name="is_basic_level")
-    public IsBasicLevel isBasicLevel()
+    public SpecificityLevel isBasicLevel()
     {
-        return basicLevel;
+        return specificity_level;
     }
 
-    public void setBasicLevel(boolean levelType)
+    public void setSpecificityLevel(String levelType)
     {
-        if(levelType)
+        if(levelType.equalsIgnoreCase("BASIC_LEVEL"))
         {
-            this.basicLevel = Concept.IsBasicLevel.YES;
+            this.specificity_level = Concept.SpecificityLevel.BASIC_LEVEL;
+        }
+        else if(levelType.equalsIgnoreCase("ABOVE_BASIC_LEVEL"))
+        {
+            this.specificity_level = Concept.SpecificityLevel.ABOVE_BASIC_LEVEL;
+        }
+        else if(levelType.equalsIgnoreCase("BELOW_BASIC_LEVEL"))
+        {
+            this.specificity_level = Concept.SpecificityLevel.ABOVE_BASIC_LEVEL;
         }
         else
         {
-            this.basicLevel = Concept.IsBasicLevel.NO;
+            this.specificity_level = Concept.SpecificityLevel.UNKNOWN;
         }
     }
 
-    public IsBasicLevel getBasicLevel()
+    public SpecificityLevel getBasicLevel()
     {
-        return basicLevel;
+        return specificity_level;
     }
 
-    public void setBasicLevel(IsBasicLevel basicLevel)
+    public void setBasicLevel(SpecificityLevel basicLevel)
     {
-        this.basicLevel = basicLevel;
+        this.specificity_level = basicLevel;
     }
 
     public void setBasicLevel(String levelType)
     {
-        if(levelType.equalsIgnoreCase("basic_level"))
+        if(levelType.equalsIgnoreCase("BASIC_LEVEL"))
         {
-            this.basicLevel = Concept.IsBasicLevel.YES;
+            this.specificity_level = Concept.SpecificityLevel.BASIC_LEVEL;
+        }
+        else if(levelType.equalsIgnoreCase("ABOVE_BASIC_LEVEL"))
+        {
+            this.specificity_level = Concept.SpecificityLevel.ABOVE_BASIC_LEVEL;
+        }
+        else if(levelType.equalsIgnoreCase("BELOW_BASIC_LEVEL"))
+        {
+            this.specificity_level = Concept.SpecificityLevel.ABOVE_BASIC_LEVEL;
         }
         else
         {
-            this.basicLevel = Concept.IsBasicLevel.NO;
+            this.specificity_level = Concept.SpecificityLevel.UNKNOWN;
         }
     }
 
@@ -353,7 +342,7 @@ public class Concept implements Serializable {
         sb.append("#");
         sb.append(this.getStatus());
         sb.append("#");
-        sb.append(this.getP_status());
+        sb.append(this.getPragmaticStatus());
         sb.append("#");
         sb.append(this.isBasicLevel());
         sb.append("#");
@@ -385,17 +374,17 @@ public class Concept implements Serializable {
     @XmlElement(name="type")
     public Type getConceptType()
     {
-        return conceptType;
+        return concept_type;
     }
 
     public void setConceptType(Type conceptType)
     {
-        this.conceptType = conceptType;
+        this.concept_type = conceptType;
     }
 
     public void setConceptType(String conceptType)
     {
-        this.conceptType = Type.valueOf(conceptType.trim().toUpperCase());
+        this.concept_type = Type.valueOf(conceptType.trim().toUpperCase());
     }
 
     /**
@@ -404,22 +393,22 @@ public class Concept implements Serializable {
      *     xmldescription="This tag defines if the entity is literal or figurative"
      */
     @XmlElement(name="p_status")
-    public P_Status getP_status()
+    public PragmaticStatus getPragmaticStatus()
     {
-        return p_status;
+        return pragmatic_status;
     }
 
-    public void setP_status(P_Status p_status)
+    public void setPragmaticStatus(PragmaticStatus pragmatic_status)
     {
-        this.p_status = p_status;
+        this.pragmatic_status = pragmatic_status;
     }
 
-    public void setP_status(String p_status)
+    public void setPragmaticStatus(String pragmatic_status)
     {
-        String tmp = p_status;
+        String tmp = pragmatic_status;
         tmp = tmp.replace(".", "_");
         tmp = tmp.replace(":", "_");
-        this.p_status = P_Status.valueOf(tmp.trim().toUpperCase());
+        this.pragmatic_status = PragmaticStatus.valueOf(tmp.trim().toUpperCase());
     }
 
     /**
@@ -874,7 +863,7 @@ public class Concept implements Serializable {
     public Concept()
     {
         description = "";
-        basicLevel = Concept.IsBasicLevel.NO;
+        specificity_level = Concept.SpecificityLevel.UNKNOWN;
         LRs = new ArrayList<LRGroup>();
         VRs = new ArrayList<VRGroup>();
         motoricRepresentations = new ArrayList<MRGroup>();
@@ -1036,9 +1025,9 @@ public class Concept implements Serializable {
             Concept tmp = cDao.getConceptWithNameOrID(this.getName());
             if (tmp == null)
             {
-                if (this.conceptType == null)
+                if (this.concept_type == null)
                 {
-                    this.conceptType = Type.UNKNOWN;
+                    this.concept_type = Type.UNKNOWN;
                 }
 
                 cDao.merge(this);
@@ -1053,16 +1042,16 @@ public class Concept implements Serializable {
             Concept tmp = (Concept)Constants.globalConcepts.get(this.getName());
             if (tmp == null)
             {
-                if (this.conceptType == null)
+                if (this.concept_type == null)
                 {
-                    this.conceptType = Type.UNKNOWN;
+                    this.concept_type = Type.UNKNOWN;
                 }
                 tmp = new Concept(this);
                 Constants.globalConcepts.put(tmp.getName(), tmp);
             }
             else
             {
-                tmp.conceptType = this.conceptType;
+                tmp.concept_type = this.concept_type;
                 updateLRs(tmp);
                 updateVRs(tmp);
                 updateMRs(tmp);
@@ -1150,10 +1139,10 @@ public class Concept implements Serializable {
 
     private Concept(Concept newCon)
     {
-        this.conceptType=newCon.getConceptType();
-        this.basicLevel=newCon.isBasicLevel();
+        this.concept_type=newCon.getConceptType();
+        this.specificity_level=newCon.isBasicLevel();
         this.description=newCon.getDescription();
-        this.p_status=newCon.getP_status();
+        this.pragmatic_status=newCon.getPragmaticStatus();
         this.status = newCon.getStatus();
         LRs = new ArrayList<LRGroup>();
         VRs = new ArrayList<VRGroup>();
