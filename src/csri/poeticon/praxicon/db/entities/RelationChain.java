@@ -286,7 +286,7 @@ public class RelationChain implements Serializable {
                         {
                             if( i == 0)
                             {
-                                sb.append(this.getRelations().get(j).getRelation().getObject().getName()).append(" ").append(this.getRelations().get(j).getRelation().getType().getForwardName().name().toUpperCase()).append(" ").append(this.getRelations().get(j).getRelation().getObject().getName());
+                                sb.append(this.getRelations().get(j).getRelation().getSubject().getName()).append(" ").append(this.getRelations().get(j).getRelation().getType().getForwardName().name().toUpperCase()).append(" ").append(this.getRelations().get(j).getRelation().getObject().getName());
                             }
                             else
                             {
