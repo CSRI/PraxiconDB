@@ -105,7 +105,6 @@ public class Constants {
         dbName = props.getProperty("db.name");
         dbUser = props.getProperty("db.username");
         dbPass = props.getProperty("db.password");
-
         imagePath = props.getProperty("path.images");
         imagePathLabelMe = props.getProperty("path.LabelMe");
         imagePathImageNet = props.getProperty("path.ImageNet");
