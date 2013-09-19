@@ -462,7 +462,7 @@ public class Concept implements Serializable {
             Relation rel = new Relation();
             rel.setType(rType);
             rel.setSubject(this);
-            rel.setObj(obj.get(i));
+            rel.setObject(obj.get(i));
             RelationChain rChain = new RelationChain();
             rChain.addRelation(rel, 0);
             inter.addRelationChain(rChain);
@@ -502,32 +502,32 @@ public class Concept implements Serializable {
                             {
                                 if (l == 0)
                                 {
-                                    if (relCh.getRelations().get(m).getRelation().getObj().equals(this))
+                                    if (relCh.getRelations().get(m).getRelation().getObject().equals(this))
                                     {                                       
                                         Relation t = new Relation();
 
-                                        t.setObj(relCh.getRelations().get(m).getRelation().getSubject());
+                                        t.setObject(relCh.getRelations().get(m).getRelation().getSubject());
                                         t.setSubject(this);
                                         TypeOfRelation.RELATION_NAME tmpStr = relCh.getRelations().get(m).getRelation().getType().getBackwardName();
                                         t.getType().setBackwardName(relCh.getRelations().get(m).getRelation().getType().getForwardName());
                                         t.getType().setForwardName(tmpStr);
                                         relCh.getRelations().get(m).setRelation(t);
                                     }
-                                    tmp = relCh.getRelations().get(m).getRelation().getObj();
+                                    tmp = relCh.getRelations().get(m).getRelation().getObject();
                                 }
                                 else
                                 {
-                                    if (relCh.getRelations().get(m).getRelation().getObj().equals(tmp))
+                                    if (relCh.getRelations().get(m).getRelation().getObject().equals(tmp))
                                     {
                                         Relation t = new Relation();
-                                        t.setObj(relCh.getRelations().get(m).getRelation().getSubject());
+                                        t.setObject(relCh.getRelations().get(m).getRelation().getSubject());
                                         t.setSubject(tmp);
                                          TypeOfRelation.RELATION_NAME tmpStr = relCh.getRelations().get(m).getRelation().getType().getBackwardName();
                                         t.getType().setBackwardName(relCh.getRelations().get(m).getRelation().getType().getForwardName());
                                         t.getType().setForwardName(tmpStr);
                                         relCh.getRelations().get(m).setRelation(t);
                                     }
-                                    tmp = relCh.getRelations().get(m).getRelation().getObj();
+                                    tmp = relCh.getRelations().get(m).getRelation().getObject();
                                 }
                                 break;
                             }
@@ -667,7 +667,7 @@ public class Concept implements Serializable {
                         if (rel.getType().getForwardName() == TypeOfRelation.RELATION_NAME.HAS_VALUE ||
                                 rel.getType().getBackwardName() == TypeOfRelation.RELATION_NAME.HAS_VALUE)
                         {
-                            Concept tmp = rel.getObj();
+                            Concept tmp = rel.getObject();
                             if (tmp.equals(this))
                             {
                                 tmp = rel.getSubject();
@@ -722,11 +722,11 @@ public class Concept implements Serializable {
                             if (l == relCh.getRelations().get(m).relationOrder)
                             {
                                 Relation rel = relCh.getRelations().get(m).getRelation();
-                                if (!rel.getObj().equals(this))
+                                if (!rel.getObject().equals(this))
                                 {
-                                    if (!concepts.contains(rel.getObj()))
+                                    if (!concepts.contains(rel.getObject()))
                                     {
-                                        concepts.add(rel.getObj());
+                                        concepts.add(rel.getObject());
                                     }
                                 }
                                 if (!rel.getSubject().equals(this))
@@ -775,15 +775,15 @@ public class Concept implements Serializable {
                          if (r.getSubject() == this)
                          {
                              tmpRel.setSubject(r.getSubject());
-                             tmpRel.setObj(r.getObj());
+                             tmpRel.setObject(r.getObject());
                              tmpRel.setType(r.getType());
                              
                              res.add(tmpRel);
                          }
                          else
                          {
-                             tmpRel.setSubject(r.getObj());
-                             tmpRel.setObj(r.getSubject());
+                             tmpRel.setSubject(r.getObject());
+                             tmpRel.setObject(r.getSubject());
                              TypeOfRelation reverseType = new TypeOfRelation();
                              reverseType.setForwardName(r.getType().getBackwardName());
                              reverseType.setBackwardName(r.getType().getForwardName());
@@ -1108,9 +1108,9 @@ public class Concept implements Serializable {
     public void updateObjOfRelations(Concept oldCon) {
         for (int i = 0; i < this.getObjOfRelations().size(); i++) {
             if (!oldCon.getObjOfRelations().contains(this.getObjOfRelations().get(i))) {
-                if (this.getObjOfRelations().get(i).getObj().equals(this))
+                if (this.getObjOfRelations().get(i).getObject().equals(this))
                 {
-                    this.getObjOfRelations().get(i).setObj(oldCon);
+                    this.getObjOfRelations().get(i).setObject(oldCon);
                 }
                 else
                 {
@@ -1193,9 +1193,9 @@ public class Concept implements Serializable {
         {
             if (!this.getObjOfRelations().contains(newCon.getObjOfRelations().get(i)))
             {
-                if (newCon.getObjOfRelations().get(i).getObj().equals(newCon))
+                if (newCon.getObjOfRelations().get(i).getObject().equals(newCon))
                 {
-                    newCon.getObjOfRelations().get(i).setObj(this);
+                    newCon.getObjOfRelations().get(i).setObject(this);
                 }
                 else
                 {
