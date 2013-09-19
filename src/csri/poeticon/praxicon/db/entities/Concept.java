@@ -43,7 +43,7 @@ import javax.persistence.Enumerated;
 @XmlRootElement(name="entity")
 @Entity
 @EntityListeners(ConceptListener.class)
-@Table(name="Concept")
+@Table(name="Concepts")
 public class Concept implements Serializable {
 
     public static enum Type {
