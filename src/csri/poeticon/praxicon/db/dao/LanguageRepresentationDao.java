@@ -16,8 +16,8 @@ import java.util.List;
 public interface LanguageRepresentationDao extends Dao<Long, LanguageRepresentation>{
 
     List<LanguageRepresentation> find(String searchString);
-    LanguageRepresentation findByLR(String language, String text, String pos);
-    LanguageRepresentation findLR(String language, String text, String pos);
+    LanguageRepresentation findByLanguageRepresentation(String language, String text, String pos);
+    LanguageRepresentation findLanguageRepresentation(String language, String text, String pos);
     List<LanguageRepresentation> getEntriesSorted(Concept c);
     List<LanguageRepresentation> getEntries(Concept c);
     List<LanguageRepresentation> findExact(String searchString);

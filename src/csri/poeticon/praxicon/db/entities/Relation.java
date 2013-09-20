@@ -8,15 +8,15 @@ package csri.poeticon.praxicon.db.entities;
 import csri.poeticon.praxicon.Constants;
 import csri.poeticon.praxicon.Globals;
 import csri.poeticon.praxicon.db.dao.ConceptDao;
-import csri.poeticon.praxicon.db.dao.LRGroupDao;
-import csri.poeticon.praxicon.db.dao.MRGroupDao;
+import csri.poeticon.praxicon.db.dao.LanguageRepresentationGroupDao;
+import csri.poeticon.praxicon.db.dao.MotoricRepresentationGroupDao;
 import csri.poeticon.praxicon.db.dao.TypeOfRelationDao;
-import csri.poeticon.praxicon.db.dao.VRGroupDao;
+import csri.poeticon.praxicon.db.dao.VisualRepresentationGroupDao;
 import csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
-import csri.poeticon.praxicon.db.dao.implSQL.LRGroupDaoImpl;
-import csri.poeticon.praxicon.db.dao.implSQL.MRGroupDaoImpl;
+import csri.poeticon.praxicon.db.dao.implSQL.LanguageRepresentationGroupDaoImpl;
+import csri.poeticon.praxicon.db.dao.implSQL.MotoricRepresentationGroupDaoImpl;
 import csri.poeticon.praxicon.db.dao.implSQL.TypeOfRelationDaoImpl;
-import csri.poeticon.praxicon.db.dao.implSQL.VRGroupDaoImpl;
+import csri.poeticon.praxicon.db.dao.implSQL.VisualRepresentationGroupDaoImpl;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,93 +45,93 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @XmlRootElement()
 @Entity
-@Table(name="RELATION")
+@Table(name="Relation")
 public class Relation implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
-    @Column(name="RELATION_ID")
+    @Column(name="RelationId")
     private Long id;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "relation")
     private List<RelationChain_Relation> mainFunctions;
 
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
-    @JoinColumn(name="ID")
+    @JoinColumn(name="Id")
     TypeOfRelation type;
 
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
-    @JoinColumn(name="CONCEPT_ID_OBJ")
+    @JoinColumn(name="ConceptIdObject")
     Concept obj;
 
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
-    @JoinColumn(name="CONCEPT_ID_SUBJ")
+    @JoinColumn(name="ConceptIdSubject")
     Concept subject;
 
-    @Column(name="NAME")
+    @Column(name="Name")
     String name;
 
-    @Column(name="DERIVATION")
+    @Column(name="Derivation")
     boolean derivation;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="LRSubject")
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="LanguageRepresentationSubject")
     @JoinTable(
-        name="LRGROUP_RELATIONSUBJECT",
-        joinColumns={@JoinColumn(name="RELATION_ID")},
-        inverseJoinColumns={@JoinColumn(name="LRGROUP_ID")}
+        name="LanguageRepresentation_RelationSubject",
+        joinColumns={@JoinColumn(name="RelationId")},
+        inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
     )
-    List<LRGroup> LRGroupSubject;
+    List<LanguageRepresentationGroup> LanguageRepresentationGroupSubject;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="LRObject")
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="LangugageRepresentationObject")
     @JoinTable(
-        name="LRGROUP_RELATIONOBJECT",
-        joinColumns={@JoinColumn(name="RELATION_ID")},
-        inverseJoinColumns={@JoinColumn(name="LRGROUP_ID")}
+        name="LangugeRepresentation_RelationObject",
+        joinColumns={@JoinColumn(name="RelationId")},
+        inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
     )
-    List<LRGroup> LRGroupObject;
+    List<LanguageRepresentationGroup> LanguageRepresentationGroupObject;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="MRSubject")
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="MotoricRepresentationSubject")
     @JoinTable(
-        name="MRGROUP_RELATIONSUBJECT",
-        joinColumns={@JoinColumn(name="RELATION_ID")},
-        inverseJoinColumns={@JoinColumn(name="MRGROUP_ID")}
+        name="MotoricRepresentation_RelationSubject",
+        joinColumns={@JoinColumn(name="RelationId")},
+        inverseJoinColumns={@JoinColumn(name="MotoricId")}
     )
-    List<MRGroup> MRGroupSubject;
+    List<MotoricRepresentationGroup> MotoricRepresentationGroupSubject;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="MRObject")
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="MotoricRepresentationObject")
     @JoinTable(
-        name="MRGROUP_RELATIONOBJECT",
-        joinColumns={@JoinColumn(name="RELATION_ID")},
-        inverseJoinColumns={@JoinColumn(name="MRGROUP_ID")}
+        name="MotoricRepresentation_RelationObject",
+        joinColumns={@JoinColumn(name="RelationId")},
+        inverseJoinColumns={@JoinColumn(name="MotoricRepresentationId")}
     )
-    List<MRGroup> MRGroupObject;
+    List<MotoricRepresentationGroup> MotoricRepresentationGroupObject;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="VRSubject")
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="VisualRepresentationSubject")
     @JoinTable(
-        name="VRGROUP_RELATIONSUBJECT",
-        joinColumns={@JoinColumn(name="RELATION_ID")},
-        inverseJoinColumns={@JoinColumn(name="VRGROUP_ID")}
+        name="VisualRepresentation_RelationSubject",
+        joinColumns={@JoinColumn(name="RelationId")},
+        inverseJoinColumns={@JoinColumn(name="VisualRepresentationId")}
     )
-    List<VRGroup> VRGroupSubject;
+    List<VisualRepresentationGroup> VisualRepresentationGroupSubject;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="VRObject")
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="VisualRepresentationObject")
     @JoinTable(
-        name="VRGROUP_RELATIONOBJECT",
-        joinColumns={@JoinColumn(name="RELATION_ID")},
-        inverseJoinColumns={@JoinColumn(name="VRGROUP_ID")}
+        name="VisualRepresentation_RelationObject",
+        joinColumns={@JoinColumn(name="RelationId")},
+        inverseJoinColumns={@JoinColumn(name="VisualRepresentationId")}
     )
-    List<VRGroup> VRGroupObject;
+    List<VisualRepresentationGroup> VisualRepresentationGroupObject;
 
     public Relation()
     {
         mainFunctions = new ArrayList<RelationChain_Relation>();
-        VRGroupObject = new ArrayList<VRGroup>();
-        VRGroupSubject = new ArrayList<VRGroup>();
-        LRGroupObject = new ArrayList<LRGroup>();
-        LRGroupSubject = new ArrayList<LRGroup>();
-        MRGroupObject = new ArrayList<MRGroup>();
-        MRGroupSubject = new ArrayList<MRGroup>();
+        VisualRepresentationGroupObject = new ArrayList<VisualRepresentationGroup>();
+        VisualRepresentationGroupSubject = new ArrayList<VisualRepresentationGroup>();
+        LanguageRepresentationGroupObject = new ArrayList<LanguageRepresentationGroup>();
+        LanguageRepresentationGroupSubject = new ArrayList<LanguageRepresentationGroup>();
+        MotoricRepresentationGroupObject = new ArrayList<MotoricRepresentationGroup>();
+        MotoricRepresentationGroupSubject = new ArrayList<MotoricRepresentationGroup>();
         type = new TypeOfRelation();
     }
 
@@ -343,76 +343,76 @@ public class Relation implements Serializable {
     }
 
    @XmlTransient
-    public List<LRGroup> getLRGroupObject()
+    public List<LanguageRepresentationGroup> getLanguageRepresentationGroupObject()
     {
-        return LRGroupObject;
+        return LanguageRepresentationGroupObject;
     }
 
    /**
      * @xmlcomments.args
-     *	   xmltag="&lt;LRGroupObject&gt;"
-     *     xmldescription="This tag defines the LRGroup that should be used to express the Object in this relation"
+     *	   xmltag="&lt;LanguageRepresentationGroupObject&gt;"
+     *     xmldescription="This tag defines the LanguageRepresentationGroup that should be used to express the Object in this relation"
      */
-   @XmlElement(name="LRGroupObject")
-    public List<String> getLRGroupObject_()
+   @XmlElement(name="LanguageRepresentationGroupObject")
+    public List<String> getLanguageRepresentationGroupObject_()
     {
-       List<String> LRGroupObject_ = new ArrayList<String>();
-       for(int i = 0; i < LRGroupObject.size(); i++)
+       List<String> LanguageRepresentationGroupObject_ = new ArrayList<String>();
+       for(int i = 0; i < LanguageRepresentationGroupObject.size(); i++)
        {
-           LRGroupObject_.add(LRGroupObject.get(i).getName());
+           LanguageRepresentationGroupObject_.add(LanguageRepresentationGroupObject.get(i).getName());
        }
-        return LRGroupObject_;
+        return LanguageRepresentationGroupObject_;
     }
 
-    public void setLRGroupObject(List<LRGroup> LRGroupObject)
+    public void setLanguageRepresentationGroupObject(List<LanguageRepresentationGroup> LanguageRepresentationGroupObject)
     {
-        this.LRGroupObject = LRGroupObject;
+        this.LanguageRepresentationGroupObject = LanguageRepresentationGroupObject;
     }
 
-    private void setLRGroupObject_(List<String> v) throws Exception
+    private void setLanguageRepresentationGroupObject_(List<String> v) throws Exception
     {
         for (int i = 0; i < v.size(); i++)
         {
             if (Globals.ToMergeAfterUnMarshalling)
             {
            //     System.err.println("start "+v);
-                LRGroupDao lrgDao = new LRGroupDaoImpl();
-                List<LRGroup> lrg = lrgDao.findAllByName(v.get(i).trim());
+                LanguageRepresentationGroupDao lrgDao = new LanguageRepresentationGroupDaoImpl();
+                List<LanguageRepresentationGroup> lrg = lrgDao.findAllByName(v.get(i).trim());
                 if(lrg!=null && lrg.isEmpty()&&Constants.globalConcepts.get(v.get(i).trim())!=null)
                 {
-                    lrg.add((LRGroup)Constants.globalConcepts.get(v.get(i).trim()));
+                    lrg.add((LanguageRepresentationGroup)Constants.globalConcepts.get(v.get(i).trim()));
                 }
                 if (lrg!=null && !lrg.isEmpty())
                 {
-                    LRGroupObject.addAll(lrg);
+                    LanguageRepresentationGroupObject.addAll(lrg);
                     for(int j  = 0; j < lrg.size(); j++)
                     {
-                        lrg.get(j).getLRObject().add(this);
+                        lrg.get(j).getLanguageRepresentationObject().add(this);
                     }
                 }
                 else
                 {
-                    LRGroup c = new LRGroup();
+                    LanguageRepresentationGroup c = new LanguageRepresentationGroup();
 
                     c.setName(v.get(i));
-                    c.getLRObject().add(this);
+                    c.getLanguageRepresentationObject().add(this);
                     lrgDao.persist(c);
-                    LRGroupObject.add(c);
+                    LanguageRepresentationGroupObject.add(c);
                 }
 
              }
              else
              {
-                LRGroup c = new LRGroup();
+                LanguageRepresentationGroup c = new LanguageRepresentationGroup();
                 c.setName(v.get(i));
-                c.getLRObject().add(this);
+                c.getLanguageRepresentationObject().add(this);
                 if (Constants.globalConcepts.contains(c))
                 {
-                    LRGroupObject.add((LRGroup)Constants.globalConcepts.get(c.getName()));
+                    LanguageRepresentationGroupObject.add((LanguageRepresentationGroup)Constants.globalConcepts.get(c.getName()));
                 }
                 else
                 {
-                    LRGroupObject.add(c);
+                    LanguageRepresentationGroupObject.add(c);
                     Constants.globalConcepts.put(c.getName(), c);
                 }
              }
@@ -420,75 +420,75 @@ public class Relation implements Serializable {
     }
 
     @XmlTransient
-    public List<LRGroup> getLRGroupSubject()
+    public List<LanguageRepresentationGroup> getLanguageRepresentationGroupSubject()
     {
-        return LRGroupSubject;
+        return LanguageRepresentationGroupSubject;
     }
 
     /**
      * @xmlcomments.args
-     *	   xmltag="&lt;LRGroupSubject&gt;"
-     *     xmldescription="This tag defines the LRGroup that should be used to express the Subject in this relation"
+     *	   xmltag="&lt;LanguageRepresentationGroupSubject&gt;"
+     *     xmldescription="This tag defines the LanguageRepresentationGroup that should be used to express the Subject in this relation"
      */
-    @XmlElement(name="LRGroupSubject")
-    public List<String> getLRGroupSubject_()
+    @XmlElement(name="LanguageRepresentationGroupSubject")
+    public List<String> getLanguageRepresentationGroupSubject_()
     {
-        List<String> LRGroupSubject_ = new ArrayList<String>();
-       for(int i = 0; i < LRGroupSubject.size(); i++)
+        List<String> LanguageRepresentationGroupSubject_ = new ArrayList<String>();
+       for(int i = 0; i < LanguageRepresentationGroupSubject.size(); i++)
        {
-           LRGroupSubject_.add(LRGroupSubject.get(i).getName());
+           LanguageRepresentationGroupSubject_.add(LanguageRepresentationGroupSubject.get(i).getName());
        }
-        return LRGroupSubject_;
+        return LanguageRepresentationGroupSubject_;
     }
 
-    public void setLRGroupSubject(List<LRGroup> LRGroupSubject)
+    public void setLanguageRepresentationGroupSubject(List<LanguageRepresentationGroup> LanguageRepresentationGroupSubject)
     {
-        this.LRGroupSubject = LRGroupSubject;
+        this.LanguageRepresentationGroupSubject = LanguageRepresentationGroupSubject;
     }
 
-    private void setLRGroupSubject_(List<String> v) throws Exception
+    private void setLanguageRepresentationGroupSubject_(List<String> v) throws Exception
     {
         for (int i = 0; i < v.size(); i++)
         {
             if (Globals.ToMergeAfterUnMarshalling)
             {
-                LRGroupDao lrgDao = new LRGroupDaoImpl();
-                List<LRGroup> lrg = lrgDao.findAllByName(v.get(i).trim());
+                LanguageRepresentationGroupDao lrgDao = new LanguageRepresentationGroupDaoImpl();
+                List<LanguageRepresentationGroup> lrg = lrgDao.findAllByName(v.get(i).trim());
                 if(lrg!=null && lrg.isEmpty()&&Constants.globalConcepts.get(v.get(i).trim())!=null)
                 {
-                    lrg.add((LRGroup)Constants.globalConcepts.get(v.get(i).trim()));
+                    lrg.add((LanguageRepresentationGroup)Constants.globalConcepts.get(v.get(i).trim()));
                 }
                 if (lrg!=null && !lrg.isEmpty())
                 {
-                    LRGroupSubject.addAll(lrg);
+                    LanguageRepresentationGroupSubject.addAll(lrg);
                     for(int j  = 0; j < lrg.size(); j++)
                     {
-                        lrg.get(j).getLRSubject().add(this);
+                        lrg.get(j).getLanguageRepresentationSubject().add(this);
                     }
                 }
                 else
                 {
-                    LRGroup c = new LRGroup();
+                    LanguageRepresentationGroup c = new LanguageRepresentationGroup();
 
                     c.setName(v.get(i));
-                    c.getLRSubject().add(this);
+                    c.getLanguageRepresentationSubject().add(this);
                     lrgDao.persist(c);
-                    LRGroupSubject.add(c);
+                    LanguageRepresentationGroupSubject.add(c);
                 }
 
              }
              else
              {
-                LRGroup c = new LRGroup();
+                LanguageRepresentationGroup c = new LanguageRepresentationGroup();
                 c.setName(v.get(i));
-                c.getLRSubject().add(this);
+                c.getLanguageRepresentationSubject().add(this);
                 if (Constants.globalConcepts.contains(c))
                 {
-                    LRGroupSubject.add((LRGroup)Constants.globalConcepts.get(c.getName()));
+                    LanguageRepresentationGroupSubject.add((LanguageRepresentationGroup)Constants.globalConcepts.get(c.getName()));
                 }
                 else
                 {
-                    LRGroupSubject.add(c);
+                    LanguageRepresentationGroupSubject.add(c);
                     Constants.globalConcepts.put(c.getName(), c);
                 }
              }
@@ -496,74 +496,74 @@ public class Relation implements Serializable {
     }
 
     @XmlTransient
-    public List<MRGroup> getMRGroupObject()
+    public List<MotoricRepresentationGroup> getMotoricRepresentationGroupObject()
     {
-        return MRGroupObject;
+        return MotoricRepresentationGroupObject;
     }
 
     /**
      * @xmlcomments.args
-     *	   xmltag="&lt;MRGroupObject&gt;"
-     *     xmldescription="This tag defines the MRGroup that should be used to express the Object in this relation"
+     *	   xmltag="&lt;MotoricRepresentationGroupObject&gt;"
+     *     xmldescription="This tag defines the MotoricRepresentationGroup that should be used to express the Object in this relation"
      */
-    @XmlElement(name="MRGroupObject")
-    public List<String> getMRGroupObject_()
+    @XmlElement(name="MotoricRepresentationGroupObject")
+    public List<String> getMotoricRepresentationGroupObject_()
     {
-        List<String> MRGroupObject_ = new ArrayList<String>();
-       for(int i = 0; i < MRGroupObject.size(); i++)
+        List<String> MotoricRepresentationGroupObject_ = new ArrayList<String>();
+       for(int i = 0; i < MotoricRepresentationGroupObject.size(); i++)
        {
-           MRGroupObject_.add(MRGroupObject.get(i).getName());
+           MotoricRepresentationGroupObject_.add(MotoricRepresentationGroupObject.get(i).getName());
        }
-        return MRGroupObject_;
+        return MotoricRepresentationGroupObject_;
     }
 
-    public void setMRGroupObject(List<MRGroup> MRGroupObject)
+    public void setMotoricRepresentationGroupObject(List<MotoricRepresentationGroup> MotoricRepresentationGroupObject)
     {
-        this.MRGroupObject = MRGroupObject;
+        this.MotoricRepresentationGroupObject = MotoricRepresentationGroupObject;
     }
 
-    private void setMRGroupObject_(List<String> v) throws Exception
+    private void setMotoricRepresentationGroupObject_(List<String> v) throws Exception
     {
         for (int i = 0; i < v.size(); i++)
         {
             if (Globals.ToMergeAfterUnMarshalling)
             {
-                MRGroupDao mrgDao = new MRGroupDaoImpl();
-                List<MRGroup> mrg = mrgDao.findAllByName(v.get(i).trim());
+                MotoricRepresentationGroupDao mrgDao = new MotoricRepresentationGroupDaoImpl();
+                List<MotoricRepresentationGroup> mrg = mrgDao.findAllByName(v.get(i).trim());
                 if(mrg!=null && mrg.isEmpty()&&Constants.globalConcepts.get(v.get(i).trim())!=null)
                 {
-                    mrg.add((MRGroup)Constants.globalConcepts.get(v.get(i).trim()));
+                    mrg.add((MotoricRepresentationGroup)Constants.globalConcepts.get(v.get(i).trim()));
                 }
                 if (mrg!=null && !mrg.isEmpty())
                 {
-                    MRGroupObject.addAll(mrg);
+                    MotoricRepresentationGroupObject.addAll(mrg);
                     for(int j  = 0; j < mrg.size(); j++)
                     {
-                        mrg.get(j).getMRObject().add(this);
+                        mrg.get(j).getMotoricRepresentationObject().add(this);
                     }
                 }
                 else
                 {
-                    MRGroup c = new MRGroup();
+                    MotoricRepresentationGroup c = new MotoricRepresentationGroup();
 
                     c.setName(v.get(i));
-                    c.getMRObject().add(this);
+                    c.getMotoricRepresentationObject().add(this);
                     mrgDao.persist(c);
-                    MRGroupObject.add(c);
+                    MotoricRepresentationGroupObject.add(c);
                 }
              }
              else
              {
-                MRGroup c = new MRGroup();
+                MotoricRepresentationGroup c = new MotoricRepresentationGroup();
                 c.setName(v.get(i));
-                c.getMRObject().add(this);
+                c.getMotoricRepresentationObject().add(this);
                 if (Constants.globalConcepts.contains(c))
                 {
-                    MRGroupObject.add((MRGroup)Constants.globalConcepts.get(c.getName()));
+                    MotoricRepresentationGroupObject.add((MotoricRepresentationGroup)Constants.globalConcepts.get(c.getName()));
                 }
                 else
                 {
-                    MRGroupObject.add(c);
+                    MotoricRepresentationGroupObject.add(c);
                     Constants.globalConcepts.put(c.getName(), c);
                 }
 
@@ -572,75 +572,75 @@ public class Relation implements Serializable {
     }
 
     @XmlTransient
-    public List<MRGroup> getMRGroupSubject()
+    public List<MotoricRepresentationGroup> getMotoricRepresentationGroupSubject()
     {
-        return MRGroupSubject;
+        return MotoricRepresentationGroupSubject;
     }
 
         /**
      * @xmlcomments.args
-     *	   xmltag="&lt;MRGroupSubject&gt;"
-     *     xmldescription="This tag defines the MRGroup that should be used to express the Subject in this relation"
+     *	   xmltag="&lt;MotoricRepresentationGroupSubject&gt;"
+     *     xmldescription="This tag defines the MotoricRepresentationGroup that should be used to express the Subject in this relation"
      */
-    @XmlElement(name="MRGroupSubject")
-    public List<String> getMRGroupSubject_()
+    @XmlElement(name="MotoricRepresentationGroupSubject")
+    public List<String> getMotoricRepresentationGroupSubject_()
     {
-        List<String> MRGroupSubject_ = new ArrayList<String>();
-       for(int i = 0; i < MRGroupSubject.size(); i++)
+        List<String> MotoricRepresentationGroupSubject_ = new ArrayList<String>();
+       for(int i = 0; i < MotoricRepresentationGroupSubject.size(); i++)
        {
-           MRGroupSubject_.add(MRGroupSubject.get(i).getName());
+           MotoricRepresentationGroupSubject_.add(MotoricRepresentationGroupSubject.get(i).getName());
        }
-        return MRGroupSubject_;
+        return MotoricRepresentationGroupSubject_;
     }
 
-    public void setMRGroupSubject(List<MRGroup> MRGroupSubject)
+    public void setMotoricRepresentationGroupSubject(List<MotoricRepresentationGroup> MotoricRepresentationGroupSubject)
     {
-        this.MRGroupSubject = MRGroupSubject;
+        this.MotoricRepresentationGroupSubject = MotoricRepresentationGroupSubject;
     }
 
-    private void setMRGroupSubject_(List<String> v) throws Exception
+    private void setMotoricRepresentationGroupSubject_(List<String> v) throws Exception
     {
         for (int i = 0; i < v.size(); i++)
         {
             if (Globals.ToMergeAfterUnMarshalling)
             {
-                MRGroupDao mrgDao = new MRGroupDaoImpl();
-                List<MRGroup> mrg = mrgDao.findAllByName(v.get(i).trim());
+                MotoricRepresentationGroupDao mrgDao = new MotoricRepresentationGroupDaoImpl();
+                List<MotoricRepresentationGroup> mrg = mrgDao.findAllByName(v.get(i).trim());
                 if(mrg!=null && mrg.isEmpty()&&Constants.globalConcepts.get(v.get(i).trim())!=null)
                 {
-                    mrg.add((MRGroup)Constants.globalConcepts.get(v.get(i).trim()));
+                    mrg.add((MotoricRepresentationGroup)Constants.globalConcepts.get(v.get(i).trim()));
                 }
                 if (mrg!=null && !mrg.isEmpty())
                 {
-                    MRGroupSubject.addAll(mrg);
+                    MotoricRepresentationGroupSubject.addAll(mrg);
                     for(int j  = 0; j < mrg.size(); j++)
                     {
-                        mrg.get(j).getMRSubject().add(this);
+                        mrg.get(j).getMotoricRepresentationSubject().add(this);
                     }
                 }
                 else
                 {
-                    MRGroup c = new MRGroup();
+                    MotoricRepresentationGroup c = new MotoricRepresentationGroup();
 
                     c.setName(v.get(i));
-                    c.getMRSubject().add(this);
+                    c.getMotoricRepresentationSubject().add(this);
                     mrgDao.persist(c);
-                    MRGroupSubject.add(c);
+                    MotoricRepresentationGroupSubject.add(c);
                 }
 
              }
              else
              {
-                MRGroup c = new MRGroup();
+                MotoricRepresentationGroup c = new MotoricRepresentationGroup();
                 c.setName(v.get(i));
-                c.getMRSubject().add(this);
+                c.getMotoricRepresentationSubject().add(this);
                 if (Constants.globalConcepts.contains(c))
                 {
-                    MRGroupSubject.add((MRGroup)Constants.globalConcepts.get(c.getName()));
+                    MotoricRepresentationGroupSubject.add((MotoricRepresentationGroup)Constants.globalConcepts.get(c.getName()));
                 }
                 else
                 {
-                    MRGroupSubject.add(c);
+                    MotoricRepresentationGroupSubject.add(c);
                     Constants.globalConcepts.put(c.getName(), c);
                 }
 
@@ -649,75 +649,75 @@ public class Relation implements Serializable {
     }
 
     @XmlTransient
-    public List<VRGroup> getVRGroupObject()
+    public List<VisualRepresentationGroup> getVisualRepresentationGroupObject()
     {
-        return VRGroupObject;
+        return VisualRepresentationGroupObject;
     }
 
         /**
      * @xmlcomments.args
-     *	   xmltag="&lt;VRGroupObject&gt;"
-     *     xmldescription="This tag defines the VRGroup that should be used to express the Object in this relation"
+     *	   xmltag="&lt;VisualRepresentationGroupObject&gt;"
+     *     xmldescription="This tag defines the VisualRepresentationGroup that should be used to express the Object in this relation"
      */
-    @XmlElement(name="VRGroupObject")
-    public List<String> getVRGroupObject_()
+    @XmlElement(name="VisualRepresentationGroupObject")
+    public List<String> getVisualRepresentationGroupObject_()
     {
-        List<String> VRGroupObject_ = new ArrayList<String>();
-       for(int i = 0; i < VRGroupObject.size(); i++)
+        List<String> VisualRepresentationGroupObject_ = new ArrayList<String>();
+       for(int i = 0; i < VisualRepresentationGroupObject.size(); i++)
        {
-           VRGroupObject_.add(VRGroupObject.get(i).getName());
+           VisualRepresentationGroupObject_.add(VisualRepresentationGroupObject.get(i).getName());
        }
-        return VRGroupObject_;
+        return VisualRepresentationGroupObject_;
     }
 
-    public void setVRGroupObject(List<VRGroup> VRGroupObject)
+    public void setVisualRepresentationGroupObject(List<VisualRepresentationGroup> VisualRepresentationGroupObject)
     {
-        this.VRGroupObject = VRGroupObject;
+        this.VisualRepresentationGroupObject = VisualRepresentationGroupObject;
     }
 
-    private void setVRGroupObject_(List<String> v) throws Exception
+    private void setVisualRepresentationGroupObject_(List<String> v) throws Exception
     {
         for (int i = 0; i < v.size(); i++)
         {
             if (Globals.ToMergeAfterUnMarshalling)
             {
-                VRGroupDao vrgDao = new VRGroupDaoImpl();
-                List<VRGroup> vrg = vrgDao.findAllByName(v.get(i).trim());
+                VisualRepresentationGroupDao vrgDao = new VisualRepresentationGroupDaoImpl();
+                List<VisualRepresentationGroup> vrg = vrgDao.findAllByName(v.get(i).trim());
                 if(vrg!=null && vrg.isEmpty()&&Constants.globalConcepts.get(v.get(i).trim())!=null)
                 {
-                    vrg.add((VRGroup)Constants.globalConcepts.get(v.get(i).trim()));
+                    vrg.add((VisualRepresentationGroup)Constants.globalConcepts.get(v.get(i).trim()));
                 }
                 if (vrg!=null && !vrg.isEmpty())
                 {
-                    VRGroupObject.addAll(vrg);
+                    VisualRepresentationGroupObject.addAll(vrg);
                     for(int j  = 0; j < vrg.size(); j++)
                     {
-                        vrg.get(j).getVRObject().add(this);
+                        vrg.get(j).getVisualRepresentationObject().add(this);
                     }
                 }
                 else
                 {
-                    VRGroup c = new VRGroup();
+                    VisualRepresentationGroup c = new VisualRepresentationGroup();
 
                     c.setName(v.get(i));
-                    c.getVRObject().add(this);
+                    c.getVisualRepresentationObject().add(this);
                     vrgDao.persist(c);
-                    VRGroupObject.add(c);
+                    VisualRepresentationGroupObject.add(c);
                 }
 
              }
              else
              {
-                VRGroup c = new VRGroup();
+                VisualRepresentationGroup c = new VisualRepresentationGroup();
                 c.setName(v.get(i));
-                c.getVRObject().add(this);
+                c.getVisualRepresentationObject().add(this);
                 if (Constants.globalConcepts.contains(c))
                 {
-                    VRGroupObject.add((VRGroup)Constants.globalConcepts.get(c.getName()));
+                    VisualRepresentationGroupObject.add((VisualRepresentationGroup)Constants.globalConcepts.get(c.getName()));
                 }
                 else
                 {
-                    VRGroupObject.add(c);
+                    VisualRepresentationGroupObject.add(c);
                     Constants.globalConcepts.put(c.getName(), c);
                 }
 
@@ -726,75 +726,75 @@ public class Relation implements Serializable {
     }
 
     @XmlTransient
-    public List<VRGroup> getVRGroupSubject()
+    public List<VisualRepresentationGroup> getVisualRepresentationGroupSubject()
     {
-        return VRGroupSubject;
+        return VisualRepresentationGroupSubject;
     }
 
     /**
      * @xmlcomments.args
-     *	   xmltag="&lt;VRGroupSubject&gt;"
-     *     xmldescription="This tag defines the VRGroup that should be used to express the Subject in this relation"
+     *	   xmltag="&lt;VisualRepresentationGroupSubject&gt;"
+     *     xmldescription="This tag defines the VisualRepresentationGroup that should be used to express the Subject in this relation"
      */
-    @XmlElement(name="VRGroupSubject")
-    public List<String> getVRGroupSubject_()
+    @XmlElement(name="VisualRepresentationGroupSubject")
+    public List<String> getVisualRepresentationGroupSubject_()
     {
-        List<String> VRGroupSubject_ = new ArrayList<String>();
-       for(int i = 0; i < VRGroupSubject.size(); i++)
+        List<String> VisualRepresentationGroupSubject_ = new ArrayList<String>();
+       for(int i = 0; i < VisualRepresentationGroupSubject.size(); i++)
        {
-           VRGroupSubject_.add(VRGroupSubject.get(i).getName());
+           VisualRepresentationGroupSubject_.add(VisualRepresentationGroupSubject.get(i).getName());
        }
-        return VRGroupSubject_;
+        return VisualRepresentationGroupSubject_;
     }
 
-    public void setVRGroupSubject(List<VRGroup> VRGroupSubject)
+    public void setVisualRepresentationGroupSubject(List<VisualRepresentationGroup> VisualRepresentationGroupSubject)
     {
-        this.VRGroupSubject = VRGroupSubject;
+        this.VisualRepresentationGroupSubject = VisualRepresentationGroupSubject;
     }
 
-    private void setVRGroupSubject_(List<String> v) throws Exception
+    private void setVisualRepresentationGroupSubject_(List<String> v) throws Exception
     {
         for (int i = 0; i < v.size(); i++)
         {
             if (Globals.ToMergeAfterUnMarshalling)
             {
-                VRGroupDao vrgDao = new VRGroupDaoImpl();
-                List<VRGroup> vrg = vrgDao.findAllByName(v.get(i).trim());
+                VisualRepresentationGroupDao vrgDao = new VisualRepresentationGroupDaoImpl();
+                List<VisualRepresentationGroup> vrg = vrgDao.findAllByName(v.get(i).trim());
                 if(vrg!=null && vrg.isEmpty()&&Constants.globalConcepts.get(v.get(i).trim())!=null)
                 {
-                    vrg.add((VRGroup)Constants.globalConcepts.get(v.get(i).trim()));
+                    vrg.add((VisualRepresentationGroup)Constants.globalConcepts.get(v.get(i).trim()));
                 }
                 if (vrg!=null && !vrg.isEmpty())
                 {
-                    VRGroupSubject.addAll(vrg);
+                    VisualRepresentationGroupSubject.addAll(vrg);
                     for(int j  = 0; j < vrg.size(); j++)
                     {
-                        vrg.get(j).getVRSubject().add(this);
+                        vrg.get(j).getVisualRepresentationSubject().add(this);
                     }
                 }
                 else
                 {
-                    VRGroup c = new VRGroup();
+                    VisualRepresentationGroup c = new VisualRepresentationGroup();
 
                     c.setName(v.get(i));
-                    c.getVRSubject().add(this);
+                    c.getVisualRepresentationSubject().add(this);
                     vrgDao.persist(c);
-                    VRGroupSubject.add(c);
+                    VisualRepresentationGroupSubject.add(c);
                 }
 
              }
              else
              {
-                VRGroup c = new VRGroup();
+                VisualRepresentationGroup c = new VisualRepresentationGroup();
                 c.setName(v.get(i));
-                c.getVRSubject().add(this);
+                c.getVisualRepresentationSubject().add(this);
                 if (Constants.globalConcepts.contains(c))
                 {
-                    VRGroupSubject.add((VRGroup)Constants.globalConcepts.get(c.getName()));
+                    VisualRepresentationGroupSubject.add((VisualRepresentationGroup)Constants.globalConcepts.get(c.getName()));
                 }
                 else
                 {
-                    VRGroupSubject.add(c);
+                    VisualRepresentationGroupSubject.add(c);
                     Constants.globalConcepts.put(c.getName(), c);
                 }
 

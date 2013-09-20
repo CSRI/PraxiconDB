@@ -10,7 +10,7 @@ import csri.poeticon.praxicon.db.entities.Concept;
 import csri.poeticon.praxicon.db.entities.Concept.Status;
 import csri.poeticon.praxicon.db.entities.IntersectionOfRelations;
 import csri.poeticon.praxicon.db.entities.LanguageRepresentation;
-import csri.poeticon.praxicon.db.entities.LRGroup;
+import csri.poeticon.praxicon.db.entities.LanguageRepresentationGroup;
 import csri.poeticon.praxicon.db.entities.Relation;
 import csri.poeticon.praxicon.db.entities.RelationChain;
 import csri.poeticon.praxicon.db.entities.RelationChain_Relation;
@@ -42,6 +42,11 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
 //        }
 //      else
 //        {
+
+        // AN BL επιστρέφει λίστα με τον εαυτό του.
+        // Αν είναι above BL getBLofanabstractlevel
+        // ελσε ιφ below BL τρέξε BL entity concept
+
         if(c.getConceptType() == Concept.Type.ABSTRACT)
         {
             return getBasicLevelOfAnAbstractConcept(c);
@@ -301,7 +306,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
     @Override
     public VisualRepresentation getPrototypeRepresentation(Concept concept) {
         Query q = getEntityManager().createQuery("SELECT c From Concept c, "
-                + "IN (c.VRs) as cvr, IN (cvr.entries) as im where im.prototype = true and c = ?1 and im.mediaType = 'image'");
+                + "IN (c.VisualRepresentations) as cvr, IN (cvr.entries) as im where im.prototype = true and c = ?1 and im.mediaType = 'image'");
         q.setParameter(1, concept);
         if (q.getResultList().size() > 0) {
             return (VisualRepresentation) q.getResultList().get(0);
@@ -317,9 +322,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
      * @return a list of concepts found in the database
      */
     @Override
-    public List<Concept> findAllByLR(String queryString) {
+    public List<Concept> findAllByLanguageRepresentation(String queryString) {
         Query q = getEntityManager().createQuery("SELECT c FROM Concept c, "
-                + "IN (c.LRs) as clr, IN (clr.entries) as entry "
+                + "IN (c.LanguageRepresentations) as clr, IN (clr.entries) as entry "
                 + "where "
                 + "entry.text like ?1");
         q.setParameter(1, "%" + queryString + "%");
@@ -332,9 +337,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
      * @return a list of concepts found in the database
      */
     @Override
-    public List<Concept> findAllByLRStarting(String queryString) {
+    public List<Concept> findAllByLanguageRepresentationStarting(String queryString) {
         Query q = getEntityManager().createQuery("SELECT c FROM Concept c, "
-                + "IN (c.LRs) as clr, IN (clr.entries) as entry "
+                + "IN (c.LanguageRepresentations) as clr, IN (clr.entries) as entry "
                 + "where "
                 + "entry.text like ?1");
         q.setParameter(1, queryString + "%");
@@ -347,7 +352,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
      * @return a list of concepts found in the database
      */
     @Override
-    public List<Concept> findByLR(String queryString) {
+    public List<Concept> findByLanguageRepresentation(String queryString) {
         this.clearManager();
         Query q = getEntityManager().createQuery("SELECT e FROM LanguageRepresentation e " +
                 "where UPPER(e.text) = ?1"
@@ -355,10 +360,10 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
         q.setParameter(1, queryString.toUpperCase());
         List<LanguageRepresentation> lrs = q.getResultList();
 
-        List<LRGroup> lrgs = new ArrayList<LRGroup>();
+        List<LanguageRepresentationGroup> lrgs = new ArrayList<LanguageRepresentationGroup>();
         for (int i = 0; i < lrs.size(); i++)
         {
-            lrgs.addAll(lrs.get(i).getLRs());
+            lrgs.addAll(lrs.get(i).getLanguageRepresentations());
         }
 
         List<Concept> res = new ArrayList<Concept>();
@@ -377,8 +382,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
      */
     @Override
     public List<Concept> findAllByName(String name) {
-        List<Concept> res = findByLR(name);
-        res.addAll(findAllByLR(name));
+        List<Concept> res = findByLanguageRepresentation(name);
+        res.addAll(findAllByLanguageRepresentation(name));
         Query q = getEntityManager().createQuery("SELECT c FROM Concept c "
                 + "where c.name like ?1");
         q.setParameter(1, "%" + name + "%");
@@ -427,37 +432,37 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
     }
 
     /**
-     * Updates the language representations of a concept, adding the LRs
+     * Updates the language representations of a concept, adding the LanguageRepresentations
      * of another concept (removing them from that concept).
-     * @param newCon concept with LRs to be moved
+     * @param newCon concept with LanguageRepresentations to be moved
      * @param oldCon concept to be updated
      */
-    private void updateLRs(Concept newCon, Concept oldCon) {
+    private void updateLanguageRepresentations(Concept newCon, Concept oldCon) {
         try {
-            for (int i = 0; i < newCon.getLRs().size(); i++) {
-                if (!oldCon.getLRs().contains(newCon.getLRs().get(i)))
+            for (int i = 0; i < newCon.getLanguageRepresentations().size(); i++) {
+                if (!oldCon.getLanguageRepresentations().contains(newCon.getLanguageRepresentations().get(i)))
                 {
-                    LRGroup tmpLR = newCon.getLRs().get(i);
-                    tmpLR.getConcepts().remove(newCon);
-                    tmpLR.getConcepts().add(oldCon);
-                    oldCon.getLRs().add(tmpLR);
+                    LanguageRepresentationGroup tmpLanguageRepresentation = newCon.getLanguageRepresentations().get(i);
+                    tmpLanguageRepresentation.getConcepts().remove(newCon);
+                    tmpLanguageRepresentation.getConcepts().add(oldCon);
+                    oldCon.getLanguageRepresentations().add(tmpLanguageRepresentation);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
             //    entityManager.getTransaction().rollback();
         }
-        // System.out.println("DONE WITH LRs");
+        // System.out.println("DONE WITH LanguageRepresentations");
 
     }
 
     /**
-     * Updates the motoric representations of a concept, adding the MRs
+     * Updates the motoric representations of a concept, adding the MotoricRepresentations
      * of another concept (removing them from that concept).
-     * @param newCon concept with MRs to be moved
+     * @param newCon concept with MotoricRepresentations to be moved
      * @param oldCon concept to be updated
      */
-    private void updateMRs(Concept newCon, Concept oldCon) {
+    private void updateMotoricRepresentations(Concept newCon, Concept oldCon) {
         for (int i = 0; i < newCon.getMotoricRepresentations().size(); i++) {
             if (!oldCon.getMotoricRepresentations().contains(newCon.getMotoricRepresentations().get(i))) {
                 newCon.getMotoricRepresentations().get(i).setOwner(oldCon);
@@ -523,16 +528,16 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
     }
 
     /**
-     * Updates the visual representations of a concept, adding the VRs
+     * Updates the visual representations of a concept, adding the VisualRepresentations
      * of another concept (removing them from that concept).
-     * @param newCon concept with VRs to be moved
+     * @param newCon concept with VisualRepresentations to be moved
      * @param oldCon concept to be updated
      */
-    private void updateVRs(Concept newCon, Concept oldCon) {
-        for (int i = 0; i < newCon.getVRs().size(); i++) {
-            if (!oldCon.getVRs().contains(newCon.getVRs().get(i))) {
-                newCon.getVRs().get(i).setOwner(oldCon);
-                oldCon.getVRs().add(newCon.getVRs().get(i));
+    private void updateVisualRepresentations(Concept newCon, Concept oldCon) {
+        for (int i = 0; i < newCon.getVisualRepresentations().size(); i++) {
+            if (!oldCon.getVisualRepresentations().contains(newCon.getVisualRepresentations().get(i))) {
+                newCon.getVisualRepresentations().get(i).setOwner(oldCon);
+                oldCon.getVisualRepresentations().add(newCon.getVisualRepresentations().get(i));
             }
         }
     }
@@ -563,9 +568,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
         oldCon.setBasicLevel(newCon.isBasicLevel());
         oldCon.setDescription(newCon.getDescription());
 
-        updateLRs(newCon, oldCon);
-        updateVRs(newCon, oldCon);
-        updateMRs(newCon, oldCon);
+        updateLanguageRepresentations(newCon, oldCon);
+        updateVisualRepresentations(newCon, oldCon);
+        updateMotoricRepresentations(newCon, oldCon);
         updateObjOfRelations(newCon, oldCon);
         updateRelations(newCon, oldCon);
 
@@ -594,9 +599,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
             if (oldCon.getDescription() == null || oldCon.getDescription().equalsIgnoreCase("") || oldCon.getDescription().equalsIgnoreCase("Unknown")) {
                 oldCon.setDescription(newCon.getDescription());
             }
-            updateLRs(newCon, oldCon);
-            updateVRs(newCon, oldCon);
-            updateMRs(newCon, oldCon);
+            updateLanguageRepresentations(newCon, oldCon);
+            updateVisualRepresentations(newCon, oldCon);
+            updateMotoricRepresentations(newCon, oldCon);
             updateObjOfRelations(newCon, oldCon);
             updateRelations(newCon, oldCon);
             return oldCon;
@@ -634,12 +639,12 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
             if (oldCon.getDescription() == null || oldCon.getDescription().equalsIgnoreCase("") || oldCon.getDescription().equalsIgnoreCase("Unknown")) {
                 oldCon.setDescription(newCon.getDescription());
             }
-            updateVRs(newCon, oldCon);
-            updateMRs(newCon, oldCon);
+            updateVisualRepresentations(newCon, oldCon);
+            updateMotoricRepresentations(newCon, oldCon);
             updateObjOfRelations(newCon, oldCon);
             updateRelations(newCon, oldCon);
             merge(oldCon);
-            updateLRs(newCon, oldCon);
+            updateLanguageRepresentations(newCon, oldCon);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -691,21 +696,21 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao 
             {
                 getEntityManager().getTransaction().begin();
             }
-            updateLRs(newCon, oldCon);
+            updateLanguageRepresentations(newCon, oldCon);
             oldCon = entityManager.merge(oldCon);
             entityManager.getTransaction().commit();
             if(!getEntityManager().getTransaction().isActive())
             {
                 getEntityManager().getTransaction().begin();
             }
-            updateVRs(newCon, oldCon);
+            updateVisualRepresentations(newCon, oldCon);
             oldCon = entityManager.merge(oldCon);
             entityManager.getTransaction().commit();
             if(!getEntityManager().getTransaction().isActive())
             {
                 getEntityManager().getTransaction().begin();
             }
-            updateMRs(newCon, oldCon);
+            updateMotoricRepresentations(newCon, oldCon);
             oldCon = entityManager.merge(oldCon);
             entityManager.getTransaction().commit();
             if(!getEntityManager().getTransaction().isActive())

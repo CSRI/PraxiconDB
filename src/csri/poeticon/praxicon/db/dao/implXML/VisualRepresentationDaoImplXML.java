@@ -31,11 +31,11 @@ public class VisualRepresentationDaoImplXML extends JpaDao<Long, VisualRepresent
     @Override
     public List<VisualRepresentation> getEntries(Concept c) {
         List<VisualRepresentation> res = new ArrayList<VisualRepresentation>();
-        for (int i = 0; i < c.getVRs().size(); i++)
+        for (int i = 0; i < c.getVisualRepresentations().size(); i++)
         {
-            for (int j = 0; j < c.getVRs().get(i).getEntries().size(); j++)
+            for (int j = 0; j < c.getVisualRepresentations().get(i).getEntries().size(); j++)
             {
-                res.add(c.getVRs().get(i).getEntries().get(j));
+                res.add(c.getVisualRepresentations().get(i).getEntries().get(j));
             }
         }
 

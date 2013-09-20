@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @XmlRootElement()
 @Entity
-@Table(name="MOTORIC_REPRESENTATION")
+@Table(name="MotoricRepresentation")
 public class MotoricRepresentation implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -31,7 +31,7 @@ public class MotoricRepresentation implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
     private Long id;
 
-    @Column(name="REPRESENTATION")
+    @Column(name="Presentation")
     private String representation;
 
     public MotoricRepresentation()
@@ -56,14 +56,14 @@ public class MotoricRepresentation implements Serializable {
 
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
     @JoinColumn(name="MR_GROUP_ID")
-    private MRGroup owner;
+    private MotoricRepresentationGroup owner;
 
     @XmlTransient
-    public MRGroup getOwner() {
+    public MotoricRepresentationGroup getOwner() {
         return owner;
     }
 
-    public void setOwner(MRGroup owner) {
+    public void setOwner(MotoricRepresentationGroup owner) {
         this.owner = owner;
     }
 
@@ -119,6 +119,6 @@ public class MotoricRepresentation implements Serializable {
     }
 
     public void afterUnmarshal(Unmarshaller u, Object parent) {
-        this.owner = (MRGroup)parent;
+        this.owner = (MotoricRepresentationGroup)parent;
     }
 }

@@ -22,7 +22,6 @@ public class LexicalEntryComparator implements Comparator<LanguageRepresentation
      */
     @Override
     public int compare(LanguageRepresentation a, LanguageRepresentation b) {
-        return a.getLang().compareToIgnoreCase(b.getLang());
+        return a.getLanguage().name().compareToIgnoreCase(b.getLanguage().name());
     }
-
 }

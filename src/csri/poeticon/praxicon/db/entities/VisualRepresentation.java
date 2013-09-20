@@ -63,13 +63,13 @@ public class VisualRepresentation implements Serializable {
 
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
     @JoinColumn(name="VR_GROUP_ID")
-    private VRGroup owner;
+    private VisualRepresentationGroup owner;
 
     @Column(name="PROTOTYPE")
     private boolean prototype;
 
     @XmlTransient
-    public VRGroup getOwner() {
+    public VisualRepresentationGroup getOwner() {
         return owner;
     }
 
@@ -103,7 +103,7 @@ public class VisualRepresentation implements Serializable {
         this.prototype = prototype;
     }
 
-    public void setOwner(VRGroup owner) {
+    public void setOwner(VisualRepresentationGroup owner) {
         this.owner = owner;
     }
 
@@ -199,6 +199,6 @@ public class VisualRepresentation implements Serializable {
     }
 
     public void afterUnmarshal(Unmarshaller u, Object parent) {
-        this.owner = (VRGroup)parent;
+        this.owner = (VisualRepresentationGroup)parent;
     }
 }

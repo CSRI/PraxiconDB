@@ -9,7 +9,7 @@ import csri.poeticon.praxicon.Constants;
 import csri.poeticon.praxicon.Globals;
 import csri.poeticon.praxicon.db.dao.LRGroupDao;
 import csri.poeticon.praxicon.db.dao.RelationChainDao;
-import csri.poeticon.praxicon.db.dao.implSQL.LRGroupDaoImpl;
+import csri.poeticon.praxicon.db.dao.implSQL.LanguageRepresentationGroupDaoImpl;
 import csri.poeticon.praxicon.db.dao.implSQL.RelationChainDaoImpl;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -68,7 +68,7 @@ public class IntersectionOfRelations implements Serializable {
         joinColumns={@JoinColumn(name="INTERSECTION_ID")},
         inverseJoinColumns={@JoinColumn(name="LRGROUP_ID")}
     )
-    List<LRGroup> LRGroupNames;
+    List<LanguageRepresentationGroup> LRGroupNames;
 
     @Column(name="NAME")
     String name;
@@ -78,7 +78,7 @@ public class IntersectionOfRelations implements Serializable {
     {
         relations = new ArrayList<RelationChain>();
         unions = new ArrayList<UnionOfIntersections>();
-        LRGroupNames = new ArrayList<LRGroup>();
+        LRGroupNames = new ArrayList<LanguageRepresentationGroup>();
     }
 
     /**
@@ -92,7 +92,7 @@ public class IntersectionOfRelations implements Serializable {
     }
 
     @XmlTransient
-    public List<LRGroup> getLRGroupNames()
+    public List<LanguageRepresentationGroup> getLRGroupNames()
     {
         return LRGroupNames;
     }
@@ -100,7 +100,7 @@ public class IntersectionOfRelations implements Serializable {
     /**
      * @xmlcomments.args
      *	   xmltag="&lt;LRGroupNames&gt;"
-     *     xmldescription="This tag defines the names of the LRGroup that should be used to express this intersection"
+     *     xmldescription="This tag defines the names of the LanguageRepresentationGroup that should be used to express this intersection"
      */
    @XmlElement(name="LRGroupName")
     public List<String> getLRGroupNames_()
@@ -113,7 +113,7 @@ public class IntersectionOfRelations implements Serializable {
         return LRGroupNames_;
     }
 
-    public void setLRGroupNames(List<LRGroup> LRGroupNames)
+    public void setLRGroupNames(List<LanguageRepresentationGroup> LRGroupNames)
     {
         this.LRGroupNames = LRGroupNames;
     }
@@ -124,11 +124,11 @@ public class IntersectionOfRelations implements Serializable {
         {
             if (Globals.ToMergeAfterUnMarshalling)
             {
-                LRGroupDao lrgDao = new LRGroupDaoImpl();
-                List<LRGroup> lrg = lrgDao.findAllByName(v.get(i).trim());
+                LRGroupDao lrgDao = new LanguageRepresentationGroupDaoImpl();
+                List<LanguageRepresentationGroup> lrg = lrgDao.findAllByName(v.get(i).trim());
                 if(lrg!=null && lrg.isEmpty()&&Constants.globalConcepts.get(v.get(i).trim())!=null)
                 {
-                    lrg.add((LRGroup)Constants.globalConcepts.get(v.get(i).trim()));
+                    lrg.add((LanguageRepresentationGroup)Constants.globalConcepts.get(v.get(i).trim()));
                 }
                 if (lrg!=null && !lrg.isEmpty())
                 {
@@ -140,7 +140,7 @@ public class IntersectionOfRelations implements Serializable {
                 }
                 else
                 {
-                    LRGroup c = new LRGroup();
+                    LanguageRepresentationGroup c = new LanguageRepresentationGroup();
 
                     c.setName(v.get(i));
                     c.getLRIntersections().add(this);
@@ -151,12 +151,12 @@ public class IntersectionOfRelations implements Serializable {
              }
              else
              {
-                LRGroup c = new LRGroup();
+                LanguageRepresentationGroup c = new LanguageRepresentationGroup();
                 c.setName(v.get(i));
                 c.getLRIntersections().add(this);
                 if (Constants.globalConcepts.contains(c))
                 {
-                    LRGroupNames.add((LRGroup)Constants.globalConcepts.get(c.getName()));
+                    LRGroupNames.add((LanguageRepresentationGroup)Constants.globalConcepts.get(c.getName()));
                 }
                 else
                 {

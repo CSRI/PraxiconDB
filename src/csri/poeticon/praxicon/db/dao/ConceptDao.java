@@ -20,8 +20,8 @@ public interface ConceptDao extends Dao<Long, Concept>{
 
     @Override
     List<Concept> findAll();
-    List<Concept> findAllByLR(String queryString);
-    List<Concept> findAllByLRStarting(String queryString);
+    List<Concept> findAllByLanguageRepresentation(String queryString);
+    List<Concept> findAllByLanguageRepresentationStarting(String queryString);
     List<Concept> findAllByName(String name);
     List<Concept> findByName(String name);
     List<Concept> findByStatus(Status status);
@@ -33,7 +33,7 @@ public interface ConceptDao extends Dao<Long, Concept>{
     void update(Concept oldCon, Concept newCon);
     Concept simpleUpdate(Concept oldCon, Concept newCon);
     UnionOfIntersections getRelationUnion(Concept conA, Concept conB);
-    List<Concept> findByLR(String queryString);
+    List<Concept> findByLanguageRepresentation(String queryString);
     public List<Concept> findAllByNameStarting(String name);    
     List<Concept> getChildrenOf(Concept c);
     List<Concept> getParentsOf(Concept c);

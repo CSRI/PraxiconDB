@@ -25,7 +25,7 @@ public class LanguageRepresentationDaoImpl extends JpaDao<Long, LanguageRepresen
      * @return A LanguageRepresentation (null if not found)
      */
     @Override
-    public LanguageRepresentation findLR(String language, String text, String pos)
+    public LanguageRepresentation findLanguageRepresentation(String language, String text, String pos)
     {
         Query q = getEntityManager().createQuery("SELECT e FROM LanguageRepresentation e " +
                 "where UPPER(e.text) = ?1 and e.lang = ?2 and UPPER(e.POS) = ?3"
@@ -53,7 +53,7 @@ public class LanguageRepresentationDaoImpl extends JpaDao<Long, LanguageRepresen
      * @return A LanguageRepresentation (null if not found)
      */
     @Override
-    public LanguageRepresentation findByLR(String language, String text, String pos)
+    public LanguageRepresentation findByLanguageRepresentation(String language, String text, String pos)
     {
         Query q = getEntityManager().createQuery("SELECT e FROM LanguageRepresentation e " +
                 "where e.text = ?1 and e.lang = ?2 and UPPER(e.POS) = ?3"
@@ -116,8 +116,8 @@ public class LanguageRepresentationDaoImpl extends JpaDao<Long, LanguageRepresen
                 "where UPPER(e.text) = ?1 and UPPER(e.lang) = ?2 and UPPER(e.POS) = ?3"
                 );
         q.setParameter(1, entity.getText().toUpperCase());
-        q.setParameter(2, entity.getLang().toUpperCase());
-        q.setParameter(3, entity.getPOS().toString());
+        q.setParameter(2, entity.getLanguage().name().toUpperCase());
+        q.setParameter(3, entity.getPartOfSpeech().toString());
         
         return q;
     }
@@ -130,7 +130,7 @@ public class LanguageRepresentationDaoImpl extends JpaDao<Long, LanguageRepresen
     @Override
     public List<LanguageRepresentation> getEntriesSorted(Concept c) {
         Query q = getEntityManager().createQuery("SELECT e FROM " +
-                "Concept c, IN(c.LRs) as lr, IN(lr.entries) e " +
+                "Concept c, IN(c.LanguageRepresentations) as lr, IN(lr.entries) e " +
                 "where c=?1 order by e.lang"
                 );
         q.setParameter(1, c);
@@ -145,7 +145,7 @@ public class LanguageRepresentationDaoImpl extends JpaDao<Long, LanguageRepresen
     @Override
     public List<LanguageRepresentation> getEntries(Concept c) {
         Query q = getEntityManager().createQuery("SELECT e FROM " +
-                "Concept c, IN(c.LRs) as lr, IN(lr.entries) e " +
+                "Concept c, IN(c.LanguageRepresentations) as lr, IN(lr.entries) e " +
                 "where c=?1"
                 );
         q.setParameter(1, c);
