@@ -101,7 +101,37 @@ public class LanguageRepresentation implements Serializable {
     @Column(name="Comment")
     private String comment;
 
-    private List<LanguageRepresentationGroup> LanguageRepresentations;
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable(
+        name="LanguageRepresentation_RelationSubject",
+        joinColumns={@JoinColumn(name="LanguageRepresentationId")},
+        inverseJoinColumns={@JoinColumn(name="RelationId")}
+    )
+    private List<Relation> LanguageRepresentationSubject;
+
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable(
+        name="LanguageRepresentation_RelationObject",
+        joinColumns={@JoinColumn(name="LanguageRepresentationId")},
+        inverseJoinColumns={@JoinColumn(name="RelationId")}
+    )
+    private List<Relation> LanguageRepresentationObject;
+
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable(
+        joinColumns={@JoinColumn(name="RelationChainId")},
+        inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
+    )
+    private List<RelationChain> LanguageRepresentationRelationChains;
+
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable(
+        joinColumns={@JoinColumn(name="IntersectionId")},
+        inverseJoinColumns={@JoinColumn(name="LanguagerepresentationId")}
+    )
+    private List<IntersectionOfRelations> LanguageRepresentationIntersections;
+
+
 
 //    /**
 //     * @xmlcomments.args
@@ -214,7 +244,7 @@ public class LanguageRepresentation implements Serializable {
 //
     public LanguageRepresentation()
     {
-        LanguageRepresentations = new ArrayList<LanguageRepresentationGroup>();
+//        LanguageRepresentation = new LanguageRepresentation();
     }
 
     public void setLanguage(Language language) {

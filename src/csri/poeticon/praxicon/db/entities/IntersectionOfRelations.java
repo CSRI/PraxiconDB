@@ -7,7 +7,7 @@ package csri.poeticon.praxicon.db.entities;
 
 import csri.poeticon.praxicon.Constants;
 import csri.poeticon.praxicon.Globals;
-import csri.poeticon.praxicon.db.dao.LRGroupDao;
+import csri.poeticon.praxicon.db.dao.LanguageRepresentationGroupDao;
 import csri.poeticon.praxicon.db.dao.RelationChainDao;
 import csri.poeticon.praxicon.db.dao.implSQL.LanguageRepresentationGroupDaoImpl;
 import csri.poeticon.praxicon.db.dao.implSQL.RelationChainDaoImpl;
@@ -124,7 +124,7 @@ public class IntersectionOfRelations implements Serializable {
         {
             if (Globals.ToMergeAfterUnMarshalling)
             {
-                LRGroupDao lrgDao = new LanguageRepresentationGroupDaoImpl();
+                LanguageRepresentationGroupDao lrgDao = new LanguageRepresentationGroupDaoImpl();
                 List<LanguageRepresentationGroup> lrg = lrgDao.findAllByName(v.get(i).trim());
                 if(lrg!=null && lrg.isEmpty()&&Constants.globalConcepts.get(v.get(i).trim())!=null)
                 {
@@ -135,7 +135,7 @@ public class IntersectionOfRelations implements Serializable {
                     LRGroupNames.addAll(lrg);
                     for(int j  = 0; j < lrg.size(); j++)
                     {
-                        lrg.get(j).getLRIntersections().add(this);
+                        lrg.get(j).getLanguageRepresentationIntersections().add(this);
                     }
                 }
                 else
@@ -143,7 +143,7 @@ public class IntersectionOfRelations implements Serializable {
                     LanguageRepresentationGroup c = new LanguageRepresentationGroup();
 
                     c.setName(v.get(i));
-                    c.getLRIntersections().add(this);
+                    c.getLanguageRepresentationIntersections().add(this);
                     lrgDao.persist(c);
                     LRGroupNames.add(c);
                 }
@@ -153,7 +153,7 @@ public class IntersectionOfRelations implements Serializable {
              {
                 LanguageRepresentationGroup c = new LanguageRepresentationGroup();
                 c.setName(v.get(i));
-                c.getLRIntersections().add(this);
+                c.getLanguageRepresentationIntersections().add(this);
                 if (Constants.globalConcepts.contains(c))
                 {
                     LRGroupNames.add((LanguageRepresentationGroup)Constants.globalConcepts.get(c.getName()));

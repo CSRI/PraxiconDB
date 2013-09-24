@@ -129,19 +129,14 @@ public class Concept implements Serializable {
     @Column(name="Comment")
     protected String description;
 
-    @ManyToMany(cascade=CascadeType.ALL)
-    @JoinTable(
-        name="Concept_LanguageResource",
-        joinColumns={@JoinColumn(name="ConceptId")},
-        inverseJoinColumns={@JoinColumn(name="LanguageResourceId")}
-    )
-    private List<LanguageRepresentationGroup> LanguageRepresentations;
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "owner")
+    private List<LanguageRepresentation> LanguageRepresentation;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "owner")
-    private List<VisualRepresentationGroup> VisualRepresentations;
+    private List<VisualRepresentation> VisualRepresentation;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "owner")
-    private List<MotoricRepresentationGroup> motoricRepresentations;
+    private List<MotoricRepresentation> MotoricRepresentation;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "concept")
     private List<UnionOfIntersections> relations;
@@ -158,20 +153,53 @@ public class Concept implements Serializable {
         this.objOfRelations = objOfRelations;
     }
 
+
+        /**
+     * @xmlcomments.args
+     *	   xmltag="&lt;vr&gt;"
+     *     xmldescription="This tag defines the Language Representation of the
+     *     concept"
+     */
+    @XmlElement(name="lr")
+    public LanguageRepresentation getLanguageRepresentation() {
+        return language_representation;
+    }
+
+    public List<LanguageRepresentation> getLanguageRepresentationsEntries() {
+        List<LanguageRepresentation> languageRepresentationEntries = new ArrayList<LanguageRepresentation>();
+        for (int i = 0; i<this.LanguageRepresentation.size(); i++)
+        {
+            languageRepresentationEntries.addAll(LanguageRepresentation.get(i).getEntries());
+        }
+        return languageRepresentationEntries;
+    }
+
+    public void addLanguageRepresentation(LanguageRepresentation language_representation)
+    {
+        language_representation.setOwner(this);
+        this.LanguageRepresentation.add(language_representation);
+    }
+
+    public void setLanguageRepresentation(LanguageRepresentation language_representation) {
+        language_representation.setOwner(this);
+        this.LanguageRepresentation = language_representation;
+    }
+
+
+
     /**
      * Gets text of the first language representation of language "en" for this concept
      * @return a string
      */
     public String getLanguageRepresentationName()
     {
-        List<LanguageRepresentation> les = this.getLanguageRepresentationsEntries();
-        for(int i = 0; i < les.size(); i++)
-        {
-            if (les.get(i).getLang().equalsIgnoreCase("en"))
+        LanguageRepresentation les = this.getLanguageRepresentation();
+        
+            if (les.get(i).getLanguage().name().equalsIgnoreCase("en"))
             {
                 return les.get(i).getText();
             }
-        }
+        
 
         if (les.size() > 0)
         {
@@ -858,9 +886,9 @@ public class Concept implements Serializable {
     {
         description = "";
         specificity_level = Concept.SpecificityLevel.UNKNOWN;
-        LanguageRepresentations = new ArrayList<LanguageRepresentationGroup>();
-        VisualRepresentations = new ArrayList<VisualRepresentationGroup>();
-        motoricRepresentations = new ArrayList<MotoricRepresentationGroup>();
+        LanguageRepresentation = new LanguageRepresentation();
+        VisualRepresentation = new VisualRepresentation();
+        MotoricRepresentation = new MotoricRepresentation();
         objOfRelations =  new ArrayList<Relation>();
         relations = new ArrayList<UnionOfIntersections>();
     }
@@ -872,17 +900,12 @@ public class Concept implements Serializable {
      *     concept"
      */
     @XmlElement(name="lr")
-    public List<LanguageRepresentationGroup> getLanguageRepresentations() {
-        return LanguageRepresentations;
+    public LanguageRepresentation getLanguageRepresentation() {
+        return LanguageRepresentation;
     }
 
-    public List<LanguageRepresentation> getLanguageRepresentationsEntries() {
-        List<LanguageRepresentation> lrEntries = new ArrayList<LanguageRepresentation>();
-        for (int i = 0; i<this.LanguageRepresentations.size(); i++)
-        {
-            lrEntries.addAll(LanguageRepresentations.get(i).getEntries());
-        }
-        return lrEntries;
+    public LanguageRepresentation getLanguageRepresentationsEntries() {
+        return language_representation;
     }
 
     /**
@@ -892,15 +915,15 @@ public class Concept implements Serializable {
      *     concept"
      */
     @XmlElement(name="vr")
-    public List<VisualRepresentationGroup> getVisualRepresentations() {
-        return VisualRepresentations;
+    public VisualRepresentation getVisualRepresentation() {
+        return visual_representation;
     }
 
     public List<VisualRepresentation> getVisualRepresentationsEntries() {
         List<VisualRepresentation> visualRepresentationEntries = new ArrayList<VisualRepresentation>();
-        for (int i = 0; i<this.VisualRepresentations.size(); i++)
+        for (int i = 0; i<this.VisualRepresentation.size(); i++)
         {
-            visualRepresentationEntries.addAll(VisualRepresentations.get(i).getEntries());
+            visualRepresentationEntries.addAll(VisualRepresentation.get(i).getEntries());
         }
         return visualRepresentationEntries;
     }
@@ -911,16 +934,16 @@ public class Concept implements Serializable {
         this.VisualRepresentations.add(VisualRepresentation);
     }
 
-    public void setVisualRepresentations(List<VisualRepresentationGroup> VisualRepresentations) {
+    public void setVisualRepresentation(List<VisualRepresentationGroup> VisualRepresentations) {
         for(int i = 0; i <  VisualRepresentations.size(); i++)
         {
             VisualRepresentations.get(i).setOwner(this);
         }
-        this.VisualRepresentations = VisualRepresentations;
+        this.VisualRepresentation = VisualRepresentation;
     }
 
-    public void setLanguageRepresentations(List<LanguageRepresentationGroup> LanguageRepresentations) {
-        this.LanguageRepresentations = LanguageRepresentations;
+    public void setLanguageRepresentation(LanguageRepresentation language_representation) {
+        this.LanguageRepresentation = language_representation;
     }
 
     /**
@@ -930,26 +953,26 @@ public class Concept implements Serializable {
      */
     @XmlElement(name="mr")
     public List<MotoricRepresentationGroup> getMotoricRepresentations() {
-        return motoricRepresentations;
+        return motoricRepresentation;
     }
 
     public List<MotoricRepresentation> getMotoricRepresentationsEntries() {
         List<MotoricRepresentation> motoricRepresentationEntries = new ArrayList<MotoricRepresentation>();
-        for (int i = 0; i<this.motoricRepresentations.size(); i++)
+        for (int i = 0; i<this.MotoricRepresentation.size(); i++)
         {
-            motoricRepresentationEntries.addAll(motoricRepresentations.get(i).getEntries());
+            motoricRepresentationEntries.addAll(motoricRepresentation.get(i).getEntries());
         }
         return motoricRepresentationEntries;
     }
 
     public void setMotoricRepresentations(List<MotoricRepresentationGroup> motoricRepresentations) {
-        this.motoricRepresentations = motoricRepresentations;
+        this.motoricRepresentation = motoricRepresentation;
     }
 
     public void addMotoricRepresentation(MotoricRepresentationGroup MotoricRepresentation)
     {
         MotoricRepresentation.setOwner(this);
-        this.motoricRepresentations.add(MotoricRepresentation);
+        this.MotoricRepresentation.add(MotoricRepresentation);
     }
 
     @XmlAttribute
@@ -1136,9 +1159,9 @@ public class Concept implements Serializable {
         this.description=newCon.getDescription();
         this.pragmatic_status=newCon.getPragmaticStatus();
         this.status = newCon.getStatus();
-        LanguageRepresentations = new ArrayList<LanguageRepresentationGroup>();
-        VisualRepresentations = new ArrayList<VisualRepresentationGroup>();
-        motoricRepresentations = new ArrayList<MotoricRepresentationGroup>();
+        LanguageRepresentation = new LanguageRepresentation();
+        VisualRepresentation = new ArrayList<VisualRepresentationGroup>();
+        MotoricRepresentation = new ArrayList<MotoricRepresentationGroup>();
         objOfRelations =  new ArrayList<Relation>();
         relations = new ArrayList<UnionOfIntersections>();
         this.name = newCon.name;

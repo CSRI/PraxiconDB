@@ -43,51 +43,10 @@ public class LanguageRepresentationGroup implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
     @Column(name="LR_GROUP_ID")
     private Long id;
-    
+
     @Column(name="NAME")
     private String name;
 
-    @ManyToMany(cascade=CascadeType.ALL)
-    @JoinTable(
-        name="LRGROUP_LR",
-        joinColumns={@JoinColumn(name="LR_GROUP_ID")},
-        inverseJoinColumns={@JoinColumn(name="LANG_ENT_ID")}
-    )
-    private List<LanguageRepresentation> entries;
-
-    @ManyToMany(cascade=CascadeType.ALL)
-    @JoinTable(
-        name="LRGROUP_RELATIONSUBJECT",
-        joinColumns={@JoinColumn(name="LRGROUP_ID")},
-        inverseJoinColumns={@JoinColumn(name="RELATION_ID")}
-    )
-    private List<Relation> LRSubject;
-
-    @ManyToMany(cascade=CascadeType.ALL)
-    @JoinTable(
-        name="LRGROUP_RELATIONOBJECT",
-        joinColumns={@JoinColumn(name="LRGROUP_ID")},
-        inverseJoinColumns={@JoinColumn(name="RELATION_ID")}
-    )
-    private List<Relation> LRObject;
-
-    @ManyToMany(cascade=CascadeType.ALL)
-    @JoinTable(
-        joinColumns={@JoinColumn(name="CHAIN_ID")},
-        inverseJoinColumns={@JoinColumn(name="LRGROUP_ID")}
-    )
-    private List<RelationChain> LRRelationChains;
-
-    @ManyToMany(cascade=CascadeType.ALL)
-    @JoinTable(
-        joinColumns={@JoinColumn(name="INTERSECTION_ID")},
-        inverseJoinColumns={@JoinColumn(name="LRGROUP_ID")}
-    )
-    private List<IntersectionOfRelations> LRIntersections;
-
-    @ManyToMany(mappedBy="LRs")
-    private List<Concept> concepts;
-    
     @XmlAttribute()
     public String getName() {
         return name;
@@ -151,7 +110,7 @@ public class LanguageRepresentationGroup implements Serializable {
         this.LRSubject = LRSubject;
     }
 
-    public LanguageRepresentationGroup()
+    public LRGroup()
     {
         entries = new ArrayList<LanguageRepresentation>();
         concepts = new ArrayList<Concept>();
@@ -193,10 +152,10 @@ public class LanguageRepresentationGroup implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof LanguageRepresentationGroup)) {
+        if (!(object instanceof LRGroup)) {
             return false;
         }
-        LanguageRepresentationGroup other = (LanguageRepresentationGroup) object;
+        LRGroup other = (LRGroup) object;
         if (this.getEntries().size() == other.getEntries().size())
         {
             boolean eq= true;
@@ -242,7 +201,7 @@ public class LanguageRepresentationGroup implements Serializable {
     {
         if (this.getName()!=null && Constants.globalConcepts.get(this.getName())!=null)
         {
-            this.setId(((LanguageRepresentationGroup)Constants.globalConcepts.get(this.getName())).getId());
+            this.setId(((LRGroup)Constants.globalConcepts.get(this.getName())).getId());
         }
         else
         {

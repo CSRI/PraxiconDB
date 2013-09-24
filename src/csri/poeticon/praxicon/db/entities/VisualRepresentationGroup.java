@@ -34,13 +34,13 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @XmlRootElement()
 @Entity
-@Table(name="VRGROUP")
+@Table(name="VisualRepresentationGROUP")
 public class VisualRepresentationGroup implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
-    @Column(name="VR_GROUP_ID")
+    @Column(name="VisualRepresentation_GROUP_ID")
     private Long id;
 
     @Column(name="NAME")
@@ -55,40 +55,40 @@ public class VisualRepresentationGroup implements Serializable {
     
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
-        name="VRGROUP_RELATIONSUBJECT",
-        joinColumns={@JoinColumn(name="VRGROUP_ID")},
+        name="VisualRepresentationGROUP_RELATIONSUBJECT",
+        joinColumns={@JoinColumn(name="VisualRepresentationGROUP_ID")},
         inverseJoinColumns={@JoinColumn(name="RELATION_ID")}
     )
-    private List<Relation> VRSubject;
+    private List<Relation> VisualRepresentationSubject;
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
-        name="VRGROUP_RELATIONOBJECT",
-        joinColumns={@JoinColumn(name="VRGROUP_ID")},
+        name="VisualRepresentationGROUP_RELATIONOBJECT",
+        joinColumns={@JoinColumn(name="VisualRepresentationGROUP_ID")},
         inverseJoinColumns={@JoinColumn(name="RELATION_ID")}
     )
-    private List<Relation> VRObject;
+    private List<Relation> VisualRepresentationObject;
 
     @XmlTransient
-    public List<Relation> getVRObject()
+    public List<Relation> getVisualRepresentationObject()
     {
-        return VRObject;
+        return VisualRepresentationObject;
     }
 
-    public void setVRObject(List<Relation> VRObject)
+    public void setVisualRepresentationObject(List<Relation> VisualRepresentationObject)
     {
-        this.VRObject = VRObject;
+        this.VisualRepresentationObject = VisualRepresentationObject;
     }
 
     @XmlTransient
-    public List<Relation> getVRSubject()
+    public List<Relation> getVisualRepresentationSubject()
     {
-        return VRSubject;
+        return VisualRepresentationSubject;
     }
 
-    public void setVRSubject(List<Relation> VRSubject)
+    public void setVisualRepresentationSubject(List<Relation> VisualRepresentationSubject)
     {
-        this.VRSubject = VRSubject;
+        this.VisualRepresentationSubject = VisualRepresentationSubject;
     }
 
     @XmlElement(name="vr_entry")
@@ -130,8 +130,8 @@ public class VisualRepresentationGroup implements Serializable {
     public VisualRepresentationGroup()
     {
         this.entries = new ArrayList<VisualRepresentation>();
-        this.VRObject = new ArrayList<Relation>();
-        this.VRSubject = new ArrayList<Relation>();
+        this.VisualRepresentationObject = new ArrayList<Relation>();
+        this.VisualRepresentationSubject = new ArrayList<Relation>();
     }
 
     @Override
@@ -177,7 +177,7 @@ public class VisualRepresentationGroup implements Serializable {
 
     @Override
     public String toString() {
-        return "csri.poeticon.praxicon.db.entities.VRGroup[id=" + id + "]";
+        return "csri.poeticon.praxicon.db.entities.VisualRepresentationGroup[id=" + id + "]";
     }
 
     public void add(VisualRepresentation vr)

@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Erevodifwntas
+ * @author Dimitris Mavroeidis
  */
 @XmlRootElement()
 @Entity
@@ -81,7 +81,7 @@ public class Relation implements Serializable {
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
     )
-    List<LanguageRepresentationGroup> LanguageRepresentationGroupSubject;
+    LanguageRepresentation LanguageRepresentationSubject;
 
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="LangugageRepresentationObject")
     @JoinTable(
@@ -89,7 +89,7 @@ public class Relation implements Serializable {
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
     )
-    List<LanguageRepresentationGroup> LanguageRepresentationGroupObject;
+    LanguageRepresentation LanguageRepresentationObject;
 
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="MotoricRepresentationSubject")
     @JoinTable(
@@ -97,7 +97,7 @@ public class Relation implements Serializable {
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="MotoricId")}
     )
-    List<MotoricRepresentationGroup> MotoricRepresentationGroupSubject;
+    MotoricRepresentation MotoricRepresentationSubject;
 
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="MotoricRepresentationObject")
     @JoinTable(
@@ -105,7 +105,7 @@ public class Relation implements Serializable {
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="MotoricRepresentationId")}
     )
-    List<MotoricRepresentationGroup> MotoricRepresentationGroupObject;
+    MotoricRepresentation MotoricRepresentationObject;
 
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="VisualRepresentationSubject")
     @JoinTable(
@@ -113,7 +113,7 @@ public class Relation implements Serializable {
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="VisualRepresentationId")}
     )
-    List<VisualRepresentationGroup> VisualRepresentationGroupSubject;
+    VisualRepresentation VisualRepresentationSubject;
 
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="VisualRepresentationObject")
     @JoinTable(
@@ -121,17 +121,17 @@ public class Relation implements Serializable {
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="VisualRepresentationId")}
     )
-    List<VisualRepresentationGroup> VisualRepresentationGroupObject;
+    VisualRepresentation VisualRepresentationObject;
 
     public Relation()
     {
         mainFunctions = new ArrayList<RelationChain_Relation>();
-        VisualRepresentationGroupObject = new ArrayList<VisualRepresentationGroup>();
-        VisualRepresentationGroupSubject = new ArrayList<VisualRepresentationGroup>();
-        LanguageRepresentationGroupObject = new ArrayList<LanguageRepresentationGroup>();
-        LanguageRepresentationGroupSubject = new ArrayList<LanguageRepresentationGroup>();
-        MotoricRepresentationGroupObject = new ArrayList<MotoricRepresentationGroup>();
-        MotoricRepresentationGroupSubject = new ArrayList<MotoricRepresentationGroup>();
+        VisualRepresentationObject = new VisualRepresentation();
+        VisualRepresentationSubject = new VisualRepresentation();
+        LanguageRepresentationObject = new LanguageRepresentation();
+        LanguageRepresentationSubject = new LanguageRepresentation();
+        MotoricRepresentationObject = new MotoricRepresentation();
+        MotoricRepresentationSubject = new MotoricRepresentation();
         type = new TypeOfRelation();
     }
 
@@ -343,9 +343,9 @@ public class Relation implements Serializable {
     }
 
    @XmlTransient
-    public List<LanguageRepresentationGroup> getLanguageRepresentationGroupObject()
+    public LanguageRepresentation getLanguageRepresentationObject()
     {
-        return LanguageRepresentationGroupObject;
+        return LanguageRepresentationObject;
     }
 
    /**
@@ -353,20 +353,17 @@ public class Relation implements Serializable {
      *	   xmltag="&lt;LanguageRepresentationGroupObject&gt;"
      *     xmldescription="This tag defines the LanguageRepresentationGroup that should be used to express the Object in this relation"
      */
-   @XmlElement(name="LanguageRepresentationGroupObject")
-    public List<String> getLanguageRepresentationGroupObject_()
+   @XmlElement(name="LanguageRepresentationObject")
+    public String getLanguageRepresentationObject_()
     {
-       List<String> LanguageRepresentationGroupObject_ = new ArrayList<String>();
-       for(int i = 0; i < LanguageRepresentationGroupObject.size(); i++)
-       {
-           LanguageRepresentationGroupObject_.add(LanguageRepresentationGroupObject.get(i).getName());
-       }
-        return LanguageRepresentationGroupObject_;
+        String LanguageRepresentationObject_ = new String();
+        LanguageRepresentationObject_ = LanguageRepresentationObject.getText();
+        return LanguageRepresentationObject_;
     }
 
-    public void setLanguageRepresentationGroupObject(List<LanguageRepresentationGroup> LanguageRepresentationGroupObject)
+    public void setLanguageRepresentationObject(LanguageRepresentation LanguageRepresentationObject)
     {
-        this.LanguageRepresentationGroupObject = LanguageRepresentationGroupObject;
+        this.LanguageRepresentationObject = LanguageRepresentationObject;
     }
 
     private void setLanguageRepresentationGroupObject_(List<String> v) throws Exception
@@ -853,6 +850,4 @@ public class Relation implements Serializable {
             this.subject = cDao.getEntity(subject);
         }
     }
-
-
 }

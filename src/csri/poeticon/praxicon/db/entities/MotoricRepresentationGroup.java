@@ -34,13 +34,13 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @XmlRootElement()
 @Entity
-@Table(name="MRGROUP")
+@Table(name="MotoricRepresentationGROUP")
 public class MotoricRepresentationGroup implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
-    @Column(name="MR_GROUP_ID")
+    @Column(name="MotoricRepresentation_GROUP_ID")
     private Long id;
 
     @Column(name="NAME")
@@ -56,40 +56,40 @@ public class MotoricRepresentationGroup implements Serializable {
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
-        name="MRGROUP_RELATIONOBJECT",
-        joinColumns={@JoinColumn(name="MRGROUP_ID")},
+        name="MotoricRepresentationGROUP_RELATIONOBJECT",
+        joinColumns={@JoinColumn(name="MotoricRepresentationGROUP_ID")},
         inverseJoinColumns={@JoinColumn(name="RELATION_ID")}
     )
-    private List<Relation> MRObject;
+    private List<Relation> MotoricRepresentationObject;
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
-        name="MRGROUP_RELATIONSUBJECT",
-        joinColumns={@JoinColumn(name="MRGROUP_ID")},
+        name="MotoricRepresentationGROUP_RELATIONSUBJECT",
+        joinColumns={@JoinColumn(name="MotoricRepresentationGROUP_ID")},
         inverseJoinColumns={@JoinColumn(name="RELATION_ID")}
     )
-    private List<Relation> MRSubject;
+    private List<Relation> MotoricRepresentationSubject;
 
     @XmlTransient
-    public List<Relation> getMRObject()
+    public List<Relation> getMotoricRepresentationObject()
     {
-        return MRObject;
+        return MotoricRepresentationObject;
     }
 
-    public void setMRObject(List<Relation> MRObject)
+    public void setMotoricRepresentationObject(List<Relation> MotoricRepresentationObject)
     {
-        this.MRObject = MRObject;
+        this.MotoricRepresentationObject = MotoricRepresentationObject;
     }
 
     @XmlTransient
-    public List<Relation> getMRSubject()
+    public List<Relation> getMotoricRepresentationSubject()
     {
-        return MRSubject;
+        return MotoricRepresentationSubject;
     }
 
-    public void setMRSubject(List<Relation> MRSubject)
+    public void setMotoricRepresentationSubject(List<Relation> MotoricRepresentationSubject)
     {
-        this.MRSubject = MRSubject;
+        this.MotoricRepresentationSubject = MotoricRepresentationSubject;
     }
 
     @XmlElement(name="mr_entry")
@@ -131,8 +131,8 @@ public class MotoricRepresentationGroup implements Serializable {
     public MotoricRepresentationGroup()
     {
         this.entries = new ArrayList<MotoricRepresentation>();
-        this.MRObject = new ArrayList<Relation>();
-        this.MRSubject = new ArrayList<Relation>();
+        this.MotoricRepresentationObject = new ArrayList<Relation>();
+        this.MotoricRepresentationSubject = new ArrayList<Relation>();
     }
 
     @Override
@@ -179,7 +179,7 @@ public class MotoricRepresentationGroup implements Serializable {
 
     @Override
     public String toString() {
-        return "csri.poeticon.praxicon.db.entities.MRGroup[id=" + id + "]";
+        return "csri.poeticon.praxicon.db.entities.MotoricRepresentationGroup[id=" + id + "]";
     }
 
     public void afterUnmarshal(Unmarshaller u, Object parent)
