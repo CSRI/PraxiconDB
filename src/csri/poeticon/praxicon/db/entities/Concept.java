@@ -107,7 +107,7 @@ public class Concept implements Serializable {
 
     @Column(name="Type")
     @Enumerated(EnumType.STRING)
-    protected Type conceptType;
+    protected Type concept_type;
 
     @Column(name="SpecificityLevel")
     @Enumerated(EnumType.STRING)
@@ -172,8 +172,72 @@ public class Concept implements Serializable {
         relations = new ArrayList<UnionOfIntersections>();
     }
 
-
-}
+    private Concept(Concept newConcept)
+    {
+        this.concept_type=newConcept.getConceptType();
+        this.specificity_level=newConcept.basicLevel();
+        this.description=newConcept.getDescription();
+        this.pragmatic_status=newConcept.getPragmaticStatus();
+        this.status = newConcept.getStatus();
+        language_representations = new ArrayList<LanguageRepresentation>();
+        visual_representations = new ArrayList<VisualRepresentation>();
+        motoric_representations = new ArrayList<MotoricRepresentation>();
+        object_of_relation =  new ArrayList<Relation>();
+        relations = new ArrayList<UnionOfIntersections>();
+        this.name = newConcept.name;
+    }
+//        for(int i = 0; i < newCon.getLanguageRepresentations().size(); i++)
+//        {
+//            if (!this.getLanguageRepresentations().contains(newCon.getLanguageRepresentations().get(i)))
+//            {
+//                newCon.getLanguageRepresentations().get(i).getConcepts().remove(newCon);
+//                this.getLanguageRepresentations().add(newCon.getLanguageRepresentations().get(i));
+//            }
+//        }
+//
+//        for(int i = 0; i < newCon.getVisualRepresentations().size(); i++)
+//        {
+//            if (!this.getVisualRepresentations().contains(newCon.getVisualRepresentations().get(i)))
+//            {
+//                newCon.getVisualRepresentations().get(i).setOwner(this);
+//                this.getVisualRepresentations().add(newCon.getVisualRepresentations().get(i));
+//            }
+//        }
+//
+//        for(int i = 0; i < newCon.getMotoricRepresentations().size(); i++)
+//        {
+//            if (!this.getMotoricRepresentations().contains(newCon.getMotoricRepresentations().get(i)))
+//            {
+//                newCon.getMotoricRepresentations().get(i).setOwner(this);
+//                this.getMotoricRepresentations().add(newCon.getMotoricRepresentations().get(i));
+//            }
+//        }
+//
+//        for(int i = 0; i < newCon.getObjOfRelations().size(); i++)
+//        {
+//            if (!this.getObjOfRelations().contains(newCon.getObjOfRelations().get(i)))
+//            {
+//                if (newCon.getObjOfRelations().get(i).getObject().equals(newCon))
+//                {
+//                    newCon.getObjOfRelations().get(i).setObject(this);
+//                }
+//                else
+//                {
+//                    newCon.getObjOfRelations().get(i).setSubject(this);
+//                }
+//                this.getObjOfRelations().add(newCon.getObjOfRelations().get(i));
+//            }
+//        }
+//
+//        for(int i = 0; i < newCon.getRelations().size(); i++)
+//        {
+//            if (!this.getRelations().contains(newCon.getRelations().get(i)))
+//            {
+//                newCon.getRelations().get(i).setConcept(this);
+//                this.getRelations().add(newCon.getRelations().get(i));
+//            }
+//        }
+//    }
 
 //
 //    @XmlTransient
@@ -239,30 +303,30 @@ public class Concept implements Serializable {
 //        return "noname";
 //    }
 //
-//    /**
-//     * Gets the basic level of this concept as text
-//     * @return "basic_level" of "";
-//     */
-//    public String getLevelType()
-//    {
-//        if(isBasicLevel() == Concept.SpecificityLevel.BASIC_LEVEL)
-//        {
-//            return "basic_level";
-//        }
-//        else if (isBasicLevel() == Concept.SpecificityLevel.ABOVE_BASIC_LEVEL)
-//        {
-//            return "above_basic_level";
-//        }
-//        else if (isBasicLevel() == Concept.SpecificityLevel.BELOW_BASIC_LEVEL)
-//        {
-//            return "below_basic_level";
-//        }
-//        else
-//        {
-//            return "";
-//        }
-//    }
-//
+    /**
+     * Gets the basic level of this concept as text
+     * @return "basic_level" of "";
+     */
+    public String getSpecificityLevel()
+    {
+        if (basicLevel() == Concept.SpecificityLevel.BASIC_LEVEL)
+        {
+            return "basic_level";
+        }
+        else if (basicLevel() == Concept.SpecificityLevel.ABOVE_BASIC_LEVEL)
+        {
+            return "above_basic_level";
+        }
+        else if (basicLevel() == Concept.SpecificityLevel.BELOW_BASIC_LEVEL)
+        {
+            return "below_basic_level";
+        }
+        else
+        {
+            return "";
+        }
+    }
+
 //    /**
 //     * Gets a trimmed version of the concept name
 //     * @return a string
@@ -311,32 +375,36 @@ public class Concept implements Serializable {
 //        return relations;
 //    }
 //
-//    /**
-//     * @xmlcomments.args
-//     *	   xmltag="&lt;description&gt;"
-//     *     xmldescription="This tag defines is a field for future use"
-//     */
-//    @XmlElement(name="description")
-//    public String getDescription()
-//    {
-//        return description;
-//    }
-//
-//    public void setDescription(String description)
-//    {
-//        this.description = description.trim();
-//    }
-//
-//    /**
-//     * @xmlcomments.args
-//     *	   xmltag="&lt;is_basic_level&gt;"
-//     *     xmldescription="This tag defines if the entity is basic level"
-//     */
-//    @XmlElement(name="is_basic_level")
-//    public SpecificityLevel isBasicLevel()
-//    {
-//        return specificity_level;
-//    }
+    /**
+     * @xmlcomments.args
+     *	   xmltag="&lt;description&gt;"
+     *     xmldescription="This tag defines is a field for future use"
+     */
+    @XmlElement(name="description")
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description.trim();
+    }
+
+
+    /**
+     * @xmlcomments.args
+     *	   xmltag="&lt;is_basic_level&gt;"
+     *     xmldescription="This tag defines if the entity is basic level"
+     */
+    @XmlElement(name="is_basic_level")
+    public SpecificityLevel basicLevel()
+    {
+        return specificity_level;
+    }
+
+
+
 //
 //    public void setSpecificityLevel(String levelType)
 //    {
@@ -423,73 +491,76 @@ public class Concept implements Serializable {
 //        return sb.toString();
 //    }
 //
-//    /**
-//     * @xmlcomments.args
-//     *	   xmltag="&lt;type&gt;"
-//     *     xmldescription="This tag defines the type of the entity (movement, entity,
-//     *                     feature, abstract)"
-//     */
-//    @XmlElement(name="type")
-//    public Type getConceptType()
-//    {
-//        return concept_type;
-//    }
-//
-//    public void setConceptType(Type conceptType)
-//    {
-//        this.concept_type = conceptType;
-//    }
-//
-//    public void setConceptType(String conceptType)
-//    {
-//        this.concept_type = Type.valueOf(conceptType.trim().toUpperCase());
-//    }
-//
-//    /**
-//     * @xmlcomments.args
-//     *	   xmltag="&lt;p_status&gt;"
-//     *     xmldescription="This tag defines if the entity is literal or figurative"
-//     */
-//    @XmlElement(name="p_status")
-//    public PragmaticStatus getPragmaticStatus()
-//    {
-//        return pragmatic_status;
-//    }
-//
-//    public void setPragmaticStatus(PragmaticStatus pragmatic_status)
-//    {
-//        this.pragmatic_status = pragmatic_status;
-//    }
-//
-//    public void setPragmaticStatus(String pragmatic_status)
-//    {
-//        String tmp = pragmatic_status;
-//        tmp = tmp.replace(".", "_");
-//        tmp = tmp.replace(":", "_");
-//        this.pragmatic_status = PragmaticStatus.valueOf(tmp.trim().toUpperCase());
-//    }
-//
-//    /**
-//     * @xmlcomments.args
-//     *	   xmltag="&lt;status&gt;"
-//     *     xmldescription="This tag defines if the entity is a variable, an analogy or a constant"
-//     */
-//    @XmlElement(name="status")
-//    public Status getStatus()
-//    {
-//        return status;
-//    }
-//
-//    public void setStatus(Status varType)
-//    {
-//        this.status = varType;
-//    }
-//
-//    public void setStatus(String varType)
-//    {
-//        this.status = Status.valueOf(varType.trim().toUpperCase());
-//    }
-//
+    /**
+     * @xmlcomments.args
+     *	   xmltag="&lt;type&gt;"
+     *     xmldescription="This tag defines the type of the entity (movement, entity,
+     *                     feature, abstract)"
+     */
+    @XmlElement(name="type")
+    public Type getConceptType()
+    {
+        return concept_type;
+    }
+
+
+
+    public void setConceptType(Type conceptType)
+    {
+        this.concept_type = conceptType;
+    }
+
+    public void setConceptType(String conceptType)
+    {
+        this.concept_type = Type.valueOf(conceptType.trim().toUpperCase());
+    }
+
+
+    /**
+     * @xmlcomments.args
+     *	   xmltag="&lt;p_status&gt;"
+     *     xmldescription="This tag defines if the entity is literal or figurative"
+     */
+    @XmlElement(name="p_status")
+    public PragmaticStatus getPragmaticStatus()
+    {
+        return pragmatic_status;
+    }
+
+    public void setPragmaticStatus(PragmaticStatus pragmatic_status)
+    {
+        this.pragmatic_status = pragmatic_status;
+    }
+
+    public void setPragmaticStatus(String pragmatic_status)
+    {
+        String tmp = pragmatic_status;
+        tmp = tmp.replace(".", "_");
+        tmp = tmp.replace(":", "_");
+        this.pragmatic_status = PragmaticStatus.valueOf(tmp.trim().toUpperCase());
+    }
+
+    /**
+     * @xmlcomments.args
+     *	   xmltag="&lt;status&gt;"
+     *     xmldescription="This tag defines if the entity is a variable, an analogy or a constant"
+     */
+    @XmlElement(name="status")
+    public Status getStatus()
+    {
+        return status;
+    }
+
+    public void setStatus(Status varType)
+    {
+        this.status = varType;
+    }
+
+    public void setStatus(String varType)
+    {
+        this.status = Status.valueOf(varType.trim().toUpperCase());
+    }
+
 //    /**
 //     * Adds a new union of intersections to this concept containg an intersection
 //     * of relations created using given relation types (fw+bw) and given relation objects
@@ -1174,70 +1245,5 @@ public class Concept implements Serializable {
 //        }
 //    }
 //
-//    private Concept(Concept newCon)
-//    {
-//        this.concept_type=newCon.getConceptType();
-//        this.specificity_level=newCon.isBasicLevel();
-//        this.description=newCon.getDescription();
-//        this.pragmatic_status=newCon.getPragmaticStatus();
-//        this.status = newCon.getStatus();
-//        LanguageRepresentation = new LanguageRepresentation();
-//        VisualRepresentation = new ArrayList<VisualRepresentationGroup>();
-//        MotoricRepresentation = new ArrayList<MotoricRepresentationGroup>();
-//        objOfRelations =  new ArrayList<Relation>();
-//        relations = new ArrayList<UnionOfIntersections>();
-//        this.name = newCon.name;
-//
-//        for(int i = 0; i < newCon.getLanguageRepresentations().size(); i++)
-//        {
-//            if (!this.getLanguageRepresentations().contains(newCon.getLanguageRepresentations().get(i)))
-//            {
-//                newCon.getLanguageRepresentations().get(i).getConcepts().remove(newCon);
-//                this.getLanguageRepresentations().add(newCon.getLanguageRepresentations().get(i));
-//            }
-//        }
-//
-//        for(int i = 0; i < newCon.getVisualRepresentations().size(); i++)
-//        {
-//            if (!this.getVisualRepresentations().contains(newCon.getVisualRepresentations().get(i)))
-//            {
-//                newCon.getVisualRepresentations().get(i).setOwner(this);
-//                this.getVisualRepresentations().add(newCon.getVisualRepresentations().get(i));
-//            }
-//        }
-//
-//        for(int i = 0; i < newCon.getMotoricRepresentations().size(); i++)
-//        {
-//            if (!this.getMotoricRepresentations().contains(newCon.getMotoricRepresentations().get(i)))
-//            {
-//                newCon.getMotoricRepresentations().get(i).setOwner(this);
-//                this.getMotoricRepresentations().add(newCon.getMotoricRepresentations().get(i));
-//            }
-//        }
-//
-//        for(int i = 0; i < newCon.getObjOfRelations().size(); i++)
-//        {
-//            if (!this.getObjOfRelations().contains(newCon.getObjOfRelations().get(i)))
-//            {
-//                if (newCon.getObjOfRelations().get(i).getObject().equals(newCon))
-//                {
-//                    newCon.getObjOfRelations().get(i).setObject(this);
-//                }
-//                else
-//                {
-//                    newCon.getObjOfRelations().get(i).setSubject(this);
-//                }
-//                this.getObjOfRelations().add(newCon.getObjOfRelations().get(i));
-//            }
-//        }
-//
-//        for(int i = 0; i < newCon.getRelations().size(); i++)
-//        {
-//            if (!this.getRelations().contains(newCon.getRelations().get(i)))
-//            {
-//                newCon.getRelations().get(i).setConcept(this);
-//                this.getRelations().add(newCon.getRelations().get(i));
-//            }
-//        }
-//    }
-//}
+
+}
