@@ -9,8 +9,10 @@ import csri.poeticon.praxicon.Constants;
 import csri.poeticon.praxicon.Globals;
 import csri.poeticon.praxicon.db.dao.ConceptDao;
 import csri.poeticon.praxicon.db.dao.RelationDao;
+import csri.poeticon.praxicon.db.dao.LanguageRepresentationDao;
 import csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
 import csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
+import csri.poeticon.praxicon.db.dao.implSQL.LanguageRepresentationDaoImpl;
 import csri.poeticon.praxicon.db.entities.listeners.ConceptListener;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -109,7 +111,7 @@ public class Concept implements Serializable {
 
     @Column(name="SpecificityLevel")
     @Enumerated(EnumType.STRING)
-    protected SpecificityLevel specificityLevel;
+    protected SpecificityLevel specificity_level;
 
     @Column(name="Status")
     @Enumerated(EnumType.STRING)
@@ -117,11 +119,11 @@ public class Concept implements Serializable {
 
     @Column(name="UniqueInstance")
     @Enumerated(EnumType.STRING)
-    protected UniqueInstance uniqueInstance;
+    protected UniqueInstance unique_instance;
 
     @Column(name="PragmaticStatus")
     @Enumerated(EnumType.STRING)
-    protected PragmaticStatus pragmaticStatus;
+    protected PragmaticStatus pragmatic_status;
 
     @Column(name="Source")
     protected String source;
@@ -138,23 +140,37 @@ public class Concept implements Serializable {
         joinColumns={@JoinColumn(name="ConceptId")},
         inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
     )
-    private List<LanguageRepresentation> languageRepresentation;
+    private List<LanguageRepresentation> language_representations;
 
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "owner")
-    private List<VisualRepresentation> visualRepresentation;
+    private List<VisualRepresentation> visual_representations;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "owner")
-    private List<MotoricRepresentation> motoricRepresentation;
+    private List<MotoricRepresentation> motoric_representations;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "concept")
     private List<UnionOfIntersections> relations;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "object")
-    private List<Relation> objectOfRelation;
+    private List<Relation> object_of_relations;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "subject")
     private List<Relation> subjectOfRelation;
+
+
+    public Concept()
+    {
+        description = "";
+        specificity_level = Concept.SpecificityLevel.UNKNOWN;
+        language_representations = (List<LanguageRepresentation>) new <List>LanguageRepresentation();
+        visual_representations = (List<VisualRepresentation>) new VisualRepresentation();
+        motoric_representations = (List<MotoricRepresentation>) new MotoricRepresentation();
+        object_of_relations =  new ArrayList<Relation>();
+        relations = new ArrayList<UnionOfIntersections>();
+    }
+
+
 }
 
 //
@@ -895,16 +911,7 @@ public class Concept implements Serializable {
 //        this.name = name.trim();
 //    }
 //
-//    public Concept()
-//    {
-//        description = "";
-//        specificity_level = Concept.SpecificityLevel.UNKNOWN;
-//        LanguageRepresentation = new LanguageRepresentation();
-//        VisualRepresentation = new VisualRepresentation();
-//        MotoricRepresentation = new MotoricRepresentation();
-//        objOfRelations =  new ArrayList<Relation>();
-//        relations = new ArrayList<UnionOfIntersections>();
-//    }
+
 //
 //    /**
 //     * @xmlcomments.args
@@ -1093,7 +1100,7 @@ public class Concept implements Serializable {
 //    }
 //
 //    /**
-//     * Updates LanguageRepresentations of a concept using this concept LanguageRepresentations
+//     * Updates LanguageRepresentation of a concept using this concept LanguageRepresentation
 //     * @param oldCon the concept to be updated
 //     */
 //    public void updateLanguageRepresentations(Concept oldCon) {
