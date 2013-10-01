@@ -73,7 +73,7 @@ public class Relation implements Serializable {
 
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
     @JoinColumn(name="Id")
-    TypeOfRelation type;
+    RelationType type;
 
     @Column(name="Comment")
     String comment;
@@ -138,7 +138,7 @@ public class Relation implements Serializable {
     )
     VisualRepresentation VisualRepresentationObject;
 
-}
+
 
 
 // TODO: Uncomment each method after checking it first
@@ -151,7 +151,7 @@ public class Relation implements Serializable {
 //        LanguageRepresentationSubject = new LanguageRepresentation();
 //        MotoricRepresentationObject = new MotoricRepresentation();
 //        MotoricRepresentationSubject = new MotoricRepresentation();
-//        type = new TypeOfRelation();
+//        type = new RelationType();
 //    }
 //
 //    @XmlTransient
@@ -317,7 +317,7 @@ public class Relation implements Serializable {
 //     *     xmldescription="This tag defines the type of the relation"
 //     */
 //   @XmlElement
-//    public TypeOfRelation getType() {
+//    public RelationType getType() {
 //        return type;
 //    }
 //
@@ -326,22 +326,24 @@ public class Relation implements Serializable {
 //    * type twice
 //    * @param type the tyep of the relation
 //    */
-//   public void setTypeSimple(TypeOfRelation type) {
-//        this.type = type;
-//    }
-//
-//    public void setType(TypeOfRelation type) {
-//        if(type.getId() == null)
-//        {
-//            TypeOfRelationDao tmp = new TypeOfRelationDaoImpl();
-//            TypeOfRelation res = (TypeOfRelation) tmp.getEntity(type);
-//            if(res!=null)
-//            {
-//                type = res;
-//            }
-//        }
-//        this.type = type;
-//    }
+    public void setTypeSimple(RelationType type) {
+        this.type = type;
+    }
+
+    public void setType(RelationType type) {
+        if(type.getId() == null)
+        {
+            TypeOfRelationDao tmp = new TypeOfRelationDaoImpl();
+            RelationType res = (RelationType) tmp.getEntity(type);
+            if(res!=null)
+            {
+                type = res;
+            }
+        }
+        this.type = type;
+    }
+
+}
 //
 //    @XmlAttribute
 //    public Long getId() {
