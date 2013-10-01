@@ -343,17 +343,17 @@ public class Relation implements Serializable {
         this.type = type;
     }
 
+
+
+    @XmlAttribute
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
-//
-//    @XmlAttribute
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
-//
 //    @XmlAttribute()
 //    public String getName() {
 //        return name;
