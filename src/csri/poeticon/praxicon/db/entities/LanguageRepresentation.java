@@ -38,6 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name="LanguageRepresentation")
 public class LanguageRepresentation implements Serializable {
 
+
     public static enum Language {
         // ISO-639-1 standard
         AB, AA, AF, AK, SQ, AM, AR, AN, HY, AS, AV, AE, AY, BM, BA, EU, BE, BN, 
@@ -76,13 +77,13 @@ public class LanguageRepresentation implements Serializable {
         }
     }
 
-
     private static final long serialVersionUID = 1L;
+
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
     @Column(name="LanguageRepresentationId")
-    private Long id;
+    private Long languageRepresentationId;
 
     @Column(name="Language")
     @Enumerated(EnumType.STRING)
@@ -90,10 +91,10 @@ public class LanguageRepresentation implements Serializable {
 
     @Column(name="PartOfSpeech")
     @Enumerated(EnumType.STRING)
-    private PartOfSpeech part_of_speech;
+    private PartOfSpeech partOfSpeech;
     
     @Column(name="IsCompositional")
-    private IsCompositional is_compositional;
+    private IsCompositional isCompositional;
 
     @Column(name="Text")
     private String text;
@@ -107,7 +108,7 @@ public class LanguageRepresentation implements Serializable {
         joinColumns={@JoinColumn(name="LanguageRepresentationId")},
         inverseJoinColumns={@JoinColumn(name="RelationId")}
     )
-    private List<Relation> LanguageRepresentationSubject;
+    private List<Relation> languageRepresentationSubject;
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
@@ -115,23 +116,23 @@ public class LanguageRepresentation implements Serializable {
         joinColumns={@JoinColumn(name="LanguageRepresentationId")},
         inverseJoinColumns={@JoinColumn(name="RelationId")}
     )
-    private List<Relation> LanguageRepresentationObject;
+    private List<Relation> languageRepresentationObject;
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         joinColumns={@JoinColumn(name="RelationChainId")},
         inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
     )
-    private List<RelationChain> LanguageRepresentationRelationChains;
+    private List<RelationChain> languageRepresentationRelationChains;
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         joinColumns={@JoinColumn(name="IntersectionId")},
         inverseJoinColumns={@JoinColumn(name="LanguagerepresentationId")}
     )
-    private List<IntersectionOfRelations> LanguageRepresentationIntersections;
+    private List<IntersectionOfRelations> languageRepresentationIntersections;
 
-
+}
 
 //    /**
 //     * @xmlcomments.args
@@ -185,42 +186,46 @@ public class LanguageRepresentation implements Serializable {
 //    public void setSound(String sound) {
 //        this.sound = sound;
 //    }
-
-    /**
-     * @xmlcomments.args
-     *	   xmltag="&lt;lang&gt;"
-     *     xmldescription="This tag defines the language of the entry"
-     */
-    @XmlElement()
-    public Language getLanguage() {
-        return language;
-    }
-
-    /**
-     * @xmlcomments.args
-     *	   xmltag="&lt;part_of_speech&gt;"
-     *     xmldescription="This tag defines the Part Of Speech of the entry"
-     */
-    @XmlElement(name="part_of_speech")
-    public PartOfSpeech getPartOfSpeech() {
-        return part_of_speech;
-    }
-
-    public void setPartOfSpeech(PartOfSpeech p) {
-        this.part_of_speech = p;
-    }
-
-    public void setPartOfSpeech(String p) {
-        this.part_of_speech = PartOfSpeech.valueOf(p.trim().toUpperCase());
-    }
-
-
-//    @XmlTransient
-//    public List<LanguageRepresentationGroup> getLanguageRepresentations() {
-//        return LanguageRepresentations;
+//
+//    /**
+//     * @xmlcomments.args
+//     *	   xmltag="&lt;lang&gt;"
+//     *     xmldescription="This tag defines the language of the entry"
+//     */
+//    @XmlElement()
+//    public Language getLanguage() {
+//        return language;
 //    }
-
-//Temporarily commented until LanguageRepresentation structure is ready
+//
+//    /**
+//     * @xmlcomments.args
+//     *	   xmltag="&lt;part_of_speech&gt;"
+//     *     xmldescription="This tag defines the Part Of Speech of the entry"
+//     */
+//    @XmlElement(name="part_of_speech")
+//    public PartOfSpeech getPartOfSpeech() {
+//        return part_of_speech;
+//    }
+//
+//    public void setPartOfSpeech(PartOfSpeech p) {
+//        this.part_of_speech = p;
+//    }
+//
+//    public void setPartOfSpeech(String p) {
+//        this.part_of_speech = PartOfSpeech.valueOf(p.trim().toUpperCase());
+//    }
+//
+//
+//    public List<LanguageRepresentation> getEntries() {
+//        return entries;
+//    }
+//
+//    @XmlTransient
+//    public List<LanguageRepresentation> getLanguageRepresentations() {
+//        return language_representations;
+//    }
+//
+//
 //    @XmlTransient
 //    public List<Concept> getConcepts() {
 //        List<Concept> concepts = new ArrayList<Concept>();
@@ -239,83 +244,83 @@ public class LanguageRepresentation implements Serializable {
 //    }
 //
 //    public void setLanguageRepresentations(List<LanguageRepresentationGroup> LanguageRepresentations) {
-//        this.LanguageRepresentations = LanguageRepresentations;
+//        this.language_representations = LanguageRepresentations;
 //    }
 //
-    public LanguageRepresentation()
-    {
-//        LanguageRepresentation = new LanguageRepresentation();
-    }
-
-    public void setLanguage(Language language) {
-        this.language = language;
-    }
-
-    /**
-     * @xmlcomments.args
-     *	   xmltag="&lt;text&gt;"
-     *     xmldescription="This tag defines the text of the entry"
-     */
-    @XmlElement()
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    @XmlAttribute
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof LanguageRepresentation)) {
-            return false;
-        }
-        LanguageRepresentation other = (LanguageRepresentation) object;
-        if (this.language!=null && this.text!=null && this.part_of_speech!=null &&
-                this.language.name().equals(other.language.name())
-                && this.text.equalsIgnoreCase(other.text)
-                && this.part_of_speech == other.part_of_speech)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    @Override
-    public String toString() {
-        return text + "\\"+ this.part_of_speech+" (" + language + ")";
-    }
-
-    public void afterUnmarshal(Unmarshaller u, Object parent)
-    {
-        if (!Globals.ToMergeAfterUnMarshalling)
-        {
-          /*  try {
-                String tmp = new String(this.getText().getBytes(), "UTF-8");
-                this.setText(tmp);
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(LanguageEntry.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
-        }
-    }
-}
+//    public LanguageRepresentation()
+//    {
+//        language_representation = new LanguageRepresentation();
+//    }
+//
+//    public void setLanguage(Language language) {
+//        this.language = language;
+//    }
+//
+//    /**
+//     * @xmlcomments.args
+//     *	   xmltag="&lt;text&gt;"
+//     *     xmldescription="This tag defines the text of the entry"
+//     */
+//    @XmlElement()
+//    public String getText() {
+//        return text;
+//    }
+//
+//    public void setText(String text) {
+//        this.text = text;
+//    }
+//
+//    @XmlAttribute
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        int hash = 0;
+//        hash += (id != null ? id.hashCode() : 0);
+//        return hash;
+//    }
+//
+//    @Override
+//    public boolean equals(Object object) {
+//        // TODO: Warning - this method won't work in the case the id fields are not set
+//        if (!(object instanceof LanguageRepresentation)) {
+//            return false;
+//        }
+//        LanguageRepresentation other = (LanguageRepresentation) object;
+//        if (this.language!=null && this.text!=null && this.part_of_speech!=null &&
+//                this.language.name().equals(other.language.name())
+//                && this.text.equalsIgnoreCase(other.text)
+//                && this.part_of_speech == other.part_of_speech)
+//        {
+//            return true;
+//        }
+//        else
+//        {
+//            return false;
+//        }
+//    }
+//
+//    @Override
+//    public String toString() {
+//        return text + "\\"+ this.part_of_speech+" (" + language + ")";
+//    }
+//
+//    public void afterUnmarshal(Unmarshaller u, Object parent)
+//    {
+//        if (!Globals.ToMergeAfterUnMarshalling)
+//        {
+//          /*  try {
+//                String tmp = new String(this.getText().getBytes(), "UTF-8");
+//                this.setText(tmp);
+//            } catch (UnsupportedEncodingException ex) {
+//                Logger.getLogger(LanguageEntry.class.getName()).log(Level.SEVERE, null, ex);
+//            }*/
+//        }
+//    }
+//}
