@@ -153,20 +153,22 @@ public class Concept implements Serializable {
     private List<UnionOfIntersections> relations;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "object")
-    private List<Relation> object_of_relations;
+    private List<Relation> object_of_relation;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "subject")
-    private List<Relation> subjectOfRelation;
+    private List<Relation> subject_of_relation;
 
 
+    // Public Constructor
     public Concept()
     {
         description = "";
         specificity_level = Concept.SpecificityLevel.UNKNOWN;
-        language_representations = (List<LanguageRepresentation>) new <List>LanguageRepresentation();
-        visual_representations = (List<VisualRepresentation>) new VisualRepresentation();
-        motoric_representations = (List<MotoricRepresentation>) new MotoricRepresentation();
-        object_of_relations =  new ArrayList<Relation>();
+        language_representations =  new ArrayList<LanguageRepresentation>();
+        visual_representations = new ArrayList<VisualRepresentation>();
+        motoric_representations = new ArrayList<MotoricRepresentation>();
+        object_of_relation =  new ArrayList<Relation>();
+        subject_of_relation =  new ArrayList<Relation>();
         relations = new ArrayList<UnionOfIntersections>();
     }
 
