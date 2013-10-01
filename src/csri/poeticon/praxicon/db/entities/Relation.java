@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -38,8 +40,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+
 
 /**
  *
@@ -66,8 +67,9 @@ public class Relation implements Serializable {
     @Column(name="RelationId")
     private Long id;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "Relation")
-    private List<RelationChain_Relation> mainFunctions;
+// TODO: Check if this is needed!
+//    @OneToMany(cascade=CascadeType.ALL, mappedBy = "Relation")
+//    private List<RelationChain_Relation> mainFunctions;
 
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
     @JoinColumn(name="Id")
@@ -138,6 +140,8 @@ public class Relation implements Serializable {
 
 }
 
+
+// TODO: Uncomment each method after checking it first
 //    public Relation()
 //    {
 //        mainFunctions = new ArrayList<RelationChain_Relation>();
