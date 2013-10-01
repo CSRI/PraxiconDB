@@ -38,6 +38,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 /**
  *
@@ -47,6 +49,16 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name="Relation")
 public class Relation implements Serializable {
+
+    public static enum DerivationSupported {
+        YES, NO, UNKNOWN ;
+        @Override
+        public String toString()
+        {
+            return this.name();
+        }
+    }
+
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
@@ -54,12 +66,15 @@ public class Relation implements Serializable {
     @Column(name="RelationId")
     private Long id;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "relation")
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "Relation")
     private List<RelationChain_Relation> mainFunctions;
 
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
     @JoinColumn(name="Id")
     TypeOfRelation type;
+
+    @Column(name="Comment")
+    String comment;
 
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
     @JoinColumn(name="ConceptIdObject")
@@ -69,11 +84,9 @@ public class Relation implements Serializable {
     @JoinColumn(name="ConceptIdSubject")
     Concept subject;
 
-    @Column(name="Name")
-    String name;
-
-    @Column(name="Derivation")
-    boolean derivation;
+    @Column(name="DerivationSupported")
+    @Enumerated(EnumType.STRING)
+    protected DerivationSupported derivationSupported;
 
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="LanguageRepresentationSubject")
     @JoinTable(
