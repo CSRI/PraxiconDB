@@ -65,4 +65,10 @@ public class Compositionality implements Serializable {
 
     @Column(name="Comment")
     private String comment;
+
+    // Foreign keys
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "owner")
+    private List<VisualRepresentation> visual_representations;
+
+
 }
