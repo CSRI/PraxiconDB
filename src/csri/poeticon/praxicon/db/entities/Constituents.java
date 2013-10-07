@@ -21,6 +21,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.Unmarshaller;
@@ -45,23 +46,16 @@ public class Constituents implements Serializable {
     @Column(name="ConstituentId")
     private Long id;
 
-    @Column(name="Language")
+    @Column(name="ConstituentOrder")
     @Enumerated(EnumType.STRING)
-    private Language language;
+    private Long order;
 
-    @Column(name="PartOfSpeech")
-    @Enumerated(EnumType.STRING)
-    private PartOfSpeech part_of_speech;
-    
-    @Column(name="IsCompositional")
-    private IsCompositional is_compositional;
+    // Foreign keys
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "LanguageRepresentation")
+    private LanguageRepresentation constituent_language_representation;
 
-    @Column(name="Text")
-    private String text;
-
-    @Column(name="Comment")
-    private String comment;
-
-    //private List<LRGroup> LanguageResrouces;
+    // Foreign keys
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "LanguageRepresentation")
+    private LanguageRepresentation language_representation;
 
 }
