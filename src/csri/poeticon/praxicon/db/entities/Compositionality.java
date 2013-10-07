@@ -21,6 +21,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.Unmarshaller;
@@ -30,8 +31,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
  * @author Dimitris Mavroeidis
+ * 
  */
 @XmlRootElement()
 @Entity
@@ -60,15 +61,10 @@ public class Compositionality implements Serializable {
     @Enumerated(EnumType.STRING)
     private CompositionalityType compositionality_type;
 
-    @Column(name="Text")
-    private String text;
-
-    @Column(name="Comment")
-    private String comment;
 
     // Foreign keys
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "owner")
-    private List<VisualRepresentation> visual_representations;
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "LanguageRepresentation")
+    private LanguageRepresentation language_representation;
 
-
+    
 }
