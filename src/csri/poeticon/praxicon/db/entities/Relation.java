@@ -311,21 +311,21 @@ public class Relation implements Serializable {
 //        }
 //    }
 //
-//    /**
-//     * @xmlcomments.args
-//     *	   xmltag="&lt;type&gt;"
-//     *     xmldescription="This tag defines the type of the relation"
-//     */
-//   @XmlElement
-//    public RelationType getType() {
-//        return type;
-//    }
-//
-//   /**
-//    * Sets the type of the Relation but it doesn't check if there is the same
-//    * type twice
-//    * @param type the tyep of the relation
-//    */
+    /**
+     * @xmlcomments.args
+     *	   xmltag="&lt;type&gt;"
+     *     xmldescription="This tag defines the type of the relation"
+     */
+   @XmlElement
+    public RelationType getType() {
+        return type;
+    }
+
+   /**
+    * Sets the type of the Relation but it doesn't check if there is the same
+    * type twice
+    * @param type the tyep of the relation
+    */
     public void setTypeSimple(RelationType type) {
         this.type = type;
     }
