@@ -153,12 +153,12 @@ public class Relation implements Serializable {
 //        MotoricRepresentationSubject = new MotoricRepresentation();
 //        type = new RelationType();
 //    }
-//
-//    @XmlTransient
-//    public Concept getSubject() {
-//        return subject;
-//    }
-//
+
+    @XmlTransient
+    public Concept getSubject() {
+        return subject;
+    }
+
 //    public void setSubject(Concept subject) {
 //        this.subject = subject;
 //    }
@@ -246,11 +246,11 @@ public class Relation implements Serializable {
 //    public void setMainFunctions(List<RelationChain_Relation> mainFunctions) {
 //        this.mainFunctions = mainFunctions;
 //    }
-//
-//    @XmlTransient
-//    public Concept getObject() {
-//        return object;
-//    }
+
+    @XmlTransient
+    public Concept getObject() {
+        return object;
+    }
 //
 //    public void setObject(Concept object) {
 //        this.object = object;
