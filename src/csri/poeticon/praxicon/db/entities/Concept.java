@@ -1028,21 +1028,21 @@ public class Concept implements Serializable {
 //        relation.setConcept(this);
 //        this.relations.add(relation);
 //    }
-//
-//    /**
-//     * @xmlcomments.args
-//     *	   xmltag="name"
-//     *     xmldescription="This attribute defines the name of the element"
-//     */
-//    @XmlAttribute()
-//    public String getName() {
-//        if (name!=null)
-//        {
-//            return name;
-//        }
-//        else
-//            return id+"";
-//    }
+
+    /**
+     * @xmlcomments.args
+     *	   xmltag="name"
+     *     xmldescription="This attribute defines the name of the element"
+     */
+    @XmlAttribute()
+    public String getName() {
+        if (name!=null)
+        {
+            return name;
+        }
+        else
+            return id+"";
+    }
 //
 //    public String getNameNoNumbers() {
 //        if (name!=null)
