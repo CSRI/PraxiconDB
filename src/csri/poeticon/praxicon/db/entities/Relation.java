@@ -354,13 +354,13 @@ public class Relation implements Serializable {
     }
 
     @XmlAttribute()
-    public String getName() {
+    public String getComment() {
         return comment;
     }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 //
 //   @XmlTransient
 //    public LanguageRepresentation getLanguageRepresentationObject()
