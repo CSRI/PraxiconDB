@@ -61,10 +61,8 @@ public class Compositionality implements Serializable {
     @Enumerated(EnumType.STRING)
     private CompositionalityType compositionality_type;
 
-
     // Foreign keys
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "LanguageRepresentation")
     private LanguageRepresentation language_representation;
-
     
 }
