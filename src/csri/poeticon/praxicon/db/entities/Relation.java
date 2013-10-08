@@ -344,7 +344,6 @@ public class Relation implements Serializable {
     }
 
 
-
     @XmlAttribute
     public Long getId() {
         return id;
@@ -353,11 +352,11 @@ public class Relation implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-}
-//    @XmlAttribute()
-//    public String getName() {
-//        return name;
-//    }
+
+    @XmlAttribute()
+    public String getName() {
+        return comment;
+    }
 //
 //    public void setName(String name) {
 //        this.name = name;
@@ -868,4 +867,5 @@ public class Relation implements Serializable {
 //            this.subject = cDao.getEntity(subject);
 //        }
 //    }
-//}
+
+}
