@@ -251,10 +251,10 @@ public class Relation implements Serializable {
     public Concept getObject() {
         return object;
     }
-//
-//    public void setObject(Concept object) {
-//        this.object = object;
-//    }
+
+    public void setObject(Concept object) {
+        this.object = object;
+    }
 //
 //    /**
 //     * @xmlcomments.args
