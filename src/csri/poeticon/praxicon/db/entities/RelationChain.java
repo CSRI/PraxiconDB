@@ -7,7 +7,7 @@ package csri.poeticon.praxicon.db.entities;
 
 import csri.poeticon.praxicon.Constants;
 import csri.poeticon.praxicon.Globals;
-import csri.poeticon.praxicon.db.dao.LRGroupDao;
+import csri.poeticon.praxicon.db.dao.LanguageRepresentationGroupDao;
 import csri.poeticon.praxicon.db.dao.implSQL.LanguageRepresentationGroupDaoImpl;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class RelationChain implements Serializable {
     joinColumns={@JoinColumn(name="RELATION_ID")},
     inverseJoinColumns={@JoinColumn(name="INTERSECTION_ID")}
     )
-    private List<IntersectionOfRelations> intersections;
+    private List<IntersectionOfRelationChains> intersections;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "relationChain")
     private List<RelationChain_Relation> relations;
@@ -68,7 +68,7 @@ public class RelationChain implements Serializable {
 
     public RelationChain()
     {
-        intersections = new ArrayList<IntersectionOfRelations>();
+        intersections = new ArrayList<IntersectionOfRelationChains>();
         relations = new ArrayList<RelationChain_Relation>();
         LRGroupNames = new ArrayList<LanguageRepresentationGroup>();
     }
@@ -115,7 +115,7 @@ public class RelationChain implements Serializable {
         {
             if (Globals.ToMergeAfterUnMarshalling)
             {
-                LRGroupDao lrgDao = new LanguageRepresentationGroupDaoImpl();
+                LanguageRepresentationGroupDao lrgDao = new LanguageRepresentationGroupDaoImpl();
                 List<LanguageRepresentationGroup> lrg = lrgDao.findAllByName(v.get(i).trim());
                 if(lrg!=null && lrg.isEmpty()&&Constants.globalConcepts.get(v.get(i).trim())!=null)
                 {
@@ -198,11 +198,11 @@ public class RelationChain implements Serializable {
     }
     
     @XmlTransient
-    public List<IntersectionOfRelations> getIntersections() {
+    public List<IntersectionOfRelationChains> getIntersections() {
         return intersections;
     }
 
-    public void setIntersections(List<IntersectionOfRelations> intersections) {
+    public void setIntersections(List<IntersectionOfRelationChains> intersections) {
         this.intersections = intersections;
     }
 
