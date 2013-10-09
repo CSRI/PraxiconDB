@@ -235,8 +235,6 @@ public class LanguageRepresentation implements Serializable {
     }
 
 
-
-
     @XmlTransient
     public List<Concept> getConcepts() {
         List<Concept> concepts = new ArrayList<Concept>();
@@ -259,26 +257,26 @@ public class LanguageRepresentation implements Serializable {
     }
 
 
-}
-//
-//    public void setLanguage(Language language) {
-//        this.language = language;
-//    }
-//
-//    /**
-//     * @xmlcomments.args
-//     *	   xmltag="&lt;text&gt;"
-//     *     xmldescription="This tag defines the text of the entry"
-//     */
-//    @XmlElement()
-//    public String getText() {
-//        return text;
-//    }
-//
-//    public void setText(String text) {
-//        this.text = text;
-//    }
-//
+
+
+    public void setLanguage(Language language) {
+        this.language = language;
+    }
+
+    /**
+     * @xmlcomments.args
+     *	   xmltag="&lt;text&gt;"
+     *     xmldescription="This tag defines the text of the entry"
+     */
+    @XmlElement()
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
 //    @XmlAttribute
 //    public Long getId() {
 //        return id;
@@ -332,4 +330,5 @@ public class LanguageRepresentation implements Serializable {
 //            }*/
 //        }
 //    }
-//}
+
+}
