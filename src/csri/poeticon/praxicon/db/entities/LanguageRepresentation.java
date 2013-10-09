@@ -37,7 +37,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name="LanguageRepresentation")
 public class LanguageRepresentation implements Serializable {
-
+    private static final long serialVersionUID = 1L;
+    private static List<LanguageRepresentation> language_representations;
 
     public static enum Language {
         // ISO-639-1 standard
@@ -77,13 +78,11 @@ public class LanguageRepresentation implements Serializable {
         }
     }
 
-    private static final long serialVersionUID = 1L;
-
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
     @Column(name="LanguageRepresentationId")
-    private Long languageRepresentationId;
+    private Long id;
 
     @Column(name="Language")
     @Enumerated(EnumType.STRING)
@@ -91,10 +90,10 @@ public class LanguageRepresentation implements Serializable {
 
     @Column(name="PartOfSpeech")
     @Enumerated(EnumType.STRING)
-    private PartOfSpeech partOfSpeech;
+    private PartOfSpeech part_of_speech;
     
     @Column(name="IsCompositional")
-    private IsCompositional isCompositional;
+    private IsCompositional is_compositional;
 
     @Column(name="Text")
     private String text;
@@ -108,7 +107,7 @@ public class LanguageRepresentation implements Serializable {
         joinColumns={@JoinColumn(name="LanguageRepresentationId")},
         inverseJoinColumns={@JoinColumn(name="RelationId")}
     )
-    private List<Relation> languageRepresentationSubject;
+    private List<Relation> language_representation_subject;
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
@@ -116,23 +115,28 @@ public class LanguageRepresentation implements Serializable {
         joinColumns={@JoinColumn(name="LanguageRepresentationId")},
         inverseJoinColumns={@JoinColumn(name="RelationId")}
     )
-    private List<Relation> languageRepresentationObject;
+    private List<Relation> language_representation_object;
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         joinColumns={@JoinColumn(name="RelationChainId")},
         inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
     )
-    private List<RelationChain> languageRepresentationRelationChains;
+    private List<RelationChain> language_representation_relation_chains;
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         joinColumns={@JoinColumn(name="IntersectionId")},
-        inverseJoinColumns={@JoinColumn(name="LanguagerepresentationId")}
+        inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
     )
-    private List<IntersectionOfRelations> languageRepresentationIntersections;
+    private List<IntersectionOfRelationChains> language_representation_intersections;
 
-}
+
+
+    public LanguageRepresentation()
+    {
+        language_representations = new ArrayList<LanguageRepresentation>();
+    }
 
 //    /**
 //     * @xmlcomments.args
@@ -219,38 +223,43 @@ public class LanguageRepresentation implements Serializable {
 //    public List<LanguageRepresentation> getEntries() {
 //        return entries;
 //    }
-//
-//    @XmlTransient
-//    public List<LanguageRepresentation> getLanguageRepresentations() {
-//        return language_representations;
-//    }
-//
-//
-//    @XmlTransient
-//    public List<Concept> getConcepts() {
-//        List<Concept> concepts = new ArrayList<Concept>();
-//
-//        for (int i = 0; i < this.LanguageRepresentations.size(); i++)
-//        {
-//            for (int j = 0; j < this.LanguageRepresentations.get(i).getConcepts().size(); j++)
-//            {
-//                if (!concepts.contains(this.LanguageRepresentations.get(i).getConcepts().get(j)))
-//                {
-//                    concepts.add(this.LanguageRepresentations.get(i).getConcepts().get(j));
-//                }
-//            }
-//        }
-//        return concepts;
-//    }
-//
-//    public void setLanguageRepresentations(List<LanguageRepresentationGroup> LanguageRepresentations) {
-//        this.language_representations = LanguageRepresentations;
-//    }
-//
-//    public LanguageRepresentation()
-//    {
-//        language_representation = new LanguageRepresentation();
-//    }
+
+    @XmlTransient
+    public List<LanguageRepresentation> getLanguageRepresentations() {
+        List<LanguageRepresentation> language_representations_list = (List<LanguageRepresentation>) new <List>LanguageRepresentation();
+        for (int i=0; i < this.language_representations.size(); i++)
+        {
+            language_representations_list.add(language_representations.get(i));
+        }
+        return language_representations_list;
+    }
+
+
+
+
+    @XmlTransient
+    public List<Concept> getConcepts() {
+        List<Concept> concepts = new ArrayList<Concept>();
+
+        for (int i = 0; i < this.language_representations.   size(); i++)
+        {
+            for (int j = 0; j < this.language_representations.get(i).getConcepts().size(); j++)
+            {
+                if (!concepts.contains(this.language_representations.get(i).getConcepts().get(j)))
+                {
+                    concepts.add(this.language_representations.get(i).getConcepts().get(j));
+                }
+            }
+        }
+        return concepts;
+    }
+
+    public void setLanguageRepresentations(List<LanguageRepresentation> language_representations) {
+        this.language_representations = language_representations;
+    }
+
+
+}
 //
 //    public void setLanguage(Language language) {
 //        this.language = language;
