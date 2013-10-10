@@ -193,7 +193,6 @@ public class RelationChain implements Serializable {
         rcr.setRelation(relation);
         rcr.setRelationChain(this);
         rcr.setRelationOrder(order);
-
         this.relations.add(rcr);
     }
     
