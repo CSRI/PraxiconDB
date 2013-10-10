@@ -93,7 +93,6 @@ public class Concept implements Serializable {
         }
     }
 
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -501,35 +500,31 @@ public class Concept implements Serializable {
 //        }
 //    }
 //
-//    public SpecificityLevel getBasicLevel()
-//    {
-//        return specificity_level;
-//    }
-//
-//    public void setBasicLevel(SpecificityLevel basicLevel)
-//    {
-//        this.specificity_level = basicLevel;
-//    }
-//
-//    public void setBasicLevel(String levelType)
-//    {
-//        if(levelType.equalsIgnoreCase("BASIC_LEVEL"))
-//        {
-//            this.specificity_level = Concept.SpecificityLevel.BASIC_LEVEL;
-//        }
-//        else if(levelType.equalsIgnoreCase("ABOVE_BASIC_LEVEL"))
-//        {
-//            this.specificity_level = Concept.SpecificityLevel.ABOVE_BASIC_LEVEL;
-//        }
-//        else if(levelType.equalsIgnoreCase("BELOW_BASIC_LEVEL"))
-//        {
-//            this.specificity_level = Concept.SpecificityLevel.ABOVE_BASIC_LEVEL;
-//        }
-//        else
-//        {
-//            this.specificity_level = Concept.SpecificityLevel.UNKNOWN;
-//        }
-//    }
+
+    public void setSpecificityLevel(SpecificityLevel specificity_level)
+    {
+        this.specificity_level = specificity_level;
+    }
+
+    public void setSpecificityLevel(String levelType)
+    {
+        if(levelType.equalsIgnoreCase("BASIC_LEVEL"))
+        {
+            this.specificity_level = Concept.SpecificityLevel.BASIC_LEVEL;
+        }
+        else if(levelType.equalsIgnoreCase("ABOVE_BASIC_LEVEL"))
+        {
+            this.specificity_level = Concept.SpecificityLevel.ABOVE_BASIC_LEVEL;
+        }
+        else if(levelType.equalsIgnoreCase("BELOW_BASIC_LEVEL"))
+        {
+            this.specificity_level = Concept.SpecificityLevel.ABOVE_BASIC_LEVEL;
+        }
+        else
+        {
+            this.specificity_level = Concept.SpecificityLevel.UNKNOWN;
+        }
+    }
 //
 //    /**
 //     * Gets a string of concatenated full info for the concept.
