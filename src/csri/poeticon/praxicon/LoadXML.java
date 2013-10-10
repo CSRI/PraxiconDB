@@ -43,15 +43,15 @@ public class LoadXML {
         }
         else
         {
-            if(args.length == 1)
-            {
-                Reader reader = new InputStreamReader(new FileInputStream(new File(args[0])));
-                Unmarshaller u = context.createUnmarshaller();
-                CollectionOfConcepts c =(CollectionOfConcepts)u.unmarshal(reader);
+//            if(args.length == 1)
+//            {
+//                Reader reader = new InputStreamReader(new FileInputStream(new File(args[0])));
+//                Unmarshaller u = context.createUnmarshaller();
+//                CollectionOfConcepts c =(CollectionOfConcepts)u.unmarshal(reader);
                 //c.storeEverything();
-            }
-            else
-            {
+//            }
+//            else
+//            {
                 System.out.println("Usage: Give as an argument the xml file with the concepts (for example: java -jar PraxiconDB.jar concepts.xml");
                 RelationDao rDao = new RelationDaoImpl();
                 List <Relation> tmp = rDao.findAll();
@@ -66,5 +66,5 @@ public class LoadXML {
                 }
             }
         }
-    }
+  //  }
 }
