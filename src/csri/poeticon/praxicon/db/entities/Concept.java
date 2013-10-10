@@ -439,17 +439,17 @@ public class Concept implements Serializable {
 //        this.source = s;
 //    }
 //
-//    /**
-//     * @xmlcomments.args
-//     *	   xmltag="&lt;union_of_intersections_of_relations&gt;"
-//     *     xmldescription="This tag defines the union of interesections
-//     *     of relation that this concept participates"
-//     */
-//    @XmlElement(name="union_of_intersections_of_relations")
-//    public List<UnionOfIntersections> getRelations() {
-//        return relations;
-//    }
-//
+    /**
+     * @xmlcomments.args
+     *	   xmltag="&lt;union_of_intersections_of_relations&gt;"
+     *     xmldescription="This tag defines the union of interesections
+     *     of relation that this concept participates"
+     */
+    @XmlElement(name="union_of_intersections_of_relations")
+    public List<UnionOfIntersections> getRelations() {
+        return relations;
+    }
+
     /**
      * @xmlcomments.args
      *	   xmltag="&lt;description&gt;"
