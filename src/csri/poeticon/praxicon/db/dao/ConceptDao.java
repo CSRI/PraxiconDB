@@ -7,7 +7,7 @@ package csri.poeticon.praxicon.db.dao;
 
 import csri.poeticon.praxicon.db.entities.Concept;
 import csri.poeticon.praxicon.db.entities.Concept.Status;
-import csri.poeticon.praxicon.db.entities.TypeOfRelation;
+import csri.poeticon.praxicon.db.entities.RelationType;
 import csri.poeticon.praxicon.db.entities.UnionOfIntersections;
 import csri.poeticon.praxicon.db.entities.VisualRepresentation;
 import java.util.List;
@@ -47,5 +47,5 @@ public interface ConceptDao extends Dao<Long, Concept>{
 
     public void clearManager();
 
-    public List<Concept> getConceptsRelatedWithByRelationType(Concept c, TypeOfRelation rtype);
+    public List<Concept> getConceptsRelatedWithByRelationType(Concept c, RelationType rtype);
 }
