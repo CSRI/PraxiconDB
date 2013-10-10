@@ -35,42 +35,42 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @XmlRootElement()
 @Entity
-@Table(name="RELATION_CHAIN")
+@Table(name="RelationChain")
 public class RelationChain implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
-    @Column(name="CHAIN_ID")
+    @Column(name="ChainId")
     private Long id;
 
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="relations")
     @JoinTable(
-    name="INRESECTION_RELATION",
-    joinColumns={@JoinColumn(name="RELATION_ID")},
-    inverseJoinColumns={@JoinColumn(name="INTERSECTION_ID")}
+    name="IntersectionRelation",
+    joinColumns={@JoinColumn(name="RelationId")},
+    inverseJoinColumns={@JoinColumn(name="IntersectionId")}
     )
     private List<IntersectionOfRelationChains> intersections;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "relationChain")
     private List<RelationChain_Relation> relations;
 
-    @Column(name="NAME")
+    @Column(name="Name")
     String name="";
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="LRRelationChains")
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="LanguageRepresentationRelationChains")
     @JoinTable(
-        name="LRGROUP_RELATIONCHAIN",
-        joinColumns={@JoinColumn(name="CHAIN_ID")},
-        inverseJoinColumns={@JoinColumn(name="LRGROUP_ID")}
+        name="LanguageRepresentation_RelationChain",
+        joinColumns={@JoinColumn(name="ChainId")},
+        inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
     )
-    List<LanguageRepresentationGroup> LRGroupNames;
+    List<LanguageRepresentation> language_representation_names;
 
     public RelationChain()
     {
         intersections = new ArrayList<IntersectionOfRelationChains>();
         relations = new ArrayList<RelationChain_Relation>();
-        LRGroupNames = new ArrayList<LanguageRepresentationGroup>();
+        language_representation_names = new ArrayList<LanguageRepresentation>();
     }
 
     @XmlAttribute
@@ -83,9 +83,9 @@ public class RelationChain implements Serializable {
     }
 
     @XmlTransient
-    public List<LanguageRepresentationGroup> getLRGroupNames()
+    public List<LanguageRepresentation> getLanguageRepresentationNames()
     {
-        return LRGroupNames;
+        return language_representation_names;
     }
 
     /**
@@ -94,70 +94,70 @@ public class RelationChain implements Serializable {
      *     xmldescription="This tag defines the names of the LanguageRepresentationGroup that should be used to express this relation chain"
      */
    @XmlElement(name="LRGroupName")
-    public List<String> getLRGroupNames_()
+    public List<String> getLanguageRepresentationNames_()
     {
-       List<String> LRGroupNames_ = new ArrayList<String>();
-       for(int i = 0; i < LRGroupNames.size(); i++)
+       List<String> language_representation_names_ = new ArrayList<String>();
+       for(int i = 0; i < language_representation_names.size(); i++)
        {
-           LRGroupNames_.add(LRGroupNames.get(i).getName());
+           language_representation_names_.add(language_representation_names.get(i).getText());
        }
-        return LRGroupNames_;
+        return language_representation_names_;
     }
 
-    public void setLRGroupNames(List<LanguageRepresentationGroup> LRGroupNames)
+    public void setLanguageRepresentationNames(List<LanguageRepresentation> language_representation_names)
     {
-        this.LRGroupNames = LRGroupNames;
+        this.language_representation_names = language_representation_names;
     }
 
-    private void setLRGroupNames_(List<String> v) throws Exception
-    {
-        for (int i = 0; i < v.size(); i++)
-        {
-            if (Globals.ToMergeAfterUnMarshalling)
-            {
-                LanguageRepresentationGroupDao lrgDao = new LanguageRepresentationGroupDaoImpl();
-                List<LanguageRepresentationGroup> lrg = lrgDao.findAllByName(v.get(i).trim());
-                if(lrg!=null && lrg.isEmpty()&&Constants.globalConcepts.get(v.get(i).trim())!=null)
-                {
-                    lrg.add((LanguageRepresentationGroup)Constants.globalConcepts.get(v.get(i).trim()));
-                }
-                if (lrg!=null && !lrg.isEmpty())
-                {
-                    LRGroupNames.addAll(lrg);
-                    for(int j  = 0; j < lrg.size(); j++)
-                    {
-                        lrg.get(j).getLRRelationChains().add(this);
-                    }
-                }
-                else
-                {
-                    LanguageRepresentationGroup c = new LanguageRepresentationGroup();
-
-                    c.setName(v.get(i));
-                    c.getLRRelationChains().add(this);
-                    lrgDao.persist(c);
-                    LRGroupNames.add(c);
-                }
-
-             }
-             else
-             {
-                LanguageRepresentationGroup c = new LanguageRepresentationGroup();
-                c.setName(v.get(i));
-                c.getLRRelationChains().add(this);
-                if (Constants.globalConcepts.contains(c))
-                {
-                    LRGroupNames.add((LanguageRepresentationGroup)Constants.globalConcepts.get(c.getName()));
-                }
-                else
-                {
-                    LRGroupNames.add(c);
-                    Constants.globalConcepts.put(c.getName(), c);
-                }
-
-             }
-        }
-    }
+//    private void setLanguageRepresentationNames_(List<String> v) throws Exception
+//    {
+//        for (int i = 0; i < v.size(); i++)
+//        {
+//            if (Globals.ToMergeAfterUnMarshalling)
+//            {
+//                LanguageRepresentationGroupDao lrgDao = new LanguageRepresentationGroupDaoImpl();
+//                List<LanguageRepresentationGroup> lrg = lrgDao.findAllByName(v.get(i).trim());
+//                if(lrg!=null && lrg.isEmpty()&&Constants.globalConcepts.get(v.get(i).trim())!=null)
+//                {
+//                    lrg.add((LanguageRepresentationGroup)Constants.globalConcepts.get(v.get(i).trim()));
+//                }
+//                if (lrg!=null && !lrg.isEmpty())
+//                {
+//                    language_representation_names.addAll(lrg);
+//                    for(int j  = 0; j < lrg.size(); j++)
+//                    {
+//                        lrg.get(j).getLRRelationChains().add(this);
+//                    }
+//                }
+//                else
+//                {
+//                    LanguageRepresentationGroup c = new LanguageRepresentationGroup();
+//
+//                    c.setName(v.get(i));
+//                    c.getLRRelationChains().add(this);
+//                    lrgDao.persist(c);
+//                    language_representation_names.add(c);
+//                }
+//
+//             }
+//             else
+//             {
+//                LanguageRepresentation c = new LanguageRepresentation();
+//                c.setText(v.get(i));
+//                c.getLanguageRepresentationRelationChains().add(this);
+//                if (Constants.globalConcepts.contains(c))
+//                {
+//                    language_representation_names.add((LanguageRepresentation)Constants.globalConcepts.get(c.getText()));
+//                }
+//                else
+//                {
+//                    language_representation_names.add(c);
+//                    Constants.globalConcepts.put(c.getText(), c);
+//                }
+//
+//             }
+//        }
+//    }
 
     /**
      * @xmlcomments.args
