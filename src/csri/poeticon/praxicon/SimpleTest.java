@@ -11,6 +11,9 @@ import csri.poeticon.praxicon.db.entities.Concept;
 import java.util.HashSet;
 import java.util.List;
 import javax.persistence.Query;
+//import csri.poeticon.praxicon.Constants;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  *
@@ -19,6 +22,9 @@ import javax.persistence.Query;
 public class SimpleTest {
     public static void main(String args[])
     {
+        try {Constants.Constants();}
+        catch (FileNotFoundException ex) { System.out.println("File not found");}
+        catch (IOException ex2) { System.out.println("Could not read from file");}
         ConceptDao cDao = new ConceptDaoImpl();
 
         String toSearch = "spoon%1:06:00::";
@@ -29,7 +35,7 @@ public class SimpleTest {
         q.setParameter(1, toSearch);
         List<Concept> found = q.getResultList();
         Concept startConcept = found.get(0);
-        System.out.println(startConcept+" "+startConcept.isBasicLevel());
+        System.out.println(startConcept+" "+startConcept.getSpecificityLevel());
 
         HashSet<Concept> sisters = new HashSet<Concept>();
 
@@ -42,7 +48,7 @@ public class SimpleTest {
 
         for (Concept con: sisters)
         {
-            System.out.println(con+" "+con.isBasicLevel());
+            System.out.println(con+" "+con.getSpecificityLevel());
         }
     }
 }
