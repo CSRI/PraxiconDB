@@ -851,10 +851,10 @@ public class Relation implements Serializable {
 //        return false;
 //    }
 //
-//    @Override
-//    public String toString() {
-//        return this.getSubject() + " " + this.getType().getForwardName() + " " + this.getObject();
-//    }
+    @Override
+    public String toString() {
+        return this.getSubject() + " " + this.getType().getForwardName() + " " + this.getObject();
+    }
 //
 //    public void afterUnmarshal(Unmarshaller u, Object parent) {
 //        if (Globals.ToMergeAfterUnMarshalling)
