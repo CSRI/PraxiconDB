@@ -96,7 +96,7 @@ public class Relation implements Serializable {
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
     )
-    LanguageRepresentation language_representation_subject;
+    List<LanguageRepresentation> language_representation_subject;
 
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="LangugageRepresentationObject")
     @JoinTable(
@@ -104,7 +104,7 @@ public class Relation implements Serializable {
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
     )
-    LanguageRepresentation language_representation_object;
+    List<LanguageRepresentation> language_representation_object;
 
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="MotoricRepresentationSubject")
     @JoinTable(
@@ -147,8 +147,8 @@ public class Relation implements Serializable {
 //        mainFunctions = new ArrayList<RelationChain_Relation>();
         visual_representation_object = new VisualRepresentation();
         visual_representation_subject = new ArrayList<VisualRepresentation>();
-        language_representation_object = new LanguageRepresentation();
-        language_representation_subject = new LanguageRepresentation();
+        language_representation_object = new ArrayList<LanguageRepresentation>();
+        language_representation_subject = new ArrayList<LanguageRepresentation>();
         motoric_representation_object = new MotoricRepresentation();
         motoric_representation_subject = new MotoricRepresentation();
         type = new RelationType();
@@ -363,7 +363,7 @@ public class Relation implements Serializable {
     }
 
    @XmlTransient
-    public LanguageRepresentation getLanguageRepresentationObject()
+    public List<LanguageRepresentation> getLanguageRepresentationObject()
     {
         return language_representation_object;
     }
@@ -377,11 +377,12 @@ public class Relation implements Serializable {
     public String getLanguageRepresentationObject_()
     {
         String language_representation_object_ = new String();
-        language_representation_object_ = language_representation_object.getText();
+        // TODO: Not sure about the data type below.
+        language_representation_object_ = language_representation_object.toString();  //.getLanguaText();
         return language_representation_object_;
     }
 
-    public void setLanguageRepresentationObject(LanguageRepresentation language_representation_object)
+    public void setLanguageRepresentationObject(List<LanguageRepresentation> language_representation_object)
     {
         this.language_representation_object = language_representation_object;
     }
@@ -432,12 +433,12 @@ public class Relation implements Serializable {
 //            }
 //         }
 //    }
-//
-//    @XmlTransient
-//    public List<LanguageRepresentationGroup> getLanguageRepresentationGroupSubject()
-//    {
-//        return LanguageRepresentationGroupSubject;
-//    }
+
+    @XmlTransient
+    public List<LanguageRepresentation> getLanguageRepresentationSubject()
+    {
+        return language_representation_subject;
+    }
 //
 //    /**
 //     * @xmlcomments.args
