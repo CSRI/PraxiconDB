@@ -525,42 +525,42 @@ public class Concept implements Serializable {
             this.specificity_level = Concept.SpecificityLevel.UNKNOWN;
         }
     }
-//
-//    /**
-//     * Gets a string of concatenated full info for the concept.
-//     * concept type, status, pragmatic status, basic level, description
-//     * @return a string
-//     */
-//    public String getInfo()
-//    {
-//        StringBuilder sb= new StringBuilder();
-//        sb.append(this.getConceptType());
-//        sb.append("#");
-//        sb.append(this.getStatus());
-//        sb.append("#");
-//        sb.append(this.getPragmaticStatus());
-//        sb.append("#");
-//        sb.append(this.isBasicLevel());
-//        sb.append("#");
-//        sb.append(this.getDescription());
-//
-//        return sb.toString();
-//    }
-//
-//    /**
-//     * Gets a string of concatenated shoft info for the concept.
-//     * concept type and basic level
-//     * @return a string
-//     */
-//    public String getInfoShort()
-//    {
-//        StringBuilder sb= new StringBuilder();
-//        sb.append(this.getConceptType());
-//        sb.append("#");
-//        sb.append(this.isBasicLevel());
-//        return sb.toString();
-//    }
-//
+
+    /**
+     * Gets a string of concatenated full info for the concept.
+     * concept type, status, pragmatic status, basic level, description
+     * @return a string
+     */
+    public String getInfo()
+    {
+        StringBuilder sb= new StringBuilder();
+        sb.append(this.getConceptType());
+        sb.append("#");
+        sb.append(this.getStatus());
+        sb.append("#");
+        sb.append(this.getPragmaticStatus());
+        sb.append("#");
+        sb.append(this.getSpecificityLevel());
+        sb.append("#");
+        sb.append(this.getDescription());
+
+        return sb.toString();
+    }
+
+    /**
+     * Gets a string of concatenated shoft info for the concept.
+     * concept type and basic level
+     * @return a string
+     */
+    public String getInfoShort()
+    {
+        StringBuilder sb= new StringBuilder();
+        sb.append(this.getConceptType());
+        sb.append("#");
+        sb.append(this.getSpecificityLevel());
+        return sb.toString();
+    }
+
     /**
      * @xmlcomments.args
      *	   xmltag="&lt;type&gt;"
