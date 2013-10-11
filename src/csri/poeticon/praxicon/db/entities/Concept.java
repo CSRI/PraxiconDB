@@ -151,10 +151,10 @@ public class Concept implements Serializable {
     private List<UnionOfIntersections> relations;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "object")
-    private List<Relation> object_of_relation;
+    private List<Relation> object_of_relations;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "subject")
-    private List<Relation> subject_of_relation;
+    private List<Relation> subject_of_relations;
 
 
     // Public Constructor
@@ -165,8 +165,8 @@ public class Concept implements Serializable {
         language_representations =  new ArrayList<LanguageRepresentation>();
         visual_representations = new ArrayList<VisualRepresentation>();
         motoric_representations = new ArrayList<MotoricRepresentation>();
-        object_of_relation =  new ArrayList<Relation>();
-        subject_of_relation =  new ArrayList<Relation>();
+        object_of_relations =  new ArrayList<Relation>();
+        subject_of_relations =  new ArrayList<Relation>();
         relations = new ArrayList<UnionOfIntersections>();
     }
 
@@ -180,7 +180,7 @@ public class Concept implements Serializable {
         language_representations = new ArrayList<LanguageRepresentation>();
         visual_representations = new ArrayList<VisualRepresentation>();
         motoric_representations = new ArrayList<MotoricRepresentation>();
-        object_of_relation =  new ArrayList<Relation>();
+        object_of_relations =  new ArrayList<Relation>();
         relations = new ArrayList<UnionOfIntersections>();
         this.name = newConcept.name;
     
@@ -240,11 +240,11 @@ public class Concept implements Serializable {
 
     @XmlTransient
     public List<Relation> getObjOfRelations() {
-        return object_of_relation;
+        return object_of_relations;
     }
 
     public void setObjOfRelations(List<Relation> objOfRelations) {
-        this.objOfRelations = objOfRelations;
+        this.object_of_relations = objOfRelations;
     }
 
 
