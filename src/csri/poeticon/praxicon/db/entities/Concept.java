@@ -377,23 +377,23 @@ public class Concept implements Serializable {
 //        return "";
 //    }
 //
-//
-//    /**
-//     * @xmlcomments.args
-//     *	   xmltag="&lt;source&gt;"
-//     *     xmldescription="This tag defines the source of the concept (from which
-//     *          resources was generated (for example: Wordnet)"
-//     */
-//    @XmlElement(name="source")
-//    public String getSource()
-//    {
-//        return source;
-//    }
-//
-//    public void setSource(String s)
-//    {
-//        this.source = s;
-//    }
+
+    /**
+     * @xmlcomments.args
+     *	   xmltag="&lt;source&gt;"
+     *     xmldescription="This tag defines the source of the concept (from which
+     *          resources was generated (for example: Wordnet)"
+     */
+    @XmlElement(name="source")
+    public String getSource()
+    {
+        return source;
+    }
+
+    public void setSource(String s)
+    {
+        this.source = s;
+    }
 //
     /**
      * @xmlcomments.args
