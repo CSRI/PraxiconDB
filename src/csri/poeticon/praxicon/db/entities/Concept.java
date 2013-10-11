@@ -237,17 +237,17 @@ public class Concept implements Serializable {
 //        }
     }
 
-//
-//    @XmlTransient
-//    public List<Relation> getObjOfRelations() {
-//        return objOfRelations;
-//    }
-//
-//    public void setObjOfRelations(List<Relation> objOfRelations) {
-//        this.objOfRelations = objOfRelations;
-//    }
-//
-//
+
+    @XmlTransient
+    public List<Relation> getObjOfRelations() {
+        return object_of_relation;
+    }
+
+    public void setObjOfRelations(List<Relation> objOfRelations) {
+        this.objOfRelations = objOfRelations;
+    }
+
+
         /**
      * @xmlcomments.args
      *	   xmltag="&lt;vr&gt;"
@@ -1076,16 +1076,16 @@ public class Concept implements Serializable {
 //
 
 
-//
-//    @XmlAttribute
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
-//
+
+    @XmlAttribute
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 //    @Override
 //    public int hashCode() {
 //        int hash = 0;
