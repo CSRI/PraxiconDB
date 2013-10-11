@@ -148,7 +148,7 @@ public class Concept implements Serializable {
     private List<MotoricRepresentation> motoric_representations;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "concept")
-    private List<UnionOfIntersections> relations;
+    private List<IntersectionOfRelationChains> relations;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "object")
     private List<Relation> object_of_relations;
@@ -167,7 +167,7 @@ public class Concept implements Serializable {
         motoric_representations = new ArrayList<MotoricRepresentation>();
         object_of_relations =  new ArrayList<Relation>();
         subject_of_relations =  new ArrayList<Relation>();
-        relations = new ArrayList<UnionOfIntersections>();
+        relations = new ArrayList<IntersectionOfRelationChains>();
     }
 
     private Concept(Concept newConcept)
@@ -181,7 +181,7 @@ public class Concept implements Serializable {
         visual_representations = new ArrayList<VisualRepresentation>();
         motoric_representations = new ArrayList<MotoricRepresentation>();
         object_of_relations =  new ArrayList<Relation>();
-        relations = new ArrayList<UnionOfIntersections>();
+        relations = new ArrayList<IntersectionOfRelationChains>();
         this.name = newConcept.name;
     
         for(int i = 0; i < newConcept.getLanguageRepresentations().size(); i++)
@@ -402,7 +402,7 @@ public class Concept implements Serializable {
      *     of relation that this concept participates"
      */
     @XmlElement(name="union_of_intersections_of_relations")
-    public List<UnionOfIntersections> getRelations() {
+    public List<IntersectionOfRelationChains> getRelations() {
         return relations;
     }
 
