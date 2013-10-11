@@ -7,13 +7,12 @@ package csri.poeticon.praxicon.db.dao.implSQL;
 
 import csri.poeticon.praxicon.db.dao.RelationDao;
 import csri.poeticon.praxicon.db.entities.Concept;
-import csri.poeticon.praxicon.db.entities.IntersectionOfRelations;
 import csri.poeticon.praxicon.db.entities.Relation;
 import csri.poeticon.praxicon.db.entities.RelationChain;
 import csri.poeticon.praxicon.db.entities.RelationChain_Relation;
-import csri.poeticon.praxicon.db.entities.TypeOfRelation;
-import csri.poeticon.praxicon.db.entities.TypeOfRelation.RELATION_NAME;
-import csri.poeticon.praxicon.db.entities.UnionOfIntersections;
+import csri.poeticon.praxicon.db.entities.RelationType;
+import csri.poeticon.praxicon.db.entities.RelationType.RELATION_NAME;
+import csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
@@ -32,7 +31,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
     {
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation rt " + 
                 "WHERE r.type = rt and (rt.forwardName = ?1 or  rt.backwardName = ?1)");
-         q.setParameter(1, TypeOfRelation.RELATION_NAME.valueOf(nameOfTheRelation));
+         q.setParameter(1, RelationType.RELATION_NAME.valueOf(nameOfTheRelation));
         return q.getResultList();        
     }
 
@@ -44,7 +43,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
     @Override
     public List<Concept> getObjectsOfARelation(String nameOfTheRelation)
     {
-        RELATION_NAME t = TypeOfRelation.RELATION_NAME.valueOf(nameOfTheRelation);
+        RELATION_NAME t = RelationType.RELATION_NAME.valueOf(nameOfTheRelation);
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation rtype " +
                 "WHERE r.type = rtype.id and rtype.forwardName = ?1");
          q.setParameter(1, t);
@@ -105,16 +104,16 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
      * Finds relations that have a given concept as object and creates Union of
      * Intersections that contain only one relation each
      * @param c the concept to be searched
-     * @return a list of UnionOfIntersections
+     * @return a list of IntersectionOfRelationChains
      */
     @Override
-    public List<UnionOfIntersections> getObjRelations(Concept c)
+    public List<IntersectionOfRelationChains> getObjRelations(Concept c)
     {
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r " +
                 "WHERE r.obj = ?1 or r.subject = ?1");
         q.setParameter(1, c);
         List<Relation> objRels = q.getResultList();
-        List<UnionOfIntersections> res = new ArrayList<UnionOfIntersections>();
+        List<IntersectionOfRelationChains> res = new ArrayList<IntersectionOfRelationChains>();
         for (int i = 0; i < objRels.size(); i++)
         {
             Relation r = objRels.get(i);
@@ -122,23 +121,25 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
             {
                 r.setObject(r.getSubject());
                 r.setSubject(c);
-                TypeOfRelation tmpType = new TypeOfRelation();
-                TypeOfRelation.RELATION_NAME tmp = r.getType().getBackwardName();
+                RelationType tmpType = new RelationType();
+                RelationType.RELATION_NAME tmp = r.getType().getBackwardName();
                 tmpType.setBackwardName(r.getType().getForwardName());
                 tmpType.setForwardName(tmp);
                 r.setType(tmpType);
             }
             RelationChain rc = new RelationChain();
             rc.addRelation(r, 0);
-            IntersectionOfRelations ir = new IntersectionOfRelations();
+            IntersectionOfRelationChains ir = new IntersectionOfRelationChains();
             ir.getRelations().add(rc);
             rc.getIntersections().add(ir);
-            UnionOfIntersections ui = new UnionOfIntersections();
-            ui.setInherent(false);
-            ui.setPercentage(0);
-            ui.getIntersections().add(ir);
-            ir.getUnions().add(ui);
-            ui.setConcept(c);
+            IntersectionOfRelationChains ui = new IntersectionOfRelationChains();
+
+// TODO: Temporarily commented --> UnionOfIntersections should be converted to IntersectionOfRelationChains
+//            ui.setInherent(false);
+//            ui.setPercentage(0);
+//            ui.getIntersections().add(ir);
+//            ir.getUnions().add(ui);
+//            ui.setConcept(c);
             if (!c.getRelations().contains(ui))
             {
                 res.add(ui);
@@ -208,19 +209,21 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
             List<RelationChain_Relation> tmp = r.getMainFunctions();
             for (int j = 0; j < tmp.size(); j++)
             {
-                List<IntersectionOfRelations> inters = tmp.get(j).getRelationChain().getIntersections();
-                for (int k = 0; k < inters.size(); k++)
-                {
-                    List<UnionOfIntersections> unions = inters.get(k).getUnions();
-                    for (int l = 0; l < unions.size(); l++)
-                    {
-                        Concept tmpC = unions.get(l).getConcept();
-                        if (!res.contains(tmpC) && tmpC != null)
-                        {
-                            res.add(tmpC);
-                        }
-                    }
-                }
+                List<IntersectionOfRelationChains> inters = tmp.get(j).getRelationChain().getIntersections();
+
+// TODO: Temporarily commented --> UnionOfIntersections should be converted to IntersectionOfRelationChains
+//                for (int k = 0; k < inters.size(); k++)
+//                {
+//                    List<IntersectionOfRelationChains> unions = inters.get(k).getUnions();
+//                    for (int l = 0; l < unions.size(); l++)
+//                    {
+//                        Concept tmpC = unions.get(l).getConcept();
+//                        if (!res.contains(tmpC) && tmpC != null)
+//                        {
+//                            res.add(tmpC);
+//                        }
+//                    }
+//                }
             }
         }
         return res;
@@ -291,8 +294,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
                    + "or (r.obj = ?1 and r.type = tr and tr.forwardName = ?3 and tr.backwardName = ?2) ");
 
         q.setParameter(1, c);
-        q.setParameter(2, TypeOfRelation.RELATION_NAME.TYPE_TOKEN);
-        q.setParameter(3, TypeOfRelation.RELATION_NAME.TOKEN_TYPE);
+        q.setParameter(2, RelationType.RELATION_NAME.TYPE_TOKEN);
+        q.setParameter(3, RelationType.RELATION_NAME.TOKEN_TYPE);
 
         List<Relation> objRels = q.getResultList();
         return objRels;
@@ -306,7 +309,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
      * @return List of relations
      */
     @Override
-    public List<Relation> findRelationsByConceptTypeOfRelation(Concept concept, TypeOfRelation type) {
+    public List<Relation> findRelationsByConceptTypeOfRelation(Concept concept, RelationType type) {
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation tr "
                 + "WHERE (r.subject = ?1 and r.type = tr and tr.forwardName = ?2)");
         q.setParameter(1, concept);
@@ -322,7 +325,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
      * @return List of relations
      */
     @Override
-    public List<Relation> allRelationsOfByRelationType(Concept concept, TypeOfRelation type) {
+    public List<Relation> allRelationsOfByRelationType(Concept concept, RelationType type) {
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation tr "
                 + "WHERE (r.subject = ?1 and r.type = tr and tr.forwardName = ?2) or"
                 + "(r.obj = ?1 and r.type = tr and tr.forwardName = ?3) ");
@@ -340,7 +343,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
      * @return List of relations
      */
     @Override
-    public List<Relation> allRelationsOfByRelationName(Concept concept, TypeOfRelation.RELATION_NAME name) {
+    public List<Relation> allRelationsOfByRelationName(Concept concept, RelationType.RELATION_NAME name) {
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation tr "
                 + "WHERE (r.subject = ?1 and r.type = tr and tr.forwardName = ?2) or"
                 + "(r.obj = ?1 and r.type = tr and tr.backwardName = ?2) ");
@@ -349,15 +352,17 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
         return q.getResultList();
     }
 
-    /**
-     * CHecks if a relation belongs to an inherent union of intersections
-     * @param r the relation to check
-     * @return true/false
-     */
-    @Override
-    public boolean isPartOfInherentUnion (Relation r)
-    {
-        return r.getMainFunctions().get(0).getRelationChain().getIntersections().get(0).getUnions().get(0).isInherent();
-    }
+
+// TODO: Temporarily commented --> UnionOfIntersections should be converted to IntersectionOfRelationChains
+//    /**
+//     * CHecks if a relation belongs to an inherent union of intersections
+//     * @param r the relation to check
+//     * @return true/false
+//     */
+//    @Override
+//    public boolean isPartOfInherentUnion (Relation r)
+//    {
+//        return r.getMainFunctions().get(0).getRelationChain().getIntersections().get(0).getUnions().get(0).isInherent();
+//    }
 
 }
