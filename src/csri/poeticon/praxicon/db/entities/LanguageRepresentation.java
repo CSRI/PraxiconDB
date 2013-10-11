@@ -191,15 +191,15 @@ public class LanguageRepresentation implements Serializable {
 //        this.sound = sound;
 //    }
 //
-//    /**
-//     * @xmlcomments.args
-//     *	   xmltag="&lt;lang&gt;"
-//     *     xmldescription="This tag defines the language of the entry"
-//     */
-//    @XmlElement()
-//    public Language getLanguage() {
-//        return language;
-//    }
+    /**
+     * @xmlcomments.args
+     *	   xmltag="&lt;lang&gt;"
+     *     xmldescription="This tag defines the language of the entry"
+     */
+    @XmlElement()
+    public Language getLanguage() {
+        return language;
+    }
 //
 //    /**
 //     * @xmlcomments.args
