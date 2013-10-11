@@ -201,11 +201,6 @@ public class LanguageRepresentation implements Serializable {
         this.part_of_speech = PartOfSpeech.valueOf(p.trim().toUpperCase());
     }
 
-//
-//    public List<LanguageRepresentation> getEntries() {
-//        return entries;
-//    }
-
     @XmlTransient
     public List<LanguageRepresentation> getLanguageRepresentations() {
         List<LanguageRepresentation> language_representations_list = (List<LanguageRepresentation>) new <List>LanguageRepresentation();
@@ -295,22 +290,22 @@ public class LanguageRepresentation implements Serializable {
         }
     }
 
-//    @Override
-//    public String toString() {
-//        return text + "\\"+ this.part_of_speech+" (" + language + ")";
-//    }
-//
-//    public void afterUnmarshal(Unmarshaller u, Object parent)
-//    {
-//        if (!Globals.ToMergeAfterUnMarshalling)
-//        {
-//          /*  try {
-//                String tmp = new String(this.getText().getBytes(), "UTF-8");
-//                this.setText(tmp);
-//            } catch (UnsupportedEncodingException ex) {
-//                Logger.getLogger(LanguageEntry.class.getName()).log(Level.SEVERE, null, ex);
-//            }*/
-//        }
-//    }
+    @Override
+    public String toString() {
+        return text + "\\"+ this.part_of_speech+" (" + language + ")";
+    }
+
+    public void afterUnmarshal(Unmarshaller u, Object parent)
+    {
+        if (!Globals.ToMergeAfterUnMarshalling)
+        {
+          /*  try {
+                String tmp = new String(this.getText().getBytes(), "UTF-8");
+                this.setText(tmp);
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(LanguageEntry.class.getName()).log(Level.SEVERE, null, ex);
+            }*/
+        }
+    }
 
 }
