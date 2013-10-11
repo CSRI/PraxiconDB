@@ -332,9 +332,6 @@ public class Concept implements Serializable {
     }
 
 
-
-
-
     /**
      * Gets text of the first language representation of language "en" for this concept
      * @return a string
