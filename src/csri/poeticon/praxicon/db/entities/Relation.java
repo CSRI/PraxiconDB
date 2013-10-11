@@ -68,8 +68,8 @@ public class Relation implements Serializable {
     private Long id;
 
 // TODO: Check if this is needed!
-//    @OneToMany(cascade=CascadeType.ALL, mappedBy = "Relation")
-//    private List<RelationChain_Relation> mainFunctions;
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "Relation")
+    private List<RelationChain_Relation> main_functions;
 
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
     @JoinColumn(name="Id")
@@ -88,7 +88,7 @@ public class Relation implements Serializable {
 
     @Column(name="DerivationSupported")
     @Enumerated(EnumType.STRING)
-    protected DerivationSupported derivationSupported;
+    protected DerivationSupported derivation_supported;
 
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="LanguageRepresentationSubject")
     @JoinTable(
@@ -96,7 +96,7 @@ public class Relation implements Serializable {
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
     )
-    LanguageRepresentation LanguageRepresentationSubject;
+    LanguageRepresentation language_representation_subject;
 
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="LangugageRepresentationObject")
     @JoinTable(
@@ -104,7 +104,7 @@ public class Relation implements Serializable {
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
     )
-    LanguageRepresentation LanguageRepresentationObject;
+    LanguageRepresentation language_representation_object;
 
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="MotoricRepresentationSubject")
     @JoinTable(
@@ -112,7 +112,7 @@ public class Relation implements Serializable {
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="MotoricId")}
     )
-    MotoricRepresentation MotoricRepresentationSubject;
+    MotoricRepresentation motoric_representation_subject;
 
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="MotoricRepresentationObject")
     @JoinTable(
@@ -120,7 +120,7 @@ public class Relation implements Serializable {
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="MotoricRepresentationId")}
     )
-    MotoricRepresentation MotoricRepresentationObject;
+    MotoricRepresentation motoric_representation_object;
 
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="VisualRepresentationSubject")
     @JoinTable(
@@ -128,7 +128,7 @@ public class Relation implements Serializable {
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="VisualRepresentationId")}
     )
-    VisualRepresentation VisualRepresentationSubject;
+    List<VisualRepresentation> visual_representation_subject;
 
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="VisualRepresentationObject")
     @JoinTable(
@@ -136,23 +136,23 @@ public class Relation implements Serializable {
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="VisualRepresentationId")}
     )
-    VisualRepresentation VisualRepresentationObject;
+    VisualRepresentation visual_representation_object;
 
 
 
 
 // TODO: Uncomment each method after checking it first
-//    public Relation()
-//    {
+    public Relation()
+    {
 //        mainFunctions = new ArrayList<RelationChain_Relation>();
-//        VisualRepresentationObject = new VisualRepresentation();
-//        VisualRepresentationSubject = new VisualRepresentation();
-//        LanguageRepresentationObject = new LanguageRepresentation();
-//        LanguageRepresentationSubject = new LanguageRepresentation();
-//        MotoricRepresentationObject = new MotoricRepresentation();
-//        MotoricRepresentationSubject = new MotoricRepresentation();
-//        type = new RelationType();
-//    }
+        visual_representation_object = new VisualRepresentation();
+        visual_representation_subject = new ArrayList<VisualRepresentation>();
+        language_representation_object = new LanguageRepresentation();
+        language_representation_subject = new LanguageRepresentation();
+        motoric_representation_object = new MotoricRepresentation();
+        motoric_representation_subject = new MotoricRepresentation();
+        type = new RelationType();
+    }
 
     @XmlTransient
     public Concept getSubject() {
@@ -163,89 +163,89 @@ public class Relation implements Serializable {
         this.subject = subject;
     }
 
-//    /**
-//     * @xmlcomments.args
-//     *	   xmltag="is_derivative"
-//     *     xmldescription="This attribute defines if the relation is derivative or not"
-//     */
-//    @XmlAttribute(name="is_derivative")
-//    public boolean isDerivation() {
-//        return derivation;
-//    }
-//
-//    public void setDerivation(boolean derivation) {
-//        this.derivation = derivation;
-//    }
-//
-//    /**
-//     * @xmlcomments.args
-//     *	   xmltag="subject"
-//     *     xmldescription="This attribute defines the object that the relation is
-//     *     related to"
-//     */
-//    @XmlAttribute(name="subject")
-//    private String getSubject_() {
-//        StringBuilder sb = new StringBuilder();
-//        if(subject.getName()!=null && subject.getName() != "")
-//        {
-//            return subject.getName();
-//        }
-//        else
-//        {
-//            return subject.getId()+"";
-//        }
-//    }
-//
-//    private void setSubject_(String v) throws Exception {
-//        if (Globals.ToMergeAfterUnMarshalling)
-//        {
-//            ConceptDao cDao = new ConceptDaoImpl();
-//            Concept subjectCon = cDao.getConceptWithNameOrID(v.trim());
-//            if (subjectCon!=null)
-//            {
-//                subject = subjectCon;
-//            }
-//            else
-//            {
-//                subjectCon = cDao.getConceptWithNameOrID(v.trim());
-//                Concept c = new Concept();
-//
-//                c.setName(v);
-//                subject = c;
-//                cDao.persist(subject);
-//            }
-//
-//         }
-//         else
-//         {
-//            Concept c = new Concept();
-//            c.setName(v);
-//            if (Constants.globalConcepts.contains(c))
-//            {
-//                subject = (Concept)Constants.globalConcepts.get(c.getName());
-//            }
-//            else
-//            {
-//            subject = c;
-//            Constants.globalConcepts.put(c.getName(), c);
-//            }
-//
-//         }
-//    }
+    /**
+     * @xmlcomments.args
+     *	   xmltag="is_derivative"
+     *     xmldescription="This attribute defines if the relation is derivative or not"
+     */
+    @XmlAttribute(name="is_derivative")
+    public DerivationSupported DerivationSupported() {
+        return derivation_supported;
+    }
+
+    public void setDerivation(DerivationSupported derivation_supported) {
+        this.derivation_supported = derivation_supported;
+    }
+
+    /**
+     * @xmlcomments.args
+     *	   xmltag="subject"
+     *     xmldescription="This attribute defines the object that the relation is
+     *     related to"
+     */
+    @XmlAttribute(name="subject")
+    private String getSubject_() {
+        StringBuilder sb = new StringBuilder();
+        if(subject.getName()!=null && subject.getName() != "")
+        {
+            return subject.getName();
+        }
+        else
+        {
+            return subject.getId()+"";
+        }
+    }
+
+    private void setSubject_(String v) throws Exception {
+        if (Globals.ToMergeAfterUnMarshalling)
+        {
+            ConceptDao cDao = new ConceptDaoImpl();
+            Concept subjectCon = cDao.getConceptWithNameOrID(v.trim());
+            if (subjectCon!=null)
+            {
+                subject = subjectCon;
+            }
+            else
+            {
+                subjectCon = cDao.getConceptWithNameOrID(v.trim());
+                Concept c = new Concept();
+
+                c.setName(v);
+                subject = c;
+                cDao.persist(subject);
+            }
+
+         }
+         else
+         {
+            Concept c = new Concept();
+            c.setName(v);
+            if (Constants.globalConcepts.contains(c))
+            {
+                subject = (Concept)Constants.globalConcepts.get(c.getName());
+            }
+            else
+            {
+            subject = c;
+            Constants.globalConcepts.put(c.getName(), c);
+            }
+
+         }
+    }
 //
 //    public void addRelationChain(RelationChain relation, long order)
 //    {
 //        //i think that is redundant
 //    }
-//
-//    @XmlTransient
-//    public List<RelationChain_Relation> getMainFunctions() {
-//        return mainFunctions;
-//    }
-//
-//    public void setMainFunctions(List<RelationChain_Relation> mainFunctions) {
-//        this.mainFunctions = mainFunctions;
-//    }
+
+    @XmlTransient
+    public List<RelationChain_Relation> getMainFunctions() {
+        return main_functions;
+    }
+
+    public void setMainFunctions(List<RelationChain_Relation> main_functions) {
+        this.main_functions = main_functions;
+    }
 
     @XmlTransient
     public Concept getObject() {
@@ -361,31 +361,31 @@ public class Relation implements Serializable {
     public void setComment(String comment) {
         this.comment = comment;
     }
-//
-//   @XmlTransient
-//    public LanguageRepresentation getLanguageRepresentationObject()
-//    {
-//        return LanguageRepresentationObject;
-//    }
-//
-//   /**
-//     * @xmlcomments.args
-//     *	   xmltag="&lt;LanguageRepresentationGroupObject&gt;"
-//     *     xmldescription="This tag defines the LanguageRepresentationGroup that should be used to express the Object in this relation"
-//     */
-//   @XmlElement(name="LanguageRepresentationObject")
-//    public String getLanguageRepresentationObject_()
-//    {
-//        String LanguageRepresentationObject_ = new String();
-//        LanguageRepresentationObject_ = LanguageRepresentationObject.getText();
-//        return LanguageRepresentationObject_;
-//    }
-//
-//    public void setLanguageRepresentationObject(LanguageRepresentation LanguageRepresentationObject)
-//    {
-//        this.LanguageRepresentationObject = LanguageRepresentationObject;
-//    }
-//
+
+   @XmlTransient
+    public LanguageRepresentation getLanguageRepresentationObject()
+    {
+        return language_representation_object;
+    }
+
+   /**
+     * @xmlcomments.args
+     *	   xmltag="&lt;LanguageRepresentationGroupObject&gt;"
+     *     xmldescription="This tag defines the LanguageRepresentationGroup that should be used to express the Object in this relation"
+     */
+   @XmlElement(name="LanguageRepresentationObject")
+    public String getLanguageRepresentationObject_()
+    {
+        String language_representation_object_ = new String();
+        language_representation_object_ = language_representation_object.getText();
+        return language_representation_object_;
+    }
+
+    public void setLanguageRepresentationObject(LanguageRepresentation language_representation_object)
+    {
+        this.language_representation_object = language_representation_object;
+    }
+
 //    private void setLanguageRepresentationObject_(String v) throws Exception
 //    {
 //        if (Globals.ToMergeAfterUnMarshalling)
@@ -760,11 +760,11 @@ public class Relation implements Serializable {
 //       }
 //        return VisualRepresentationGroupSubject_;
 //    }
-//
-//    public void setVisualRepresentationGroupSubject(List<VisualRepresentationGroup> VisualRepresentationGroupSubject)
-//    {
-//        this.VisualRepresentationGroupSubject = VisualRepresentationGroupSubject;
-//    }
+
+    public void setVisualRepresentationSubject(List<VisualRepresentation> visual_representation_subject)
+    {
+        this.visual_representation_subject = visual_representation_subject;
+    }
 //
 //    private void setVisualRepresentationGroupSubject_(List<String> v) throws Exception
 //    {
