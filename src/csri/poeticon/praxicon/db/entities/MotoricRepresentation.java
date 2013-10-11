@@ -58,14 +58,14 @@ public class MotoricRepresentation implements Serializable {
     @JoinColumn(name="MR_GROUP_ID")
     private MotoricRepresentationGroup owner;
 
-    @XmlTransient
-    public MotoricRepresentationGroup getOwner() {
-        return owner;
-    }
-
-    public void setOwner(MotoricRepresentationGroup owner) {
-        this.owner = owner;
-    }
+//    @XmlTransient
+//    public MotoricRepresentation getOwner() {
+//        return owner;
+//    }
+//
+//    public void setOwner(MotoricRepresentation owner) {
+//        this.owner = owner;
+//    }
 
     @XmlElement()
     public String getRepresentation() {
