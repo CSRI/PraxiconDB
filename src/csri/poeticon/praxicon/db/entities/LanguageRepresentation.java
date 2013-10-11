@@ -172,25 +172,7 @@ public class LanguageRepresentation implements Serializable {
 //        this.multiword = multiword;
 //    }
 //
-//    /**
-//     * @xmlcomments.args
-//     *	   xmltag="&lt;sound&gt;"
-//     *     xmldescription="This tag defines the url to a sound file (a recond of the
-//     * entry being said)"
-//     */
-//    @XmlElement()
-//    public String getSound() {
-//        return sound;
-//    }
-//
-//    public String getSoundWithPath() {
-//        return Constants.soundPath + sound;
-//    }
-//
-//    public void setSound(String sound) {
-//        this.sound = sound;
-//    }
-//
+
     /**
      * @xmlcomments.args
      *	   xmltag="&lt;lang&gt;"
