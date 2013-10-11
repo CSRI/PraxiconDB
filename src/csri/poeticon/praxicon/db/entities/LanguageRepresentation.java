@@ -267,34 +267,34 @@ public class LanguageRepresentation implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-//
-//    @Override
-//    public int hashCode() {
-//        int hash = 0;
-//        hash += (id != null ? id.hashCode() : 0);
-//        return hash;
-//    }
-//
-//    @Override
-//    public boolean equals(Object object) {
-//        // TODO: Warning - this method won't work in the case the id fields are not set
-//        if (!(object instanceof LanguageRepresentation)) {
-//            return false;
-//        }
-//        LanguageRepresentation other = (LanguageRepresentation) object;
-//        if (this.language!=null && this.text!=null && this.part_of_speech!=null &&
-//                this.language.name().equals(other.language.name())
-//                && this.text.equalsIgnoreCase(other.text)
-//                && this.part_of_speech == other.part_of_speech)
-//        {
-//            return true;
-//        }
-//        else
-//        {
-//            return false;
-//        }
-//    }
-//
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof LanguageRepresentation)) {
+            return false;
+        }
+        LanguageRepresentation other = (LanguageRepresentation) object;
+        if (this.language!=null && this.text!=null && this.part_of_speech!=null &&
+                this.language.name().equals(other.language.name())
+                && this.text.equalsIgnoreCase(other.text)
+                && this.part_of_speech == other.part_of_speech)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 //    @Override
 //    public String toString() {
 //        return text + "\\"+ this.part_of_speech+" (" + language + ")";
