@@ -98,7 +98,7 @@ public class Constants {
         props.load(fis);
 
         /**
-         * Get database settings.
+         * Get settings.
          */
         dbHost = props.getProperty("db.host");
         dbPort = props.getProperty("db.port");
