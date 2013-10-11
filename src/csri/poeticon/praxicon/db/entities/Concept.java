@@ -1047,11 +1047,11 @@ public class Concept implements Serializable {
 //        else
 //            return id+"";
 //    }
-//
-//    public void setName(String name) {
-//        this.name = name.trim();
-//    }
-//
+
+    public void setName(String name) {
+        this.name = name.trim();
+    }
+
 
 //
 //    /**
@@ -1068,12 +1068,6 @@ public class Concept implements Serializable {
 //    public LanguageRepresentation getLanguageRepresentationsEntries() {
 //        return language_representation;
 //    }
-
-//
-//    public void setLanguageRepresentation(LanguageRepresentation language_representation) {
-//        this.LanguageRepresentation = language_representation;
-//    }
-//
 
 
 
