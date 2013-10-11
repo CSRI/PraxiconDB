@@ -182,25 +182,25 @@ public class LanguageRepresentation implements Serializable {
     public Language getLanguage() {
         return language;
     }
-//
-//    /**
-//     * @xmlcomments.args
-//     *	   xmltag="&lt;part_of_speech&gt;"
-//     *     xmldescription="This tag defines the Part Of Speech of the entry"
-//     */
-//    @XmlElement(name="part_of_speech")
-//    public PartOfSpeech getPartOfSpeech() {
-//        return part_of_speech;
-//    }
-//
-//    public void setPartOfSpeech(PartOfSpeech p) {
-//        this.part_of_speech = p;
-//    }
-//
-//    public void setPartOfSpeech(String p) {
-//        this.part_of_speech = PartOfSpeech.valueOf(p.trim().toUpperCase());
-//    }
-//
+
+    /**
+     * @xmlcomments.args
+     *	   xmltag="&lt;part_of_speech&gt;"
+     *     xmldescription="This tag defines the Part Of Speech of the entry"
+     */
+    @XmlElement(name="part_of_speech")
+    public PartOfSpeech getPartOfSpeech() {
+        return part_of_speech;
+    }
+
+    public void setPartOfSpeech(PartOfSpeech p) {
+        this.part_of_speech = p;
+    }
+
+    public void setPartOfSpeech(String p) {
+        this.part_of_speech = PartOfSpeech.valueOf(p.trim().toUpperCase());
+    }
+
 //
 //    public List<LanguageRepresentation> getEntries() {
 //        return entries;
