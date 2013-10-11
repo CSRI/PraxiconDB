@@ -159,10 +159,10 @@ public class Relation implements Serializable {
         return subject;
     }
 
-//    public void setSubject(Concept subject) {
-//        this.subject = subject;
-//    }
-//
+    public void setSubject(Concept subject) {
+        this.subject = subject;
+    }
+
 //    /**
 //     * @xmlcomments.args
 //     *	   xmltag="is_derivative"
@@ -255,61 +255,61 @@ public class Relation implements Serializable {
     public void setObject(Concept object) {
         this.object = object;
     }
-//
-//    /**
-//     * @xmlcomments.args
-//     *	   xmltag="obj"
-//     *     xmldescription="This attribute defines the object that the relation is
-//     *     related to"
-//     */
-//    @XmlAttribute(name="obj")
-//    private String getObj_() {
-//        StringBuilder sb = new StringBuilder();
-//        if(object.getName()!=null && object.getName() != "")
-//        {
-//            return object.getName();
-//        }
-//        else
-//        {
-//            return object.getId()+"";
-//        }
-//    }
-//
-//    private void setObj_(String v) throws Exception {
-//
-//        if (Globals.ToMergeAfterUnMarshalling)
-//        {
-//            ConceptDao cDao = new ConceptDaoImpl();
-//            Concept objCon = cDao.getConceptWithNameOrID(v.trim());
-//            if (objCon!=null)
-//            {
-//                object = objCon;
-//            }
-//            else
-//            {
-//                objCon = cDao.getConceptWithNameOrID(v.trim());
-//                Concept c = new Concept();
-//                c.setName(v);
-//                object = c;
-//                cDao.persist(object);
-//            }
-//        }
-//        else
-//        {
-//            Concept c = new Concept();
-//
-//            c.setName(v);
-//            if (Constants.globalConcepts.contains(c))
-//            {
-//                object = (Concept)Constants.globalConcepts.get(c.getName());
-//            }
-//            else
-//            {
-//                object = c;
-//                Constants.globalConcepts.put(c.getName(), c);
-//            }
-//        }
-//    }
+
+    /**
+     * @xmlcomments.args
+     *	   xmltag="obj"
+     *     xmldescription="This attribute defines the object that the relation is
+     *     related to"
+     */
+    @XmlAttribute(name="obj")
+    private String getObject_() {
+        StringBuilder sb = new StringBuilder();
+        if(object.getName()!=null && object.getName() != "")
+        {
+            return object.getName();
+        }
+        else
+        {
+            return object.getId()+"";
+        }
+    }
+
+    private void setObj_(String v) throws Exception {
+
+        if (Globals.ToMergeAfterUnMarshalling)
+        {
+            ConceptDao cDao = new ConceptDaoImpl();
+            Concept objCon = cDao.getConceptWithNameOrID(v.trim());
+            if (objCon!=null)
+            {
+                object = objCon;
+            }
+            else
+            {
+                objCon = cDao.getConceptWithNameOrID(v.trim());
+                Concept c = new Concept();
+                c.setName(v);
+                object = c;
+                cDao.persist(object);
+            }
+        }
+        else
+        {
+            Concept c = new Concept();
+
+            c.setName(v);
+            if (Constants.globalConcepts.contains(c))
+            {
+                object = (Concept)Constants.globalConcepts.get(c.getName());
+            }
+            else
+            {
+                object = c;
+                Constants.globalConcepts.put(c.getName(), c);
+            }
+        }
+    }
 //
     /**
      * @xmlcomments.args
