@@ -6,22 +6,22 @@
 package csri.poeticon.praxicon.db.dao.implSQL;
 
 import csri.poeticon.praxicon.db.dao.IntersectionOfRelationsDao;
-import csri.poeticon.praxicon.db.entities.IntersectionOfRelations;
+import csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains;
 import javax.persistence.Query;
 
 /**
  *
  * @author Erevodifwntas
  */
-public class IntersectionOfRelationsDaoImpl extends JpaDao<Long, IntersectionOfRelations> implements IntersectionOfRelationsDao{
+public class IntersectionOfRelationsDaoImpl extends JpaDao<Long, IntersectionOfRelationChains> implements IntersectionOfRelationsDao{
 
     /**
-     * Creates q query to search for a IntersectionOfRelations using name
-     * @param entity the IntersectionOfRelations to be searched
-     * @return a query to search for the IntersectionOfRelations
+     * Creates q query to search for a IntersectionOfRelationChains using name
+     * @param entity the IntersectionOfRelationChains to be searched
+     * @return a query to search for the IntersectionOfRelationChains
      */
     @Override
-    public Query getEntityQuery(IntersectionOfRelations entity)
+    public Query getEntityQuery(IntersectionOfRelationChains entity)
     {
         Query q = getEntityManager().createQuery("SELECT e FROM IntersectionOfRelations e " +
                 "where UPPER(e.name) = ?1"
