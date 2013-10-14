@@ -8,7 +8,7 @@ package csri.poeticon.praxicon.db.dao;
 import csri.poeticon.praxicon.db.entities.Concept;
 import csri.poeticon.praxicon.db.entities.Relation;
 import csri.poeticon.praxicon.db.entities.RelationType;
-import csri.poeticon.praxicon.db.entities.UnionOfIntersections;
+import csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains;
 import java.util.List;
 
 /**
@@ -18,7 +18,7 @@ import java.util.List;
 public interface RelationDao extends Dao<Long, Relation> {
 
     List<Concept> getOwners(Relation rel);
-    List<UnionOfIntersections> getObjRelations(Concept c);
+    List<IntersectionOfRelationChains> getObjRelations(Concept c);
     List<Concept> relatedConcepts(Concept c);
     List<Relation> allRelationsOf(Concept c);
     List<Relation> allRelationsOfByRelationType(Concept c, RelationType type);
@@ -29,5 +29,5 @@ public interface RelationDao extends Dao<Long, Relation> {
     List<Relation> findByType(String nameOfTheRelation);
     public List<Concept> getRelatedConcepts(Concept c);
     List<Relation> findRelationsByConceptTypeOfRelation(Concept concept, RelationType type);
-    boolean isPartOfInherentUnion (Relation r);
+    //boolean isPartOfInherentUnion (Relation r);
 }
