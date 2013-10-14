@@ -22,82 +22,22 @@ import javax.persistence.Query;
  * @author Erevodifwntas
  */
 public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationDao{
-    /**
-     * Finds relations with a given relation name
-     * @param nameOfTheRelation the relation name to be searched
-     * @return a list of relations
-     */
-    public List<Relation> findByType(String nameOfTheRelation)
-    {
-        Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation rt " + 
-                "WHERE r.type = rt and (rt.forwardName = ?1 or  rt.backwardName = ?1)");
-         q.setParameter(1, RelationType.RELATION_NAME.valueOf(nameOfTheRelation));
-        return q.getResultList();        
-    }
 
-    /**
-     * Finds Concepts that are objects of relations with a given name
-     * @param nameOfTheRelation the relation name to be searched
+        /**
+     * Finds all concepts are owners of (have a union of intersections containing) a given relation
+     * @param rel the relation to be searched
      * @return a list of concepts
      */
     @Override
-    public List<Concept> getObjectsOfARelation(String nameOfTheRelation)
+    public List<Concept> getOwners(Relation rel)
     {
-        RELATION_NAME t = RelationType.RELATION_NAME.valueOf(nameOfTheRelation);
-        Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation rtype " +
-                "WHERE r.type = rtype.id and rtype.forwardName = ?1");
-         q.setParameter(1, t);
-         
-        List<Relation> rels = q.getResultList();
-        if(rels!=null)
-        {
-            List<Concept> res = new ArrayList<Concept>();
-            for (int i = 0; i < rels.size(); i++)
-            {
-                res.add(rels.get(i).getObject());
-            }
-         return res;
-        }
-        return null;
-    }
-
-    /**
-     * Finds Concepts that are related to a given concept
-     * @param c the concept to be searched
-     * @return a list of concepts
-     */
-    @Override
-    public List<Concept> getRelatedConcepts(Concept c)
-    {
-        Query q = getEntityManager().createQuery("SELECT r FROM Relation r " +
-                "WHERE r.obj = ?1 or r.subject = ?1");
-        q.setParameter(1, c);
-        List<Relation> rels = q.getResultList();
-
-        List<Concept> res = new ArrayList<Concept>();
-
-        for(Relation r:rels)
-        {
-            List<RelationChain_Relation> functions = r.getMainFunctions();
-            for (RelationChain_Relation rr: functions)
-            {
-                RelationChain rc = rr.getRelationChain();
-                List<Relation> relations = rc.getActualRelations();
-                for(Relation tmpR: relations)
-                {
-                    if (!tmpR.getObject().equals(c))
-                    {
-                        res.add(tmpR.getObject());
-                    }
-                    if (!tmpR.getSubject().equals(c))
-                    {
-                        res.add(tmpR.getSubject());
-                    }
-                }
-            }
-        }
-
-        return res;
+        Query q = getEntityManager()
+                .createQuery("Select c From Concept c, IN(c.relations) as union, IntersectionOfRelations inter, " +
+                             "IN(inter.unions) as interUnion, " +
+                             "IN(inter.relations) AS interRel, IN(interRel.relations) AS rcr, RelationChain_Relation rc " +
+                             "where union.union = interUnion and rcr = rc and rc.relation = ?1");
+        q.setParameter(1, rel);
+        return q.getResultList();
     }
 
     /**
@@ -105,7 +45,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
      * Intersections that contain only one relation each
      * @param c the concept to be searched
      * @return a list of IntersectionOfRelationChains
-     */
+    */
     @Override
     public List<IntersectionOfRelationChains> getObjRelations(Concept c)
     {
@@ -149,36 +89,10 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
     }
 
     /**
-     * Finds all relations of a given concept
-     * @param c the concept to be searched
-     * @return a list of Relation
-     */
-    @Override
-    public List<Relation> allRelationsOf(Concept c)
-    {
-        getEntityManager().clear();
-
-        Query q = getEntityManager().createQuery("SELECT r FROM Relation r " +
-                "WHERE r.obj = ?1");
-        q.setParameter(1, c);
-        
-        List<Relation> res1 = q.getResultList();
-
-        q = getEntityManager().createQuery("SELECT r FROM Relation r " +
-                "WHERE r.subject = ?1");
-        q.setParameter(1, c);
-        List<Relation> res2 = q.getResultList();
-        List<Relation> res = new ArrayList<Relation>(res1.size()+res2.size());
-        res.addAll(res1);
-        res.addAll(res2);
-        return res;
-    }
-
-    /**
      * Finds all concepts related to a given concept
      * @param c the concept to be searched
      * @return a list of concepts
-     */
+    */
     @Override
     public List<Concept> relatedConcepts(Concept c)
     {
@@ -230,39 +144,66 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
     }
 
     /**
-     * Finds all concepts are owners of (have a union of intersections containing) a given relation
-     * @param rel the realtion to be searched
-     * @return a list of concepts
-     */
+     * Finds all relations of a given concept
+     * @param c the concept to be searched
+     * @return a list of Relation
+    */
     @Override
-    public List<Concept> getOwners(Relation rel)
+    public List<Relation> allRelationsOf(Concept c)
     {
-        Query q = getEntityManager()
-                .createQuery("Select c From Concept c, IN(c.relations) as union, IntersectionOfRelations inter, " +
-                             "IN(inter.unions) as interUnion, " +
-                             "IN(inter.relations) AS interRel, IN(interRel.relations) AS rcr, RelationChain_Relation rc " +
-                             "where union.union = interUnion and rcr = rc and rc.relation = ?1");
-        q.setParameter(1, rel);
+        getEntityManager().clear();
+
+        Query q = getEntityManager().createQuery("SELECT r FROM Relation r " +
+                "WHERE r.obj = ?1");
+        q.setParameter(1, c);
+
+        List<Relation> res1 = q.getResultList();
+
+        q = getEntityManager().createQuery("SELECT r FROM Relation r " +
+                "WHERE r.subject = ?1");
+        q.setParameter(1, c);
+        List<Relation> res2 = q.getResultList();
+        List<Relation> res = new ArrayList<Relation>(res1.size()+res2.size());
+        res.addAll(res1);
+        res.addAll(res2);
+        return res;
+    }
+
+    /**
+     * Finds the relations of a given concept that have a certain typeofrelation.
+     * Checks for the given concept as a subject or object (reverse type of relation for object)
+     * @param concept the concept
+     * @param type the type of relation
+     * @return List of relations
+    */
+    @Override
+    public List<Relation> allRelationsOfByRelationType(Concept concept, RelationType type) {
+        Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation tr "
+                + "WHERE (r.subject = ?1 and r.type = tr and tr.forwardName = ?2) or"
+                + "(r.obj = ?1 and r.type = tr and tr.forwardName = ?3) ");
+        q.setParameter(1, concept);
+        q.setParameter(2, type.getForwardName());
+        q.setParameter(3, type.getBackwardName());
         return q.getResultList();
     }
 
     /**
-     * Creates q query to search for a relation using subject, object and type
-     * @param entity the relation to be searched
-     * @return a query to search for the relation
+     * Finds the relations of a given concept that have a certain relation name.
+     * Checks for the given concept as a subject or object (reverse relation name for object)
+     * @param concept the concept
+     * @param name the relation name
+     * @return List of relations
      */
     @Override
-    public Query getEntityQuery(Relation entity)
-    {
-        Query q = getEntityManager().createQuery("SELECT e FROM Relation e " +
-                "where e.subject = ?1 and e.obj = ?2 and e.type = ?3"
-                );
-        q.setParameter(1, entity.getSubject());
-        q.setParameter(2, entity.getObject());
-        q.setParameter(3, entity.getType());
-        return q;
+    public List<Relation> allRelationsOfByRelationName(Concept concept, RelationType.RELATION_NAME name) {
+        Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation tr "
+                + "WHERE (r.subject = ?1 and r.type = tr and tr.forwardName = ?2) or"
+                + "(r.obj = ?1 and r.type = tr and tr.backwardName = ?2) ");
+        q.setParameter(1, concept);
+        q.setParameter(2, name);
+        return q.getResultList();
     }
-
+    
     /**
      * Checks if two concepts are related
      * @param c1 the first concept
@@ -302,6 +243,85 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
     }
 
     /**
+     * Finds Concepts that are objects of relations with a given name
+     * @param nameOfTheRelation the relation name to be searched
+     * @return a list of concepts
+     */
+    @Override
+    public List<Concept> getObjectsOfARelation(String nameOfTheRelation)
+    {
+        RELATION_NAME t = RelationType.RELATION_NAME.valueOf(nameOfTheRelation);
+        Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation rtype " +
+                "WHERE r.type = rtype.id and rtype.forwardName = ?1");
+         q.setParameter(1, t);
+
+        List<Relation> rels = q.getResultList();
+        if(rels!=null)
+        {
+            List<Concept> res = new ArrayList<Concept>();
+            for (int i = 0; i < rels.size(); i++)
+            {
+                res.add(rels.get(i).getObject());
+            }
+         return res;
+        }
+        return null;
+    }
+
+    /**
+     * Finds relations with a given relation name
+     * @param nameOfTheRelation the relation name to be searched
+     * @return a list of relations
+     */
+    @Override
+    public List<Relation> findByType(String nameOfTheRelation)
+    {
+        Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation rt " + 
+                "WHERE r.type = rt and (rt.forwardName = ?1 or  rt.backwardName = ?1)");
+         q.setParameter(1, RelationType.RELATION_NAME.valueOf(nameOfTheRelation));
+        return q.getResultList();        
+    }
+
+    /**
+     * Finds Concepts that are related to a given concept
+     * @param c the concept to be searched
+     * @return a list of concepts
+    */
+    @Override
+    public List<Concept> getRelatedConcepts(Concept c)
+    {
+        Query q = getEntityManager().createQuery("SELECT r FROM Relation r " +
+                "WHERE r.obj = ?1 or r.subject = ?1");
+        q.setParameter(1, c);
+        List<Relation> rels = q.getResultList();
+
+        List<Concept> res = new ArrayList<Concept>();
+
+        for(Relation r:rels)
+        {
+            List<RelationChain_Relation> functions = r.getMainFunctions();
+            for (RelationChain_Relation rr: functions)
+            {
+                RelationChain rc = rr.getRelationChain();
+                List<Relation> relations = rc.getActualRelations();
+                for(Relation tmpR: relations)
+                {
+                    if (!tmpR.getObject().equals(c))
+                    {
+                        res.add(tmpR.getObject());
+                    }
+                    if (!tmpR.getSubject().equals(c))
+                    {
+                        res.add(tmpR.getSubject());
+                    }
+                }
+            }
+        }
+
+        return res;
+    }
+
+    /**
      * Finds the relations of a given concept that have a certain typeofrelation.
      * Checks only for the given concept as a subject
      * @param concept the concept
@@ -317,43 +337,25 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
         return q.getResultList();
     }
 
-    /**
-     * Finds the relations of a given concept that have a certain typeofrelation.
-     * Checks for the given concept as a subject or object (reverse type of relation for object)
-     * @param concept the concept
-     * @param type the type of relation
-     * @return List of relations
-     */
-    @Override
-    public List<Relation> allRelationsOfByRelationType(Concept concept, RelationType type) {
-        Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation tr "
-                + "WHERE (r.subject = ?1 and r.type = tr and tr.forwardName = ?2) or"
-                + "(r.obj = ?1 and r.type = tr and tr.forwardName = ?3) ");
-        q.setParameter(1, concept);
-        q.setParameter(2, type.getForwardName());
-        q.setParameter(3, type.getBackwardName());
-        return q.getResultList();
-    }
+//  TODO: Check whether this should be deleted or declared in RelationDao, as it wasn't part of it
+//    /**
+//     * Creates q query to search for a relation using subject, object and type
+//     * @param entity the relation to be searched
+//     * @return a query to search for the relation
+//     */
+//    @Override
+//    public Query getEntityQuery(Relation entity)
+//    {
+//        Query q = getEntityManager().createQuery("SELECT e FROM Relation e " +
+//                "where e.subject = ?1 and e.obj = ?2 and e.type = ?3"
+//                );
+//        q.setParameter(1, entity.getSubject());
+//        q.setParameter(2, entity.getObject());
+//        q.setParameter(3, entity.getType());
+//        return q;
+//    }
 
-    /**
-     * Finds the relations of a given concept that have a certain relation name.
-     * Checks for the given concept as a subject or object (reverse relation name for object)
-     * @param concept the concept
-     * @param name the relation name
-     * @return List of relations
-     */
-    @Override
-    public List<Relation> allRelationsOfByRelationName(Concept concept, RelationType.RELATION_NAME name) {
-        Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation tr "
-                + "WHERE (r.subject = ?1 and r.type = tr and tr.forwardName = ?2) or"
-                + "(r.obj = ?1 and r.type = tr and tr.backwardName = ?2) ");
-        q.setParameter(1, concept);
-        q.setParameter(2, name);
-        return q.getResultList();
-    }
-
-
-// TODO: Temporarily commented --> UnionOfIntersections should be converted to IntersectionOfRelationChains
+// TODO: Should be deleted -or replaced- as unions ceized to exist
 //    /**
 //     * CHecks if a relation belongs to an inherent union of intersections
 //     * @param r the relation to check
@@ -362,7 +364,6 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
 //    @Override
 //    public boolean isPartOfInherentUnion (Relation r)
 //    {
-//        return r.getMainFunctions().get(0).getRelationChain().getIntersections().get(0).getUnions().get(0).isInherent();
+//        return r.getMainFunctions().get(0).getRelationChain().getIntersections().get(0).isInherent();
 //    }
-
 }
