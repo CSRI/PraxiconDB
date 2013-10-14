@@ -185,7 +185,7 @@ public class Relation implements Serializable {
     @XmlAttribute(name="subject")
     private String getSubject_() {
         StringBuilder sb = new StringBuilder();
-        if(subject.getName()!=null && subject.getName() != "")
+        if(subject.getName()!= null && subject.getName() != "")
         {
             return subject.getName();
         }
@@ -513,22 +513,22 @@ public class Relation implements Serializable {
     {
         return motoric_representation_object;
     }
-//
-//    /**
-//     * @xmlcomments.args
-//     *	   xmltag="&lt;MotoricRepresentationGroupObject&gt;"
-//     *     xmldescription="This tag defines the MotoricRepresentationGroup that should be used to express the Object in this relation"
-//     */
-//    @XmlElement(name="MotoricRepresentationGroupObject")
-//    public List<String> getMotoricRepresentationGroupObject_()
-//    {
-//        List<String> MotoricRepresentationGroupObject_ = new ArrayList<String>();
-//       for(int i = 0; i < MotoricRepresentationGroupObject.size(); i++)
-//       {
-//           MotoricRepresentationGroupObject_.add(MotoricRepresentationGroupObject.get(i).getName());
-//       }
-//        return MotoricRepresentationGroupObject_;
-//    }
+
+    /**
+     * @xmlcomments.args
+     *	   xmltag="&lt;MotoricRepresentationGroupObject&gt;"
+     *     xmldescription="This tag defines the MotoricRepresentationGroup that should be used to express the Object in this relation"
+     */
+    @XmlElement(name="MotoricRepresentationGroupObject")
+    public List<String> getMotoricRepresentationObject_()
+    {
+        List<String> motoric_representation_object_ = new ArrayList<String>();
+       for(int i = 0; i < motoric_representation_object.size(); i++)
+       {
+           motoric_representation_object_.add(motoric_representation_object.get(i).toString());
+       }
+        return motoric_representation_object_;
+    }
 
     public void setMotoricRepresentationObject(List<MotoricRepresentation> motoric_representation_object)
     {
@@ -821,35 +821,35 @@ public class Relation implements Serializable {
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
-//
-//    @Override
-//    public boolean equals(Object object) {
-//        // TODO: Warning - this method won't work in the case the id fields are not set
-//        if (!(object instanceof Relation)) {
-//            return false;
-//        }
-//        Relation other = (Relation) object;
-//        try
-//        {
-//            if ((this.type!=null && this.object!=null && this.subject!=null
-//                && this.type.equals(other.type) && this.object.equals(other.object) && this.subject.equals(other.subject))||
-//                (this.type!=null && this.object!=null && this.subject!=null
-//                &&this.type.equals(other.type) && this.object.equals(other.subject) && this.subject.equals(other.object)))
-//            {
-//                return true;
-//            }
-//            else
-//            {
-//                return false;
-//            }
-//        }
-//        catch(Exception e)
-//        {
-//            e.printStackTrace();
-//        }
-//        return false;
-//    }
-//
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Relation)) {
+            return false;
+        }
+        Relation other = (Relation) object;
+        try
+        {
+            if ((this.type!=null && this.object!=null && this.subject!=null
+                && this.type.equals(other.type) && this.object.equals(other.object) && this.subject.equals(other.subject))||
+                (this.type!=null && this.object!=null && this.subject!=null
+                &&this.type.equals(other.type) && this.object.equals(other.subject) && this.subject.equals(other.object)))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         return this.getSubject() + " " + this.getType().getForwardName() + " " + this.getObject();
