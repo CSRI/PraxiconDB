@@ -8,12 +8,10 @@ package csri.poeticon.praxicon.db.entities;
 import csri.poeticon.praxicon.Constants;
 import csri.poeticon.praxicon.Globals;
 import csri.poeticon.praxicon.db.dao.ConceptDao;
-import csri.poeticon.praxicon.db.dao.LanguageRepresentationGroupDao;
 import csri.poeticon.praxicon.db.dao.MotoricRepresentationGroupDao;
 import csri.poeticon.praxicon.db.dao.RelationTypeDao;
 import csri.poeticon.praxicon.db.dao.VisualRepresentationGroupDao;
 import csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
-import csri.poeticon.praxicon.db.dao.implSQL.LanguageRepresentationGroupDaoImpl;
 import csri.poeticon.praxicon.db.dao.implSQL.MotoricRepresentationGroupDaoImpl;
 import csri.poeticon.praxicon.db.dao.implSQL.TypeOfRelationDaoImpl;
 import csri.poeticon.praxicon.db.dao.implSQL.VisualRepresentationGroupDaoImpl;
@@ -46,6 +44,7 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author Dimitris Mavroeidis
  */
+
 @XmlRootElement()
 @Entity
 @Table(name="Relation")
@@ -112,7 +111,7 @@ public class Relation implements Serializable {
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="MotoricId")}
     )
-    MotoricRepresentation motoric_representation_subject;
+    List<MotoricRepresentation> motoric_representation_subject;
 
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="MotoricRepresentationObject")
     @JoinTable(
@@ -120,7 +119,7 @@ public class Relation implements Serializable {
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="MotoricRepresentationId")}
     )
-    MotoricRepresentation motoric_representation_object;
+    List<MotoricRepresentation> motoric_representation_object;
 
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="VisualRepresentationSubject")
     @JoinTable(
@@ -136,7 +135,7 @@ public class Relation implements Serializable {
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="VisualRepresentationId")}
     )
-    VisualRepresentation visual_representation_object;
+    List<VisualRepresentation> visual_representation_object;
 
 
 
@@ -145,12 +144,12 @@ public class Relation implements Serializable {
     public Relation()
     {
 //        mainFunctions = new ArrayList<RelationChain_Relation>();
-        visual_representation_object = new VisualRepresentation();
+        visual_representation_object = new ArrayList<VisualRepresentation>();
         visual_representation_subject = new ArrayList<VisualRepresentation>();
         language_representation_object = new ArrayList<LanguageRepresentation>();
         language_representation_subject = new ArrayList<LanguageRepresentation>();
-        motoric_representation_object = new MotoricRepresentation();
-        motoric_representation_subject = new MotoricRepresentation();
+        motoric_representation_object = new ArrayList<MotoricRepresentation>();
+        motoric_representation_subject = new ArrayList<MotoricRepresentation>();
         type = new RelationType();
     }
 
@@ -209,12 +208,10 @@ public class Relation implements Serializable {
             {
                 subjectCon = cDao.getConceptWithNameOrID(v.trim());
                 Concept c = new Concept();
-
                 c.setName(v);
                 subject = c;
                 cDao.persist(subject);
             }
-
          }
          else
          {
@@ -229,7 +226,6 @@ public class Relation implements Serializable {
             subject = c;
             Constants.globalConcepts.put(c.getName(), c);
             }
-
          }
     }
 //
@@ -387,6 +383,8 @@ public class Relation implements Serializable {
         this.language_representation_object = language_representation_object;
     }
 
+    
+// TODO: REDUNDANT???
 //    private void setLanguageRepresentationObject_(String v) throws Exception
 //    {
 //        if (Globals.ToMergeAfterUnMarshalling)
@@ -510,11 +508,11 @@ public class Relation implements Serializable {
 //        }
 //    }
 //
-//    @XmlTransient
-//    public List<MotoricRepresentationGroup> getMotoricRepresentationGroupObject()
-//    {
-//        return MotoricRepresentationGroupObject;
-//    }
+    @XmlTransient
+    public List<MotoricRepresentation> getMotoricRepresentationObject()
+    {
+        return motoric_representation_object;
+    }
 //
 //    /**
 //     * @xmlcomments.args
