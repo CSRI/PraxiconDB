@@ -7,8 +7,8 @@ package csri.poeticon.praxicon.db.entities;
 
 import csri.poeticon.praxicon.Constants;
 import csri.poeticon.praxicon.Globals;
-import csri.poeticon.praxicon.db.dao.LanguageRepresentationGroupDao;
-import csri.poeticon.praxicon.db.dao.implSQL.LanguageRepresentationGroupDaoImpl;
+import csri.poeticon.praxicon.db.dao.LanguageRepresentationDao;
+import csri.poeticon.praxicon.db.dao.implSQL.LanguageRepresentationDaoImpl;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -260,7 +260,7 @@ public class RelationChain implements Serializable {
         {
             StringBuilder sb = new StringBuilder();
             
-            Concept start = this.getIntersections().get(0).getUnions().get(0).getConcept();
+            Concept start = this.getIntersections().get(0).getConcept();
             sb.append(start.getName()).append(" (");
 
             for (int i = 0; i < this.getRelations().size(); i++)
