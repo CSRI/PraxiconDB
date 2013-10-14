@@ -529,12 +529,12 @@ public class Relation implements Serializable {
 //       }
 //        return MotoricRepresentationGroupObject_;
 //    }
-//
-//    public void setMotoricRepresentationGroupObject(List<MotoricRepresentationGroup> MotoricRepresentationGroupObject)
-//    {
-//        this.MotoricRepresentationGroupObject = MotoricRepresentationGroupObject;
-//    }
-//
+
+    public void setMotoricRepresentationObject(List<MotoricRepresentation> motoric_representation_object)
+    {
+        this.motoric_representation_object = motoric_representation_object;
+    }
+
 //    private void setMotoricRepresentationGroupObject_(List<String> v) throws Exception
 //    {
 //        for (int i = 0; i < v.size(); i++)
@@ -583,13 +583,13 @@ public class Relation implements Serializable {
 //             }
 //        }
 //    }
-//
-//    @XmlTransient
-//    public List<MotoricRepresentationGroup> getMotoricRepresentationGroupSubject()
-//    {
-//        return MotoricRepresentationGroupSubject;
-//    }
-//
+
+    @XmlTransient
+    public List<MotoricRepresentation> getMotoricRepresentationSubject()
+    {
+        return motoric_representation_subject;
+    }
+
 //        /**
 //     * @xmlcomments.args
 //     *	   xmltag="&lt;MotoricRepresentationGroupSubject&gt;"
@@ -661,11 +661,11 @@ public class Relation implements Serializable {
 //        }
 //    }
 //
-//    @XmlTransient
-//    public List<VisualRepresentationGroup> getVisualRepresentationGroupObject()
-//    {
-//        return VisualRepresentationGroupObject;
-//    }
+    @XmlTransient
+    public List<VisualRepresentation> getVisualRepresentationObject()
+    {
+        return visual_representation_object;
+    }
 //
 //        /**
 //     * @xmlcomments.args
@@ -683,10 +683,10 @@ public class Relation implements Serializable {
 //        return VisualRepresentationGroupObject_;
 //    }
 //
-//    public void setVisualRepresentationGroupObject(List<VisualRepresentationGroup> VisualRepresentationGroupObject)
-//    {
-//        this.VisualRepresentationGroupObject = VisualRepresentationGroupObject;
-//    }
+    public void setVisualRepresentationObject(List<VisualRepresentation> visual_representation_object)
+    {
+        this.visual_representation_object = visual_representation_object;
+    }
 //
 //    private void setVisualRepresentationGroupObject_(List<String> v) throws Exception
 //    {
@@ -738,12 +738,12 @@ public class Relation implements Serializable {
 //        }
 //    }
 //
-//    @XmlTransient
-//    public List<VisualRepresentationGroup> getVisualRepresentationGroupSubject()
-//    {
-//        return VisualRepresentationGroupSubject;
-//    }
-//
+    @XmlTransient
+    public List<VisualRepresentation> getVisualRepresentationSubject()
+    {
+        return visual_representation_subject;
+    }
+
 //    /**
 //     * @xmlcomments.args
 //     *	   xmltag="&lt;VisualRepresentationGroupSubject&gt;"
@@ -814,13 +814,13 @@ public class Relation implements Serializable {
 //             }
 //        }
 //    }
-//
-//    @Override
-//    public int hashCode() {
-//        int hash = 0;
-//        hash += (id != null ? id.hashCode() : 0);
-//        return hash;
-//    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
 //
 //    @Override
 //    public boolean equals(Object object) {
