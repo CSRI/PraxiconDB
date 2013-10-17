@@ -34,15 +34,12 @@ public class LanguageRepresentationDaoImplXML extends JpaDao<Long, LanguageRepre
             Concept con = (Concept)en.nextElement();
             for (int i = 0; i < con.getLanguageRepresentations().size(); i++)
             {
-                for (int j = 0; j < con.getLanguageRepresentations().get(i).getEntries().size(); j++)
+                LanguageRepresentation entry = con.getLanguageRepresentations().get(i);
+                if (entry.getLanguage().name().equalsIgnoreCase(language) &&
+                        entry.getText().equalsIgnoreCase(text) &&
+                        entry.getPartOfSpeech() == LanguageRepresentation.PartOfSpeech.valueOf(pos))
                 {
-                    LanguageRepresentation entry = con.getLanguageRepresentations().get(i).getEntries().get(j);
-                    if (entry.getLanguage().name().equalsIgnoreCase(language) &&
-                            entry.getText().equalsIgnoreCase(text) &&
-                            entry.getPartOfSpeech() == LanguageRepresentation.PartOfSpeech.valueOf(pos))
-                    {
-                        return entry;
-                    }
+                    return entry;
                 }
             }
         }
@@ -59,13 +56,10 @@ public class LanguageRepresentationDaoImplXML extends JpaDao<Long, LanguageRepre
             Concept con = (Concept)en.nextElement();
             for (int i = 0; i < con.getLanguageRepresentations().size(); i++)
             {
-                for (int j = 0; j < con.getLanguageRepresentations().get(i).getEntries().size(); j++)
+                LanguageRepresentation entry = con.getLanguageRepresentations().get(i);
+                if (entry.getText().toUpperCase().indexOf(searchString.toUpperCase()) >= 0)
                 {
-                    LanguageRepresentation entry = con.getLanguageRepresentations().get(i).getEntries().get(j);
-                    if (entry.getText().toUpperCase().indexOf(searchString.toUpperCase()) >= 0)
-                    {
-                        res.add(entry);
-                    }
+                    res.add(entry);
                 }
             }
         }
@@ -82,13 +76,10 @@ public class LanguageRepresentationDaoImplXML extends JpaDao<Long, LanguageRepre
             Concept con = (Concept)en.nextElement();
             for (int i = 0; i < con.getLanguageRepresentations().size(); i++)
             {
-                for (int j = 0; j < con.getLanguageRepresentations().get(i).getEntries().size(); j++)
+                LanguageRepresentation entry = con.getLanguageRepresentations().get(i);
+                if (entry.getText().equalsIgnoreCase(searchString))
                 {
-                    LanguageRepresentation entry = con.getLanguageRepresentations().get(i).getEntries().get(j);
-                    if (entry.getText().equalsIgnoreCase(searchString))
-                    {
-                        res.add(entry);
-                    }
+                    res.add(entry);
                 }
             }
         }
@@ -106,15 +97,10 @@ public class LanguageRepresentationDaoImplXML extends JpaDao<Long, LanguageRepre
         List<LanguageRepresentation> res = new ArrayList<LanguageRepresentation>();
         for (int i = 0; i < c.getLanguageRepresentations().size(); i++)
         {
-            for (int j = 0; j < c.getLanguageRepresentations().get(i).getEntries().size(); j++)
-            {
-                res.add(c.getLanguageRepresentations().get(i).getEntries().get(j));
-            }
+            res.add(c.getLanguageRepresentations().get(i));
         }
-
         Comparator<LanguageRepresentation> leCom = new LexicalEntryComparator();
         Collections.sort(res, leCom);
-
         return res;
     }
 
@@ -123,12 +109,8 @@ public class LanguageRepresentationDaoImplXML extends JpaDao<Long, LanguageRepre
         List<LanguageRepresentation> res = new ArrayList<LanguageRepresentation>();
         for (int i = 0; i < c.getLanguageRepresentations().size(); i++)
         {
-            for (int j = 0; j < c.getLanguageRepresentations().get(i).getEntries().size(); j++)
-            {
-                res.add(c.getLanguageRepresentations().get(i).getEntries().get(j));
-            }
+                res.add(c.getLanguageRepresentations().get(i));
         }
-
         return res;
     }
 
@@ -136,5 +118,4 @@ public class LanguageRepresentationDaoImplXML extends JpaDao<Long, LanguageRepre
     public LanguageRepresentation findByLanguageRepresentation(String language, String text, String pos) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
 }
