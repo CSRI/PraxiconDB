@@ -30,14 +30,14 @@ public class ObjectsAroundWrapper implements Comparable{
     public ObjectsAroundWrapper(Concept object)
     {
         this.object = object;
-        this.commonName = object.getLRName();
+        this.commonName = object.getLanguageRepresentationName();
         this.level = -1;
     }
 
     public ObjectsAroundWrapper(Concept object, int level)
     {
         this.object = object;
-        this.commonName = object.getLRName();
+        this.commonName = object.getLanguageRepresentationName();
         this.level = level;
     }
 
@@ -116,6 +116,4 @@ public class ObjectsAroundWrapper implements Comparable{
         }
         return -1;
     }
-
-
 }
