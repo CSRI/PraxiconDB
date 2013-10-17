@@ -6,11 +6,11 @@
 package csri.poeticon.praxicon.logs;
 
 import csri.poeticon.praxicon.db.entities.Concept;
-import csri.poeticon.praxicon.db.entities.IntersectionOfRelations;
+import csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains;
 import csri.poeticon.praxicon.db.entities.Relation;
 import csri.poeticon.praxicon.db.entities.RelationChain;
-import csri.poeticon.praxicon.db.entities.TypeOfRelation;
-import csri.poeticon.praxicon.db.entities.UnionOfIntersections;
+import csri.poeticon.praxicon.db.entities.RelationType;
+//import csri.poeticon.praxicon.db.entities.UnionOfIntersections;
 import csri.poeticon.praxicon.wrappers.ObjectsAroundWrapper;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -120,152 +120,152 @@ public class SentenceToAnalyze implements Serializable {
         return this.sentence;
     }
 
-    public Concept findCoreConcept()
-    {
-        Concept res = new Concept();
-        res.setId(-1L);
-        res.setName(this.coreConcept);
-
-        UnionOfIntersections union = new UnionOfIntersections();
-        union.setId(-1L);
-        IntersectionOfRelations inter = new IntersectionOfRelations();
-        inter.setId(-1L);
-        //goal
-        Concept g = null;
-        for(ConceptOfSentence cS: this.getConcepts())
-        {
-            if(cS.getRelationName().equalsIgnoreCase("ACTION_GOAL"))
-            {
-                g = new Concept();
-                g.setId(-2L);
-                g.setName(cS.getConceptName());
-
-            }
-        }
-        if(g!=null)
-        {
-            RelationChain rChain = new RelationChain();
-            Relation rel = new Relation();
-            TypeOfRelation goal = new TypeOfRelation();
-            goal.setForwardName(TypeOfRelation.RELATION_NAME.ACTION_GOAL);
-            goal.setBackwardName(TypeOfRelation.RELATION_NAME.GOAL_ACTION);
-            rel.setSubject(res);
-            rel.setObject(g);
-            rel.setType(goal);
-            rChain.addRelation(rel, 0);
-            inter.addRelationChain(rChain);
-
-
-            UnionOfIntersections unionC = new UnionOfIntersections();
-            unionC.setId(-1L);
-            IntersectionOfRelations interC = new IntersectionOfRelations();
-            interC.setId(-1L);
-            RelationChain rChainC = new RelationChain();
-            Relation relC = new Relation();
-            TypeOfRelation goalC = new TypeOfRelation();
-            goalC.setForwardName(TypeOfRelation.RELATION_NAME.GOAL_ACTION);
-            goalC.setBackwardName(TypeOfRelation.RELATION_NAME.ACTION_GOAL);
-            relC.setSubject(g);
-            relC.setObject(res);
-            relC.setType(goalC);
-            rChainC.addRelation(relC, 0);
-            interC.addRelationChain(rChainC);
-            unionC.addIntersection(interC);
-            g.addRelation(unionC);
-        }
-
-        //tool
-        Concept t = null;
-        for(ConceptOfSentence cS: this.getConcepts())
-        {
-            if(cS.getRelationName().equalsIgnoreCase("ACTION_TOOL"))
-            {
-                t = new Concept();
-                t.setId(-3L);
-                t.setName(cS.getConceptName());
-            }
-        }
-        if(t!=null)
-        {
-            RelationChain rChain = new RelationChain();
-            Relation rel = new Relation();
-            TypeOfRelation tool = new TypeOfRelation();
-            tool.setForwardName(TypeOfRelation.RELATION_NAME.ACTION_TOOL);
-            tool.setBackwardName(TypeOfRelation.RELATION_NAME.TOOL_ACTION);
-            rel.setSubject(res);
-            rel.setObject(t);
-            rel.setType(tool);
-            rChain.addRelation(rel, 0);
-            inter.addRelationChain(rChain);
-
-
-            UnionOfIntersections unionC = new UnionOfIntersections();
-            unionC.setId(-1L);
-            IntersectionOfRelations interC = new IntersectionOfRelations();
-            interC.setId(-1L);
-            RelationChain rChainC = new RelationChain();
-            Relation relC = new Relation();
-            TypeOfRelation goalC = new TypeOfRelation();
-            goalC.setForwardName(TypeOfRelation.RELATION_NAME.TOOL_ACTION);
-            goalC.setBackwardName(TypeOfRelation.RELATION_NAME.ACTION_TOOL);
-            relC.setSubject(t);
-            relC.setObject(res);
-            relC.setType(goalC);
-            rChainC.addRelation(relC, 0);
-            interC.addRelationChain(rChainC);
-            unionC.addIntersection(interC);
-            t.addRelation(unionC);
-        }
-
-
-        //object
-        Concept affectedObject = null;
-        for(ConceptOfSentence cS: this.getConcepts())
-        {
-            if(cS.getRelationName().equalsIgnoreCase("ACTION_OBJECT"))
-            {
-                affectedObject = new Concept();
-                affectedObject.setId(-4L);
-                affectedObject.setName(cS.getConceptName());
-            }
-        }
-        if(affectedObject!=null)
-        {
-            RelationChain rChain = new RelationChain();
-            Relation rel = new Relation();
-            TypeOfRelation obj = new TypeOfRelation();
-            obj.setForwardName(TypeOfRelation.RELATION_NAME.ACTION_OBJECT);
-            obj.setBackwardName(TypeOfRelation.RELATION_NAME.OBJECT_ACTION);
-            rel.setSubject(res);
-            rel.setObject(affectedObject);
-            rel.setType(obj);
-            rChain.addRelation(rel, 0);
-            inter.addRelationChain(rChain);
-
-            UnionOfIntersections unionC = new UnionOfIntersections();
-            unionC.setId(-1L);
-            IntersectionOfRelations interC = new IntersectionOfRelations();
-            interC.setId(-1L);
-            RelationChain rChainC = new RelationChain();
-            Relation relC = new Relation();
-            TypeOfRelation goalC = new TypeOfRelation();
-            goalC.setForwardName(TypeOfRelation.RELATION_NAME.OBJECT_ACTION);
-            goalC.setBackwardName(TypeOfRelation.RELATION_NAME.ACTION_OBJECT);
-            relC.setSubject(affectedObject);
-            relC.setObject(res);
-            relC.setType(goalC);
-            rChainC.addRelation(relC, 0);
-            interC.addRelationChain(rChainC);
-            unionC.addIntersection(interC);
-            affectedObject.addRelation(unionC);
-        }
-
-        union.addIntersection(inter);
-
-        res.addRelation(union);
-
-        return res;
-    }
+//    public Concept findCoreConcept()
+//    {
+//        Concept res = new Concept();
+//        res.setId(-1L);
+//        res.setName(this.coreConcept);
+//
+//        UnionOfIntersections union = new UnionOfIntersections();
+//        union.setId(-1L);
+//        IntersectionOfRelationChains inter = new IntersectionOfRelationChains();
+//        inter.setId(-1L);
+//        //goal
+//        Concept g = null;
+//        for(ConceptOfSentence cS: this.getConcepts())
+//        {
+//            if(cS.getRelationName().equalsIgnoreCase("ACTION_GOAL"))
+//            {
+//                g = new Concept();
+//                g.setId(-2L);
+//                g.setName(cS.getConceptName());
+//
+//            }
+//        }
+//        if(g!=null)
+//        {
+//            RelationChain rChain = new RelationChain();
+//            Relation rel = new Relation();
+//            RelationType goal = new RelationType();
+//            goal.setForwardName(RelationType.RELATION_NAME.ACTION_GOAL);
+//            goal.setBackwardName(RelationType.RELATION_NAME.GOAL_ACTION);
+//            rel.setSubject(res);
+//            rel.setObject(g);
+//            rel.setType(goal);
+//            rChain.addRelation(rel, 0);
+//            inter.addRelationChain(rChain);
+//
+//
+//            UnionOfIntersections unionC = new UnionOfIntersections();
+//            unionC.setId(-1L);
+//            IntersectionOfRelationChains interC = new IntersectionOfRelationChains();
+//            interC.setId(-1L);
+//            RelationChain rChainC = new RelationChain();
+//            Relation relC = new Relation();
+//            RelationType goalC = new RelationType();
+//            goalC.setForwardName(RelationType.RELATION_NAME.GOAL_ACTION);
+//            goalC.setBackwardName(RelationType.RELATION_NAME.ACTION_GOAL);
+//            relC.setSubject(g);
+//            relC.setObject(res);
+//            relC.setType(goalC);
+//            rChainC.addRelation(relC, 0);
+//            interC.addRelationChain(rChainC);
+//            unionC.addIntersection(interC);
+//            g.addRelation(unionC);
+//        }
+//
+//        //tool
+//        Concept t = null;
+//        for(ConceptOfSentence cS: this.getConcepts())
+//        {
+//            if(cS.getRelationName().equalsIgnoreCase("ACTION_TOOL"))
+//            {
+//                t = new Concept();
+//                t.setId(-3L);
+//                t.setName(cS.getConceptName());
+//            }
+//        }
+//        if(t!=null)
+//        {
+//            RelationChain rChain = new RelationChain();
+//            Relation rel = new Relation();
+//            RelationType tool = new RelationType();
+//            tool.setForwardName(RelationType.RELATION_NAME.ACTION_TOOL);
+//            tool.setBackwardName(RelationType.RELATION_NAME.TOOL_ACTION);
+//            rel.setSubject(res);
+//            rel.setObject(t);
+//            rel.setType(tool);
+//            rChain.addRelation(rel, 0);
+//            inter.addRelationChain(rChain);
+//
+//
+//            UnionOfIntersections unionC = new UnionOfIntersections();
+//            unionC.setId(-1L);
+//            IntersectionOfRelationChains interC = new IntersectionOfRelationChains();
+//            interC.setId(-1L);
+//            RelationChain rChainC = new RelationChain();
+//            Relation relC = new Relation();
+//            RelationType goalC = new RelationType();
+//            goalC.setForwardName(RelationType.RELATION_NAME.TOOL_ACTION);
+//            goalC.setBackwardName(RelationType.RELATION_NAME.ACTION_TOOL);
+//            relC.setSubject(t);
+//            relC.setObject(res);
+//            relC.setType(goalC);
+//            rChainC.addRelation(relC, 0);
+//            interC.addRelationChain(rChainC);
+//            unionC.addIntersection(interC);
+//            t.addRelation(unionC);
+//        }
+//
+//
+//        //object
+//        Concept affectedObject = null;
+//        for(ConceptOfSentence cS: this.getConcepts())
+//        {
+//            if(cS.getRelationName().equalsIgnoreCase("ACTION_OBJECT"))
+//            {
+//                affectedObject = new Concept();
+//                affectedObject.setId(-4L);
+//                affectedObject.setName(cS.getConceptName());
+//            }
+//        }
+//        if(affectedObject!=null)
+//        {
+//            RelationChain rChain = new RelationChain();
+//            Relation rel = new Relation();
+//            RelationType obj = new RelationType();
+//            obj.setForwardName(RelationType.RELATION_NAME.ACTION_OBJECT);
+//            obj.setBackwardName(RelationType.RELATION_NAME.OBJECT_ACTION);
+//            rel.setSubject(res);
+//            rel.setObject(affectedObject);
+//            rel.setType(obj);
+//            rChain.addRelation(rel, 0);
+//            inter.addRelationChain(rChain);
+//
+//            UnionOfIntersections unionC = new UnionOfIntersections();
+//            unionC.setId(-1L);
+//            IntersectionOfRelationChains interC = new IntersectionOfRelationChains();
+//            interC.setId(-1L);
+//            RelationChain rChainC = new RelationChain();
+//            Relation relC = new Relation();
+//            RelationType goalC = new RelationType();
+//            goalC.setForwardName(RelationType.RELATION_NAME.OBJECT_ACTION);
+//            goalC.setBackwardName(RelationType.RELATION_NAME.ACTION_OBJECT);
+//            relC.setSubject(affectedObject);
+//            relC.setObject(res);
+//            relC.setType(goalC);
+//            rChainC.addRelation(relC, 0);
+//            interC.addRelationChain(rChainC);
+//            unionC.addIntersection(interC);
+//            affectedObject.addRelation(unionC);
+//        }
+//
+//        union.addIntersection(inter);
+//
+//        res.addRelation(union);
+//
+//        return res;
+//    }
 
     public Concept findVariable()
     {
