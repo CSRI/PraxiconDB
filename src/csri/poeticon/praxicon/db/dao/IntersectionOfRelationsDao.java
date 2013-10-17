@@ -5,12 +5,12 @@
 
 package csri.poeticon.praxicon.db.dao;
 
-import csri.poeticon.praxicon.db.entities.IntersectionOfRelations;
+import csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains;
 
 /**
  *
- * @author Erevodifwntas
+ * @author Dimitris Mavroeidis
  */
-public interface IntersectionOfRelationsDao extends Dao<Long, IntersectionOfRelations>{
+public interface IntersectionOfRelationsDao extends Dao<Long, IntersectionOfRelationChains>{
 
 }
