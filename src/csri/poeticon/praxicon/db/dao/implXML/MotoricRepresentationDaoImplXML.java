@@ -33,15 +33,10 @@ public class MotoricRepresentationDaoImplXML extends JpaDao<Long, MotoricReprese
         List<MotoricRepresentation> res = new ArrayList<MotoricRepresentation>();
         for (int i = 0; i < c.getMotoricRepresentations().size(); i++)
         {
-            for (int j = 0; j < c.getMotoricRepresentations().get(i).getEntries().size(); j++)
-            {
-                res.add(c.getMotoricRepresentations().get(i).getEntries().get(j));
-            }
+            res.add(c.getMotoricRepresentations().get(i));
         }
-
         Comparator<MotoricRepresentation> mrCom = new MotoricEntryComparator();
         Collections.sort(res, mrCom);
-
         return res;
     }
 }
