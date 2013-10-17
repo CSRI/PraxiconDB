@@ -229,5 +229,4 @@ public class ConceptOfSentence implements Serializable {
     {
         return this.getConceptName();
     }
-
 }
