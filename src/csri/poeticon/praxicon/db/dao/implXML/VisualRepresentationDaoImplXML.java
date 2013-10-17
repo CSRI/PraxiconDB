@@ -33,15 +33,10 @@ public class VisualRepresentationDaoImplXML extends JpaDao<Long, VisualRepresent
         List<VisualRepresentation> res = new ArrayList<VisualRepresentation>();
         for (int i = 0; i < c.getVisualRepresentations().size(); i++)
         {
-            for (int j = 0; j < c.getVisualRepresentations().get(i).getEntries().size(); j++)
-            {
-                res.add(c.getVisualRepresentations().get(i).getEntries().get(j));
-            }
+            res.add(c.getVisualRepresentations().get(i));
         }
-
         Comparator<VisualRepresentation> mrCom = new VisualEntryComparator();
         Collections.sort(res, mrCom);
-
         return res;
     }
 }
