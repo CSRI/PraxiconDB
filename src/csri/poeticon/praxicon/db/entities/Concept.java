@@ -311,7 +311,7 @@ public class Concept implements Serializable {
      *     concept"
      */
     @XmlElement(name="vr")
-    public List<VisualRepresentation> getVisualRepresentation() {
+    public List<VisualRepresentation> getVisualRepresentations() {
         return visual_representations;
     }
 
