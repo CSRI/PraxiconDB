@@ -1,15 +1,15 @@
 CollectionOfConcepts
+Compositionality
 Concept
-IntersectionOfRelations
-LRGroup
+Constituents
+IntersectionOfRelationChains
 LanguageRepresentation
-MRGroup
 MotoricRepresentation
+MotoricRepresentationGroup
 Relation
 RelationChain
 RelationChain_Relation
-TypeOfRelation
-UnionOfIntersections
-VRGroup
+RelationType
 VisualRepresentation
+VisualRepresentationGroup
 
