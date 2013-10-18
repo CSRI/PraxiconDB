@@ -20,7 +20,8 @@ import javax.xml.bind.Marshaller;
  * as an XML
  * @author Erevodifwntas
  */
-public class XML_Utils {
+public class XML_Utils
+{
 
     /**
      * Saves all the entities as an XML file. The file should not exist, or should be

@@ -102,10 +102,15 @@ public class Constants
          * Get settings.
          */
         dbHost = props.getProperty("db.host");
+        System.out.println(dbHost);
         dbPort = props.getProperty("db.port");
+        System.out.println(dbPort);
         dbName = props.getProperty("db.name");
+        System.out.println(dbName);
         dbUser = props.getProperty("db.username");
+        System.out.println(dbUser);
         dbPass = props.getProperty("db.password");
+        System.out.println(dbPass);
         imagePath = props.getProperty("path.images");
         imagePathLabelMe = props.getProperty("path.LabelMe");
         imagePathImageNet = props.getProperty("path.ImageNet");
@@ -115,5 +120,6 @@ public class Constants
         LabelMeImagesURL = props.getProperty("url.LabelMeImages");
         ImageNetURL = props.getProperty("url.ImageNet");
         weightForVariableSolver = Double.parseDouble(props.getProperty("const.variableSolverWeight"));
+        System.out.println(weightForVariableSolver);
     }
 }

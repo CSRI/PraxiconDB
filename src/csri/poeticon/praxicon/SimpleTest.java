@@ -19,10 +19,11 @@ import java.io.IOException;
  *
  * @author Erevodifwntas
  */
-public class SimpleTest {
+public class SimpleTest
+{
     public static void main(String args[])
     {
-        try {Constants.Constants();}
+        try {Constants.Constants();} //OK
         catch (FileNotFoundException ex) { System.out.println("File not found");}
         catch (IOException ex2) { System.out.println("Could not read from file");}
         ConceptDao cDao = new ConceptDaoImpl();
