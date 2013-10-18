@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @XmlRootElement()
 @Entity
-@Table(name="VISUAL_REPRESENTATION")
+@Table(name="VisualRepresentation")
 public class VisualRepresentation implements Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -38,18 +38,18 @@ public class VisualRepresentation implements Serializable
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
     private Long id;
 
-    @Column(name="MEDIA_TYPE")
-    private String mediaType;
+    @Column(name="MediaType")
+    private String media_type;
 
-    @Column(name="VR_TYPE")
-    private String vrtype;
+    @Column(name="Type")
+    private String type;
 
-    @Column(name="REPRESENTATION")
+    @Column(name="Representation")
     private String representation;
 
-    public VisualRepresentation(String mediaType, String representation)
+    public VisualRepresentation(String media_type, String representation)
     {
-        this.mediaType = mediaType;
+        this.media_type = media_type;
         this.representation = representation;
     }
 
@@ -62,18 +62,18 @@ public class VisualRepresentation implements Serializable
   //  @Column(name = "CONCEPT_ID", insertable=false, updatable=false)
  //   private long ownerID;
 
-    @ManyToOne(optional=false, cascade=CascadeType.ALL)
-    @JoinColumn(name="VR_GROUP_ID")
-    private VisualRepresentationGroup owner;
+//    @ManyToOne(optional=false, cascade=CascadeType.ALL)
+//    @JoinColumn(name="VR_GROUP_ID")
+//    private VisualRepresentationGroup owner;
 
-    @Column(name="PROTOTYPE")
+    @Column(name="Prototype")
     private boolean prototype;
 
-    @XmlTransient
-    public VisualRepresentationGroup getOwner()
-    {
-        return owner;
-    }
+//    @XmlTransient
+//    public VisualRepresentationGroup getOwner()
+//    {
+//        return owner;
+//    }
 
     /**
      * @xmlcomments.args
@@ -94,25 +94,25 @@ public class VisualRepresentation implements Serializable
      *  (for example, if it is an immitation of the actual action)
      */
     @XmlAttribute
-    public String getVrtype()
+    public String getVisualRepresentationType()
     {
-        return vrtype;
+        return type;
     }
 
-    public void setVrtype(String vrType)
+    public void setVisualRepresentationType(String visual_representation_type)
     {
-        this.vrtype = vrType;
+        this.type = visual_representation_type;
     }
 
     public void setPrototype(boolean prototype)
     {
         this.prototype = prototype;
     }
-
-    public void setOwner(VisualRepresentationGroup owner)
-    {
-        this.owner = owner;
-    }
+//
+//    public void setOwner(VisualRepresentationGroup owner)
+//    {
+//        this.owner = owner;
+//    }
 
     /**
      * @xmlcomments.args
@@ -123,12 +123,12 @@ public class VisualRepresentation implements Serializable
     @XmlElement()
     public String getMediaType()
     {
-        return mediaType;
+        return media_type;
     }
 
-    public void setMediaType(String mediaType)
+    public void setMediaType(String media_type)
     {
-        this.mediaType = mediaType;
+        this.media_type = media_type;
     }
 
 //    @XmlAttribute(name="owner")
@@ -153,7 +153,7 @@ public class VisualRepresentation implements Serializable
         {
             return representation;
         }
-        if (this.mediaType.equalsIgnoreCase("image"))
+        if (this.media_type.equalsIgnoreCase("image"))
         {
             return Constants.imagePath + representation;
         }
@@ -196,7 +196,7 @@ public class VisualRepresentation implements Serializable
             return false;
         }
         VisualRepresentation other = (VisualRepresentation) object;
-        if (this.mediaType!=null&& this.representation!=null&&this.mediaType.equalsIgnoreCase(other.mediaType) && this.representation.equalsIgnoreCase(other.representation))
+        if (this.media_type!=null&& this.representation!=null&&this.media_type.equalsIgnoreCase(other.media_type) && this.representation.equalsIgnoreCase(other.representation))
         {
             return true;
         }
@@ -214,11 +214,11 @@ public class VisualRepresentation implements Serializable
     @Override
     public String toString()
     {
-        return "[id=" + id + "] "+this.mediaType+ ": "+ this.representation;
+        return "[id=" + id + "] "+this.media_type+ ": "+ this.representation;
     }
 
-    public void afterUnmarshal(Unmarshaller u, Object parent)
-    {
-        this.owner = (VisualRepresentationGroup)parent;
-    }
+//    public void afterUnmarshal(Unmarshaller u, Object parent)
+//    {
+//        this.owner = (VisualRepresentation)parent;
+//    }
 }
