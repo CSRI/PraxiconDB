@@ -55,9 +55,9 @@ public class MotoricRepresentation implements Serializable
         return "";
     }
 
-    @ManyToOne(optional=false, cascade=CascadeType.ALL)
-    @JoinColumn(name="MR_GROUP_ID")
-    private MotoricRepresentationGroup owner;
+//    @ManyToOne(optional=false, cascade=CascadeType.ALL)
+//    @JoinColumn(name="MR_GROUP_ID")
+//    private MotoricRepresentationGroup owner;
 
 //    @XmlTransient
 //    public MotoricRepresentation getOwner() {
@@ -128,8 +128,8 @@ public class MotoricRepresentation implements Serializable
         return "csri.poeticon.praxicon.db.entities.MotoricRepresentation[id=" + id + "]";
     }
 
-    public void afterUnmarshal(Unmarshaller u, Object parent)
-    {
-        this.owner = (MotoricRepresentationGroup)parent;
-    }
+//    public void afterUnmarshal(Unmarshaller u, Object parent)
+//    {
+//        this.owner = (MotoricRepresentationGroup)parent;
+//    }
 }
