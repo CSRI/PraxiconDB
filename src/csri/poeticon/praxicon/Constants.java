@@ -6,7 +6,7 @@ import java.util.Properties;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Hashtable;
+import java.util.Hashtable; // TODO: This is obsolete
 
 /**
  * All the constants and globals of the project. 
@@ -16,7 +16,8 @@ import java.util.Hashtable;
  * @date 18/09/2013
  * 
  */
-public class Constants {
+public class Constants
+{
 
     // DB settings constants
     public static String dbHost;
