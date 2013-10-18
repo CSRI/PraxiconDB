@@ -203,7 +203,7 @@ public class LanguageRepresentation implements Serializable {
 
     @XmlTransient
     public List<LanguageRepresentation> getLanguageRepresentations() {
-        List<LanguageRepresentation> language_representations_list = (List<LanguageRepresentation>) new <List>LanguageRepresentation();
+        List<LanguageRepresentation> language_representations_list = new ArrayList<LanguageRepresentation>();
         for (int i=0; i < this.language_representations.size(); i++)
         {
             language_representations_list.add(language_representations.get(i));
