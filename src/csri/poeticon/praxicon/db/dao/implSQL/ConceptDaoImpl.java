@@ -951,9 +951,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
     }
 
 
-
-
-
     /**
      * Updates the language representations of a concept, adding the LanguageRepresentation
      * of another concept (removing them from that concept).
@@ -1084,7 +1081,4 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
             }
         }
     }
-
-
-
 }
