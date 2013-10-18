@@ -12,7 +12,8 @@ import java.util.Comparator;
  *
  * @author Erevodifwntas
  */
-public class MotoricEntryComparator implements Comparator<MotoricRepresentation>{
+public class MotoricEntryComparator implements Comparator<MotoricRepresentation>
+{
     /**
      * NOT IMPLEMENTED YET
      * @param a the first MotoricRepresentation
@@ -20,7 +21,8 @@ public class MotoricEntryComparator implements Comparator<MotoricRepresentation>
      * @return integer result of compare (NOW 1)
      */
     @Override
-    public int compare(MotoricRepresentation a, MotoricRepresentation b) {
+    public int compare(MotoricRepresentation a, MotoricRepresentation b)
+    {
         //To be Implemented!!!
         return 1;
     }

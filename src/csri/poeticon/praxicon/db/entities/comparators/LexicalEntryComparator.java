@@ -12,7 +12,8 @@ import java.util.Comparator;
  *
  * @author Erevodifwntas
  */
-public class LexicalEntryComparator implements Comparator<LanguageRepresentation>{
+public class LexicalEntryComparator implements Comparator<LanguageRepresentation>
+{
 
     /**
      * Compares languages of two language representations
@@ -21,7 +22,8 @@ public class LexicalEntryComparator implements Comparator<LanguageRepresentation
      * @return integer result of compare
      */
     @Override
-    public int compare(LanguageRepresentation a, LanguageRepresentation b) {
+    public int compare(LanguageRepresentation a, LanguageRepresentation b)
+    {
         return a.getLanguage().name().compareToIgnoreCase(b.getLanguage().name());
     }
 }

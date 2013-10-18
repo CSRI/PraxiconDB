@@ -12,7 +12,8 @@ import java.util.Comparator;
  *
  * @author Erevodifwntas
  */
-public class VisualEntryComparator implements Comparator<VisualRepresentation>{
+public class VisualEntryComparator implements Comparator<VisualRepresentation>
+{
     /**
      * NOT IMPLEMENTED YET
      * @param a the first VisualRepresentation
@@ -20,7 +21,8 @@ public class VisualEntryComparator implements Comparator<VisualRepresentation>{
      * @return integer result of compare (NOW 1)
      */
     @Override
-    public int compare(VisualRepresentation a, VisualRepresentation b) {
+    public int compare(VisualRepresentation a, VisualRepresentation b)
+    {
         //To be Implemented!!!
         return 1;
     }
