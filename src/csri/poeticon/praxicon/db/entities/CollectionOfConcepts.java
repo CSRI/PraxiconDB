@@ -7,7 +7,6 @@ package csri.poeticon.praxicon.db.entities;
 
 import csri.poeticon.praxicon.db.dao.ConceptDao;
 import csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
-import csri.poeticon.praxicon.db.entities.Concept;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
