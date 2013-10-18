@@ -13,7 +13,8 @@ import javax.persistence.Query;
  *
  * @author Erevodifwntas
  */
-public class TypeOfRelationDaoImpl extends JpaDao<Long, RelationType> implements RelationTypeDao{
+public class TypeOfRelationDaoImpl extends JpaDao<Long, RelationType> implements RelationTypeDao
+{
     /**
      * Creates q query to search for a RelationType using forward and backward name
      * @param entity the RelationType to be searched

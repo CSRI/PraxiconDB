@@ -15,8 +15,8 @@ import javax.persistence.Query;
  *
  * @author Erevodifwntas
  */
-public class LanguageRepresentationDaoImpl extends JpaDao<Long, LanguageRepresentation> implements LanguageRepresentationDao{
-
+public class LanguageRepresentationDaoImpl extends JpaDao<Long, LanguageRepresentation> implements LanguageRepresentationDao
+{
     /**
      * Finds the LanguageRepresentation that has the given language, text and pos
      * @param language the language to search
@@ -128,7 +128,8 @@ public class LanguageRepresentationDaoImpl extends JpaDao<Long, LanguageRepresen
      * @return A list of LanguageRepresentations
      */
     @Override
-    public List<LanguageRepresentation> getEntriesSorted(Concept c) {
+    public List<LanguageRepresentation> getEntriesSorted(Concept c)
+    {
         Query q = getEntityManager().createQuery("SELECT e FROM " +
                 "Concept c, IN(c.LanguageRepresentations) as lr, IN(lr.entries) e " +
                 "where c=?1 order by e.lang"
@@ -143,7 +144,8 @@ public class LanguageRepresentationDaoImpl extends JpaDao<Long, LanguageRepresen
      * @return A list of LanguageRepresentations
      */
     @Override
-    public List<LanguageRepresentation> getEntries(Concept c) {
+    public List<LanguageRepresentation> getEntries(Concept c)
+    {
         Query q = getEntityManager().createQuery("SELECT e FROM " +
                 "Concept c, IN(c.LanguageRepresentations) as lr, IN(lr.entries) e " +
                 "where c=?1"

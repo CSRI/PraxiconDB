@@ -15,7 +15,8 @@ import java.util.List;
  *
  * @author Erevodifwntas
  */
-public class SimplifiedRelationNameDaoImpl extends JpaDao<Long, SimplifiedRelationName> implements SimplifiedRelationNameDao{
+public class SimplifiedRelationNameDaoImpl extends JpaDao<Long, SimplifiedRelationName> implements SimplifiedRelationNameDao
+{
     /**
      * Gives the simple relation name of a given complex relation name
      * @param complexName the complex relaiton name
@@ -35,5 +36,4 @@ public class SimplifiedRelationNameDaoImpl extends JpaDao<Long, SimplifiedRelati
         }
         return ((SimplifiedRelationName)tmp.get(0)).getSimpleName();
     }
-
 }

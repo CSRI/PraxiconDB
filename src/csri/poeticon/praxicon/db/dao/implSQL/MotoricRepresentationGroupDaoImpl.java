@@ -14,14 +14,16 @@ import javax.persistence.Query;
  *
  * @author Erevodifwntas
  */
-public class MotoricRepresentationGroupDaoImpl extends JpaDao<Long, MotoricRepresentationGroup> implements MotoricRepresentationGroupDao{
+public class MotoricRepresentationGroupDaoImpl extends JpaDao<Long, MotoricRepresentationGroup> implements MotoricRepresentationGroupDao
+{
     /**
      * Finds the MotoricRepresentation Group that have a given name
      * @param name the name to search
      * @return A list of MotoricRepresentationGroups
      */
     @Override
-    public List<MotoricRepresentationGroup> findAllByName(String name) {
+    public List<MotoricRepresentationGroup> findAllByName(String name)
+    {
         List<MotoricRepresentationGroup> res;
         Query q = getEntityManager().createQuery("SELECT mrg FROM MotoricRepresentationGroup mrg "
                 + "where mrg.name like ?1");

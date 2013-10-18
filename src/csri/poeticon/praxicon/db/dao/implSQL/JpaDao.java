@@ -16,18 +16,21 @@ import java.util.List;
  *
  * @author Erevodifwntas
  */
-public abstract class JpaDao<K, E> implements Dao<K, E> {
+public abstract class JpaDao<K, E> implements Dao<K, E>
+{
     protected Class<E> entityClass;
 
     protected EntityManager entityManager;
 
-    public JpaDao() {
+    public JpaDao()
+    {
             ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
             this.entityClass = (Class<E>) genericSuperclass.getActualTypeArguments()[1];
             this.entityManager = EntityMngFactory.getEntityManager();
     }
 
-    public JpaDao(EntityManager entityManager) {
+    public JpaDao(EntityManager entityManager)
+    {
             ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
             this.entityClass = (Class<E>) genericSuperclass.getActualTypeArguments()[1];
             this.entityManager = entityManager;
@@ -47,7 +50,8 @@ public abstract class JpaDao<K, E> implements Dao<K, E> {
     }
 
     @Override
-    public void persist(E entity) {
+    public void persist(E entity)
+    {
         if(!entityManager.getTransaction().isActive())
         {
             entityManager.getTransaction().begin();
@@ -70,7 +74,8 @@ public abstract class JpaDao<K, E> implements Dao<K, E> {
     }
 
     @Override
-    public void merge(E entity) {
+    public void merge(E entity)
+    {
     if(!entityManager.getTransaction().isActive())
     {
         entityManager.getTransaction().begin();
@@ -93,10 +98,16 @@ public abstract class JpaDao<K, E> implements Dao<K, E> {
     }
 
     @Override
-    public void remove(E entity) { entityManager.remove(entity); }
+    public void remove(E entity)
+    {
+        entityManager.remove(entity);
+    }
 
     @Override
-    public E findById(K id) { return entityManager.find(entityClass, id); }
+    public E findById(K id)
+    {
+        return entityManager.find(entityClass, id);
+    }
         
     // This is for MySQL ONLY, doesn't work for all entities.
     // Please override as appropriate.

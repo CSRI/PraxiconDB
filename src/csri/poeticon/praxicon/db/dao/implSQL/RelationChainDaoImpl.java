@@ -15,7 +15,8 @@ import javax.persistence.Query;
  *
  * @author Erevodifwntas
  */
-public class RelationChainDaoImpl extends JpaDao<Long, RelationChain> implements RelationChainDao{
+public class RelationChainDaoImpl extends JpaDao<Long, RelationChain> implements RelationChainDao
+{
 
     /**
      * Finds all RelationChain that have a ralation with subject or object a given concept

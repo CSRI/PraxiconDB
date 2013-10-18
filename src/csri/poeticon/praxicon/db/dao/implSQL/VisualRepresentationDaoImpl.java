@@ -15,7 +15,8 @@ import javax.persistence.Query;
  *
  * @author Erevodifwntas
  */
-public class VisualRepresentationDaoImpl extends JpaDao<Long, VisualRepresentation> implements VisualRepresentationDao{
+public class VisualRepresentationDaoImpl extends JpaDao<Long, VisualRepresentation> implements VisualRepresentationDao
+{
     /**
      * Creates q query to search for a given VisualRepresentation using media type, representation ant prototype
      * @param entity the VisualRepresentation to be searched
@@ -39,7 +40,8 @@ public class VisualRepresentationDaoImpl extends JpaDao<Long, VisualRepresentati
      * @return a list of VisualRepresentation
      */
     @Override
-    public List<VisualRepresentation> getEntries(Concept c) {
+    public List<VisualRepresentation> getEntries(Concept c)
+    {
         Query q = getEntityManager().createQuery("SELECT entry FROM " +
                 "Concept c, IN(c.VRs) as VR, IN(VR.entries) entry " +
                 "where c=?1"

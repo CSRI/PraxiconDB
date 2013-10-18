@@ -15,7 +15,8 @@ import javax.persistence.Query;
  *
  * @author Erevodifwntas
  */
-public class MotoricRepresentationDaoImpl extends JpaDao<Long, MotoricRepresentation> implements MotoricRepresentationDao{
+public class MotoricRepresentationDaoImpl extends JpaDao<Long, MotoricRepresentation> implements MotoricRepresentationDao
+{
 
     /**
      * Creates q query to search for a MotoricRepresentation using representation
@@ -38,7 +39,8 @@ public class MotoricRepresentationDaoImpl extends JpaDao<Long, MotoricRepresenta
      * @return a list of MotoricRepresentations
      */
     @Override
-    public List<MotoricRepresentation> getEntries(Concept c) {
+    public List<MotoricRepresentation> getEntries(Concept c)
+    {
         Query q = getEntityManager().createQuery("SELECT entry FROM " +
                 "Concept c, IN(c.motoricRepresentations) as MR, IN(MR.entries) entry " +
                 "where c=?1"

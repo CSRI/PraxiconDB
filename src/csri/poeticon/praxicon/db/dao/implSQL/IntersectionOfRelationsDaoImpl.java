@@ -13,9 +13,9 @@ import javax.persistence.Query;
  *
  * @author Erevodifwntas
  */
-public class IntersectionOfRelationsDaoImpl extends JpaDao<Long, IntersectionOfRelationChains> implements IntersectionOfRelationsDao{
-
-    /**
+public class IntersectionOfRelationsDaoImpl extends JpaDao<Long, IntersectionOfRelationChains> implements IntersectionOfRelationsDao
+{
+   /**
      * Creates q query to search for a IntersectionOfRelationChains using name
      * @param entity the IntersectionOfRelationChains to be searched
      * @return a query to search for the IntersectionOfRelationChains

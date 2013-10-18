@@ -21,9 +21,9 @@ import javax.persistence.Query;
  *
  * @author Erevodifwntas
  */
-public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationDao{
-
-        /**
+public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationDao
+{
+    /**
      * Finds all concepts are owners of (have a union of intersections containing) a given relation
      * @param rel the relation to be searched
      * @return a list of concepts
@@ -177,7 +177,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
      * @return List of relations
     */
     @Override
-    public List<Relation> allRelationsOfByRelationType(Concept concept, RelationType type) {
+    public List<Relation> allRelationsOfByRelationType(Concept concept, RelationType type)
+    {
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation tr "
                 + "WHERE (r.subject = ?1 and r.type = tr and tr.forwardName = ?2) or"
                 + "(r.obj = ?1 and r.type = tr and tr.forwardName = ?3) ");
@@ -195,7 +196,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
      * @return List of relations
      */
     @Override
-    public List<Relation> allRelationsOfByRelationName(Concept concept, RelationType.RELATION_NAME name) {
+    public List<Relation> allRelationsOfByRelationName(Concept concept, RelationType.RELATION_NAME name)
+    {
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation tr "
                 + "WHERE (r.subject = ?1 and r.type = tr and tr.forwardName = ?2) or"
                 + "(r.obj = ?1 and r.type = tr and tr.backwardName = ?2) ");
@@ -329,7 +331,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
      * @return List of relations
      */
     @Override
-    public List<Relation> findRelationsByConceptTypeOfRelation(Concept concept, RelationType type) {
+    public List<Relation> findRelationsByConceptTypeOfRelation(Concept concept, RelationType type)
+    {
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation tr "
                 + "WHERE (r.subject = ?1 and r.type = tr and tr.forwardName = ?2)");
         q.setParameter(1, concept);
