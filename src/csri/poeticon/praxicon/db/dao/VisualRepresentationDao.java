@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author Erevodifwntas
  */
-public interface VisualRepresentationDao extends Dao<Long, VisualRepresentation>{
-
+public interface VisualRepresentationDao extends Dao<Long, VisualRepresentation>
+{
     List<VisualRepresentation> getEntries(Concept c);
 }

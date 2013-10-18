@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author Erevodifwntas
  */
-public interface MotoricRepresentationDao extends Dao<Long, MotoricRepresentation>{
-
+public interface MotoricRepresentationDao extends Dao<Long, MotoricRepresentation>
+{
     public List<MotoricRepresentation> getEntries(Concept c);
 }

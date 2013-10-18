@@ -16,8 +16,8 @@ import java.util.List;
  *
  * @author Erevodifwntas
  */
-public interface ConceptDao extends Dao<Long, Concept>{
-
+public interface ConceptDao extends Dao<Long, Concept>
+{
     @Override
     List<Concept> findAll();
     List<Concept> findAllByLanguageRepresentation(String queryString);

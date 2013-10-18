@@ -12,6 +12,7 @@ import csri.poeticon.praxicon.db.entities.SimplifiedRelationName;
  *
  * @author Erevodifwntas
  */
-public interface SimplifiedRelationNameDao extends Dao<Long, SimplifiedRelationName>{
+public interface SimplifiedRelationNameDao extends Dao<Long, SimplifiedRelationName>
+{
     String getSimplifiedName(String complexName);
 }

@@ -13,7 +13,8 @@ import javax.persistence.Query;
  *
  * @author Erevodifwntas
  */
-public interface Dao<K, E> {
+public interface Dao<K, E>
+{
       void persist(E entity);
       void merge(E entity);
       void remove(E entity);

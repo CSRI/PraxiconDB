@@ -13,8 +13,8 @@ import java.util.List;
  *
  * @author Erevodifwntas
  */
-public interface LanguageRepresentationDao extends Dao<Long, LanguageRepresentation>{
-
+public interface LanguageRepresentationDao extends Dao<Long, LanguageRepresentation>
+{
     List<LanguageRepresentation> find(String searchString);
     LanguageRepresentation findByLanguageRepresentation(String language, String text, String pos);
     LanguageRepresentation findLanguageRepresentation(String language, String text, String pos);

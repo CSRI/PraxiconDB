@@ -15,8 +15,8 @@ import java.util.List;
  *
  * @author Erevodifwntas
  */
-public interface RelationDao extends Dao<Long, Relation> {
-
+public interface RelationDao extends Dao<Long, Relation>
+{
     List<Concept> getOwners(Relation rel);
     List<IntersectionOfRelationChains> getObjRelations(Concept c);
     List<Concept> relatedConcepts(Concept c);

@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Erevodifwntas
  */
-public interface MotoricRepresentationGroupDao extends Dao<Long, MotoricRepresentationGroup>{
-
+public interface MotoricRepresentationGroupDao extends Dao<Long, MotoricRepresentationGroup>
+{
     List<MotoricRepresentationGroup> findAllByName(String name);
 }

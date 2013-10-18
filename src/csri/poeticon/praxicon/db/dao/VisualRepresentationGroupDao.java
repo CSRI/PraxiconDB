@@ -13,6 +13,7 @@ import java.util.List;
  *
  * @author Erevodifwntas
  */
-public interface VisualRepresentationGroupDao extends Dao<Long, VisualRepresentationGroup>{
+public interface VisualRepresentationGroupDao extends Dao<Long, VisualRepresentationGroup>
+{
     List<VisualRepresentationGroup> findAllByName(String name);
 }

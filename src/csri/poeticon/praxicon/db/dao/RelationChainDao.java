@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author Erevodifwntas
  */
-public interface RelationChainDao extends Dao<Long, RelationChain> {
-
+public interface RelationChainDao extends Dao<Long, RelationChain>
+{
     List<RelationChain> getRelationChainsContainingConcept(Concept c);
 }
