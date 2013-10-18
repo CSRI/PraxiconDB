@@ -20,8 +20,8 @@ import javax.persistence.Query;
  *
  * @author Erevodifwntas
  */
-public class MotoricRepresentationDaoImplXML extends JpaDao<Long, MotoricRepresentation> implements MotoricRepresentationDao{
-
+public class MotoricRepresentationDaoImplXML extends JpaDao<Long, MotoricRepresentation> implements MotoricRepresentationDao
+{
     @Override
     public Query getEntityQuery(MotoricRepresentation entity)
     {
@@ -29,7 +29,8 @@ public class MotoricRepresentationDaoImplXML extends JpaDao<Long, MotoricReprese
     }
 
     @Override
-    public List<MotoricRepresentation> getEntries(Concept c) {
+    public List<MotoricRepresentation> getEntries(Concept c)
+    {
         List<MotoricRepresentation> res = new ArrayList<MotoricRepresentation>();
         for (int i = 0; i < c.getMotoricRepresentations().size(); i++)
         {

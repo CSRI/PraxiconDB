@@ -20,8 +20,8 @@ import javax.persistence.Query;
  *
  * @author Erevodifwntas
  */
-public class VisualRepresentationDaoImplXML extends JpaDao<Long, VisualRepresentation> implements VisualRepresentationDao{
-
+public class VisualRepresentationDaoImplXML extends JpaDao<Long, VisualRepresentation> implements VisualRepresentationDao
+{
     @Override
     public Query getEntityQuery(VisualRepresentation entity)
     {
@@ -29,7 +29,8 @@ public class VisualRepresentationDaoImplXML extends JpaDao<Long, VisualRepresent
     }
 
     @Override
-    public List<VisualRepresentation> getEntries(Concept c) {
+    public List<VisualRepresentation> getEntries(Concept c)
+    {
         List<VisualRepresentation> res = new ArrayList<VisualRepresentation>();
         for (int i = 0; i < c.getVisualRepresentations().size(); i++)
         {

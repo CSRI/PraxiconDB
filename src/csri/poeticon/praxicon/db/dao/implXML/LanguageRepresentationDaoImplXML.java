@@ -22,8 +22,8 @@ import javax.persistence.Query;
  *
  * @author Erevodifwntas
  */
-public class LanguageRepresentationDaoImplXML extends JpaDao<Long, LanguageRepresentation> implements LanguageRepresentationDao{
-
+public class LanguageRepresentationDaoImplXML extends JpaDao<Long, LanguageRepresentation> implements LanguageRepresentationDao
+{
     @Override
     public LanguageRepresentation findLanguageRepresentation(String language, String text, String pos)
     {
@@ -93,7 +93,8 @@ public class LanguageRepresentationDaoImplXML extends JpaDao<Long, LanguageRepre
     }
 
     @Override
-    public List<LanguageRepresentation> getEntriesSorted(Concept c) {
+    public List<LanguageRepresentation> getEntriesSorted(Concept c)
+    {
         List<LanguageRepresentation> res = new ArrayList<LanguageRepresentation>();
         for (int i = 0; i < c.getLanguageRepresentations().size(); i++)
         {
@@ -105,7 +106,8 @@ public class LanguageRepresentationDaoImplXML extends JpaDao<Long, LanguageRepre
     }
 
     @Override
-    public List<LanguageRepresentation> getEntries(Concept c) {
+    public List<LanguageRepresentation> getEntries(Concept c)
+    {
         List<LanguageRepresentation> res = new ArrayList<LanguageRepresentation>();
         for (int i = 0; i < c.getLanguageRepresentations().size(); i++)
         {
@@ -115,7 +117,8 @@ public class LanguageRepresentationDaoImplXML extends JpaDao<Long, LanguageRepre
     }
 
     @Override
-    public LanguageRepresentation findByLanguageRepresentation(String language, String text, String pos) {
+    public LanguageRepresentation findByLanguageRepresentation(String language, String text, String pos)
+    {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

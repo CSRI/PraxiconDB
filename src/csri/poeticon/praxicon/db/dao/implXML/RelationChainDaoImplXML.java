@@ -20,11 +20,11 @@ import javax.persistence.Query;
  *
  * @author Erevodifwntas
  */
-public class RelationChainDaoImplXML extends JpaDao<Long, RelationChain> implements RelationChainDao{
-
-
+public class RelationChainDaoImplXML extends JpaDao<Long, RelationChain> implements RelationChainDao
+{
     @Override
-    public List<RelationChain> getRelationChainsContainingConcept(Concept c) {
+    public List<RelationChain> getRelationChainsContainingConcept(Concept c)
+    {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
