@@ -46,9 +46,10 @@ import javax.persistence.Enumerated;
 @Entity
 @EntityListeners(ConceptListener.class)
 @Table(name="Concepts")
-public class Concept implements Serializable {
-
-    public static enum Type {
+public class Concept implements Serializable
+{
+    public static enum Type
+    {
         ABSTRACT, ENTITY, FEATURE, MOVEMENT, UNKNOWN;
         @Override
         public String toString()
@@ -57,7 +58,8 @@ public class Concept implements Serializable {
         }
     }
 
-    public static enum SpecificityLevel {
+    public static enum SpecificityLevel
+    {
         BASIC_LEVEL, ABOVE_BASIC_LEVEL, BELOW_BASIC_LEVEL, UNKNOWN;
         @Override
         public String toString()
@@ -66,7 +68,8 @@ public class Concept implements Serializable {
         }
     }
 
-    public static enum Status {
+    public static enum Status
+    {
         CONSTANT, VARIABLE, TEMPLATE;
         @Override
         public String toString()
@@ -75,7 +78,8 @@ public class Concept implements Serializable {
         }
     }
 
-    public static enum UniqueInstance {
+    public static enum UniqueInstance
+    {
         YES, NO, UNKNOWN ;
         @Override
         public String toString()
@@ -84,7 +88,8 @@ public class Concept implements Serializable {
         }
     }
 
-    public static enum PragmaticStatus {
+    public static enum PragmaticStatus
+    {
         FIGURATIVE, LITERAL, UNKNOWN ;
         @Override
         public String toString()
@@ -239,11 +244,13 @@ public class Concept implements Serializable {
 
 
     @XmlTransient
-    public List<Relation> getObjectOfRelations() {
+    public List<Relation> getObjectOfRelations()
+    {
         return object_of_relations;
     }
 
-    public void setObjectOfRelations(List<Relation> objOfRelations) {
+    public void setObjectOfRelations(List<Relation> objOfRelations)
+    {
         this.object_of_relations = objOfRelations;
     }
 
@@ -255,13 +262,16 @@ public class Concept implements Serializable {
      *     concept"
      */
     @XmlElement(name="lr")
-    public List<LanguageRepresentation> getLanguageRepresentations() {
+    public List<LanguageRepresentation> getLanguageRepresentations()
+    {
         return language_representations;
     }
 
-    public List<LanguageRepresentation> getLanguageRepresentationsEntries() {
+    public List<LanguageRepresentation> getLanguageRepresentationsEntries()
+    {
         List<LanguageRepresentation> language_representation_entries = new ArrayList<LanguageRepresentation>();
-        for (int i=0; i<this.language_representations.size(); i++){
+        for (int i=0; i<this.language_representations.size(); i++)
+        {
             language_representation_entries.add(this.language_representations.get(i));
         }
         return language_representation_entries;
@@ -272,7 +282,8 @@ public class Concept implements Serializable {
         this.language_representations.add(language_representation);
     }
 
-    public void setLanguageRepresentation(List<LanguageRepresentation> language_representations) {
+    public void setLanguageRepresentation(List<LanguageRepresentation> language_representations)
+    {
         this.language_representations = language_representations;
     }
 
@@ -282,19 +293,23 @@ public class Concept implements Serializable {
      *     xmldescription="This tag defines the motoric representation"
      */
     @XmlElement(name="mr")
-    public List<MotoricRepresentation> getMotoricRepresentations() {
+    public List<MotoricRepresentation> getMotoricRepresentations()
+    {
         return motoric_representations;
     }
 
-    public List<MotoricRepresentation> getMotoricRepresentationsEntries() {
+    public List<MotoricRepresentation> getMotoricRepresentationsEntries()
+    {
         List<MotoricRepresentation> motoric_representation_entries = new ArrayList<MotoricRepresentation>();
-        for(int i=0; i<this.motoric_representations.size(); i++){
+        for(int i=0; i<this.motoric_representations.size(); i++)
+        {
             motoric_representation_entries.add(this.motoric_representations.get(i));
         }
         return motoric_representation_entries;
     }
 
-    public void setMotoricRepresentations(List<MotoricRepresentation> motoric_representations) {
+    public void setMotoricRepresentations(List<MotoricRepresentation> motoric_representations)
+    {
         this.motoric_representations = motoric_representations;
     }
 
@@ -311,21 +326,26 @@ public class Concept implements Serializable {
      *     concept"
      */
     @XmlElement(name="vr")
-    public List<VisualRepresentation> getVisualRepresentations() {
+    public List<VisualRepresentation> getVisualRepresentations()
+    {
         return visual_representations;
     }
 
-    public void addVisualRepresentation(VisualRepresentation visual_representation) {
+    public void addVisualRepresentation(VisualRepresentation visual_representation)
+    {
         this.visual_representations.add(visual_representation);
     }
 
-    public void setVisualRepresentation(List<VisualRepresentation> visual_representations) {
+    public void setVisualRepresentation(List<VisualRepresentation> visual_representations)
+    {
         this.visual_representations = visual_representations;
     }
     
-    public List<VisualRepresentation> getVisualRepresentationsEntries() {
+    public List<VisualRepresentation> getVisualRepresentationsEntries()
+    {
         List<VisualRepresentation> visual_representation_entries = new ArrayList<VisualRepresentation>();
-        for(int i=0; i<this.visual_representations.size(); i++){
+        for(int i=0; i<this.visual_representations.size(); i++)
+        {
             visual_representation_entries.add(this.visual_representations.get(i));
         }
         return visual_representation_entries;
@@ -339,7 +359,8 @@ public class Concept implements Serializable {
     public String getLanguageRepresentationName()
     {
         List<LanguageRepresentation> les = this.getLanguageRepresentation();
-        for(int i = 0; i < les.size(); i++){
+        for(int i = 0; i < les.size(); i++)
+        {
             if (les.get(i).getLanguage().name().equalsIgnoreCase("en"))
             {
                 return les.get(i).getText();
@@ -402,7 +423,8 @@ public class Concept implements Serializable {
      *     of relation that this concept participates"
      */
     @XmlElement(name="union_of_intersections_of_relations")
-    public List<IntersectionOfRelationChains> getRelations() {
+    public List<IntersectionOfRelationChains> getRelations()
+    {
         return relations;
     }
 
@@ -987,7 +1009,8 @@ public class Concept implements Serializable {
      *     xmldescription="This attribute defines the name of the element"
      */
     @XmlAttribute()
-    public String getName() {
+    public String getName()
+    {
         if (name!=null)
         {
             return name;
@@ -996,7 +1019,8 @@ public class Concept implements Serializable {
             return id+"";
     }
 
-    public String getNameNoNumbers() {
+    public String getNameNoNumbers()
+    {
         if (name!=null)
         {
             return name.replaceAll("%\\d+:\\d+:\\d+:\\d*:\\d*", "");
@@ -1005,7 +1029,8 @@ public class Concept implements Serializable {
             return id+"";
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name.trim();
     }
 
@@ -1018,17 +1043,20 @@ public class Concept implements Serializable {
      *     concept"
      */
     @XmlElement(name="lr")
-    public List<LanguageRepresentation> getLanguageRepresentation() {
+    public List<LanguageRepresentation> getLanguageRepresentation()
+    {
         return language_representations;
     }
 
 
     @XmlAttribute
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 

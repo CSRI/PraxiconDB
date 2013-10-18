@@ -37,7 +37,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement()
 @Entity
 @Table(name="IntersectionOfRelationChains")
-public class IntersectionOfRelationChains implements Serializable {
+public class IntersectionOfRelationChains implements Serializable
+{
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
@@ -201,44 +202,53 @@ public class IntersectionOfRelationChains implements Serializable {
 //    }
 
     @XmlAttribute
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
     @XmlAttribute()
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
     @XmlTransient
-    public Concept getConcept() {
+    public Concept getConcept()
+    {
         return concept;
     }
 
-    public void setConcept(Concept concept) {
+    public void setConcept(Concept concept)
+    {
         this.concept = concept;
     }
 
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object)
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof IntersectionOfRelationChains)) {
+        if (!(object instanceof IntersectionOfRelationChains))
+        {
             return false;
         }
         IntersectionOfRelationChains other = (IntersectionOfRelationChains) object;
@@ -258,7 +268,8 @@ public class IntersectionOfRelationChains implements Serializable {
                 return true;
             }
         }
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        {
             return false;
         }
 
@@ -270,7 +281,8 @@ public class IntersectionOfRelationChains implements Serializable {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "csri.poeticon.praxicon.db.entities.IntersectionOfRelations[id=" + id + "]";
     }
 

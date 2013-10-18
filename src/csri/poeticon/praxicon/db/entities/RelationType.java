@@ -31,11 +31,13 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement()
 @Entity
 @Table(name="RelationType")
-public class RelationType implements Serializable {
+public class RelationType implements Serializable
+{
 
     public static RELATION_NAME[] Bequethed = {RELATION_NAME.HAS_PART, RELATION_NAME.PART_OF};
 
-    public static enum RELATION_NAME {
+    public static enum RELATION_NAME
+    {
         ACTION_AGENT, ACTION_GOAL, ACTION_OBJECT, ACTION_RESULT,
         ACTION_TOOL, ASPECT_CONCEPT, COMPARED_WITH, ENABLES,
         HAS_ANTHROPOGENIC_EFFECT, HAS_COLOUR, HAS_CONDITION, HAS_CONTENT,
@@ -113,7 +115,8 @@ public class RelationType implements Serializable {
         this.xmlRelationBackward = xmlRelation;
     }
 
-    public static List<RelationType> getLocationRelations() {
+    public static List<RelationType> getLocationRelations()
+    {
         List<RelationType> res = new ArrayList<RelationType>();
         RelationType tmp = new RelationType();
         tmp.setForwardName("action_location");
@@ -172,11 +175,13 @@ public class RelationType implements Serializable {
         this.backwardName = backwardName;
     }
   
-    public RELATION_NAME getForwardName() {
+    public RELATION_NAME getForwardName()
+    {
         return forwardName;
     }
 
-    public void setForwardName(RELATION_NAME name) {
+    public void setForwardName(RELATION_NAME name)
+    {
         this.forwardName = name;
     }
 
@@ -186,9 +191,11 @@ public class RelationType implements Serializable {
      * is not a RELATION_NAME. This isn't stored in the db
      * @param name The forward name of the relation
      */
-    public void setForwardNameString(String name) {
+    public void setForwardNameString(String name)
+    {
         String tmp = name.replaceAll("-", "_");
-        try{
+        try
+        {
             this.forwardName = RELATION_NAME.valueOf(tmp.toUpperCase());
         }
         catch(Exception e)
@@ -197,7 +204,8 @@ public class RelationType implements Serializable {
         }
     }
 
-    public void setForwardName(String name) {
+    public void setForwardName(String name)
+    {
         this.forwardName = RELATION_NAME.valueOf(name.toUpperCase());
     }
 
@@ -208,7 +216,8 @@ public class RelationType implements Serializable {
      *     is used from left to right"
      */
     @XmlAttribute(name="left-to-right_name")
-    public String getForwardNameString() {
+    public String getForwardNameString()
+    {
         if(forwardName !=null && !forwardName.name().equalsIgnoreCase(""))
         {
             return forwardName.name();
@@ -220,15 +229,18 @@ public class RelationType implements Serializable {
     }
 
     
-    public RELATION_NAME getBackwardName() {
+    public RELATION_NAME getBackwardName()
+    {
         return backwardName;
     }
 
-    public void setBackwardName(RELATION_NAME backwardName) {
+    public void setBackwardName(RELATION_NAME backwardName)
+    {
         this.backwardName = backwardName;
     }
 
-    public void setBackwardName(String name) {
+    public void setBackwardName(String name)
+    {
         this.backwardName = RELATION_NAME.valueOf(name.toUpperCase());;
     }
 
@@ -237,9 +249,11 @@ public class RelationType implements Serializable {
      * is not a RELATION_NAME. This isn't stored in the db
      * @param name The backward name of the relation
      */
-    public void setBackwardNameString(String name) {
+    public void setBackwardNameString(String name)
+    {
         String tmp = name.replaceAll("-", "_");
-        try{
+        try
+        {
             this.backwardName = RELATION_NAME.valueOf(tmp.toUpperCase());
         }
         catch(Exception e)
@@ -255,7 +269,8 @@ public class RelationType implements Serializable {
      *     is used from left to right"
      */
     @XmlAttribute(name="right-to-left_name")
-    public String getBackwardNameString() {
+    public String getBackwardNameString()
+    {
         if(backwardName !=null && !backwardName.name().equalsIgnoreCase(""))
         {
             return backwardName.name();
@@ -267,11 +282,13 @@ public class RelationType implements Serializable {
     }
 
     @XmlTransient
-    public List<Relation> getRelations() {
+    public List<Relation> getRelations()
+    {
         return relations;
     }
 
-    public void setRelations(List<Relation> relations) {
+    public void setRelations(List<Relation> relations)
+    {
         this.relations = relations;
     }
 
@@ -282,25 +299,30 @@ public class RelationType implements Serializable {
     }
 
     @XmlAttribute
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object)
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof RelationType)) {
+        if (!(object instanceof RelationType))
+        {
             return false;
         }
         RelationType other = (RelationType) object;
@@ -321,7 +343,7 @@ public class RelationType implements Serializable {
                                         };
 
        for(int i = 0; i < equalsRelations.length; i++)
-        {
+       {
             if (this.forwardName !=null && other.forwardName !=null &&
                     this.backwardName !=null && other.backwardName !=null)
             {
@@ -333,7 +355,8 @@ public class RelationType implements Serializable {
             }
         }
 
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        {
             return false;
         }
         if (this.id == null && other.id == null)
@@ -345,7 +368,8 @@ public class RelationType implements Serializable {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "csri.poeticon.praxicon.db.entities.RelationType[id=" + id + "]";
     }
 

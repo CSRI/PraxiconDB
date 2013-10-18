@@ -36,7 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement()
 @Entity
 @Table(name="RelationChain")
-public class RelationChain implements Serializable {
+public class RelationChain implements Serializable
+{
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
@@ -74,11 +75,13 @@ public class RelationChain implements Serializable {
     }
 
     @XmlAttribute
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
@@ -93,7 +96,7 @@ public class RelationChain implements Serializable {
      *	   xmltag="&lt;LRGroupNames&gt;"
      *     xmldescription="This tag defines the names of the LanguageRepresentationGroup that should be used to express this relation chain"
      */
-   @XmlElement(name="LRGroupName")
+    @XmlElement(name="LRGroupName")
     public List<String> getLanguageRepresentationNames_()
     {
        List<String> language_representation_names_ = new ArrayList<String>();
@@ -165,11 +168,13 @@ public class RelationChain implements Serializable {
      *     xmldescription="This tag defines the relations of the entity
      */
     @XmlElement(name="relation_order")
-    public List<RelationChain_Relation> getRelations() {
+    public List<RelationChain_Relation> getRelations()
+    {
         return relations;
     }
 
-    public List<Relation> getActualRelations() {
+    public List<Relation> getActualRelations()
+    {
         List<Relation> rels = new ArrayList<Relation>(relations.size());
         for (int i = 0; i < relations.size(); i++)
         {
@@ -183,7 +188,8 @@ public class RelationChain implements Serializable {
         return rels;
     }
 
-    public void setRelations(List<RelationChain_Relation> relations) {
+    public void setRelations(List<RelationChain_Relation> relations)
+    {
         this.relations = relations;
     }
 
@@ -197,25 +203,30 @@ public class RelationChain implements Serializable {
     }
     
     @XmlTransient
-    public List<IntersectionOfRelationChains> getIntersections() {
+    public List<IntersectionOfRelationChains> getIntersections()
+    {
         return intersections;
     }
 
-    public void setIntersections(List<IntersectionOfRelationChains> intersections) {
+    public void setIntersections(List<IntersectionOfRelationChains> intersections)
+    {
         this.intersections = intersections;
     }
 
     @XmlAttribute
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
@@ -224,9 +235,11 @@ public class RelationChain implements Serializable {
 
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object)
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof RelationChain)) {
+        if (!(object instanceof RelationChain))
+        {
             return false;
         }
         RelationChain other = (RelationChain) object;
@@ -255,7 +268,8 @@ public class RelationChain implements Serializable {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         try
         {
             StringBuilder sb = new StringBuilder();

@@ -17,15 +17,18 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Erevodifwntas
  */
 @XmlRootElement(name="collection")
-public class CollectionOfConcepts {
+public class CollectionOfConcepts
+{
     List<Concept> concepts;
 
     @XmlElement(name="entity")
-    public List<Concept> getConcepts() {
+    public List<Concept> getConcepts()
+    {
         return concepts;
     }
 
-    public void setConcepts(List<Concept> concepts) {
+    public void setConcepts(List<Concept> concepts)
+    {
         this.concepts = concepts;
     }
 

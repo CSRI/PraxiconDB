@@ -36,11 +36,13 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement()
 @Entity
 @Table(name="LanguageRepresentation")
-public class LanguageRepresentation implements Serializable {
+public class LanguageRepresentation implements Serializable
+{
     private static final long serialVersionUID = 1L;
     private static List<LanguageRepresentation> language_representations;
 
-    public static enum Language {
+    public static enum Language
+    {
         // ISO-639-1 standard
         AB, AA, AF, AK, SQ, AM, AR, AN, HY, AS, AV, AE, AY, BM, BA, EU, BE, BN, 
         BH, BI, BS, BR, BG, MY, CA, CH, CE, NY, ZH, CV, KW, CO, CR, HR, CS, DA,
@@ -60,7 +62,8 @@ public class LanguageRepresentation implements Serializable {
         }
     }
 
-    public static enum PartOfSpeech {
+    public static enum PartOfSpeech
+    {
         ADJECTIVE, ADVERB, NOUN, PARTICIPLE, PROPER_NOUN, VERB;
         @Override
         public String toString()
@@ -69,7 +72,8 @@ public class LanguageRepresentation implements Serializable {
         }
     }
 
-    public static enum IsCompositional {
+    public static enum IsCompositional
+    {
         YES, NO, UNKNOWN;
         @Override
         public String toString()
@@ -179,7 +183,8 @@ public class LanguageRepresentation implements Serializable {
      *     xmldescription="This tag defines the language of the entry"
      */
     @XmlElement()
-    public Language getLanguage() {
+    public Language getLanguage()
+    {
         return language;
     }
 
@@ -189,20 +194,24 @@ public class LanguageRepresentation implements Serializable {
      *     xmldescription="This tag defines the Part Of Speech of the entry"
      */
     @XmlElement(name="part_of_speech")
-    public PartOfSpeech getPartOfSpeech() {
+    public PartOfSpeech getPartOfSpeech()
+    {
         return part_of_speech;
     }
 
-    public void setPartOfSpeech(PartOfSpeech p) {
+    public void setPartOfSpeech(PartOfSpeech p)
+    {
         this.part_of_speech = p;
     }
 
-    public void setPartOfSpeech(String p) {
+    public void setPartOfSpeech(String p)
+    {
         this.part_of_speech = PartOfSpeech.valueOf(p.trim().toUpperCase());
     }
 
     @XmlTransient
-    public List<LanguageRepresentation> getLanguageRepresentations() {
+    public List<LanguageRepresentation> getLanguageRepresentations()
+    {
         List<LanguageRepresentation> language_representations_list = new ArrayList<LanguageRepresentation>();
         for (int i=0; i < this.language_representations.size(); i++)
         {
@@ -213,7 +222,8 @@ public class LanguageRepresentation implements Serializable {
 
 
     @XmlTransient
-    public List<Concept> getConcepts() {
+    public List<Concept> getConcepts()
+    {
         List<Concept> concepts = new ArrayList<Concept>();
 
         for (int i = 0; i < this.language_representations.   size(); i++)
@@ -229,14 +239,16 @@ public class LanguageRepresentation implements Serializable {
         return concepts;
     }
 
-    public void setLanguageRepresentations(List<LanguageRepresentation> language_representations) {
+    public void setLanguageRepresentations(List<LanguageRepresentation> language_representations)
+    {
         this.language_representations = language_representations;
     }
 
 
 
 
-    public void setLanguage(Language language) {
+    public void setLanguage(Language language)
+    {
         this.language = language;
     }
 
@@ -246,34 +258,41 @@ public class LanguageRepresentation implements Serializable {
      *     xmldescription="This tag defines the text of the entry"
      */
     @XmlElement()
-    public String getText() {
+    public String getText()
+    {
         return text;
     }
 
-    public void setText(String text) {
+    public void setText(String text)
+    {
         this.text = text;
     }
 
     @XmlAttribute
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object)
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof LanguageRepresentation)) {
+        if (!(object instanceof LanguageRepresentation))
+        {
             return false;
         }
         LanguageRepresentation other = (LanguageRepresentation) object;
@@ -291,7 +310,8 @@ public class LanguageRepresentation implements Serializable {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return text + "\\"+ this.part_of_speech+" (" + language + ")";
     }
 

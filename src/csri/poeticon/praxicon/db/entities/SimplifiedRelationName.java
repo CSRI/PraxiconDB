@@ -22,13 +22,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement()
 @Entity
 @Table(name="SIMPLIFIED_RELATION_NAME")
-public class SimplifiedRelationName implements Serializable {
+public class SimplifiedRelationName implements Serializable
+{
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
@@ -38,7 +40,8 @@ public class SimplifiedRelationName implements Serializable {
     @Column(name="SIMPLE_NAME")
     private String simpleName;
 
-    public String getComplexName() {
+    public String getComplexName()
+    {
         return complexName;
     }
 
@@ -49,7 +52,8 @@ public class SimplifiedRelationName implements Serializable {
      *     is used from left to right"
      */
     @XmlAttribute(name="complex_name")
-    public void setComplexName(String complexName) {
+    public void setComplexName(String complexName)
+    {
         this.complexName = complexName;
     }
 
@@ -60,34 +64,41 @@ public class SimplifiedRelationName implements Serializable {
      *     is used from left to right"
      */
     @XmlAttribute(name="simple_name")
-    public String getSimpleName() {
+    public String getSimpleName()
+    {
         return simpleName;
     }
 
-    public void setSimpleName(String simpleName) {
+    public void setSimpleName(String simpleName)
+    {
         this.simpleName = simpleName;
     }
 
 
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object)
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SimplifiedRelationName)) {
+        if (!(object instanceof SimplifiedRelationName))
+        {
             return false;
         }
         SimplifiedRelationName other = (SimplifiedRelationName) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        {
             return false;
         }
         if (this.id == null && other.id == null)
@@ -98,7 +109,8 @@ public class SimplifiedRelationName implements Serializable {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return this.getComplexName() + " - " + this.getSimpleName();
     }
 

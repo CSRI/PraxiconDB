@@ -37,8 +37,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement()
 @Entity
 @Table(name="Constituents")
-public class Constituents implements Serializable {
-
+public class Constituents implements Serializable
+{
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
@@ -57,5 +57,4 @@ public class Constituents implements Serializable {
     // Foreign keys
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "LanguageRepresentation")
     private LanguageRepresentation language_representation;
-
 }

@@ -48,9 +48,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement()
 @Entity
 @Table(name="Relation")
-public class Relation implements Serializable {
-
-    public static enum DerivationSupported {
+public class Relation implements Serializable
+{
+    public static enum DerivationSupported
+    {
         YES, NO, UNKNOWN ;
         @Override
         public String toString()
@@ -154,11 +155,13 @@ public class Relation implements Serializable {
     }
 
     @XmlTransient
-    public Concept getSubject() {
+    public Concept getSubject()
+    {
         return subject;
     }
 
-    public void setSubject(Concept subject) {
+    public void setSubject(Concept subject)
+    {
         this.subject = subject;
     }
 
@@ -168,11 +171,13 @@ public class Relation implements Serializable {
      *     xmldescription="This attribute defines if the relation is derivative or not"
      */
     @XmlAttribute(name="is_derivative")
-    public DerivationSupported DerivationSupported() {
+    public DerivationSupported DerivationSupported()
+    {
         return derivation_supported;
     }
 
-    public void setDerivation(DerivationSupported derivation_supported) {
+    public void setDerivation(DerivationSupported derivation_supported)
+    {
         this.derivation_supported = derivation_supported;
     }
 
@@ -183,7 +188,8 @@ public class Relation implements Serializable {
      *     related to"
      */
     @XmlAttribute(name="subject")
-    private String getSubject_() {
+    private String getSubject_()
+    {
         StringBuilder sb = new StringBuilder();
         if(subject.getName()!= null && subject.getName() != "")
         {
@@ -195,7 +201,8 @@ public class Relation implements Serializable {
         }
     }
 
-    private void setSubject_(String v) throws Exception {
+    private void setSubject_(String v) throws Exception
+    {
         if (Globals.ToMergeAfterUnMarshalling)
         {
             ConceptDao cDao = new ConceptDaoImpl();
@@ -235,20 +242,24 @@ public class Relation implements Serializable {
 //    }
 
     @XmlTransient
-    public List<RelationChain_Relation> getMainFunctions() {
+    public List<RelationChain_Relation> getMainFunctions()
+    {
         return main_functions;
     }
 
-    public void setMainFunctions(List<RelationChain_Relation> main_functions) {
+    public void setMainFunctions(List<RelationChain_Relation> main_functions)
+    {
         this.main_functions = main_functions;
     }
 
     @XmlTransient
-    public Concept getObject() {
+    public Concept getObject()
+    {
         return object;
     }
 
-    public void setObject(Concept object) {
+    public void setObject(Concept object)
+    {
         this.object = object;
     }
 
@@ -259,7 +270,8 @@ public class Relation implements Serializable {
      *     related to"
      */
     @XmlAttribute(name="obj")
-    private String getObject_() {
+    private String getObject_()
+    {
         StringBuilder sb = new StringBuilder();
         if(object.getName()!=null && object.getName() != "")
         {
@@ -271,7 +283,8 @@ public class Relation implements Serializable {
         }
     }
 
-    private void setObj_(String v) throws Exception {
+    private void setObj_(String v) throws Exception
+    {
 
         if (Globals.ToMergeAfterUnMarshalling)
         {
@@ -313,7 +326,8 @@ public class Relation implements Serializable {
      *     xmldescription="This tag defines the type of the relation"
      */
    @XmlElement
-    public RelationType getType() {
+    public RelationType getType()
+   {
         return type;
     }
 
@@ -322,11 +336,13 @@ public class Relation implements Serializable {
     * type twice
     * @param type the tyep of the relation
     */
-    public void setTypeSimple(RelationType type) {
+    public void setTypeSimple(RelationType type)
+    {
         this.type = type;
     }
 
-    public void setType(RelationType type) {
+    public void setType(RelationType type)
+    {
         if(type.getId() == null)
         {
             RelationTypeDao tmp = new TypeOfRelationDaoImpl();
@@ -341,20 +357,24 @@ public class Relation implements Serializable {
 
 
     @XmlAttribute
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
     @XmlAttribute()
-    public String getComment() {
+    public String getComment()
+    {
         return comment;
     }
 
-    public void setComment(String comment) {
+    public void setComment(String comment)
+    {
         this.comment = comment;
     }
 
@@ -816,16 +836,19 @@ public class Relation implements Serializable {
 //    }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object)
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Relation)) {
+        if (!(object instanceof Relation))
+        {
             return false;
         }
         Relation other = (Relation) object;
@@ -851,7 +874,8 @@ public class Relation implements Serializable {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return this.getSubject() + " " + this.getType().getForwardName() + " " + this.getObject();
     }
 //

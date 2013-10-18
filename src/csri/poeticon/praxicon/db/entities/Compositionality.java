@@ -37,10 +37,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement()
 @Entity
 @Table(name="Compositionality")
-public class Compositionality implements Serializable {
-
-
-    public static enum CompositionalityType {
+public class Compositionality implements Serializable
+{
+    public static enum CompositionalityType
+    {
         MULTIWORD, COMPOSITE_WORD, UNKNOWN;
         @Override
         public String toString()
@@ -48,7 +48,6 @@ public class Compositionality implements Serializable {
             return this.name();
         }
     }
-
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -64,5 +63,4 @@ public class Compositionality implements Serializable {
     // Foreign keys
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "LanguageRepresentation")
     private LanguageRepresentation language_representation;
-    
 }

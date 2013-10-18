@@ -24,7 +24,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement()
 @Entity
 @Table(name="MotoricRepresentation")
-public class MotoricRepresentation implements Serializable {
+public class MotoricRepresentation implements Serializable
+{
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
@@ -68,34 +69,41 @@ public class MotoricRepresentation implements Serializable {
 //    }
 
     @XmlElement()
-    public String getRepresentation() {
+    public String getRepresentation()
+    {
         return representation;
     }
 
-    public void setRepresentation(String representation) {
+    public void setRepresentation(String representation)
+    {
         this.representation = representation;
     }
 
     @XmlAttribute
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object)
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MotoricRepresentation)) {
+        if (!(object instanceof MotoricRepresentation))
+        {
             return false;
         }
         MotoricRepresentation other = (MotoricRepresentation) object;
@@ -103,7 +111,8 @@ public class MotoricRepresentation implements Serializable {
         {
             return true;
         }
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        {
             return false;
         }
         if (this.id == null && other.id == null)
@@ -114,11 +123,13 @@ public class MotoricRepresentation implements Serializable {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "csri.poeticon.praxicon.db.entities.MotoricRepresentation[id=" + id + "]";
     }
 
-    public void afterUnmarshal(Unmarshaller u, Object parent) {
+    public void afterUnmarshal(Unmarshaller u, Object parent)
+    {
         this.owner = (MotoricRepresentationGroup)parent;
     }
 }

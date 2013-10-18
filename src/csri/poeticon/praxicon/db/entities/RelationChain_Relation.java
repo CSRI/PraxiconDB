@@ -30,7 +30,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name="RELATIONCHAIN_RELATION")
-public class RelationChain_Relation implements Serializable {
+public class RelationChain_Relation implements Serializable
+{
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
@@ -50,20 +51,24 @@ public class RelationChain_Relation implements Serializable {
     long relationOrder;
 
     @XmlElement
-    public Relation getRelation() {
+    public Relation getRelation()
+    {
         return relation;
     }
 
-    public void setRelation(Relation relation) {
+    public void setRelation(Relation relation)
+    {
         this.relation = relation;
     }
 
     @XmlTransient
-    public RelationChain getRelationChain() {
+    public RelationChain getRelationChain()
+    {
         return relationChain;
     }
 
-    public void setRelationChain(RelationChain relationChain) {
+    public void setRelationChain(RelationChain relationChain)
+    {
         this.relationChain = relationChain;
     }
 
@@ -74,40 +79,50 @@ public class RelationChain_Relation implements Serializable {
      *                      in the relation chain
      */
     @XmlAttribute(name="order")
-    public long getRelationOrder() {
+    public long getRelationOrder()
+    {
         return relationOrder;
     }
 
-    public void setRelationOrder(long relationOrder) {
+    public void setRelationOrder(long relationOrder)
+    {
         this.relationOrder = relationOrder;
     }
 
     @XmlTransient
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object) 
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof RelationChain_Relation)) {
             return false;
         }
         RelationChain_Relation other = (RelationChain_Relation) object;
         if (this.relation.equals(other.relation))
+        {
             return true;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        }
+            
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        {
             return false;
         }
 
@@ -119,11 +134,13 @@ public class RelationChain_Relation implements Serializable {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "csri.poeticon.praxicon.db.entities.RelationChain_Relation[id=" + id + "]";
     }
 
-    public void afterUnmarshal(Unmarshaller u, Object parent) {
+    public void afterUnmarshal(Unmarshaller u, Object parent)
+    {
         this.relationChain = (RelationChain)parent;
         if (Globals.ToMergeAfterUnMarshalling)
         {
