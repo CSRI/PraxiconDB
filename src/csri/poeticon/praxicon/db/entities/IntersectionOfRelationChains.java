@@ -7,9 +7,7 @@ package csri.poeticon.praxicon.db.entities;
 
 import csri.poeticon.praxicon.Constants;
 import csri.poeticon.praxicon.Globals;
-//import csri.poeticon.praxicon.db.dao.LanguageRepresentationGroupDao;
 import csri.poeticon.praxicon.db.dao.RelationChainDao;
-//import csri.poeticon.praxicon.db.dao.implSQL.LanguageRepresentationGroupDaoImpl;
 import csri.poeticon.praxicon.db.dao.implSQL.RelationChainDaoImpl;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -69,7 +67,7 @@ public class IntersectionOfRelationChains implements Serializable {
     Concept concept;
 
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="LanguageRepresentationIntersections")
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="LanguageRepresentationIntersection")
     @JoinTable(
         name="LanguageRepresentationIntersection",
         joinColumns={@JoinColumn(name="IntersectionId")},
@@ -94,7 +92,8 @@ public class IntersectionOfRelationChains implements Serializable {
      *     xmldescription="This tag defines a relation"
      */
     @XmlElement(name="relation_chain")
-    public List<RelationChain> getRelations() {
+    public List<RelationChain> getRelations()
+    {
         return relations;
     }
 
@@ -291,7 +290,6 @@ public class IntersectionOfRelationChains implements Serializable {
             for (int i = 0; i<this.getRelations().size(); i++)
             {
                 this.getRelations().get(i).getIntersections().add(this);
-
             }
         }
     }
