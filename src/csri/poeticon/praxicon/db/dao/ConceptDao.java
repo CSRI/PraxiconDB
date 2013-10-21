@@ -6,7 +6,7 @@
 package csri.poeticon.praxicon.db.dao;
 
 import csri.poeticon.praxicon.db.entities.Concept;
-import csri.poeticon.praxicon.db.entities.Concept.Status;
+import csri.poeticon.praxicon.db.entities.Concept.status;
 import csri.poeticon.praxicon.db.entities.RelationType;
 //import csri.poeticon.praxicon.db.entities.UnionOfIntersections;  // Obsolete
 import csri.poeticon.praxicon.db.entities.VisualRepresentation;
@@ -26,7 +26,7 @@ public interface ConceptDao extends Dao<Long, Concept>
     List<Concept> findAllByName(String name);
     public List<Concept> findAllByNameStarting(String name);
     List<Concept> findByName(String name);
-    List<Concept> findByStatus(Status status);
+    List<Concept> findByStatus(status status);
     VisualRepresentation getPrototypeRepresentation(Concept concept);
     Concept getConceptWithNameOrID(String v);
     Concept updatedConcept(Concept newCon);
