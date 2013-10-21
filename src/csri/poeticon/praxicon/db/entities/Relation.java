@@ -346,7 +346,7 @@ public class Relation implements Serializable
         if(type.getId() == null)
         {
             RelationTypeDao tmp = new TypeOfRelationDaoImpl();
-            RelationType res = (RelationType) tmp.getEntity(type);
+            RelationType res = tmp.getEntity(type);
             if(res!=null)
             {
                 type = res;
