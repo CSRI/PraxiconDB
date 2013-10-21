@@ -44,7 +44,7 @@ public class IntersectionOfRelationChains implements Serializable
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
     @Column(name="IntersectionId")
-    private Long id;
+    private Long Id;
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
@@ -52,7 +52,7 @@ public class IntersectionOfRelationChains implements Serializable
     joinColumns={@JoinColumn(name="IntersectionId")},
     inverseJoinColumns={@JoinColumn(name="RelationId")}
     )
-    List<RelationChain> relations;
+    List<RelationChain> Relations;
 
 //    @ManyToMany(cascade=CascadeType.ALL, mappedBy="intersections")
 //    @JoinTable(
@@ -65,7 +65,7 @@ public class IntersectionOfRelationChains implements Serializable
 
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
     @JoinColumn(name="ConceptId")
-    Concept concept;
+    Concept Concept;
 
 
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="LanguageRepresentationIntersection")
@@ -74,17 +74,17 @@ public class IntersectionOfRelationChains implements Serializable
         joinColumns={@JoinColumn(name="IntersectionId")},
         inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
     )
-    List<LanguageRepresentation> language_representation_names;
+    List<LanguageRepresentation> LanguageRepresentationNames;
 
     @Column(name="Name")
-    String name;
+    String Name;
 
 
     public IntersectionOfRelationChains()
     {
-        relations = new ArrayList<RelationChain>();
+        Relations = new ArrayList<RelationChain>();
 //        unions = new ArrayList<UnionOfIntersections>();  //Obsolete
-        language_representation_names = new ArrayList<LanguageRepresentation>();
+        LanguageRepresentationNames = new ArrayList<LanguageRepresentation>();
     }
 
     /**
@@ -95,13 +95,13 @@ public class IntersectionOfRelationChains implements Serializable
     @XmlElement(name="relation_chain")
     public List<RelationChain> getRelations()
     {
-        return relations;
+        return Relations;
     }
 
     @XmlTransient
     public List<LanguageRepresentation> getLanguageRepresentationNames()
     {
-        return language_representation_names;
+        return LanguageRepresentationNames;
     }
 
     /**
@@ -113,16 +113,16 @@ public class IntersectionOfRelationChains implements Serializable
     public List<String> getLanguageRepresentationNames_()
     {
        List<String> language_representation_names_ = new ArrayList<String>();
-       for(int i = 0; i < language_representation_names.size(); i++)
+       for(int i = 0; i < LanguageRepresentationNames.size(); i++)
        {
-           language_representation_names_.add(language_representation_names.get(i).getText());
+           language_representation_names_.add(LanguageRepresentationNames.get(i).getText());
        }
         return language_representation_names_;
     }
 
     public void setLanguageRepresentationNames(List<LanguageRepresentation> language_representation_names)
     {
-        this.language_representation_names = language_representation_names;
+        this.LanguageRepresentationNames = language_representation_names;
     }
 
 //    private void setLanguageRepresentationNames_(List<String> v) throws Exception
@@ -178,16 +178,16 @@ public class IntersectionOfRelationChains implements Serializable
     public void addRelationChain(RelationChain rc)
     {
         rc.getIntersections().add(this);
-        relations.add(rc);
+        Relations.add(rc);
     }
 
     public void addRelationChain1way(RelationChain rc)
     {
-        relations.add(rc);
+        Relations.add(rc);
     }
 
     public void setRelations(List<RelationChain> relations) {
-        this.relations = relations;
+        this.Relations = relations;
     }
 
 // Obsolete
@@ -204,34 +204,34 @@ public class IntersectionOfRelationChains implements Serializable
     @XmlAttribute
     public Long getId()
     {
-        return id;
+        return Id;
     }
 
     public void setId(Long id)
     {
-        this.id = id;
+        this.Id = id;
     }
 
     @XmlAttribute()
     public String getName()
     {
-        return name;
+        return Name;
     }
 
     public void setName(String name)
     {
-        this.name = name;
+        this.Name = name;
     }
 
     @XmlTransient
     public Concept getConcept()
     {
-        return concept;
+        return Concept;
     }
 
     public void setConcept(Concept concept)
     {
-        this.concept = concept;
+        this.Concept = concept;
     }
 
 
@@ -239,7 +239,7 @@ public class IntersectionOfRelationChains implements Serializable
     public int hashCode()
     {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (Id != null ? Id.hashCode() : 0);
         return hash;
     }
 
@@ -252,12 +252,12 @@ public class IntersectionOfRelationChains implements Serializable
             return false;
         }
         IntersectionOfRelationChains other = (IntersectionOfRelationChains) object;
-        if (this.relations.size() == other.relations.size())
+        if (this.Relations.size() == other.Relations.size())
         {
             boolean eq= true;
-            for (int i = 0; i < this.relations.size(); i++)
+            for (int i = 0; i < this.Relations.size(); i++)
             {
-                if (!other.relations.contains(this.relations.get(i)))
+                if (!other.Relations.contains(this.Relations.get(i)))
                 {
                     eq = false;
                     break;
@@ -268,12 +268,12 @@ public class IntersectionOfRelationChains implements Serializable
                 return true;
             }
         }
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.Id == null && other.Id != null) || (this.Id != null && !this.Id.equals(other.Id)))
         {
             return false;
         }
 
-        if (this.id == null && other.id == null)
+        if (this.Id == null && other.Id == null)
         {
             return false;
         }
@@ -283,7 +283,7 @@ public class IntersectionOfRelationChains implements Serializable
     @Override
     public String toString()
     {
-        return "csri.poeticon.praxicon.db.entities.IntersectionOfRelations[id=" + id + "]";
+        return "csri.poeticon.praxicon.db.entities.IntersectionOfRelations[id=" + Id + "]";
     }
 
     public void afterUnmarshal(Unmarshaller u, Object parent)
