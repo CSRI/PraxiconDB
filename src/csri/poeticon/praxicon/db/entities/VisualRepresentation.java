@@ -36,21 +36,21 @@ public class VisualRepresentation implements Serializable
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
-    private Long id;
+    private Long Id;
 
     @Column(name="MediaType")
-    private String media_type;
+    private String MediaType;
 
     @Column(name="Type")
-    private String type;
+    private String Type;
 
     @Column(name="Representation")
-    private String representation;
+    private String Representation;
 
     public VisualRepresentation(String media_type, String representation)
     {
-        this.media_type = media_type;
-        this.representation = representation;
+        this.MediaType = media_type;
+        this.Representation = representation;
     }
 
     public VisualRepresentation()
@@ -67,7 +67,7 @@ public class VisualRepresentation implements Serializable
 //    private VisualRepresentationGroup owner;
 
     @Column(name="Prototype")
-    private boolean prototype;
+    private boolean Prototype;
 
 //    @XmlTransient
 //    public VisualRepresentationGroup getOwner()
@@ -84,7 +84,7 @@ public class VisualRepresentation implements Serializable
     @XmlAttribute
     public boolean isPrototype()
     {
-        return prototype;
+        return Prototype;
     }
 
     /**
@@ -96,17 +96,17 @@ public class VisualRepresentation implements Serializable
     @XmlAttribute
     public String getVisualRepresentationType()
     {
-        return type;
+        return Type;
     }
 
     public void setVisualRepresentationType(String visual_representation_type)
     {
-        this.type = visual_representation_type;
+        this.Type = visual_representation_type;
     }
 
     public void setPrototype(boolean prototype)
     {
-        this.prototype = prototype;
+        this.Prototype = prototype;
     }
 //
 //    public void setOwner(VisualRepresentationGroup owner)
@@ -123,12 +123,12 @@ public class VisualRepresentation implements Serializable
     @XmlElement()
     public String getMediaType()
     {
-        return media_type;
+        return MediaType;
     }
 
     public void setMediaType(String media_type)
     {
-        this.media_type = media_type;
+        this.MediaType = media_type;
     }
 
 //    @XmlAttribute(name="owner")
@@ -140,50 +140,50 @@ public class VisualRepresentation implements Serializable
     @XmlElement()
     public String getRepresentation()
     {
-        return representation;
+        return Representation;
     }
 
     public String getRepresentationWithPath()
     {
-        if (representation.startsWith("http:"))
+        if (Representation.startsWith("http:"))
         {
-            return representation;
+            return Representation;
         }
-        if(representation.startsWith("file:"))
+        if(Representation.startsWith("file:"))
         {
-            return representation;
+            return Representation;
         }
-        if (this.media_type.equalsIgnoreCase("image"))
+        if (this.MediaType.equalsIgnoreCase("image"))
         {
-            return Constants.imagePath + representation;
+            return Constants.imagePath + Representation;
         }
         else
         {
-            return Constants.videoPath + representation;
+            return Constants.videoPath + Representation;
         }
     }
 
     public void setRepresentation(String representation)
     {
-        this.representation = representation;
+        this.Representation = representation;
     }
 
     @XmlAttribute
     public Long getId()
     {
-        return id;
+        return Id;
     }
 
     public void setId(Long id)
     {
-        this.id = id;
+        this.Id = id;
     }
 
     @Override
     public int hashCode()
     {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (Id != null ? Id.hashCode() : 0);
         return hash;
     }
 
@@ -196,15 +196,15 @@ public class VisualRepresentation implements Serializable
             return false;
         }
         VisualRepresentation other = (VisualRepresentation) object;
-        if (this.media_type!=null&& this.representation!=null&&this.media_type.equalsIgnoreCase(other.media_type) && this.representation.equalsIgnoreCase(other.representation))
+        if (this.MediaType!=null&& this.Representation!=null&&this.MediaType.equalsIgnoreCase(other.MediaType) && this.Representation.equalsIgnoreCase(other.Representation))
         {
             return true;
         }
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.Id == null && other.Id != null) || (this.Id != null && !this.Id.equals(other.Id)))
         {
             return false;
         }
-        if (this.id == null && other.id == null)
+        if (this.Id == null && other.Id == null)
         {
             return false;
         }
@@ -214,7 +214,7 @@ public class VisualRepresentation implements Serializable
     @Override
     public String toString()
     {
-        return "[id=" + id + "] "+this.media_type+ ": "+ this.representation;
+        return "[Id=" + Id + "] "+this.MediaType+ ": "+ this.Representation;
     }
 
 //    public void afterUnmarshal(Unmarshaller u, Object parent)
