@@ -16,7 +16,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -34,9 +34,9 @@ import javax.xml.bind.annotation.XmlTransient;
 public class RelationType implements Serializable
 {
 
-    public static RELATION_NAME[] Bequethed = {RELATION_NAME.HAS_PART, RELATION_NAME.PART_OF};
+    public static relation_name[] Bequethed = {relation_name.HAS_PART, relation_name.PART_OF};
 
-    public static enum RELATION_NAME
+    public static enum relation_name
     {
         ACTION_AGENT, ACTION_GOAL, ACTION_OBJECT, ACTION_RESULT,
         ACTION_TOOL, ASPECT_CONCEPT, COMPARED_WITH, ENABLES,
@@ -67,52 +67,51 @@ public class RelationType implements Serializable
         {
             return this.name();
         }
-
     }
 
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
-    private Long id;
+    private Long Id;
 
     @Column(name="ForwardName")
     @Enumerated(EnumType.STRING)
-    RELATION_NAME forwardName;
+    relation_name ForwardName;
 
     @Column(name="BackwardName")
     @Enumerated(EnumType.STRING)
-    RELATION_NAME backwardName;
+    relation_name BackwardName;
     
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="RelationType")
-    List<Relation> relations;
+    @OneToOne(cascade=CascadeType.ALL, mappedBy="RelationType")
+    List<Relation> Relations;
 
     @Transient
-    String xmlRelationForward;
+    String XmlRelationForward;
 
     @Transient
-    String xmlRelationBackward;
+    String XmlRelationBackward;
 
     @XmlTransient
     public String getXmlRelationForward()
     {
-        return xmlRelationForward;
+        return XmlRelationForward;
     }
 
     public void setXmlRelationForward(String xmlRelation)
     {
-        this.xmlRelationForward = xmlRelation;
+        this.XmlRelationForward = xmlRelation;
     }
 
     @XmlTransient
     public String getXmlRelationBackward()
     {
-        return xmlRelationBackward;
+        return XmlRelationBackward;
     }
 
     public void setXmlRelationBackward(String xmlRelation)
     {
-        this.xmlRelationBackward = xmlRelation;
+        this.XmlRelationBackward = xmlRelation;
     }
 
     public static List<RelationType> getLocationRelations()
@@ -158,37 +157,37 @@ public class RelationType implements Serializable
 
     public RelationType()
     {
-        relations = new ArrayList<Relation>();
+        Relations = new ArrayList<Relation>();
     }
 
-    public RelationType(String forwardName, String backwardName)
+    public RelationType(String forward_name, String backward_name)
     {
-        relations = new ArrayList<Relation>();
-        this.setForwardName(forwardName);
-        this.setBackwardName(backwardName);
+        Relations = new ArrayList<Relation>();
+        this.setForwardName(forward_name);
+        this.setBackwardName(backward_name);
     }
 
-    public RelationType(RELATION_NAME forwardName, RELATION_NAME backwardName)
+    public RelationType(relation_name forward_name, relation_name backward_name)
     {
-        relations = new ArrayList<Relation>();
-        this.forwardName = forwardName;
-        this.backwardName = backwardName;
+        Relations = new ArrayList<Relation>();
+        this.ForwardName = forward_name;
+        this.BackwardName = backward_name;
     }
   
-    public RELATION_NAME getForwardName()
+    public relation_name getForwardName()
     {
-        return forwardName;
+        return ForwardName;
     }
 
-    public void setForwardName(RELATION_NAME name)
+    public void setForwardName(relation_name name)
     {
-        this.forwardName = name;
+        this.ForwardName = name;
     }
 
 
     /**
      * Enforces the system to use as a relation type the given string (even if it
-     * is not a RELATION_NAME. This isn't stored in the db
+     * is not a relation_name. This isn't stored in the db
      * @param name The forward name of the relation
      */
     public void setForwardNameString(String name)
@@ -196,17 +195,17 @@ public class RelationType implements Serializable
         String tmp = name.replaceAll("-", "_");
         try
         {
-            this.forwardName = RELATION_NAME.valueOf(tmp.toUpperCase());
+            this.ForwardName = relation_name.valueOf(tmp.toUpperCase());
         }
         catch(Exception e)
         {
-            this.xmlRelationForward = name;
+            this.XmlRelationForward = name;
         }
     }
 
     public void setForwardName(String name)
     {
-        this.forwardName = RELATION_NAME.valueOf(name.toUpperCase());
+        this.ForwardName = relation_name.valueOf(name.toUpperCase());
     }
 
     /**
@@ -218,35 +217,35 @@ public class RelationType implements Serializable
     @XmlAttribute(name="left-to-right_name")
     public String getForwardNameString()
     {
-        if(forwardName !=null && !forwardName.name().equalsIgnoreCase(""))
+        if(ForwardName !=null && !ForwardName.name().equalsIgnoreCase(""))
         {
-            return forwardName.name();
+            return ForwardName.name();
         }
         else
         {
-            return this.xmlRelationForward;
+            return this.XmlRelationForward;
         }
     }
 
     
-    public RELATION_NAME getBackwardName()
+    public relation_name getBackwardName()
     {
-        return backwardName;
+        return BackwardName;
     }
 
-    public void setBackwardName(RELATION_NAME backwardName)
+    public void setBackwardName(relation_name backward_name)
     {
-        this.backwardName = backwardName;
+        this.BackwardName = backward_name;
     }
 
     public void setBackwardName(String name)
     {
-        this.backwardName = RELATION_NAME.valueOf(name.toUpperCase());;
+        this.BackwardName = relation_name.valueOf(name.toUpperCase());;
     }
 
     /**
      * Enforces the system to use as a relation type the given string (even if it
-     * is not a RELATION_NAME. This isn't stored in the db
+     * is not a relation_name. This isn't stored in the db
      * @param name The backward name of the relation
      */
     public void setBackwardNameString(String name)
@@ -254,11 +253,11 @@ public class RelationType implements Serializable
         String tmp = name.replaceAll("-", "_");
         try
         {
-            this.backwardName = RELATION_NAME.valueOf(tmp.toUpperCase());
+            this.BackwardName = relation_name.valueOf(tmp.toUpperCase());
         }
         catch(Exception e)
         {
-            this.xmlRelationBackward = name;
+            this.XmlRelationBackward = name;
         }
     }
 
@@ -271,49 +270,49 @@ public class RelationType implements Serializable
     @XmlAttribute(name="right-to-left_name")
     public String getBackwardNameString()
     {
-        if(backwardName !=null && !backwardName.name().equalsIgnoreCase(""))
+        if(BackwardName !=null && !BackwardName.name().equalsIgnoreCase(""))
         {
-            return backwardName.name();
+            return BackwardName.name();
         }
         else
         {
-            return this.xmlRelationBackward;
+            return this.XmlRelationBackward;
         }
     }
 
     @XmlTransient
     public List<Relation> getRelations()
     {
-        return relations;
+        return Relations;
     }
 
-    public void setRelations(List<Relation> relations)
+    public void setRelations(List<Relation> Relations)
     {
-        this.relations = relations;
+        this.Relations = Relations;
     }
 
     public void addRelation(Relation relation)
     {
         relation.setType(this);
-        this.relations.add(relation);
+        this.Relations.add(relation);
     }
 
     @XmlAttribute
     public Long getId()
     {
-        return id;
+        return Id;
     }
 
     public void setId(Long id)
     {
-        this.id = id;
+        this.Id = id;
     }
 
     @Override
     public int hashCode()
     {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (Id != null ? Id.hashCode() : 0);
         return hash;
     }
 
@@ -326,13 +325,13 @@ public class RelationType implements Serializable
             return false;
         }
         RelationType other = (RelationType) object;
-        if (this.forwardName !=null && other.forwardName !=null && this.forwardName.name().equalsIgnoreCase(other.forwardName.name()) &&
-                this.backwardName !=null && other.backwardName !=null && this.backwardName.name().equalsIgnoreCase(other.backwardName.name()))
+        if (this.ForwardName !=null && other.ForwardName !=null && this.ForwardName.name().equalsIgnoreCase(other.ForwardName.name()) &&
+                this.BackwardName !=null && other.BackwardName !=null && this.BackwardName.name().equalsIgnoreCase(other.BackwardName.name()))
         {
             return true;
         }
-        if (this.forwardName !=null && other.backwardName !=null && this.forwardName.name().equalsIgnoreCase(other.backwardName.name()) &&
-                this.backwardName !=null && other.forwardName !=null && this.backwardName.name().equalsIgnoreCase(other.forwardName.name()))
+        if (this.ForwardName !=null && other.BackwardName !=null && this.ForwardName.name().equalsIgnoreCase(other.BackwardName.name()) &&
+                this.BackwardName !=null && other.ForwardName !=null && this.BackwardName.name().equalsIgnoreCase(other.ForwardName.name()))
         {
             return true;
         }
@@ -344,22 +343,22 @@ public class RelationType implements Serializable
 
        for(int i = 0; i < equalsRelations.length; i++)
        {
-            if (this.forwardName !=null && other.forwardName !=null &&
-                    this.backwardName !=null && other.backwardName !=null)
+            if (this.ForwardName !=null && other.ForwardName !=null &&
+                    this.BackwardName !=null && other.BackwardName !=null)
             {
-                if((equalsRelations[i].indexOf(this.forwardName.name()) >=0 && (equalsRelations[i].indexOf(other.forwardName.name())>=0 || equalsRelations[i].indexOf(other.backwardName.name()) >= 0))||
-                        (equalsRelations[i].indexOf(this.backwardName.name()) >=0 && (equalsRelations[i].indexOf(other.forwardName.name())>=0 || equalsRelations[i].indexOf(other.backwardName.name()) >= 0)))
+                if((equalsRelations[i].indexOf(this.ForwardName.name()) >=0 && (equalsRelations[i].indexOf(other.ForwardName.name())>=0 || equalsRelations[i].indexOf(other.BackwardName.name()) >= 0))||
+                        (equalsRelations[i].indexOf(this.BackwardName.name()) >=0 && (equalsRelations[i].indexOf(other.ForwardName.name())>=0 || equalsRelations[i].indexOf(other.BackwardName.name()) >= 0)))
                 {
                     return true;
                 }
             }
         }
 
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.Id == null && other.Id != null) || (this.Id != null && !this.Id.equals(other.Id)))
         {
             return false;
         }
-        if (this.id == null && other.id == null)
+        if (this.Id == null && other.Id == null)
         {
             return false;
         }
@@ -370,7 +369,7 @@ public class RelationType implements Serializable
     @Override
     public String toString()
     {
-        return "csri.poeticon.praxicon.db.entities.RelationType[id=" + id + "]";
+        return "csri.poeticon.praxicon.db.entities.RelationType[Id=" + Id + "]";
     }
 
 }
