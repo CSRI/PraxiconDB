@@ -22,7 +22,7 @@ public interface RelationDao extends Dao<Long, Relation>
     List<Concept> relatedConcepts(Concept c);
     List<Relation> allRelationsOf(Concept c);
     List<Relation> allRelationsOfByRelationType(Concept c, RelationType type);
-    List<Relation> allRelationsOfByRelationName(Concept concept, RelationType.RELATION_NAME name);
+    List<Relation> allRelationsOfByRelationName(Concept concept, RelationType.relation_name name);
     boolean areRelated(Concept c1, Concept c2);
     public List<Relation> getSubConcepts(Concept c);
     List<Concept> getObjectsOfARelation(String nameOfTheRelation);
