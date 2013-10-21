@@ -57,23 +57,11 @@ public class VisualRepresentation implements Serializable
     {
     }
 
-
-
   //  @Column(name = "CONCEPT_ID", insertable=false, updatable=false)
  //   private long ownerID;
 
-//    @ManyToOne(optional=false, cascade=CascadeType.ALL)
-//    @JoinColumn(name="VR_GROUP_ID")
-//    private VisualRepresentationGroup owner;
-
     @Column(name="Prototype")
     private boolean Prototype;
-
-//    @XmlTransient
-//    public VisualRepresentationGroup getOwner()
-//    {
-//        return owner;
-//    }
 
     /**
      * @xmlcomments.args
@@ -108,11 +96,6 @@ public class VisualRepresentation implements Serializable
     {
         this.Prototype = prototype;
     }
-//
-//    public void setOwner(VisualRepresentationGroup owner)
-//    {
-//        this.owner = owner;
-//    }
 
     /**
      * @xmlcomments.args
@@ -130,11 +113,6 @@ public class VisualRepresentation implements Serializable
     {
         this.MediaType = media_type;
     }
-
-//    @XmlAttribute(name="owner")
-//    public long getOwnerID() {
-//        return ownerID;
-//    }
 
 
     @XmlElement()
