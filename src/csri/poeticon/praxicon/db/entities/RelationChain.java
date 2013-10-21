@@ -112,6 +112,7 @@ public class RelationChain implements Serializable
         this.LanguageRepresentationNames = language_representation_names;
     }
 
+// TODO: Obsolete???
 //    private void setLanguageRepresentationNames_(List<String> v) throws Exception
 //    {
 //        for (int i = 0; i < v.size(); i++)
