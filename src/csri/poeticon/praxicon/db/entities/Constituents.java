@@ -44,17 +44,17 @@ public class Constituents implements Serializable
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
     @Column(name="ConstituentId")
-    private Long id;
+    private Long Id;
 
     @Column(name="ConstituentOrder")
     @Enumerated(EnumType.STRING)
-    private Long order;
+    private Long Order;
 
     // Foreign keys
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "LanguageRepresentation")
-    private LanguageRepresentation constituent_language_representation;
+    private LanguageRepresentation ConstituentLanguageRepresentation;
 
     // Foreign keys
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "LanguageRepresentation")
-    private LanguageRepresentation language_representation;
+    private LanguageRepresentation LanguageRepresentation;
 }
