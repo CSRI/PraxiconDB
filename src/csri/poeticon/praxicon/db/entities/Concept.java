@@ -60,7 +60,7 @@ public class Concept implements Serializable
 
     public static enum SpecificityLevel
     {
-        BASIC_LEVEL, ABOVE_BASIC_LEVEL, BELOW_BASIC_LEVEL, UNKNOWN;
+        BASIC_LEVEL, SUPERORDINATE, SUBORDINATE, UNKNOWN;
         @Override
         public String toString()
         {
@@ -465,13 +465,13 @@ public class Concept implements Serializable
 //        {
 //            this.specificity_level = Concept.SpecificityLevel.BASIC_LEVEL;
 //        }
-//        else if(levelType.equalsIgnoreCase("ABOVE_BASIC_LEVEL"))
+//        else if(levelType.equalsIgnoreCase("SUPERORDINATE"))
 //        {
-//            this.specificity_level = Concept.SpecificityLevel.ABOVE_BASIC_LEVEL;
+//            this.specificity_level = Concept.SpecificityLevel.SUPERORDINATE;
 //        }
-//        else if(levelType.equalsIgnoreCase("BELOW_BASIC_LEVEL"))
+//        else if(levelType.equalsIgnoreCase("SUBORDINATE"))
 //        {
-//            this.specificity_level = Concept.SpecificityLevel.ABOVE_BASIC_LEVEL;
+//            this.specificity_level = Concept.SpecificityLevel.SUBORDINATE;
 //        }
 //        else
 //        {
@@ -491,13 +491,13 @@ public class Concept implements Serializable
         {
             this.specificity_level = Concept.SpecificityLevel.BASIC_LEVEL;
         }
-        else if(levelType.equalsIgnoreCase("ABOVE_BASIC_LEVEL"))
+        else if(levelType.equalsIgnoreCase("SUPERORDINATE"))
         {
-            this.specificity_level = Concept.SpecificityLevel.ABOVE_BASIC_LEVEL;
+            this.specificity_level = Concept.SpecificityLevel.SUPERORDINATE;
         }
-        else if(levelType.equalsIgnoreCase("BELOW_BASIC_LEVEL"))
+        else if(levelType.equalsIgnoreCase("SUBORDINATE"))
         {
-            this.specificity_level = Concept.SpecificityLevel.ABOVE_BASIC_LEVEL;
+            this.specificity_level = Concept.SpecificityLevel.SUBORDINATE;
         }
         else
         {
