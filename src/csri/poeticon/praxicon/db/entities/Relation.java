@@ -351,7 +351,6 @@ public class Relation implements Serializable
         this.Type = type;
     }
 
-
     @XmlAttribute
     public Long getId()
     {
@@ -453,7 +452,8 @@ public class Relation implements Serializable
     {
         return LanguageRepresentationSubject;
     }
-//
+
+// TODO: Obsolete???
 //    /**
 //     * @xmlcomments.args
 //     *	   xmltag="&lt;LanguageRepresentationGroupSubject&gt;"
@@ -470,6 +470,8 @@ public class Relation implements Serializable
 //        return LanguageRepresentationGroupSubject_;
 //    }
 //
+
+// TODO: Obsolete???
 //    public void setLanguageRepresentationGroupSubject(List<LanguageRepresentationGroup> LanguageRepresentationGroupSubject)
 //    {
 //        this.LanguageRepresentationGroupSubject = LanguageRepresentationGroupSubject;
@@ -551,6 +553,7 @@ public class Relation implements Serializable
         this.MotoricRepresentationObject = motoric_representation_object;
     }
 
+// TODO: Obsolete???
 //    private void setMotoricRepresentationGroupObject_(List<String> v) throws Exception
 //    {
 //        for (int i = 0; i < v.size(); i++)
@@ -606,6 +609,7 @@ public class Relation implements Serializable
         return MotoricRepresentationSubject;
     }
 
+// TODO: Obsolete???
 //        /**
 //     * @xmlcomments.args
 //     *	   xmltag="&lt;MotoricRepresentationGroupSubject&gt;"
@@ -682,7 +686,9 @@ public class Relation implements Serializable
     {
         return VisualRepresentationObject;
     }
-//
+
+
+// TODO: Obsolete???
 //        /**
 //     * @xmlcomments.args
 //     *	   xmltag="&lt;VisualRepresentationGroupObject&gt;"
@@ -703,7 +709,8 @@ public class Relation implements Serializable
     {
         this.VisualRepresentationObject = visual_representation_object;
     }
-//
+
+// TODO: Obsolete???
 //    private void setVisualRepresentationGroupObject_(List<String> v) throws Exception
 //    {
 //        for (int i = 0; i < v.size(); i++)
@@ -760,6 +767,7 @@ public class Relation implements Serializable
         return VisualRepresentationSubject;
     }
 
+// TODO: Obsolete???
 //    /**
 //     * @xmlcomments.args
 //     *	   xmltag="&lt;VisualRepresentationGroupSubject&gt;"
@@ -780,6 +788,8 @@ public class Relation implements Serializable
     {
         this.VisualRepresentationSubject = VisualRepresentationSubject;
     }
+
+// TODO: Obsolete???
 //
 //    private void setVisualRepresentationGroupSubject_(List<String> v) throws Exception
 //    {
@@ -874,17 +884,17 @@ public class Relation implements Serializable
     {
         return this.getSubject() + " " + this.getType().getForwardName() + " " + this.getObject();
     }
-//
-//    public void afterUnmarshal(Unmarshaller u, Object parent) {
-//        if (Globals.ToMergeAfterUnMarshalling)
-//        {
-//            RelationTypeDao rDao = new TypeOfRelationDaoImpl();
-//            this.type = rDao.getEntity(type);
-//            ConceptDao cDao = new ConceptDaoImpl();
-//            this.object = cDao.getEntity(object);
-//            object.getObjOfRelations().add(this);
-//            this.subject = cDao.getEntity(subject);
-//        }
-//    }
+
+    public void afterUnmarshal(Unmarshaller u, Object parent) {
+        if (Globals.ToMergeAfterUnMarshalling)
+        {
+            RelationTypeDao rDao = new TypeOfRelationDaoImpl();
+            this.Type = rDao.getEntity(Type);
+            ConceptDao cDao = new ConceptDaoImpl();
+            this.Object = cDao.getEntity(Object);
+            Object.getObjectOfRelations().add(this);
+            this.Subject = cDao.getEntity(Subject);
+        }
+    }
 
 }
