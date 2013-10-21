@@ -50,7 +50,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name="Relation")
 public class Relation implements Serializable
 {
-    public static enum DerivationSupported
+    public static enum derivation_supported
     {
         YES, NO, UNKNOWN ;
         @Override
@@ -65,30 +65,30 @@ public class Relation implements Serializable
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
     @Column(name="RelationId")
-    private Long id;
+    private Long Id;
 
 // TODO: Check if this is needed!
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "Relation")
-    private List<RelationChain_Relation> main_functions;
+    private List<RelationChain_Relation> MainFunctions;
 
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
     @JoinColumn(name="Id")
-    RelationType type;
+    RelationType Type;
 
     @Column(name="Comment")
-    String comment;
+    String Comment;
 
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
     @JoinColumn(name="ConceptIdObject")
-    Concept object;
+    Concept Object;
 
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
     @JoinColumn(name="ConceptIdSubject")
-    Concept subject;
+    Concept Subject;
 
     @Column(name="DerivationSupported")
     @Enumerated(EnumType.STRING)
-    protected DerivationSupported derivation_supported;
+    protected derivation_supported DerivationSupported;
 
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="LanguageRepresentationSubject")
     @JoinTable(
@@ -96,7 +96,7 @@ public class Relation implements Serializable
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
     )
-    List<LanguageRepresentation> language_representation_subject;
+    List<LanguageRepresentation> LanguageRepresentationSubject;
 
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="LangugageRepresentationObject")
     @JoinTable(
@@ -104,7 +104,7 @@ public class Relation implements Serializable
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
     )
-    List<LanguageRepresentation> language_representation_object;
+    List<LanguageRepresentation> LanguageRepresentationObject;
 
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="MotoricRepresentationSubject")
     @JoinTable(
@@ -112,7 +112,7 @@ public class Relation implements Serializable
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="MotoricId")}
     )
-    List<MotoricRepresentation> motoric_representation_subject;
+    List<MotoricRepresentation> MotoricRepresentationSubject;
 
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="MotoricRepresentationObject")
     @JoinTable(
@@ -120,7 +120,7 @@ public class Relation implements Serializable
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="MotoricRepresentationId")}
     )
-    List<MotoricRepresentation> motoric_representation_object;
+    List<MotoricRepresentation> MotoricRepresentationObject;
 
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="VisualRepresentationSubject")
     @JoinTable(
@@ -128,7 +128,7 @@ public class Relation implements Serializable
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="VisualRepresentationId")}
     )
-    List<VisualRepresentation> visual_representation_subject;
+    List<VisualRepresentation> VisualRepresentationSubject;
 
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="VisualRepresentationObject")
     @JoinTable(
@@ -136,7 +136,7 @@ public class Relation implements Serializable
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="VisualRepresentationId")}
     )
-    List<VisualRepresentation> visual_representation_object;
+    List<VisualRepresentation> VisualRepresentationObject;
 
 
 
@@ -145,24 +145,24 @@ public class Relation implements Serializable
     public Relation()
     {
 //        mainFunctions = new ArrayList<RelationChain_Relation>();
-        visual_representation_object = new ArrayList<VisualRepresentation>();
-        visual_representation_subject = new ArrayList<VisualRepresentation>();
-        language_representation_object = new ArrayList<LanguageRepresentation>();
-        language_representation_subject = new ArrayList<LanguageRepresentation>();
-        motoric_representation_object = new ArrayList<MotoricRepresentation>();
-        motoric_representation_subject = new ArrayList<MotoricRepresentation>();
-        type = new RelationType();
+        VisualRepresentationObject = new ArrayList<VisualRepresentation>();
+        VisualRepresentationSubject = new ArrayList<VisualRepresentation>();
+        LanguageRepresentationObject = new ArrayList<LanguageRepresentation>();
+        LanguageRepresentationSubject = new ArrayList<LanguageRepresentation>();
+        MotoricRepresentationObject = new ArrayList<MotoricRepresentation>();
+        MotoricRepresentationSubject = new ArrayList<MotoricRepresentation>();
+        Type = new RelationType();
     }
 
     @XmlTransient
     public Concept getSubject()
     {
-        return subject;
+        return Subject;
     }
 
     public void setSubject(Concept subject)
     {
-        this.subject = subject;
+        this.Subject = subject;
     }
 
     /**
@@ -171,14 +171,14 @@ public class Relation implements Serializable
      *     xmldescription="This attribute defines if the relation is derivative or not"
      */
     @XmlAttribute(name="is_derivative")
-    public DerivationSupported DerivationSupported()
+    public derivation_supported DerivationSupported()
     {
-        return derivation_supported;
+        return DerivationSupported;
     }
 
-    public void setDerivation(DerivationSupported derivation_supported)
+    public void setDerivation(derivation_supported derivation_supported)
     {
-        this.derivation_supported = derivation_supported;
+        this.DerivationSupported = derivation_supported;
     }
 
     /**
@@ -191,13 +191,13 @@ public class Relation implements Serializable
     private String getSubject_()
     {
         StringBuilder sb = new StringBuilder();
-        if(subject.getName()!= null && subject.getName() != "")
+        if(Subject.getName()!= null && Subject.getName() != "")
         {
-            return subject.getName();
+            return Subject.getName();
         }
         else
         {
-            return subject.getId()+"";
+            return Subject.getId()+"";
         }
     }
 
@@ -209,15 +209,15 @@ public class Relation implements Serializable
             Concept subjectCon = cDao.getConceptWithNameOrID(v.trim());
             if (subjectCon!=null)
             {
-                subject = subjectCon;
+                Subject = subjectCon;
             }
             else
             {
                 subjectCon = cDao.getConceptWithNameOrID(v.trim());
                 Concept c = new Concept();
                 c.setName(v);
-                subject = c;
-                cDao.persist(subject);
+                Subject = c;
+                cDao.persist(Subject);
             }
          }
          else
@@ -226,11 +226,11 @@ public class Relation implements Serializable
             c.setName(v);
             if (Constants.globalConcepts.contains(c))
             {
-                subject = (Concept)Constants.globalConcepts.get(c.getName());
+                Subject = (Concept)Constants.globalConcepts.get(c.getName());
             }
             else
             {
-            subject = c;
+            Subject = c;
             Constants.globalConcepts.put(c.getName(), c);
             }
          }
@@ -244,23 +244,23 @@ public class Relation implements Serializable
     @XmlTransient
     public List<RelationChain_Relation> getMainFunctions()
     {
-        return main_functions;
+        return MainFunctions;
     }
 
     public void setMainFunctions(List<RelationChain_Relation> main_functions)
     {
-        this.main_functions = main_functions;
+        this.MainFunctions = main_functions;
     }
 
     @XmlTransient
     public Concept getObject()
     {
-        return object;
+        return Object;
     }
 
     public void setObject(Concept object)
     {
-        this.object = object;
+        this.Object = object;
     }
 
     /**
@@ -273,13 +273,13 @@ public class Relation implements Serializable
     private String getObject_()
     {
         StringBuilder sb = new StringBuilder();
-        if(object.getName()!=null && object.getName() != "")
+        if(Object.getName()!=null && Object.getName() != "")
         {
-            return object.getName();
+            return Object.getName();
         }
         else
         {
-            return object.getId()+"";
+            return Object.getId()+"";
         }
     }
 
@@ -292,15 +292,15 @@ public class Relation implements Serializable
             Concept objCon = cDao.getConceptWithNameOrID(v.trim());
             if (objCon!=null)
             {
-                object = objCon;
+                Object = objCon;
             }
             else
             {
                 objCon = cDao.getConceptWithNameOrID(v.trim());
                 Concept c = new Concept();
                 c.setName(v);
-                object = c;
-                cDao.persist(object);
+                Object = c;
+                cDao.persist(Object);
             }
         }
         else
@@ -310,11 +310,11 @@ public class Relation implements Serializable
             c.setName(v);
             if (Constants.globalConcepts.contains(c))
             {
-                object = (Concept)Constants.globalConcepts.get(c.getName());
+                Object = (Concept)Constants.globalConcepts.get(c.getName());
             }
             else
             {
-                object = c;
+                Object = c;
                 Constants.globalConcepts.put(c.getName(), c);
             }
         }
@@ -328,7 +328,7 @@ public class Relation implements Serializable
    @XmlElement
     public RelationType getType()
    {
-        return type;
+        return Type;
     }
 
    /**
@@ -338,7 +338,7 @@ public class Relation implements Serializable
     */
     public void setTypeSimple(RelationType type)
     {
-        this.type = type;
+        this.Type = type;
     }
 
     public void setType(RelationType type)
@@ -352,36 +352,36 @@ public class Relation implements Serializable
                 type = res;
             }
         }
-        this.type = type;
+        this.Type = type;
     }
 
 
     @XmlAttribute
     public Long getId()
     {
-        return id;
+        return Id;
     }
 
     public void setId(Long id)
     {
-        this.id = id;
+        this.Id = id;
     }
 
     @XmlAttribute()
     public String getComment()
     {
-        return comment;
+        return Comment;
     }
 
     public void setComment(String comment)
     {
-        this.comment = comment;
+        this.Comment = comment;
     }
 
    @XmlTransient
     public List<LanguageRepresentation> getLanguageRepresentationObject()
     {
-        return language_representation_object;
+        return LanguageRepresentationObject;
     }
 
    /**
@@ -394,13 +394,13 @@ public class Relation implements Serializable
     {
         String language_representation_object_ = new String();
         // TODO: Not sure about the data type below.
-        language_representation_object_ = language_representation_object.toString();  //.getLanguaText();
+        language_representation_object_ = LanguageRepresentationObject.toString();  //.getLanguaText();
         return language_representation_object_;
     }
 
     public void setLanguageRepresentationObject(List<LanguageRepresentation> language_representation_object)
     {
-        this.language_representation_object = language_representation_object;
+        this.LanguageRepresentationObject = language_representation_object;
     }
 
     
@@ -455,7 +455,7 @@ public class Relation implements Serializable
     @XmlTransient
     public List<LanguageRepresentation> getLanguageRepresentationSubject()
     {
-        return language_representation_subject;
+        return LanguageRepresentationSubject;
     }
 //
 //    /**
@@ -531,7 +531,7 @@ public class Relation implements Serializable
     @XmlTransient
     public List<MotoricRepresentation> getMotoricRepresentationObject()
     {
-        return motoric_representation_object;
+        return MotoricRepresentationObject;
     }
 
     /**
@@ -543,16 +543,16 @@ public class Relation implements Serializable
     public List<String> getMotoricRepresentationObject_()
     {
         List<String> motoric_representation_object_ = new ArrayList<String>();
-       for(int i = 0; i < motoric_representation_object.size(); i++)
+       for(int i = 0; i < MotoricRepresentationObject.size(); i++)
        {
-           motoric_representation_object_.add(motoric_representation_object.get(i).toString());
+           motoric_representation_object_.add(MotoricRepresentationObject.get(i).toString());
        }
         return motoric_representation_object_;
     }
 
     public void setMotoricRepresentationObject(List<MotoricRepresentation> motoric_representation_object)
     {
-        this.motoric_representation_object = motoric_representation_object;
+        this.MotoricRepresentationObject = motoric_representation_object;
     }
 
 //    private void setMotoricRepresentationGroupObject_(List<String> v) throws Exception
@@ -607,7 +607,7 @@ public class Relation implements Serializable
     @XmlTransient
     public List<MotoricRepresentation> getMotoricRepresentationSubject()
     {
-        return motoric_representation_subject;
+        return MotoricRepresentationSubject;
     }
 
 //        /**
@@ -684,7 +684,7 @@ public class Relation implements Serializable
     @XmlTransient
     public List<VisualRepresentation> getVisualRepresentationObject()
     {
-        return visual_representation_object;
+        return VisualRepresentationObject;
     }
 //
 //        /**
@@ -705,7 +705,7 @@ public class Relation implements Serializable
 //
     public void setVisualRepresentationObject(List<VisualRepresentation> visual_representation_object)
     {
-        this.visual_representation_object = visual_representation_object;
+        this.VisualRepresentationObject = visual_representation_object;
     }
 //
 //    private void setVisualRepresentationGroupObject_(List<String> v) throws Exception
@@ -761,7 +761,7 @@ public class Relation implements Serializable
     @XmlTransient
     public List<VisualRepresentation> getVisualRepresentationSubject()
     {
-        return visual_representation_subject;
+        return VisualRepresentationSubject;
     }
 
 //    /**
@@ -782,7 +782,7 @@ public class Relation implements Serializable
 
     public void setVisualRepresentationSubject(List<VisualRepresentation> visual_representation_subject)
     {
-        this.visual_representation_subject = visual_representation_subject;
+        this.VisualRepresentationSubject = VisualRepresentationSubject;
     }
 //
 //    private void setVisualRepresentationGroupSubject_(List<String> v) throws Exception
@@ -839,7 +839,7 @@ public class Relation implements Serializable
     public int hashCode()
     {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (Id != null ? Id.hashCode() : 0);
         return hash;
     }
 
@@ -854,10 +854,10 @@ public class Relation implements Serializable
         Relation other = (Relation) object;
         try
         {
-            if ((this.type!=null && this.object!=null && this.subject!=null
-                && this.type.equals(other.type) && this.object.equals(other.object) && this.subject.equals(other.subject))||
-                (this.type!=null && this.object!=null && this.subject!=null
-                &&this.type.equals(other.type) && this.object.equals(other.subject) && this.subject.equals(other.object)))
+            if ((this.Type!=null && this.Object!=null && this.Subject!=null
+                && this.Type.equals(other.Type) && this.Object.equals(other.Object) && this.Subject.equals(other.Subject))||
+                (this.Type!=null && this.Object!=null && this.Subject!=null
+                &&this.Type.equals(other.Type) && this.Object.equals(other.Subject) && this.Subject.equals(other.Object)))
             {
                 return true;
             }
