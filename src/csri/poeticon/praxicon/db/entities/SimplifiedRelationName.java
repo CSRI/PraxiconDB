@@ -27,22 +27,22 @@ public class SimplifiedRelationName implements Serializable
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long Id;
 
     public Long getId()
     {
-        return id;
+        return Id;
     }
 
     @Column(name="COMPLEX_NAME")
-    private String complexName;
+    private String ComplexName;
 
     @Column(name="SIMPLE_NAME")
-    private String simpleName;
+    private String SimpleName;
 
     public String getComplexName()
     {
-        return complexName;
+        return ComplexName;
     }
 
     /**
@@ -52,9 +52,9 @@ public class SimplifiedRelationName implements Serializable
      *     is used from left to right"
      */
     @XmlAttribute(name="complex_name")
-    public void setComplexName(String complexName)
+    public void setComplexName(String complex_name)
     {
-        this.complexName = complexName;
+        this.ComplexName = complex_name;
     }
 
     /**
@@ -66,25 +66,25 @@ public class SimplifiedRelationName implements Serializable
     @XmlAttribute(name="simple_name")
     public String getSimpleName()
     {
-        return simpleName;
+        return SimpleName;
     }
 
-    public void setSimpleName(String simpleName)
+    public void setSimpleName(String simple_name)
     {
-        this.simpleName = simpleName;
+        this.SimpleName = simple_name;
     }
 
 
     public void setId(Long id)
     {
-        this.id = id;
+        this.Id = id;
     }
 
     @Override
     public int hashCode()
     {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (Id != null ? Id.hashCode() : 0);
         return hash;
     }
 
@@ -97,11 +97,11 @@ public class SimplifiedRelationName implements Serializable
             return false;
         }
         SimplifiedRelationName other = (SimplifiedRelationName) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.Id == null && other.Id != null) || (this.Id != null && !this.Id.equals(other.Id)))
         {
             return false;
         }
-        if (this.id == null && other.id == null)
+        if (this.Id == null && other.Id == null)
         {
             return false;
         }
