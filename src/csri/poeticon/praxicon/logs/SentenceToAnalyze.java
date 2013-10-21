@@ -272,8 +272,8 @@ public class SentenceToAnalyze implements Serializable {
         for (int i = 0; i < this.getConcepts().size(); i++)
         {
             Concept tmp = this.getConcepts().get(i).getActualConcept();
-            if (tmp.getStatus() == Concept.Status.VARIABLE &&
-                    tmp.getConceptType() != Concept.Type.MOVEMENT &&
+            if (tmp.getStatus() == Concept.status.VARIABLE &&
+                    tmp.getConceptType() != Concept.type.MOVEMENT &&
                     this.getConcepts().get(i).getValues().size() > 0)
             {
                 return tmp;
