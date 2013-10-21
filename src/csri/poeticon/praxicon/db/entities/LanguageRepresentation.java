@@ -41,7 +41,7 @@ public class LanguageRepresentation implements Serializable
     private static final long serialVersionUID = 1L;
     private static List<LanguageRepresentation> language_representations;
 
-    public static enum Language
+    public static enum language
     {
         // ISO-639-1 standard
         AB, AA, AF, AK, SQ, AM, AR, AN, HY, AS, AV, AE, AY, BM, BA, EU, BE, BN, 
@@ -62,7 +62,7 @@ public class LanguageRepresentation implements Serializable
         }
     }
 
-    public static enum PartOfSpeech
+    public static enum part_of_speech
     {
         ADJECTIVE, ADVERB, NOUN, PARTICIPLE, PROPER_NOUN, VERB;
         @Override
@@ -72,7 +72,7 @@ public class LanguageRepresentation implements Serializable
         }
     }
 
-    public static enum IsCompositional
+    public static enum is_compositional
     {
         YES, NO, UNKNOWN;
         @Override
@@ -86,24 +86,24 @@ public class LanguageRepresentation implements Serializable
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
     @Column(name="LanguageRepresentationId")
-    private Long id;
+    private Long Id;
 
     @Column(name="Language")
     @Enumerated(EnumType.STRING)
-    private Language language;
+    private language Language;
 
     @Column(name="PartOfSpeech")
     @Enumerated(EnumType.STRING)
-    private PartOfSpeech part_of_speech;
+    private part_of_speech PartOfSpeech;
     
     @Column(name="IsCompositional")
-    private IsCompositional is_compositional;
+    private is_compositional IsCompositional;
 
     @Column(name="Text")
-    private String text;
+    private String Text;
 
     @Column(name="Comment")
-    private String comment;
+    private String Comment;
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
@@ -111,7 +111,7 @@ public class LanguageRepresentation implements Serializable
         joinColumns={@JoinColumn(name="LanguageRepresentationId")},
         inverseJoinColumns={@JoinColumn(name="RelationId")}
     )
-    private List<Relation> language_representation_subject;
+    private List<Relation> LanguageRepresentationSubject;
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
@@ -119,21 +119,21 @@ public class LanguageRepresentation implements Serializable
         joinColumns={@JoinColumn(name="LanguageRepresentationId")},
         inverseJoinColumns={@JoinColumn(name="RelationId")}
     )
-    private List<Relation> language_representation_object;
+    private List<Relation> LanguageRepresentationObject;
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         joinColumns={@JoinColumn(name="RelationChainId")},
         inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
     )
-    private List<RelationChain> language_representation_relation_chains;
+    private List<RelationChain> LanguageRepresentationRelationChains;
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         joinColumns={@JoinColumn(name="IntersectionId")},
         inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
     )
-    private List<IntersectionOfRelationChains> language_representation_intersections;
+    private List<IntersectionOfRelationChains> LanguageRepresentationIntersections;
 
 
 
@@ -183,9 +183,9 @@ public class LanguageRepresentation implements Serializable
      *     xmldescription="This tag defines the language of the entry"
      */
     @XmlElement()
-    public Language getLanguage()
+    public language getLanguage()
     {
-        return language;
+        return Language;
     }
 
     /**
@@ -194,19 +194,20 @@ public class LanguageRepresentation implements Serializable
      *     xmldescription="This tag defines the Part Of Speech of the entry"
      */
     @XmlElement(name="part_of_speech")
-    public PartOfSpeech getPartOfSpeech()
+    public part_of_speech getPartOfSpeech()
     {
-        return part_of_speech;
+        return PartOfSpeech;
     }
 
-    public void setPartOfSpeech(PartOfSpeech p)
+    public void setPartOfSpeech(part_of_speech pos)
     {
-        this.part_of_speech = p;
+        this.PartOfSpeech = pos;
     }
 
-    public void setPartOfSpeech(String p)
+    public void setPartOfSpeech(String pos)
     {
-        this.part_of_speech = PartOfSpeech.valueOf(p.trim().toUpperCase());
+        // TODO: Check if it returns the correct value.
+        this.PartOfSpeech = part_of_speech.valueOf(pos.trim().toUpperCase());
     }
 
     @XmlTransient
@@ -247,9 +248,9 @@ public class LanguageRepresentation implements Serializable
 
 
 
-    public void setLanguage(Language language)
+    public void setLanguage(language language)
     {
-        this.language = language;
+        this.Language = language;
     }
 
     /**
@@ -260,30 +261,30 @@ public class LanguageRepresentation implements Serializable
     @XmlElement()
     public String getText()
     {
-        return text;
+        return Text;
     }
 
     public void setText(String text)
     {
-        this.text = text;
+        this.Text = text;
     }
 
     @XmlAttribute
     public Long getId()
     {
-        return id;
+        return Id;
     }
 
     public void setId(Long id)
     {
-        this.id = id;
+        this.Id = id;
     }
 
     @Override
     public int hashCode()
     {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (Id != null ? Id.hashCode() : 0);
         return hash;
     }
 
@@ -296,10 +297,10 @@ public class LanguageRepresentation implements Serializable
             return false;
         }
         LanguageRepresentation other = (LanguageRepresentation) object;
-        if (this.language!=null && this.text!=null && this.part_of_speech!=null &&
-                this.language.name().equals(other.language.name())
-                && this.text.equalsIgnoreCase(other.text)
-                && this.part_of_speech == other.part_of_speech)
+        if (this.Language!=null && this.Text!=null && this.PartOfSpeech!=null &&
+                this.Language.name().equals(other.Language.name())
+                && this.Text.equalsIgnoreCase(other.Text)
+                && this.PartOfSpeech == other.PartOfSpeech)
         {
             return true;
         }
@@ -312,7 +313,7 @@ public class LanguageRepresentation implements Serializable
     @Override
     public String toString()
     {
-        return text + "\\"+ this.part_of_speech+" (" + language + ")";
+        return Text + "\\"+ this.PartOfSpeech+" (" + Language + ")";
     }
 
     public void afterUnmarshal(Unmarshaller u, Object parent)
