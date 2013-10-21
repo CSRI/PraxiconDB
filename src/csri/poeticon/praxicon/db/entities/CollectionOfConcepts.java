@@ -45,7 +45,7 @@ public class CollectionOfConcepts
         for (int i = 0; i < this.concepts.size(); i++)
         {
             ConceptDao cDao = new ConceptDaoImpl();
-            Concept tmp = (Concept) this.concepts.get(i);
+            Concept tmp = this.concepts.get(i);
             tmp = cDao.updatedConcept(tmp);
             
             System.out.println(i + " " + tmp.getName());
