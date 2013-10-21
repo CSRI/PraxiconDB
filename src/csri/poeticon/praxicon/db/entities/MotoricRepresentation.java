@@ -30,10 +30,10 @@ public class MotoricRepresentation implements Serializable
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
-    private Long id;
+    private Long Id;
 
     @Column(name="Presentation")
-    private String representation;
+    private String Representation;
 
     public MotoricRepresentation()
     {
@@ -71,30 +71,30 @@ public class MotoricRepresentation implements Serializable
     @XmlElement()
     public String getRepresentation()
     {
-        return representation;
+        return Representation;
     }
 
     public void setRepresentation(String representation)
     {
-        this.representation = representation;
+        this.Representation = representation;
     }
 
     @XmlAttribute
     public Long getId()
     {
-        return id;
+        return Id;
     }
 
     public void setId(Long id)
     {
-        this.id = id;
+        this.Id = id;
     }
 
     @Override
     public int hashCode()
     {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (Id != null ? Id.hashCode() : 0);
         return hash;
     }
 
@@ -107,15 +107,15 @@ public class MotoricRepresentation implements Serializable
             return false;
         }
         MotoricRepresentation other = (MotoricRepresentation) object;
-        if (this.representation!=null&&this.representation.equalsIgnoreCase(other.representation))
+        if (this.Representation!=null && this.Representation.equalsIgnoreCase(other.Representation))
         {
             return true;
         }
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        if ((this.Id == null && other.Id != null) || (this.Id != null && !this.Id.equals(other.Id)))
         {
             return false;
         }
-        if (this.id == null && other.id == null)
+        if (this.Id == null && other.Id == null)
         {
             return false;
         }
@@ -125,7 +125,7 @@ public class MotoricRepresentation implements Serializable
     @Override
     public String toString()
     {
-        return "csri.poeticon.praxicon.db.entities.MotoricRepresentation[id=" + id + "]";
+        return "csri.poeticon.praxicon.db.entities.MotoricRepresentation[id=" + Id + "]";
     }
 
 //    public void afterUnmarshal(Unmarshaller u, Object parent)
