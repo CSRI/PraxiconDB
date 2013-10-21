@@ -379,25 +379,25 @@ public class Concept implements Serializable
      */
 
 
-//    /**
-//     * Gets a trimmed version of the concept name
-//     * @return a string
-//     */
-//    public String getNameTrimmed()
-//    {
-//        int index = this.getName().indexOf("%");
-//        if (index >= 0)
-//        {
-//            return this.getName().substring(0, index);
-//        }
-//        index = this.getName().indexOf("#");
-//        if (index >= 0)
-//        {
-//            return this.getName().substring(0, index);
-//        }
-//        return "";
-//    }
-//
+    /**
+     * Gets a trimmed version of the concept name
+     * @return a string
+     */
+    public String getNameTrimmed()
+    {
+        int index = this.getName().indexOf("%");
+        if (index >= 0)
+        {
+            return this.getName().substring(0, index);
+        }
+        index = this.getName().indexOf("#");
+        if (index >= 0)
+        {
+            return this.getName().substring(0, index);
+        }
+        return "";
+    }
+
 
     /**
      * @xmlcomments.args
@@ -455,30 +455,6 @@ public class Concept implements Serializable
     {
         return specificity_level;
     }
-
-
-// Restore this if needed...
-//
-//    public void setSpecificityLevel(String levelType)
-//    {
-//        if(levelType.equalsIgnoreCase("BASIC_LEVEL"))
-//        {
-//            this.specificity_level = Concept.SpecificityLevel.BASIC_LEVEL;
-//        }
-//        else if(levelType.equalsIgnoreCase("SUPERORDINATE"))
-//        {
-//            this.specificity_level = Concept.SpecificityLevel.SUPERORDINATE;
-//        }
-//        else if(levelType.equalsIgnoreCase("SUBORDINATE"))
-//        {
-//            this.specificity_level = Concept.SpecificityLevel.SUBORDINATE;
-//        }
-//        else
-//        {
-//            this.specificity_level = Concept.SpecificityLevel.UNKNOWN;
-//        }
-//    }
-//
 
     public void setSpecificityLevel(SpecificityLevel specificity_level)
     {
@@ -608,6 +584,7 @@ public class Concept implements Serializable
         this.status = Status.valueOf(var_type.trim().toUpperCase());
     }
 
+// TODO: This should be replaced by a method that uses IntersectionsOfRelationChains instead of UnionOfIntersections, which was removed from the schema.
 //    /**
 //     * Adds a new union of intersections to this concept containg an intersection
 //     * of relations created using given relation types (fw+bw) and given relation objects
@@ -1060,55 +1037,55 @@ public class Concept implements Serializable
         this.id = id;
     }
 
-//    @Override
-//    public int hashCode() {
-//        int hash = 0;
-//        hash += (id != null ? id.hashCode() : 0);
-//        return hash;
-//    }
-//
-//    @Override
-//    public boolean equals(Object object) {
-//        // TODO: Warning - this method won't work in the case the id fields are not set
-//        if (!(object instanceof Concept)) {
-//            return false;
-//        }
-//        Concept other = (Concept) object;
-//        if (this.name !=null && other.name !=null && this.name.equalsIgnoreCase(other.name))
-//        {
-//            return true;
-//        }
-//        else
-//        {
-//            return false;
-//        }
-//    }
-//
-//    @Override
-//    public String toString() {
-//        if(name != null && !name.equalsIgnoreCase(""))
-//        {
-//            return name;// + " (Entity)";
-//        }
-//        else
-//        {
-//            List <LanguageRepresentation> tmpList = this.getLanguageRepresentationsEntries();
-//            if (tmpList.size()>0)
-//            {
-//                StringBuilder tmp = new StringBuilder(tmpList.get(0).getText());
-//                for (int i = 1; i< tmpList.size(); i++)
-//                {
-//                    tmp.append("\\"+tmpList.get(i).getText());
-//                }
-//                return tmp.toString();
-//            }
-//            else
-//            {
-//                return id + "";
-//            }
-//        }
-//    }
-//
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Concept)) {
+            return false;
+        }
+        Concept other = (Concept) object;
+        if (this.name !=null && other.name !=null && this.name.equalsIgnoreCase(other.name))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    @Override
+    public String toString() {
+        if(name != null && !name.equalsIgnoreCase(""))
+        {
+            return name;// + " (Entity)";
+        }
+        else
+        {
+            List <LanguageRepresentation> tmpList = this.getLanguageRepresentationsEntries();
+            if (tmpList.size()>0)
+            {
+                StringBuilder tmp = new StringBuilder(tmpList.get(0).getText());
+                for (int i = 1; i< tmpList.size(); i++)
+                {
+                    tmp.append("\\"+tmpList.get(i).getText());
+                }
+                return tmp.toString();
+            }
+            else
+            {
+                return id + "";
+            }
+        }
+    }
+
 //    public void afterUnmarshal(Unmarshaller u, Object parent) {
 //
 //        if (Globals.ToMergeAfterUnMarshalling)
@@ -1155,78 +1132,79 @@ public class Concept implements Serializable
 //        System.err.println("Finish unmarshalling: " + this.getName());
 //    }
 //
-//    /**
-//     * Updates LanguageRepresentation of a concept using this concept LanguageRepresentation
-//     * @param oldCon the concept to be updated
-//     */
-//    public void updateLanguageRepresentations(Concept oldCon) {
-//        for (int i = 0; i < this.getLanguageRepresentationsEntries().size(); i++) {
-//            if (!oldCon.getLanguageRepresentationsEntries().contains(this.getLanguageRepresentationsEntries().get(i))) {
-//                this.getLanguageRepresentationsEntries().get(i).getConcepts().remove(this);
-//                this.getLanguageRepresentationsEntries().get(i).getConcepts().add(this);
-//                oldCon.getLanguageRepresentationsEntries().add(this.getLanguageRepresentationsEntries().get(i));
-//            }
-//        }
-//    }
-//
-//    /**
-//     * Updates MotoricRepresentations of a concept using this concept MotoricRepresentations
-//     * @param oldCon the concept to be updated
-//     */
-//    public void updateMotoricRepresentations(Concept oldCon) {
-//        for (int i = 0; i < this.getMotoricRepresentations().size(); i++) {
-//            if (!oldCon.getMotoricRepresentations().contains(this.getMotoricRepresentations().get(i))) {
-//                this.getMotoricRepresentations().get(i).setOwner(oldCon);
-//                oldCon.getMotoricRepresentations().add(this.getMotoricRepresentations().get(i));
-//            }
-//        }
-//    }
-//
-//    /**
-//     * Updates object relations of a concept using this concept object relations
-//     * @param oldCon the concept to be updated
-//     */
-//    public void updateObjOfRelations(Concept oldCon) {
-//        for (int i = 0; i < this.getObjectOfRelations().size(); i++) {
-//            if (!oldCon.getObjectOfRelations().contains(this.getObjectOfRelations().get(i))) {
-//                if (this.getObjectOfRelations().get(i).getObject().equals(this))
-//                {
-//                    this.getObjectOfRelations().get(i).setObject(oldCon);
-//                }
-//                else
-//                {
-//                    this.getObjectOfRelations().get(i).setSubject(oldCon);
-//                }
-//                oldCon.getObjectOfRelations().add(this.getObjectOfRelations().get(i));
-//            }
-//        }
-//    }
-//
-//    /**
-//     * Updates relations of a concept using this concept relations
-//     * @param oldCon the concept to be updated
-//     */
-//    public void updateRelations(Concept oldCon) {
-//        for (int i = 0; i < this.getRelations().size(); i++) {
-//            if (!oldCon.getRelations().contains(this.getRelations().get(i))) {
-//                this.getRelations().get(i).setConcept(oldCon);
-//                oldCon.getRelations().add(this.getRelations().get(i));
-//            }
-//        }
-//    }
-//
-//    /**
-//     * Updates VisualRepresentations of a concept using this concept VisualRepresentations
-//     * @param oldCon the concept to be updated
-//     */
-//    public void updateVisualRepresentations( Concept oldCon) {
-//        for (int i = 0; i < this.getVisualRepresentations().size(); i++) {
-//            if (!oldCon.getVisualRepresentations().contains(this.getVisualRepresentations().get(i))) {
-//                this.getVisualRepresentations().get(i).setOwner(oldCon);
-//                oldCon.getVisualRepresentations().add(this.getVisualRepresentations().get(i));
-//            }
-//        }
-//    }
-//
+    /**
+     * Updates LanguageRepresentation of a concept using this concept LanguageRepresentation
+     * @param oldCon the concept to be updated
+     */
+    public void updateLanguageRepresentations(Concept oldCon) {
+        for (int i = 0; i < this.getLanguageRepresentationsEntries().size(); i++) {
+            if (!oldCon.getLanguageRepresentationsEntries().contains(this.getLanguageRepresentationsEntries().get(i))) {
+                this.getLanguageRepresentationsEntries().get(i).getConcepts().remove(this);
+                this.getLanguageRepresentationsEntries().get(i).getConcepts().add(this);
+                oldCon.getLanguageRepresentationsEntries().add(this.getLanguageRepresentationsEntries().get(i));
+            }
+        }
+    }
+
+    /**
+     * Updates MotoricRepresentations of a concept using this concept MotoricRepresentations
+     * @param oldCon the concept to be updated
+     */
+    public void updateMotoricRepresentations(Concept oldCon) {
+        for (int i = 0; i < this.getMotoricRepresentations().size(); i++) {
+            if (!oldCon.getMotoricRepresentations().contains(this.getMotoricRepresentations().get(i))) {
+                this.getMotoricRepresentations().get(i);
+                oldCon.getMotoricRepresentations().add(this.getMotoricRepresentations().get(i));
+            }
+        }
+    }
+
+    /**
+     * Updates VisualRepresentations of a concept using this concept VisualRepresentations
+     * @param oldCon the concept to be updated
+     */
+    public void updateVisualRepresentations(Concept oldCon) {
+        for (int i = 0; i < this.getVisualRepresentations().size(); i++) {
+            if (!oldCon.getVisualRepresentations().contains(this.getVisualRepresentations().get(i))) {
+                this.getVisualRepresentations().get(i);
+                oldCon.getVisualRepresentations().add(this.getVisualRepresentations().get(i));
+            }
+        }
+    }
+
+    /**
+     * Updates object relations of a concept using this concept object relations
+     * @param oldCon the concept to be updated
+     */
+    public void updateObjOfRelations(Concept oldCon) {
+        for (int i = 0; i < this.getObjectOfRelations().size(); i++) {
+            if (!oldCon.getObjectOfRelations().contains(this.getObjectOfRelations().get(i))) {
+                if (this.getObjectOfRelations().get(i).getObject().equals(this))
+                {
+                    this.getObjectOfRelations().get(i).setObject(oldCon);
+                }
+                else
+                {
+                    this.getObjectOfRelations().get(i).setSubject(oldCon);
+                }
+                oldCon.getObjectOfRelations().add(this.getObjectOfRelations().get(i));
+            }
+        }
+    }
+
+    /**
+     * Updates relations of a concept using this concept relations
+     * @param oldCon the concept to be updated
+     */
+    public void updateRelations(Concept oldCon) {
+        for (int i = 0; i < this.getRelations().size(); i++) {
+            if (!oldCon.getRelations().contains(this.getRelations().get(i))) {
+                this.getRelations().get(i).setConcept(oldCon);
+                oldCon.getRelations().add(this.getRelations().get(i));
+            }
+        }
+    }
+
+
 
 }
