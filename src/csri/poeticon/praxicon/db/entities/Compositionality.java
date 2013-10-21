@@ -54,13 +54,13 @@ public class Compositionality implements Serializable
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
     @Column(name="CompositionalityId")
-    private Long id;
+    private Long Id;
 
     @Column(name="CompositionalityType")
     @Enumerated(EnumType.STRING)
-    private CompositionalityType compositionality_type;
+    private CompositionalityType CompositionalityType;
 
     // Foreign keys
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "LanguageRepresentation")
-    private LanguageRepresentation language_representation;
+    private LanguageRepresentation LanguageRepresentation;
 }
