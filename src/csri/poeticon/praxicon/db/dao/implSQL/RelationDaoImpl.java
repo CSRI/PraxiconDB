@@ -11,7 +11,7 @@ import csri.poeticon.praxicon.db.entities.Relation;
 import csri.poeticon.praxicon.db.entities.RelationChain;
 import csri.poeticon.praxicon.db.entities.RelationChain_Relation;
 import csri.poeticon.praxicon.db.entities.RelationType;
-import csri.poeticon.praxicon.db.entities.RelationType.RELATION_NAME;
+//import csri.poeticon.praxicon.db.entities.RelationType.RELATION_NAME;
 import csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +62,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
                 r.setObject(r.getSubject());
                 r.setSubject(c);
                 RelationType tmpType = new RelationType();
-                RelationType.RELATION_NAME tmp = r.getType().getBackwardName();
+                RelationType.relation_name tmp = r.getType().getBackwardName();
                 tmpType.setBackwardName(r.getType().getForwardName());
                 tmpType.setForwardName(tmp);
                 r.setType(tmpType);
@@ -196,7 +196,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
      * @return List of relations
      */
     @Override
-    public List<Relation> allRelationsOfByRelationName(Concept concept, RelationType.RELATION_NAME name)
+    public List<Relation> allRelationsOfByRelationName(Concept concept, RelationType.relation_name name)
     {
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation tr "
                 + "WHERE (r.subject = ?1 and r.type = tr and tr.forwardName = ?2) or"
@@ -237,8 +237,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
                    + "or (r.obj = ?1 and r.type = tr and tr.forwardName = ?3 and tr.backwardName = ?2) ");
 
         q.setParameter(1, c);
-        q.setParameter(2, RelationType.RELATION_NAME.TYPE_TOKEN);
-        q.setParameter(3, RelationType.RELATION_NAME.TOKEN_TYPE);
+        q.setParameter(2, RelationType.relation_name.TYPE_TOKEN);
+        q.setParameter(3, RelationType.relation_name.TOKEN_TYPE);
 
         List<Relation> objRels = q.getResultList();
         return objRels;
@@ -250,9 +250,9 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
      * @return a list of concepts
      */
     @Override
-    public List<Concept> getObjectsOfARelation(String nameOfTheRelation)
+    public List<Concept> getObjectsOfARelation(String name_of_the_relation)
     {
-        RELATION_NAME t = RelationType.RELATION_NAME.valueOf(nameOfTheRelation);
+        RelationType.relation_name t = RelationType.relation_name.valueOf(name_of_the_relation);
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation rtype " +
                 "WHERE r.type = rtype.id and rtype.forwardName = ?1");
          q.setParameter(1, t);
@@ -280,7 +280,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
     {
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation rt " + 
                 "WHERE r.type = rt and (rt.forwardName = ?1 or  rt.backwardName = ?1)");
-         q.setParameter(1, RelationType.RELATION_NAME.valueOf(nameOfTheRelation));
+         q.setParameter(1, RelationType.relation_name.valueOf(nameOfTheRelation));
         return q.getResultList();        
     }
 
