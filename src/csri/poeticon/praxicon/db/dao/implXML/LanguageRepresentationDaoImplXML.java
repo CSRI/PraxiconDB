@@ -37,7 +37,7 @@ public class LanguageRepresentationDaoImplXML extends JpaDao<Long, LanguageRepre
                 LanguageRepresentation entry = con.getLanguageRepresentations().get(i);
                 if (entry.getLanguage().name().equalsIgnoreCase(language) &&
                         entry.getText().equalsIgnoreCase(text) &&
-                        entry.getPartOfSpeech() == LanguageRepresentation.PartOfSpeech.valueOf(pos))
+                        entry.getPartOfSpeech() == LanguageRepresentation.part_of_speech.valueOf(pos))
                 {
                     return entry;
                 }
