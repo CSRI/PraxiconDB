@@ -43,41 +43,31 @@ public class IntersectionOfRelationChains implements Serializable
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
-    @Column(name="IntersectionId")
+    @Column(name="IntersectionOfRelationChainsId")
     private Long Id;
+
+    @Column(name="Name")
+    private String Name;
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
-    name="IntersectionRelation",
+    name="Intersection_Relation",
     joinColumns={@JoinColumn(name="IntersectionId")},
     inverseJoinColumns={@JoinColumn(name="RelationId")}
     )
-    List<RelationChain> Relations;
-
-//    @ManyToMany(cascade=CascadeType.ALL, mappedBy="intersections")
-//    @JoinTable(
-//    name="UNION_INTERSECTIONRELATION",
-//    joinColumns={@JoinColumn(name="INTERSECTION_ID")},
-//    inverseJoinColumns={@JoinColumn(name="UNION_ID")}
-//    )
-//    List<UnionOfIntersections> unions;
-
+    private List<RelationChain> Relations;
 
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
     @JoinColumn(name="ConceptId")
-    Concept Concept;
+    private Concept Concept;
 
-
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="LanguageRepresentationIntersection")
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="Id")
     @JoinTable(
-        name="LanguageRepresentationIntersection",
-        joinColumns={@JoinColumn(name="IntersectionId")},
-        inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
+        name="LanguageRepresentation_IntersectionOfRelationChains",
+        joinColumns={@JoinColumn(name="LanguageRepresentationId")},
+        inverseJoinColumns={@JoinColumn(name="IntersectionOfRelationChainsId")}
     )
-    List<LanguageRepresentation> LanguageRepresentationNames;
-
-    @Column(name="Name")
-    String Name;
+    private List<LanguageRepresentation> LanguageRepresentationNames;
 
 
     public IntersectionOfRelationChains()

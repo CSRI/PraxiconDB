@@ -4,7 +4,6 @@
  */
 
 package csri.poeticon.praxicon.db.entities;
-
 import csri.poeticon.praxicon.Constants;
 import csri.poeticon.praxicon.Globals;
 import java.io.Serializable;
@@ -105,6 +104,14 @@ public class LanguageRepresentation implements Serializable
     @Column(name="Comment")
     private String Comment;
 
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="Id")
+    @JoinTable(
+        name="Concept_LanguageRepresentation",
+        joinColumns={@JoinColumn(name="ConceptId")},
+        inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
+    )
+    private List<Concept> Concepts;
+
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         name="LanguageRepresentation_RelationSubject",
@@ -130,7 +137,8 @@ public class LanguageRepresentation implements Serializable
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
-        joinColumns={@JoinColumn(name="IntersectionId")},
+        name="LanguageRepresentation_IntersectionOfRelationChains",
+        joinColumns={@JoinColumn(name="IntersectionOfRelationChainsId")},
         inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
     )
     private List<IntersectionOfRelationChains> LanguageRepresentationIntersections;
@@ -221,7 +229,6 @@ public class LanguageRepresentation implements Serializable
         return language_representations_list;
     }
 
-
     @XmlTransient
     public List<Concept> getConcepts()
     {
@@ -244,9 +251,6 @@ public class LanguageRepresentation implements Serializable
     {
         this.language_representations = language_representations;
     }
-
-
-
 
     public void setLanguage(language language)
     {
@@ -328,5 +332,4 @@ public class LanguageRepresentation implements Serializable
             }*/
         }
     }
-
 }

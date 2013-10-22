@@ -135,24 +135,21 @@ public class Concept implements Serializable
     @Column(name="Comment")
     protected String Description;
 
-//    @OneToMany(cascade=CascadeType.ALL, mappedBy = "owner")
-//    private List<LanguageRepresentation> language_representation;
-
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="LanguageRepresentation")
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         name="Concept_LanguageRepresentation",
-        joinColumns={@JoinColumn(name="ConceptId")},
-        inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
+        joinColumns={@JoinColumn(name="LanguageRepresentationId")},
+        inverseJoinColumns={@JoinColumn(name="ConceptId")}
     )
     private List<LanguageRepresentation> LanguageRepresentations;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "VisualRepresentationId")
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "Id")
     private List<VisualRepresentation> VisualRepresentations;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "MotoricRepresentationId")
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "Id")
     private List<MotoricRepresentation> MotoricRepresentations;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "concept")
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "Id")
     private List<IntersectionOfRelationChains> Relations;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "object")

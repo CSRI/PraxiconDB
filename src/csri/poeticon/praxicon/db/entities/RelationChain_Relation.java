@@ -36,7 +36,7 @@ public class RelationChain_Relation implements Serializable
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
-    @Column(name="Id")
+    @Column(name="RelationChain_RelationId")
     private Long Id;
 
     @ManyToOne(optional=false, cascade=CascadeType.ALL)

@@ -53,7 +53,7 @@ public class RelationChain implements Serializable
     )
     private List<IntersectionOfRelationChains> Intersections;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "relationChain")
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "RelationChain_RelationId")
     private List<RelationChain_Relation> Relations;
 
     @Column(name="Name")
