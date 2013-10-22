@@ -150,7 +150,7 @@ public class Concept implements Serializable
     private List<MotoricRepresentation> MotoricRepresentations;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "Id")
-    private List<IntersectionOfRelationChains> Relations;
+    private List<IntersectionOfRelationChains> IntersectionsOfRelationChains;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "object")
     private List<Relation> ObjectOfRelations;
@@ -169,7 +169,7 @@ public class Concept implements Serializable
         MotoricRepresentations = new ArrayList<MotoricRepresentation>();
         ObjectOfRelations =  new ArrayList<Relation>();
         SubjectOfRelations =  new ArrayList<Relation>();
-        Relations = new ArrayList<IntersectionOfRelationChains>();
+        IntersectionsOfRelationChains = new ArrayList<IntersectionOfRelationChains>();
     }
 
     private Concept(Concept newConcept)
@@ -183,7 +183,7 @@ public class Concept implements Serializable
         VisualRepresentations = new ArrayList<VisualRepresentation>();
         MotoricRepresentations = new ArrayList<MotoricRepresentation>();
         ObjectOfRelations =  new ArrayList<Relation>();
-        Relations = new ArrayList<IntersectionOfRelationChains>();
+        IntersectionsOfRelationChains = new ArrayList<IntersectionOfRelationChains>();
         this.Name = newConcept.Name;
     
         for(int i = 0; i < newConcept.getLanguageRepresentations().size(); i++)
@@ -229,12 +229,12 @@ public class Concept implements Serializable
             }
         }
 
-        for(int i = 0; i < newConcept.getRelations().size(); i++)
+        for(int i = 0; i < newConcept.getIntersectionsOfRelationChains().size(); i++)
         {
-            if (!this.getRelations().contains(newConcept.getRelations().get(i)))
+            if (!this.getIntersectionsOfRelationChains().contains(newConcept.getIntersectionsOfRelationChains().get(i)))
             {
-                newConcept.getRelations().get(i).setConcept(this);
-                this.getRelations().add(newConcept.getRelations().get(i));
+                newConcept.getIntersectionsOfRelationChains().get(i).setConcept(this);
+                this.getIntersectionsOfRelationChains().add(newConcept.getIntersectionsOfRelationChains().get(i));
             }
         }
     }
@@ -420,9 +420,9 @@ public class Concept implements Serializable
      *     of relation that this concept participates"
      */
     @XmlElement(name="union_of_intersections_of_relations")
-    public List<IntersectionOfRelationChains> getRelations()
+    public List<IntersectionOfRelationChains> getIntersectionsOfRelationChains()
     {
-        return Relations;
+        return IntersectionsOfRelationChains;
     }
 
     /**
@@ -631,9 +631,9 @@ public class Concept implements Serializable
 //            for(int j=0; j<union.getIntersections().size(); j++)
 //            {
 //                IntersectionOfRelations inter = union.getIntersections().get(j);
-//                for (int k = 0; k < inter.getRelations().size(); k++)
+//                for (int k = 0; k < inter.getIntersectionsOfRelationChains().size(); k++)
 //                {
-//                    RelationChain relCh = inter.getRelations().get(k);
+//                    RelationChain relCh = inter.getIntersectionsOfRelationChains().get(k);
 //                    for (int l = 0; l<relCh.getRelations().size(); l++)
 //                    {
 //                        for (int m = 0; m < relCh.getRelations().size(); m++)
@@ -750,9 +750,9 @@ public class Concept implements Serializable
 //            for(int j=0; j<union.getIntersections().size(); j++)
 //            {
 //                IntersectionOfRelations inter = union.getIntersections().get(j);
-//                for (int k = 0; k < inter.getRelations().size(); k++)
+//                for (int k = 0; k < inter.getIntersectionsOfRelationChains().size(); k++)
 //                {
-//                    RelationChain relCh = inter.getRelations().get(k);
+//                    RelationChain relCh = inter.getIntersectionsOfRelationChains().get(k);
 //                    for (int l = 0; l<relCh.getRelations().size(); l++)
 //                    {
 //                        for (int m = 0; m < relCh.getRelations().size(); m++)
@@ -796,9 +796,9 @@ public class Concept implements Serializable
 //            for (int j =0; j < union.getIntersections().size(); j++)
 //            {
 //                IntersectionOfRelations inter = union.getIntersections().get(j);
-//                if (inter.getRelations().size() == 1)
+//                if (inter.getIntersectionsOfRelationChains().size() == 1)
 //                {
-//                    RelationChain rc = inter.getRelations().get(0);
+//                    RelationChain rc = inter.getIntersectionsOfRelationChains().get(0);
 //                    if (rc.getRelations().size() == 1)
 //                    {
 //                        Relation rel = rc.getRelations().get(0).getRelation();
@@ -850,9 +850,9 @@ public class Concept implements Serializable
 //            for(int j=0; j<union.getIntersections().size(); j++)
 //            {
 //                IntersectionOfRelations inter = union.getIntersections().get(j);
-//                for (int k = 0; k < inter.getRelations().size(); k++)
+//                for (int k = 0; k < inter.getIntersectionsOfRelationChains().size(); k++)
 //                {
-//                    RelationChain relCh = inter.getRelations().get(k);
+//                    RelationChain relCh = inter.getIntersectionsOfRelationChains().get(k);
 //                    for (int l = 0; l<relCh.getRelations().size(); l++)
 //                    {
 //                        for (int m = 0; m < relCh.getRelations().size(); m++)
@@ -892,17 +892,17 @@ public class Concept implements Serializable
 //    public List<Relation> getRelatedConceptsSingle()
 //    {
 //         List <Relation> res = new ArrayList<Relation>();
-//         for (int i = 0; i < this.getRelations().size(); i++)
+//         for (int i = 0; i < this.getIntersectionsOfRelationChains().size(); i++)
 //         {
-//             UnionOfIntersections union = this.getRelations().get(i);
+//             UnionOfIntersections union = this.getIntersectionsOfRelationChains().get(i);
 //
 //             for (int j =0; j < union.getIntersections().size(); j++ )
 //             {
 //                 IntersectionOfRelations inter = union.getIntersections().get(j);
 //
-//                 for (int k = 0; k < inter.getRelations().size(); k ++ )
+//                 for (int k = 0; k < inter.getIntersectionsOfRelationChains().size(); k ++ )
 //                 {
-//                     RelationChain rChain = inter.getRelations().get(k);
+//                     RelationChain rChain = inter.getIntersectionsOfRelationChains().get(k);
 //
 //                     List<Relation> rels = rChain.getActualRelations();
 //                     for(int l = 0; l < rels.size(); l ++)
@@ -948,9 +948,9 @@ public class Concept implements Serializable
 //            for (int j = 0; j < tmp.get(i).getIntersections().size(); j++)
 //            {
 //                IntersectionOfRelations inter = tmp.get(i).getIntersections().get(j);
-//                for (int k = 0; k < inter.getRelations().size(); k++)
+//                for (int k = 0; k < inter.getIntersectionsOfRelationChains().size(); k++)
 //                {
-//                    RelationChain rc = inter.getRelations().get(k);
+//                    RelationChain rc = inter.getIntersectionsOfRelationChains().get(k);
 //
 //                    for (int l = 0; l <rc.getRelations().size(); l++)
 //                    {
@@ -1195,10 +1195,10 @@ public class Concept implements Serializable
      * @param oldCon the concept to be updated
      */
     public void updateRelations(Concept oldCon) {
-        for (int i = 0; i < this.getRelations().size(); i++) {
-            if (!oldCon.getRelations().contains(this.getRelations().get(i))) {
-                this.getRelations().get(i).setConcept(oldCon);
-                oldCon.getRelations().add(this.getRelations().get(i));
+        for (int i = 0; i < this.getIntersectionsOfRelationChains().size(); i++) {
+            if (!oldCon.getIntersectionsOfRelationChains().contains(this.getIntersectionsOfRelationChains().get(i))) {
+                this.getIntersectionsOfRelationChains().get(i).setConcept(oldCon);
+                oldCon.getIntersectionsOfRelationChains().add(this.getIntersectionsOfRelationChains().get(i));
             }
         }
     }
