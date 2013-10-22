@@ -80,7 +80,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
 //            ui.getIntersections().add(ir);
 //            ir.getUnions().add(ui);
 //            ui.setConcept(c);
-            if (!c.getRelations().contains(ui))
+            if (!c.getIntersectionsOfRelationChains().contains(ui))
             {
                 res.add(ui);
             }

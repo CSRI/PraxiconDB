@@ -442,11 +442,11 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
     @Override
     public boolean areRelated(Concept conA, String relation, Concept conB)
     {
-        for (int intersection = 0; intersection < conA.getRelations().size(); intersection++)
+        for (int intersection = 0; intersection < conA.getIntersectionsOfRelationChains().size(); intersection++)
         {
 //            IntersectionOfRelationChains tmpUnion = conA.getRelations().get(union);
 //            for (int intersection = 0; intersection < tmpUnion.getIntersections().size(); intersection++) {
-                IntersectionOfRelationChains tmpIntersection = conA.getRelations().get(intersection);
+                IntersectionOfRelationChains tmpIntersection = conA.getIntersectionsOfRelationChains().get(intersection);
                 for (int relationChain = 0; relationChain < tmpIntersection.getRelations().size(); relationChain++)
                 {
                     RelationChain tmpRelationChain = tmpIntersection.getRelations().get(relationChain);
@@ -1031,12 +1031,12 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
      */
     private void updateRelations(Concept newCon, Concept oldCon)
     {
-        for (int i = 0; i < newCon.getRelations().size(); i++)
+        for (int i = 0; i < newCon.getIntersectionsOfRelationChains().size(); i++)
         {
-            if (!oldCon.getRelations().contains(newCon.getRelations().get(i)))
+            if (!oldCon.getIntersectionsOfRelationChains().contains(newCon.getIntersectionsOfRelationChains().get(i)))
             {
-                newCon.getRelations().get(i).setConcept(oldCon);
-                IntersectionOfRelationChains inter = newCon.getRelations().get(i);
+                newCon.getIntersectionsOfRelationChains().get(i).setConcept(oldCon);
+                IntersectionOfRelationChains inter = newCon.getIntersectionsOfRelationChains().get(i);
 //                for (int j = 0; j < union.getIntersections().size(); j++) {
 //                    IntersectionOfRelationChains inter = union.getIntersections().get(j);
                     for (int k = 0; k < inter.getRelations().size(); k++)
@@ -1059,7 +1059,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
                         }
                     }
 //                }
-                oldCon.getRelations().add(newCon.getRelations().get(i));
+                oldCon.getIntersectionsOfRelationChains().add(newCon.getIntersectionsOfRelationChains().get(i));
             }
         }
     }
