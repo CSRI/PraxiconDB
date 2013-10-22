@@ -36,7 +36,7 @@ public class SimpleTest
         q.setParameter(1, toSearch);
         List<Concept> found = q.getResultList();
         Concept startConcept = found.get(0);
-        System.out.println(startConcept+" "+startConcept.getSpecificityLevel());
+        System.out.println(startConcept + " " + startConcept.getSpecificityLevel());
 
         HashSet<Concept> sisters = new HashSet<Concept>();
 
@@ -49,7 +49,7 @@ public class SimpleTest
 
         for (Concept con: sisters)
         {
-            System.out.println(con+" "+con.getSpecificityLevel());
+            System.out.println(con + " " + con.getSpecificityLevel());
         }
     }
 }
