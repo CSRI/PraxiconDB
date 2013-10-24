@@ -1006,19 +1006,19 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
      */
     private void updateObjOfRelations(Concept newCon, Concept oldCon)
     {
-        for (int i = 0; i < newCon.getObjectOfRelations().size(); i++)
+        for (int i = 0; i < newCon.getRelationsContainingConceptAsObject().size(); i++)
         {
-            if (!oldCon.getObjectOfRelations().contains(newCon.getObjectOfRelations().get(i)))
+            if (!oldCon.getRelationsContainingConceptAsObject().contains(newCon.getRelationsContainingConceptAsObject().get(i)))
             {
-                if (newCon.getObjectOfRelations().get(i).getObject().equals(newCon))
+                if (newCon.getRelationsContainingConceptAsObject().get(i).getObject().equals(newCon))
                 {
-                    newCon.getObjectOfRelations().get(i).setObject(oldCon);
+                    newCon.getRelationsContainingConceptAsObject().get(i).setObject(oldCon);
                 } 
                 else
                 {
-                    newCon.getObjectOfRelations().get(i).setSubject(oldCon);
+                    newCon.getRelationsContainingConceptAsObject().get(i).setSubject(oldCon);
                 }
-                oldCon.getObjectOfRelations().add(newCon.getObjectOfRelations().get(i));
+                oldCon.getRelationsContainingConceptAsObject().add(newCon.getRelationsContainingConceptAsObject().get(i));
             }
         }
     }
