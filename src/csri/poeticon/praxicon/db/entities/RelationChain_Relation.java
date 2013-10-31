@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Erevodifwntas
  */
 @Entity
-@Table(name="RELATIONCHAIN_RELATION")
+@Table(name="RelationChain_Relation")
 public class RelationChain_Relation implements Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -144,9 +144,8 @@ public class RelationChain_Relation implements Serializable
         this.RelationChain = (RelationChain)parent;
         if (Globals.ToMergeAfterUnMarshalling)
         {
-
-        RelationDao rDao = new RelationDaoImpl();
-        this.Relation = rDao.getEntity(Relation);
+            RelationDao rDao = new RelationDaoImpl();
+            this.Relation = rDao.getEntity(Relation);
         }
     }
 }
