@@ -38,7 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
+ * @author Erevodifwntas
  * @author Dimitris Mavroeidis
+ * 
  */
 
 @XmlRootElement()
@@ -63,84 +65,92 @@ public class Relation implements Serializable
     @Column(name="RelationId")
     private Long Id;
 
-// TODO: Check if this is needed!
+    @Column(name="Comment")
+    private String Comment;
+    
+    // OK
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "Relation")
     private List<RelationChain_Relation> MainFunctions;
 
+    // OK
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
-    @JoinColumn(name="Id")
-    RelationType Type;
+    //@JoinColumn(name="Id")
+    private RelationType Type;
 
-    @Column(name="Comment")
-    String Comment;
-
+    // OK
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
-    @JoinColumn(name="ConceptIdObject")
-    Concept Object;
+    // @JoinColumn(name="ConceptId")
+    private Concept Object;
 
+    // OK
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
-    @JoinColumn(name="ConceptIdSubject")
-    Concept Subject;
+    // @JoinColumn(name="ConceptId")
+    private Concept Subject;
 
     @Column(name="DerivationSupported")
     @Enumerated(EnumType.STRING)
     protected derivation_supported DerivationSupported;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="LanguageRepresentationId")
+    // OK
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="Id")
     @JoinTable(
         name="LanguageRepresentation_RelationSubject",
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
     )
-    List<LanguageRepresentation> LanguageRepresentationSubject;
+    private List<LanguageRepresentation> LanguageRepresentationSubject;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="LanguageRepresentationId")
+    // OK
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="Id")
     @JoinTable(
-        name="LangugeRepresentation_RelationObject",
+        name="LanguageRepresentation_RelationObject",
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
     )
-    List<LanguageRepresentation> LanguageRepresentationObject;
+    private List<LanguageRepresentation> LanguageRepresentationObject;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="MotoricRepresentationId")
+    // OK
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="Id")
     @JoinTable(
         name="MotoricRepresentation_RelationSubject",
         joinColumns={@JoinColumn(name="RelationId")},
-        inverseJoinColumns={@JoinColumn(name="MotoricId")}
+        inverseJoinColumns={@JoinColumn(name="MotoricRepresentationId")}
     )
-    List<MotoricRepresentation> MotoricRepresentationSubject;
+    private List<MotoricRepresentation> MotoricRepresentationSubject;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="MotoricRepresentationId")
+    // OK
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="Id")
     @JoinTable(
         name="MotoricRepresentation_RelationObject",
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="MotoricRepresentationId")}
     )
-    List<MotoricRepresentation> MotoricRepresentationObject;
+    private List<MotoricRepresentation> MotoricRepresentationObject;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="VisualRepresentationId")
+    // OK
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="Id")
     @JoinTable(
         name="VisualRepresentation_RelationSubject",
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="VisualRepresentationId")}
     )
-    List<VisualRepresentation> VisualRepresentationSubject;
+    private List<VisualRepresentation> VisualRepresentationSubject;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="VisualRepresentationId")
+    // OK
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="Id")
     @JoinTable(
         name="VisualRepresentation_RelationObject",
         joinColumns={@JoinColumn(name="RelationId")},
         inverseJoinColumns={@JoinColumn(name="VisualRepresentationId")}
     )
-    List<VisualRepresentation> VisualRepresentationObject;
-
+    private List<VisualRepresentation> VisualRepresentationObject;
 
 
 
 // TODO: Uncomment each method after checking it first
     public Relation()
     {
-//        mainFunctions = new ArrayList<RelationChain_Relation>();
+        MainFunctions = new ArrayList<RelationChain_Relation>();
         VisualRepresentationObject = new ArrayList<VisualRepresentation>();
         VisualRepresentationSubject = new ArrayList<VisualRepresentation>();
         LanguageRepresentationObject = new ArrayList<LanguageRepresentation>();
@@ -323,7 +333,7 @@ public class Relation implements Serializable
      */
    @XmlElement
     public RelationType getType()
-   {
+    {
         return Type;
     }
 
@@ -892,9 +902,8 @@ public class Relation implements Serializable
             this.Type = rDao.getEntity(Type);
             ConceptDao cDao = new ConceptDaoImpl();
             this.Object = cDao.getEntity(Object);
-            Object.getObjectOfRelations().add(this);
+            Object.getRelationsContainingConceptAsObject().add(this);
             this.Subject = cDao.getEntity(Subject);
         }
     }
-
 }
