@@ -40,7 +40,9 @@ import javax.persistence.Enumerated;
 
 /**
  *
+ * @author Erevodifwntas
  * @author Dimitris Mavroeidis
+ * 
  */
 @XmlRootElement(name="entity")
 @Entity
@@ -135,6 +137,7 @@ public class Concept implements Serializable
     @Column(name="Comment")
     protected String Description;
 
+    // OK
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         name="Concept_LanguageRepresentation",
@@ -143,20 +146,25 @@ public class Concept implements Serializable
     )
     private List<LanguageRepresentation> LanguageRepresentations;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "Id")
+    // OK
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "Concept")
     private List<VisualRepresentation> VisualRepresentations;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "Id")
+    // OK
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "Concept")
     private List<MotoricRepresentation> MotoricRepresentations;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "Id")
+    // OK
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "Concept")
     private List<IntersectionOfRelationChains> IntersectionsOfRelationChains;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "object")
-    private List<Relation> ObjectOfRelations;
+    // OK
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "Object")
+    private List<Relation> RelationsContainingConceptAsObject; //Relations that have "this" concept as Object.
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "subject")
-    private List<Relation> SubjectOfRelations;
+    // OK
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "Subject")
+    private List<Relation> RelationsContainingConceptAsSubject; //Relations that have "this" concept as Subject.
 
 
     // Public Constructor
@@ -167,8 +175,8 @@ public class Concept implements Serializable
         LanguageRepresentations =  new ArrayList<LanguageRepresentation>();
         VisualRepresentations = new ArrayList<VisualRepresentation>();
         MotoricRepresentations = new ArrayList<MotoricRepresentation>();
-        ObjectOfRelations =  new ArrayList<Relation>();
-        SubjectOfRelations =  new ArrayList<Relation>();
+        RelationsContainingConceptAsObject =  new ArrayList<Relation>();
+        RelationsContainingConceptAsSubject =  new ArrayList<Relation>();
         IntersectionsOfRelationChains = new ArrayList<IntersectionOfRelationChains>();
     }
 
@@ -182,7 +190,7 @@ public class Concept implements Serializable
         LanguageRepresentations = new ArrayList<LanguageRepresentation>();
         VisualRepresentations = new ArrayList<VisualRepresentation>();
         MotoricRepresentations = new ArrayList<MotoricRepresentation>();
-        ObjectOfRelations =  new ArrayList<Relation>();
+        RelationsContainingConceptAsObject =  new ArrayList<Relation>();
         IntersectionsOfRelationChains = new ArrayList<IntersectionOfRelationChains>();
         this.Name = newConcept.Name;
     
@@ -213,19 +221,19 @@ public class Concept implements Serializable
             }
         }
 
-        for(int i = 0; i < newConcept.getObjectOfRelations().size(); i++)
+        for(int i = 0; i < newConcept.getRelationsContainingConceptAsObject().size(); i++)
         {
-            if (!this.getObjectOfRelations().contains(newConcept.getObjectOfRelations().get(i)))
+            if (!this.getRelationsContainingConceptAsObject().contains(newConcept.getRelationsContainingConceptAsObject().get(i)))
             {
-                if (newConcept.getObjectOfRelations().get(i).getObject().equals(newConcept))
+                if (newConcept.getRelationsContainingConceptAsObject().get(i).getObject().equals(newConcept))
                 {
-                    newConcept.getObjectOfRelations().get(i).setObject(this);
+                    newConcept.getRelationsContainingConceptAsObject().get(i).setObject(this);
                 }
                 else
                 {
-                    newConcept.getObjectOfRelations().get(i).setSubject(this);
+                    newConcept.getRelationsContainingConceptAsObject().get(i).setSubject(this);
                 }
-                this.getObjectOfRelations().add(newConcept.getObjectOfRelations().get(i));
+                this.getRelationsContainingConceptAsObject().add(newConcept.getRelationsContainingConceptAsObject().get(i));
             }
         }
 
@@ -241,14 +249,14 @@ public class Concept implements Serializable
 
 
     @XmlTransient
-    public List<Relation> getObjectOfRelations()
+    public List<Relation> getRelationsContainingConceptAsObject()
     {
-        return ObjectOfRelations;
+        return RelationsContainingConceptAsObject;
     }
 
-    public void setObjectOfRelations(List<Relation> objOfRelations)
+    public void setRelationsContainingConceptAsObject(List<Relation> objOfRelations)
     {
-        this.ObjectOfRelations = objOfRelations;
+        this.RelationsContainingConceptAsObject = objOfRelations;
     }
 
 
@@ -1036,16 +1044,19 @@ public class Concept implements Serializable
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (Id != null ? Id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object)
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Concept)) {
+        if (!(object instanceof Concept))
+        {
             return false;
         }
         Concept other = (Concept) object;
@@ -1060,7 +1071,8 @@ public class Concept implements Serializable
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         if(Name != null && !Name.equalsIgnoreCase(""))
         {
             return Name;// + " (Entity)";
@@ -1134,9 +1146,12 @@ public class Concept implements Serializable
      * Updates LanguageRepresentation of a concept using this concept LanguageRepresentation
      * @param oldCon the concept to be updated
      */
-    public void updateLanguageRepresentations(Concept oldCon) {
-        for (int i = 0; i < this.getLanguageRepresentationsEntries().size(); i++) {
-            if (!oldCon.getLanguageRepresentationsEntries().contains(this.getLanguageRepresentationsEntries().get(i))) {
+    public void updateLanguageRepresentations(Concept oldCon)
+    {
+        for (int i = 0; i < this.getLanguageRepresentationsEntries().size(); i++)
+        {
+            if (!oldCon.getLanguageRepresentationsEntries().contains(this.getLanguageRepresentationsEntries().get(i)))
+            {
                 this.getLanguageRepresentationsEntries().get(i).getConcepts().remove(this);
                 this.getLanguageRepresentationsEntries().get(i).getConcepts().add(this);
                 oldCon.getLanguageRepresentationsEntries().add(this.getLanguageRepresentationsEntries().get(i));
@@ -1148,9 +1163,12 @@ public class Concept implements Serializable
      * Updates MotoricRepresentations of a concept using this concept MotoricRepresentations
      * @param oldCon the concept to be updated
      */
-    public void updateMotoricRepresentations(Concept oldCon) {
-        for (int i = 0; i < this.getMotoricRepresentations().size(); i++) {
-            if (!oldCon.getMotoricRepresentations().contains(this.getMotoricRepresentations().get(i))) {
+    public void updateMotoricRepresentations(Concept oldCon)
+    {
+        for (int i = 0; i < this.getMotoricRepresentations().size(); i++)
+        {
+            if (!oldCon.getMotoricRepresentations().contains(this.getMotoricRepresentations().get(i)))
+            {
                 this.getMotoricRepresentations().get(i);
                 oldCon.getMotoricRepresentations().add(this.getMotoricRepresentations().get(i));
             }
@@ -1161,9 +1179,12 @@ public class Concept implements Serializable
      * Updates VisualRepresentations of a concept using this concept VisualRepresentations
      * @param oldCon the concept to be updated
      */
-    public void updateVisualRepresentations(Concept oldCon) {
-        for (int i = 0; i < this.getVisualRepresentations().size(); i++) {
-            if (!oldCon.getVisualRepresentations().contains(this.getVisualRepresentations().get(i))) {
+    public void updateVisualRepresentations(Concept oldCon)
+    {
+        for (int i = 0; i < this.getVisualRepresentations().size(); i++)
+        {
+            if (!oldCon.getVisualRepresentations().contains(this.getVisualRepresentations().get(i)))
+            {
                 this.getVisualRepresentations().get(i);
                 oldCon.getVisualRepresentations().add(this.getVisualRepresentations().get(i));
             }
@@ -1174,18 +1195,21 @@ public class Concept implements Serializable
      * Updates object relations of a concept using this concept object relations
      * @param oldCon the concept to be updated
      */
-    public void updateObjOfRelations(Concept oldCon) {
-        for (int i = 0; i < this.getObjectOfRelations().size(); i++) {
-            if (!oldCon.getObjectOfRelations().contains(this.getObjectOfRelations().get(i))) {
-                if (this.getObjectOfRelations().get(i).getObject().equals(this))
+    public void updateObjOfRelations(Concept oldCon)
+    {
+        for (int i = 0; i < this.getRelationsContainingConceptAsObject().size(); i++)
+        {
+            if (!oldCon.getRelationsContainingConceptAsObject().contains(this.getRelationsContainingConceptAsObject().get(i)))
+            {
+                if (this.getRelationsContainingConceptAsObject().get(i).getObject().equals(this))
                 {
-                    this.getObjectOfRelations().get(i).setObject(oldCon);
+                    this.getRelationsContainingConceptAsObject().get(i).setObject(oldCon);
                 }
                 else
                 {
-                    this.getObjectOfRelations().get(i).setSubject(oldCon);
+                    this.getRelationsContainingConceptAsObject().get(i).setSubject(oldCon);
                 }
-                oldCon.getObjectOfRelations().add(this.getObjectOfRelations().get(i));
+                oldCon.getRelationsContainingConceptAsObject().add(this.getRelationsContainingConceptAsObject().get(i));
             }
         }
     }
@@ -1194,9 +1218,12 @@ public class Concept implements Serializable
      * Updates relations of a concept using this concept relations
      * @param oldCon the concept to be updated
      */
-    public void updateRelations(Concept oldCon) {
-        for (int i = 0; i < this.getIntersectionsOfRelationChains().size(); i++) {
-            if (!oldCon.getIntersectionsOfRelationChains().contains(this.getIntersectionsOfRelationChains().get(i))) {
+    public void updateRelations(Concept oldCon)
+    {
+        for (int i = 0; i < this.getIntersectionsOfRelationChains().size(); i++)
+        {
+            if (!oldCon.getIntersectionsOfRelationChains().contains(this.getIntersectionsOfRelationChains().get(i)))
+            {
                 this.getIntersectionsOfRelationChains().get(i).setConcept(oldCon);
                 oldCon.getIntersectionsOfRelationChains().add(this.getIntersectionsOfRelationChains().get(i));
             }
