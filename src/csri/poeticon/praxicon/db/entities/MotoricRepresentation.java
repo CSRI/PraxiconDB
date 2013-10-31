@@ -1,6 +1,7 @@
 package csri.poeticon.praxicon.db.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.Unmarshaller;
@@ -18,8 +21,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
+ * 
  * @author Erevodifwntas
+ * @author Erevodifwntas
+ *
  */
 @XmlRootElement()
 @Entity
@@ -34,6 +39,29 @@ public class MotoricRepresentation implements Serializable
 
     @Column(name="Presentation")
     private String Representation;
+
+    // OK
+    @ManyToOne(cascade=CascadeType.ALL)
+    private Concept Concept;
+
+    // OK
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable(
+        name="MotoricRepresentation_RelationSubject",
+        joinColumns={@JoinColumn(name="MotoricRepresentationId")},
+        inverseJoinColumns={@JoinColumn(name="RelationId")}
+    )
+    private List<Relation> RelationsWithMotoricRepresentationAsSubject;
+
+    // OK
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable(
+        name="MotoricRepresentation_RelationObject",
+        joinColumns={@JoinColumn(name="MotoricRepresentationId")},
+        inverseJoinColumns={@JoinColumn(name="RelationId")}
+    )
+    private List<Relation> RelationsWithMotoricRepresentationAsObject;
+
 
     public MotoricRepresentation()
     {
@@ -50,7 +78,8 @@ public class MotoricRepresentation implements Serializable
         return "video";
     }
 
-    public String getRepresentationWithPath() {
+    public String getRepresentationWithPath()
+    {
         //NOT IMPLEMENTED YET
         return "";
     }
