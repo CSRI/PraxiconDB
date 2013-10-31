@@ -30,7 +30,9 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
+ * @author Erevodifwntas
  * @author Dimitris Mavroeidis
+ * 
  */
 @XmlRootElement()
 @Entity
@@ -104,7 +106,8 @@ public class LanguageRepresentation implements Serializable
     @Column(name="Comment")
     private String Comment;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="Id")
+    // OK
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="LanguageRepresentations")
     @JoinTable(
         name="Concept_LanguageRepresentation",
         joinColumns={@JoinColumn(name="ConceptId")},
@@ -112,22 +115,25 @@ public class LanguageRepresentation implements Serializable
     )
     private List<Concept> Concepts;
 
+    // OK
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         name="LanguageRepresentation_RelationSubject",
         joinColumns={@JoinColumn(name="LanguageRepresentationId")},
         inverseJoinColumns={@JoinColumn(name="RelationId")}
     )
-    private List<Relation> LanguageRepresentationSubject;
+    private List<Relation> RelationsWithLanguageRepresentationAsSubject;
 
+    // OK
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         name="LanguageRepresentation_RelationObject",
         joinColumns={@JoinColumn(name="LanguageRepresentationId")},
         inverseJoinColumns={@JoinColumn(name="RelationId")}
     )
-    private List<Relation> LanguageRepresentationObject;
+    private List<Relation> RelationsWithLanguageRepresentationAsObject;
 
+    // 
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         joinColumns={@JoinColumn(name="RelationChainId")},
@@ -135,7 +141,7 @@ public class LanguageRepresentation implements Serializable
     )
     private List<RelationChain> LanguageRepresentationRelationChains;
 
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="Id")
     @JoinTable(
         name="LanguageRepresentation_IntersectionOfRelationChains",
         joinColumns={@JoinColumn(name="IntersectionOfRelationChainsId")},
