@@ -33,6 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  *
  * @author Erevodifwntas
+ * @author Dimitris Mavroeidis
+ * 
  */
 @XmlRootElement()
 @Entity
@@ -55,13 +57,14 @@ public class IntersectionOfRelationChains implements Serializable
     joinColumns={@JoinColumn(name="IntersectionId")},
     inverseJoinColumns={@JoinColumn(name="RelationId")}
     )
-    private List<RelationChain> Relations;
+    private List<RelationChain> RelationChains;
 
+    // OK
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
-    @JoinColumn(name="ConceptId")
+    //@JoinColumn(name="ConceptId")
     private Concept Concept;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="Id")
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         name="LanguageRepresentation_IntersectionOfRelationChains",
         joinColumns={@JoinColumn(name="LanguageRepresentationId")},
@@ -72,7 +75,7 @@ public class IntersectionOfRelationChains implements Serializable
 
     public IntersectionOfRelationChains()
     {
-        Relations = new ArrayList<RelationChain>();
+        RelationChains = new ArrayList<RelationChain>();
 //        unions = new ArrayList<UnionOfIntersections>();  //Obsolete
         LanguageRepresentationNames = new ArrayList<LanguageRepresentation>();
     }
@@ -85,7 +88,7 @@ public class IntersectionOfRelationChains implements Serializable
     @XmlElement(name="relation_chain")
     public List<RelationChain> getRelations()
     {
-        return Relations;
+        return RelationChains;
     }
 
     @XmlTransient
@@ -168,16 +171,17 @@ public class IntersectionOfRelationChains implements Serializable
     public void addRelationChain(RelationChain rc)
     {
         rc.getIntersections().add(this);
-        Relations.add(rc);
+        RelationChains.add(rc);
     }
 
     public void addRelationChain1way(RelationChain rc)
     {
-        Relations.add(rc);
+        RelationChains.add(rc);
     }
 
-    public void setRelations(List<RelationChain> relations) {
-        this.Relations = relations;
+    public void setRelations(List<RelationChain> relations)
+    {
+        this.RelationChains = relations;
     }
 
 // Obsolete
@@ -242,12 +246,12 @@ public class IntersectionOfRelationChains implements Serializable
             return false;
         }
         IntersectionOfRelationChains other = (IntersectionOfRelationChains) object;
-        if (this.Relations.size() == other.Relations.size())
+        if (this.RelationChains.size() == other.RelationChains.size())
         {
             boolean eq= true;
-            for (int i = 0; i < this.Relations.size(); i++)
+            for (int i = 0; i < this.RelationChains.size(); i++)
             {
-                if (!other.Relations.contains(this.Relations.get(i)))
+                if (!other.RelationChains.contains(this.RelationChains.get(i)))
                 {
                     eq = false;
                     break;
