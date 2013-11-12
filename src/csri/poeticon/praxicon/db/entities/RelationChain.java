@@ -32,6 +32,8 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  *
  * @author Erevodifwntas
+ * @author Dimitris Mavroeidis
+ * 
  */
 @XmlRootElement()
 @Entity
@@ -42,24 +44,26 @@ public class RelationChain implements Serializable
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
-    @Column(name="ChainId")
+    @Column(name="RelationChainId")
     private Long Id;
-
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="Relations")
-    @JoinTable(
-    name="IntersectionRelation",
-    joinColumns={@JoinColumn(name="RelationId")},
-    inverseJoinColumns={@JoinColumn(name="IntersectionId")}
-    )
-    private List<IntersectionOfRelationChains> Intersections;
-
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "RelationChain_RelationId")
-    private List<RelationChain_Relation> Relations;
 
     @Column(name="Name")
     String name="";
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="LanguageRepresentationRelationChains")
+    // OK
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="Relations")
+    @JoinTable(
+    name="Intersection_Relation",
+    joinColumns={@JoinColumn(name="RelationId")},
+    inverseJoinColumns={@JoinColumn(name="IntersectionId")}
+    )
+    private List<IntersectionOfRelationChains> IntersectionsOfRelationChains;
+
+    // OK
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "RelationChain")
+    private List<RelationChain_Relation> Relations;
+
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="LanguageRepresentation_RelationChains")
     @JoinTable(
         name="LanguageRepresentation_RelationChain",
         joinColumns={@JoinColumn(name="ChainId")},
@@ -67,9 +71,11 @@ public class RelationChain implements Serializable
     )
     List<LanguageRepresentation> LanguageRepresentationNames;
 
+    
+    // Constructor
     public RelationChain()
     {
-        Intersections = new ArrayList<IntersectionOfRelationChains>();
+        IntersectionsOfRelationChains = new ArrayList<IntersectionOfRelationChains>();
         Relations = new ArrayList<RelationChain_Relation>();
         LanguageRepresentationNames = new ArrayList<LanguageRepresentation>();
     }
@@ -206,12 +212,12 @@ public class RelationChain implements Serializable
     @XmlTransient
     public List<IntersectionOfRelationChains> getIntersections()
     {
-        return Intersections;
+        return IntersectionsOfRelationChains;
     }
 
     public void setIntersections(List<IntersectionOfRelationChains> intersections)
     {
-        this.Intersections = intersections;
+        this.IntersectionsOfRelationChains = intersections;
     }
 
     @XmlAttribute
