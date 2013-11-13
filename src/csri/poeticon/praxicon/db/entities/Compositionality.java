@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
+ * 
  * @author Dimitris Mavroeidis
  * 
  */
@@ -61,6 +62,6 @@ public class Compositionality implements Serializable
     private CompositionalityType CompositionalityType;
 
     // Foreign keys
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "LanguageRepresentation")
-    private LanguageRepresentation LanguageRepresentation;
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "Compositionality")
+    private List<LanguageRepresentation> LanguageRepresentation;
 }

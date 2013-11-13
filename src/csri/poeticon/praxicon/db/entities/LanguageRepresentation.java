@@ -20,6 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.Unmarshaller;
@@ -141,7 +142,8 @@ public class LanguageRepresentation implements Serializable
     )
     private List<RelationChain> LanguageRepresentationRelationChains;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="Id")
+    // OK
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="LanguageRepresentationNames")
     @JoinTable(
         name="LanguageRepresentation_IntersectionOfRelationChains",
         joinColumns={@JoinColumn(name="IntersectionOfRelationChainsId")},
@@ -149,7 +151,17 @@ public class LanguageRepresentation implements Serializable
     )
     private List<IntersectionOfRelationChains> LanguageRepresentationIntersections;
 
+    // Foreign keys
+    @ManyToOne(cascade=CascadeType.ALL)
+    private Constituents LanguageRepresentationConstituents;
 
+    // Foreign keys
+    @ManyToOne(cascade=CascadeType.ALL)
+    private Constituents Constituents;
+
+    // Foreign keys
+    @ManyToOne(cascade=CascadeType.ALL)
+    private Compositionality Compositionality;
 
     public LanguageRepresentation()
     {

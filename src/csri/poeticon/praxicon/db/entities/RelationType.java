@@ -16,7 +16,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -82,8 +82,9 @@ public class RelationType implements Serializable
     @Column(name="BackwardName")
     @Enumerated(EnumType.STRING)
     relation_name BackwardName;
-    
-    @OneToOne(cascade=CascadeType.ALL, mappedBy="RelationType")
+
+    // OK
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="Type")
     List<Relation> Relations;
 
     @Transient

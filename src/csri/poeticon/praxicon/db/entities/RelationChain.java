@@ -51,7 +51,7 @@ public class RelationChain implements Serializable
     String name="";
 
     // OK
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="Relations")
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="RelationChains")
     @JoinTable(
     name="Intersection_Relation",
     joinColumns={@JoinColumn(name="RelationId")},
@@ -63,7 +63,8 @@ public class RelationChain implements Serializable
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "RelationChain")
     private List<RelationChain_Relation> Relations;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="LanguageRepresentation_RelationChains")
+    // OK
+    @ManyToMany(cascade=CascadeType.ALL, mappedBy="LanguageRepresentationRelationChains")
     @JoinTable(
         name="LanguageRepresentation_RelationChain",
         joinColumns={@JoinColumn(name="ChainId")},
@@ -279,8 +280,7 @@ public class RelationChain implements Serializable
     {
         try
         {
-            StringBuilder sb = new StringBuilder();
-            
+            StringBuilder sb = new StringBuilder();            
             Concept start = this.getIntersections().get(0).getConcept();
             sb.append(start.getName()).append(" (");
 

@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  *
  * @author Dimitris Mavroeidis
+ * 
  */
 @XmlRootElement()
 @Entity
@@ -47,14 +48,13 @@ public class Constituents implements Serializable
     private Long Id;
 
     @Column(name="ConstituentOrder")
-    @Enumerated(EnumType.STRING)
-    private Long Order;
+    private Short Order;
 
     // Foreign keys
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "LanguageRepresentation")
-    private LanguageRepresentation ConstituentLanguageRepresentation;
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "LanguageRepresentationConstituents")
+    private List<LanguageRepresentation> ConstituentLanguageRepresentation;
 
     // Foreign keys
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "LanguageRepresentation")
-    private LanguageRepresentation LanguageRepresentation;
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "Constituents")
+    private List<LanguageRepresentation> LanguageRepresentation;
 }
