@@ -51,6 +51,7 @@ public class IntersectionOfRelationChains implements Serializable
     @Column(name="Name")
     private String Name;
 
+    // OK
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
     name="Intersection_Relation",
@@ -64,6 +65,7 @@ public class IntersectionOfRelationChains implements Serializable
     //@JoinColumn(name="ConceptId")
     private Concept Concept;
 
+    // OK
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         name="LanguageRepresentation_IntersectionOfRelationChains",
