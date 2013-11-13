@@ -15,6 +15,7 @@ import java.util.List;
 /**
  *
  * @author Erevodifwntas
+ * 
  */
 public interface ConceptDao extends Dao<Long, Concept>
 {
