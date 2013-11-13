@@ -7,6 +7,8 @@ package csri.poeticon.praxicon.db.entities;
 
 import csri.poeticon.praxicon.Constants;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +16,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.Unmarshaller;
@@ -26,6 +30,8 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  *
  * @author Erevodifwntas
+ * @author Dimitris Mavroeidis
+ * 
  */
 @XmlRootElement()
 @Entity
@@ -47,6 +53,36 @@ public class VisualRepresentation implements Serializable
     @Column(name="Representation")
     private String Representation;
 
+    // OK
+    @ManyToOne(cascade=CascadeType.ALL)
+    private Concept Concept;
+
+    // OK
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable(
+        name="VisualRepresentation_RelationSubject",
+        joinColumns={@JoinColumn(name="VisualRepresentationId")},
+        inverseJoinColumns={@JoinColumn(name="RelationId")}
+    )
+    private List<Relation> RelationsWithVisualRepresentationAsSubject;
+
+    // OK
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable(
+        name="VisualRepresentation_RelationObject",
+        joinColumns={@JoinColumn(name="VisualRepresentationId")},
+        inverseJoinColumns={@JoinColumn(name="RelationId")}
+    )
+    private List<Relation> RelationsWithVisualRepresentationAsObject;
+
+
+ //   @Column(name = "CONCEPT_ID", insertable=false, updatable=false)
+ //   private long ownerID;
+
+    @Column(name="Prototype")
+    private boolean Prototype;
+
+
     public VisualRepresentation(String media_type, String representation)
     {
         this.MediaType = media_type;
@@ -57,11 +93,6 @@ public class VisualRepresentation implements Serializable
     {
     }
 
-  //  @Column(name = "CONCEPT_ID", insertable=false, updatable=false)
- //   private long ownerID;
-
-    @Column(name="Prototype")
-    private boolean Prototype;
 
     /**
      * @xmlcomments.args
