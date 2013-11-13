@@ -18,21 +18,31 @@ import java.io.IOException;
 /**
  *
  * @author Erevodifwntas
+ * @author Dimitris Mavroeidis
  */
 public class SimpleTest
 {
     public static void main(String args[])
     {
-        try {Constants.Constants();} //OK
-        catch (FileNotFoundException ex) { System.out.println("File not found");}
-        catch (IOException ex2) { System.out.println("Could not read from file");}
+        try
+        {
+            Constants.Constants();
+        } //OK
+        catch (FileNotFoundException ex)
+        {
+            System.out.println("File not found");
+        }
+        catch (IOException ex2)
+        {
+            System.out.println("Could not read from file");
+        }
         ConceptDao cDao = new ConceptDaoImpl();
 
         String toSearch = "spoon%1:06:00::";
         //String toSearch = "eating_utensil%1:06:00::";
 
         Query q = cDao.getEntityManager().createQuery("SELECT c FROM Concept c "
-                        + "where c.name = ?1");
+                        + "where c.Name = ?1");
         q.setParameter(1, toSearch);
         List<Concept> found = q.getResultList();
         Concept startConcept = found.get(0);
