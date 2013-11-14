@@ -378,11 +378,6 @@ public class Concept implements Serializable
         return "noname";
     }
 
-    /**
-     * Gets the basic level of this concept as text
-     * @return "basic_level" of "";
-     */
-
 
     /**
      * Gets a trimmed version of the concept name
