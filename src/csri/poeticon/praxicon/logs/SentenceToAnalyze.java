@@ -29,7 +29,8 @@ import javax.persistence.SequenceGenerator;
  * @author Erevodifwntas
  */
 @Entity
-public class SentenceToAnalyze implements Serializable {
+public class SentenceToAnalyze implements Serializable
+{
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name="CUST_SEQLOG", allocationSize=1)

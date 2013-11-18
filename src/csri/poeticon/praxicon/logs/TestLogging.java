@@ -12,8 +12,8 @@ import csri.poeticon.praxicon.logs.dao.SentenceToAnalyzeDAO;
  *
  * @author Erevodifwntas
  */
-public class TestLogging {
-
+public class TestLogging
+{
     public static void main(String args[])
     {
         SentenceToAnalyze sentence = new SentenceToAnalyze();

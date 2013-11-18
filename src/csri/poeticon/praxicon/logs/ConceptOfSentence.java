@@ -27,7 +27,8 @@ import javax.persistence.SequenceGenerator;
  * @author Erevodifwntas
  */
 @Entity
-public class ConceptOfSentence implements Serializable {
+public class ConceptOfSentence implements Serializable
+{
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)

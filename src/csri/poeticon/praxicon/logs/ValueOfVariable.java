@@ -27,7 +27,8 @@ import javax.persistence.SequenceGenerator;
  * @author Erevodifwntas
  */
 @Entity
-public class ValueOfVariable implements Serializable {
+public class ValueOfVariable implements Serializable
+{
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
@@ -141,5 +142,4 @@ public class ValueOfVariable implements Serializable {
     {
         return this.getActualVariableValue().toString();
     }
-
 }

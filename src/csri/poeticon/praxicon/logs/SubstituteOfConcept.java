@@ -24,7 +24,8 @@ import javax.persistence.SequenceGenerator;
  * @author Erevodifwntas
  */
 @Entity
-public class SubstituteOfConcept implements Serializable, Comparable  {
+public class SubstituteOfConcept implements Serializable, Comparable
+{
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
@@ -172,5 +173,4 @@ public class SubstituteOfConcept implements Serializable, Comparable  {
         }
         return -1;
     }
-
 }
