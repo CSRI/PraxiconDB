@@ -27,6 +27,8 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  *
  * @author Erevodifwntas
+ * @author Dimitris Mavroeidis
+ *
  */
 @XmlRootElement()
 @Entity
