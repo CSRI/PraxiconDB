@@ -32,11 +32,11 @@ public class ConceptOfSentence implements Serializable {
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
-    @Column(name="CS_ID")
+    @Column(name="SentenceConceptId")
     private Long id;
 
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
-    @JoinColumn(name="SENTENCE_ID")
+    @JoinColumn(name="SentenceId")
     SentenceToAnalyze owner;
 
     Long concept;

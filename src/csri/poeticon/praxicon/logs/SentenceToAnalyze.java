@@ -34,7 +34,7 @@ public class SentenceToAnalyze implements Serializable {
     @Id
     @SequenceGenerator(name="CUST_SEQLOG", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQLOG")
-    @Column(name="SENTENCE_ID")
+    @Column(name="SentenceId")
     private Long id;
 
     public Long getId()
@@ -59,7 +59,7 @@ public class SentenceToAnalyze implements Serializable {
         this.coreConcept = coreConcept;
     }
 
-    @Column(name="SENTENCE")
+    @Column(name="Sentence")
     String sentence;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "owner")

@@ -32,11 +32,11 @@ public class ValueOfVariable implements Serializable {
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
-    @Column(name="VALUE_ID")
+    @Column(name="ValueId")
     private Long id;
 
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
-    @JoinColumn(name="CS_ID")
+    @JoinColumn(name="SentenceConceptId")
     ConceptOfSentence owner;
 
     Long variableValue;

@@ -29,15 +29,15 @@ public class SubstituteOfConcept implements Serializable, Comparable  {
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
-    @Column(name="SUBSTITUTE_ID")
+    @Column(name="SubstitudeId")
     private Long id;
 
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
-    @JoinColumn(name="VALUE_ID")
+    @JoinColumn(name="ValueId")
     ValueOfVariable owner;
 
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
-    @JoinColumn(name="CS_ID")
+    @JoinColumn(name="SentenceConceptId")
     ConceptOfSentence ownersub;
 
     Long concept;
