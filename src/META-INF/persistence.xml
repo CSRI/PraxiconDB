@@ -3,28 +3,28 @@
   <persistence-unit name="testingJPAwithXMLPU" transaction-type="RESOURCE_LOCAL">
     <provider>oracle.toplink.essentials.PersistenceProvider</provider>
     <class>csri.poeticon.praxicon.db.entities.Concept</class>
-    <class>csri.poeticon.praxicon.db.entities.IntersectionOfRelations</class>
-    <class>csri.poeticon.praxicon.db.entities.LRGroup</class>
+    <class>csri.poeticon.praxicon.db.entities.Compositionality</class>
+    <class>csri.poeticon.praxicon.db.entities.Constituents</class>
     <class>csri.poeticon.praxicon.db.entities.LanguageRepresentation</class>
-    <class>csri.poeticon.praxicon.db.entities.MRGroup</class>
     <class>csri.poeticon.praxicon.db.entities.MotoricRepresentation</class>
+    <class>csri.poeticon.praxicon.db.entities.VisualRepresentation</class>
     <class>csri.poeticon.praxicon.db.entities.Relation</class>
     <class>csri.poeticon.praxicon.db.entities.RelationChain</class>
     <class>csri.poeticon.praxicon.db.entities.RelationChain_Relation</class>
+    <class>csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains</class>
+    <class>csri.poeticon.praxicon.db.entities.RelationType</class>
     <class>csri.poeticon.praxicon.db.entities.SimplifiedRelationName</class>
-    <class>csri.poeticon.praxicon.db.entities.TypeOfRelation</class>
-    <class>csri.poeticon.praxicon.db.entities.UnionOfIntersections</class>
-    <class>csri.poeticon.praxicon.db.entities.VRGroup</class>
-    <class>csri.poeticon.praxicon.db.entities.VisualRepresentation</class>
     <class>csri.poeticon.praxicon.logs.ConceptOfSentence</class>
     <class>csri.poeticon.praxicon.logs.SentenceToAnalyze</class>
     <class>csri.poeticon.praxicon.logs.SubstituteOfConcept</class>
     <class>csri.poeticon.praxicon.logs.ValueOfVariable</class>
     <properties>
-      <property name="toplink.jdbc.user" value="praxicon_user"/>
-      <property name="toplink.jdbc.password" value="l!k@j#h$"/>
-      <property name="toplink.jdbc.url" value="jdbc:mysql://192.168.1.200:3306/praxicon_csri"/>
+      <property name="toplink.jdbc.user" value=""/>
+      <property name="toplink.jdbc.password" value=""/>
+      <property name="toplink.jdbc.url" value="jdbc:mysql://localhost:3306/praxicon_csri"/>
       <property name="toplink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="toplink.jdbc.log" value="SQL=TRACE"/>
+      <property name="toplink.ddl-generation" value="drop-and-create-tables"/>
     </properties>
   </persistence-unit>
 </persistence>
