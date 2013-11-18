@@ -53,11 +53,9 @@ public class VisualRepresentation implements Serializable
     @Column(name="Representation")
     private String Representation;
 
-    // OK
     @ManyToOne(cascade=CascadeType.ALL)
     private Concept Concept;
 
-    // OK
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         name="VisualRepresentation_RelationSubject",
@@ -66,7 +64,6 @@ public class VisualRepresentation implements Serializable
     )
     private List<Relation> RelationsWithVisualRepresentationAsSubject;
 
-    // OK
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         name="VisualRepresentation_RelationObject",

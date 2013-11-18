@@ -50,7 +50,6 @@ public class RelationChain implements Serializable
     @Column(name="Name")
     String name="";
 
-    // OK
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="RelationChains")
     @JoinTable(
     name="Intersection_Relation",
@@ -59,11 +58,9 @@ public class RelationChain implements Serializable
     )
     private List<IntersectionOfRelationChains> IntersectionsOfRelationChains;
 
-    // OK
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "RelationChain")
     private List<RelationChain_Relation> Relations;
 
-    // OK
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="LanguageRepresentationRelationChains")
     @JoinTable(
         name="LanguageRepresentation_RelationChain",

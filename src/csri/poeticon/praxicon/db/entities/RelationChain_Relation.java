@@ -41,13 +41,11 @@ public class RelationChain_Relation implements Serializable
     @Column(name="RelationChain_RelationId")
     private Long Id;
 
-    // OK
     // TODO: This could be a OneToMany and the corresponding a ManyToOne
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
     @JoinColumn(name="RelationChainId")
     RelationChain RelationChain;
 
-    // OK
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
     @JoinColumn(name="RelationId")
     Relation Relation;

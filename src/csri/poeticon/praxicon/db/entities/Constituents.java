@@ -50,11 +50,11 @@ public class Constituents implements Serializable
     @Column(name="ConstituentOrder")
     private Short Order;
 
-    // Foreign keys
+    // Foreign key
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "LanguageRepresentationConstituents")
     private List<LanguageRepresentation> ConstituentLanguageRepresentation;
 
-    // Foreign keys
+    // Foreign key
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "Constituents")
     private List<LanguageRepresentation> LanguageRepresentation;
 }

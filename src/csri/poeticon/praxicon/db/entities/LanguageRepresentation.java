@@ -107,7 +107,6 @@ public class LanguageRepresentation implements Serializable
     @Column(name="Comment")
     private String Comment;
 
-    // OK
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="LanguageRepresentations")
     @JoinTable(
         name="Concept_LanguageRepresentation",
@@ -116,7 +115,6 @@ public class LanguageRepresentation implements Serializable
     )
     private List<Concept> Concepts;
 
-    // OK
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         name="LanguageRepresentation_RelationSubject",
@@ -125,7 +123,6 @@ public class LanguageRepresentation implements Serializable
     )
     private List<Relation> RelationsWithLanguageRepresentationAsSubject;
 
-    // OK
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         name="LanguageRepresentation_RelationObject",
@@ -142,7 +139,6 @@ public class LanguageRepresentation implements Serializable
     )
     private List<RelationChain> LanguageRepresentationRelationChains;
 
-    // OK
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="LanguageRepresentationNames")
     @JoinTable(
         name="LanguageRepresentation_IntersectionOfRelationChains",
@@ -151,15 +147,15 @@ public class LanguageRepresentation implements Serializable
     )
     private List<IntersectionOfRelationChains> LanguageRepresentationIntersections;
 
-    // Foreign keys
+    // Foreign key
     @ManyToOne(cascade=CascadeType.ALL)
     private Constituents LanguageRepresentationConstituents;
 
-    // Foreign keys
+    // Foreign key
     @ManyToOne(cascade=CascadeType.ALL)
     private Constituents Constituents;
 
-    // Foreign keys
+    // Foreign key
     @ManyToOne(cascade=CascadeType.ALL)
     private Compositionality Compositionality;
 

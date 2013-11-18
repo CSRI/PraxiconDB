@@ -68,21 +68,17 @@ public class Relation implements Serializable
     @Column(name="Comment")
     private String Comment;
     
-    // OK
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "Relation")
     private List<RelationChain_Relation> MainFunctions;
 
-    // OK
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
     //@JoinColumn(name="Id")
     private RelationType Type;
 
-    // OK
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
     // @JoinColumn(name="ConceptId")
     private Concept Object;
 
-    // OK
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
     // @JoinColumn(name="ConceptId")
     private Concept Subject;
@@ -91,7 +87,6 @@ public class Relation implements Serializable
     @Enumerated(EnumType.STRING)
     protected derivation_supported DerivationSupported;
 
-    // OK
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="RelationsWithLanguageRepresentationAsSubject")
     @JoinTable(
         name="LanguageRepresentation_RelationSubject",
@@ -100,7 +95,6 @@ public class Relation implements Serializable
     )
     private List<LanguageRepresentation> LanguageRepresentationSubject;
 
-    // OK
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="RelationsWithLanguageRepresentationAsObject")
     @JoinTable(
         name="LanguageRepresentation_RelationObject",
@@ -109,7 +103,6 @@ public class Relation implements Serializable
     )
     private List<LanguageRepresentation> LanguageRepresentationObject;
 
-    // OK
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="RelationsWithMotoricRepresentationAsSubject")
     @JoinTable(
         name="MotoricRepresentation_RelationSubject",
@@ -118,7 +111,6 @@ public class Relation implements Serializable
     )
     private List<MotoricRepresentation> MotoricRepresentationSubject;
 
-    // OK
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="RelationsWithMotoricRepresentationAsObject")
     @JoinTable(
         name="MotoricRepresentation_RelationObject",
@@ -127,7 +119,6 @@ public class Relation implements Serializable
     )
     private List<MotoricRepresentation> MotoricRepresentationObject;
 
-    // OK
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="RelationsWithVisualRepresentationAsSubject")
     @JoinTable(
         name="VisualRepresentation_RelationSubject",
@@ -136,7 +127,6 @@ public class Relation implements Serializable
     )
     private List<VisualRepresentation> VisualRepresentationSubject;
 
-    // OK
     @ManyToMany(cascade=CascadeType.ALL, mappedBy="RelationsWithVisualRepresentationAsObject")
     @JoinTable(
         name="VisualRepresentation_RelationObject",

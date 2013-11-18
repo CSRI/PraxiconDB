@@ -137,7 +137,6 @@ public class Concept implements Serializable
     @Column(name="Comment")
     protected String Description;
 
-    // OK
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         name="Concept_LanguageRepresentation",
@@ -146,23 +145,18 @@ public class Concept implements Serializable
     )
     private List<LanguageRepresentation> LanguageRepresentations;
 
-    // OK
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "Concept")
     private List<VisualRepresentation> VisualRepresentations;
 
-    // OK
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "Concept")
     private List<MotoricRepresentation> MotoricRepresentations;
 
-    // OK
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "Concept")
     private List<IntersectionOfRelationChains> IntersectionsOfRelationChains;
 
-    // OK
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "Object")
     private List<Relation> RelationsContainingConceptAsObject; //Relations that have "this" concept as Object.
 
-    // OK
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "Subject")
     private List<Relation> RelationsContainingConceptAsSubject; //Relations that have "this" concept as Subject.
 

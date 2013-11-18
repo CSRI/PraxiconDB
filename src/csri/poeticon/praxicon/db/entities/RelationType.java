@@ -83,7 +83,6 @@ public class RelationType implements Serializable
     @Enumerated(EnumType.STRING)
     relation_name BackwardName;
 
-    // OK
     @OneToMany(cascade=CascadeType.ALL, mappedBy="Type")
     List<Relation> Relations;
 

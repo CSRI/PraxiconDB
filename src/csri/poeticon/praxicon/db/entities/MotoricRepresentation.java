@@ -40,11 +40,9 @@ public class MotoricRepresentation implements Serializable
     @Column(name="Presentation")
     private String Representation;
 
-    // OK
     @ManyToOne(cascade=CascadeType.ALL)
     private Concept Concept;
 
-    // OK
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         name="MotoricRepresentation_RelationSubject",
@@ -53,7 +51,6 @@ public class MotoricRepresentation implements Serializable
     )
     private List<Relation> RelationsWithMotoricRepresentationAsSubject;
 
-    // OK
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         name="MotoricRepresentation_RelationObject",
