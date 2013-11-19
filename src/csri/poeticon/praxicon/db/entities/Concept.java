@@ -579,35 +579,35 @@ public class Concept implements Serializable
         this.Status = status.valueOf(var_type.trim().toUpperCase());
     }
 
-// TODO: This should be replaced by a method that uses IntersectionsOfRelationChains instead of UnionOfIntersections, which was removed from the schema.
-//    /**
-//     * Adds a new union of intersections to this concept containg an intersection
-//     * of relations created using given relation types (fw+bw) and given relation objects
-//     * @param rTypeForward list of forward types of relations
-//     * @param rTypeBackward list of backward types of relations
-//     * @param obj list of concepts to be used as objects
-//     */
-//    public void addRelation(List<String> rTypeForward, List<String> rTypeBackward, List<Concept> obj)
-//    {
-//        //UnionOfIntersections union = new UnionOfIntersections();
-//        IntersectionOfRelationChains inter = new IntersectionOfRelationChains();
-//        for (int i = 0; i < rTypeForward.size(); i++)
-//        {
-//            RelationType rType = new RelationType();
-//            rType.setForwardName(rTypeForward.get(i));
-//            rType.setBackwardName(rTypeBackward.get(i));
-//            Relation rel = new Relation();
-//            rel.setType(rType);
-//            rel.setSubject(this);
-//            rel.setObject(obj.get(i));
-//            RelationChain rChain = new RelationChain();
-//            rChain.addRelation(rel, 0);
-//            inter.addRelationChain(rChain);
-//        }
-//        union.addIntersection(inter);
-//        this.addRelation(union);
-//    }
-//
+ //TODO: This should be replaced by a method that uses IntersectionsOfRelationChains instead of UnionOfIntersections, which was removed from the schema.
+    /**
+     * Adds a new union of intersections to this concept containg an intersection
+     * of relations created using given relation types (fw+bw) and given relation objects
+     * @param rTypeForward list of forward types of relations
+     * @param rTypeBackward list of backward types of relations
+     * @param obj list of concepts to be used as objects
+     */
+    public void addRelation(List<String> rTypeForward, List<String> rTypeBackward, List<Concept> obj)
+    {
+        //UnionOfIntersections union = new UnionOfIntersections();
+        IntersectionOfRelationChains inter = new IntersectionOfRelationChains();
+        for (int i = 0; i < rTypeForward.size(); i++)
+        {
+            RelationType rType = new RelationType();
+            rType.setForwardName(rTypeForward.get(i));
+            rType.setBackwardName(rTypeBackward.get(i));
+            Relation rel = new Relation();
+            rel.setType(rType);
+            rel.setSubject(this);
+            rel.setObject(obj.get(i));
+            RelationChain rChain = new RelationChain();
+            rChain.addRelation(rel, 0);
+            inter.addRelationChain(rChain);
+        }
+        //union.addIntersection(inter);
+        //this.addIntersectionOfRelationChains(inter);
+    }
+
 //    /**
 //     * Gets all unions of intersections for this concept by adding the unions of
 //     * intresections that have it as the owner and creating unions of intersections
@@ -969,11 +969,11 @@ public class Concept implements Serializable
 //        this.relations = relations;
 //    }
 //
-//    public void addRelation(UnionOfIntersections relation)
-//    {
-//        relation.setConcept(this);
-//        this.relations.add(relation);
-//    }
+    public void addIntersectionOfRelationChains(IntersectionOfRelationChains intersection)
+    {
+        intersection.setConcept(this);
+        this.IntersectionsOfRelationChains.add(intersection);
+    }
 
     /**
      * @xmlcomments.args
