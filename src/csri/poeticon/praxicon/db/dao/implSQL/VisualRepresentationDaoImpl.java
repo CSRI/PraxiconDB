@@ -26,7 +26,7 @@ public class VisualRepresentationDaoImpl extends JpaDao<Long, VisualRepresentati
     public Query getEntityQuery(VisualRepresentation entity)
     {
         Query q = getEntityManager().createQuery("SELECT e FROM VisualRepresentation e " +
-                "where UPPER(e.mediaType) = ?1 and UPPER(e.representation) = ?2 and e.prototype = ?3"
+                "where UPPER(e.MediaType) = ?1 and UPPER(e.Representation) = ?2 and e.Prototype = ?3"
                 );
         q.setParameter(1, entity.getMediaType().toUpperCase());
         q.setParameter(2, entity.getRepresentation().toUpperCase());
@@ -42,8 +42,8 @@ public class VisualRepresentationDaoImpl extends JpaDao<Long, VisualRepresentati
     @Override
     public List<VisualRepresentation> getEntries(Concept c)
     {
-        Query q = getEntityManager().createQuery("SELECT entry FROM " +
-                "Concept c, IN(c.VRs) as VR, IN(VR.entries) entry " +
+        Query q = getEntityManager().createQuery("SELECT Entry FROM " +
+                "Concept c, IN(c.VRs) as VR, IN(VR.Entries) entry " +
                 "where c=?1"
                 );
         q.setParameter(1, c);
