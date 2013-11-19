@@ -26,7 +26,7 @@ public class SimplifiedRelationNameDaoImpl extends JpaDao<Long, SimplifiedRelati
     public String getSimplifiedName(String complexName)
     {
         Query q = getEntityManager().createQuery("SELECT srn FROM SimplifiedRelationName srn " +
-                "where UPPER(srn.complexName) = ?1"
+                "where UPPER(srn.ComplexName) = ?1"
                 );
         q.setParameter(1, complexName.toUpperCase());
         List tmp = q.getResultList();
