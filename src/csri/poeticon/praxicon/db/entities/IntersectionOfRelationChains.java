@@ -178,21 +178,10 @@ public class IntersectionOfRelationChains implements Serializable
         RelationChains.add(rc);
     }
 
-    public void setRelations(List<RelationChain> relations)
+    public void setRelationChains(List<RelationChain> relation_chains)
     {
-        this.RelationChains = relations;
+        this.RelationChains = relation_chains;
     }
-
-// Obsolete
-//    @XmlTransient
-//    public List<UnionOfIntersections> getUnions() {
-//        return unions;
-//    }
-
-// Obsolete
-//    public void setUnions(List<UnionOfIntersections> unions) {
-//        this.unions = unions;
-//    }
 
     @XmlAttribute
     public Long getId()
