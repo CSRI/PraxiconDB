@@ -726,7 +726,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
                 res.add(con);
             }
         }
-
         return res;
     }
 
@@ -755,7 +754,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
                 res.add(c);
             }
         }
-
         return res;
     }
     
@@ -777,7 +775,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
             res.addAll(getBasicLevelOfMovementOriginConceptGoingDown(c));
             res.addAll(getBasicLevelOfMovementOriginConceptGoingUp(c));
         }
-
         return res;
     }
 
@@ -815,7 +812,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
             }
         }
         return res;
-
     }
 
     /**
@@ -842,7 +838,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
                 res.add(con);
             }
         }
-
         return res;
     }
 
@@ -857,8 +852,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
     {
         List<Concept> res = new ArrayList<Concept>();
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation type "
-                + "where ((r.subject = ?1 or r.obj = ?1) and r.type = type and type.forwardName = ?2 "
-                + "and type.backwardName =?3)");
+                + "where ((r.Subject = ?1 or r.Object = ?1) and r.Type = type and type.ForwardName = ?2 "
+                + "and type.BackwardName =?3)");
         q.setParameter(1, c);
         q.setParameter(2, rtype.getForwardName());
         q.setParameter(3, rtype.getBackwardName());
@@ -942,7 +937,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
     public Query getEntityQuery(Concept concept)
     {
         Query q = getEntityManager().createQuery("SELECT e FROM Concept e "
-                + "where e.name = ?1 and e.conceptType = ?2 and e.status =?3 and e.p_status = ?4");
+                + "where e.Name = ?1 and e.Type = ?2 and e.Status =?3 and e.PragmaticStatus = ?4");
         q.setParameter(1, concept.getName());
         q.setParameter(2, concept.getConceptType());
         q.setParameter(3, concept.getStatus());
