@@ -20,6 +20,8 @@ import javax.persistence.Query;
 /**
  *
  * @author Erevodifwntas
+ * @author Dimitris Mavroeidis
+ *
  */
 public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationDao
 {
@@ -50,7 +52,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
     public List<IntersectionOfRelationChains> getObjRelations(Concept c)
     {
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r " +
-                "WHERE r.obj = ?1 or r.subject = ?1");
+                "WHERE r.Object = ?1 or r.Subject = ?1");
         q.setParameter(1, c);
         List<Relation> objRels = q.getResultList();
         List<IntersectionOfRelationChains> res = new ArrayList<IntersectionOfRelationChains>();
@@ -97,7 +99,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
     public List<Concept> relatedConcepts(Concept c)
     {
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r " +
-                "WHERE r.obj = ?1 or r.subject = ?1");
+                "WHERE r.Object = ?1 or r.Subject = ?1");
         q.setParameter(1, c);
         List<Relation> objRels = q.getResultList();
         List<Concept> res = new ArrayList<Concept>();
