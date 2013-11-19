@@ -154,13 +154,13 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
         getEntityManager().clear();
 
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r " +
-                "WHERE r.obj = ?1");
+                "WHERE r.Object = ?1");
         q.setParameter(1, c);
 
         List<Relation> res1 = q.getResultList();
 
         q = getEntityManager().createQuery("SELECT r FROM Relation r " +
-                "WHERE r.subject = ?1");
+                "WHERE r.Subject = ?1");
         q.setParameter(1, c);
         List<Relation> res2 = q.getResultList();
         List<Relation> res = new ArrayList<Relation>(res1.size()+res2.size());
@@ -180,8 +180,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
     public List<Relation> allRelationsOfByRelationType(Concept concept, RelationType type)
     {
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation tr "
-                + "WHERE (r.subject = ?1 and r.type = tr and tr.forwardName = ?2) or"
-                + "(r.obj = ?1 and r.type = tr and tr.forwardName = ?3) ");
+                + "WHERE (r.Subject = ?1 and r.Type = tr and tr.forwardName = ?2) or"
+                + "(r.Object = ?1 and r.Type = tr and tr.ForwardName = ?3) ");
         q.setParameter(1, concept);
         q.setParameter(2, type.getForwardName());
         q.setParameter(3, type.getBackwardName());
@@ -199,8 +199,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
     public List<Relation> allRelationsOfByRelationName(Concept concept, RelationType.relation_name name)
     {
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation tr "
-                + "WHERE (r.subject = ?1 and r.type = tr and tr.forwardName = ?2) or"
-                + "(r.obj = ?1 and r.type = tr and tr.backwardName = ?2) ");
+                + "WHERE (r.Subject = ?1 and r.Type = tr and tr.ForwardName = ?2) or"
+                + "(r.Object = ?1 and r.Type = tr and tr.BackwardName = ?2) ");
         q.setParameter(1, concept);
         q.setParameter(2, name);
         return q.getResultList();
@@ -216,7 +216,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
     public boolean areRelated(Concept c1, Concept c2)
     {
        Query q = getEntityManager().createQuery("SELECT r FROM Relation r " +
-               "WHERE (r.obj = ?1 and r.subject = ?2) or (r.subject = ?1 and r.obj = ?2)");
+               "WHERE (r.Object = ?1 and r.Subject = ?2) or (r.Subject = ?1 and r.Object = ?2)");
        q.setParameter(1, c1);
        q.setParameter(2, c2);
        List<Relation> objRels = q.getResultList();
@@ -233,8 +233,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
     public List<Relation> getSubConcepts(Concept c)
     {
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation tr " +
-                   "WHERE (r.subject = ?1 and r.type = tr and tr.forwardName = ?2 and tr.backwardName = ?3) "
-                   + "or (r.obj = ?1 and r.type = tr and tr.forwardName = ?3 and tr.backwardName = ?2) ");
+                   "WHERE (r.Subject = ?1 and r.Type = tr and tr.ForwardName = ?2 and tr.BackwardName = ?3) "
+                   + "or (r.Object = ?1 and r.Type = tr and tr.ForwardName = ?3 and tr.BackwardName = ?2) ");
 
         q.setParameter(1, c);
         q.setParameter(2, RelationType.relation_name.TYPE_TOKEN);
@@ -254,7 +254,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
     {
         RelationType.relation_name t = RelationType.relation_name.valueOf(name_of_the_relation);
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation rtype " +
-                "WHERE r.type = rtype.id and rtype.forwardName = ?1");
+                "WHERE r.Type = rtype.Id and rtype.ForwardName = ?1");
          q.setParameter(1, t);
 
         List<Relation> rels = q.getResultList();
@@ -279,7 +279,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
     public List<Relation> findByType(String nameOfTheRelation)
     {
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation rt " + 
-                "WHERE r.type = rt and (rt.forwardName = ?1 or  rt.backwardName = ?1)");
+                "WHERE r.Type = rt and (rt.ForwardName = ?1 or  rt.BackwardName = ?1)");
          q.setParameter(1, RelationType.relation_name.valueOf(nameOfTheRelation));
         return q.getResultList();        
     }
@@ -293,7 +293,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
     public List<Concept> getRelatedConcepts(Concept c)
     {
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r " +
-                "WHERE r.obj = ?1 or r.subject = ?1");
+                "WHERE r.Object = ?1 or r.Subject = ?1");
         q.setParameter(1, c);
         List<Relation> rels = q.getResultList();
 
@@ -334,7 +334,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
     public List<Relation> findRelationsByConceptTypeOfRelation(Concept concept, RelationType type)
     {
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation tr "
-                + "WHERE (r.subject = ?1 and r.type = tr and tr.forwardName = ?2)");
+                + "WHERE (r.Subject = ?1 and r.Type = tr and tr.ForwardName = ?2)");
         q.setParameter(1, concept);
         q.setParameter(2, type.getForwardName());
         return q.getResultList();
@@ -350,7 +350,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
 //    public Query getEntityQuery(Relation entity)
 //    {
 //        Query q = getEntityManager().createQuery("SELECT e FROM Relation e " +
-//                "where e.subject = ?1 and e.obj = ?2 and e.type = ?3"
+//                "where e.Subject = ?1 and e.Object = ?2 and e.Type = ?3"
 //                );
 //        q.setParameter(1, entity.getSubject());
 //        q.setParameter(2, entity.getObject());
