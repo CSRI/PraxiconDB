@@ -27,9 +27,9 @@ public class MotoricRepresentationDaoImpl extends JpaDao<Long, MotoricRepresenta
     public Query getEntityQuery(MotoricRepresentation entity)
     {
         Query q = getEntityManager().createQuery("SELECT e FROM MotoricRepresentation e " +
-                "where UPPER(e.representation) = ?1"
+                "where UPPER(e.Comment) = ?1"
                 );
-        q.setParameter(1, entity.getRepresentation().toUpperCase());
+        q.setParameter(1, entity.getComment().toUpperCase());
         return q;
     }
 
@@ -42,7 +42,7 @@ public class MotoricRepresentationDaoImpl extends JpaDao<Long, MotoricRepresenta
     public List<MotoricRepresentation> getEntries(Concept c)
     {
         Query q = getEntityManager().createQuery("SELECT entry FROM " +
-                "Concept c, IN(c.motoricRepresentations) as MR, IN(MR.entries) entry " +
+                "Concept c, IN(c.MotoricRepresentations) as MR, IN(MR.entries) entry " +
                 "where c=?1"
                 );
         q.setParameter(1, c);
