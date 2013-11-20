@@ -39,6 +39,16 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name="VisualRepresentation")
 public class VisualRepresentation implements Serializable
 {
+    public static enum media_type
+    {
+        IMAGE, VIDEO;
+        @Override
+        public String toString()
+        {
+            return this.name();
+        }
+    }
+
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
@@ -46,7 +56,7 @@ public class VisualRepresentation implements Serializable
     private Long Id;
 
     @Column(name="MediaType")
-    private String MediaType;
+    private media_type MediaType;
 
     @Column(name="Type")
     private String Type;
@@ -90,7 +100,7 @@ public class VisualRepresentation implements Serializable
  //   private long ownerID;
 
 
-    public VisualRepresentation(String media_type, String representation)
+    public VisualRepresentation(media_type media_type, String representation)
     {
         this.MediaType = media_type;
         this.Representation = representation;
@@ -142,12 +152,12 @@ public class VisualRepresentation implements Serializable
      *     visually the entity
      */
     @XmlElement()
-    public String getMediaType()
+    public media_type getMediaType()
     {
         return MediaType;
     }
 
-    public void setMediaType(String media_type)
+    public void setMediaType(media_type media_type)
     {
         this.MediaType = media_type;
     }
@@ -169,7 +179,7 @@ public class VisualRepresentation implements Serializable
         {
             return Representation;
         }
-        if (this.MediaType.equalsIgnoreCase("image"))
+        if (this.MediaType.equals(media_type.IMAGE))
         {
             return Constants.imagePath + Representation;
         }
@@ -212,7 +222,7 @@ public class VisualRepresentation implements Serializable
             return false;
         }
         VisualRepresentation other = (VisualRepresentation) object;
-        if (this.MediaType!=null&& this.Representation!=null&&this.MediaType.equalsIgnoreCase(other.MediaType) && this.Representation.equalsIgnoreCase(other.Representation))
+        if (this.MediaType!=null&& this.Representation!=null&&this.MediaType.equals(other.MediaType) && this.Representation.equalsIgnoreCase(other.Representation))
         {
             return true;
         }
