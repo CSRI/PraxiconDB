@@ -7,6 +7,7 @@ package csri.poeticon.praxicon.db.entities;
 
 import csri.poeticon.praxicon.Constants;
 import java.io.Serializable;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -62,7 +63,9 @@ public class VisualRepresentation implements Serializable
     @Column(name="Prototype")
     private boolean Prototype;
 
-
+    @Column(name="URI")
+    private URI URI;
+    
 //    @ManyToMany(cascade=CascadeType.ALL)
 //    @JoinTable(
 //        name="VisualRepresentation_RelationSubject",
