@@ -96,5 +96,4 @@ public class Compositionality implements Serializable {
     public String toString() {
         return "csri.poeticon.praxicon.db.entities.Compositionality[id=" + Id + "]";
     }
-
 }

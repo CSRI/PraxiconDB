@@ -86,5 +86,4 @@ public class Constituents implements Serializable {
     public String toString() {
         return "csri.poeticon.praxicon.db.entities.Constituents[id=" + Id + "]";
     }
-
 }

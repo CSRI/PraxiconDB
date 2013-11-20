@@ -1,6 +1,7 @@
 package csri.poeticon.praxicon.db.entities;
 
 import java.io.Serializable;
+import java.net.URI;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -32,14 +33,31 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name="MotoricRepresentation")
 public class MotoricRepresentation implements Serializable
 {
+
+    public static enum performing_agent
+    {
+        ADULT, CHILD, ICUB, NAO, PR2;
+        @Override
+        public String toString()
+        {
+            return this.name();
+        }
+    }
+
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
     private Long Id;
 
-    @Column(name="Presentation")
-    private String Representation;
+    @Column(name="Comment")
+    private String Comment;
+
+    @Column(name="PerformingAgent")
+    private performing_agent PerformingAgent;
+
+    @Column(name="URI")
+    private URI URI;
 
     @ManyToOne(cascade=CascadeType.ALL)
     private Concept Concept;
@@ -98,14 +116,14 @@ public class MotoricRepresentation implements Serializable
 //    }
 
     @XmlElement()
-    public String getRepresentation()
+    public String getComment()
     {
-        return Representation;
+        return Comment;
     }
 
-    public void setRepresentation(String representation)
+    public void setComment(String comment)
     {
-        this.Representation = representation;
+        this.Comment = comment;
     }
 
     @XmlAttribute
@@ -136,7 +154,7 @@ public class MotoricRepresentation implements Serializable
             return false;
         }
         MotoricRepresentation other = (MotoricRepresentation) object;
-        if (this.Representation!=null && this.Representation.equalsIgnoreCase(other.Representation))
+        if (this.Comment!=null && this.Comment.equalsIgnoreCase(other.Comment))
         {
             return true;
         }
