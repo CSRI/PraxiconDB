@@ -5,8 +5,6 @@
 
 package csri.poeticon.praxicon.db.entities;
 
-import csri.poeticon.praxicon.Constants;
-import csri.poeticon.praxicon.Globals;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,14 +30,12 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Dimitris Mavroeidis
- * 
+ * @author dmavroeidis
  */
 @XmlRootElement()
 @Entity
 @Table(name="Constituents")
-public class Constituents implements Serializable
-{
+public class Constituents implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
@@ -57,4 +53,38 @@ public class Constituents implements Serializable
     // Foreign key
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "Constituents")
     private List<LanguageRepresentation> LanguageRepresentation;
+
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        this.Id = id;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (Id != null ? Id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Constituents)) {
+            return false;
+        }
+        Constituents other = (Constituents) object;
+        if ((this.Id == null && other.Id != null) || (this.Id != null && !this.Id.equals(other.Id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "csri.poeticon.praxicon.db.entities.Constituents[id=" + Id + "]";
+    }
+
 }

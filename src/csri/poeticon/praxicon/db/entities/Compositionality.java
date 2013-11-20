@@ -5,8 +5,6 @@
 
 package csri.poeticon.praxicon.db.entities;
 
-import csri.poeticon.praxicon.Constants;
-import csri.poeticon.praxicon.Globals;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,16 +28,16 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+
 /**
- * 
- * @author Dimitris Mavroeidis
- * 
+ *
+ * @author dmavroeidis
  */
 @XmlRootElement()
 @Entity
 @Table(name="Compositionality")
-public class Compositionality implements Serializable
-{
+public class Compositionality implements Serializable {
+
     public static enum CompositionalityType
     {
         MULTIWORD, COMPOSITE_WORD, UNKNOWN;
@@ -64,4 +62,39 @@ public class Compositionality implements Serializable
     // Foreign keys
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "Compositionality")
     private List<LanguageRepresentation> LanguageRepresentation;
+
+
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        this.Id = id;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (Id != null ? Id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Compositionality)) {
+            return false;
+        }
+        Compositionality other = (Compositionality) object;
+        if ((this.Id == null && other.Id != null) || (this.Id != null && !this.Id.equals(other.Id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "csri.poeticon.praxicon.db.entities.Compositionality[id=" + Id + "]";
+    }
+
 }
