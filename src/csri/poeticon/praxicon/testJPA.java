@@ -95,7 +95,7 @@ public class testJPA {
         //How to: VR
         VisualRepresentation vr =new VisualRepresentation();
         vr.setRepresentation("this is a test");
-        vr.setMediaType("image");
+        vr.setMediaType(VisualRepresentation.media_type.IMAGE);
         //sub.addVR(vr);
 
         //Adding a relation
@@ -123,7 +123,12 @@ public class testJPA {
         rc.addRelation(rel2, 1);
 
         // 4th step: create the intersection
-        inter.getRelations().add(rc);
+        //inter.addRelationChain(rc);
+        //inter.addRelationChain(rc);
+        
+        //inter.add(rc);
+
+        //con.addIntersectionOfRelationChains(inter);
 
 
         // 6th step: create the Concept_UnionRelation
@@ -132,9 +137,6 @@ public class testJPA {
         //adding the entity
         ConceptDao conceptDaoDao = new ConceptDaoImpl();
         conceptDaoDao.merge(con);
-
-//        ConceptDao conceptDaoDao = new ConceptDaoImpl();
-//        conceptDaoDao.merge(con);
     }
 
     public void persist(Object object)
