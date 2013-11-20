@@ -65,7 +65,6 @@ public class Verbalization implements Serializable {
     @OneToOne(cascade=CascadeType.ALL)
     private Relation Relation;
 
-    
 
 
     public Long getId() {
