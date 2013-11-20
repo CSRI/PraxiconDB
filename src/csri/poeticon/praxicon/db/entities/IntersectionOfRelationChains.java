@@ -15,6 +15,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -41,6 +43,17 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name="IntersectionOfRelationChains")
 public class IntersectionOfRelationChains implements Serializable
 {
+
+    public static enum inherent
+    {
+        YES, NO, UNKNOWN ;
+        @Override
+        public String toString()
+        {
+            return this.name();
+        }
+    }
+
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
@@ -50,6 +63,10 @@ public class IntersectionOfRelationChains implements Serializable
 
     @Column(name="Name")
     private String Name;
+
+    @Column(name="Inherent")
+    @Enumerated(EnumType.STRING)
+    protected inherent Inherent;
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
