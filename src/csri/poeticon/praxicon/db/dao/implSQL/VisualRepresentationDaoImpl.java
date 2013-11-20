@@ -28,7 +28,7 @@ public class VisualRepresentationDaoImpl extends JpaDao<Long, VisualRepresentati
         Query q = getEntityManager().createQuery("SELECT e FROM VisualRepresentation e " +
                 "where UPPER(e.MediaType) = ?1 and UPPER(e.Representation) = ?2 and e.Prototype = ?3"
                 );
-        q.setParameter(1, entity.getMediaType().toUpperCase());
+        q.setParameter(1, entity.getMediaType());
         q.setParameter(2, entity.getRepresentation().toUpperCase());
         q.setParameter(3, entity.isPrototype());
         return q;
