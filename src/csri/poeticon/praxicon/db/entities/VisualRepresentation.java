@@ -53,31 +53,38 @@ public class VisualRepresentation implements Serializable
     @Column(name="Representation")
     private String Representation;
 
+    @Column(name="Comment")
+    private String Comment;
+
     @ManyToOne(cascade=CascadeType.ALL)
     private Concept Concept;
 
-    @ManyToMany(cascade=CascadeType.ALL)
-    @JoinTable(
-        name="VisualRepresentation_RelationSubject",
-        joinColumns={@JoinColumn(name="VisualRepresentationId")},
-        inverseJoinColumns={@JoinColumn(name="RelationId")}
-    )
-    private List<Relation> RelationsWithVisualRepresentationAsSubject;
+    @Column(name="Prototype")
+    private boolean Prototype;
 
-    @ManyToMany(cascade=CascadeType.ALL)
-    @JoinTable(
-        name="VisualRepresentation_RelationObject",
-        joinColumns={@JoinColumn(name="VisualRepresentationId")},
-        inverseJoinColumns={@JoinColumn(name="RelationId")}
-    )
-    private List<Relation> RelationsWithVisualRepresentationAsObject;
 
+//    @ManyToMany(cascade=CascadeType.ALL)
+//    @JoinTable(
+//        name="VisualRepresentation_RelationSubject",
+//        joinColumns={@JoinColumn(name="VisualRepresentationId")},
+//        inverseJoinColumns={@JoinColumn(name="RelationId")}
+//    )
+//    private List<Relation> RelationsWithVisualRepresentationAsSubject;
+//
+//    @ManyToMany(cascade=CascadeType.ALL)
+//    @JoinTable(
+//        name="VisualRepresentation_RelationObject",
+//        joinColumns={@JoinColumn(name="VisualRepresentationId")},
+//        inverseJoinColumns={@JoinColumn(name="RelationId")}
+//    )
+//    private List<Relation> RelationsWithVisualRepresentationAsObject;
+
+    @ManyToOne(cascade=CascadeType.ALL)
+    private MotoricRepresentation MotoricRepresentation;
+    
 
  //   @Column(name = "CONCEPT_ID", insertable=false, updatable=false)
  //   private long ownerID;
-
-    @Column(name="Prototype")
-    private boolean Prototype;
 
 
     public VisualRepresentation(String media_type, String representation)
