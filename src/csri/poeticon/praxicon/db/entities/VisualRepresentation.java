@@ -76,21 +76,21 @@ public class VisualRepresentation implements Serializable
     @Column(name="URI")
     private URI URI;
     
-//    @ManyToMany(cascade=CascadeType.ALL)
-//    @JoinTable(
-//        name="VisualRepresentation_RelationSubject",
-//        joinColumns={@JoinColumn(name="VisualRepresentationId")},
-//        inverseJoinColumns={@JoinColumn(name="RelationId")}
-//    )
-//    private List<Relation> RelationsWithVisualRepresentationAsSubject;
-//
-//    @ManyToMany(cascade=CascadeType.ALL)
-//    @JoinTable(
-//        name="VisualRepresentation_RelationObject",
-//        joinColumns={@JoinColumn(name="VisualRepresentationId")},
-//        inverseJoinColumns={@JoinColumn(name="RelationId")}
-//    )
-//    private List<Relation> RelationsWithVisualRepresentationAsObject;
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable(
+        name="VisualRepresentation_RelationSubject",
+        joinColumns={@JoinColumn(name="VisualRepresentationId")},
+        inverseJoinColumns={@JoinColumn(name="RelationId")}
+    )
+    private List<Relation> RelationsWithVisualRepresentationAsSubject;
+
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable(
+        name="VisualRepresentation_RelationObject",
+        joinColumns={@JoinColumn(name="VisualRepresentationId")},
+        inverseJoinColumns={@JoinColumn(name="RelationId")}
+    )
+    private List<Relation> RelationsWithVisualRepresentationAsObject;
 
     @ManyToOne(cascade=CascadeType.ALL)
     private MotoricRepresentation MotoricRepresentation;
