@@ -46,9 +46,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
     public List<Concept> findAllByLanguageRepresentation(String queryString)
     {
         Query q = getEntityManager().createQuery("SELECT c FROM Concept c, "
-                + "IN (c.LanguageRepresentations) as clr, IN (clr.entries) as entry "
+                + "IN (c.LanguageRepresentation) as clr, IN (clr.LanguageRepresentationConstituents) as entry "
                 + "where "
-                + "entry.text like ?1");
+                + "entry.Name like ?1");
         q.setParameter(1, "%" + queryString + "%");
         return q.getResultList();
     }
@@ -63,7 +63,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
     {
         this.clearManager();
         Query q = getEntityManager().createQuery("SELECT e FROM LanguageRepresentation e " +
-                "where UPPER(e.text) = ?1"
+                "where UPPER(e.Text) = ?1"
                 );
         q.setParameter(1, queryString.toUpperCase());
         List<LanguageRepresentation> lrs = q.getResultList();
@@ -91,9 +91,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
     public List<Concept> findAllByLanguageRepresentationStarting(String queryString)
     {
         Query q = getEntityManager().createQuery("SELECT c FROM Concept c, "
-                + "IN (c.LanguageRepresentations) as clr, IN (clr.entries) as entry "
+                + "IN (c.LanguageRepresentations) as clr, IN (clr.LanguageRepresentationConstituents) as entry "
                 + "where "
-                + "entry.text like ?1");
+                + "entry.Text like ?1");
         q.setParameter(1, queryString + "%");
         return q.getResultList();
     }
@@ -109,7 +109,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
         List<Concept> res = findByLanguageRepresentation(name);
         res.addAll(findAllByLanguageRepresentation(name));
         Query q = getEntityManager().createQuery("SELECT c FROM Concept c "
-                + "where c.name like ?1");
+                + "where c.Name like ?1");
         q.setParameter(1, "%" + name + "%");
         res.addAll(q.getResultList());
 
@@ -125,7 +125,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
     public List<Concept> findAllByNameStarting(String name)
     {
         Query q = getEntityManager().createQuery("SELECT c FROM Concept c "
-                + "where c.name like ?1");
+                + "where c.Name like ?1");
         q.setParameter(1, name + "%");
         return q.getResultList();
     }
@@ -139,7 +139,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
     public List<Concept> findByName(String name)
     {
         Query q = getEntityManager().createQuery("SELECT c FROM Concept c "
-                + "where c.name = ?1");
+                + "where c.Name = ?1");
         q.setParameter(1, name);
         return q.getResultList();
     }
@@ -153,7 +153,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
     public List<Concept> findByStatus(status status)
     {
         Query q = getEntityManager().createQuery("SELECT c FROM Concept c "
-                + "where c.status = ?1");
+                + "where c.Status = ?1");
         q.setParameter(1, status);
         return q.getResultList();
     }
@@ -162,7 +162,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
     public VisualRepresentation getPrototypeRepresentation(Concept concept)
     {
         Query q = getEntityManager().createQuery("SELECT c From Concept c, "
-                + "IN (c.VisualRepresentations) as cvr, IN (cvr.entries) as im where im.prototype = true and c = ?1 and im.mediaType = 'image'");
+                + "IN (c.VisualRepresentations) as cvr, IN (cvr.entries) as im where im.Prototype = true and c = ?1 and im.MediaType = 'image'");
         q.setParameter(1, concept);
         if (q.getResultList().size() > 0) {
             return (VisualRepresentation) q.getResultList().get(0);
@@ -188,7 +188,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
             //it is the name of the concept
         }
         if (id == -1) {
-            q = getEntityManager().createQuery("SELECT c FROM Concept c where c.name=?1");
+            q = getEntityManager().createQuery("SELECT c FROM Concept c where c.Name=?1");
             q.setParameter(1, v.trim());
             List res = q.getResultList();
             for (int i = 0; i < res.size(); i++) {
@@ -202,7 +202,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
         else
         {
             q = getEntityManager().createQuery("SELECT c FROM Concept c "
-                    + "where c.id = ?1");
+                    + "where c.Id = ?1");
             q.setParameter(1, id);
             List res = q.getResultList();
             if (res.size() >= 1)
@@ -223,7 +223,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
     public Concept updatedConcept(Concept newCon)
     {
         Query q = getEntityManager().createQuery("SELECT c FROM Concept c "
-                + "where c.name = ?1");
+                + "where c.Name = ?1");
         q.setParameter(1, newCon.getName());
         List tmp = q.getResultList();
 
@@ -261,7 +261,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
     {
         try {
             Query q = getEntityManager().createQuery("SELECT c FROM Concept c "
-                    + "where c.name = ?1");
+                    + "where c.Name = ?1");
             q.setParameter(1, newCon.getName());
             List tmp = q.getResultList();
 
