@@ -15,6 +15,8 @@ import csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
 import csri.poeticon.praxicon.db.dao.implSQL.LanguageRepresentationDaoImpl;
 import csri.poeticon.praxicon.db.entities.listeners.ConceptListener;
 import java.io.Serializable;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -28,6 +30,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.validation.Constraint;
+import javax.validation.Payload;
+// import javax.validation.ConstraintPayload;
+// import javax.validator
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.Unmarshaller;
@@ -409,7 +415,19 @@ public class Concept implements Serializable
     {
         this.Source = source;
     }
-//
+
+    @XmlElement(name="status")
+    public unique_instance getUniqueInstance()
+    {
+        return UniqueInstance;
+    }
+
+    public void setUniqueInstance(unique_instance unique_instance)
+    {
+        this.UniqueInstance = unique_instance;
+    }
+
+    //
     /**
      * @xmlcomments.args
      *	   xmltag="&lt;union_of_intersections_of_relations&gt;"
@@ -1218,4 +1236,6 @@ public class Concept implements Serializable
             }
         }
     }
+
+
 }
