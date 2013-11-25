@@ -10,7 +10,7 @@ import csri.poeticon.praxicon.Globals;
 import csri.poeticon.praxicon.db.dao.ConceptDao;
 import csri.poeticon.praxicon.db.dao.RelationTypeDao;
 import csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
-import csri.poeticon.praxicon.db.dao.implSQL.TypeOfRelationDaoImpl;
+import csri.poeticon.praxicon.db.dao.implSQL.RelationTypeDaoImpl;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -341,7 +341,7 @@ public class Relation implements Serializable
     {
         if(type.getId() == null)
         {
-            RelationTypeDao tmp = new TypeOfRelationDaoImpl();
+            RelationTypeDao tmp = new RelationTypeDaoImpl();
             RelationType res = tmp.getEntity(type);
             if(res!=null)
             {
@@ -888,7 +888,7 @@ public class Relation implements Serializable
     public void afterUnmarshal(Unmarshaller u, Object parent) {
         if (Globals.ToMergeAfterUnMarshalling)
         {
-            RelationTypeDao rDao = new TypeOfRelationDaoImpl();
+            RelationTypeDao rDao = new RelationTypeDaoImpl();
             this.Type = rDao.getEntity(Type);
             ConceptDao cDao = new ConceptDaoImpl();
             this.Object = cDao.getEntity(Object);
