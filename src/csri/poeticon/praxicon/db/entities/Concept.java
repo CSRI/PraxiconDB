@@ -54,6 +54,7 @@ import javax.persistence.Enumerated;
 @Entity
 @EntityListeners(ConceptListener.class)
 @Table(name="Concepts")
+
 public class Concept implements Serializable
 {
     public static enum type
@@ -1236,6 +1237,4 @@ public class Concept implements Serializable
             }
         }
     }
-
-
 }
