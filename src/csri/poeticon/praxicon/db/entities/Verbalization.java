@@ -49,8 +49,9 @@ public class Verbalization implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
+    @Column(name="VerbalizationId")
+    private Long Id;
 
     @Column(name="Allowed")
     @Enumerated(EnumType.STRING)
@@ -68,17 +69,17 @@ public class Verbalization implements Serializable {
 
 
     public Long getId() {
-        return id;
+        return Id;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.Id = id;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (Id != null ? Id.hashCode() : 0);
         return hash;
     }
 
@@ -89,7 +90,7 @@ public class Verbalization implements Serializable {
             return false;
         }
         Verbalization other = (Verbalization) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.Id == null && other.Id != null) || (this.Id != null && !this.Id.equals(other.Id))) {
             return false;
         }
         return true;
@@ -97,7 +98,7 @@ public class Verbalization implements Serializable {
 
     @Override
     public String toString() {
-        return "csri.poeticon.praxicon.db.entities.Verbalization[id=" + id + "]";
+        return "csri.poeticon.praxicon.db.entities.Verbalization[id=" + Id + "]";
     }
 
 }
