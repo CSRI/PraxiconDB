@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @XmlRootElement()
 @Entity
-@Table(name="RelationType")
+@Table(name="RelationTypes")
 public class RelationType implements Serializable
 {
 

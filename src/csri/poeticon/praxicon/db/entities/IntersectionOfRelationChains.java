@@ -40,7 +40,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @XmlRootElement()
 @Entity
-@Table(name="IntersectionOfRelationChains")
+@Table(name="IntersectionsOfRelationChains")
 public class IntersectionOfRelationChains implements Serializable
 {
 

@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @XmlRootElement()
 @Entity
-@Table(name="RelationChain")
+@Table(name="RelationChains")
 public class RelationChain implements Serializable
 {
     private static final long serialVersionUID = 1L;

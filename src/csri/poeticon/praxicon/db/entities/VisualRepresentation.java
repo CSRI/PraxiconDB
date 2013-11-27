@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @XmlRootElement()
 @Entity
-@Table(name="VisualRepresentation")
+@Table(name="VisualRepresentations")
 public class VisualRepresentation implements Serializable
 {
     public static enum media_type

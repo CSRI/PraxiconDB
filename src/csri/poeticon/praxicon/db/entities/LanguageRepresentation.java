@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @XmlRootElement()
 @Entity
-@Table(name="LanguageRepresentation")
+@Table(name="LanguageRepresentations")
 public class LanguageRepresentation implements Serializable
 {
     private static final long serialVersionUID = 1L;

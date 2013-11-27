@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @XmlRootElement()
 @Entity
-@Table(name="Verbalization")
+@Table(name="Verbalizations")
 public class Verbalization implements Serializable {
 
     public static enum allowed
@@ -100,5 +100,4 @@ public class Verbalization implements Serializable {
     public String toString() {
         return "csri.poeticon.praxicon.db.entities.Verbalization[id=" + Id + "]";
     }
-
 }

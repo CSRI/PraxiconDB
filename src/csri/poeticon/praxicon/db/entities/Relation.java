@@ -45,7 +45,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement()
 @Entity
-@Table(name="Relation")
+@Table(name="Relations")
 public class Relation implements Serializable
 {
     public static enum derivation_supported

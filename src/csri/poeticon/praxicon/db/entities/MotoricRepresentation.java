@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @XmlRootElement()
 @Entity
-@Table(name="MotoricRepresentation")
+@Table(name="MotoricRepresentations")
 public class MotoricRepresentation implements Serializable
 {
 
