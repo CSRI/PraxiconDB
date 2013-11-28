@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
@@ -50,14 +51,16 @@ public class MotoricRepresentation implements Serializable
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
     private Long Id;
 
-    @Column(name="Comment")
-    private String Comment;
-
     @Column(name="PerformingAgent")
+    @NotNull(message="Performing agent must be specified.")
     private performing_agent PerformingAgent;
 
     @Column(name="URI")
+    @NotNull(message="URI must be specified.")
     private URI URI;
+
+    @Column(name="Comment")
+    private String Comment;
 
     @ManyToOne(cascade=CascadeType.ALL)
     private Concept Concept;

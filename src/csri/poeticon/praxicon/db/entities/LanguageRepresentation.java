@@ -23,6 +23,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
@@ -91,10 +92,12 @@ public class LanguageRepresentation implements Serializable
     private Long Id;
 
     @Column(name="Language")
+    @NotNull(message="Language must be specified.")
     @Enumerated(EnumType.STRING)
     private language Language;
 
     @Column(name="PartOfSpeech")
+    @NotNull(message="Part of speech must be specified.")
     @Enumerated(EnumType.STRING)
     private part_of_speech PartOfSpeech;
     
@@ -102,6 +105,7 @@ public class LanguageRepresentation implements Serializable
     private is_compositional IsCompositional;
 
     @Column(name="Text")
+    @NotNull(message="Text must be specified.")
     private String Text;
 
     @Column(name="Comment")

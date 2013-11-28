@@ -22,6 +22,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
@@ -56,26 +57,28 @@ public class VisualRepresentation implements Serializable
     private Long Id;
 
     @Column(name="MediaType")
+    @NotNull(message="Media type must be specified.")
     private media_type MediaType;
 
-    @Column(name="Type")
-    private String Type;
+    //@Column(name="Type")
+    //private String Type;
 
     @Column(name="Representation")
     private String Representation;
 
-    @Column(name="Comment")
-    private String Comment;
-
     @ManyToOne(cascade=CascadeType.ALL)
     private Concept Concept;
 
-    @Column(name="Prototype")
-    private boolean Prototype;
+//    @Column(name="Prototype")
+//    private boolean Prototype;
 
     @Column(name="URI")
+    @NotNull(message="URI must be specified.")
     private URI URI;
-    
+
+    @Column(name="Comment")
+    private String Comment;
+
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         name="VisualRepresentation_RelationSubject",
@@ -117,11 +120,11 @@ public class VisualRepresentation implements Serializable
      *     xmldescription="This attributes defines that this visual representation
      *     is a prototypical instance of the concept
      */
-    @XmlAttribute
-    public boolean isPrototype()
-    {
-        return Prototype;
-    }
+//    @XmlAttribute
+//    public boolean isPrototype()
+//    {
+//        return Prototype;
+//    }
 
     /**
      * @xmlcomments.args
@@ -129,21 +132,21 @@ public class VisualRepresentation implements Serializable
      *     xmldescription="This attributes defines more info about the visual representation
      *  (for example, if it is an immitation of the actual action)
      */
-    @XmlAttribute
-    public String getVisualRepresentationType()
-    {
-        return Type;
-    }
+//    @XmlAttribute
+//    public String getVisualRepresentationType()
+//    {
+//        return Type;
+//    }
+//
+//    public void setVisualRepresentationType(String visual_representation_type)
+//    {
+//        this.Type = visual_representation_type;
+//    }
 
-    public void setVisualRepresentationType(String visual_representation_type)
-    {
-        this.Type = visual_representation_type;
-    }
-
-    public void setPrototype(boolean prototype)
-    {
-        this.Prototype = prototype;
-    }
+//    public void setPrototype(boolean prototype)
+//    {
+//        this.Prototype = prototype;
+//    }
 
     /**
      * @xmlcomments.args

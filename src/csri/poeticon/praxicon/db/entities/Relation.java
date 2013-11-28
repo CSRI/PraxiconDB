@@ -29,6 +29,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
@@ -77,13 +78,16 @@ public class Relation implements Serializable
 
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
     // @JoinColumn(name="ConceptId")
+    @NotNull(message="Concept Id name must be specified.")
     private Concept Object;
 
     @ManyToOne(optional=false, cascade=CascadeType.ALL)
     // @JoinColumn(name="ConceptId")
+    @NotNull(message="Concept Id must be specified.")
     private Concept Subject;
 
     @Column(name="DerivationSupported")
+    @NotNull(message="Derivation support must be specified.")
     @Enumerated(EnumType.STRING)
     protected derivation_supported DerivationSupported;
 
