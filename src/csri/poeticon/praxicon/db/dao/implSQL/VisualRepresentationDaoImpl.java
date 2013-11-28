@@ -14,6 +14,7 @@ import javax.persistence.Query;
 /**
  *
  * @author Erevodifwntas
+ * @author dmavroeidis
  */
 public class VisualRepresentationDaoImpl extends JpaDao<Long, VisualRepresentation> implements VisualRepresentationDao
 {
@@ -43,7 +44,7 @@ public class VisualRepresentationDaoImpl extends JpaDao<Long, VisualRepresentati
     public List<VisualRepresentation> getEntries(Concept c)
     {
         Query q = getEntityManager().createQuery("SELECT Entry FROM " +
-                "Concept c, IN(c.VRs) as VR, IN(VR.Entries) entry " +
+                "Concept c, IN(c.VisualRepresentations) as VR, IN(VR.Entries) entry " +
                 "where c=?1"
                 );
         q.setParameter(1, c);
