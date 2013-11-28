@@ -14,6 +14,8 @@ import csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
 import csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
 import csri.poeticon.praxicon.db.dao.implSQL.LanguageRepresentationDaoImpl;
 import csri.poeticon.praxicon.db.entities.listeners.ConceptListener;
+import csri.poeticon.praxicon.db.entities.validators.ConstantConcepts;
+import csri.poeticon.praxicon.db.entities.validators.ConceptValidator;
 import java.io.Serializable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -30,10 +32,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.validation.Constraint;
-import javax.validation.Payload;
-// import javax.validation.ConstraintPayload;
-// import javax.validator
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.Unmarshaller;
@@ -43,18 +41,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author Erevodifwntas
  * @author Dimitris Mavroeidis
- * 
  */
+
 @XmlRootElement(name="entity")
 @Entity
 @EntityListeners(ConceptListener.class)
 @Table(name="Concepts")
-
+//@ConceptConstraint(groups=ConceptGroup.class)
 public class Concept implements Serializable
 {
     public static enum type
@@ -116,25 +115,31 @@ public class Concept implements Serializable
     protected Long Id;
 
     @Column(name="Name")
+    @NotNull(message="Concept name must be specified.")
     String Name;
 
     @Column(name="Type")
+    @NotNull(message="Concept type must be specified.")
     @Enumerated(EnumType.STRING)
     protected type ConceptType;
 
     @Column(name="SpecificityLevel")
+    @NotNull(message="Specificity level must be specified.")
     @Enumerated(EnumType.STRING)
     protected specificity_level SpecificityLevel;
 
     @Column(name="Status")
+    @NotNull(message="Concept status must be specified.")
     @Enumerated(EnumType.STRING)
     protected status Status;
-
+    
     @Column(name="UniqueInstance")
+    @NotNull(message="Concept unique instance must be specified.")
     @Enumerated(EnumType.STRING)
     protected unique_instance UniqueInstance;
 
     @Column(name="PragmaticStatus")
+    @NotNull(message="Concept pragmatic status must be specified.")
     @Enumerated(EnumType.STRING)
     protected pragmatic_status PragmaticStatus;
 
@@ -180,6 +185,7 @@ public class Concept implements Serializable
         RelationsContainingConceptAsSubject =  new ArrayList<Relation>();
         IntersectionsOfRelationChains = new ArrayList<IntersectionOfRelationChains>();
     }
+
 
     private Concept(Concept newConcept)
     {
@@ -583,16 +589,19 @@ public class Concept implements Serializable
      *     xmldescription="This tag defines if the entity is a variable, an analogy or a constant"
      */
     @XmlElement(name="status")
+    @ConstantConcepts(status.CONSTANT)
     public status getStatus()
     {
         return Status;
     }
 
+    //@ConstantConcepts
     public void setStatus(status var_type)
     {
         this.Status = var_type;
     }
 
+    //@ConstantConcepts
     public void setStatus(String var_type)
     {
         this.Status = status.valueOf(var_type.trim().toUpperCase());
