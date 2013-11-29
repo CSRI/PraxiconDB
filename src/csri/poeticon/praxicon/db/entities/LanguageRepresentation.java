@@ -240,7 +240,7 @@ public class LanguageRepresentation implements Serializable
     public List<LanguageRepresentation> getLanguageRepresentations()
     {
         List<LanguageRepresentation> language_representations_list = new ArrayList<LanguageRepresentation>();
-        for (int i=0; i < this.language_representations.size(); i++)
+        for (int i=0; i < LanguageRepresentation.language_representations.size(); i++)
         {
             language_representations_list.add(language_representations.get(i));
         }
@@ -252,13 +252,13 @@ public class LanguageRepresentation implements Serializable
     {
         List<Concept> concepts = new ArrayList<Concept>();
 
-        for (int i = 0; i < this.language_representations.   size(); i++)
+        for (int i = 0; i < LanguageRepresentation.language_representations.   size(); i++)
         {
-            for (int j = 0; j < this.language_representations.get(i).getConcepts().size(); j++)
+            for (int j = 0; j < LanguageRepresentation.language_representations.get(i).getConcepts().size(); j++)
             {
-                if (!concepts.contains(this.language_representations.get(i).getConcepts().get(j)))
+                if (!concepts.contains(LanguageRepresentation.language_representations.get(i).getConcepts().get(j)))
                 {
-                    concepts.add(this.language_representations.get(i).getConcepts().get(j));
+                    concepts.add(LanguageRepresentation.language_representations.get(i).getConcepts().get(j));
                 }
             }
         }
@@ -267,7 +267,7 @@ public class LanguageRepresentation implements Serializable
 
     public void setLanguageRepresentations(List<LanguageRepresentation> language_representations)
     {
-        this.language_representations = language_representations;
+        LanguageRepresentation.language_representations = language_representations;
     }
 
     public void setLanguage(language language)
