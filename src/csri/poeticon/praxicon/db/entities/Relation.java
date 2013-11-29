@@ -191,7 +191,7 @@ public class Relation implements Serializable
     private String getSubject_()
     {
         StringBuilder sb = new StringBuilder();
-        if(Subject.getName()!= null && Subject.getName() != "")
+        if(Subject.getName()!= null && (Subject.getName() == null ? "" != null : !Subject.getName().equals("")))
         {
             return Subject.getName();
         }
@@ -273,7 +273,7 @@ public class Relation implements Serializable
     private String getObject_()
     {
         StringBuilder sb = new StringBuilder();
-        if(Object.getName()!=null && Object.getName() != "")
+        if(Object.getName()!= null && (Object.getName() == null ? "" != null : !Object.getName().equals("")))
         {
             return Object.getName();
         }
@@ -790,7 +790,7 @@ public class Relation implements Serializable
 
     public void setVisualRepresentationSubject(List<VisualRepresentation> visual_representation_subject)
     {
-        this.VisualRepresentationSubject = VisualRepresentationSubject;
+        this.VisualRepresentationSubject = visual_representation_subject;
     }
 
 // TODO: Obsolete???
