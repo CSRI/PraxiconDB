@@ -205,7 +205,7 @@ public class RelationType implements Serializable
         }
     }
 
-    public void setForwardName(String name)
+    public final void setForwardName(String name)
     {
         this.ForwardName = relation_name.valueOf(name.toUpperCase());
     }
@@ -240,9 +240,9 @@ public class RelationType implements Serializable
         this.BackwardName = backward_name;
     }
 
-    public void setBackwardName(String name)
+    public final void setBackwardName(String name)
     {
-        this.BackwardName = relation_name.valueOf(name.toUpperCase());;
+        this.BackwardName = relation_name.valueOf(name.toUpperCase());
     }
 
     /**
