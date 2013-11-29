@@ -31,7 +31,7 @@ public class VisualRepresentationDaoImpl extends JpaDao<Long, VisualRepresentati
                 );
         q.setParameter(1, entity.getMediaType());
         q.setParameter(2, entity.getRepresentation().toUpperCase());
-        q.setParameter(3, entity.isPrototype());
+        //q.setParameter(3, entity.isPrototype());
         return q;
     }
 
