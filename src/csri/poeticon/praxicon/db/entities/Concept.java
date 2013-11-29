@@ -256,7 +256,7 @@ public class Concept implements Serializable
 
 
     @XmlTransient
-    public List<Relation> getRelationsContainingConceptAsObject()
+    public final List<Relation> getRelationsContainingConceptAsObject()
     {
         return RelationsContainingConceptAsObject;
     }
@@ -274,7 +274,7 @@ public class Concept implements Serializable
      *     concept"
      */
     @XmlElement(name="lr")
-    public List<LanguageRepresentation> getLanguageRepresentations()
+    public final List<LanguageRepresentation> getLanguageRepresentations()
     {
         return LanguageRepresentations;
     }
@@ -305,7 +305,7 @@ public class Concept implements Serializable
      *     xmldescription="This tag defines the motoric representation"
      */
     @XmlElement(name="mr")
-    public List<MotoricRepresentation> getMotoricRepresentations()
+    public final List<MotoricRepresentation> getMotoricRepresentations()
     {
         return MotoricRepresentations;
     }
@@ -353,7 +353,7 @@ public class Concept implements Serializable
         this.VisualRepresentations = visual_representations;
     }
     
-    public List<VisualRepresentation> getVisualRepresentationsEntries()
+    public final List<VisualRepresentation> getVisualRepresentationsEntries()
     {
         List<VisualRepresentation> visual_representation_entries = new ArrayList<VisualRepresentation>();
         for(int i=0; i<this.VisualRepresentations.size(); i++)
@@ -442,7 +442,7 @@ public class Concept implements Serializable
      *     of relation that this concept participates"
      */
     @XmlElement(name="union_of_intersections_of_relations")
-    public List<IntersectionOfRelationChains> getIntersectionsOfRelationChains()
+    public final List<IntersectionOfRelationChains> getIntersectionsOfRelationChains()
     {
         return IntersectionsOfRelationChains;
     }
@@ -1102,7 +1102,7 @@ public class Concept implements Serializable
                 StringBuilder tmp = new StringBuilder(tmpList.get(0).getText());
                 for (int i = 1; i< tmpList.size(); i++)
                 {
-                    tmp.append("\\"+tmpList.get(i).getText());
+                    tmp.append("\\").append(tmpList.get(i).getText());
                 }
                 return tmp.toString();
             }
