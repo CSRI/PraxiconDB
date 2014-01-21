@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement()
 @Entity
-@Table(name="SimplifiedRelationName")
+@Table(name="SimplifiedRelationNames")
 public class SimplifiedRelationName implements Serializable
 {
     private static final long serialVersionUID = 1L;
