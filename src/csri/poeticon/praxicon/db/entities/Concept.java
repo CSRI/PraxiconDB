@@ -53,7 +53,7 @@ import javax.validation.constraints.NotNull;
 @XmlRootElement(name="entity")
 @Entity
 @EntityListeners(ConceptListener.class)
-@NamedQuery(name = "findAllConcepts", query= "select c from Concepts c")
+@NamedQuery(name = "findAllConcepts", query= "select c from Concept c")
 @Table(name="Concepts")
 //@ConceptConstraint(groups=ConceptGroup.class)
 public class Concept implements Serializable

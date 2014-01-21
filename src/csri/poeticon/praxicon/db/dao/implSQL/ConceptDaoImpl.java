@@ -38,21 +38,15 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
     @Override
     public List<Concept> findAll()
     {
-        //List<Concept> ConceptsList = new ArrayList<Concept>();
 
-        // Example for getting a particular concept with pure JPA
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Concepts");
-        EntityManager em = emf.createEntityManager();
-
-        Query query = em.createNamedQuery("findAllConcepts");
+        Query query = getEntityManager().createNamedQuery("findAllConcepts");
         List<Concept> concepts = query.getResultList();
 
-        return concepts;        
-
+        return concepts;
 
         // Old implementation:
-        //Query q = getEntityManager().createQuery("SELECT c FROM Concept c");
-        //return q.getResultList();
+//        Query q = getEntityManager().createQuery("SELECT c FROM Concept c");
+//        return q.getResultList();
     }
 
     /**
