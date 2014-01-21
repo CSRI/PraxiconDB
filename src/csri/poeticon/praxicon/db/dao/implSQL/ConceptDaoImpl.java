@@ -17,7 +17,12 @@ import csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains;
 import csri.poeticon.praxicon.db.entities.VisualRepresentation;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
+
 
 /**
  *
@@ -33,8 +38,21 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
     @Override
     public List<Concept> findAll()
     {
-        Query q = getEntityManager().createQuery("SELECT c FROM Concept c");
-        return q.getResultList();
+        //List<Concept> ConceptsList = new ArrayList<Concept>();
+
+        // Example for getting a particular concept with pure JPA
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Concepts");
+        EntityManager em = emf.createEntityManager();
+
+        Query query = em.createNamedQuery("findAllConcepts");
+        List<Concept> concepts = query.getResultList();
+
+        return concepts;        
+
+
+        // Old implementation:
+        //Query q = getEntityManager().createQuery("SELECT c FROM Concept c");
+        //return q.getResultList();
     }
 
     /**

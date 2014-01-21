@@ -41,6 +41,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -52,6 +53,7 @@ import javax.validation.constraints.NotNull;
 @XmlRootElement(name="entity")
 @Entity
 @EntityListeners(ConceptListener.class)
+@NamedQuery(name = "findAllConcepts", query= "select c from Concepts c")
 @Table(name="Concepts")
 //@ConceptConstraint(groups=ConceptGroup.class)
 public class Concept implements Serializable
@@ -475,9 +477,9 @@ public class Concept implements Serializable
         return SpecificityLevel;
     }
 
-    public void setSpecificityLevel(specificity_level specificity_level)
+    public void setSpecificityLevel(specificity_level level_type)
     {
-        this.SpecificityLevel = specificity_level;
+        this.SpecificityLevel = level_type;
     }
 
     public void setSpecificityLevel(String level_type)
@@ -589,7 +591,7 @@ public class Concept implements Serializable
      *     xmldescription="This tag defines if the entity is a variable, an analogy or a constant"
      */
     @XmlElement(name="status")
-    @ConstantConcepts(status.CONSTANT)
+    //@ConstantConcepts(value=status.CONSTANT)
     public status getStatus()
     {
         return Status;
