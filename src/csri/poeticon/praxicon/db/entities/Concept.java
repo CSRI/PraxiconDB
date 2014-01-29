@@ -43,6 +43,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -117,6 +118,7 @@ public class Concept implements Serializable
     protected Long Id;
 
     @Column(name="Name")
+    @Size(min = 5, max = 14)
     @NotNull(message="Concept name must be specified.")
     String Name;
 
@@ -178,6 +180,7 @@ public class Concept implements Serializable
     // Public Constructor
     public Concept()
     {
+        Name = null;
         Description = "";
         SpecificityLevel = Concept.specificity_level.UNKNOWN;
         LanguageRepresentations =  new ArrayList<LanguageRepresentation>();
@@ -191,6 +194,7 @@ public class Concept implements Serializable
 
     private Concept(Concept newConcept)
     {
+        this.Name = newConcept.Name;
         this.ConceptType = newConcept.getConceptType();
         this.SpecificityLevel = newConcept.getSpecificityLevel();
         this.Description = newConcept.getDescription();
@@ -201,7 +205,7 @@ public class Concept implements Serializable
         MotoricRepresentations = new ArrayList<MotoricRepresentation>();
         RelationsContainingConceptAsObject =  new ArrayList<Relation>();
         IntersectionsOfRelationChains = new ArrayList<IntersectionOfRelationChains>();
-        this.Name = newConcept.Name;
+
     
         for(int i = 0; i < newConcept.getLanguageRepresentations().size(); i++)
         {
@@ -385,26 +389,6 @@ public class Concept implements Serializable
             return les.get(0).getText();
         }
         return "noname";
-    }
-
-
-    /**
-     * Gets a trimmed version of the concept name
-     * @return a string
-     */
-    public String getNameTrimmed()
-    {
-        int index = this.getName().indexOf("%");
-        if (index >= 0)
-        {
-            return this.getName().substring(0, index);
-        }
-        index = this.getName().indexOf("#");
-        if (index >= 0)
-        {
-            return this.getName().substring(0, index);
-        }
-        return "";
     }
 
 
@@ -753,59 +737,6 @@ public class Concept implements Serializable
 //        return res;
 //    }
 //
-//
-//    /**
-//     * Gets all unions of intersections for this concept excluding ISA relations
-//     * (toke-type and type-token)by adding the unions of intresections that have
-//     * it as the owner and creating unions of intersections for each relation
-//     * that has this concept as object
-//     * @return list of UnionOfIntersections
-//     */
-//   public List<UnionOfIntersections> getConceptsRelatedWithWithoutISAasUnions() {
-//        List <UnionOfIntersections> concepts = new ArrayList<UnionOfIntersections>();
-//
-//        List <UnionOfIntersections> res = new ArrayList<UnionOfIntersections>();
-//        res.addAll(relations);
-//
-//        RelationDao rDao = new RelationDaoImpl();
-//        res.addAll(rDao.getObjRelations(this));
-//
-//        Concept tmp = null;
-//        for (int i = 0; i < res.size(); i++)
-//        {
-//            UnionOfIntersections union = res.get(i);
-//            for(int j=0; j<union.getIntersections().size(); j++)
-//            {
-//                IntersectionOfRelations inter = union.getIntersections().get(j);
-//                for (int k = 0; k < inter.getIntersectionsOfRelationChains().size(); k++)
-//                {
-//                    RelationChain relCh = inter.getIntersectionsOfRelationChains().get(k);
-//                    for (int l = 0; l<relCh.getRelations().size(); l++)
-//                    {
-//                        for (int m = 0; m < relCh.getRelations().size(); m++)
-//                        {
-//                            if (l == relCh.getRelations().get(m).relationOrder)
-//                            {
-//                                Relation rel = relCh.getRelations().get(m).getRelation();
-//                                if(rel.getType().getForwardName()!= TypeOfRelation.RELATION_NAME.TYPE_TOKEN &&
-//                                        rel.getType().getForwardName()!= TypeOfRelation.RELATION_NAME.TOKEN_TYPE)
-//                                {
-//                                    UnionOfIntersections u = new UnionOfIntersections();
-//                                    IntersectionOfRelations inters = new IntersectionOfRelations();
-//                                    RelationChain rel_ch = new RelationChain();
-//                                    rel_ch.addRelation(rel, 0);
-//                                    inters.addRelationChain(rel_ch);
-//                                    u.addIntersection(inters);
-//                                    concepts.add(u);
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        return concepts;
-//    }
 //
 //    /**
 //     * Gets all values (connected with has_value) of this concept excluding
