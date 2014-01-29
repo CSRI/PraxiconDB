@@ -19,15 +19,7 @@ public interface RelationDao extends Dao<Long, Relation>
 {
     List<Concept> getOwners(Relation rel);
     List<IntersectionOfRelationChains> getObjRelations(Concept c);
-    List<Concept> relatedConcepts(Concept c);
     List<Relation> allRelationsOf(Concept c);
-    List<Relation> allRelationsOfByRelationType(Concept c, RelationType type);
-    List<Relation> allRelationsOfByRelationName(Concept concept, RelationType.relation_name name);
     boolean areRelated(Concept c1, Concept c2);
-    public List<Relation> getSubConcepts(Concept c);
-    List<Concept> getObjectsOfARelation(String nameOfTheRelation);
-    List<Relation> findByType(String nameOfTheRelation);
-    public List<Concept> getRelatedConcepts(Concept c);
     List<Relation> findRelationsByConceptTypeOfRelation(Concept concept, RelationType type);
-    //boolean isPartOfInherentUnion (Relation r);
 }
