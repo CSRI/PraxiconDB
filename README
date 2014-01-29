@@ -1,8 +1,7 @@
-
 Praxicon DB
 ===========
 
-The PRAXICON database is a 5th normal form database that stores information 
+The PRAXICON database is a 3rd normal form database that stores information 
 on embodied concepts. The design of the database ensures that any application 
 that uses the PRAXICON knowledge base and its tools will have easy access to 
 the stored data, with minimum overhead. To this end, we have included some 
@@ -42,4 +41,3 @@ Installation and Usage
 
 For installation and usage instructions please refer to the documentation in the
 manuals under `docs/`.
-
