@@ -88,21 +88,6 @@ public class LanguageRepresentationDaoImpl extends JpaDao<Long, LanguageRepresen
         return q.getResultList();
     }
 
-    /**
-     * Finds the LanguageRepresentations that have text field equal to the given string
-     * Case insensitive search.
-     * @param searchString the string to search
-     * @return A list of LanguageRepresentations
-     */
-    @Override
-    public List<LanguageRepresentation> findExact(String searchString)
-    {
-        Query q = getEntityManager().createQuery("SELECT e FROM LanguageRepresentation e " +
-                "where UPPER(e.text) = ?1"
-                );
-        q.setParameter(1, searchString.toUpperCase());
-        return q.getResultList();
-    }
 
     /**
      * Creates q query to search for a LanguageRepresentation using text, lang and pos

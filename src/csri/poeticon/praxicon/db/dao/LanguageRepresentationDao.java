@@ -20,5 +20,4 @@ public interface LanguageRepresentationDao extends Dao<Long, LanguageRepresentat
     LanguageRepresentation findLanguageRepresentation(String language, String text, String pos);
     List<LanguageRepresentation> getEntriesSorted(Concept c);
     List<LanguageRepresentation> getEntries(Concept c);
-    List<LanguageRepresentation> findExact(String searchString);
 }
