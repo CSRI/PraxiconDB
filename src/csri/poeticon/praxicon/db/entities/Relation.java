@@ -235,11 +235,6 @@ public class Relation implements Serializable
             }
          }
     }
-//
-//    public void addRelationChain(RelationChain relation, long order)
-//    {
-//        //i think that is redundant
-//    }
 
     @XmlTransient
     public List<RelationChain_Relation> getMainFunctions()
