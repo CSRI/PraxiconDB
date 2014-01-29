@@ -94,21 +94,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
         return res;
     }
 
-    /**
-     * Finds all concepts that have a language representation starting with a given string
-     * @param queryString the string to search for
-     * @return a list of concepts found in the database
-     */
-    @Override
-    public List<Concept> findAllByLanguageRepresentationStarting(String queryString)
-    {
-        Query q = getEntityManager().createQuery("SELECT c FROM Concept c, "
-                + "IN (c.LanguageRepresentations) as clr, IN (clr.LanguageRepresentationConstituents) as entry "
-                + "where "
-                + "entry.Text like ?1");
-        q.setParameter(1, queryString + "%");
-        return q.getResultList();
-    }
 
     /**
      * Finds all concepts that have a name or language representation containing a given string
@@ -128,19 +113,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
         return res;
     }
 
-    /**
-     * Finds all concepts that have a name starting with a given string
-     * @param queryString the string to search for
-     * @return a list of concepts found in the database
-     */
-    @Override
-    public List<Concept> findAllByNameStarting(String name)
-    {
-        Query q = getEntityManager().createQuery("SELECT c FROM Concept c "
-                + "where c.Name like ?1");
-        q.setParameter(1, name + "%");
-        return q.getResultList();
-    }
 
     /**
      * Finds all concepts that have a name equal to a given string
@@ -170,18 +142,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
         return q.getResultList();
     }
 
-    @Override
-    public VisualRepresentation getPrototypeRepresentation(Concept concept)
-    {
-        Query q = getEntityManager().createQuery("SELECT c From Concept c, "
-                + "IN (c.VisualRepresentations) as cvr, IN (cvr.entries) as im where im.Prototype = true and c = ?1 and im.MediaType = 'image'");
-        q.setParameter(1, concept);
-        if (q.getResultList().size() > 0) {
-            return (VisualRepresentation) q.getResultList().get(0);
-        } else {
-            return null;
-        }
-    }
 
     /**
      * Finds all concepts that have a name or id equal to a given string
@@ -397,52 +357,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
 
     }
 
-    /**
-     * Updates a concept using another concept, returning the updated concept
-     * @param oldCon concept to be updated
-     * @param newCon concept to use as source
-     * @return the updated concept
-     */
-    @Override
-    public Concept simpleUpdate(Concept oldCon, Concept newCon)
-    {
-        try
-        {
-            if (oldCon.getConceptType() == null  || oldCon.getConceptType() == Concept.type.UNKNOWN)
-            {
-                oldCon.setConceptType(newCon.getConceptType());
-            }
-            if (oldCon.getPragmaticStatus() == null)
-            {
-                oldCon.setPragmaticStatus(newCon.getPragmaticStatus());
-            }
-            if (oldCon.getStatus() == null )
-            {
-                oldCon.setStatus(newCon.getStatus());
-            }
-            oldCon.setSpecificityLevel(newCon.getSpecificityLevel());
-            if (oldCon.getDescription() == null || oldCon.getDescription().equalsIgnoreCase("") || oldCon.getDescription().equalsIgnoreCase("Unknown"))
-            {
-                oldCon.setDescription(newCon.getDescription());
-            }
-            updateLanguageRepresentations(newCon, oldCon);
-            updateVisualRepresentations(newCon, oldCon);
-            updateMotoricRepresentations(newCon, oldCon);
-            updateObjOfRelations(newCon, oldCon);
-            updateRelations(newCon, oldCon);
-            return oldCon;
-        } 
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            entityManager.getTransaction().rollback();
-        }
-        /*finally
-        {
-        entityManager.close();
-        }*/
-        return oldCon;
-    }
 
     /**
      * Checks if two concepts are related by a certain relation
@@ -902,41 +816,10 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
 
 
 
-// Obsolete, since UnionOfIntersections has been removed.
-//    /**
-//     * Finds the union of intersections containing a relation between the two concepts
-//     * @param conA first concept
-//     * @param conB second concept
-//     * @return IntersectionOfRelationChains containing the relation between the two concepts
-//     */
-//    @Override
-//    public IntersectionOfRelationChains getRelationUnion(Concept conA, Concept conB) {
-//        for (int union = 0; union < conA.getRelations().size(); union++) {
-//            IntersectionOfRelationChains tmpUnion = conA.getRelations().get(union);
-//            for (int intersection = 0; intersection < tmpUnion.getIntersections().size(); intersection++) {
-//                IntersectionOfRelationChains tmpIntersection = tmpUnion.getIntersections().get(intersection);
-//                for (int relationChain = 0; relationChain < tmpIntersection.getRelations().size(); relationChain++) {
-//                    RelationChain tmpRelationChain = tmpIntersection.getRelations().get(relationChain);
-//                    for (int rel = 0; rel < tmpRelationChain.getRelations().size(); rel++) {
-//                        if (conB.equals(tmpRelationChain.getRelations().get(rel).getRelation().getObject())
-//                                || conB.equals(tmpRelationChain.getRelations().get(rel).getRelation().getSubject())) {
-//                            return tmpUnion;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        return null;
-//    }
-
-
-
-
-
-
-
+    
     // TODO: All methods below are not referenced in ConceptDao
 
+    
 
 
     

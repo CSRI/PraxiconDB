@@ -23,17 +23,17 @@ public interface ConceptDao extends Dao<Long, Concept>
     List<Concept> findAll();
     List<Concept> findAllByLanguageRepresentation(String queryString);
     List<Concept> findByLanguageRepresentation(String queryString);
-    List<Concept> findAllByLanguageRepresentationStarting(String queryString);
+    //List<Concept> findAllByLanguageRepresentationStarting(String queryString);
     List<Concept> findAllByName(String name);
-    public List<Concept> findAllByNameStarting(String name);
+    //public List<Concept> findAllByNameStarting(String name);
     List<Concept> findByName(String name);
     List<Concept> findByStatus(status status);
-    VisualRepresentation getPrototypeRepresentation(Concept concept);
+    //VisualRepresentation getPrototypeRepresentation(Concept concept);
     Concept getConceptWithNameOrID(String v);
     Concept updatedConcept(Concept newCon);
     void update(Concept newCon);
     void update(Concept oldCon, Concept newCon);
-    Concept simpleUpdate(Concept oldCon, Concept newCon);
+    //Concept simpleUpdate(Concept oldCon, Concept newCon);
     boolean areRelated(Concept conA, String relation, Concept conB);
     // getRelationUnion(Concept conA, Concept conB);  // May be obsolete
     
