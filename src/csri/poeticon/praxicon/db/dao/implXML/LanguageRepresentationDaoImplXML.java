@@ -67,26 +67,6 @@ public class LanguageRepresentationDaoImplXML extends JpaDao<Long, LanguageRepre
     }
 
     @Override
-    public List<LanguageRepresentation> findExact(String searchString)
-    {
-        List<LanguageRepresentation> res = new ArrayList<LanguageRepresentation>();
-        Enumeration en = Constants.globalConcepts.elements();
-        while(en.hasMoreElements())
-        {
-            Concept con = (Concept)en.nextElement();
-            for (int i = 0; i < con.getLanguageRepresentations().size(); i++)
-            {
-                LanguageRepresentation entry = con.getLanguageRepresentations().get(i);
-                if (entry.getText().equalsIgnoreCase(searchString))
-                {
-                    res.add(entry);
-                }
-            }
-        }
-        return res;
-    }
-    
-    @Override
     public Query getEntityQuery(LanguageRepresentation entity)
     {   
         return null;
