@@ -14,17 +14,13 @@
     <class>csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains</class>
     <class>csri.poeticon.praxicon.db.entities.RelationType</class>
     <class>csri.poeticon.praxicon.db.entities.SimplifiedRelationName</class>
-    <class>csri.poeticon.praxicon.logs.ConceptOfSentence</class>
-    <class>csri.poeticon.praxicon.logs.SentenceToAnalyze</class>
-    <class>csri.poeticon.praxicon.logs.SubstituteOfConcept</class>
-    <class>csri.poeticon.praxicon.logs.ValueOfVariable</class>
+    <class>csri.poeticon.praxicon.db.entities.Verbalization</class>
     <properties>
       <property name="toplink.jdbc.user" value=""/>
       <property name="toplink.jdbc.password" value=""/>
-      <property name="toplink.jdbc.url" value="jdbc:mysql://localhost:3306/praxicon_csri"/>
+      <property name="toplink.jdbc.url" value="jdbc:mysql://localhost:3306/praxicon_db"/>
       <property name="toplink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="toplink.jdbc.log" value="SQL=TRACE"/>
-      <property name="toplink.ddl-generation" value="drop-and-create-tables"/>
     </properties>
   </persistence-unit>
 </persistence>
