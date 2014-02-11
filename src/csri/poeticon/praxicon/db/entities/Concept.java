@@ -1058,52 +1058,52 @@ public class Concept implements Serializable
         }
     }
 
-//    public void afterUnmarshal(Unmarshaller u, Object parent) {
-//
-//        if (Globals.ToMergeAfterUnMarshalling)
-//        {
-//            ConceptDao cDao = new ConceptDaoImpl();
-//            Concept tmp = cDao.getConceptWithNameOrID(this.getName());
-//            if (tmp == null)
-//            {
-//                if (this.concept_type == null)
-//                {
-//                    this.concept_type = Type.UNKNOWN;
-//                }
-//
-//                cDao.merge(this);
-//            }
-//            else
-//            {
-//                cDao.update(this);
-//            }
-//        }
-//        else
-//        {
-//            Concept tmp = (Concept)Constants.globalConcepts.get(this.getName());
-//            if (tmp == null)
-//            {
-//                if (this.concept_type == null)
-//                {
-//                    this.concept_type = Type.UNKNOWN;
-//                }
-//                tmp = new Concept(this);
-//                Constants.globalConcepts.put(tmp.getName(), tmp);
-//            }
-//            else
-//            {
-//                tmp.concept_type = this.concept_type;
-//                updateLanguageRepresentations(tmp);
-//                updateVisualRepresentations(tmp);
-//                updateMotoricRepresentations(tmp);
-//                updateObjOfRelations(tmp);
-//                updateRelations(tmp);
-//              }
-//        }
-//
-//        System.err.println("Finish unmarshalling: " + this.getName());
-//    }
-//
+    public void afterUnmarshal(Unmarshaller u, Object parent) {
+
+        if (Globals.ToMergeAfterUnMarshalling)
+        {
+            ConceptDao cDao = new ConceptDaoImpl();
+            Concept tmp = cDao.getConceptWithNameOrID(this.getName());
+            if (tmp == null)
+            {
+                if (this.ConceptType == null)
+                {
+                    this.ConceptType = type.UNKNOWN;
+                }
+
+                cDao.merge(this);
+            }
+            else
+            {
+                cDao.update(this);
+            }
+        }
+        else
+        {
+            Concept tmp = (Concept)Constants.globalConcepts.get(this.getName());
+            if (tmp == null)
+            {
+                if (this.ConceptType == null)
+                {
+                    this.ConceptType = type.UNKNOWN;
+                }
+                tmp = new Concept(this);
+                Constants.globalConcepts.put(tmp.getName(), tmp);
+            }
+            else
+            {
+                tmp.ConceptType = this.ConceptType;
+                updateLanguageRepresentations(tmp);
+                updateVisualRepresentations(tmp);
+                updateMotoricRepresentations(tmp);
+                updateObjOfRelations(tmp);
+                updateRelations(tmp);
+              }
+        }
+
+        System.err.println("Finish unmarshalling: " + this.getName());
+    }
+
     /**
      * Updates LanguageRepresentation of a concept using this concept LanguageRepresentation
      * @param oldCon the concept to be updated
