@@ -261,6 +261,18 @@ public class Concept implements Serializable
     }
 
 
+    /**
+     * @xmlcomments.args
+     *	   xmltag="&lt;intersections_of_relation_chains&gt;"
+     *     xmldescription="This tag defines the interesections
+     *     of relation chains that this concept participates"
+     */
+    @XmlElement(name="union_of_intersections_of_relations")
+    public List<IntersectionOfRelationChains> getRelations() {
+        return IntersectionsOfRelationChains;
+    }
+
+
     @XmlTransient
     public final List<Relation> getRelationsContainingConceptAsObject()
     {
