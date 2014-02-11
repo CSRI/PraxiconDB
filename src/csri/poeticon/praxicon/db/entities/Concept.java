@@ -799,60 +799,56 @@ public class Concept implements Serializable
 //        return res;
 //    }
 //
-    /**
-     * Gets all concept related to this concept, using this concepts all unions of
-     * intersections and object unions of intersections
-     * @return list of concepts
-     */
-    public List<Concept> getConceptsRelatedWith() {
-        List <Concept> concepts = new ArrayList<Concept>();
-
-        List <UnionOfIntersections> res = new ArrayList<UnionOfIntersections>();
-        res.addAll(relations);
-
-        RelationDao rDao = new RelationDaoImpl();
-        res.addAll(rDao.getObjRelations(this));
-
-        Concept tmp = null;
-        for (int i = 0; i < res.size(); i++)
-        {
-            UnionOfIntersections union = res.get(i);
-            for(int j=0; j<union.getIntersections().size(); j++)
-            {
-                IntersectionOfRelations inter = union.getIntersections().get(j);
-                for (int k = 0; k < inter.getIntersectionsOfRelationChains().size(); k++)
-                {
-                    RelationChain relCh = inter.getIntersectionsOfRelationChains().get(k);
-                    for (int l = 0; l<relCh.getRelations().size(); l++)
-                    {
-                        for (int m = 0; m < relCh.getRelations().size(); m++)
-                        {
-                            if (l == relCh.getRelations().get(m).relationOrder)
-                            {
-                                Relation rel = relCh.getRelations().get(m).getRelation();
-                                if (!rel.getObject().equals(this))
-                                {
-                                    if (!concepts.contains(rel.getObject()))
-                                    {
-                                        concepts.add(rel.getObject());
-                                    }
-                                }
-                                if (!rel.getSubject().equals(this))
-                                {
-                                    if (!concepts.contains(rel.getSubject()))
-                                    {
-                                        concepts.add(rel.getSubject());
-                                    }
-                                }
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return concepts;
-    }
+//    /**
+//     * Gets all concept related to this concept, using this concepts all unions of
+//     * intersections and object unions of intersections
+//     * @return list of concepts
+//     */
+//    public List<Concept> getConceptsRelatedWith() {
+//        List <Concept> concepts = new ArrayList<Concept>();
+//
+//        List <IntersectionOfRelationChains> res = new ArrayList<IntersectionOfRelationChains>();
+//        res.addAll(IntersectionsOfRelationChains);
+//
+//        RelationDao rDao = new RelationDaoImpl();
+//        res.addAll(rDao.getObjRelations(this));
+//
+//        Concept tmp = null;
+//        for (int i = 0; i < res.size(); i++)
+//        {
+//                IntersectionOfRelationChains inter = res.get(i);
+//                for (int k = 0; k < inter.   .getIntersectionsOfRelationChains().size(); k++)
+//                {
+//                    RelationChain relCh = inter.getIntersectionsOfRelationChains().get(k);
+//                    for (int l = 0; l<relCh.getRelations().size(); l++)
+//                    {
+//                        for (int m = 0; m < relCh.getRelations().size(); m++)
+//                        {
+//                            if (l == relCh.getRelations().get(m).relationOrder)
+//                            {
+//                                Relation rel = relCh.getRelations().get(m).getRelation();
+//                                if (!rel.getObject().equals(this))
+//                                {
+//                                    if (!concepts.contains(rel.getObject()))
+//                                    {
+//                                        concepts.add(rel.getObject());
+//                                    }
+//                                }
+//                                if (!rel.getSubject().equals(this))
+//                                {
+//                                    if (!concepts.contains(rel.getSubject()))
+//                                    {
+//                                        concepts.add(rel.getSubject());
+//                                    }
+//                                }
+//                                break;
+//                            }
+//                        }
+//                }
+//            }
+//        }
+//        return concepts;
+//    }
 //
 //    /**
 //     * Gets all relations that belong to unions of intersections of this concept
