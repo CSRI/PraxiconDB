@@ -520,7 +520,7 @@ public class Concept implements Serializable
     }
 
     /**
-     * Gets a string of concatenated shoft info for the concept.
+     * Gets a string of concatenated short info for the concept.
      * concept type and basic level
      * @return a string
      */
