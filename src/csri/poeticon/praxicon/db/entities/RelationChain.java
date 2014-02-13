@@ -171,10 +171,10 @@ public class RelationChain implements Serializable
 
     /**
      * @xmlcomments.args
-     *	   xmltag="&lt;relation&gt;"
+     *	   xmltag="&lt;relation_order&gt;"
      *     xmldescription="This tag defines the relations of the entity
      */
-    @XmlElement(name="relation")
+    @XmlElement(name="relation_order")
     public List<RelationChain_Relation> getRelations()
     {
         return Relations;
