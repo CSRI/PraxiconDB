@@ -263,11 +263,11 @@ public class Concept implements Serializable
 
     /**
      * @xmlcomments.args
-     *	   xmltag="&lt;intersections_of_relation_chains&gt;"
+     *	   xmltag="&lt;intersection_of_relation_chains&gt;"
      *     xmldescription="This tag defines the interesections
      *     of relation chains that this concept participates"
      */
-    @XmlElement(name="union_of_intersections_of_relations")
+    @XmlElement(name="intersection_of_relation_chains")
     public List<IntersectionOfRelationChains> getRelations() {
         return IntersectionsOfRelationChains;
     }
@@ -287,11 +287,11 @@ public class Concept implements Serializable
 
         /**
      * @xmlcomments.args
-     *	   xmltag="&lt;vr&gt;"
+     *	   xmltag="&lt;language_representation&gt;"
      *     xmldescription="This tag defines the Language Representation of the
      *     concept"
      */
-    @XmlElement(name="lr")
+    @XmlElement(name="language_representation")
     public final List<LanguageRepresentation> getLanguageRepresentations()
     {
         return LanguageRepresentations;
@@ -388,7 +388,7 @@ public class Concept implements Serializable
      */
     public String getLanguageRepresentationName()
     {
-        List<LanguageRepresentation> les = this.getLanguageRepresentation();
+        List<LanguageRepresentation> les = this.getLanguageRepresentations();
         for(int i = 0; i < les.size(); i++)
         {
             if (les.get(i).getLanguage().name().equalsIgnoreCase("en"))
@@ -435,11 +435,11 @@ public class Concept implements Serializable
     //
     /**
      * @xmlcomments.args
-     *	   xmltag="&lt;union_of_intersections_of_relations&gt;"
-     *     xmldescription="This tag defines the union of interesections
-     *     of relation that this concept participates"
+     *	   xmltag="&lt;intersection_of_relation_chains&gt;"
+     *     xmldescription="This tag defines the intersection of relation chains
+     *     that this concept participates"
      */
-    @XmlElement(name="union_of_intersections_of_relations")
+    @XmlElement(name="intersection_of_relation_chains")
     public final List<IntersectionOfRelationChains> getIntersectionsOfRelationChains()
     {
         return IntersectionsOfRelationChains;
@@ -464,10 +464,10 @@ public class Concept implements Serializable
 
     /**
      * @xmlcomments.args
-     *	   xmltag="&lt;is_basic_level&gt;"
-     *     xmldescription="This tag defines if the entity is basic level"
+     *	   xmltag="&lt;specificity_level&gt;"
+     *     xmldescription="This tag defines the specificity level of the concept"
      */
-    @XmlElement(name="is_basic_level")
+    @XmlElement(name="specificity_level")
     public specificity_level getSpecificityLevel()
     {
         return SpecificityLevel;
@@ -535,11 +535,11 @@ public class Concept implements Serializable
 
     /**
      * @xmlcomments.args
-     *	   xmltag="&lt;type&gt;"
-     *     xmldescription="This tag defines the type of the entity (movement, entity,
-     *                     feature, abstract)"
+     *	   xmltag="&lt;concept_type&gt;"
+     *     xmldescription="This tag defines the type of the concept entity
+     *     (abstract, entity, feature, movement, unknown)"
      */
-    @XmlElement(name="type")
+    @XmlElement(name="concept_type")
     public type getConceptType()
     {
         return ConceptType;
@@ -558,10 +558,10 @@ public class Concept implements Serializable
 
     /**
      * @xmlcomments.args
-     *	   xmltag="&lt;p_status&gt;"
+     *	   xmltag="&lt;pragmatic_status&gt;"
      *     xmldescription="This tag defines if the entity is literal or figurative"
      */
-    @XmlElement(name="p_status")
+    @XmlElement(name="pragmatic_status")
     public pragmatic_status getPragmaticStatus()
     {
         return PragmaticStatus;
@@ -584,7 +584,8 @@ public class Concept implements Serializable
     /**
      * @xmlcomments.args
      *	   xmltag="&lt;status&gt;"
-     *     xmldescription="This tag defines if the entity is a variable, an analogy or a constant"
+     *     xmldescription="This tag defines if the entity is a variable,
+     *                     an analogy or a constant"
      */
     @XmlElement(name="status")
     //@ConstantConcepts(value=status.CONSTANT)
@@ -605,7 +606,6 @@ public class Concept implements Serializable
         this.Status = status.valueOf(var_type.trim().toUpperCase());
     }
 
- //TODO: This should be replaced by a method that uses IntersectionsOfRelationChains instead of UnionOfIntersections, which was removed from the schema.
     /**
      * Adds a new union of intersections to this concept containg an intersection
      * of relations created using given relation types (fw+bw) and given relation objects
@@ -977,17 +977,19 @@ public class Concept implements Serializable
 
 
 
-    /**
-     * @xmlcomments.args
-     *	   xmltag="&lt;lr&gt;"
-     *     xmldescription="This tag defines the Language Representation of the
-     *     concept"
-     */
-    @XmlElement(name="lr")
-    public List<LanguageRepresentation> getLanguageRepresentation()
-    {
-        return LanguageRepresentations;
-    }
+// This already exists in line 289.
+//
+//    /**
+//     * @xmlcomments.args
+//     *	   xmltag="&lt;language_representation&gt;"
+//     *     xmldescription="This tag defines the Language Representation of the
+//     *     concept"
+//     */
+//    @XmlElement(name="language_representation")
+//    public List<LanguageRepresentation> getLanguageRepresentation()
+//    {
+//        return LanguageRepresentations;
+//    }
 
 
     @XmlAttribute
