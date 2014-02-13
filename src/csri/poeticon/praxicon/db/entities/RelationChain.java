@@ -97,10 +97,12 @@ public class RelationChain implements Serializable
 
     /**
      * @xmlcomments.args
-     *	   xmltag="&lt;LRGroupNames&gt;"
-     *     xmldescription="This tag defines the names of the LanguageRepresentationGroup that should be used to express this relation chain"
+     *	   xmltag="&lt;language_representation_names&gt;"
+     *     xmldescription="This tag defines the names of the 
+     *                     LanguageRepresentation that should be used to
+     *                     express this relation chain"
      */
-    @XmlElement(name="LRGroupName")
+    @XmlElement(name="language_representation_names")
     public List<String> getLanguageRepresentationNames_()
     {
        List<String> language_representation_names_ = new ArrayList<String>();
@@ -172,7 +174,7 @@ public class RelationChain implements Serializable
      *	   xmltag="&lt;relation&gt;"
      *     xmldescription="This tag defines the relations of the entity
      */
-    @XmlElement(name="relation_order")
+    @XmlElement(name="relation")
     public List<RelationChain_Relation> getRelations()
     {
         return Relations;
