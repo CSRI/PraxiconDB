@@ -167,10 +167,11 @@ public class Relation implements Serializable
 
     /**
      * @xmlcomments.args
-     *	   xmltag="is_derivative"
-     *     xmldescription="This attribute defines if the relation is derivative or not"
+     *	   xmltag="derivation_supported"
+     *     xmldescription="This attribute defines if the relation supports 
+     *                     derivation or not"
      */
-    @XmlAttribute(name="is_derivative")
+    @XmlAttribute(name="derivation_supported")
     public derivation_supported DerivationSupported()
     {
         return DerivationSupported;
@@ -184,8 +185,8 @@ public class Relation implements Serializable
     /**
      * @xmlcomments.args
      *	   xmltag="subject"
-     *     xmldescription="This attribute defines the object that the relation is
-     *     related to"
+     *     xmldescription="This attribute defines the object that the
+     *                     relation is related to"
      */
     @XmlAttribute(name="subject")
     private String getSubject_()
@@ -260,11 +261,11 @@ public class Relation implements Serializable
 
     /**
      * @xmlcomments.args
-     *	   xmltag="obj"
-     *     xmldescription="This attribute defines the object that the relation is
-     *     related to"
+     *	   xmltag="object"
+     *     xmldescription="This attribute defines the object that the
+     *                     relation is related to"
      */
-    @XmlAttribute(name="obj")
+    @XmlAttribute(name="object")
     private String getObject_()
     {
         StringBuilder sb = new StringBuilder();
@@ -317,7 +318,7 @@ public class Relation implements Serializable
 //
     /**
      * @xmlcomments.args
-     *	   xmltag="&lt;type&gt;"
+     *	   xmltag="&lt;relation_type&gt;"
      *     xmldescription="This tag defines the type of the relation"
      */
    @XmlElement
@@ -329,7 +330,7 @@ public class Relation implements Serializable
    /**
     * Sets the type of the Relation but it doesn't check if there is the same
     * type twice
-    * @param type the tyep of the relation
+    * @param type the type of the relation
     */
     public void setTypeSimple(RelationType type)
     {
@@ -379,10 +380,12 @@ public class Relation implements Serializable
     }
 
    /**
-     * @xmlcomments.args
-     *	   xmltag="&lt;LanguageRepresentationGroupObject&gt;"
-     *     xmldescription="This tag defines the LanguageRepresentationGroup that should be used to express the Object in this relation"
-     */
+    * @xmlcomments.args
+    *	   xmltag="&lt;language_representation_object&gt;"
+    *     xmldescription="This tag defines the LanguageRepresentation
+    *                     that should be used to express the Object in this
+    *                     relation"
+    */
    @XmlElement(name="LanguageRepresentationObject")
     public String getLanguageRepresentationObject_()
     {
@@ -533,10 +536,12 @@ public class Relation implements Serializable
 
     /**
      * @xmlcomments.args
-     *	   xmltag="&lt;MotoricRepresentationGroupObject&gt;"
-     *     xmldescription="This tag defines the MotoricRepresentationGroup that should be used to express the Object in this relation"
+     *	   xmltag="&lt;motoric_representation_object&gt;"
+     *     xmldescription="This tag defines the MotoricRepresentation
+     *                     that should be used to express the Object
+     *                     in this relation"
      */
-    @XmlElement(name="MotoricRepresentationGroupObject")
+    @XmlElement(name="motoric_representation_object")
     public List<String> getMotoricRepresentationObject_()
     {
         List<String> motoric_representation_object_ = new ArrayList<String>();
