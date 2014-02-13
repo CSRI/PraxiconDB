@@ -205,10 +205,10 @@ public class LanguageRepresentation implements Serializable
 
     /**
      * @xmlcomments.args
-     *	   xmltag="&lt;lang&gt;"
+     *	   xmltag="&lt;language&gt;"
      *     xmldescription="This tag defines the language of the entry"
      */
-    @XmlElement()
+    @XmlElement(name="language")
     public language getLanguage()
     {
         return Language;
