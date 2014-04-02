@@ -401,53 +401,6 @@ public class Relation implements Serializable
     }
 
     
-// TODO: REDUNDANT???
-//    private void setLanguageRepresentationObject_(String v) throws Exception
-//    {
-//        if (Globals.ToMergeAfterUnMarshalling)
-//        {
-//       //     System.err.println("start "+v);
-//            LanguageRepresentationDao lrgDao = new LanguageRepresentationGroupDaoImpl();
-//            LanguageRepresentation lrg = lrgDao.findAllByName(v.trim());
-//            if(lrg!=null && lrg.isEmpty()&&Constants.globalConcepts.get(v.get(i).trim())!=null)
-//            {
-//                lrg.add((LanguageRepresentationGroup)Constants.globalConcepts.get(v.get(i).trim()));
-//            }
-//            if (lrg!=null && !lrg.isEmpty())
-//            {
-//                LanguageRepresentationGroupObject.addAll(lrg);
-//                for(int j  = 0; j < lrg.size(); j++)
-//                {
-//                    lrg.get(j).getLanguageRepresentationObject().add(this);
-//                }
-//            }
-//            else
-//            {
-//                LanguageRepresentationGroup c = new LanguageRepresentationGroup();
-//
-//                c.setName(v.get(i));
-//                c.getLanguageRepresentationObject().add(this);
-//                lrgDao.persist(c);
-//                LanguageRepresentationGroupObject.add(c);
-//            }
-//
-//         }
-//         else
-//         {
-//            LanguageRepresentationGroup c = new LanguageRepresentationGroup();
-//            c.setName(v.get(i));
-//            c.getLanguageRepresentationObject().add(this);
-//            if (Constants.globalConcepts.contains(c))
-//            {
-//                LanguageRepresentationGroupObject.add((LanguageRepresentationGroup)Constants.globalConcepts.get(c.getName()));
-//            }
-//            else
-//            {
-//                LanguageRepresentationGroupObject.add(c);
-//                Constants.globalConcepts.put(c.getName(), c);
-//            }
-//         }
-//    }
 
     @XmlTransient
     public List<LanguageRepresentation> getLanguageRepresentationSubject()
@@ -455,79 +408,6 @@ public class Relation implements Serializable
         return LanguageRepresentationSubject;
     }
 
-// TODO: Obsolete???
-//    /**
-//     * @xmlcomments.args
-//     *	   xmltag="&lt;LanguageRepresentationGroupSubject&gt;"
-//     *     xmldescription="This tag defines the LanguageRepresentationGroup that should be used to express the Subject in this relation"
-//     */
-//    @XmlElement(name="LanguageRepresentationGroupSubject")
-//    public List<String> getLanguageRepresentationGroupSubject_()
-//    {
-//        List<String> LanguageRepresentationGroupSubject_ = new ArrayList<String>();
-//       for(int i = 0; i < LanguageRepresentationGroupSubject.size(); i++)
-//       {
-//           LanguageRepresentationGroupSubject_.add(LanguageRepresentationGroupSubject.get(i).getName());
-//       }
-//        return LanguageRepresentationGroupSubject_;
-//    }
-//
-
-// TODO: Obsolete???
-//    public void setLanguageRepresentationGroupSubject(List<LanguageRepresentationGroup> LanguageRepresentationGroupSubject)
-//    {
-//        this.LanguageRepresentationGroupSubject = LanguageRepresentationGroupSubject;
-//    }
-//
-//    private void setLanguageRepresentationGroupSubject_(List<String> v) throws Exception
-//    {
-//        for (int i = 0; i < v.size(); i++)
-//        {
-//            if (Globals.ToMergeAfterUnMarshalling)
-//            {
-//                LanguageRepresentationGroupDao lrgDao = new LanguageRepresentationGroupDaoImpl();
-//                List<LanguageRepresentationGroup> lrg = lrgDao.findAllByName(v.get(i).trim());
-//                if(lrg!=null && lrg.isEmpty()&&Constants.globalConcepts.get(v.get(i).trim())!=null)
-//                {
-//                    lrg.add((LanguageRepresentationGroup)Constants.globalConcepts.get(v.get(i).trim()));
-//                }
-//                if (lrg!=null && !lrg.isEmpty())
-//                {
-//                    LanguageRepresentationGroupSubject.addAll(lrg);
-//                    for(int j  = 0; j < lrg.size(); j++)
-//                    {
-//                        lrg.get(j).getLanguageRepresentationSubject().add(this);
-//                    }
-//                }
-//                else
-//                {
-//                    LanguageRepresentationGroup c = new LanguageRepresentationGroup();
-//
-//                    c.setName(v.get(i));
-//                    c.getLanguageRepresentationSubject().add(this);
-//                    lrgDao.persist(c);
-//                    LanguageRepresentationGroupSubject.add(c);
-//                }
-//
-//             }
-//             else
-//             {
-//                LanguageRepresentationGroup c = new LanguageRepresentationGroup();
-//                c.setName(v.get(i));
-//                c.getLanguageRepresentationSubject().add(this);
-//                if (Constants.globalConcepts.contains(c))
-//                {
-//                    LanguageRepresentationGroupSubject.add((LanguageRepresentationGroup)Constants.globalConcepts.get(c.getName()));
-//                }
-//                else
-//                {
-//                    LanguageRepresentationGroupSubject.add(c);
-//                    Constants.globalConcepts.put(c.getName(), c);
-//                }
-//             }
-//        }
-//    }
-//
     @XmlTransient
     public List<MotoricRepresentation> getMotoricRepresentationObject()
     {
@@ -557,134 +437,12 @@ public class Relation implements Serializable
         this.MotoricRepresentationObject = motoric_representation_object;
     }
 
-// TODO: Obsolete???
-//    private void setMotoricRepresentationGroupObject_(List<String> v) throws Exception
-//    {
-//        for (int i = 0; i < v.size(); i++)
-//        {
-//            if (Globals.ToMergeAfterUnMarshalling)
-//            {
-//                MotoricRepresentationGroupDao mrgDao = new MotoricRepresentationGroupDaoImpl();
-//                List<MotoricRepresentationGroup> mrg = mrgDao.findAllByName(v.get(i).trim());
-//                if(mrg!=null && mrg.isEmpty()&&Constants.globalConcepts.get(v.get(i).trim())!=null)
-//                {
-//                    mrg.add((MotoricRepresentationGroup)Constants.globalConcepts.get(v.get(i).trim()));
-//                }
-//                if (mrg!=null && !mrg.isEmpty())
-//                {
-//                    MotoricRepresentationGroupObject.addAll(mrg);
-//                    for(int j  = 0; j < mrg.size(); j++)
-//                    {
-//                        mrg.get(j).getMotoricRepresentationObject().add(this);
-//                    }
-//                }
-//                else
-//                {
-//                    MotoricRepresentationGroup c = new MotoricRepresentationGroup();
-//
-//                    c.setName(v.get(i));
-//                    c.getMotoricRepresentationObject().add(this);
-//                    mrgDao.persist(c);
-//                    MotoricRepresentationGroupObject.add(c);
-//                }
-//             }
-//             else
-//             {
-//                MotoricRepresentationGroup c = new MotoricRepresentationGroup();
-//                c.setName(v.get(i));
-//                c.getMotoricRepresentationObject().add(this);
-//                if (Constants.globalConcepts.contains(c))
-//                {
-//                    MotoricRepresentationGroupObject.add((MotoricRepresentationGroup)Constants.globalConcepts.get(c.getName()));
-//                }
-//                else
-//                {
-//                    MotoricRepresentationGroupObject.add(c);
-//                    Constants.globalConcepts.put(c.getName(), c);
-//                }
-//
-//             }
-//        }
-//    }
-
     @XmlTransient
     public List<MotoricRepresentation> getMotoricRepresentationSubject()
     {
         return MotoricRepresentationSubject;
     }
 
-// TODO: Obsolete???
-//        /**
-//     * @xmlcomments.args
-//     *	   xmltag="&lt;MotoricRepresentationGroupSubject&gt;"
-//     *     xmldescription="This tag defines the MotoricRepresentationGroup that should be used to express the Subject in this relation"
-//     */
-//    @XmlElement(name="MotoricRepresentationGroupSubject")
-//    public List<String> getMotoricRepresentationGroupSubject_()
-//    {
-//        List<String> MotoricRepresentationGroupSubject_ = new ArrayList<String>();
-//       for(int i = 0; i < MotoricRepresentationGroupSubject.size(); i++)
-//       {
-//           MotoricRepresentationGroupSubject_.add(MotoricRepresentationGroupSubject.get(i).getName());
-//       }
-//        return MotoricRepresentationGroupSubject_;
-//    }
-//
-//    public void setMotoricRepresentationGroupSubject(List<MotoricRepresentationGroup> MotoricRepresentationGroupSubject)
-//    {
-//        this.MotoricRepresentationGroupSubject = MotoricRepresentationGroupSubject;
-//    }
-//
-//    private void setMotoricRepresentationGroupSubject_(List<String> v) throws Exception
-//    {
-//        for (int i = 0; i < v.size(); i++)
-//        {
-//            if (Globals.ToMergeAfterUnMarshalling)
-//            {
-//                MotoricRepresentationGroupDao mrgDao = new MotoricRepresentationGroupDaoImpl();
-//                List<MotoricRepresentationGroup> mrg = mrgDao.findAllByName(v.get(i).trim());
-//                if(mrg!=null && mrg.isEmpty()&&Constants.globalConcepts.get(v.get(i).trim())!=null)
-//                {
-//                    mrg.add((MotoricRepresentationGroup)Constants.globalConcepts.get(v.get(i).trim()));
-//                }
-//                if (mrg!=null && !mrg.isEmpty())
-//                {
-//                    MotoricRepresentationGroupSubject.addAll(mrg);
-//                    for(int j  = 0; j < mrg.size(); j++)
-//                    {
-//                        mrg.get(j).getMotoricRepresentationSubject().add(this);
-//                    }
-//                }
-//                else
-//                {
-//                    MotoricRepresentationGroup c = new MotoricRepresentationGroup();
-//
-//                    c.setName(v.get(i));
-//                    c.getMotoricRepresentationSubject().add(this);
-//                    mrgDao.persist(c);
-//                    MotoricRepresentationGroupSubject.add(c);
-//                }
-//
-//             }
-//             else
-//             {
-//                MotoricRepresentationGroup c = new MotoricRepresentationGroup();
-//                c.setName(v.get(i));
-//                c.getMotoricRepresentationSubject().add(this);
-//                if (Constants.globalConcepts.contains(c))
-//                {
-//                    MotoricRepresentationGroupSubject.add((MotoricRepresentationGroup)Constants.globalConcepts.get(c.getName()));
-//                }
-//                else
-//                {
-//                    MotoricRepresentationGroupSubject.add(c);
-//                    Constants.globalConcepts.put(c.getName(), c);
-//                }
-//
-//             }
-//        }
-//    }
-//
     @XmlTransient
     public List<VisualRepresentation> getVisualRepresentationObject()
     {
@@ -692,158 +450,21 @@ public class Relation implements Serializable
     }
 
 
-// TODO: Obsolete???
-//        /**
-//     * @xmlcomments.args
-//     *	   xmltag="&lt;VisualRepresentationGroupObject&gt;"
-//     *     xmldescription="This tag defines the VisualRepresentationGroup that should be used to express the Object in this relation"
-//     */
-//    @XmlElement(name="VisualRepresentationGroupObject")
-//    public List<String> getVisualRepresentationGroupObject_()
-//    {
-//        List<String> VisualRepresentationGroupObject_ = new ArrayList<String>();
-//       for(int i = 0; i < VisualRepresentationGroupObject.size(); i++)
-//       {
-//           VisualRepresentationGroupObject_.add(VisualRepresentationGroupObject.get(i).getName());
-//       }
-//        return VisualRepresentationGroupObject_;
-//    }
-//
     public void setVisualRepresentationObject(List<VisualRepresentation> visual_representation_object)
     {
         this.VisualRepresentationObject = visual_representation_object;
     }
 
-// TODO: Obsolete???
-//    private void setVisualRepresentationGroupObject_(List<String> v) throws Exception
-//    {
-//        for (int i = 0; i < v.size(); i++)
-//        {
-//            if (Globals.ToMergeAfterUnMarshalling)
-//            {
-//                VisualRepresentationGroupDao vrgDao = new VisualRepresentationGroupDaoImpl();
-//                List<VisualRepresentationGroup> vrg = vrgDao.findAllByName(v.get(i).trim());
-//                if(vrg!=null && vrg.isEmpty()&&Constants.globalConcepts.get(v.get(i).trim())!=null)
-//                {
-//                    vrg.add((VisualRepresentationGroup)Constants.globalConcepts.get(v.get(i).trim()));
-//                }
-//                if (vrg!=null && !vrg.isEmpty())
-//                {
-//                    VisualRepresentationGroupObject.addAll(vrg);
-//                    for(int j  = 0; j < vrg.size(); j++)
-//                    {
-//                        vrg.get(j).getVisualRepresentationObject().add(this);
-//                    }
-//                }
-//                else
-//                {
-//                    VisualRepresentationGroup c = new VisualRepresentationGroup();
-//
-//                    c.setName(v.get(i));
-//                    c.getVisualRepresentationObject().add(this);
-//                    vrgDao.persist(c);
-//                    VisualRepresentationGroupObject.add(c);
-//                }
-//
-//             }
-//             else
-//             {
-//                VisualRepresentationGroup c = new VisualRepresentationGroup();
-//                c.setName(v.get(i));
-//                c.getVisualRepresentationObject().add(this);
-//                if (Constants.globalConcepts.contains(c))
-//                {
-//                    VisualRepresentationGroupObject.add((VisualRepresentationGroup)Constants.globalConcepts.get(c.getName()));
-//                }
-//                else
-//                {
-//                    VisualRepresentationGroupObject.add(c);
-//                    Constants.globalConcepts.put(c.getName(), c);
-//                }
-//
-//             }
-//        }
-//    }
-//
     @XmlTransient
     public List<VisualRepresentation> getVisualRepresentationSubject()
     {
         return VisualRepresentationSubject;
     }
 
-// TODO: Obsolete???
-//    /**
-//     * @xmlcomments.args
-//     *	   xmltag="&lt;VisualRepresentationGroupSubject&gt;"
-//     *     xmldescription="This tag defines the VisualRepresentationGroup that should be used to express the Subject in this relation"
-//     */
-//    @XmlElement(name="VisualRepresentationGroupSubject")
-//    public List<String> getVisualRepresentationGroupSubject_()
-//    {
-//        List<String> VisualRepresentationGroupSubject_ = new ArrayList<String>();
-//       for(int i = 0; i < VisualRepresentationGroupSubject.size(); i++)
-//       {
-//           VisualRepresentationGroupSubject_.add(VisualRepresentationGroupSubject.get(i).getName());
-//       }
-//        return VisualRepresentationGroupSubject_;
-//    }
-
     public void setVisualRepresentationSubject(List<VisualRepresentation> visual_representation_subject)
     {
         this.VisualRepresentationSubject = visual_representation_subject;
     }
-
-// TODO: Obsolete???
-//
-//    private void setVisualRepresentationGroupSubject_(List<String> v) throws Exception
-//    {
-//        for (int i = 0; i < v.size(); i++)
-//        {
-//            if (Globals.ToMergeAfterUnMarshalling)
-//            {
-//                VisualRepresentationGroupDao vrgDao = new VisualRepresentationGroupDaoImpl();
-//                List<VisualRepresentationGroup> vrg = vrgDao.findAllByName(v.get(i).trim());
-//                if(vrg!=null && vrg.isEmpty()&&Constants.globalConcepts.get(v.get(i).trim())!=null)
-//                {
-//                    vrg.add((VisualRepresentationGroup)Constants.globalConcepts.get(v.get(i).trim()));
-//                }
-//                if (vrg!=null && !vrg.isEmpty())
-//                {
-//                    VisualRepresentationGroupSubject.addAll(vrg);
-//                    for(int j  = 0; j < vrg.size(); j++)
-//                    {
-//                        vrg.get(j).getVisualRepresentationSubject().add(this);
-//                    }
-//                }
-//                else
-//                {
-//                    VisualRepresentationGroup c = new VisualRepresentationGroup();
-//
-//                    c.setName(v.get(i));
-//                    c.getVisualRepresentationSubject().add(this);
-//                    vrgDao.persist(c);
-//                    VisualRepresentationGroupSubject.add(c);
-//                }
-//
-//             }
-//             else
-//             {
-//                VisualRepresentationGroup c = new VisualRepresentationGroup();
-//                c.setName(v.get(i));
-//                c.getVisualRepresentationSubject().add(this);
-//                if (Constants.globalConcepts.contains(c))
-//                {
-//                    VisualRepresentationGroupSubject.add((VisualRepresentationGroup)Constants.globalConcepts.get(c.getName()));
-//                }
-//                else
-//                {
-//                    VisualRepresentationGroupSubject.add(c);
-//                    Constants.globalConcepts.put(c.getName(), c);
-//                }
-//
-//             }
-//        }
-//    }
 
     @Override
     public int hashCode()
