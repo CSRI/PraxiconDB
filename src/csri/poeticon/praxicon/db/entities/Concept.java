@@ -420,6 +420,22 @@ public class Concept implements Serializable
         this.Source = source;
     }
 
+        /**
+     * @xmlcomments.args
+     *	   xmltag="&lt;unique_instance&gt;"
+     *     xmldescription="This tag defines the source of the concept (from which
+     *          resources was generated (for example: Wordnet)"
+     */
+    @XmlElement(name="unique_instance")
+    public unique_instance getUniqueInstance()
+    {
+        return UniqueInstance;
+    }
+
+    public void setUniqueInstance(unique_instance unique_instance)
+    {
+        this.UniqueInstance = unique_instance;
+    }
 
     @XmlElement(name="comment")
     public String getComment()
