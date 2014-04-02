@@ -55,7 +55,7 @@ import javax.validation.constraints.Size;
 @Entity
 @EntityListeners(ConceptListener.class)
 @NamedQuery(name = "findAllConcepts", query= "select c from Concept c")
-@Table(name="Concepts")
+@Table(name="Concepts") //, Definition = "SMALLINT UNSIGNED COMMENT 'The Concept table. This is the key table of the database'")
 //@ConceptConstraint(groups=ConceptGroup.class)
 public class Concept implements Serializable
 {
@@ -118,7 +118,7 @@ public class Concept implements Serializable
     protected Long Id;
 
     @Column(name="Name")
-    @Size(min = 5, max = 14)
+    //@Size(min = 5, max = 14)
     @NotNull(message="Concept name must be specified.")
     String Name;
 
@@ -151,7 +151,7 @@ public class Concept implements Serializable
     protected String Source;
 
     @Column(name="Comment")
-    protected String Description;
+    protected String Comment;
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
@@ -181,7 +181,7 @@ public class Concept implements Serializable
     public Concept()
     {
         Name = null;
-        Description = "";
+        Comment = "";
         SpecificityLevel = Concept.specificity_level.UNKNOWN;
         LanguageRepresentations =  new ArrayList<LanguageRepresentation>();
         VisualRepresentations = new ArrayList<VisualRepresentation>();
@@ -197,7 +197,6 @@ public class Concept implements Serializable
         this.Name = newConcept.Name;
         this.ConceptType = newConcept.getConceptType();
         this.SpecificityLevel = newConcept.getSpecificityLevel();
-        this.Description = newConcept.getDescription();
         this.PragmaticStatus = newConcept.getPragmaticStatus();
         this.Status = newConcept.getStatus();
         LanguageRepresentations = new ArrayList<LanguageRepresentation>();
@@ -265,7 +264,7 @@ public class Concept implements Serializable
      * @xmlcomments.args
      *	   xmltag="&lt;intersection_of_relation_chains&gt;"
      *     xmldescription="This tag defines the interesections
-     *     of relation chains that this concept participates"
+     *     of relation chains this concept participates in"
      */
     @XmlElement(name="intersection_of_relation_chains")
     public List<IntersectionOfRelationChains> getRelations() {
@@ -421,15 +420,16 @@ public class Concept implements Serializable
         this.Source = source;
     }
 
-    @XmlElement(name="status")
-    public unique_instance getUniqueInstance()
+
+    @XmlElement(name="comment")
+    public String getComment()
     {
-        return UniqueInstance;
+        return Comment;
     }
 
-    public void setUniqueInstance(unique_instance unique_instance)
+    public void setComment(String comment)
     {
-        this.UniqueInstance = unique_instance;
+        this.Comment = comment;
     }
 
     //
@@ -437,28 +437,12 @@ public class Concept implements Serializable
      * @xmlcomments.args
      *	   xmltag="&lt;intersection_of_relation_chains&gt;"
      *     xmldescription="This tag defines the intersection of relation chains
-     *     that this concept participates"
+     *     this concept participates in"
      */
     @XmlElement(name="intersection_of_relation_chains")
     public final List<IntersectionOfRelationChains> getIntersectionsOfRelationChains()
     {
         return IntersectionsOfRelationChains;
-    }
-
-    /**
-     * @xmlcomments.args
-     *	   xmltag="&lt;description&gt;"
-     *     xmldescription="This tag defines is a field for future use"
-     */
-    @XmlElement(name="description")
-    public String getDescription()
-    {
-        return Description;
-    }
-
-    public void setDescription(String description)
-    {
-        this.Description = description.trim();
     }
 
 
@@ -513,8 +497,6 @@ public class Concept implements Serializable
         sb.append(this.getPragmaticStatus());
         sb.append("#");
         sb.append(this.getSpecificityLevel());
-        sb.append("#");
-        sb.append(this.getDescription());
 
         return sb.toString();
     }
@@ -585,7 +567,7 @@ public class Concept implements Serializable
      * @xmlcomments.args
      *	   xmltag="&lt;status&gt;"
      *     xmldescription="This tag defines if the entity is a variable,
-     *                     an analogy or a constant"
+     *                     a constant or a template"
      */
     @XmlElement(name="status")
     //@ConstantConcepts(value=status.CONSTANT)
@@ -607,15 +589,14 @@ public class Concept implements Serializable
     }
 
     /**
-     * Adds a new union of intersections to this concept containg an intersection
-     * of relations created using given relation types (fw+bw) and given relation objects
+     * Adds a new intersection of relation chains to this concept
+     * created using given relation types (fw+bw) and given relation objects
      * @param rTypeForward list of forward types of relations
      * @param rTypeBackward list of backward types of relations
      * @param obj list of concepts to be used as objects
      */
     public void addRelation(List<String> rTypeForward, List<String> rTypeBackward, List<Concept> obj)
     {
-        //UnionOfIntersections union = new UnionOfIntersections();
         IntersectionOfRelationChains inter = new IntersectionOfRelationChains();
         for (int i = 0; i < rTypeForward.size(); i++)
         {
@@ -630,314 +611,9 @@ public class Concept implements Serializable
             rChain.addRelation(rel, 0);
             inter.addRelationChain(rChain);
         }
-        //union.addIntersection(inter);
-        //this.addIntersectionOfRelationChains(inter);
+        this.addIntersectionOfRelationChains(inter);
     }
 
-//    /**
-//     * Gets all unions of intersections for this concept by adding the unions of
-//     * intresections that have it as the owner and creating unions of intersections
-//     * for each relation that has this concept as object
-//     * @return list of UnionOfIntersections
-//     */
-//    public List<UnionOfIntersections> getAllRelations() {
-//        List <UnionOfIntersections> res = new ArrayList<UnionOfIntersections>();
-//        res.addAll(relations);
-//
-//        RelationDao rDao = new RelationDaoImpl();
-//        res.addAll(rDao.getObjRelations(this));
-//
-//        Concept tmp = null;
-//        for (int i = 0; i < res.size(); i++)
-//        {
-//            UnionOfIntersections union = res.get(i);
-//            for(int j=0; j<union.getIntersections().size(); j++)
-//            {
-//                IntersectionOfRelations inter = union.getIntersections().get(j);
-//                for (int k = 0; k < inter.getIntersectionsOfRelationChains().size(); k++)
-//                {
-//                    RelationChain relCh = inter.getIntersectionsOfRelationChains().get(k);
-//                    for (int l = 0; l<relCh.getRelations().size(); l++)
-//                    {
-//                        for (int m = 0; m < relCh.getRelations().size(); m++)
-//                        {
-//                            if (l == relCh.getRelations().get(m).relationOrder)
-//                            {
-//                                if (l == 0)
-//                                {
-//                                    if (relCh.getRelations().get(m).getRelation().getObject().equals(this))
-//                                    {
-//                                        Relation t = new Relation();
-//
-//                                        t.setObject(relCh.getRelations().get(m).getRelation().getSubject());
-//                                        t.setSubject(this);
-//                                        TypeOfRelation.RELATION_NAME tmpStr = relCh.getRelations().get(m).getRelation().getType().getBackwardName();
-//                                        t.getType().setBackwardName(relCh.getRelations().get(m).getRelation().getType().getForwardName());
-//                                        t.getType().setForwardName(tmpStr);
-//                                        relCh.getRelations().get(m).setRelation(t);
-//                                    }
-//                                    tmp = relCh.getRelations().get(m).getRelation().getObject();
-//                                }
-//                                else
-//                                {
-//                                    if (relCh.getRelations().get(m).getRelation().getObject().equals(tmp))
-//                                    {
-//                                        Relation t = new Relation();
-//                                        t.setObject(relCh.getRelations().get(m).getRelation().getSubject());
-//                                        t.setSubject(tmp);
-//                                         TypeOfRelation.RELATION_NAME tmpStr = relCh.getRelations().get(m).getRelation().getType().getBackwardName();
-//                                        t.getType().setBackwardName(relCh.getRelations().get(m).getRelation().getType().getForwardName());
-//                                        t.getType().setForwardName(tmpStr);
-//                                        relCh.getRelations().get(m).setRelation(t);
-//                                    }
-//                                    tmp = relCh.getRelations().get(m).getRelation().getObject();
-//                                }
-//                                break;
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//
-//        //remove double entries
-//        for(int i = 0; i < res.size(); i++)
-//        {
-//            if (res.get(i).getIntersections().size() == 1)
-//            {
-//                if (res.get(i).getIntersections().get(0).relations.size() == 1)
-//                {
-//                    if (res.get(i).getIntersections().get(0).relations.get(0).getRelations().size() == 1)
-//                    {
-//                        boolean removeR = false;
-//                        Relation r = res.get(i).getIntersections().get(0).relations.get(0).getActualRelations().get(0);
-//                        for (int j = 0; j < res.size(); j++)
-//                        {
-//                            if(j == i)
-//                            {
-//                                continue;
-//                            }
-//                            List<IntersectionOfRelations> inter = res.get(j).getIntersections();
-//                            for (int k = 0; k < inter.size(); k++)
-//                            {
-//                                for (int l = 0; l < inter.get(k).getRelations().size(); l++)
-//                                {
-//                                    for (int m = 0; m < inter.get(k).getRelations().get(l).getRelations().size(); m++)
-//                                    {
-//                                        if (inter.get(k).getRelations().get(l).getRelations().get(m).getRelationOrder() == 0)
-//                                        {
-//                                            if(inter.get(k).getRelations().get(l).getRelations().get(m).getRelation().equals(r))
-//                                            {
-//                                                removeR = true;
-//                                            }
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//
-//                        if(removeR)
-//                        {
-//                            res.remove(i);
-//                            i--;
-//                        }
-//                    }
-//                }
-//            }
-//
-//        }
-//        return res;
-//    }
-//
-//
-//    /**
-//     * Gets all values (connected with has_value) of this concept excluding
-//     * the concepts in a given list
-//     * @param stack a list of concepts to exclude
-//     * @return list of concepts
-//     */
-//    public List<Concept> getValue(List<Concept> stack)
-//    {
-//        List<Concept> res = new ArrayList<Concept>();
-//        List<UnionOfIntersections> unions = this.getAllRelations();
-//        for (int i = 0; i < unions.size(); i++)
-//        {
-//            UnionOfIntersections union = unions.get(i);
-//            for (int j =0; j < union.getIntersections().size(); j++)
-//            {
-//                IntersectionOfRelations inter = union.getIntersections().get(j);
-//                if (inter.getIntersectionsOfRelationChains().size() == 1)
-//                {
-//                    RelationChain rc = inter.getIntersectionsOfRelationChains().get(0);
-//                    if (rc.getRelations().size() == 1)
-//                    {
-//                        Relation rel = rc.getRelations().get(0).getRelation();
-//                        if (rel.getType().getForwardName() == TypeOfRelation.RELATION_NAME.HAS_VALUE ||
-//                                rel.getType().getBackwardName() == TypeOfRelation.RELATION_NAME.HAS_VALUE)
-//                        {
-//                            Concept tmp = rel.getObject();
-//                            if (tmp.equals(this))
-//                            {
-//                                tmp = rel.getSubject();
-//                            }
-//                            if (tmp.getStatus().name().equalsIgnoreCase("variable") &&
-//                                    !stack.contains(tmp))
-//                            {
-//                                stack.add(tmp);
-//                                res.addAll(tmp.getValue(stack));
-//                                stack.remove(tmp);
-//                            }
-//                            else
-//                            {
-//                                res.add(tmp);
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        return res;
-//    }
-//
-//    /**
-//     * Gets all concept related to this concept, using this concepts all unions of
-//     * intersections and object unions of intersections
-//     * @return list of concepts
-//     */
-//    public List<Concept> getConceptsRelatedWith() {
-//        List <Concept> concepts = new ArrayList<Concept>();
-//
-//        List <IntersectionOfRelationChains> res = new ArrayList<IntersectionOfRelationChains>();
-//        res.addAll(IntersectionsOfRelationChains);
-//
-//        RelationDao rDao = new RelationDaoImpl();
-//        res.addAll(rDao.getObjRelations(this));
-//
-//        Concept tmp = null;
-//        for (int i = 0; i < res.size(); i++)
-//        {
-//                IntersectionOfRelationChains inter = res.get(i);
-//                for (int k = 0; k < inter.   .getIntersectionsOfRelationChains().size(); k++)
-//                {
-//                    RelationChain relCh = inter.getIntersectionsOfRelationChains().get(k);
-//                    for (int l = 0; l<relCh.getRelations().size(); l++)
-//                    {
-//                        for (int m = 0; m < relCh.getRelations().size(); m++)
-//                        {
-//                            if (l == relCh.getRelations().get(m).relationOrder)
-//                            {
-//                                Relation rel = relCh.getRelations().get(m).getRelation();
-//                                if (!rel.getObject().equals(this))
-//                                {
-//                                    if (!concepts.contains(rel.getObject()))
-//                                    {
-//                                        concepts.add(rel.getObject());
-//                                    }
-//                                }
-//                                if (!rel.getSubject().equals(this))
-//                                {
-//                                    if (!concepts.contains(rel.getSubject()))
-//                                    {
-//                                        concepts.add(rel.getSubject());
-//                                    }
-//                                }
-//                                break;
-//                            }
-//                        }
-//                }
-//            }
-//        }
-//        return concepts;
-//    }
-//
-//    /**
-//     * Gets all relations that belong to unions of intersections of this concept
-//     * and have this concept as subject or object (relations reversed if object)
-//     * @return list of relations
-//     */
-//    public List<Relation> getRelatedConceptsSingle()
-//    {
-//         List <Relation> res = new ArrayList<Relation>();
-//         for (int i = 0; i < this.getIntersectionsOfRelationChains().size(); i++)
-//         {
-//             UnionOfIntersections union = this.getIntersectionsOfRelationChains().get(i);
-//
-//             for (int j =0; j < union.getIntersections().size(); j++ )
-//             {
-//                 IntersectionOfRelations inter = union.getIntersections().get(j);
-//
-//                 for (int k = 0; k < inter.getIntersectionsOfRelationChains().size(); k ++ )
-//                 {
-//                     RelationChain rChain = inter.getIntersectionsOfRelationChains().get(k);
-//
-//                     List<Relation> rels = rChain.getActualRelations();
-//                     for(int l = 0; l < rels.size(); l ++)
-//                     {
-//                         Relation r = rels.get(l);
-//                         Relation tmpRel = new Relation();
-//                         if (r.getSubject() == this)
-//                         {
-//                             tmpRel.setSubject(r.getSubject());
-//                             tmpRel.setObject(r.getObject());
-//                             tmpRel.setType(r.getType());
-//
-//                             res.add(tmpRel);
-//                         }
-//                         else
-//                         {
-//                             tmpRel.setSubject(r.getObject());
-//                             tmpRel.setObject(r.getSubject());
-//                             TypeOfRelation reverseType = new TypeOfRelation();
-//                             reverseType.setForwardName(r.getType().getBackwardName());
-//                             reverseType.setBackwardName(r.getType().getForwardName());
-//                             tmpRel.setType(reverseType);
-//                             res.add(tmpRel);
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//         return res;
-//    }
-//
-//    /**
-//     * Gets all relations that belong to unions of intersections of this concept
-//     * and have this concept as subject or object (relations reversed if object)
-//     * and creates a union of intersections for each of them
-//     * @return list of UnionOfIntersections
-//     */
-//    public List<UnionOfIntersections> getAllRelationsSingle() {
-//        List <UnionOfIntersections> res = new ArrayList<UnionOfIntersections>();
-//        List <UnionOfIntersections> tmp = this.getAllRelations();
-//        for (int i = 0; i < tmp.size(); i++)
-//        {
-//            for (int j = 0; j < tmp.get(i).getIntersections().size(); j++)
-//            {
-//                IntersectionOfRelations inter = tmp.get(i).getIntersections().get(j);
-//                for (int k = 0; k < inter.getIntersectionsOfRelationChains().size(); k++)
-//                {
-//                    RelationChain rc = inter.getIntersectionsOfRelationChains().get(k);
-//
-//                    for (int l = 0; l <rc.getRelations().size(); l++)
-//                    {
-//                        Relation r = rc.getRelations().get(l).getRelation();
-//                        RelationChain tmpRC = new RelationChain();
-//                        tmpRC.addRelation(r, 0);
-//                        IntersectionOfRelations tmpInter = new IntersectionOfRelations();
-//                        tmpInter.addRelationChain(rc);
-//                        UnionOfIntersections tmpUnion = new UnionOfIntersections();
-//                        tmpUnion.addIntersection(tmpInter);
-//                        res.add(tmpUnion);
-//                    }
-//                }
-//            }
-//        }
-//        return res;
-//    }
-//    public void setRelations(List<UnionOfIntersections> relations) {
-//        this.relations = relations;
-//    }
-//
     public void addIntersectionOfRelationChains(IntersectionOfRelationChains intersection)
     {
         intersection.setConcept(this);
@@ -974,23 +650,6 @@ public class Concept implements Serializable
     {
         this.Name = name.trim();
     }
-
-
-
-// This already exists in line 289.
-//
-//    /**
-//     * @xmlcomments.args
-//     *	   xmltag="&lt;language_representation&gt;"
-//     *     xmldescription="This tag defines the Language Representation of the
-//     *     concept"
-//     */
-//    @XmlElement(name="language_representation")
-//    public List<LanguageRepresentation> getLanguageRepresentation()
-//    {
-//        return LanguageRepresentations;
-//    }
-
 
     @XmlAttribute
     public Long getId()
