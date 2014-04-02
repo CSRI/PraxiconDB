@@ -178,6 +178,7 @@ public class Concept implements Serializable
 
 
     // Public Constructor
+    
     public Concept()
     {
         Name = null;
@@ -318,7 +319,7 @@ public class Concept implements Serializable
 
     /**
      * @xmlcomments.args
-     *	   xmltag="&lt;mr&gt;"
+     *	   xmltag="&lt;motoric_representation&gt;"
      *     xmldescription="This tag defines the motoric representation"
      */
     @XmlElement(name="mr")
@@ -350,7 +351,7 @@ public class Concept implements Serializable
 
     /**
      * @xmlcomments.args
-     *	   xmltag="&lt;vr&gt;"
+     *	   xmltag="&lt;visual_representation&gt;"
      *     xmldescription="This tag defines the Visual Representation of the
      *     concept"
      */
@@ -420,6 +421,22 @@ public class Concept implements Serializable
         this.Source = source;
     }
 
+        /**
+     * @xmlcomments.args
+     *	   xmltag="&lt;unique_instance&gt;"
+     *     xmldescription="This tag defines the source of the concept (from which
+     *          resources was generated (for example: Wordnet)"
+     */
+    @XmlElement(name="unique_instance")
+    public unique_instance getUniqueInstance()
+    {
+        return UniqueInstance;
+    }
+
+    public void setUniqueInstance(unique_instance unique_instance)
+    {
+        this.UniqueInstance = unique_instance;
+    }
 
     @XmlElement(name="comment")
     public String getComment()
@@ -614,6 +631,10 @@ public class Concept implements Serializable
         this.addIntersectionOfRelationChains(inter);
     }
 
+    /**
+     * Adds a new intersection of relation chains to this concept
+     * @param intersection ready-made intersection of relation chains
+     */
     public void addIntersectionOfRelationChains(IntersectionOfRelationChains intersection)
     {
         intersection.setConcept(this);
@@ -636,6 +657,9 @@ public class Concept implements Serializable
             return Id+"";
     }
 
+    /**
+     * Gets the name of the concepts without the funny numbers at the end.
+     */
     public String getNameNoNumbers()
     {
         if (Name!=null)
@@ -762,7 +786,7 @@ public class Concept implements Serializable
     }
 
     /**
-     * Updates LanguageRepresentation of a concept using this concept LanguageRepresentation
+     * Updates LanguageRepresentation of a concept using this concept's LanguageRepresentation
      * @param oldCon the concept to be updated
      */
     public void updateLanguageRepresentations(Concept oldCon)
