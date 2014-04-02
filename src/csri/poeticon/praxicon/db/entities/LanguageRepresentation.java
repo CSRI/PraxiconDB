@@ -5,6 +5,7 @@
 
 package csri.poeticon.praxicon.db.entities;
 import csri.poeticon.praxicon.Constants;
+import csri.poeticon.praxicon.db.entities.Constituents;
 import csri.poeticon.praxicon.Globals;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -152,12 +154,12 @@ public class LanguageRepresentation implements Serializable
     private List<IntersectionOfRelationChains> LanguageRepresentationIntersections;
 
     // Foreign key
-    @ManyToOne(cascade=CascadeType.ALL)
-    private Constituents LanguageRepresentationConstituents;
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "ConstituentLanguageRepresentation")
+    private List<Constituents> LanguageRepresentationConstituents;
 
     // Foreign key
-    @ManyToOne(cascade=CascadeType.ALL)
-    private Constituents Constituents;
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "LanguageRepresentation")
+    private List<Constituents> Constituents;
 
     // Foreign key
     @ManyToOne(cascade=CascadeType.ALL)
@@ -168,23 +170,33 @@ public class LanguageRepresentation implements Serializable
         language_representations = new ArrayList<LanguageRepresentation>();
     }
 
-//    /**
-//     * @xmlcomments.args
-//     *	   xmltag="&lt;compositeWords&gt;"
-//     *     xmldescription="This tag defines the composite words"
-//     */
-//
-// Commented until the new structure becomes effective
-//    @XmlElement()
-//  public String getCompositeWords()
-//    {
-//        return composite_words;
-//    }
+    /**
+     * @xmlcomments.args
+     *	   xmltag="&lt;constituents&gt;"
+     *     xmldescription="This tag defines the constituents of a composite word or multiword"
+     */
+    @XmlElement()
+    public List<Constituents> getConstituents()
+    {
+        List<Constituents> constituents = new ArrayList<Constituents>();
+        if (this.IsCompositional == is_compositional.YES)
+            {
+                for (int i=0; i < Constituents.size(); i++)
+                {
+                    constituents.add(Constituents.get(i));
+                }           
+            }
+        else
+            {
+                constituents = null;
+            }
+        return constituents;
+    }
 
-//    public void setCompositeWords(String composite_words)
-//    {
-//        this.composite_words = composite_words;
-//    }
+    public void setConstituents(List<Constituents> constituents)
+    {
+        this.Constituents = constituents;
+    }
 //
 //        /**
 //     * @xmlcomments.args
