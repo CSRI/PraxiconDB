@@ -197,23 +197,23 @@ public class LanguageRepresentation implements Serializable
     {
         this.Constituents = constituents;
     }
-//
-//        /**
-//     * @xmlcomments.args
-//     *	   xmltag="&lt;multiword&gt;"
-//     *     xmldescription="This tag defines if the LanguageRepresentation is multiword or not"
-//     */
-//    @XmlElement()
-//    public boolean isMultiword()
-//    {
-//        return multiword;
-//    }
-//
-//    public void setMultiword(boolean multiword)
-//    {
-//        this.multiword = multiword;
-//    }
-//
+
+    /**
+     * @xmlcomments.args
+     *	   xmltag="&lt;is_compositional&gt;"
+     *     xmldescription="This tag defines if the LanguageRepresentation is compositional or not"
+     */
+    @XmlElement()
+    public is_compositional isCompositional()
+    {
+        return IsCompositional;
+    }
+
+    public void setCompositional(is_compositional is_compositional)
+    {
+        this.IsCompositional = is_compositional;
+    }
+
 
     /**
      * @xmlcomments.args
