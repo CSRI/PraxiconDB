@@ -210,7 +210,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
         oldCon.setPragmaticStatus(newCon.getPragmaticStatus());
         oldCon.setStatus(newCon.getStatus());
         oldCon.setSpecificityLevel(newCon.getSpecificityLevel());
-        oldCon.setDescription(newCon.getDescription());
+        oldCon.setComment(newCon.getComment());
 
         updateLanguageRepresentations(newCon, oldCon);
         updateVisualRepresentations(newCon, oldCon);
@@ -261,9 +261,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
             }
 
             oldCon.setSpecificityLevel(newCon.getSpecificityLevel());
-            if (oldCon.getDescription() == null || oldCon.getDescription().equalsIgnoreCase("") || oldCon.getDescription().equalsIgnoreCase("Unknown"))
+            if (oldCon.getComment() == null || oldCon.getComment().equalsIgnoreCase("") || oldCon.getComment().equalsIgnoreCase("Unknown"))
             {
-                oldCon.setDescription(newCon.getDescription());
+                oldCon.setComment(newCon.getComment());
             }
             if (newCon.getSource()!=null && !newCon.getSource().isEmpty()) {
                 oldCon.setSource(newCon.getSource());
@@ -338,9 +338,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
                 oldCon.setStatus(newCon.getStatus());
             }
                 oldCon.setSpecificityLevel(newCon.getSpecificityLevel());
-            if (oldCon.getDescription() == null || oldCon.getDescription().equalsIgnoreCase("") || oldCon.getDescription().equalsIgnoreCase("Unknown"))
+            if (oldCon.getComment() == null || oldCon.getComment().equalsIgnoreCase("") || oldCon.getComment().equalsIgnoreCase("Unknown"))
             {
-                oldCon.setDescription(newCon.getDescription());
+                oldCon.setComment(newCon.getComment());
             }
             updateVisualRepresentations(newCon, oldCon);
             updateMotoricRepresentations(newCon, oldCon);
