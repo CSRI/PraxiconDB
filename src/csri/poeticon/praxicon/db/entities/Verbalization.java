@@ -40,6 +40,7 @@ public class Verbalization implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
     @Column(name="VerbalizationId")
     private Long Id;
