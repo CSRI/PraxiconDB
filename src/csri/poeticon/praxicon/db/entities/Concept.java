@@ -8,17 +8,9 @@ package csri.poeticon.praxicon.db.entities;
 import csri.poeticon.praxicon.Constants;
 import csri.poeticon.praxicon.Globals;
 import csri.poeticon.praxicon.db.dao.ConceptDao;
-import csri.poeticon.praxicon.db.dao.RelationDao;
-import csri.poeticon.praxicon.db.dao.LanguageRepresentationDao;
 import csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
-import csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
-import csri.poeticon.praxicon.db.dao.implSQL.LanguageRepresentationDaoImpl;
 import csri.poeticon.praxicon.db.entities.listeners.ConceptListener;
-import csri.poeticon.praxicon.db.entities.validators.ConstantConcepts;
-import csri.poeticon.praxicon.db.entities.validators.ConceptValidator;
 import java.io.Serializable;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -118,7 +110,7 @@ public class Concept implements Serializable
     protected Long Id;
 
     @Column(name="Name")
-    //@Size(min = 5, max = 14)
+    @Size(min = 5, max = 14)
     @NotNull(message="Concept name must be specified.")
     String Name;
 
@@ -155,7 +147,7 @@ public class Concept implements Serializable
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
-        name="Concept_LanguageRepresentation",
+        name="Concepts_LanguageRepresentations",
         joinColumns={@JoinColumn(name="LanguageRepresentationId")},
         inverseJoinColumns={@JoinColumn(name="ConceptId")}
     )
@@ -206,7 +198,6 @@ public class Concept implements Serializable
         RelationsContainingConceptAsObject =  new ArrayList<Relation>();
         IntersectionsOfRelationChains = new ArrayList<IntersectionOfRelationChains>();
 
-    
         for(int i = 0; i < newConcept.getLanguageRepresentations().size(); i++)
         {
             if (!this.getLanguageRepresentations().contains(newConcept.getLanguageRepresentations().get(i)))
