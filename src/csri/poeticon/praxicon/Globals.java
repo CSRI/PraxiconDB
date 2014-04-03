@@ -16,7 +16,7 @@ public class Globals {
     /**
      * The jpaPU string
      */
-    public static String JpaPU = "testingJPAwithXMLPU";
+    public static String JpaPU = "PraxiconDBPU";
 
     /**
      * Flag to mark if the objects that have been loaded from an xml are going to
