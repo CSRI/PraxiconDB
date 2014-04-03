@@ -91,7 +91,7 @@ public class Relation implements Serializable
     @Enumerated(EnumType.STRING)
     protected derivation_supported DerivationSupported;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="RelationsWithLanguageRepresentationAsSubject")
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         name="LanguageRepresentation_RelationSubject",
         joinColumns={@JoinColumn(name="RelationId")},
@@ -99,7 +99,7 @@ public class Relation implements Serializable
     )
     private List<LanguageRepresentation> LanguageRepresentationSubject;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="RelationsWithLanguageRepresentationAsObject")
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         name="LanguageRepresentation_RelationObject",
         joinColumns={@JoinColumn(name="RelationId")},
@@ -107,7 +107,7 @@ public class Relation implements Serializable
     )
     private List<LanguageRepresentation> LanguageRepresentationObject;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="RelationsWithMotoricRepresentationAsSubject")
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         name="MotoricRepresentation_RelationSubject",
         joinColumns={@JoinColumn(name="RelationId")},
@@ -115,7 +115,7 @@ public class Relation implements Serializable
     )
     private List<MotoricRepresentation> MotoricRepresentationSubject;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="RelationsWithMotoricRepresentationAsObject")
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         name="MotoricRepresentation_RelationObject",
         joinColumns={@JoinColumn(name="RelationId")},
@@ -123,7 +123,7 @@ public class Relation implements Serializable
     )
     private List<MotoricRepresentation> MotoricRepresentationObject;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="RelationsWithVisualRepresentationAsSubject")
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         name="VisualRepresentation_RelationSubject",
         joinColumns={@JoinColumn(name="RelationId")},
@@ -131,7 +131,7 @@ public class Relation implements Serializable
     )
     private List<VisualRepresentation> VisualRepresentationSubject;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="RelationsWithVisualRepresentationAsObject")
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         name="VisualRepresentation_RelationObject",
         joinColumns={@JoinColumn(name="RelationId")},
