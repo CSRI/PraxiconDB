@@ -4,8 +4,6 @@
  */
 
 package csri.poeticon.praxicon.db.entities;
-import csri.poeticon.praxicon.Constants;
-import csri.poeticon.praxicon.db.entities.Constituents;
 import csri.poeticon.praxicon.Globals;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -113,9 +111,9 @@ public class LanguageRepresentation implements Serializable
     @Column(name="Comment")
     private String Comment;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="LanguageRepresentations")
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
-        name="Concept_LanguageRepresentation",
+        name="Concepts_LanguageRepresentations",
         joinColumns={@JoinColumn(name="ConceptId")},
         inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
     )
@@ -145,7 +143,7 @@ public class LanguageRepresentation implements Serializable
     )
     private List<RelationChain> LanguageRepresentationRelationChains;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="LanguageRepresentationNames")
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         name="LanguageRepresentation_IntersectionOfRelationChains",
         joinColumns={@JoinColumn(name="IntersectionOfRelationChainsId")},
