@@ -5,10 +5,6 @@
 
 package csri.poeticon.praxicon.db.entities;
 
-import csri.poeticon.praxicon.Constants;
-import csri.poeticon.praxicon.Globals;
-import csri.poeticon.praxicon.db.dao.LanguageRepresentationDao;
-import csri.poeticon.praxicon.db.dao.implSQL.LanguageRepresentationDaoImpl;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,29 +38,30 @@ public class RelationChain implements Serializable
 {
     private static final long serialVersionUID = 1L;
     @Id
-    @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
+    @Column(name="RelationChainId", nullable=false)
+    @SequenceGenerator(name="CUST_SEQ", sequenceName="RelationChainIdSeq",  allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
-    @Column(name="RelationChainId")
+
     private Long Id;
 
     @Column(name="Name")
     String name="";
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="RelationChains")
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
-    name="Intersection_Relation",
-    joinColumns={@JoinColumn(name="RelationId")},
-    inverseJoinColumns={@JoinColumn(name="IntersectionId")}
+        name="Intersection_Relation",
+        joinColumns={@JoinColumn(name="RelationId")},
+        inverseJoinColumns={@JoinColumn(name="IntersectionId")}
     )
     private List<IntersectionOfRelationChains> IntersectionsOfRelationChains;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "RelationChain")
     private List<RelationChain_Relation> Relations;
 
-    @ManyToMany(cascade=CascadeType.ALL, mappedBy="LanguageRepresentationRelationChains")
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
         name="LanguageRepresentation_RelationChain",
-        joinColumns={@JoinColumn(name="ChainId")},
+        joinColumns={@JoinColumn(name="RelationChainId")},
         inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
     )
     List<LanguageRepresentation> LanguageRepresentationNames;
@@ -117,57 +114,6 @@ public class RelationChain implements Serializable
     {
         this.LanguageRepresentationNames = language_representation_names;
     }
-
-// TODO: Obsolete???
-//    private void setLanguageRepresentationNames_(List<String> v) throws Exception
-//    {
-//        for (int i = 0; i < v.size(); i++)
-//        {
-//            if (Globals.ToMergeAfterUnMarshalling)
-//            {
-//                LanguageRepresentationGroupDao lrgDao = new LanguageRepresentationGroupDaoImpl();
-//                List<LanguageRepresentationGroup> lrg = lrgDao.findAllByName(v.get(i).trim());
-//                if(lrg!=null && lrg.isEmpty()&&Constants.globalConcepts.get(v.get(i).trim())!=null)
-//                {
-//                    lrg.add((LanguageRepresentationGroup)Constants.globalConcepts.get(v.get(i).trim()));
-//                }
-//                if (lrg!=null && !lrg.isEmpty())
-//                {
-//                    language_representation_names.addAll(lrg);
-//                    for(int j  = 0; j < lrg.size(); j++)
-//                    {
-//                        lrg.get(j).getLRRelationChains().add(this);
-//                    }
-//                }
-//                else
-//                {
-//                    LanguageRepresentationGroup c = new LanguageRepresentationGroup();
-//
-//                    c.setName(v.get(i));
-//                    c.getLRRelationChains().add(this);
-//                    lrgDao.persist(c);
-//                    language_representation_names.add(c);
-//                }
-//
-//             }
-//             else
-//             {
-//                LanguageRepresentation c = new LanguageRepresentation();
-//                c.setText(v.get(i));
-//                c.getLanguageRepresentationRelationChains().add(this);
-//                if (Constants.globalConcepts.contains(c))
-//                {
-//                    language_representation_names.add((LanguageRepresentation)Constants.globalConcepts.get(c.getText()));
-//                }
-//                else
-//                {
-//                    language_representation_names.add(c);
-//                    Constants.globalConcepts.put(c.getText(), c);
-//                }
-//
-//             }
-//        }
-//    }
 
     /**
      * @xmlcomments.args
@@ -238,8 +184,6 @@ public class RelationChain implements Serializable
         hash += (Id != null ? Id.hashCode() : 0);
         return hash;
     }
-
-
 
     @Override
     public boolean equals(Object object)
