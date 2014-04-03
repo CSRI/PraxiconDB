@@ -21,7 +21,7 @@ public class EntityMngFactory {
     private static EntityManager em = null;
 
     /**
-     * It was used by the singleton pattern, but we dind't use this pattern after all
+     * It was used by the singleton pattern, but we didn't use this pattern after all
      */
     private static void createEntityMngFactory()
     {
@@ -30,7 +30,7 @@ public class EntityMngFactory {
     }
 
     /**
-     * The constuctor
+     * The constructor
      */
     private EntityMngFactory()
     {
@@ -38,7 +38,7 @@ public class EntityMngFactory {
     }
 
     /**
-     * It was used by the singleton pattern, but we dind't use this pattern after all
+     * It was used by the singleton pattern, but we didn't use this pattern after all
      */
     public static void restart()
     {
