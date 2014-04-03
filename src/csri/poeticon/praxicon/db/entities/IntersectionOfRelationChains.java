@@ -5,7 +5,6 @@
 
 package csri.poeticon.praxicon.db.entities;
 
-import csri.poeticon.praxicon.Constants;
 import csri.poeticon.praxicon.Globals;
 import csri.poeticon.praxicon.db.dao.RelationChainDao;
 import csri.poeticon.praxicon.db.dao.implSQL.RelationChainDaoImpl;
@@ -70,9 +69,9 @@ public class IntersectionOfRelationChains implements Serializable
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
-    name="Intersection_Relation",
-    joinColumns={@JoinColumn(name="IntersectionId")},
-    inverseJoinColumns={@JoinColumn(name="RelationId")}
+        name="Intersection_Relation",
+        joinColumns={@JoinColumn(name="IntersectionId")},
+        inverseJoinColumns={@JoinColumn(name="RelationId")}
     )
     private List<RelationChain> RelationChains;
 
@@ -133,56 +132,6 @@ public class IntersectionOfRelationChains implements Serializable
     {
         this.LanguageRepresentationNames = language_representation_names;
     }
-
-//    private void setLanguageRepresentationNames_(List<String> v) throws Exception
-//    {
-//        for (int i = 0; i < v.size(); i++)
-//        {
-//            if (Globals.ToMergeAfterUnMarshalling)
-//            {
-//                LanguageRepresentationGroupDao lrgDao = new LanguageRepresentationGroupDaoImpl();
-//                List<LanguageRepresentationGroup> lrg = lrgDao.findAllByName(v.get(i).trim());
-//                if(lrg!=null && lrg.isEmpty()&&Constants.globalConcepts.get(v.get(i).trim())!=null)
-//                {
-//                    lrg.add((LanguageRepresentationGroup)Constants.globalConcepts.get(v.get(i).trim()));
-//                }
-//                if (lrg!=null && !lrg.isEmpty())
-//                {
-//                    language_representation_names.addAll(lrg);
-//                    for(int j  = 0; j < lrg.size(); j++)
-//                    {
-//                        lrg.get(j).getLanguageRepresentationIntersections().add(this);
-//                    }
-//                }
-//                else
-//                {
-//                    LanguageRepresentation c = new LanguageRepresentation();
-//
-//                    c.setText(v.get(i));
-//                    c.getLanguageRepresentationIntersections().add(this);
-//                    lrgDao.persist(c);
-//                    language_representation_names.add(c);
-//                }
-//
-//             }
-//             else
-//             {
-//                LanguageRepresentation c = new LanguageRepresentation();
-//                c.setText(v.get(i));
-//                c.getLanguageRepresentationIntersections().add(this);
-//                if (Constants.globalConcepts.contains(c))
-//                {
-//                    language_representation_names.add((LanguageRepresentation)Constants.globalConcepts.get(c.getText()));
-//                }
-//                else
-//                {
-//                    language_representation_names.add(c);
-//                    Constants.globalConcepts.put(c.getText(), c);
-//                }
-//
-//             }
-//        }
-//    }
 
     public void addRelationChain(RelationChain rc)
     {
