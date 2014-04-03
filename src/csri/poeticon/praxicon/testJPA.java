@@ -5,17 +5,16 @@ import csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
 import csri.poeticon.praxicon.db.entities.Concept;
 import csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains;
 import csri.poeticon.praxicon.db.entities.LanguageRepresentation;
-import csri.poeticon.praxicon.db.entities.MotoricRepresentation;
 import csri.poeticon.praxicon.db.entities.Relation;
 import csri.poeticon.praxicon.db.entities.RelationChain;
 import csri.poeticon.praxicon.db.entities.RelationType;
 import csri.poeticon.praxicon.db.entities.VisualRepresentation;
-import java.util.List;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
@@ -29,6 +28,7 @@ import org.junit.BeforeClass;
  * An XML of how we can create new concepts in the db, without using XMLs. Some
  * parts are obsolete
  */
+
 public class testJPA {
     private static Validator validator;
     @BeforeClass
@@ -36,9 +36,8 @@ public class testJPA {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
     }
-
     
-    private static final String PERSISTENCE_UNIT_NAME = "testingJPAwithXMLPU";
+    private static final String PERSISTENCE_UNIT_NAME = "PraxiconDBPU";
     private EntityManagerFactory factory;
 
     public static void main(String args[])
@@ -47,9 +46,24 @@ public class testJPA {
         /*
          * Creating an entity
          */
-        Concept con = new Concept();
+        Concept concept1 = new Concept();
+        concept1.setName("concept1");
+        concept1.setConceptType(Concept.type.ABSTRACT);
+        concept1.setStatus(Concept.status.CONSTANT);
+        concept1.setPragmaticStatus(Concept.pragmatic_status.FIGURATIVE);
+        concept1.setUniqueInstance(Concept.unique_instance.YES);
+        System.out.println(concept1);
+//        try{
+
+            //System.out.println("Size constraint violated.");
+//        }
+//        catch (java.lang.NullPointerException e)
+//        {
+//            System.out.println("Null pointer. No violation?");
+//        }
+
         //All concepts should have a name
-        con.setName("testConcept2");
+
 
         //////////////////////
         // How to add an LR //
@@ -73,7 +87,7 @@ public class testJPA {
 
         //4.) add the Language Representation to the Concept
         for (int i=0; i<2; i++){
-            con.getLanguageRepresentations().add(lr.get(i));
+            concept1.getLanguageRepresentations().add(lr.get(i));
         }
 
         //////////////////////////
@@ -94,11 +108,17 @@ public class testJPA {
         //4.c) set the object and the subject of the relation
         //(if the concepts do not exist you should create them -just set their name
         //the name should be unique -it works like their ID)
-        Concept objectTest = new Concept();
-        objectTest.setName("objectTestConcept");
+        Concept concept2 = new Concept();
+        concept2.setName("concept2");
+        concept2.setConceptType(Concept.type.MOVEMENT);
+        concept2.setStatus(Concept.status.VARIABLE);
+        concept2.setUniqueInstance(Concept.unique_instance.NO);
+        concept2.setPragmaticStatus(Concept.pragmatic_status.LITERAL);
+        
 
-        r1.setObject(objectTest);
-        r1.setSubject(con);
+        r1.setObject(concept2);
+        r1.setSubject(concept1);
+        r1.setDerivation(Relation.derivation_supported.YES);
         //5.) Add the relation to the chain
         //the second argument is the order of the relation in the chain
         rChain.addRelation(r1, 0);
@@ -115,7 +135,15 @@ public class testJPA {
         VisualRepresentation vr =new VisualRepresentation();
         vr.setRepresentation("this is a test VR");
         vr.setMediaType(VisualRepresentation.media_type.IMAGE);
-        con.addVisualRepresentation(vr);
+        URI new_uri = null;
+        try{
+            new_uri = new URI("https://www.google.com/");
+        }
+        catch (URISyntaxException error_uri) {
+            System.out.println("caught URI error");
+        };
+        vr.setURI(new_uri);
+        concept1.addVisualRepresentation(vr);
         //Adding a relation
         //1.) create the TypeOfRelation (or use an existing 1)
         RelationType type = new RelationType();
@@ -125,11 +153,11 @@ public class testJPA {
         // Object for the relation)
         Relation rel = new Relation();
         rel.setType(type);
-        rel.setObject(con);
+        rel.setObject(concept1);
         // here is an example for another relation
         Relation rel2 = new Relation();
         rel2.setType(type);
-        rel2.setObject(objectTest);
+        rel2.setObject(concept2);
         //3.) create the relation chain
         RelationChain rc = new RelationChain();
         //there should be in the correct order (the order counter must start from 0)
@@ -139,22 +167,27 @@ public class testJPA {
         IntersectionOfRelationChains inter1 = new IntersectionOfRelationChains();
         inter1.addRelationChain(rc);
         // 5.) add the intersection to the concept
-        con.addIntersectionOfRelationChains(inter);
+        concept1.addIntersectionOfRelationChains(inter);
         // Causes java.lang.StackOverflowError
-        //objectTest.addIntersectionOfRelationChains(inter1);
-        try{
-            Set<ConstraintViolation<Concept>> constraintViolations = validator.validate(con);
-            System.out.println("Size constraint violated.");
-        }
-        catch (java.lang.NullPointerException e)
-        {
-            System.out.println("No violation.");
-        }
+        //concept2.addIntersectionOfRelationChains(inter1);
+
         // 6.) create the Concept_UnionRelation
         // here you should determine if the union is describing the basic use of
         // the object or how important is this use for the entity
-        ConceptDao conceptDaoDao = new ConceptDaoImpl();
-        conceptDaoDao.merge(con);
+        concept1.setConceptType(Concept.type.ABSTRACT);
+        concept1.setPragmaticStatus(Concept.pragmatic_status.FIGURATIVE);
+        concept1.setStatus(Concept.status.VARIABLE);
+        concept1.setUniqueInstance(Concept.unique_instance.YES);
+        
+        ConceptDao new_concept_dao = new ConceptDaoImpl();
+        new_concept_dao.merge(concept1);
+
+//        Set<ConstraintViolation<csri.poeticon.praxicon.db.entities.Concept>> constraintViolations;
+//        System.out.println(concept1.getUniqueInstance());
+//        constraintViolations = validator.validate( concept1 );
+//        assertEquals( 1, constraintViolations.size() );
+//        assertEquals( "may not be null", constraintViolations.iterator().next().getMessage() );
+
     }
 
 
