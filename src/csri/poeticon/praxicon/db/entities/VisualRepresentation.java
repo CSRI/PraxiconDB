@@ -5,6 +5,8 @@
 
 package csri.poeticon.praxicon.db.entities;
 
+
+
 import csri.poeticon.praxicon.Constants;
 import java.io.Serializable;
 import java.net.URI;
@@ -18,8 +20,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -60,17 +62,11 @@ public class VisualRepresentation implements Serializable
     @NotNull(message="Media type must be specified.")
     private media_type MediaType;
 
-    //@Column(name="Type")
-    //private String Type;
-
     @Column(name="Representation")
     private String Representation;
 
     @ManyToOne(cascade=CascadeType.ALL)
     private Concept Concept;
-
-//    @Column(name="Prototype")
-//    private boolean Prototype;
 
     @Column(name="URI")
     @NotNull(message="URI must be specified.")
@@ -98,11 +94,6 @@ public class VisualRepresentation implements Serializable
     @ManyToOne(cascade=CascadeType.ALL)
     private MotoricRepresentation MotoricRepresentation;
     
-
- //   @Column(name = "CONCEPT_ID", insertable=false, updatable=false)
- //   private long ownerID;
-
-
     public VisualRepresentation(media_type media_type, String representation)
     {
         this.MediaType = media_type;
@@ -113,44 +104,9 @@ public class VisualRepresentation implements Serializable
     {
     }
 
-
     /**
      * @xmlcomments.args
-     *	   xmltag="prototype"
-     *     xmldescription="This attributes defines that this visual representation
-     *     is a prototypical instance of the concept
-     */
-//    @XmlAttribute
-//    public boolean isPrototype()
-//    {
-//        return Prototype;
-//    }
-
-    /**
-     * @xmlcomments.args
-     *	   xmltag="vrtype"
-     *     xmldescription="This attributes defines more info about the visual representation
-     *  (for example, if it is an immitation of the actual action)
-     */
-//    @XmlAttribute
-//    public String getVisualRepresentationType()
-//    {
-//        return Type;
-//    }
-//
-//    public void setVisualRepresentationType(String visual_representation_type)
-//    {
-//        this.Type = visual_representation_type;
-//    }
-
-//    public void setPrototype(boolean prototype)
-//    {
-//        this.Prototype = prototype;
-//    }
-
-    /**
-     * @xmlcomments.args
-     *	   xmltag="&lt;mediaType&gt;"
+     *	   xmltag="&lt;media_type&gt;"
      *     xmldescription="This tag defines the type of the media that represents
      *     visually the entity
      */
@@ -165,7 +121,30 @@ public class VisualRepresentation implements Serializable
         this.MediaType = media_type;
     }
 
+    /**
+     * @xmlcomments.args
+     *	   xmltag="&lt;uri&gt;"
+     *     xmldescription="This tag defines the URI of the media."
+     */
+    @XmlElement()
+    public URI getURI()
+    {
+        return URI;
+    }
 
+    public void setURI(URI uri)
+    {
+        this.URI = uri;
+    }
+
+    public void setURI(String uri)
+    {
+        if (URI.resolve(uri) != null)
+        {
+            this.URI = URI.resolve(uri);
+        }
+    }
+    
     @XmlElement()
     public String getRepresentation()
     {
