@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
-  <persistence-unit name="testingJPAwithXMLPU" transaction-type="RESOURCE_LOCAL">
-    <provider>oracle.toplink.essentials.PersistenceProvider</provider>
-    <class>csri.poeticon.praxicon.db.entities.Concept</class>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="PraxiconDBPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>csri.poeticon.praxicon.db.entities.Compositionality</class>
+    <class>csri.poeticon.praxicon.db.entities.Concept</class>
     <class>csri.poeticon.praxicon.db.entities.Constituents</class>
+    <class>csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains</class>
     <class>csri.poeticon.praxicon.db.entities.LanguageRepresentation</class>
     <class>csri.poeticon.praxicon.db.entities.MotoricRepresentation</class>
-    <class>csri.poeticon.praxicon.db.entities.VisualRepresentation</class>
     <class>csri.poeticon.praxicon.db.entities.Relation</class>
     <class>csri.poeticon.praxicon.db.entities.RelationChain</class>
     <class>csri.poeticon.praxicon.db.entities.RelationChain_Relation</class>
-    <class>csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains</class>
     <class>csri.poeticon.praxicon.db.entities.RelationType</class>
-    <class>csri.poeticon.praxicon.db.entities.SimplifiedRelationName</class>
     <class>csri.poeticon.praxicon.db.entities.Verbalization</class>
+    <class>csri.poeticon.praxicon.db.entities.VisualRepresentation</class>
     <properties>
-      <property name="toplink.jdbc.user" value=""/>
-      <property name="toplink.jdbc.password" value=""/>
-      <property name="toplink.jdbc.url" value="jdbc:mysql://localhost:3306/praxicon_db"/>
-      <property name="toplink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      <property name="toplink.jdbc.log" value="SQL=TRACE"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/praxicon_db"/>
+      <property name="javax.persistence.jdbc.password" value=""/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.user" value=""/>
     </properties>
   </persistence-unit>
 </persistence>
