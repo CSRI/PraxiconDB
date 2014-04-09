@@ -8,8 +8,6 @@ package csri.poeticon.praxicon.db.dao;
 import csri.poeticon.praxicon.db.entities.Concept;
 import csri.poeticon.praxicon.db.entities.Concept.status;
 import csri.poeticon.praxicon.db.entities.RelationType;
-//import csri.poeticon.praxicon.db.entities.UnionOfIntersections;  // Obsolete
-import csri.poeticon.praxicon.db.entities.VisualRepresentation;
 import java.util.List;
 
 /**

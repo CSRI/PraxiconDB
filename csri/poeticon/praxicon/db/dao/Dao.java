@@ -12,6 +12,9 @@ import javax.persistence.Query;
 /**
  *
  * @author Erevodifwntas
+ * @author dmavroeidis
+ * @param <K>
+ * @param <E>
  */
 public interface Dao<K, E>
 {
