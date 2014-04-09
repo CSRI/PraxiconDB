@@ -31,7 +31,7 @@ public class MotoricRepresentationDaoImplXML extends JpaDao<Long, MotoricReprese
     @Override
     public List<MotoricRepresentation> getEntries(Concept c)
     {
-        List<MotoricRepresentation> res = new ArrayList<MotoricRepresentation>();
+        List<MotoricRepresentation> res = new ArrayList<>();
         for (int i = 0; i < c.getMotoricRepresentations().size(); i++)
         {
             res.add(c.getMotoricRepresentations().get(i));

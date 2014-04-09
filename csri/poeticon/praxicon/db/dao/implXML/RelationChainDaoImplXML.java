@@ -32,7 +32,7 @@ public class RelationChainDaoImplXML extends JpaDao<Long, RelationChain> impleme
 //    @Override
 //    public List<RelationChain> getRelationChainsContainingConcept(Concept c)
 //    {
-//        List<RelationChain> res = new ArrayList<RelationChain>();
+//        List<RelationChain> res = new ArrayList<>();
 //
 //        Enumeration en = Constants.globalConcepts.elements();
 //        while(en.hasMoreElements())
@@ -40,15 +40,13 @@ public class RelationChainDaoImplXML extends JpaDao<Long, RelationChain> impleme
 //            Concept con = (Concept)en.nextElement();
 //            for (int i =0; i < con.getRelations().size(); i++)
 //            {
-//                for (int j = 0; j < con.getRelations().get(i).getIntersections().size(); j++)
+//                for (int j = 0; j < con.getRelations().size(); j++)
 //                {
-//                    for (int k = 0; k < con.getRelations().get(i).getIntersections().get(j).getRelations().size(); k++)
+//                    for (int k = 0; k < con.getRelations().size(); k++)
 //                    {
-//                        List<Relation> rc = con.getRelations().get(i).getIntersections().get(j).getRelations().get(k).getActualRelations();
-//                        for (int l = 0; l < rc.size(); l++)
-//                        {
-//                            if (rc.get(l).getSubject().getName().equalsIgnoreCase(c.getName()) || rc.get(l).getObject().getName().equalsIgnoreCase(c.getName()))
-//                            {
+//                        List<Relation> rc = con.getRelations().get(k).getActualRelations();
+//                        for (Relation rc1 : rc) {
+//                            if (rc1.getSubject().getName().equalsIgnoreCase(c.getName()) || rc1.getObject().getName().equalsIgnoreCase(c.getName())) {
 //                                res.add(con.getRelations().get(i).getIntersections().get(j).getRelations().get(k));
 //                                break;
 //                            }
@@ -59,7 +57,11 @@ public class RelationChainDaoImplXML extends JpaDao<Long, RelationChain> impleme
 //        }
 //        return res;
 //    }
-
+    /**
+     *
+     * @param entity
+     * @return null //for now
+     */
     @Override
     public Query getEntityQuery(RelationChain entity)
     {

@@ -49,7 +49,7 @@ public class LanguageRepresentationDaoImplXML extends JpaDao<Long, LanguageRepre
     @Override
     public List<LanguageRepresentation> find(String searchString)
     {
-        List<LanguageRepresentation> res = new ArrayList<LanguageRepresentation>();
+        List<LanguageRepresentation> res = new ArrayList<>();
         Enumeration en = Constants.globalConcepts.elements();
         while(en.hasMoreElements())
         {
@@ -88,7 +88,7 @@ public class LanguageRepresentationDaoImplXML extends JpaDao<Long, LanguageRepre
     @Override
     public List<LanguageRepresentation> getEntries(Concept c)
     {
-        List<LanguageRepresentation> res = new ArrayList<LanguageRepresentation>();
+        List<LanguageRepresentation> res = new ArrayList<>();
         for (int i = 0; i < c.getLanguageRepresentations().size(); i++)
         {
                 res.add(c.getLanguageRepresentations().get(i));
