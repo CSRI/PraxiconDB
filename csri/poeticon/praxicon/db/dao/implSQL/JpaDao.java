@@ -15,6 +15,8 @@ import java.util.List;
 /**
  *
  * @author Erevodifwntas
+ * @param <K>
+ * @param <E>
  */
 public abstract class JpaDao<K, E> implements Dao<K, E>
 {

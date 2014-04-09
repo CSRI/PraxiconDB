@@ -44,12 +44,12 @@ public class RelationChainDaoImpl extends JpaDao<Long, RelationChain> implements
         StringBuilder sb = new StringBuilder("SELECT e FROM RelationChain e");
         for (int i = 0; i  < entity.getRelations().size(); i++)
         {
-            sb.append(", IN (e.relations) as rel" + i);
+            sb.append(", IN (e.relations) as rel").append(i);
         }
         sb.append(" where UPPER(e.name) = ?1");
         for (int i = 0; i  < entity.getRelations().size(); i++)
         {
-            sb.append("and rel" + i +"=?"+(i+2));
+            sb.append("and rel").append(i).append("=?").append(i+2);
         }
         Query q = getEntityManager().createQuery(sb.toString());
         q.setParameter(1, entity.getName().toUpperCase());

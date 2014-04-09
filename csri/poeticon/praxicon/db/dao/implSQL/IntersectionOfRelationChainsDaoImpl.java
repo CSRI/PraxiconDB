@@ -23,9 +23,10 @@ public class IntersectionOfRelationChainsDaoImpl extends JpaDao<Long, Intersecti
     @Override
     public Query getEntityQuery(IntersectionOfRelationChains entity)
     {
-        Query q = getEntityManager().createQuery("SELECT e FROM IntersectionOfRelationChains e " +
+        Query q;
+        q = getEntityManager().createQuery("SELECT e FROM IntersectionOfRelationChains e " +
                 "where UPPER(e.name) = ?1"
-                );
+        );
         q.setParameter(1, entity.getName().toUpperCase());
         return q;
     }

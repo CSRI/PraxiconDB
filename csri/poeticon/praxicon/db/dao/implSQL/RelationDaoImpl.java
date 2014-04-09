@@ -14,6 +14,7 @@ import csri.poeticon.praxicon.db.entities.RelationType;
 //import csri.poeticon.praxicon.db.entities.RelationType.RELATION_NAME;
 import csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.persistence.Query;
 
@@ -55,10 +56,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
                 "WHERE r.Object = ?1 or r.Subject = ?1");
         q.setParameter(1, c);
         List<Relation> objRels = q.getResultList();
-        List<IntersectionOfRelationChains> res = new ArrayList<IntersectionOfRelationChains>();
-        for (int i = 0; i < objRels.size(); i++)
-        {
-            Relation r = objRels.get(i);
+        List<IntersectionOfRelationChains> res = new ArrayList<>();
+        for (Relation r : objRels) {
             if (r.getObject().equals(c))
             {
                 r.setObject(r.getSubject());
@@ -75,13 +74,6 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
             ir.getRelations().add(rc);
             rc.getIntersections().add(ir);
             IntersectionOfRelationChains ui = new IntersectionOfRelationChains();
-
-// TODO: Temporarily commented --> UnionOfIntersections should be converted to IntersectionOfRelationChains
-//            ui.setInherent(false);
-//            ui.setPercentage(0);
-//            ui.getIntersections().add(ir);
-//            ir.getUnions().add(ui);
-//            ui.setConcept(c);
             if (!c.getIntersectionsOfRelationChains().contains(ui))
             {
                 res.add(ui);
@@ -112,7 +104,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
                 "WHERE r.Subject = ?1");
         q.setParameter(1, c);
         List<Relation> res2 = q.getResultList();
-        List<Relation> res = new ArrayList<Relation>(res1.size()+res2.size());
+        List<Relation> res = new ArrayList<>(res1.size()+res2.size());
         res.addAll(res1);
         res.addAll(res2);
         return res;
@@ -153,34 +145,4 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
         q.setParameter(2, type.getForwardName());
         return q.getResultList();
     }
-
-//  TODO: Check whether this should be deleted or declared in RelationDao, as it wasn't part of it
-//    /**
-//     * Creates q query to search for a relation using subject, object and type
-//     * @param entity the relation to be searched
-//     * @return a query to search for the relation
-//     */
-//    @Override
-//    public Query getEntityQuery(Relation entity)
-//    {
-//        Query q = getEntityManager().createQuery("SELECT e FROM Relation e " +
-//                "where e.Subject = ?1 and e.Object = ?2 and e.Type = ?3"
-//                );
-//        q.setParameter(1, entity.getSubject());
-//        q.setParameter(2, entity.getObject());
-//        q.setParameter(3, entity.getType());
-//        return q;
-//    }
-
-// TODO: Should be deleted -or replaced- as unions ceized to exist
-//    /**
-//     * CHecks if a relation belongs to an inherent union of intersections
-//     * @param r the relation to check
-//     * @return true/false
-//     */
-//    @Override
-//    public boolean isPartOfInherentUnion (Relation r)
-//    {
-//        return r.getMainFunctions().get(0).getRelationChain().getIntersections().get(0).isInherent();
-//    }
 }
