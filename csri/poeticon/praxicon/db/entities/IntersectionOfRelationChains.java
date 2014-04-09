@@ -90,12 +90,13 @@ public class IntersectionOfRelationChains implements Serializable
 
     public IntersectionOfRelationChains()
     {
-        RelationChains = new ArrayList<RelationChain>();
+        RelationChains = new ArrayList<>();
 //        unions = new ArrayList<UnionOfIntersections>();  //Obsolete
-        LanguageRepresentationNames = new ArrayList<LanguageRepresentation>();
+        LanguageRepresentationNames = new ArrayList<>();
     }
 
     /**
+     * @return the relevant relation chains.
      * @xmlcomments.args
      *	   xmltag="&lt;relation_chain&gt;"
      *     xmldescription="This tag defines a relation"
@@ -113,18 +114,18 @@ public class IntersectionOfRelationChains implements Serializable
     }
 
     /**
+     * @return a list of language representation names.
      * @xmlcomments.args
-     *	   xmltag="&lt;LRGroupNames&gt;"
+     *	   xmltag="&lt;Language_representation_names&gt;"
      *     xmldescription="This tag defines the names of the LanguageRepresentationGroup that should be used to express this intersection"
      */
    @XmlElement(name="LanguageRepresentationName")
     public List<String> getLanguageRepresentationNames_()
     {
-       List<String> language_representation_names_ = new ArrayList<String>();
-       for(int i = 0; i < LanguageRepresentationNames.size(); i++)
-       {
-           language_representation_names_.add(LanguageRepresentationNames.get(i).getText());
-       }
+       List<String> language_representation_names_ = new ArrayList<>();
+        for (LanguageRepresentation LanguageRepresentationName : LanguageRepresentationNames) {
+            language_representation_names_.add(LanguageRepresentationName.getText());
+        }
         return language_representation_names_;
     }
 
@@ -203,10 +204,8 @@ public class IntersectionOfRelationChains implements Serializable
         if (this.RelationChains.size() == other.RelationChains.size())
         {
             boolean eq= true;
-            for (int i = 0; i < this.RelationChains.size(); i++)
-            {
-                if (!other.RelationChains.contains(this.RelationChains.get(i)))
-                {
+            for (RelationChain RelationChain : this.RelationChains) {
+                if (!other.RelationChains.contains(RelationChain)) {
                     eq = false;
                     break;
                 }

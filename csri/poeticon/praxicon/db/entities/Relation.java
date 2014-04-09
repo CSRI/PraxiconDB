@@ -144,13 +144,13 @@ public class Relation implements Serializable
 // TODO: Uncomment each method after checking it first
     public Relation()
     {
-        MainFunctions = new ArrayList<RelationChain_Relation>();
-        VisualRepresentationObject = new ArrayList<VisualRepresentation>();
-        VisualRepresentationSubject = new ArrayList<VisualRepresentation>();
-        LanguageRepresentationObject = new ArrayList<LanguageRepresentation>();
-        LanguageRepresentationSubject = new ArrayList<LanguageRepresentation>();
-        MotoricRepresentationObject = new ArrayList<MotoricRepresentation>();
-        MotoricRepresentationSubject = new ArrayList<MotoricRepresentation>();
+        MainFunctions = new ArrayList<>();
+        VisualRepresentationObject = new ArrayList<>();
+        VisualRepresentationSubject = new ArrayList<>();
+        LanguageRepresentationObject = new ArrayList<>();
+        LanguageRepresentationSubject = new ArrayList<>();
+        MotoricRepresentationObject = new ArrayList<>();
+        MotoricRepresentationSubject = new ArrayList<>();
         Type = new RelationType();
     }
 
@@ -166,6 +166,7 @@ public class Relation implements Serializable
     }
 
     /**
+     * @return whether derivation is supported for this relation.
      * @xmlcomments.args
      *	   xmltag="derivation_supported"
      *     xmldescription="This attribute defines if the relation supports 
@@ -317,6 +318,7 @@ public class Relation implements Serializable
     }
 //
     /**
+     * @return the type of the relation.
      * @xmlcomments.args
      *	   xmltag="&lt;relation_type&gt;"
      *     xmldescription="This tag defines the type of the relation"
@@ -380,6 +382,7 @@ public class Relation implements Serializable
     }
 
    /**
+    * @return the language representation of the concept that is on the object side of the relation.
     * @xmlcomments.args
     *	   xmltag="&lt;language_representation_object&gt;"
     *     xmldescription="This tag defines the LanguageRepresentation
@@ -389,7 +392,8 @@ public class Relation implements Serializable
    @XmlElement(name="LanguageRepresentationObject")
     public String getLanguageRepresentationObject_()
     {
-        String language_representation_object_ = new String();
+        String language_representation_object_;
+        language_representation_object_ = new String();
         // TODO: Not sure about the data type below.
         language_representation_object_ = LanguageRepresentationObject.toString();  //.getLanguaText();
         return language_representation_object_;
@@ -415,6 +419,7 @@ public class Relation implements Serializable
     }
 
     /**
+     * @return the motoric representation of the concept that is on the object side of the relation.
      * @xmlcomments.args
      *	   xmltag="&lt;motoric_representation_object&gt;"
      *     xmldescription="This tag defines the MotoricRepresentation
@@ -424,11 +429,10 @@ public class Relation implements Serializable
     @XmlElement(name="motoric_representation_object")
     public List<String> getMotoricRepresentationObject_()
     {
-        List<String> motoric_representation_object_ = new ArrayList<String>();
-       for(int i = 0; i < MotoricRepresentationObject.size(); i++)
-       {
-           motoric_representation_object_.add(MotoricRepresentationObject.get(i).toString());
-       }
+        List<String> motoric_representation_object_ = new ArrayList<>();
+        for (MotoricRepresentation MotoricRepresentationObject1 : MotoricRepresentationObject) {
+            motoric_representation_object_.add(MotoricRepresentationObject1.toString());
+        }
         return motoric_representation_object_;
     }
 

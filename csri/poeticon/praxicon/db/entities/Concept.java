@@ -39,7 +39,6 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlSchema;
 
 /**
  *
@@ -194,12 +193,12 @@ public class Concept implements Serializable
         Name = null;
         Comment = "";
         SpecificityLevel = Concept.specificity_level.UNKNOWN;
-        LanguageRepresentations =  new ArrayList<LanguageRepresentation>();
-        VisualRepresentations = new ArrayList<VisualRepresentation>();
-        MotoricRepresentations = new ArrayList<MotoricRepresentation>();
-        RelationsContainingConceptAsObject =  new ArrayList<Relation>();
-        RelationsContainingConceptAsSubject =  new ArrayList<Relation>();
-        IntersectionsOfRelationChains = new ArrayList<IntersectionOfRelationChains>();
+        LanguageRepresentations =  new ArrayList<>();
+        VisualRepresentations = new ArrayList<>();
+        MotoricRepresentations = new ArrayList<>();
+        RelationsContainingConceptAsObject =  new ArrayList<>();
+        RelationsContainingConceptAsSubject =  new ArrayList<>();
+        IntersectionsOfRelationChains = new ArrayList<>();
     }
 
 
@@ -210,11 +209,11 @@ public class Concept implements Serializable
         this.SpecificityLevel = newConcept.getSpecificityLevel();
         this.PragmaticStatus = newConcept.getPragmaticStatus();
         this.Status = newConcept.getStatus();
-        LanguageRepresentations = new ArrayList<LanguageRepresentation>();
-        VisualRepresentations = new ArrayList<VisualRepresentation>();
-        MotoricRepresentations = new ArrayList<MotoricRepresentation>();
-        RelationsContainingConceptAsObject =  new ArrayList<Relation>();
-        IntersectionsOfRelationChains = new ArrayList<IntersectionOfRelationChains>();
+        LanguageRepresentations = new ArrayList<>();
+        VisualRepresentations = new ArrayList<>();
+        MotoricRepresentations = new ArrayList<>();
+        RelationsContainingConceptAsObject =  new ArrayList<>();
+        IntersectionsOfRelationChains = new ArrayList<>();
 
         for(int i = 0; i < newConcept.getLanguageRepresentations().size(); i++)
         {
@@ -271,6 +270,7 @@ public class Concept implements Serializable
 
 
     /**
+     * @return 
      * @xmlcomments.args
      *	   xmltag="&lt;intersection_of_relation_chains&gt;"
      *     xmldescription="This tag defines the interesections
@@ -295,6 +295,7 @@ public class Concept implements Serializable
 
 
     /**
+     * @return 
      * @xmlcomments.args
      *	   xmltag="&lt;language_representation&gt;"
      *     xmldescription="This tag defines the Language Representation of the
@@ -308,10 +309,9 @@ public class Concept implements Serializable
 
     public List<LanguageRepresentation> getLanguageRepresentationsEntries()
     {
-        List<LanguageRepresentation> language_representation_entries = new ArrayList<LanguageRepresentation>();
-        for (int i=0; i<this.LanguageRepresentations.size(); i++)
-        {
-            language_representation_entries.add(this.LanguageRepresentations.get(i));
+        List<LanguageRepresentation> language_representation_entries = new ArrayList<>();
+        for (LanguageRepresentation LanguageRepresentation : this.LanguageRepresentations) {
+            language_representation_entries.add(LanguageRepresentation);
         }
         return language_representation_entries;
     }
@@ -327,6 +327,7 @@ public class Concept implements Serializable
     }
 
     /**
+     * @return 
      * @xmlcomments.args
      *	   xmltag="&lt;motoric_representation&gt;"
      *     xmldescription="This tag defines the motoric representation"
@@ -339,10 +340,9 @@ public class Concept implements Serializable
 
     public List<MotoricRepresentation> getMotoricRepresentationsEntries()
     {
-        List<MotoricRepresentation> motoric_representation_entries = new ArrayList<MotoricRepresentation>();
-        for(int i=0; i<this.MotoricRepresentations.size(); i++)
-        {
-            motoric_representation_entries.add(this.MotoricRepresentations.get(i));
+        List<MotoricRepresentation> motoric_representation_entries = new ArrayList<>();
+        for (MotoricRepresentation MotoricRepresentation : this.MotoricRepresentations) {
+            motoric_representation_entries.add(MotoricRepresentation);
         }
         return motoric_representation_entries;
     }
@@ -359,6 +359,7 @@ public class Concept implements Serializable
 
 
     /**
+     * @return 
      * @xmlcomments.args
      *	   xmltag="&lt;visual_representation&gt;"
      *     xmldescription="This tag defines the Visual Representation of the
@@ -382,10 +383,9 @@ public class Concept implements Serializable
     
     public final List<VisualRepresentation> getVisualRepresentationsEntries()
     {
-        List<VisualRepresentation> visual_representation_entries = new ArrayList<VisualRepresentation>();
-        for(int i=0; i<this.VisualRepresentations.size(); i++)
-        {
-            visual_representation_entries.add(this.VisualRepresentations.get(i));
+        List<VisualRepresentation> visual_representation_entries = new ArrayList<>();
+        for (VisualRepresentation VisualRepresentation : this.VisualRepresentations) {
+            visual_representation_entries.add(VisualRepresentation);
         }
         return visual_representation_entries;
     }
@@ -398,11 +398,9 @@ public class Concept implements Serializable
     public String getLanguageRepresentationName()
     {
         List<LanguageRepresentation> les = this.getLanguageRepresentations();
-        for(int i = 0; i < les.size(); i++)
-        {
-            if (les.get(i).getLanguage().name().equalsIgnoreCase("en"))
-            {
-                return les.get(i).getText();
+        for (LanguageRepresentation le : les) {
+            if (le.getLanguage().name().equalsIgnoreCase("en")) {
+                return le.getText();
             }
         }
         if (les.size() > 0)
@@ -414,6 +412,7 @@ public class Concept implements Serializable
 
 
     /**
+     * @return 
      * @xmlcomments.args
      *	   xmltag="&lt;source&gt;"
      *     xmldescription="This tag defines the source of the concept (from which
@@ -430,7 +429,8 @@ public class Concept implements Serializable
         this.Source = source;
     }
 
-        /**
+    /**
+     * @return 
      * @xmlcomments.args
      *	   xmltag="&lt;unique_instance&gt;"
      *     xmldescription="This tag defines the source of the concept (from which
@@ -447,6 +447,12 @@ public class Concept implements Serializable
         this.UniqueInstance = unique_instance;
     }
 
+    /**
+     * 
+     * @return a string containing additional information about the concept.
+     * 
+     * 
+     */
     @XmlElement(name="comment")
     public String getComment()
     {
@@ -460,6 +466,7 @@ public class Concept implements Serializable
 
     //
     /**
+     * @return an intersection of relation chains.
      * @xmlcomments.args
      *	   xmltag="&lt;intersection_of_relation_chains&gt;"
      *     xmldescription="This tag defines the intersection of relation chains
@@ -473,6 +480,7 @@ public class Concept implements Serializable
 
 
     /**
+     * @return the specificity level of the concept.
      * @xmlcomments.args
      *	   xmltag="&lt;specificity_level&gt;"
      *     xmldescription="This tag defines the specificity level of the concept"
@@ -542,6 +550,7 @@ public class Concept implements Serializable
     }
 
     /**
+     * @return the type of the concept.
      * @xmlcomments.args
      *	   xmltag="&lt;concept_type&gt;"
      *     xmldescription="This tag defines the type of the concept entity
@@ -565,6 +574,7 @@ public class Concept implements Serializable
 
 
     /**
+     * @return the pragmatic status of the concept.
      * @xmlcomments.args
      *	   xmltag="&lt;pragmatic_status&gt;"
      *     xmldescription="This tag defines if the entity is literal or figurative"
@@ -590,6 +600,7 @@ public class Concept implements Serializable
     }
 
     /**
+     * @return the status of the concept.
      * @xmlcomments.args
      *	   xmltag="&lt;status&gt;"
      *     xmldescription="This tag defines if the entity is a variable,
@@ -651,6 +662,7 @@ public class Concept implements Serializable
     }
 
     /**
+     * @return the name of the concept.
      * @xmlcomments.args
      *	   xmltag="name"
      *     xmldescription="This attribute defines the name of the element"
@@ -667,7 +679,8 @@ public class Concept implements Serializable
     }
 
     /**
-     * Gets the name of the concepts without the funny numbers at the end.
+     * 
+     * @return the pure name of the concept without the wordnet identifiers.
      */
     public String getNameNoNumbers()
     {

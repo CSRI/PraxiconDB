@@ -165,10 +165,11 @@ public class LanguageRepresentation implements Serializable
 
     public LanguageRepresentation()
     {
-        language_representations = new ArrayList<LanguageRepresentation>();
+        language_representations = new ArrayList<>();
     }
 
     /**
+     * @return the constituents of the language representation.
      * @xmlcomments.args
      *	   xmltag="&lt;constituents&gt;"
      *     xmldescription="This tag defines the constituents of a composite word or multiword"
@@ -176,12 +177,12 @@ public class LanguageRepresentation implements Serializable
     @XmlElement()
     public List<Constituents> getConstituents()
     {
-        List<Constituents> constituents = new ArrayList<Constituents>();
+        List<Constituents> constituents = new ArrayList<>();
         if (this.IsCompositional == is_compositional.YES)
             {
-                for (int i=0; i < Constituents.size(); i++)
+                for (csri.poeticon.praxicon.db.entities.Constituents Constituent : Constituents) 
                 {
-                    constituents.add(Constituents.get(i));
+                    constituents.add(Constituent);
                 }           
             }
         else
@@ -197,6 +198,7 @@ public class LanguageRepresentation implements Serializable
     }
 
     /**
+     * @return whether the language representation consists of more than one constituents.
      * @xmlcomments.args
      *	   xmltag="&lt;is_compositional&gt;"
      *     xmldescription="This tag defines if the LanguageRepresentation is compositional or not"
@@ -214,6 +216,7 @@ public class LanguageRepresentation implements Serializable
 
 
     /**
+     * @return the language of the language representation.
      * @xmlcomments.args
      *	   xmltag="&lt;language&gt;"
      *     xmldescription="This tag defines the language of the entry"
@@ -225,6 +228,7 @@ public class LanguageRepresentation implements Serializable
     }
 
     /**
+     * @return the part of speech of the language representation.
      * @xmlcomments.args
      *	   xmltag="&lt;part_of_speech&gt;"
      *     xmldescription="This tag defines the Part Of Speech of the entry"
@@ -249,10 +253,9 @@ public class LanguageRepresentation implements Serializable
     @XmlTransient
     public List<LanguageRepresentation> getLanguageRepresentations()
     {
-        List<LanguageRepresentation> language_representations_list = new ArrayList<LanguageRepresentation>();
-        for (int i=0; i < LanguageRepresentation.language_representations.size(); i++)
-        {
-            language_representations_list.add(language_representations.get(i));
+        List<LanguageRepresentation> language_representations_list = new ArrayList<>();
+        for (LanguageRepresentation language_representation : LanguageRepresentation.language_representations) {
+            language_representations_list.add(language_representation);
         }
         return language_representations_list;
     }
@@ -260,15 +263,12 @@ public class LanguageRepresentation implements Serializable
     @XmlTransient
     public List<Concept> getConcepts()
     {
-        List<Concept> concepts = new ArrayList<Concept>();
+        List<Concept> concepts = new ArrayList<>();
 
-        for (int i = 0; i < LanguageRepresentation.language_representations.   size(); i++)
-        {
-            for (int j = 0; j < LanguageRepresentation.language_representations.get(i).getConcepts().size(); j++)
-            {
-                if (!concepts.contains(LanguageRepresentation.language_representations.get(i).getConcepts().get(j)))
-                {
-                    concepts.add(LanguageRepresentation.language_representations.get(i).getConcepts().get(j));
+        for (LanguageRepresentation language_representation : LanguageRepresentation.language_representations) {
+            for (int j = 0; j < language_representation.getConcepts().size(); j++) {
+                if (!concepts.contains(language_representation.getConcepts().get(j))) {
+                    concepts.add(language_representation.getConcepts().get(j));
                 }
             }
         }
@@ -286,6 +286,7 @@ public class LanguageRepresentation implements Serializable
     }
 
     /**
+     * @return Text.
      * @xmlcomments.args
      *	   xmltag="&lt;text&gt;"
      *     xmldescription="This tag defines the text of the entry"

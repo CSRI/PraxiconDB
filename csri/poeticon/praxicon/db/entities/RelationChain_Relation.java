@@ -76,6 +76,7 @@ public class RelationChain_Relation implements Serializable
     }
 
     /**
+     * @return the order of the relation in the relation chain.
      * @xmlcomments.args
      *	   xmltag="order"
      *     xmldescription="This attribute marks that the order of the relation

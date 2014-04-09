@@ -10,7 +10,6 @@ package csri.poeticon.praxicon.db.entities;
 import csri.poeticon.praxicon.Constants;
 import java.io.Serializable;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -122,6 +121,7 @@ public class VisualRepresentation implements Serializable
     }
 
     /**
+     * @return the URI of the visual representation. Usually a URL or file path.
      * @xmlcomments.args
      *	   xmltag="&lt;uri&gt;"
      *     xmldescription="This tag defines the URI of the media."

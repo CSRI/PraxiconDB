@@ -118,7 +118,7 @@ public class RelationType implements Serializable
 
     public static List<RelationType> getLocationRelations()
     {
-        List<RelationType> res = new ArrayList<RelationType>();
+        List<RelationType> res = new ArrayList<>();
         RelationType tmp = new RelationType();
         tmp.setForwardName("action_location");
         tmp.setBackwardName("location_action");
@@ -159,19 +159,19 @@ public class RelationType implements Serializable
 
     public RelationType()
     {
-        Relations = new ArrayList<Relation>();
+        Relations = new ArrayList<>();
     }
 
     public RelationType(String forward_name, String backward_name)
     {
-        Relations = new ArrayList<Relation>();
+        Relations = new ArrayList<>();
         this.setForwardName(forward_name);
         this.setBackwardName(backward_name);
     }
 
     public RelationType(relation_name forward_name, relation_name backward_name)
     {
-        Relations = new ArrayList<Relation>();
+        Relations = new ArrayList<>();
         this.ForwardName = forward_name;
         this.BackwardName = backward_name;
     }
@@ -211,6 +211,7 @@ public class RelationType implements Serializable
     }
 
     /**
+     * @return the forward name.
      * @xmlcomments.args
      *	   xmltag="&lt;left-to-right_name&gt;"
      *     xmldescription="The name of the relation when the relational triplet
@@ -264,6 +265,7 @@ public class RelationType implements Serializable
     }
 
     /**
+     * @return the backward name.
      * @xmlcomments.args
      *	   xmltag="&lt;left-to-right_name&gt;"
      *     xmldescription="The name of the relation when the relational triplet
@@ -299,6 +301,10 @@ public class RelationType implements Serializable
         this.Relations.add(relation);
     }
 
+    /**
+     *
+     * @return the id of the relation type.
+     */
     @XmlAttribute
     public Long getId()
     {
@@ -343,14 +349,10 @@ public class RelationType implements Serializable
                                         "has_size#has_length#has_height#has_width#has_depth#has_size#has_length#has_height#has_width#has_depth"
                                         };
 
-       for(int i = 0; i < equalsRelations.length; i++)
-       {
+        for (String equalsRelation : equalsRelations) {
             if (this.ForwardName !=null && other.ForwardName !=null &&
-                    this.BackwardName !=null && other.BackwardName !=null)
-            {
-                if((equalsRelations[i].indexOf(this.ForwardName.name()) >=0 && (equalsRelations[i].indexOf(other.ForwardName.name())>=0 || equalsRelations[i].indexOf(other.BackwardName.name()) >= 0))||
-                        (equalsRelations[i].indexOf(this.BackwardName.name()) >=0 && (equalsRelations[i].indexOf(other.ForwardName.name())>=0 || equalsRelations[i].indexOf(other.BackwardName.name()) >= 0)))
-                {
+                    this.BackwardName !=null && other.BackwardName !=null) {
+                if ((equalsRelation.contains(this.ForwardName.name()) && (equalsRelation.contains(other.ForwardName.name()) || equalsRelation.contains(other.BackwardName.name()))) || (equalsRelation.contains(this.BackwardName.name()) && (equalsRelation.contains(other.ForwardName.name()) || equalsRelation.contains(other.BackwardName.name())))) {
                     return true;
                 }
             }

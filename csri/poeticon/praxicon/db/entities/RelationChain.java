@@ -70,9 +70,9 @@ public class RelationChain implements Serializable
     // Constructor
     public RelationChain()
     {
-        IntersectionsOfRelationChains = new ArrayList<IntersectionOfRelationChains>();
-        Relations = new ArrayList<RelationChain_Relation>();
-        LanguageRepresentationNames = new ArrayList<LanguageRepresentation>();
+        IntersectionsOfRelationChains = new ArrayList<>();
+        Relations = new ArrayList<>();
+        LanguageRepresentationNames = new ArrayList<>();
     }
 
     @XmlAttribute
@@ -93,6 +93,7 @@ public class RelationChain implements Serializable
     }
 
     /**
+     * @return the names of the language representations of the concepts that participate in the relation chain.
      * @xmlcomments.args
      *	   xmltag="&lt;language_representation_names&gt;"
      *     xmldescription="This tag defines the names of the 
@@ -102,11 +103,10 @@ public class RelationChain implements Serializable
     @XmlElement(name="language_representation_names")
     public List<String> getLanguageRepresentationNames_()
     {
-       List<String> language_representation_names_ = new ArrayList<String>();
-       for(int i = 0; i < LanguageRepresentationNames.size(); i++)
-       {
-           language_representation_names_.add(LanguageRepresentationNames.get(i).getText());
-       }
+       List<String> language_representation_names_ = new ArrayList<>();
+        for (LanguageRepresentation LanguageRepresentationName : LanguageRepresentationNames) {
+            language_representation_names_.add(LanguageRepresentationName.getText());
+        }
         return language_representation_names_;
     }
 
@@ -116,6 +116,7 @@ public class RelationChain implements Serializable
     }
 
     /**
+     * @return the relations that participate in the relation chain.
      * @xmlcomments.args
      *	   xmltag="&lt;relation_order&gt;"
      *     xmldescription="This tag defines the relations of the entity
@@ -128,15 +129,14 @@ public class RelationChain implements Serializable
 
     public List<Relation> getActualRelations()
     {
-        List<Relation> rels = new ArrayList<Relation>(Relations.size());
-        for (int i = 0; i < Relations.size(); i++)
-        {
+        List<Relation> rels;
+        rels = new ArrayList<>(Relations.size());
+        for (RelationChain_Relation Relation : Relations) {
             rels.add(0, null);
         }
-        for (int i = 0; i < Relations.size(); i++)
-        {
-            rels.add((int)Relations.get(i).getRelationOrder(), Relations.get(i).getRelation());
-            rels.remove((int)Relations.get(i).getRelationOrder() + 1);
+        for (RelationChain_Relation Relation : Relations) {
+            rels.add((int) Relation.getRelationOrder(), Relation.getRelation());
+            rels.remove((int) Relation.getRelationOrder() + 1);
         }
         return rels;
     }
@@ -172,6 +172,10 @@ public class RelationChain implements Serializable
         return Id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(Long id)
     {
         this.Id = id;
@@ -266,7 +270,6 @@ public class RelationChain implements Serializable
         }
         catch(Exception e)
         {
-            e.printStackTrace();
             return "There is a problem with the database (Relations)";
         }
     }
