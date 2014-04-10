@@ -143,6 +143,7 @@ public class testJPA {
         }
         catch (URISyntaxException error_uri) {
             System.out.println("caught URI error");
+            System.out.println(error_uri.getStackTrace());
         };
         vr.setURI(new_uri);
         concept1.addVisualRepresentation(vr);
