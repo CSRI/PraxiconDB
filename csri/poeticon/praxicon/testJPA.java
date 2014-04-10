@@ -65,12 +65,12 @@ public class testJPA {
         //1.) create the LR
         List<LanguageRepresentation> lr;
         lr = new ArrayList<>();
+        
         //2.) create the lexical entries (language representations)
         LanguageRepresentation le = new LanguageRepresentation();
         le.setLanguage(LanguageRepresentation.language.EN);
         le.setText("test");
         le.setPartOfSpeech(LanguageRepresentation.part_of_speech.NOUN);
-
         LanguageRepresentation le2 = new LanguageRepresentation();
         le2.setLanguage(LanguageRepresentation.language.EN);
         le2.setText("test");
@@ -90,16 +90,21 @@ public class testJPA {
         //////////////////////////
         //1.) Create the IntersectionOfRelations
         IntersectionOfRelationChains inter = new IntersectionOfRelationChains();
+        
         //2.) Create the Relation Chain of the relation
         RelationChain rChain = new RelationChain();
+        
         //3.) Create the relation for this relation chain
         Relation r1 = new Relation();
+
         //4.a.) Create the type of the relation
         RelationType rType = new RelationType();
-        rType.setForwardName(RelationType.relation_name.PART_OF);
-        rType.setBackwardName(RelationType.relation_name.HAS_PART);
+        rType.setForwardName(RelationType.relation_name_forward.HAS_PART);
+        rType.setBackwardName(RelationType.relation_name_backward.PART_OF);
+
         //4.b) Set the type to the relation
         r1.setTypeSimple(rType);
+        
         //4.c) set the object and the subject of the relation
         //(if the concepts do not exist you should create them -just set their name
         //the name should be unique -it works like their ID)
@@ -109,18 +114,20 @@ public class testJPA {
         concept2.setStatus(Concept.status.VARIABLE);
         concept2.setUniqueInstance(Concept.unique_instance.NO);
         concept2.setPragmaticStatus(Concept.pragmatic_status.LITERAL);
-        
-
         r1.setObject(concept2);
         r1.setSubject(concept1);
         r1.setDerivation(Relation.derivation_supported.YES);
+
         //5.) Add the relation to the chain
         //the second argument is the order of the relation in the chain
         rChain.addRelation(r1, 0);
+        
         //6.) add the chain to the Intersection
         inter.getRelations().add(rChain);
+        
         //7.) add the intersection to the Union
         //union.getIntersections().add(inter);
+        
         //8.) add the union to the Concept
         //con.addRelation(union);
 
@@ -142,8 +149,8 @@ public class testJPA {
         //Adding a relation
         //1.) create the TypeOfRelation (or use an existing 1)
         RelationType type = new RelationType();
-        type.setForwardName(RelationType.relation_name.PART_OF);
-        type.setBackwardName(RelationType.relation_name.PARTIAL_INSTANCE_OF);
+        type.setForwardName(RelationType.relation_name_forward.HAS_PARTIAL_INSTANCE);
+        type.setBackwardName(RelationType.relation_name_backward.PART_OF);
         // 2.) create the relations (always there should be a type and an
         // Object for the relation)
         Relation rel = new Relation();

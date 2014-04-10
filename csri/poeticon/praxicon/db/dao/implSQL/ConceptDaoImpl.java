@@ -371,7 +371,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
                             RelationType tmpTypeOfRelation = tmpRelationChain.getRelations().get(rel).getRelation().getType();
                             if (conB.equals(tmpRelationChain.getRelations().get(rel).getRelation().getObject()))
                             {
-                                if (tmpTypeOfRelation.getForwardName() == RelationType.relation_name.valueOf(relation) || tmpTypeOfRelation.getBackwardName()==RelationType.relation_name.valueOf(relation))
+                                if (tmpTypeOfRelation.getForwardName() == RelationType.relation_name_forward.valueOf(relation) || tmpTypeOfRelation.getBackwardName()==RelationType.relation_name_backward.valueOf(relation))
                                 {
                                     return true;
                                 }
@@ -396,13 +396,11 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
 
         RelationDao rDao = new RelationDaoImpl();
         List<Relation> relations = rDao.allRelationsOf(c);
-        for (Relation relation : relations) {
-            if (relation.getType().getForwardName() == RelationType.relation_name.TYPE_TOKEN && relation.getSubject().equals(c)) {
+        for (Relation relation : relations) 
+        {
+            if (relation.getType().getForwardName() == RelationType.relation_name_forward.TYPE_TOKEN && relation.getSubject().equals(c))
+            {
                 res.add(relation.getObject());
-            } else {
-                if (relation.getType().getForwardName() == RelationType.relation_name.TOKEN_TYPE && relation.getObject().equals(c)) {
-                    res.add(relation.getSubject());
-                }
             }
         }
         entityManager.clear();
@@ -422,13 +420,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
         RelationDao rDao = new RelationDaoImpl();
         List<Relation> relations = rDao.allRelationsOf(c);
         for (Relation relation : relations) {
-            if (relation.getType().getForwardName() == RelationType.relation_name.TYPE_TOKEN && relation.getObject().equals(c)) {
+            if (relation.getType().getForwardName() == RelationType.relation_name_forward.TYPE_TOKEN && relation.getObject().equals(c))
+            {
                 res.add(relation.getSubject());
-            } else {
-                if (relation.getType().getForwardName() == RelationType.relation_name.TOKEN_TYPE && relation.getSubject().equals(c)) {
-                    res.add(relation.getObject());
-                    //System.out.println("Parent of "+c.getName()+" is "+relations.get(i).getObject().getName());
-                }
             }
         }
         entityManager.clear();
@@ -504,14 +498,10 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
         RelationDao rDao = new RelationDaoImpl();
         List<Relation> relations = rDao.allRelationsOf(c);
         for (Relation relation : relations) {
-            if (relation.getType().getForwardName() == RelationType.relation_name.HAS_INSTANCE && relation.getObject().equals(c)) {
+            if (relation.getType().getForwardName() == RelationType.relation_name_forward.HAS_INSTANCE && relation.getObject().equals(c))
+            {
                 res.add(relation.getSubject());
                 //System.out.println("Parent of "+c.getName()+" is "+relations.get(i).getSubject().getName());
-            } else {
-                if (relation.getType().getForwardName() == RelationType.relation_name.INSTANCE_OF && relation.getSubject().equals(c)) {
-                    res.add(relation.getObject());
-                    //System.out.println("Parent of "+c.getName()+" is "+relations.get(i).getObject().getName());
-                }
             }
         }
         return res;
@@ -529,14 +519,10 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
         RelationDao rDao = new RelationDaoImpl();
         List<Relation> relations = rDao.allRelationsOf(c);
         for (Relation relation : relations) {
-            if (relation.getType().getForwardName() == RelationType.relation_name.INSTANCE_OF && relation.getObject().equals(c)) {
+            if (relation.getType().getForwardName() == RelationType.relation_name_forward.HAS_INSTANCE && relation.getObject().equals(c))
+            {
                 res.add(relation.getSubject());
                 //System.out.println("Parent of "+c.getName()+" is "+relations.get(i).getSubject().getName());
-            } else {
-                if (relation.getType().getForwardName() == RelationType.relation_name.HAS_INSTANCE && relation.getSubject().equals(c)) {
-                    res.add(relation.getObject());
-                    //System.out.println("Parent of "+c.getName()+" is "+relations.get(i).getObject().getName());
-                }
             }
         }
 

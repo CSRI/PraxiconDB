@@ -36,9 +36,9 @@ import javax.xml.bind.annotation.XmlTransient;
 public class RelationType implements Serializable
 {
 
-    public static relation_name[] Bequethed = {relation_name.HAS_PART, relation_name.PART_OF};
+    //public static relation_name[] Bequethed = {relation_name_forward.HAS_PART, relation_name_backward.PART_OF};
 
-    public static enum relation_name
+    public static enum relation_name_forward
     {
         ACTION_AGENT, ACTION_GOAL, ACTION_OBJECT, ACTION_RESULT,
         ACTION_TOOL, ASPECT_CONCEPT, COMPARED_WITH, ENABLES,
@@ -50,8 +50,17 @@ public class RelationType implements Serializable
         HAS_SHAPE, HAS_SIZE, HAS_SPEED_RATE, HAS_STEP,
         HAS_TEMPERATURE, HAS_TEXTURE, HAS_TIME_PERIOD, HAS_VISUAL_PATTERN,
         HAS_VOLUME, HAS_WEIGHT, HAS_WIDTH, LESS,
-        METAPHOR_OF, MORE, PRODUCER_OF, TYPE_TOKEN, HAS_VALUE,
+        METAPHOR_OF, MORE, PRODUCER_OF, TYPE_TOKEN, HAS_VALUE;
+        
+        @Override
+        public String toString()
+        {
+            return this.name();
+        }
+    }
 
+    public static enum relation_name_backward
+    {
         AGENT_ACTION, GOAL_ACTION, OBJECT_ACTION, RESULT_ACTION,
         TOOL_ACTION, CONCEPT_ASPECT, ENABLED_BY,
         ANTHROPOGENIC_EFFECT_OF, COLOUR_OF, CONDITION_OF, CONTENT_OF,
@@ -70,7 +79,7 @@ public class RelationType implements Serializable
             return this.name();
         }
     }
-
+    
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
@@ -79,11 +88,11 @@ public class RelationType implements Serializable
 
     @Column(name="ForwardName")
     @Enumerated(EnumType.STRING)
-    relation_name ForwardName;
+    relation_name_forward ForwardName;
 
     @Column(name="BackwardName")
     @Enumerated(EnumType.STRING)
-    relation_name BackwardName;
+    relation_name_backward BackwardName;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="Type")
     List<Relation> Relations;
@@ -169,19 +178,19 @@ public class RelationType implements Serializable
         this.setBackwardName(backward_name);
     }
 
-    public RelationType(relation_name forward_name, relation_name backward_name)
+    public RelationType(relation_name_forward forward_name, relation_name_backward backward_name)
     {
         Relations = new ArrayList<>();
         this.ForwardName = forward_name;
         this.BackwardName = backward_name;
     }
   
-    public relation_name getForwardName()
+    public relation_name_forward getForwardName()
     {
         return ForwardName;
     }
 
-    public void setForwardName(relation_name name)
+    public void setForwardName(relation_name_forward name)
     {
         this.ForwardName = name;
     }
@@ -197,7 +206,7 @@ public class RelationType implements Serializable
         String tmp = name.replaceAll("-", "_");
         try
         {
-            this.ForwardName = relation_name.valueOf(tmp.toUpperCase());
+            this.ForwardName = relation_name_forward.valueOf(tmp.toUpperCase());
         }
         catch(Exception e)
         {
@@ -207,7 +216,7 @@ public class RelationType implements Serializable
 
     public final void setForwardName(String name)
     {
-        this.ForwardName = relation_name.valueOf(name.toUpperCase());
+        this.ForwardName = relation_name_forward.valueOf(name.toUpperCase());
     }
 
     /**
@@ -231,19 +240,19 @@ public class RelationType implements Serializable
     }
 
     
-    public relation_name getBackwardName()
+    public relation_name_backward getBackwardName()
     {
         return BackwardName;
     }
 
-    public void setBackwardName(relation_name backward_name)
+    public void setBackwardName(relation_name_backward backward_name)
     {
         this.BackwardName = backward_name;
     }
 
     public final void setBackwardName(String name)
     {
-        this.BackwardName = relation_name.valueOf(name.toUpperCase());
+        this.BackwardName = relation_name_backward.valueOf(name.toUpperCase());
     }
 
     /**
@@ -256,7 +265,7 @@ public class RelationType implements Serializable
         String tmp = name.replaceAll("-", "_");
         try
         {
-            this.BackwardName = relation_name.valueOf(tmp.toUpperCase());
+            this.BackwardName = relation_name_backward.valueOf(tmp.toUpperCase());
         }
         catch(Exception e)
         {
