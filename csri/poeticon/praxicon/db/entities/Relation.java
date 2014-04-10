@@ -154,6 +154,13 @@ public class Relation implements Serializable
         Type = new RelationType();
     }
 
+    /**
+     * @xmlcomments.args
+     *	   xmltag="subject"
+     *     xmldescription="This attribute defines the object that the
+     *                     relation is related to"
+     */
+    @XmlAttribute(name="subject")
     @XmlTransient
     public Concept getSubject()
     {
@@ -183,61 +190,6 @@ public class Relation implements Serializable
         this.DerivationSupported = derivation_supported;
     }
 
-    /**
-     * @xmlcomments.args
-     *	   xmltag="subject"
-     *     xmldescription="This attribute defines the object that the
-     *                     relation is related to"
-     */
-    @XmlAttribute(name="subject")
-    private String getSubject_()
-    {
-        StringBuilder sb = new StringBuilder();
-        if(Subject.getName()!= null && (Subject.getName() == null ? "" != null : !Subject.getName().equals("")))
-        {
-            return Subject.getName();
-        }
-        else
-        {
-            return Subject.getId()+"";
-        }
-    }
-
-    private void setSubject_(String v) throws Exception
-    {
-        if (Globals.ToMergeAfterUnMarshalling)
-        {
-            ConceptDao cDao = new ConceptDaoImpl();
-            Concept subjectCon = cDao.getConceptWithNameOrID(v.trim());
-            if (subjectCon!=null)
-            {
-                Subject = subjectCon;
-            }
-            else
-            {
-                subjectCon = cDao.getConceptWithNameOrID(v.trim());
-                Concept c = new Concept();
-                c.setName(v);
-                Subject = c;
-                cDao.persist(Subject);
-            }
-         }
-         else
-         {
-            Concept c = new Concept();
-            c.setName(v);
-            if (Constants.globalConcepts.contains(c))
-            {
-                Subject = (Concept)Constants.globalConcepts.get(c.getName());
-            }
-            else
-            {
-            Subject = c;
-            Constants.globalConcepts.put(c.getName(), c);
-            }
-         }
-    }
-
     @XmlTransient
     public List<RelationChain_Relation> getMainFunctions()
     {
@@ -250,6 +202,13 @@ public class Relation implements Serializable
     }
 
     @XmlTransient
+    @XmlAttribute(name="object")
+    /**
+     * @xmlcomments.args
+     *	   xmltag="object"
+     *     xmldescription="This attribute defines the object that the
+     *                     relation is related to"
+     */
     public Concept getObject()
     {
         return Object;
@@ -260,63 +219,6 @@ public class Relation implements Serializable
         this.Object = object;
     }
 
-    /**
-     * @xmlcomments.args
-     *	   xmltag="object"
-     *     xmldescription="This attribute defines the object that the
-     *                     relation is related to"
-     */
-    @XmlAttribute(name="object")
-    private String getObject_()
-    {
-        StringBuilder sb = new StringBuilder();
-        if(Object.getName()!= null && (Object.getName() == null ? "" != null : !Object.getName().equals("")))
-        {
-            return Object.getName();
-        }
-        else
-        {
-            return Object.getId()+"";
-        }
-    }
-
-    private void setObj_(String v) throws Exception
-    {
-
-        if (Globals.ToMergeAfterUnMarshalling)
-        {
-            ConceptDao cDao = new ConceptDaoImpl();
-            Concept objCon = cDao.getConceptWithNameOrID(v.trim());
-            if (objCon!=null)
-            {
-                Object = objCon;
-            }
-            else
-            {
-                objCon = cDao.getConceptWithNameOrID(v.trim());
-                Concept c = new Concept();
-                c.setName(v);
-                Object = c;
-                cDao.persist(Object);
-            }
-        }
-        else
-        {
-            Concept c = new Concept();
-
-            c.setName(v);
-            if (Constants.globalConcepts.contains(c))
-            {
-                Object = (Concept)Constants.globalConcepts.get(c.getName());
-            }
-            else
-            {
-                Object = c;
-                Constants.globalConcepts.put(c.getName(), c);
-            }
-        }
-    }
-//
     /**
      * @return the type of the relation.
      * @xmlcomments.args
