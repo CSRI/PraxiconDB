@@ -32,9 +32,8 @@ public class LanguageRepresentationDaoImplXML extends JpaDao<Long, LanguageRepre
         while(en.hasMoreElements())
         {
             Concept con = (Concept)en.nextElement();
-            for (int i = 0; i < con.getLanguageRepresentations().size(); i++)
-            {
-                LanguageRepresentation entry = con.getLanguageRepresentations().get(i);
+            for (LanguageRepresentation entry : con.getLanguageRepresentations())            
+            {                
                 if (entry.getLanguage().name().equalsIgnoreCase(language) &&
                         entry.getText().equalsIgnoreCase(text) &&
                         entry.getPartOfSpeech() == LanguageRepresentation.part_of_speech.valueOf(pos))
@@ -54,10 +53,9 @@ public class LanguageRepresentationDaoImplXML extends JpaDao<Long, LanguageRepre
         while(en.hasMoreElements())
         {
             Concept con = (Concept)en.nextElement();
-            for (int i = 0; i < con.getLanguageRepresentations().size(); i++)
-            {
-                LanguageRepresentation entry = con.getLanguageRepresentations().get(i);
-                if (entry.getText().toUpperCase().indexOf(searchString.toUpperCase()) >= 0)
+            for (LanguageRepresentation entry : con.getLanguageRepresentations())
+            {                
+                if (entry.getText().toUpperCase().contains(searchString.toUpperCase()))
                 {
                     res.add(entry);
                 }
@@ -75,10 +73,10 @@ public class LanguageRepresentationDaoImplXML extends JpaDao<Long, LanguageRepre
     @Override
     public List<LanguageRepresentation> getEntriesSorted(Concept c)
     {
-        List<LanguageRepresentation> res = new ArrayList<LanguageRepresentation>();
-        for (int i = 0; i < c.getLanguageRepresentations().size(); i++)
+        List<LanguageRepresentation> res = new ArrayList<>();
+        for (LanguageRepresentation lr : c.getLanguageRepresentations())
         {
-            res.add(c.getLanguageRepresentations().get(i));
+            res.add(lr);
         }
         Comparator<LanguageRepresentation> leCom = new LexicalEntryComparator();
         Collections.sort(res, leCom);
@@ -89,9 +87,9 @@ public class LanguageRepresentationDaoImplXML extends JpaDao<Long, LanguageRepre
     public List<LanguageRepresentation> getEntries(Concept c)
     {
         List<LanguageRepresentation> res = new ArrayList<>();
-        for (int i = 0; i < c.getLanguageRepresentations().size(); i++)
+        for (LanguageRepresentation lr : c.getLanguageRepresentations())
         {
-                res.add(c.getLanguageRepresentations().get(i));
+                res.add(lr);
         }
         return res;
     }
