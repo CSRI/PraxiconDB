@@ -9,12 +9,9 @@ import csri.poeticon.praxicon.db.dao.RelationDao;
 import csri.poeticon.praxicon.db.entities.Concept;
 import csri.poeticon.praxicon.db.entities.Relation;
 import csri.poeticon.praxicon.db.entities.RelationChain;
-import csri.poeticon.praxicon.db.entities.RelationChain_Relation;
 import csri.poeticon.praxicon.db.entities.RelationType;
-//import csri.poeticon.praxicon.db.entities.RelationType.RELATION_NAME;
 import csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import javax.persistence.Query;
 
@@ -139,7 +136,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
     @Override
     public List<Relation> findRelationsByConceptTypeOfRelation(Concept concept, RelationType type)
     {
-        Query q = getEntityManager().createQuery("SELECT r FROM Relation r, TypeOfRelation tr "
+        Query q = getEntityManager().createQuery("SELECT r FROM Relation r, RelationType tr "
                 + "WHERE (r.Subject = ?1 and r.Type = tr and tr.ForwardName = ?2)");
         q.setParameter(1, concept);
         q.setParameter(2, type.getForwardName());
