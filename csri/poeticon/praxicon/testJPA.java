@@ -13,8 +13,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
@@ -48,16 +50,13 @@ public class testJPA {
          * Creating an entity
          */
         Concept concept1 = new Concept();
-        concept1.setName("ct1");
+        
+        concept1.setName("concept1");
         concept1.setConceptType(Concept.type.ABSTRACT);
         concept1.setStatus(Concept.status.CONSTANT);
         concept1.setPragmaticStatus(Concept.pragmatic_status.FIGURATIVE);
         concept1.setUniqueInstance(Concept.unique_instance.YES);
         System.out.println(concept1);
-
-
-        //All concepts should have a name
-
 
         //////////////////////
         // How to add an LR //
@@ -147,11 +146,13 @@ public class testJPA {
         };
         vr.setURI(new_uri);
         concept1.addVisualRepresentation(vr);
+
         //Adding a relation
         //1.) create the TypeOfRelation (or use an existing 1)
         RelationType type = new RelationType();
         type.setForwardName(RelationType.relation_name_forward.HAS_PARTIAL_INSTANCE);
         type.setBackwardName(RelationType.relation_name_backward.PART_OF);
+        
         // 2.) create the relations (always there should be a type and an
         // Object for the relation)
         Relation rel = new Relation();
@@ -161,14 +162,17 @@ public class testJPA {
         Relation rel2 = new Relation();
         rel2.setType(type);
         rel2.setObject(concept2);
+        
         //3.) create the relation chain
         RelationChain rc = new RelationChain();
         //there should be in the correct order (the order counter must start from 0)
         rc.addRelation(rel, 0);
         rc.addRelation(rel2, 1);
+        
         // 4.) create the intersection
         IntersectionOfRelationChains inter1 = new IntersectionOfRelationChains();
         inter1.addRelationChain(rc);
+        
         // 5.) add the intersection to the concept
         concept1.addIntersectionOfRelationChains(inter);
         // Causes java.lang.StackOverflowError
@@ -184,16 +188,20 @@ public class testJPA {
         
         ConceptDao new_concept_dao = new ConceptDaoImpl();
  
-        try{
-            new_concept_dao.merge(concept1);
+        try
+        {
+            new_concept_dao.persist(concept1);
         }
         catch (javax.validation.ConstraintViolationException ee)
         {
             System.out.println("Size constraint violated.");
         }
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
+        Set<ConstraintViolation<Concept>> violations = validator.validate(concept1);
+        Set<ConstraintViolation<Concept>> violation = validator.validate(concept2);
 
-//        Set<ConstraintViolation<csri.poeticon.praxicon.db.entities.Concept>> constraintViolations;
-        System.out.println(concept1.getUniqueInstance());
+        System.out.println(concept2.getName());
 //        constraintViolations = validator.validate( concept1 );
 //        assertEquals( 1, constraintViolations.size() );
 //        assertEquals( "may not be null", constraintViolations.iterator().next().getMessage() );
@@ -203,17 +211,18 @@ public class testJPA {
 
     public void persist(Object object)
     {
-        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("testingJPAwithXMLPU");
+        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("PraxiconDBPU");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         try
         {
-            em.merge(object);
+            em.persist(object);
             em.getTransaction().commit();
         }
         catch (Exception e)
         {
             em.getTransaction().rollback();
+            System.out.println("transaction error");
         }
         finally
         {

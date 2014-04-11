@@ -32,10 +32,10 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
     public List<Concept> getOwners(Relation rel)
     {
         Query q = getEntityManager()
-                .createQuery("Select c From Concept c, IN(c.relations) as union, IntersectionOfRelations inter, " +
-                             "IN(inter.unions) as interUnion, " +
-                             "IN(inter.relations) AS interRel, IN(interRel.relations) AS rcr, RelationChain_Relation rc " +
-                             "where union.union = interUnion and rcr = rc and rc.relation = ?1");
+            .createQuery("Select c From Concept c, IN(c.relations) as union, IntersectionOfRelations inter, " +
+                         "IN(inter.unions) as interUnion, " +
+                         "IN(inter.relations) AS interRel, IN(interRel.relations) AS rcr, RelationChain_Relation rc " +
+                         "where union.union = interUnion and rcr = rc and rc.relation = ?1");
         q.setParameter(1, rel);
         return q.getResultList();
     }
@@ -50,7 +50,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
     public List<IntersectionOfRelationChains> getObjRelations(Concept c)
     {
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r " +
-                "WHERE r.Object = ?1 or r.Subject = ?1");
+            "WHERE r.Object = ?1 or r.Subject = ?1");
         q.setParameter(1, c);
         List<Relation> objRels = q.getResultList();
         List<IntersectionOfRelationChains> res = new ArrayList<>();
@@ -92,13 +92,13 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
         getEntityManager().clear();
 
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r " +
-                "WHERE r.Object = ?1");
+            "WHERE r.Object = ?1");
         q.setParameter(1, c);
 
         List<Relation> res1 = q.getResultList();
 
         q = getEntityManager().createQuery("SELECT r FROM Relation r " +
-                "WHERE r.Subject = ?1");
+            "WHERE r.Subject = ?1");
         q.setParameter(1, c);
         List<Relation> res2 = q.getResultList();
         List<Relation> res = new ArrayList<>(res1.size()+res2.size());
@@ -118,7 +118,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
     public boolean areRelated(Concept c1, Concept c2)
     {
        Query q = getEntityManager().createQuery("SELECT r FROM Relation r " +
-               "WHERE (r.Object = ?1 and r.Subject = ?2) or (r.Subject = ?1 and r.Object = ?2)");
+            "WHERE (r.Object = ?1 and r.Subject = ?2) or (r.Subject = ?1 and r.Object = ?2)");
        q.setParameter(1, c1);
        q.setParameter(2, c2);
        List<Relation> objRels = q.getResultList();
@@ -137,7 +137,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
     public List<Relation> findRelationsByConceptTypeOfRelation(Concept concept, RelationType type)
     {
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r, RelationType tr "
-                + "WHERE (r.Subject = ?1 and r.Type = tr and tr.ForwardName = ?2)");
+            + "WHERE (r.Subject = ?1 and r.Type = tr and tr.ForwardName = ?2)");
         q.setParameter(1, concept);
         q.setParameter(2, type.getForwardName());
         return q.getResultList();

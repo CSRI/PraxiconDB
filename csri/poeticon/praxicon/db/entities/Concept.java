@@ -46,13 +46,13 @@ import javax.xml.bind.annotation.XmlAccessType;
  * @author Dimitris Mavroeidis
  */
 
-@XmlAccessorType(XmlAccessType.FIELD)
+//@XmlAccessorType(XmlAccessType.FIELD)
 //@XmlType(name = "concept")
 
-@XmlType(namespace = "http://www.csri.gr/concept")
-@XmlRootElement(name="entity")
+//@XmlType(namespace = "http://www.csri.gr/concept")
+//@XmlRootElement(name="entity")
 @Entity
-@EntityListeners(ConceptListener.class)
+//@EntityListeners(ConceptListener.class)
 @NamedQuery(name = "findAllConcepts", query= "select c from Concept c")
 @Table(name="Concepts") //, Definition = "SMALLINT UNSIGNED COMMENT 'The Concept table. This is the key table of the database'")
 //@ConceptConstraint(groups=ConceptGroup.class)
@@ -118,8 +118,8 @@ public class Concept implements Serializable
     protected Long Id;
 
     @Column(name="Name")
-    @XmlElement(required = true)
     @Size(min = 5, max = 14)
+    @XmlElement(required = true)
     @NotNull(message="Concept name must be specified.")
     String Name;
 
