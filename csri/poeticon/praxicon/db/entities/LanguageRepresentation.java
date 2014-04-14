@@ -91,7 +91,9 @@ public class LanguageRepresentation implements Serializable
     @Column(name="LanguageRepresentationId")
     private Long Id;
 
-    @Column(name="Language")
+    /*  The name of the column was truncated because "Language" is a 
+        reserved SQL-99 keyword. */
+    @Column(name="Lang") 
     @NotNull(message="Language must be specified.")
     @Enumerated(EnumType.STRING)
     private language Language;
