@@ -46,8 +46,8 @@ import javax.xml.bind.annotation.XmlAccessType;
  * @author Dimitris Mavroeidis
  */
 
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "concept")
+//@XmlAccessorType(XmlAccessType.FIELD)
+//@XmlType(name = "concept")
 
 //@XmlType(namespace = "http://www.csri.gr/concept")
 @XmlRootElement(name="entity")
@@ -332,7 +332,7 @@ public class Concept implements Serializable
      *	   xmltag="&lt;motoric_representation&gt;"
      *     xmldescription="This tag defines the motoric representation"
      */
-    @XmlElement(name="mr")
+    @XmlElement(name="motoric_representation")
     public final List<MotoricRepresentation> getMotoricRepresentations()
     {
         return MotoricRepresentations;
@@ -365,7 +365,7 @@ public class Concept implements Serializable
      *     xmldescription="This tag defines the Visual Representation of the
      *     concept"
      */
-    @XmlElement(name="vr")
+    @XmlElement(name="visual_representation")
     public List<VisualRepresentation> getVisualRepresentations()
     {
         return VisualRepresentations;
