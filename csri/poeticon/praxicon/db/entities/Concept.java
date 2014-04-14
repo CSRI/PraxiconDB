@@ -46,11 +46,11 @@ import javax.xml.bind.annotation.XmlAccessType;
  * @author Dimitris Mavroeidis
  */
 
-//@XmlAccessorType(XmlAccessType.FIELD)
-//@XmlType(name = "concept")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "concept")
 
 //@XmlType(namespace = "http://www.csri.gr/concept")
-//@XmlRootElement(name="entity")
+@XmlRootElement(name="entity")
 @Entity
 //@EntityListeners(ConceptListener.class)
 @NamedQuery(name = "findAllConcepts", query= "select c from Concept c")
