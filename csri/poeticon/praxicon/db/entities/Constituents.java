@@ -15,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -22,8 +24,10 @@ import javax.xml.bind.annotation.XmlType;
  *
  * @author dmavroeidis
  */
-@XmlType(namespace="http://www.csri.gr/constituents")
-@XmlRootElement()
+
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(namespace="http://www.csri.gr/constituent")
+@XmlRootElement(name="constituent")
 @Entity
 @Table(name="Constituents")
 public class Constituents implements Serializable {

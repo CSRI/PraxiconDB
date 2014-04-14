@@ -22,7 +22,9 @@ import javax.persistence.Table;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
@@ -30,6 +32,8 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Dimitris Mavroeidis
  * 
  */
+@XmlType(name = "relationchain_relation", namespace = "http://www.csri.gr/relationchain_relation")
+@XmlRootElement(name="relationchain_relation")
 @Entity
 @Table(name="RelationChains_Relations")
 public class RelationChain_Relation implements Serializable

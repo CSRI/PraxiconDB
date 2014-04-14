@@ -18,12 +18,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author dmavroeidis
  */
-@XmlRootElement()
+@XmlType(name = "verbalization", namespace = "http://www.csri.gr/verbalization")
+@XmlRootElement(name="verbalization")
 @Entity
 @Table(name="Verbalizations")
 public class Verbalization implements Serializable {

@@ -33,15 +33,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
     @Override
     public List<Concept> findAll()
     {
-
         Query query = getEntityManager().createNamedQuery("findAllConcepts");
         List<Concept> concepts = query.getResultList();
-
         return concepts;
-
-        // Old implementation:
-//        Query q = getEntityManager().createQuery("SELECT c FROM Concept c");
-//        return q.getResultList();
     }
 
     /**

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:relation="http://www.csri.gr/relation" xmlns:relationchain_relation="http://www.csri.gr/relationchain_relation" targetNamespace="http://www.csri.gr/relation_chain" version="1.0">
+
+  <xs:import schemaLocation="schema13.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/relation" schemaLocation="/home/dmavroeidis/work/praxicondb/xsd/relation.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/relationchain_relation" schemaLocation="/home/dmavroeidis/work/praxicondb/xsd/relationchain_relation.xsd"/>
+
+  <xs:complexType name="relation_chain">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="language_representation_names" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="relation_order" type="relationchain_relation:relationchain_relation"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:long"/>
+    <xs:attribute name="name" type="xs:string"/>
+  </xs:complexType>
+</xs:schema>

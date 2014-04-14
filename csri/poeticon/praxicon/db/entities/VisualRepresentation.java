@@ -25,10 +25,13 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
@@ -36,7 +39,9 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Dimitris Mavroeidis
  * 
  */
-@XmlRootElement()
+//@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "visual_representation", namespace = "http://www.csri.gr/visual_representation")
+@XmlRootElement(name="visual_representation")
 @Entity
 @Table(name="VisualRepresentations")
 public class VisualRepresentation implements Serializable
@@ -225,8 +230,8 @@ public class VisualRepresentation implements Serializable
         return "[Id=" + Id + "] "+this.MediaType+ ": "+ this.Representation;
     }
 
-//    public void afterUnmarshal(Unmarshaller u, Object parent)
-//    {
+    public void afterUnmarshal(Unmarshaller u, Object parent)
+    {
 //        this.owner = (VisualRepresentation)parent;
-//    }
+    }
 }

@@ -25,13 +25,13 @@ public class GeneratePraxiconXSD {
         this.jaxbContext = JAXBContext.newInstance(Concept.class);
     }
 
-    public static void main() throws JAXBException, IOException
+    public static void main(String args[]) throws JAXBException, IOException
     {
+        SchemaOutputResolver sour;
         JAXBContext jaxbContext;
-        scoure = new PraxiconDBOutputResolver();
+        sour = new PraxiconDBOutputResolver();
         jaxbContext = JAXBContext.newInstance(Concept.class);
-        jaxbContext.generateSchema(scoure);
-        scoure.createOutput("http://www.csri.gr/concept", "/home/dmavroeidis/output.xsd");
+        jaxbContext.generateSchema(sour);
+        sour.createOutput("http://www.csri.gr/concept", "output.xsd");
     }
-
 }

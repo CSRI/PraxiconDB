@@ -31,10 +31,13 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 
 /**
@@ -43,8 +46,11 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Dimitris Mavroeidis
  * 
  */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "relation", namespace = "http://www.csri.gr/relation")
+@XmlRootElement(name="relation")
 
-@XmlRootElement()
+//@XmlAccessorType(XmlAccessType.NONE)
 @Entity
 @Table(name="Relations")
 public class Relation implements Serializable
@@ -155,12 +161,13 @@ public class Relation implements Serializable
     }
 
     /**
+     * @return Concept as subject
      * @xmlcomments.args
      *	   xmltag="subject"
      *     xmldescription="This attribute defines the object that the
      *                     relation is related to"
      */
-    @XmlAttribute(name="subject")
+    //@XmlAttribute(name="subject")
     @XmlTransient
     public Concept getSubject()
     {
@@ -179,7 +186,7 @@ public class Relation implements Serializable
      *     xmldescription="This attribute defines if the relation supports 
      *                     derivation or not"
      */
-    @XmlAttribute(name="derivation_supported")
+    //@XmlAttribute(name="derivation_supported")
     public derivation_supported DerivationSupported()
     {
         return DerivationSupported;
@@ -202,7 +209,7 @@ public class Relation implements Serializable
     }
 
     @XmlTransient
-    @XmlAttribute(name="object")
+    //@XmlAttribute(name="object")
     /**
      * @xmlcomments.args
      *	   xmltag="object"
@@ -225,7 +232,7 @@ public class Relation implements Serializable
      *	   xmltag="&lt;relation_type&gt;"
      *     xmldescription="This tag defines the type of the relation"
      */
-   @XmlElement
+    @XmlElement
     public RelationType getType()
     {
         return Type;
@@ -277,7 +284,7 @@ public class Relation implements Serializable
         this.Comment = comment;
     }
 
-   @XmlTransient
+    @XmlTransient
     public List<LanguageRepresentation> getLanguageRepresentationObject()
     {
         return LanguageRepresentationObject;

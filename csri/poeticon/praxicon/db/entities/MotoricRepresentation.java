@@ -18,10 +18,13 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * 
@@ -29,7 +32,10 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Erevodifwntas
  *
  */
-@XmlRootElement()
+
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "motoric_representation", namespace = "http://www.csri.gr/motoric_representation")
+@XmlRootElement(name="motoric_representation")
 @Entity
 @Table(name="MotoricRepresentations")
 public class MotoricRepresentation implements Serializable
@@ -178,8 +184,8 @@ public class MotoricRepresentation implements Serializable
         return "csri.poeticon.praxicon.db.entities.MotoricRepresentation[id=" + Id + "]";
     }
 
-//    public void afterUnmarshal(Unmarshaller u, Object parent)
-//    {
-//        this.owner = (MotoricRepresentationGroup)parent;
-//    }
+    public void afterUnmarshal(Unmarshaller u, Object parent)
+    {
+        //this.owner = (MotoricRepresentationGroup)parent;
+    }
 }

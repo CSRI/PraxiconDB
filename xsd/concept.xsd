@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:compositionality="http://www.csri.gr/compositionality" xmlns:concept="http://www.csri.gr/concept" xmlns:constituent="http://www.csri.gr/constituent" xmlns:intersection_of_relation_chains="http://www.csri.gr/intersection_of_relation_chains" xmlns:language_representation="http://www.csri.gr/language_representation" xmlns:motoric_representation="http://www.csri.gr/motoric_representation" xmlns:relation="http://www.csri.gr/relation" xmlns:relation_chain="http://www.csri.gr/relation_chain" xmlns:relation_type="http://www.csri.gr/relation_type" xmlns:relationchain_relation="http://www.csri.gr/relationchain_relation" xmlns:visual_representation="http://www.csri.gr/visual_representation" targetNamespace="http://www.csri.gr/concept" version="1.0">
+
+  <xs:import schemaLocation="schema13.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/relation" schemaLocation="/home/dmavroeidis/work/praxicondb/xsd/relation.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/relation_chain" schemaLocation="/home/dmavroeidis/work/praxicondb/xsd/relation_chain.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/intersection_of_relation_chains" schemaLocation="/home/dmavroeidis/work/praxicondb/xsd/intersection_of_relation_chains.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/constituent" schemaLocation="/home/dmavroeidis/work/praxicondb/xsd/constituent.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/compositionality" schemaLocation="/home/dmavroeidis/work/praxicondb/xsd/compositionality.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/language_representation" schemaLocation="/home/dmavroeidis/work/praxicondb/xsd/language_representation.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/visual_representation" schemaLocation="/home/dmavroeidis/work/praxicondb/xsd/visual_representation.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/motoric_representation" schemaLocation="/home/dmavroeidis/work/praxicondb/xsd/motoric_representation.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/relationchain_relation" schemaLocation="/home/dmavroeidis/work/praxicondb/xsd/relationchain_relation.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/relation_type" schemaLocation="/home/dmavroeidis/work/praxicondb/xsd/relation_type.xsd"/>
+
+  <xs:complexType name="concept">
+    <xs:sequence>
+      <xs:element name="Id" type="xs:long"/>
+      <xs:element name="Name" type="xs:string"/>
+      <xs:element name="ConceptType" type="type"/>
+      <xs:element name="SpecificityLevel" type="specificityLevel"/>
+      <xs:element name="Status" type="status"/>
+      <xs:element minOccurs="0" name="UniqueInstance" type="uniqueInstance"/>
+      <xs:element minOccurs="0" name="PragmaticStatus" type="pragmaticStatus"/>
+      <xs:element minOccurs="0" name="Source" type="xs:string"/>
+      <xs:element minOccurs="0" name="Comment" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" name="LanguageRepresentations" type="language_representation:language_representation"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="VisualRepresentations" nillable="true" type="visual_representation:visual_representation"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="MotoricRepresentations" nillable="true" type="motoric_representation:motoric_representation"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="IntersectionsOfRelationChains" nillable="true" type="intersection_of_relation_chains:intersection_of_relation_chains"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="RelationsContainingConceptAsObject" nillable="true" type="relation:relation"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="RelationsContainingConceptAsSubject" nillable="true" type="relation:relation"/>
+      <xs:element minOccurs="0" name="comment" type="xs:string"/>
+      <xs:element minOccurs="0" name="concept_type" type="type"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" ref="intersection_of_relation_chains"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" ref="language_representation"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" ref="motoric_representation"/>
+      <xs:element minOccurs="0" name="pragmatic_status" type="pragmaticStatus"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" ref="intersection_of_relation_chains"/>
+      <xs:element minOccurs="0" name="source" type="xs:string"/>
+      <xs:element minOccurs="0" name="specificity_level" type="specificityLevel"/>
+      <xs:element minOccurs="0" name="status" type="status"/>
+      <xs:element minOccurs="0" name="unique_instance" type="uniqueInstance"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" ref="visual_representation"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:long"/>
+    <xs:attribute name="name" type="xs:string"/>
+  </xs:complexType>
+</xs:schema>

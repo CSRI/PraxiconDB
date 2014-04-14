@@ -18,11 +18,23 @@
                 <artifactId>jaxb2-maven-plugin</artifactId>
                 <version>1.6</version>
                 <executions>
-                    <execution>
+                    <!--<execution>
                         <id>schemagen</id>
                         <goals>
                             <goal>schemagen</goal>
                         </goals>
+                    </execution> -->
+                    <execution>
+                        <goals>
+                            <goal>schemagen</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <includes>
+                                <include>csri/poeticon/praxicon/db/entities/*.java</include>
+                            </includes>
+                            <outputDirectory>${project.build.directory}/schemas</outputDirectory>
+                        </configuration>
                     </execution>
                 </executions>
                 <configuration>
@@ -51,12 +63,70 @@
                         <transformSchema>
                             <uri>http://www.csri.gr/concept</uri>
                             <toPrefix>concept</toPrefix>
-                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/concept</toFile>
+                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/concept.xsd</toFile>
                         </transformSchema>
+                        <transformSchema>
+                            <uri>http://www.csri.gr/compositionality</uri>
+                            <toPrefix>compositionality</toPrefix>
+                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/compositionality.xsd</toFile>
+                        </transformSchema>
+                        <transformSchema>
+                            <uri>http://www.csri.gr/constituent</uri>
+                            <toPrefix>constituent</toPrefix>
+                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/constituent.xsd</toFile>
+                        </transformSchema>
+                        <transformSchema>
+                            <uri>http://www.csri.gr/relation</uri>
+                            <toPrefix>relation</toPrefix>
+                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/relation.xsd</toFile>
+                        </transformSchema>
+                        <transformSchema>
+                            <uri>http://www.csri.gr/intersection_of_relation_chains</uri>
+                            <toPrefix>intersection_of_relation_chains</toPrefix>
+                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/intersection_of_relation_chains.xsd</toFile>
+                        </transformSchema>
+                        <transformSchema>
+                            <uri>http://www.csri.gr/language_representation</uri>
+                            <toPrefix>language_representation</toPrefix>
+                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/language_representation.xsd</toFile>
+                        </transformSchema>
+                        <transformSchema>
+                            <uri>http://www.csri.gr/motoric_representation</uri>
+                            <toPrefix>motoric_representation</toPrefix>
+                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/motoric_representation.xsd</toFile>
+                        </transformSchema>
+                        <transformSchema>
+                            <uri>http://www.csri.gr/visual_representation</uri>
+                            <toPrefix>visual_representation</toPrefix>
+                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/visual_representation.xsd</toFile>
+                        </transformSchema>
+                        <transformSchema>
+                            <uri>http://www.csri.gr/relation_chain</uri>
+                            <toPrefix>relation_chain</toPrefix>
+                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/relation_chain.xsd</toFile>
+                        </transformSchema>
+                        <transformSchema>
+                            <uri>http://www.csri.gr/relationchain_relation</uri>
+                            <toPrefix>relationchain_relation</toPrefix>
+                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/relationchain_relation.xsd</toFile>
+                        </transformSchema>
+                        <transformSchema>
+                            <uri>http://www.csri.gr/relation_type</uri>
+                            <toPrefix>relation_type</toPrefix>
+                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/relation_type.xsd</toFile>
+                        </transformSchema>
+                        <transformSchema>
+                            <uri>http://www.csri.gr/verbalization</uri>
+                            <toPrefix>verbalization</toPrefix>
+                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/verbalization.xsd</toFile>
+                        </transformSchema>
+
+
                     </transformSchemas>
                     <includes>
                         <include>**/*.java</include>
                     </includes>
+                    <verbose>True</verbose>
                 </configuration>
             </plugin>
             <plugin>

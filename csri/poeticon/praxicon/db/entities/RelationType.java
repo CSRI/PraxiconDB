@@ -23,6 +23,7 @@ import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
@@ -30,7 +31,8 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Dimitris Mavroeidis
  *
  */
-@XmlRootElement()
+@XmlType(name = "relation_type", namespace = "http://www.csri.gr/relation_type")
+@XmlRootElement(name="relation_type")
 @Entity
 @Table(name="RelationTypes")
 public class RelationType implements Serializable

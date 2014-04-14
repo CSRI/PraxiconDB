@@ -26,10 +26,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
@@ -37,7 +40,10 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Dimitris Mavroeidis
  * 
  */
-@XmlRootElement()
+
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "intersection_of_relation_chains", namespace = "http://www.csri.gr/intersection_of_relation_chains")
+@XmlRootElement(name="intersection_of_relation_chains")
 @Entity
 @Table(name="IntersectionsOfRelationChains")
 public class IntersectionOfRelationChains implements Serializable
