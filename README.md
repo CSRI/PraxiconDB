@@ -33,7 +33,7 @@ Getting the Software
 Currently, there is one way to get the Praxicon DB software. You can download
 it from the local CSRI Git repository using the command below:
 
-git pull git@192.168.1.200:dmavroeidis/praxicondb.git
+git pull https://github.com/CSRI/PraxiconDB.git
 
 
 Installation and Usage
