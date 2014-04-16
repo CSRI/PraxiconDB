@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 //@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "relation_chain", namespace = "http://www.csri.gr/relation_chain")
-@XmlRootElement(name="relation_chain")
+@XmlRootElement(name="relation_chain", namespace = "http://www.csri.gr/relation_chain")
 @Entity
 @Table(name="RelationChains")
 public class RelationChain implements Serializable

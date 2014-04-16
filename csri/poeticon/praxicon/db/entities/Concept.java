@@ -48,7 +48,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "concept", namespace = "http://www.csri.gr/concept")
-@XmlRootElement(name="concept")
+@XmlRootElement(name="concept", namespace = "http://www.csri.gr/concept")
 @Entity
 //@EntityListeners(ConceptListener.class)
 @NamedQuery(name = "findAllConcepts", query= "select c from Concept c")

@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author dmavroeidis
  */
 @XmlType(name = "verbalization", namespace = "http://www.csri.gr/verbalization")
-@XmlRootElement(name="verbalization")
+@XmlRootElement(name="verbalization", namespace = "http://www.csri.gr/verbalization")
 @Entity
 @Table(name="Verbalizations")
 public class Verbalization implements Serializable {

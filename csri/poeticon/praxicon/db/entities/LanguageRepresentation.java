@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "language_representation", namespace = "http://www.csri.gr/language_representation")
-@XmlRootElement(name="language_representation")
+@XmlRootElement(name="language_representation", namespace = "http://www.csri.gr/language_representation")
 @Entity
 @Table(name="LanguageRepresentations")
 public class LanguageRepresentation implements Serializable

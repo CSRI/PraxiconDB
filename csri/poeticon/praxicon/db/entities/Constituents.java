@@ -26,8 +26,8 @@ import javax.xml.bind.annotation.XmlType;
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace="http://www.csri.gr/constituent")
-@XmlRootElement(name="constituent")
+@XmlType(name = "constituent", namespace="http://www.csri.gr/constituent")
+@XmlRootElement(name="constituent", namespace="http://www.csri.gr/constituent")
 @Entity
 @Table(name="Constituents")
 public class Constituents implements Serializable {

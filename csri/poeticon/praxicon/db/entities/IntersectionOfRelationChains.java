@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "intersection_of_relation_chains", namespace = "http://www.csri.gr/intersection_of_relation_chains")
-@XmlRootElement(name="intersection_of_relation_chains")
+@XmlRootElement(name="intersection_of_relation_chains", namespace = "http://www.csri.gr/intersection_of_relation_chains")
 @Entity
 @Table(name="IntersectionsOfRelationChains")
 public class IntersectionOfRelationChains implements Serializable

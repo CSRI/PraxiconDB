@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlType;
  *
  */
 @XmlType(name = "relation_type", namespace = "http://www.csri.gr/relation_type")
-@XmlRootElement(name="relation_type")
+@XmlRootElement(name="relation_type", namespace = "http://www.csri.gr/relation_type")
 @Entity
 @Table(name="RelationTypes")
 public class RelationType implements Serializable

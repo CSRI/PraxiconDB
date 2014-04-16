@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author dmavroeidis
  */
 @XmlType(name = "compositionality", namespace = "http://www.csri.gr/compositionality")
-@XmlRootElement(name="compositionality")
+@XmlRootElement(name="compositionality", namespace = "http://www.csri.gr/compositionality")
 @Entity
 @Table(name="Compositionality")
 public class Compositionality implements Serializable {

@@ -48,7 +48,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "relation", namespace = "http://www.csri.gr/relation")
-@XmlRootElement(name="relation")
+@XmlRootElement(name="relation", namespace = "http://www.csri.gr/relation")
 
 //@XmlAccessorType(XmlAccessType.NONE)
 @Entity

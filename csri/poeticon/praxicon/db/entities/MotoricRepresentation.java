@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "motoric_representation", namespace = "http://www.csri.gr/motoric_representation")
-@XmlRootElement(name="motoric_representation")
+@XmlRootElement(name="motoric_representation", namespace = "http://www.csri.gr/motoric_representation")
 @Entity
 @Table(name="MotoricRepresentations")
 public class MotoricRepresentation implements Serializable

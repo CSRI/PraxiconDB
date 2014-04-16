@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 //@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "visual_representation", namespace = "http://www.csri.gr/visual_representation")
-@XmlRootElement(name="visual_representation")
+@XmlRootElement(name="visual_representation", namespace = "http://www.csri.gr/visual_representation")
 @Entity
 @Table(name="VisualRepresentations")
 public class VisualRepresentation implements Serializable
