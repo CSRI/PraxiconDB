@@ -267,213 +267,75 @@ public class Concept implements Serializable
         }
     }
 
+    @XmlAttribute
+    public Long getId()
+    {
+        return Id;
+    }
+
+    public void setId(Long id)
+    {
+        this.Id = id;
+    }
 
     /**
-     * @return 
+     * @return the name of the concept.
      * @xmlcomments.args
-     *	   xmltag="&lt;intersection_of_relation_chains&gt;"
-     *     xmldescription="This tag defines the interesections
-     *     of relation chains this concept participates in"
+     *	   xmltag="name"
+     *     xmldescription="This attribute defines the name of the element"
      */
-    @XmlElement(name="intersection_of_relation_chains")
-    public List<IntersectionOfRelationChains> getRelations() {
-        return IntersectionsOfRelationChains;
-    }
-
-
-    @XmlTransient
-    public final List<Relation> getRelationsContainingConceptAsObject()
+    @XmlAttribute(name = "name")
+    public String getName()
     {
-        return RelationsContainingConceptAsObject;
-    }
-
-    public void setRelationsContainingConceptAsObject(List<Relation> objOfRelations)
-    {
-        this.RelationsContainingConceptAsObject = objOfRelations;
-    }
-
-
-    /**
-     * @return the language representations of the concept
-     * 
-     */
-    @XmlElement(name="language_representation")
-    public final List<LanguageRepresentation> getLanguageRepresentations()
-    {
-        return LanguageRepresentations;
-    }
-
-    public List<LanguageRepresentation> getLanguageRepresentationsEntries()
-    {
-        List<LanguageRepresentation> language_representation_entries = new ArrayList<>();
-        for (LanguageRepresentation LanguageRepresentation : this.LanguageRepresentations) {
-            language_representation_entries.add(LanguageRepresentation);
-        }
-        return language_representation_entries;
-    }
-
-    public void addLanguageRepresentation(LanguageRepresentation language_representation)
-    {
-        this.LanguageRepresentations.add(language_representation);
-    }
-
-    public void setLanguageRepresentation(List<LanguageRepresentation> language_representations)
-    {
-        this.LanguageRepresentations = language_representations;
-    }
-
-    /**
-     * @return 
-     * @xmlcomments.args
-     *	   xmltag="&lt;motoric_representation&gt;"
-     *     xmldescription="This tag defines the motoric representation"
-     */
-    @XmlElement(name="motoric_representation")
-    public final List<MotoricRepresentation> getMotoricRepresentations()
-    {
-        return MotoricRepresentations;
-    }
-
-    public List<MotoricRepresentation> getMotoricRepresentationsEntries()
-    {
-        List<MotoricRepresentation> motoric_representation_entries = new ArrayList<>();
-        for (MotoricRepresentation MotoricRepresentation : this.MotoricRepresentations) {
-            motoric_representation_entries.add(MotoricRepresentation);
-        }
-        return motoric_representation_entries;
-    }
-
-    public void setMotoricRepresentations(List<MotoricRepresentation> motoric_representations)
-    {
-        this.MotoricRepresentations = motoric_representations;
-    }
-
-    public void addMotoricRepresentation(MotoricRepresentation motoric_representation)
-    {
-        this.MotoricRepresentations.add(motoric_representation);
-    }
-
-
-    /**
-     * @return 
-     * @xmlcomments.args
-     *	   xmltag="&lt;visual_representation&gt;"
-     *     xmldescription="This tag defines the Visual Representation of the
-     *     concept"
-     */
-    @XmlElement(name="visual_representation")
-    public List<VisualRepresentation> getVisualRepresentations()
-    {
-        return VisualRepresentations;
-    }
-
-    public void addVisualRepresentation(VisualRepresentation visual_representation)
-    {
-        this.VisualRepresentations.add(visual_representation);
-    }
-
-    public void setVisualRepresentation(List<VisualRepresentation> visual_representations)
-    {
-        this.VisualRepresentations = visual_representations;
-    }
-    
-    public final List<VisualRepresentation> getVisualRepresentationsEntries()
-    {
-        List<VisualRepresentation> visual_representation_entries = new ArrayList<>();
-        for (VisualRepresentation VisualRepresentation : this.VisualRepresentations) {
-            visual_representation_entries.add(VisualRepresentation);
-        }
-        return visual_representation_entries;
-    }
-
-
-    /**
-     * Gets text of the first language representation of language "en" for this concept
-     * @return a string
-     */
-    public String getLanguageRepresentationName()
-    {
-        List<LanguageRepresentation> les = this.getLanguageRepresentations();
-        for (LanguageRepresentation le : les) {
-            if (le.getLanguage().name().equalsIgnoreCase("en")) {
-                return le.getText();
-            }
-        }
-        if (les.size() > 0)
+        if (Name!=null)
         {
-            return les.get(0).getText();
+            return Name;
         }
-        return "noname";
-    }
-
-
-    /**
-     * @return 
-     * @xmlcomments.args
-     *	   xmltag="&lt;source&gt;"
-     *     xmldescription="This tag defines the source of the concept (from which
-     *          resources was generated (for example: Wordnet)"
-     */
-    @XmlElement(name="source")
-    public String getSource()
-    {
-        return Source;
-    }
-
-    public void setSource(String source)
-    {
-        this.Source = source;
-    }
-
-    /**
-     * @return 
-     * @xmlcomments.args
-     *	   xmltag="&lt;unique_instance&gt;"
-     *     xmldescription="This tag defines the source of the concept (from which
-     *          resources was generated (for example: Wordnet)"
-     */
-    @XmlElement(name="unique_instance")
-    public unique_instance getUniqueInstance()
-    {
-        return UniqueInstance;
-    }
-
-    public void setUniqueInstance(unique_instance unique_instance)
-    {
-        this.UniqueInstance = unique_instance;
+        else
+            return Id+"";
     }
 
     /**
      * 
-     * @return a string containing additional information about the concept.
-     * 
-     * 
+     * @return the pure name of the concept without the wordnet identifiers.
      */
-    @XmlElement(name="comment")
-    public String getComment()
+    public String getNameNoNumbers()
     {
-        return Comment;
+        if (Name!=null)
+        {
+            return Name.replaceAll("%\\d+:\\d+:\\d+:\\d*:\\d*", "");
+        }
+        else
+            return Id+"";
     }
 
-    public void setComment(String comment)
+    public void setName(String name)
     {
-        this.Comment = comment;
+        this.Name = name.trim();
     }
 
-    //
     /**
-     * @return an intersection of relation chains.
+     * @return the type of the concept.
      * @xmlcomments.args
-     *	   xmltag="&lt;intersection_of_relation_chains&gt;"
-     *     xmldescription="This tag defines the intersection of relation chains
-     *     this concept participates in"
+     *	   xmltag="&lt;concept_type&gt;"
+     *     xmldescription="This tag defines the type of the concept entity
+     *     (abstract, entity, feature, movement, unknown)"
      */
-    @XmlElement(name="intersection_of_relation_chains")
-    public final List<IntersectionOfRelationChains> getIntersectionsOfRelationChains()
+    @XmlElement(name="concept_type")
+    public type getConceptType()
     {
-        return IntersectionsOfRelationChains;
+        return ConceptType;
     }
 
+    public void setConceptType(type concept_type)
+    {
+        this.ConceptType = concept_type;
+    }
+
+    public void setConceptType(String concept_type)
+    {
+        this.ConceptType = type.valueOf(concept_type.trim().toUpperCase());
+    }
 
     /**
      * @return the specificity level of the concept.
@@ -513,6 +375,373 @@ public class Concept implements Serializable
     }
 
     /**
+     * @return the status of the concept.
+     * @xmlcomments.args
+     *	   xmltag="&lt;status&gt;"
+     *     xmldescription="This tag defines if the entity is a variable,
+     *                     a constant or a template"
+     */
+    @XmlElement(name="status")
+    //@ConstantConcepts(value=status.CONSTANT)
+    public status getStatus()
+    {
+        return Status;
+    }
+
+    //@ConstantConcepts
+    public void setStatus(status var_type)
+    {
+        this.Status = var_type;
+    }
+
+    //@ConstantConcepts
+    public void setStatus(String var_type)
+    {
+        this.Status = status.valueOf(var_type.trim().toUpperCase());
+    }
+    
+    /**
+     * @return 
+     * @xmlcomments.args
+     *	   xmltag="&lt;unique_instance&gt;"
+     *     xmldescription="This tag defines the source of the concept (from which
+     *          resources was generated (for example: Wordnet)"
+     */
+    @XmlElement(name="unique_instance")
+    public unique_instance getUniqueInstance()
+    {
+        return UniqueInstance;
+    }
+
+    public void setUniqueInstance(unique_instance unique_instance)
+    {
+        this.UniqueInstance = unique_instance;
+    }
+
+    /**
+     * @return the pragmatic status of the concept.
+     * @xmlcomments.args
+     *	   xmltag="&lt;pragmatic_status&gt;"
+     *     xmldescription="This tag defines if the entity is literal or figurative"
+     */
+    @XmlElement(name="pragmatic_status")
+    public pragmatic_status getPragmaticStatus()
+    {
+        return PragmaticStatus;
+    }
+
+    public void setPragmaticStatus(pragmatic_status pragmatic_status)
+    {
+        this.PragmaticStatus = pragmatic_status;
+    }
+
+    public void setPragmaticStatus(String pragmatic_status)
+    {
+        String tmp = pragmatic_status;
+        tmp = tmp.replace(".", "_");
+        tmp = tmp.replace(":", "_");
+        // TODO: Check below if it returns the correct value.
+        this.PragmaticStatus = PragmaticStatus.valueOf(tmp.trim().toUpperCase());
+    }
+
+    /**
+     * @return 
+     * @xmlcomments.args
+     *	   xmltag="&lt;source&gt;"
+     *     xmldescription="This tag defines the source of the concept (from which
+     *          resources was generated (for example: Wordnet)"
+     */
+    @XmlElement(name="source")
+    public String getSource()
+    {
+        return Source;
+    }
+
+    public void setSource(String source)
+    {
+        this.Source = source;
+    }
+
+        /**
+     * 
+     * @return a string containing additional information about the concept.
+     * 
+     * 
+     */
+    @XmlElement(name="comment")
+    public String getComment()
+    {
+        return Comment;
+    }
+
+    public void setComment(String comment)
+    {
+        this.Comment = comment;
+    }
+    
+    /**
+     * @return the language representations of the concept
+     * 
+     */
+    @XmlElement(name="language_representation")
+    public final List<LanguageRepresentation> getLanguageRepresentations()
+    {
+        return LanguageRepresentations;
+    }
+
+    public List<LanguageRepresentation> getLanguageRepresentationsEntries()
+    {
+        List<LanguageRepresentation> language_representation_entries = new ArrayList<>();
+        for (LanguageRepresentation LanguageRepresentation : this.LanguageRepresentations) {
+            language_representation_entries.add(LanguageRepresentation);
+        }
+        return language_representation_entries;
+    }
+
+    public void addLanguageRepresentation(LanguageRepresentation language_representation)
+    {
+        this.LanguageRepresentations.add(language_representation);
+    }
+
+    public void setLanguageRepresentation(List<LanguageRepresentation> language_representations)
+    {
+        this.LanguageRepresentations = language_representations;
+    }
+   
+    /**
+     * Gets text of the first language representation of language "en" for this concept
+     * @return a string
+     */
+    public String getLanguageRepresentationName()
+    {
+        List<LanguageRepresentation> les = this.getLanguageRepresentations();
+        for (LanguageRepresentation le : les) {
+            if (le.getLanguage().name().equalsIgnoreCase("en")) {
+                return le.getText();
+            }
+        }
+        if (les.size() > 0)
+        {
+            return les.get(0).getText();
+        }
+        return "noname";
+    }
+
+    /**
+     * Updates LanguageRepresentation of a concept using this concept's LanguageRepresentation
+     * @param oldCon the concept to be updated
+     */
+    public void updateLanguageRepresentations(Concept oldCon)
+    {
+        for (int i = 0; i < this.getLanguageRepresentationsEntries().size(); i++)
+        {
+            if (!oldCon.getLanguageRepresentationsEntries().contains(this.getLanguageRepresentationsEntries().get(i)))
+            {
+                this.getLanguageRepresentationsEntries().get(i).getConcepts().remove(this);
+                this.getLanguageRepresentationsEntries().get(i).getConcepts().add(this);
+                oldCon.getLanguageRepresentationsEntries().add(this.getLanguageRepresentationsEntries().get(i));
+            }
+        }
+    }
+    
+    /**
+     * @return 
+     * @xmlcomments.args
+     *	   xmltag="&lt;visual_representation&gt;"
+     *     xmldescription="This tag defines the Visual Representation of the
+     *     concept"
+     */
+    @XmlElement(name="visual_representation")
+    public List<VisualRepresentation> getVisualRepresentations()
+    {
+        return VisualRepresentations;
+    }
+
+    public void addVisualRepresentation(VisualRepresentation visual_representation)
+    {
+        this.VisualRepresentations.add(visual_representation);
+    }
+
+    public void setVisualRepresentation(List<VisualRepresentation> visual_representations)
+    {
+        this.VisualRepresentations = visual_representations;
+    }
+    
+    public final List<VisualRepresentation> getVisualRepresentationsEntries()
+    {
+        List<VisualRepresentation> visual_representation_entries = new ArrayList<>();
+        for (VisualRepresentation VisualRepresentation : this.VisualRepresentations) {
+            visual_representation_entries.add(VisualRepresentation);
+        }
+        return visual_representation_entries;
+    }
+
+    /**
+     * Updates VisualRepresentations of a concept using this concept VisualRepresentations
+     * @param oldCon the concept to be updated
+     */
+    public void updateVisualRepresentations(Concept oldCon)
+    {
+        for (int i = 0; i < this.getVisualRepresentations().size(); i++)
+        {
+            if (!oldCon.getVisualRepresentations().contains(this.getVisualRepresentations().get(i)))
+            {
+                this.getVisualRepresentations().get(i);
+                oldCon.getVisualRepresentations().add(this.getVisualRepresentations().get(i));
+            }
+        }
+    }
+    
+    /**
+     * @return 
+     * @xmlcomments.args
+     *	   xmltag="&lt;motoric_representation&gt;"
+     *     xmldescription="This tag defines the motoric representation"
+     */
+    @XmlElement(name="motoric_representation")
+    public final List<MotoricRepresentation> getMotoricRepresentations()
+    {
+        return MotoricRepresentations;
+    }
+
+    public List<MotoricRepresentation> getMotoricRepresentationsEntries()
+    {
+        List<MotoricRepresentation> motoric_representation_entries = new ArrayList<>();
+        for (MotoricRepresentation MotoricRepresentation : this.MotoricRepresentations) {
+            motoric_representation_entries.add(MotoricRepresentation);
+        }
+        return motoric_representation_entries;
+    }
+
+    public void setMotoricRepresentations(List<MotoricRepresentation> motoric_representations)
+    {
+        this.MotoricRepresentations = motoric_representations;
+    }
+
+    public void addMotoricRepresentation(MotoricRepresentation motoric_representation)
+    {
+        this.MotoricRepresentations.add(motoric_representation);
+    }
+
+    /**
+     * Updates MotoricRepresentations of a concept using this concept MotoricRepresentations
+     * @param oldCon the concept to be updated
+     */
+    public void updateMotoricRepresentations(Concept oldCon)
+    {
+        for (int i = 0; i < this.getMotoricRepresentations().size(); i++)
+        {
+            if (!oldCon.getMotoricRepresentations().contains(this.getMotoricRepresentations().get(i)))
+            {
+                this.getMotoricRepresentations().get(i);
+                oldCon.getMotoricRepresentations().add(this.getMotoricRepresentations().get(i));
+            }
+        }
+    }
+    
+    //
+    /**
+     * @return an intersection of relation chains.
+     * @xmlcomments.args
+     *	   xmltag="&lt;intersection_of_relation_chains&gt;"
+     *     xmldescription="This tag defines the intersection of relation chains
+     *     this concept participates in"
+     */
+    @XmlElement(name="intersection_of_relation_chains")
+    public final List<IntersectionOfRelationChains> getIntersectionsOfRelationChains()
+    {
+        return IntersectionsOfRelationChains;
+    }
+    
+    @XmlTransient
+    public final List<Relation> getRelationsContainingConceptAsObject()
+    {
+        return RelationsContainingConceptAsObject;
+    }
+
+    public void setRelationsContainingConceptAsObject(List<Relation> objOfRelations)
+    {
+        this.RelationsContainingConceptAsObject = objOfRelations;
+    }
+
+    /**
+     * Updates object relations of a concept using this concept object relations
+     * @param oldCon the concept to be updated
+     */
+    public void updateObjOfRelations(Concept oldCon)
+    {
+        for (int i = 0; i < this.getRelationsContainingConceptAsObject().size(); i++)
+        {
+            if (!oldCon.getRelationsContainingConceptAsObject().contains(this.getRelationsContainingConceptAsObject().get(i)))
+            {
+                if (this.getRelationsContainingConceptAsObject().get(i).getObject().equals(this))
+                {
+                    this.getRelationsContainingConceptAsObject().get(i).setObject(oldCon);
+                }
+                else
+                {
+                    this.getRelationsContainingConceptAsObject().get(i).setSubject(oldCon);
+                }
+                oldCon.getRelationsContainingConceptAsObject().add(this.getRelationsContainingConceptAsObject().get(i));
+            }
+        }
+    }
+    
+    
+    /**
+     * Adds a new intersection of relation chains to this concept
+     * @param intersection ready-made intersection of relation chains
+     */
+    public void addIntersectionOfRelationChains(IntersectionOfRelationChains intersection)
+    {
+        intersection.setConcept(this);
+        this.IntersectionsOfRelationChains.add(intersection);
+    }
+    
+
+    /**
+     * Adds a new intersection of relation chains to this concept
+     * created using given relation types (fw+bw) and given relation objects
+     * @param rTypeForward list of forward types of relations
+     * @param rTypeBackward list of backward types of relations
+     * @param obj list of concepts to be used as objects
+     */
+    public void addRelation(List<String> rTypeForward, List<String> rTypeBackward, List<Concept> obj)
+    {
+        IntersectionOfRelationChains inter = new IntersectionOfRelationChains();
+        for (int i = 0; i < rTypeForward.size(); i++)
+        {
+            RelationType rType = new RelationType();
+            rType.setForwardName(rTypeForward.get(i));
+            rType.setBackwardName(rTypeBackward.get(i));
+            Relation rel = new Relation();
+            rel.setType(rType);
+            rel.setSubject(this);
+            rel.setObject(obj.get(i));
+            RelationChain rChain = new RelationChain();
+            rChain.addRelation(rel, 0);
+            inter.addRelationChain(rChain);
+        }
+        this.addIntersectionOfRelationChains(inter);
+    }
+    
+    /**
+     * Updates relations of a concept using this concept relations
+     * @param oldCon the concept to be updated
+     */
+    public void updateRelations(Concept oldCon)
+    {
+        for (int i = 0; i < this.getIntersectionsOfRelationChains().size(); i++)
+        {
+            if (!oldCon.getIntersectionsOfRelationChains().contains(this.getIntersectionsOfRelationChains().get(i)))
+            {
+                this.getIntersectionsOfRelationChains().get(i).setConcept(oldCon);
+                oldCon.getIntersectionsOfRelationChains().add(this.getIntersectionsOfRelationChains().get(i));
+            }
+        }
+    }
+
+    /**
      * Gets a string of concatenated full info for the concept.
      * concept type, status, pragmatic status, basic level, description
      * @return a string
@@ -543,165 +772,6 @@ public class Concept implements Serializable
         sb.append("#");
         sb.append(this.getSpecificityLevel());
         return sb.toString();
-    }
-
-    /**
-     * @return the type of the concept.
-     * @xmlcomments.args
-     *	   xmltag="&lt;concept_type&gt;"
-     *     xmldescription="This tag defines the type of the concept entity
-     *     (abstract, entity, feature, movement, unknown)"
-     */
-    @XmlElement(name="concept_type")
-    public type getConceptType()
-    {
-        return ConceptType;
-    }
-
-    public void setConceptType(type concept_type)
-    {
-        this.ConceptType = concept_type;
-    }
-
-    public void setConceptType(String concept_type)
-    {
-        this.ConceptType = type.valueOf(concept_type.trim().toUpperCase());
-    }
-
-
-    /**
-     * @return the pragmatic status of the concept.
-     * @xmlcomments.args
-     *	   xmltag="&lt;pragmatic_status&gt;"
-     *     xmldescription="This tag defines if the entity is literal or figurative"
-     */
-    @XmlElement(name="pragmatic_status")
-    public pragmatic_status getPragmaticStatus()
-    {
-        return PragmaticStatus;
-    }
-
-    public void setPragmaticStatus(pragmatic_status pragmatic_status)
-    {
-        this.PragmaticStatus = pragmatic_status;
-    }
-
-    public void setPragmaticStatus(String pragmatic_status)
-    {
-        String tmp = pragmatic_status;
-        tmp = tmp.replace(".", "_");
-        tmp = tmp.replace(":", "_");
-        // TODO: Check below if it returns the correct value.
-        this.PragmaticStatus = PragmaticStatus.valueOf(tmp.trim().toUpperCase());
-    }
-
-    /**
-     * @return the status of the concept.
-     * @xmlcomments.args
-     *	   xmltag="&lt;status&gt;"
-     *     xmldescription="This tag defines if the entity is a variable,
-     *                     a constant or a template"
-     */
-    @XmlElement(name="status")
-    //@ConstantConcepts(value=status.CONSTANT)
-    public status getStatus()
-    {
-        return Status;
-    }
-
-    //@ConstantConcepts
-    public void setStatus(status var_type)
-    {
-        this.Status = var_type;
-    }
-
-    //@ConstantConcepts
-    public void setStatus(String var_type)
-    {
-        this.Status = status.valueOf(var_type.trim().toUpperCase());
-    }
-
-    /**
-     * Adds a new intersection of relation chains to this concept
-     * created using given relation types (fw+bw) and given relation objects
-     * @param rTypeForward list of forward types of relations
-     * @param rTypeBackward list of backward types of relations
-     * @param obj list of concepts to be used as objects
-     */
-    public void addRelation(List<String> rTypeForward, List<String> rTypeBackward, List<Concept> obj)
-    {
-        IntersectionOfRelationChains inter = new IntersectionOfRelationChains();
-        for (int i = 0; i < rTypeForward.size(); i++)
-        {
-            RelationType rType = new RelationType();
-            rType.setForwardName(rTypeForward.get(i));
-            rType.setBackwardName(rTypeBackward.get(i));
-            Relation rel = new Relation();
-            rel.setType(rType);
-            rel.setSubject(this);
-            rel.setObject(obj.get(i));
-            RelationChain rChain = new RelationChain();
-            rChain.addRelation(rel, 0);
-            inter.addRelationChain(rChain);
-        }
-        this.addIntersectionOfRelationChains(inter);
-    }
-
-    /**
-     * Adds a new intersection of relation chains to this concept
-     * @param intersection ready-made intersection of relation chains
-     */
-    public void addIntersectionOfRelationChains(IntersectionOfRelationChains intersection)
-    {
-        intersection.setConcept(this);
-        this.IntersectionsOfRelationChains.add(intersection);
-    }
-
-    /**
-     * @return the name of the concept.
-     * @xmlcomments.args
-     *	   xmltag="name"
-     *     xmldescription="This attribute defines the name of the element"
-     */
-    @XmlAttribute(name = "name")
-    public String getName()
-    {
-        if (Name!=null)
-        {
-            return Name;
-        }
-        else
-            return Id+"";
-    }
-
-    /**
-     * 
-     * @return the pure name of the concept without the wordnet identifiers.
-     */
-    public String getNameNoNumbers()
-    {
-        if (Name!=null)
-        {
-            return Name.replaceAll("%\\d+:\\d+:\\d+:\\d*:\\d*", "");
-        }
-        else
-            return Id+"";
-    }
-
-    public void setName(String name)
-    {
-        this.Name = name.trim();
-    }
-
-    @XmlAttribute
-    public Long getId()
-    {
-        return Id;
-    }
-
-    public void setId(Long id)
-    {
-        this.Id = id;
     }
 
     @Override
@@ -801,94 +871,6 @@ public class Concept implements Serializable
         }
 
         System.err.println("Finish unmarshalling: " + this.getName());
-    }
-
-    /**
-     * Updates LanguageRepresentation of a concept using this concept's LanguageRepresentation
-     * @param oldCon the concept to be updated
-     */
-    public void updateLanguageRepresentations(Concept oldCon)
-    {
-        for (int i = 0; i < this.getLanguageRepresentationsEntries().size(); i++)
-        {
-            if (!oldCon.getLanguageRepresentationsEntries().contains(this.getLanguageRepresentationsEntries().get(i)))
-            {
-                this.getLanguageRepresentationsEntries().get(i).getConcepts().remove(this);
-                this.getLanguageRepresentationsEntries().get(i).getConcepts().add(this);
-                oldCon.getLanguageRepresentationsEntries().add(this.getLanguageRepresentationsEntries().get(i));
-            }
-        }
-    }
-
-    /**
-     * Updates MotoricRepresentations of a concept using this concept MotoricRepresentations
-     * @param oldCon the concept to be updated
-     */
-    public void updateMotoricRepresentations(Concept oldCon)
-    {
-        for (int i = 0; i < this.getMotoricRepresentations().size(); i++)
-        {
-            if (!oldCon.getMotoricRepresentations().contains(this.getMotoricRepresentations().get(i)))
-            {
-                this.getMotoricRepresentations().get(i);
-                oldCon.getMotoricRepresentations().add(this.getMotoricRepresentations().get(i));
-            }
-        }
-    }
-
-    /**
-     * Updates VisualRepresentations of a concept using this concept VisualRepresentations
-     * @param oldCon the concept to be updated
-     */
-    public void updateVisualRepresentations(Concept oldCon)
-    {
-        for (int i = 0; i < this.getVisualRepresentations().size(); i++)
-        {
-            if (!oldCon.getVisualRepresentations().contains(this.getVisualRepresentations().get(i)))
-            {
-                this.getVisualRepresentations().get(i);
-                oldCon.getVisualRepresentations().add(this.getVisualRepresentations().get(i));
-            }
-        }
-    }
-
-    /**
-     * Updates object relations of a concept using this concept object relations
-     * @param oldCon the concept to be updated
-     */
-    public void updateObjOfRelations(Concept oldCon)
-    {
-        for (int i = 0; i < this.getRelationsContainingConceptAsObject().size(); i++)
-        {
-            if (!oldCon.getRelationsContainingConceptAsObject().contains(this.getRelationsContainingConceptAsObject().get(i)))
-            {
-                if (this.getRelationsContainingConceptAsObject().get(i).getObject().equals(this))
-                {
-                    this.getRelationsContainingConceptAsObject().get(i).setObject(oldCon);
-                }
-                else
-                {
-                    this.getRelationsContainingConceptAsObject().get(i).setSubject(oldCon);
-                }
-                oldCon.getRelationsContainingConceptAsObject().add(this.getRelationsContainingConceptAsObject().get(i));
-            }
-        }
-    }
-
-    /**
-     * Updates relations of a concept using this concept relations
-     * @param oldCon the concept to be updated
-     */
-    public void updateRelations(Concept oldCon)
-    {
-        for (int i = 0; i < this.getIntersectionsOfRelationChains().size(); i++)
-        {
-            if (!oldCon.getIntersectionsOfRelationChains().contains(this.getIntersectionsOfRelationChains().get(i)))
-            {
-                this.getIntersectionsOfRelationChains().get(i).setConcept(oldCon);
-                oldCon.getIntersectionsOfRelationChains().add(this.getIntersectionsOfRelationChains().get(i));
-            }
-        }
     }
 }
 
