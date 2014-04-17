@@ -30,10 +30,9 @@ or more Unions of Intersections.
 Getting the Software
 --------------------
 
-Currently, there is one way to get the Praxicon DB software. You can download
-it from the local CSRI Git repository using the command below:
+You can get the PraxiconDB software from the CSRI Github repository:
 
-git pull https://github.com/CSRI/PraxiconDB.git
+git clone https://github.com/CSRI/PraxiconDB.git
 
 
 Installation and Usage
