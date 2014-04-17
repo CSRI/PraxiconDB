@@ -68,7 +68,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements RelationD
             RelationChain rc = new RelationChain();
             rc.addRelation(r, 0);
             IntersectionOfRelationChains ir = new IntersectionOfRelationChains();
-            ir.getRelations().add(rc);
+            ir.getRelationChains().add(rc);
             rc.getIntersections().add(ir);
             IntersectionOfRelationChains ui = new IntersectionOfRelationChains();
             if (!c.getIntersectionsOfRelationChains().contains(ui))

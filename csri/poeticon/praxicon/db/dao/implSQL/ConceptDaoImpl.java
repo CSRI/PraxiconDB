@@ -69,7 +69,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
         q.setParameter(1, queryString.toUpperCase());
         List<LanguageRepresentation> lrs = q.getResultList();
 
-        List<LanguageRepresentation> lrgs = new ArrayList<LanguageRepresentation>();
+        List<LanguageRepresentation> lrgs = new ArrayList<>();
         for (LanguageRepresentation lr : lrs) {
             lrgs.addAll(lr.getLanguageRepresentations());
         }
@@ -356,9 +356,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
 //            IntersectionOfRelationChains tmpUnion = conA.getRelations().get(union);
 //            for (int intersection = 0; intersection < tmpUnion.getIntersections().size(); intersection++) {
                 IntersectionOfRelationChains tmpIntersection = conA.getIntersectionsOfRelationChains().get(intersection);
-                for (int relationChain = 0; relationChain < tmpIntersection.getRelations().size(); relationChain++)
+                for (int relationChain = 0; relationChain < tmpIntersection.getRelationChains().size(); relationChain++)
                 {
-                    RelationChain tmpRelationChain = tmpIntersection.getRelations().get(relationChain);
+                    RelationChain tmpRelationChain = tmpIntersection.getRelationChains().get(relationChain);
                     for (int rel = 0; rel < tmpRelationChain.getRelations().size(); rel++) {
                         if (tmpRelationChain.getRelations().get(rel).getRelationOrder() == 0)
                         {
@@ -765,7 +765,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
     public Query getEntityQuery(Concept concept)
     {
         Query q = getEntityManager().createQuery("SELECT e FROM Concept e "
-                + "where e.Name = ?1 and e.Type = ?2 and e.Status =?3 and e.PragmaticStatus = ?4");
+                + "where e.Name = ?1 and e.ConceptType = ?2 and e.Status = ?3 and e.PragmaticStatus = ?4");
+        System.out.println("Concept name: " + concept.getName());
         q.setParameter(1, concept.getName());
         q.setParameter(2, concept.getConceptType());
         q.setParameter(3, concept.getStatus());
@@ -860,11 +861,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
             {
                 newCon.getIntersectionsOfRelationChains().get(i).setConcept(oldCon);
                 IntersectionOfRelationChains inter = newCon.getIntersectionsOfRelationChains().get(i);
-//                for (int j = 0; j < union.getIntersections().size(); j++) {
-//                    IntersectionOfRelationChains inter = union.getIntersections().get(j);
-                    for (int k = 0; k < inter.getRelations().size(); k++)
+                    for (int k = 0; k < inter.getRelationChains().size(); k++)
                     {
-                        RelationChain rc = inter.getRelations().get(k);
+                        RelationChain rc = inter.getRelationChains().get(k);
                         for (int l = 0; l < rc.getRelations().size(); l++)
                         {
                             RelationChain_Relation rcr =
@@ -881,7 +880,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements ConceptDao
                             }
                         }
                     }
-//                }
+
                 oldCon.getIntersectionsOfRelationChains().add(newCon.getIntersectionsOfRelationChains().get(i));
             }
         }
