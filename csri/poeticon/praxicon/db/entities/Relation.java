@@ -168,7 +168,8 @@ public class Relation implements Serializable
      *                     relation is related to"
      */
     //@XmlAttribute(name="subject")
-    @XmlTransient
+    
+    @XmlElement(name = "subject")
     public Concept getSubject()
     {
         return Subject;
@@ -186,7 +187,7 @@ public class Relation implements Serializable
      *     xmldescription="This attribute defines if the relation supports 
      *                     derivation or not"
      */
-    //@XmlAttribute(name="derivation_supported")
+    //@XmlAttribute(name = "derivation_supported")
     public derivation_supported DerivationSupported()
     {
         return DerivationSupported;
@@ -208,8 +209,8 @@ public class Relation implements Serializable
         this.MainFunctions = main_functions;
     }
 
-    @XmlTransient
-    //@XmlAttribute(name="object")
+   
+    @XmlElement(name = "object")
     /**
      * @xmlcomments.args
      *	   xmltag="object"
@@ -232,7 +233,7 @@ public class Relation implements Serializable
      *	   xmltag="&lt;relation_type&gt;"
      *     xmldescription="This tag defines the type of the relation"
      */
-    @XmlElement
+    @XmlElement(name = "relation_type")
     public RelationType getType()
     {
         return Type;
@@ -273,7 +274,7 @@ public class Relation implements Serializable
         this.Id = id;
     }
 
-    @XmlAttribute()
+    @XmlElement(name = "comment")
     public String getComment()
     {
         return Comment;
@@ -298,7 +299,7 @@ public class Relation implements Serializable
     *                     that should be used to express the Object in this
     *                     relation"
     */
-   @XmlElement(name="LanguageRepresentationObject")
+   @XmlElement(name = "language_representation_object")
     public String getLanguageRepresentationObject_()
     {
         String language_representation_object_;
@@ -335,7 +336,7 @@ public class Relation implements Serializable
      *                     that should be used to express the Object
      *                     in this relation"
      */
-    @XmlElement(name="motoric_representation_object")
+    @XmlElement(name = "motoric_representation_object")
     public List<String> getMotoricRepresentationObject_()
     {
         List<String> motoric_representation_object_ = new ArrayList<>();
@@ -423,15 +424,16 @@ public class Relation implements Serializable
         return this.getSubject() + " " + this.getType().getForwardName() + " " + this.getObject();
     }
 
-    public void afterUnmarshal(Unmarshaller u, Object parent) {
-        if (Globals.ToMergeAfterUnMarshalling)
-        {
-            RelationTypeDao rDao = new RelationTypeDaoImpl();
-            this.Type = rDao.getEntity(Type);
-            ConceptDao cDao = new ConceptDaoImpl();
-            this.Object = cDao.getEntity(Object);
-            Object.getRelationsContainingConceptAsObject().add(this);
-            this.Subject = cDao.getEntity(Subject);
-        }
-    }
+//    public void afterUnmarshal(Unmarshaller u, Object parent) 
+//    {
+//        if (Globals.ToMergeAfterUnMarshalling)
+//        {
+//            RelationTypeDao rDao = new RelationTypeDaoImpl();
+//            this.Type = rDao.getEntity(Type);
+//            ConceptDao cDao = new ConceptDaoImpl();
+//            this.Object = cDao.getEntity(Object);
+//            Object.getRelationsContainingConceptAsObject().add(this);
+//            this.Subject = cDao.getEntity(Subject);
+//        }
+//    }
 }

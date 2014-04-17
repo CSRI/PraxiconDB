@@ -108,7 +108,7 @@ public class IntersectionOfRelationChains implements Serializable
      *     xmldescription="This tag defines a relation"
      */
     @XmlElement(name="relation_chain")
-    public List<RelationChain> getRelations()
+    public List<RelationChain> getRelationChains()
     {
         return RelationChains;
     }
@@ -125,7 +125,7 @@ public class IntersectionOfRelationChains implements Serializable
      *	   xmltag="&lt;Language_representation_names&gt;"
      *     xmldescription="This tag defines the names of the LanguageRepresentationGroup that should be used to express this intersection"
      */
-   @XmlElement(name="LanguageRepresentationName")
+   @XmlElement(name="language_representation_names")
     public List<String> getLanguageRepresentationNames_()
     {
        List<String> language_representation_names_ = new ArrayList<>();
@@ -167,7 +167,7 @@ public class IntersectionOfRelationChains implements Serializable
         this.Id = id;
     }
 
-    @XmlAttribute()
+    @XmlElement(name = "name")
     public String getName()
     {
         return Name;
@@ -236,26 +236,26 @@ public class IntersectionOfRelationChains implements Serializable
     @Override
     public String toString()
     {
-        return "csri.poeticon.praxicon.db.entities.IntersectionOfRelations[id=" + Id + "]";
+        return "csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains[id=" + Id + "]";
     }
 
-    public void afterUnmarshal(Unmarshaller u, Object parent)
-    {
-        if (Globals.ToMergeAfterUnMarshalling)
-        {
-            RelationChainDao rcDao = new RelationChainDaoImpl();
-            for (int i = 0; i<this.getRelations().size(); i++)
-            {
-                RelationChain rc =  rcDao.getEntity(this.getRelations().get(i));
-                this.getRelations().set(i,rc);
-            }
-        }
-        else
-        {
-            for (int i = 0; i<this.getRelations().size(); i++)
-            {
-                this.getRelations().get(i).getIntersections().add(this);
-            }
-        }
-    }
+//    public void afterUnmarshal(Unmarshaller u, Object parent)
+//    {
+//        if (Globals.ToMergeAfterUnMarshalling)
+//        {
+//            RelationChainDao rcDao = new RelationChainDaoImpl();
+//            for (int i = 0; i<this.getRelationChains().size(); i++)
+//            {
+//                RelationChain rc =  rcDao.getEntity(this.getRelationChains().get(i));
+//                this.getRelationChains().set(i,rc);
+//            }
+//        }
+//        else
+//        {
+//            for (int i = 0; i<this.getRelationChains().size(); i++)
+//            {
+//                this.getRelationChains().get(i).getIntersections().add(this);
+//            }
+//        }
+//    }
 }

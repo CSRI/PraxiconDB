@@ -111,10 +111,6 @@ public class MotoricRepresentation implements Serializable
         return "";
     }
 
-//    @ManyToOne(optional=false, cascade=CascadeType.ALL)
-//    @JoinColumn(name="MR_GROUP_ID")
-//    private MotoricRepresentationGroup owner;
-
 //    @XmlTransient
 //    public MotoricRepresentation getOwner() {
 //        return owner;
@@ -124,7 +120,7 @@ public class MotoricRepresentation implements Serializable
 //        this.owner = owner;
 //    }
 
-    @XmlElement()
+    @XmlElement(name = "comment")
     public String getComment()
     {
         return Comment;

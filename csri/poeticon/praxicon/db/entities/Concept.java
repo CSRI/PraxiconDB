@@ -17,28 +17,29 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRegistry;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
@@ -116,51 +117,51 @@ public class Concept implements Serializable
     protected Long Id;
 
     @Column(name="Name")
-    @Size(min = 5, max = 14)
-    @XmlElement(required = true)
+    //@Size(min = 5, max = 14)
+    //@XmlElement(required = true)
     @NotNull(message="Concept name must be specified.")
     String Name;
 
     @Column(name="Type")
-    @XmlElement(required = true)
+    //@XmlElement(required = true)
     @NotNull(message="Concept type must be specified.")
     @Enumerated(EnumType.STRING)
     protected type ConceptType;
 
     @Column(name="SpecificityLevel")
-    @XmlElement(required = true)
+    //@XmlElement(required = true)
     @NotNull(message="Specificity level must be specified.")
     @Enumerated(EnumType.STRING)
     protected specificity_level SpecificityLevel;
 
     @Column(name="Status")
-    @XmlElement(required = true)
+    //@XmlElement(required = true)
     @NotNull(message="Concept status must be specified.")
     @Enumerated(EnumType.STRING)
     protected status Status;
     
     @Column(name="UniqueInstance")
-    @XmlElement(required = false)
+    //@XmlElement(required = false)
     @NotNull(message="Concept unique instance must be specified.")
     @Enumerated(EnumType.STRING)
     protected unique_instance UniqueInstance;
 
     @Column(name="PragmaticStatus")
-    @XmlElement(required = false)
+    //@XmlElement(required = false)
     @NotNull(message="Concept pragmatic status must be specified.")
     @Enumerated(EnumType.STRING)
     protected pragmatic_status PragmaticStatus;
 
     @Column(name="Source")
-    @XmlElement(required = false)
+    //@XmlElement(required = false)
     protected String Source;
 
     @Column(name="Comment")
-    @XmlElement(required = false)
+    //@XmlElement(required = false)
     protected String Comment;
 
     @ManyToMany(cascade=CascadeType.ALL)
-    @XmlElement(required = true)
+    //@XmlElement(required = true)
     @JoinTable(
         name="Concepts_LanguageRepresentations",
         joinColumns={@JoinColumn(name="LanguageRepresentationId")},
@@ -293,11 +294,8 @@ public class Concept implements Serializable
 
 
     /**
-     * @return 
-     * @xmlcomments.args
-     *	   xmltag="&lt;language_representation&gt;"
-     *     xmldescription="This tag defines the Language Representation of the
-     *     concept"
+     * @return the language representations of the concept
+     * 
      */
     @XmlElement(name="language_representation")
     public final List<LanguageRepresentation> getLanguageRepresentations()
@@ -665,7 +663,7 @@ public class Concept implements Serializable
      *	   xmltag="name"
      *     xmldescription="This attribute defines the name of the element"
      */
-    @XmlAttribute()
+    @XmlAttribute(name = "name")
     public String getName()
     {
         if (Name!=null)
@@ -892,4 +890,12 @@ public class Concept implements Serializable
             }
         }
     }
+}
+
+@XmlRegistry
+class ObjectFactory {
+  Concept createConcept() 
+  {
+      return new Concept();
+  }
 }

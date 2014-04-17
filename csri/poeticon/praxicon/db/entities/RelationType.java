@@ -200,7 +200,7 @@ public class RelationType implements Serializable
 
     /**
      * Enforces the system to use as a relation type the given string (even if it
-     * is not a relation_name. This isn't stored in the db
+     * is not a relation_name). This isn't stored in the db
      * @param name The forward name of the relation
      */
     public void setForwardNameString(String name)

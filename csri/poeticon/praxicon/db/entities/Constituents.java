@@ -17,6 +17,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -49,6 +50,7 @@ public class Constituents implements Serializable {
     @ManyToOne(cascade=CascadeType.ALL)
     private LanguageRepresentation LanguageRepresentation;
 
+    @XmlAttribute
     public Long getId() {
         return Id;
     }

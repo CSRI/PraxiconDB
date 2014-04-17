@@ -80,7 +80,7 @@ public class RelationChain implements Serializable
         LanguageRepresentationNames = new ArrayList<>();
     }
 
-    @XmlAttribute
+    @XmlElement(name = "name")
     public String getName()
     {
         return name;
@@ -105,7 +105,7 @@ public class RelationChain implements Serializable
      *                     LanguageRepresentation that should be used to
      *                     express this relation chain"
      */
-    @XmlElement(name="language_representation_names")
+    @XmlElement(name = "language_representation_names")
     public List<String> getLanguageRepresentationNames_()
     {
        List<String> language_representation_names_ = new ArrayList<>();
@@ -126,7 +126,7 @@ public class RelationChain implements Serializable
      *	   xmltag="&lt;relation_order&gt;"
      *     xmldescription="This tag defines the relations of the entity
      */
-    @XmlElement(name="relation_order")
+    @XmlElement(name = "relation")
     public List<RelationChain_Relation> getRelations()
     {
         return Relations;

@@ -57,7 +57,7 @@ public class RelationChain_Relation implements Serializable
     @Column(name="RelationOrder")
     long RelationOrder;
 
-    @XmlElement
+    @XmlElement(name = "relation")
     public Relation getRelation()
     {
         return Relation;
@@ -86,7 +86,7 @@ public class RelationChain_Relation implements Serializable
      *     xmldescription="This attribute marks that the order of the relation
      *                      in the relation chain
      */
-    @XmlAttribute(name="order")
+    @XmlElement(name="relation_order")
     public long getRelationOrder()
     {
         return RelationOrder;
@@ -147,13 +147,13 @@ public class RelationChain_Relation implements Serializable
         return "csri.poeticon.praxicon.db.entities.RelationChain_Relation[id=" + Id + "]";
     }
 
-    public void afterUnmarshal(Unmarshaller u, Object parent)
-    {
-        this.RelationChain = (RelationChain)parent;
-        if (Globals.ToMergeAfterUnMarshalling)
-        {
-            RelationDao rDao = new RelationDaoImpl();
-            this.Relation = rDao.getEntity(Relation);
-        }
-    }
+//    public void afterUnmarshal(Unmarshaller u, Object parent)
+//    {
+//        this.RelationChain = (RelationChain)parent;
+//        if (Globals.ToMergeAfterUnMarshalling)
+//        {
+//            RelationDao rDao = new RelationDaoImpl();
+//            this.Relation = rDao.getEntity(Relation);
+//        }
+//    }
 }

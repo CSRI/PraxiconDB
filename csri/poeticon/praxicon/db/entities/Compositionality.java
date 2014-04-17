@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -56,7 +57,7 @@ public class Compositionality implements Serializable {
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "Compositionality")
     private List<LanguageRepresentation> LanguageRepresentation;
 
-
+    @XmlAttribute
     public Long getId() {
         return Id;
     }

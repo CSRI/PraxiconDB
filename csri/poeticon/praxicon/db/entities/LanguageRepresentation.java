@@ -98,7 +98,7 @@ public class LanguageRepresentation implements Serializable
 
     /*  The name of the column was truncated because "Language" is a 
         reserved SQL-99 keyword. */
-    @Column(name="Lang") 
+    @Column(name="Language") 
     @NotNull(message="Language must be specified.")
     @Enumerated(EnumType.STRING)
     private language Language;
@@ -181,7 +181,7 @@ public class LanguageRepresentation implements Serializable
      *	   xmltag="&lt;constituents&gt;"
      *     xmldescription="This tag defines the constituents of a composite word or multiword"
      */
-    @XmlElement()
+    @XmlElement(name = "constituents")
     public List<Constituents> getConstituents()
     {
         List<Constituents> constituents = new ArrayList<>();
@@ -210,7 +210,7 @@ public class LanguageRepresentation implements Serializable
      *	   xmltag="&lt;is_compositional&gt;"
      *     xmldescription="This tag defines if the LanguageRepresentation is compositional or not"
      */
-    @XmlElement()
+    @XmlElement(name = "is_compositional")
     public is_compositional isCompositional()
     {
         return IsCompositional;
@@ -298,7 +298,7 @@ public class LanguageRepresentation implements Serializable
      *	   xmltag="&lt;text&gt;"
      *     xmldescription="This tag defines the text of the entry"
      */
-    @XmlElement()
+    @XmlElement(name = "text")
     public String getText()
     {
         return Text;

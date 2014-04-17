@@ -114,7 +114,7 @@ public class VisualRepresentation implements Serializable
      *     xmldescription="This tag defines the type of the media that represents
      *     visually the entity
      */
-    @XmlElement()
+    @XmlElement(name = "media_type")
     public media_type getMediaType()
     {
         return MediaType;
@@ -131,7 +131,7 @@ public class VisualRepresentation implements Serializable
      *	   xmltag="&lt;uri&gt;"
      *     xmldescription="This tag defines the URI of the media."
      */
-    @XmlElement()
+    @XmlElement(name = "uri")
     public URI getURI()
     {
         return URI;
@@ -150,7 +150,7 @@ public class VisualRepresentation implements Serializable
         }
     }
     
-    @XmlElement()
+    @XmlElement(name = "visual_representation")
     public String getRepresentation()
     {
         return Representation;
