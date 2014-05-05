@@ -27,8 +27,8 @@ public class XML_Utils {
      * should be empty (the function appends the xml content in the end of the
      * file)
      *
-     * @param objects The entities of the csri.poeticon.praxicon.db.entities
-     * that are going to be serialized as an XML
+     * @param objects      The entities of the csri.poeticon.praxicon.db.entities
+     *                     that are going to be serialized as an XML
      * @param XML_FileName The name of the XML file (with or without a path)
      */
     public static void saveToXML(List objects, String XML_FileName) {
@@ -53,12 +53,12 @@ public class XML_Utils {
      * should be empty (the function appends the xml content in the end of the
      * file)
      *
-     * @param collection The entities of the csri.poeticon.praxicon.db.entities
-     * that are going to be serialized as an XML
+     * @param collection   The entities of the csri.poeticon.praxicon.db.entities
+     *                     that are going to be serialized as an XML
      * @param XML_FileName The name of the XML file (with or without a path)
      */
-    public static void 
-        saveToXML(CollectionOfConcepts collection, String XML_FileName) {
+    public static void
+            saveToXML(CollectionOfConcepts collection, String XML_FileName) {
         try {
             //Initialization
             JAXBContext context = JAXBContext.newInstance(

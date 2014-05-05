@@ -2,17 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package csri.poeticon.praxicon.db.dao.implXML;
 
-import csri.poeticon.praxicon.db.dao.implSQL.JpaDao;
-import csri.poeticon.praxicon.Constants;
 import csri.poeticon.praxicon.db.dao.RelationChainDao;
+import csri.poeticon.praxicon.db.dao.implSQL.JpaDao;
 import csri.poeticon.praxicon.db.entities.Concept;
-import csri.poeticon.praxicon.db.entities.Relation;
 import csri.poeticon.praxicon.db.entities.RelationChain;
-import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import javax.persistence.Query;
 
@@ -20,14 +15,13 @@ import javax.persistence.Query;
  *
  * @author Erevodifwntas
  */
-public class RelationChainDaoImplXML extends JpaDao<Long, RelationChain> implements RelationChainDao
-{
+public class RelationChainDaoImplXML extends JpaDao<Long, RelationChain>
+        implements RelationChainDao {
+
     @Override
-    public List<RelationChain> getRelationChainsContainingConcept(Concept c)
-    {
+    public List<RelationChain> getRelationChainsContainingConcept(Concept c) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
 
 //    @Override
 //    public List<RelationChain> getRelationChainsContainingConcept(Concept c)
@@ -63,8 +57,7 @@ public class RelationChainDaoImplXML extends JpaDao<Long, RelationChain> impleme
      * @return null //for now
      */
     @Override
-    public Query getEntityQuery(RelationChain entity)
-    {
+    public Query getEntityQuery(RelationChain entity) {
         return null;
     }
 

@@ -2,11 +2,11 @@ package csri.poeticon.praxicon;
 
 import csri.poeticon.praxicon.db.entities.CollectionOfConcepts;
 import csri.poeticon.praxicon.db.entities.Concept;
-import java.util.Properties;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Hashtable; // TODO: This is obsolete
+import java.util.Hashtable;
+import java.util.Properties; // TODO: This is obsolete
 
 /**
  * All the constants and globals of the project. All properties taken from
@@ -120,7 +120,8 @@ public class Constants {
         LabelMeURL = props.getProperty("url.LabelMe");
         LabelMeImagesURL = props.getProperty("url.LabelMeImages");
         ImageNetURL = props.getProperty("url.ImageNet");
-        weightForVariableSolver = Double.parseDouble(props.getProperty("const.variableSolverWeight"));
+        weightForVariableSolver = Double.parseDouble(props.getProperty(
+                "const.variableSolverWeight"));
         System.out.println(weightForVariableSolver);
     }
 }

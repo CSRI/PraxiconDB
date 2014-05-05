@@ -28,9 +28,9 @@ public class VisualRepresentationDaoImpl extends
     @Override
     public Query getEntityQuery(VisualRepresentation entity) {
         Query q = getEntityManager().createQuery(
-                "SELECT e FROM VisualRepresentation e "
-                + "WHERE UPPER(e.MediaType) = ?1 AND"
-                + " UPPER(e.Representation) = ?2 AND e.Prototype = ?3"
+                "SELECT e FROM VisualRepresentation e " +
+                 "WHERE UPPER(e.MediaType) = ?1 AND" +
+                 " UPPER(e.Representation) = ?2 AND e.Prototype = ?3"
         );
         q.setParameter(1, entity.getMediaType());
         q.setParameter(2, entity.getRepresentation().toUpperCase());
@@ -47,10 +47,10 @@ public class VisualRepresentationDaoImpl extends
     @Override
     public List<VisualRepresentation> getEntries(Concept c) {
         Query q = getEntityManager().createQuery(
-                "SELECT Entry FROM Concept c, "
-                + "IN(c.VisualRepresentations) AS VR, "
-                + "IN(VR.Entries) entry "
-                + "where c=?1"
+                "SELECT Entry FROM Concept c, " +
+                 "IN(c.VisualRepresentations) AS VR, " +
+                 "IN(VR.Entries) entry " +
+                 "where c=?1"
         );
         q.setParameter(1, c);
         return q.getResultList();

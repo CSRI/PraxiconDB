@@ -23,13 +23,13 @@ public class LanguageRepresentationDaoImpl extends
      * pos
      *
      * @param language the language to search
-     * @param text the text to search
-     * @param pos the pos to search
+     * @param text     the text to search
+     * @param pos      the pos to search
      * @return A LanguageRepresentation (null if not found)
      */
     @Override
-    public LanguageRepresentation 
-        findLanguageRepresentation(String language, String text, String pos) {
+    public LanguageRepresentation
+            findLanguageRepresentation(String language, String text, String pos) {
         Query q = getEntityManager().createQuery(
                 "SELECT e FROM LanguageRepresentation e " +
                 "where UPPER(e.text) = ?1 and e.lang = ?2 and UPPER(e.POS) = ?3"
@@ -39,7 +39,7 @@ public class LanguageRepresentationDaoImpl extends
         q.setParameter(3, pos.toUpperCase());
         List res = q.getResultList();
         if (res.size() > 0) {
-            return (LanguageRepresentation) res.get(0);
+            return (LanguageRepresentation)res.get(0);
         } else {
             return null;
         }
@@ -50,13 +50,14 @@ public class LanguageRepresentationDaoImpl extends
      * pos Case insensitive search.
      *
      * @param language the language to search
-     * @param text the text to search
-     * @param pos the pos to search
+     * @param text     the text to search
+     * @param pos      the pos to search
      * @return A LanguageRepresentation (null if not found)
      */
     @Override
-    public LanguageRepresentation 
-        findByLanguageRepresentation(String language, String text, String pos) {
+    public LanguageRepresentation
+            findByLanguageRepresentation(String language, String text,
+                    String pos) {
         Query q = getEntityManager().createQuery(
                 "SELECT e FROM LanguageRepresentation e " +
                 "where e.text = ?1 and e.lang = ?2 and UPPER(e.POS) = ?3"
@@ -66,7 +67,7 @@ public class LanguageRepresentationDaoImpl extends
         q.setParameter(3, pos.toUpperCase());
         List res = q.getResultList();
         if (res.size() > 0) {
-            return (LanguageRepresentation) res.get(0);
+            return (LanguageRepresentation)res.get(0);
         } else {
             return null;
         }
@@ -101,7 +102,7 @@ public class LanguageRepresentationDaoImpl extends
         Query q = getEntityManager().createQuery(
                 "SELECT e FROM LanguageRepresentation e " +
                 "where UPPER(e.text) = ?1 and UPPER(e.lang) = ?2 " +
-                        "and UPPER(e.POS) = ?3"
+                "and UPPER(e.POS) = ?3"
         );
         q.setParameter(1, entity.getText().toUpperCase());
         q.setParameter(2, entity.getLanguage().name().toUpperCase());
@@ -120,8 +121,8 @@ public class LanguageRepresentationDaoImpl extends
     public List<LanguageRepresentation> getEntriesSorted(Concept c) {
         Query q = getEntityManager().createQuery(
                 "SELECT e FROM Concept c, " +
-                        "IN(c.LanguageRepresentations) as lr, IN(lr.entries) e "
-                + "where c=?1 order by e.lang"
+                "IN(c.LanguageRepresentations) as lr, IN(lr.entries) e " +
+                 "where c=?1 order by e.lang"
         );
         q.setParameter(1, c);
         return q.getResultList();
@@ -137,8 +138,8 @@ public class LanguageRepresentationDaoImpl extends
     public List<LanguageRepresentation> getEntries(Concept c) {
         Query q = getEntityManager().createQuery(
                 "SELECT e FROM Concept c, " +
-                        "IN(c.LanguageRepresentations) as lr, IN(lr.entries) e "
-                + "where c=?1"
+                "IN(c.LanguageRepresentations) as lr, IN(lr.entries) e " +
+                 "where c=?1"
         );
         q.setParameter(1, c);
         return q.getResultList();

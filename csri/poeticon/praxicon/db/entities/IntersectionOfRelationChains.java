@@ -4,17 +4,14 @@
  */
 package csri.poeticon.praxicon.db.entities;
 
-import csri.poeticon.praxicon.Globals;
-import csri.poeticon.praxicon.db.dao.RelationChainDao;
-import csri.poeticon.praxicon.db.dao.implSQL.RelationChainDaoImpl;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,12 +21,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
@@ -125,8 +120,10 @@ public class IntersectionOfRelationChains implements Serializable {
     @XmlElement(name = "language_representation_names")
     public List<String> getLanguageRepresentationNames_() {
         List<String> language_representation_names_ = new ArrayList<>();
-        for (LanguageRepresentation LanguageRepresentationName : LanguageRepresentationNames) {
-            language_representation_names_.add(LanguageRepresentationName.getText());
+        for (LanguageRepresentation LanguageRepresentationName
+                : LanguageRepresentationNames) {
+            language_representation_names_.add(LanguageRepresentationName.
+                    getText());
         }
         return language_representation_names_;
     }
@@ -190,7 +187,7 @@ public class IntersectionOfRelationChains implements Serializable {
             return false;
         }
         IntersectionOfRelationChains other =
-                (IntersectionOfRelationChains) object;
+                (IntersectionOfRelationChains)object;
         if (this.RelationChains.size() == other.RelationChains.size()) {
             boolean eq = true;
             for (RelationChain RelationChain : this.RelationChains) {
@@ -217,7 +214,7 @@ public class IntersectionOfRelationChains implements Serializable {
     @Override
     public String toString() {
         return "csri.poeticon.praxicon.db.entities." +
-               "IntersectionOfRelationChains[id=" + Id + "]";
+                "IntersectionOfRelationChains[id=" + Id + "]";
     }
 
 //    public void afterUnmarshal(Unmarshaller u, Object parent)

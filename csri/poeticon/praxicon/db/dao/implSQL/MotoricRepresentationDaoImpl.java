@@ -14,7 +14,9 @@ import javax.persistence.Query;
  *
  * @author Erevodifwntas
  */
-public class MotoricRepresentationDaoImpl extends JpaDao<Long, MotoricRepresentation> implements MotoricRepresentationDao {
+public class MotoricRepresentationDaoImpl 
+        extends JpaDao<Long, MotoricRepresentation>
+        implements MotoricRepresentationDao {
 
     /**
      * Creates q query to search for a MotoricRepresentation using
@@ -44,8 +46,8 @@ public class MotoricRepresentationDaoImpl extends JpaDao<Long, MotoricRepresenta
         Query q = getEntityManager().createQuery(
                 "SELECT entry FROM " +
                 "Concept c, IN(c.MotoricRepresentations) as MR, " +
-                        "IN(MR.entries) entry "
-                + "where c=?1"
+                "IN(MR.entries) entry " +
+                "where c=?1"
         );
         q.setParameter(1, c);
         return q.getResultList();

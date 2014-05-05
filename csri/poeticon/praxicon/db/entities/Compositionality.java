@@ -18,7 +18,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -78,7 +77,7 @@ public class Compositionality implements Serializable {
         if (!(object instanceof Compositionality)) {
             return false;
         }
-        Compositionality other = (Compositionality) object;
+        Compositionality other = (Compositionality)object;
         if ((this.Id == null && other.Id != null) ||
                 (this.Id != null && !this.Id.equals(other.Id))) {
             return false;

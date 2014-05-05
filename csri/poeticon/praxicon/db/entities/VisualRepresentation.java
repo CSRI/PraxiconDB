@@ -22,12 +22,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -185,7 +181,7 @@ public class VisualRepresentation implements Serializable {
         if (!(object instanceof VisualRepresentation)) {
             return false;
         }
-        VisualRepresentation other = (VisualRepresentation) object;
+        VisualRepresentation other = (VisualRepresentation)object;
         if (this.MediaType != null && this.Representation != null &&
                 this.MediaType.equals(other.MediaType) &&
                 this.Representation.equalsIgnoreCase(other.Representation)) {

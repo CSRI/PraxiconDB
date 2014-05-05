@@ -8,12 +8,12 @@ import csri.poeticon.praxicon.db.dao.ConceptDao;
 import csri.poeticon.praxicon.db.dao.RelationDao;
 import csri.poeticon.praxicon.db.entities.Concept;
 import csri.poeticon.praxicon.db.entities.Concept.status;
+import csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains;
 import csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import csri.poeticon.praxicon.db.entities.Relation;
 import csri.poeticon.praxicon.db.entities.RelationChain;
 import csri.poeticon.praxicon.db.entities.RelationChain_Relation;
 import csri.poeticon.praxicon.db.entities.RelationType;
-import csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
@@ -94,8 +94,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     public List<Concept> findAllByName(String name) {
         List<Concept> res = findByLanguageRepresentation(name);
         res.addAll(findAllByLanguageRepresentation(name));
-        Query q = getEntityManager().createQuery("SELECT c FROM Concept c "
-                + "where c.Name like ?1");
+        Query q = getEntityManager().createQuery("SELECT c FROM Concept c " +
+                 "where c.Name like ?1");
         q.setParameter(1, "%" + name + "%");
         res.addAll(q.getResultList());
 
@@ -110,8 +110,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      */
     @Override
     public List<Concept> findByName(String name) {
-        Query q = getEntityManager().createQuery("SELECT c FROM Concept c "
-                + "where c.Name = ?1");
+        Query q = getEntityManager().createQuery("SELECT c FROM Concept c " +
+                 "where c.Name = ?1");
         q.setParameter(1, name);
         return q.getResultList();
     }
@@ -124,8 +124,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      */
     @Override
     public List<Concept> findByStatus(status status) {
-        Query q = getEntityManager().createQuery("SELECT c FROM Concept c "
-                + "where c.Status = ?1");
+        Query q = getEntityManager().createQuery("SELECT c FROM Concept c " +
+                 "where c.Status = ?1");
         q.setParameter(1, status);
         return q.getResultList();
     }
@@ -151,9 +151,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             q.setParameter(1, v.trim());
             List res = q.getResultList();
             for (Object re : res) {
-                Concept tmp = (Concept) re;
+                Concept tmp = (Concept)re;
                 if (tmp.getName().trim().equalsIgnoreCase(v.trim())) {
-                    return (Concept) re;
+                    return (Concept)re;
                 }
             }
         } else {
@@ -162,7 +162,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             q.setParameter(1, id);
             List res = q.getResultList();
             if (res.size() >= 1) {
-                return (Concept) res.get(0);
+                return (Concept)res.get(0);
             }
         }
         return null;
@@ -177,8 +177,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      */
     @Override
     public Concept updatedConcept(Concept newCon) {
-        Query q = getEntityManager().createQuery("SELECT c FROM Concept c "
-                + "where c.Name = ?1");
+        Query q = getEntityManager().createQuery("SELECT c FROM Concept c " +
+                 "where c.Name = ?1");
         q.setParameter(1, newCon.getName());
         List tmp = q.getResultList();
 
@@ -186,7 +186,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         if (tmp.isEmpty()) {
             return newCon;
         } else {
-            oldCon = (Concept) tmp.get(0);
+            oldCon = (Concept)tmp.get(0);
         }
 
         oldCon.setConceptType(newCon.getConceptType());
@@ -213,8 +213,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     @Override
     public void update(Concept newCon) {
         try {
-            Query q = getEntityManager().createQuery("SELECT c FROM Concept c "
-                    + "where c.Name = ?1");
+            Query q = getEntityManager().createQuery(
+                    "SELECT c FROM Concept c " +
+                     "where c.Name = ?1");
             q.setParameter(1, newCon.getName());
             List tmp = q.getResultList();
 
@@ -223,7 +224,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             if (tmp.isEmpty()) {
                 oldCon = new Concept();
             } else {
-                oldCon = (Concept) tmp.get(0);
+                oldCon = (Concept)tmp.get(0);
             }
             if (oldCon.getConceptType() == null ||
                     oldCon.getConceptType() == Concept.type.UNKNOWN) {
@@ -324,17 +325,17 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     /**
      * Checks if two concepts are related by a certain relation
      *
-     * @param conA first concept
+     * @param conA     first concept
      * @param relation relation name as a string
-     * @param conB second concept
+     * @param conB     second concept
      * @return true/false
      */
     @Override
     public boolean areRelated(Concept conA, String relation, Concept conB) {
-        for (int intersection = 0; 
+        for (int intersection = 0;
                 intersection < conA.getIntersectionsOfRelationChains().size();
                 intersection++) {
-            IntersectionOfRelationChains tmpIntersection = 
+            IntersectionOfRelationChains tmpIntersection =
                     conA.getIntersectionsOfRelationChains().get(intersection);
             for (int relationChain = 0;
                     relationChain < tmpIntersection.getRelationChains().size();
@@ -347,15 +348,15 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                             getRelationOrder() == 0) {
                         RelationType tmpTypeOfRelation =
                                 tmpRelationChain.getRelations().get(rel).
-                                        getRelation().getType();
+                                getRelation().getType();
                         if (conB.equals(tmpRelationChain.getRelations().
                                 get(rel).getRelation().getObject())) {
                             if (tmpTypeOfRelation.getForwardName() ==
                                     RelationType.relation_name_forward.
-                                            valueOf(relation) ||
+                                    valueOf(relation) ||
                                     tmpTypeOfRelation.getBackwardName() ==
                                     RelationType.relation_name_backward.
-                                            valueOf(relation)) {
+                                    valueOf(relation)) {
                                 return true;
                             }
                         }
@@ -381,7 +382,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         RelationDao rDao = new RelationDaoImpl();
         List<Relation> relations = rDao.allRelationsOf(c);
         for (Relation relation : relations) {
-            if (relation.getType().getForwardName() == 
+            if (relation.getType().getForwardName() ==
                     RelationType.relation_name_forward.TYPE_TOKEN &&
                     relation.getSubject().equals(c)) {
                 res.add(relation.getObject());
@@ -501,7 +502,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         RelationDao rDao = new RelationDaoImpl();
         List<Relation> relations = rDao.allRelationsOf(c);
         for (Relation relation : relations) {
-            if (relation.getType().getForwardName() == 
+            if (relation.getType().getForwardName() ==
                     RelationType.relation_name_forward.HAS_INSTANCE &&
                     relation.getObject().equals(c)) {
                 res.add(relation.getSubject());
@@ -533,9 +534,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         if (c.getConceptType() == Concept.type.ABSTRACT) {
             return getBasicLevelOfAnAbstractConcept(c);
         } else {
-            if (c.getConceptType() == Concept.type.ENTITY
-                    || c.getConceptType() == Concept.type.MOVEMENT
-                    || c.getConceptType() == Concept.type.FEATURE) {
+            if (c.getConceptType() == Concept.type.ENTITY ||
+                     c.getConceptType() == Concept.type.MOVEMENT ||
+                     c.getConceptType() == Concept.type.FEATURE) {
                 return getBasicLevelOfAnEntityConcept(c);
             }
         }
@@ -569,7 +570,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 }
             }
         } else {
-            if (con.getSpecificityLevel() == 
+            if (con.getSpecificityLevel() ==
                     Concept.specificity_level.BASIC_LEVEL) {
                 res.add(con);
             }
@@ -594,7 +595,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 res.addAll(getBasicLevelOfAnAbstractConcept(children1));
             }
         } else {
-            if (c.getSpecificityLevel() == 
+            if (c.getSpecificityLevel() ==
                     Concept.specificity_level.BASIC_LEVEL) {
                 res.add(c);
             }
@@ -687,7 +688,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * Finds all concepts that are related toa given concept using a given
      * relation type
      *
-     * @param c the concept
+     * @param c     the concept
      * @param rtype the type of relation (direction sensitive)
      * @return a list of concepts
      */
@@ -698,7 +699,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         Query q = getEntityManager().createQuery(
                 "SELECT r FROM Relation r, TypeOfRelation type " +
                 "where ((r.Subject = ?1 or r.Object = ?1) and" +
-                        " r.Type = type and type.ForwardName = ?2 " +
+                " r.Type = type and type.ForwardName = ?2 " +
                 "and type.BackwardName =?3)");
         q.setParameter(1, c);
         q.setParameter(2, rtype.getForwardName());
@@ -838,13 +839,13 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                             get(i))) {
                 newCon.getIntersectionsOfRelationChains().get(i).
                         setConcept(oldCon);
-                IntersectionOfRelationChains inter = 
+                IntersectionOfRelationChains inter =
                         newCon.getIntersectionsOfRelationChains().get(i);
                 for (int k = 0; k < inter.getRelationChains().size(); k++) {
                     RelationChain rc = inter.getRelationChains().get(k);
                     for (int l = 0; l < rc.getRelations().size(); l++) {
-                        RelationChain_Relation rcr
-                                = rc.getRelations().get(l);
+                        RelationChain_Relation rcr =
+                                 rc.getRelations().get(l);
                         Relation rel = rcr.getRelation();
                         if (rel.getSubject().getName().
                                 equalsIgnoreCase(newCon.getName())) {

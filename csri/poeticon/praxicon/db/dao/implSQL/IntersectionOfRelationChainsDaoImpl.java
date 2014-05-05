@@ -12,9 +12,9 @@ import javax.persistence.Query;
  *
  * @author Erevodifwntas
  */
-public class IntersectionOfRelationChainsDaoImpl extends JpaDao<Long,
-        IntersectionOfRelationChains> implements
-        IntersectionOfRelationChainsDao {
+public class IntersectionOfRelationChainsDaoImpl 
+        extends JpaDao<Long, IntersectionOfRelationChains>
+        implements IntersectionOfRelationChainsDao {
 
     /**
      * Creates q query to search for a IntersectionOfRelationChains using name
@@ -27,7 +27,7 @@ public class IntersectionOfRelationChainsDaoImpl extends JpaDao<Long,
         Query q;
         q = getEntityManager().createQuery(
                 "SELECT e FROM IntersectionOfRelationChains e " +
-                        "where UPPER(e.name) = ?1"
+                "where UPPER(e.name) = ?1"
         );
         q.setParameter(1, entity.getName().toUpperCase());
         return q;

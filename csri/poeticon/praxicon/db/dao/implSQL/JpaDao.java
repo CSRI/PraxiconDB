@@ -7,9 +7,9 @@ package csri.poeticon.praxicon.db.dao.implSQL;
 import csri.poeticon.praxicon.EntityMngFactory;
 import csri.poeticon.praxicon.db.dao.Dao;
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.util.List;
 
 /**
  *
@@ -24,18 +24,18 @@ public abstract class JpaDao<K, E> implements Dao<K, E> {
     protected EntityManager entityManager;
 
     public JpaDao() {
-        ParameterizedType genericSuperclass = 
-                (ParameterizedType) getClass().getGenericSuperclass();
-        this.entityClass = 
-                (Class<E>) genericSuperclass.getActualTypeArguments()[1];
+        ParameterizedType genericSuperclass =
+                (ParameterizedType)getClass().getGenericSuperclass();
+        this.entityClass =
+                (Class<E>)genericSuperclass.getActualTypeArguments()[1];
         this.entityManager = EntityMngFactory.getEntityManager();
     }
 
     public JpaDao(EntityManager entityManager) {
         ParameterizedType genericSuperclass =
-                (ParameterizedType) getClass().getGenericSuperclass();
-        this.entityClass = 
-                (Class<E>) genericSuperclass.getActualTypeArguments()[1];
+                (ParameterizedType)getClass().getGenericSuperclass();
+        this.entityClass =
+                (Class<E>)genericSuperclass.getActualTypeArguments()[1];
         this.entityManager = entityManager;
     }
 
@@ -105,16 +105,16 @@ public abstract class JpaDao<K, E> implements Dao<K, E> {
         name += "s";
         name = name.substring(name.lastIndexOf('.') + 1);
         name = name.toUpperCase();
-        Query q = getEntityManager().createNativeQuery("ALTER TABLE MVCG_"
-                + name + " AUTO_INCREMENT = 1");
+        Query q = getEntityManager().createNativeQuery("ALTER TABLE MVCG_" +
+                 name + " AUTO_INCREMENT = 1");
         q.executeUpdate();
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public List<E> findAll() {
-        Query q = getEntityManager().createQuery("SELECT h FROM "
-                + entityClass.getName().substring(entityClass.getName().
+        Query q = getEntityManager().createQuery("SELECT h FROM " +
+                 entityClass.getName().substring(entityClass.getName().
                         lastIndexOf('.') + 1) + " h order by h.id");
         return q.getResultList();
     }
@@ -127,7 +127,7 @@ public abstract class JpaDao<K, E> implements Dao<K, E> {
             if (res.isEmpty()) {
                 return entity;
             }
-            return (E) res.get(0);
+            return (E)res.get(0);
         } else {
             return entity;
         }
@@ -140,8 +140,8 @@ public abstract class JpaDao<K, E> implements Dao<K, E> {
 
     @Override
     public void removeAll() {
-        Query q = getEntityManager().createQuery("DELETE FROM "
-                + entityClass.getName().substring(entityClass.getName().
+        Query q = getEntityManager().createQuery("DELETE FROM " +
+                 entityClass.getName().substring(entityClass.getName().
                         lastIndexOf('.') + 1) + " h");
         q.executeUpdate();
     }

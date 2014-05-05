@@ -29,7 +29,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
@@ -40,7 +39,8 @@ import javax.xml.bind.annotation.XmlType;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "language_representation", namespace = "http://www.csri.gr/language_representation")
+@XmlType(name = "language_representation", namespace =
+        "http://www.csri.gr/language_representation")
 @Entity
 @Table(name = "LanguageRepresentations")
 public class LanguageRepresentation implements Serializable {
@@ -51,7 +51,6 @@ public class LanguageRepresentation implements Serializable {
     public static enum language {
 
         // ISO-639-1 standard
-
         AB, AA, AF, AK, SQ, AM, AR, AN, HY, AS, AV, AE, AY, BM, BA, EU, BE, BN,
         BH, BI, BS, BR, BG, MY, CA, CH, CE, NY, ZH, CV, KW, CO, CR, HR, CS, DA,
         DV, NL, DZ, EN, EO, ET, EE, FO, FJ, FI, FR, FF, GL, KA, DE, EL, GN, GU,
@@ -166,8 +165,7 @@ public class LanguageRepresentation implements Serializable {
             inverseJoinColumns = {
                 @JoinColumn(name = "LanguageRepresentationId")}
     )
-    private List<IntersectionOfRelationChains>
-            LanguageRepresentationIntersections;
+    private List<IntersectionOfRelationChains> LanguageRepresentationIntersections;
 
     // Foreign key
     @OneToMany(cascade = CascadeType.ALL,
@@ -195,8 +193,8 @@ public class LanguageRepresentation implements Serializable {
     public List<Constituents> getConstituents() {
         List<Constituents> constituents = new ArrayList<>();
         if (this.IsCompositional == is_compositional.YES) {
-            for (csri.poeticon.praxicon.db.entities.Constituents Constituent :
-                    Constituents) {
+            for (csri.poeticon.praxicon.db.entities.Constituents Constituent
+                    : Constituents) {
                 constituents.add(Constituent);
             }
         } else {
@@ -211,7 +209,7 @@ public class LanguageRepresentation implements Serializable {
 
     /**
      * @return whether the language representation consists of more than one
-     * constituents.
+     *         constituents.
      * @xmlcomments.args xmltag="&lt;is_compositional&gt;" xmldescription="This
      * tag defines if the LanguageRepresentation is compositional or not"
      */
@@ -257,8 +255,8 @@ public class LanguageRepresentation implements Serializable {
     public List<LanguageRepresentation> getLanguageRepresentations() {
         List<LanguageRepresentation> language_representations_list =
                 new ArrayList<>();
-        for (LanguageRepresentation language_representation :
-                LanguageRepresentation.language_representations) {
+        for (LanguageRepresentation language_representation
+                : LanguageRepresentation.language_representations) {
             language_representations_list.add(language_representation);
         }
         return language_representations_list;
@@ -268,8 +266,8 @@ public class LanguageRepresentation implements Serializable {
     public List<Concept> getConcepts() {
         List<Concept> concepts = new ArrayList<>();
 
-        for (LanguageRepresentation language_representation : 
-                LanguageRepresentation.language_representations) {
+        for (LanguageRepresentation language_representation
+                : LanguageRepresentation.language_representations) {
             for (int j = 0; j < language_representation.getConcepts().size();
                     j++) {
                 if (!concepts.contains(language_representation.getConcepts().
@@ -281,8 +279,8 @@ public class LanguageRepresentation implements Serializable {
         return concepts;
     }
 
-    public void setLanguageRepresentations(List<LanguageRepresentation>
-            language_representations) {
+    public void setLanguageRepresentations(
+            List<LanguageRepresentation> language_representations) {
         LanguageRepresentation.language_representations =
                 language_representations;
     }
@@ -327,12 +325,12 @@ public class LanguageRepresentation implements Serializable {
         if (!(object instanceof LanguageRepresentation)) {
             return false;
         }
-        LanguageRepresentation other = (LanguageRepresentation) object;
+        LanguageRepresentation other = (LanguageRepresentation)object;
         if (this.Language != null && this.Text != null &&
-            this.PartOfSpeech != null
-                && this.Language.name().equals(other.Language.name())
-                && this.Text.equalsIgnoreCase(other.Text)
-                && this.PartOfSpeech == other.PartOfSpeech) {
+                this.PartOfSpeech != null &&
+                 this.Language.name().equals(other.Language.name()) &&
+                 this.Text.equalsIgnoreCase(other.Text) &&
+                 this.PartOfSpeech == other.PartOfSpeech) {
             return true;
         } else {
             return false;
@@ -351,7 +349,7 @@ public class LanguageRepresentation implements Serializable {
              this.setText(tmp);
              } catch (UnsupportedEncodingException ex) {
              Logger.getLogger(LanguageEntry.class.getName()).log(Level.SEVERE,
-                                                                 null, ex);
+             null, ex);
              }*/
         }
     }

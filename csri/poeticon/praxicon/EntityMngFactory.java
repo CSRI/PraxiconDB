@@ -26,7 +26,8 @@ public class EntityMngFactory {
      * after all
      */
     private static void createEntityMngFactory() {
-        emf = javax.persistence.Persistence.createEntityManagerFactory(Globals.JpaPU);
+        emf = javax.persistence.Persistence.createEntityManagerFactory(
+                Globals.JpaPU);
         em = emf.createEntityManager();
     }
 

@@ -17,7 +17,6 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -70,7 +69,7 @@ public class Constituents implements Serializable {
         if (!(object instanceof Constituents)) {
             return false;
         }
-        Constituents other = (Constituents) object;
+        Constituents other = (Constituents)object;
         if ((this.Id == null && other.Id != null) ||
                 (this.Id != null && !this.Id.equals(other.Id))) {
             return false;

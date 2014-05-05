@@ -20,7 +20,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
@@ -234,7 +233,7 @@ public class RelationType implements Serializable {
     public void setBackwardNameString(String name) {
         String tmp = name.replaceAll("-", "_");
         try {
-            this.BackwardName = 
+            this.BackwardName =
                     relation_name_backward.valueOf(tmp.toUpperCase());
         } catch (Exception e) {
             this.XmlRelationBackward = name;
@@ -296,19 +295,19 @@ public class RelationType implements Serializable {
         if (!(object instanceof RelationType)) {
             return false;
         }
-        RelationType other = (RelationType) object;
-        if (this.ForwardName != null && other.ForwardName != null && 
+        RelationType other = (RelationType)object;
+        if (this.ForwardName != null && other.ForwardName != null &&
                 this.ForwardName.name().equalsIgnoreCase(
                         other.ForwardName.name()) &&
                 this.BackwardName != null &&
                 other.BackwardName != null &&
                 this.BackwardName.name().
-                        equalsIgnoreCase(other.BackwardName.name())) {
+                equalsIgnoreCase(other.BackwardName.name())) {
             return true;
         }
         if (this.ForwardName != null && other.BackwardName != null &&
                 this.ForwardName.name().
-                        equalsIgnoreCase(other.BackwardName.name()) &&
+                equalsIgnoreCase(other.BackwardName.name()) &&
                 this.BackwardName != null && other.ForwardName != null &&
                 this.BackwardName.name().equalsIgnoreCase(
                         other.ForwardName.name())) {
@@ -316,12 +315,12 @@ public class RelationType implements Serializable {
         }
 
         String equalsRelations[] = {"has_colour#has_color#has_hue#" +
-                "has_luminance#has_intensity#has_colour#has_color#has_hue#" +
-                "has_luminance#has_intensity",
+            "has_luminance#has_intensity#has_colour#has_color#has_hue#" +
+            "has_luminance#has_intensity",
             "has_condition#has_natural_effect#has_anthropogenic_effect#" +
-                "has_condition#has_natural_effect#has_anthropogenic_effect",
+            "has_condition#has_natural_effect#has_anthropogenic_effect",
             "has_size#has_length#has_height#has_width#has_depth#has_size#" +
-                "has_length#has_height#has_width#has_depth"
+            "has_length#has_height#has_width#has_depth"
         };
 
         for (String equalsRelation : equalsRelations) {

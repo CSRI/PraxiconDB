@@ -14,7 +14,8 @@ import javax.persistence.Query;
  *
  * @author Erevodifwntas
  */
-public class RelationChainDaoImpl extends JpaDao<Long, RelationChain> implements RelationChainDao {
+public class RelationChainDaoImpl extends JpaDao<Long, RelationChain> 
+        implements RelationChainDao {
 
     /**
      * Finds all RelationChain that have a ralation with subject or object a
@@ -26,10 +27,10 @@ public class RelationChainDaoImpl extends JpaDao<Long, RelationChain> implements
     @Override
     public List<RelationChain> getRelationChainsContainingConcept(Concept c) {
         Query q = getEntityManager().createQuery(
-                "SELECT rc FROM RelationChain rc,"
-                + " IN(rc.relations) as rc_rel "
-                + "WHERE rc_rel.relation.obj = ?1 or "
-                + "rc_rel.relation.subject = ?1");
+                "SELECT rc FROM RelationChain rc," +
+                 " IN(rc.relations) as rc_rel " +
+                 "WHERE rc_rel.relation.obj = ?1 or " +
+                 "rc_rel.relation.subject = ?1");
         q.setParameter(1, c);
         return q.getResultList();
     }

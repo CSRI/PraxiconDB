@@ -19,11 +19,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
@@ -98,7 +95,7 @@ public class RelationChain implements Serializable {
 
     /**
      * @return the names of the language representations of the concepts that
-     * participate in the relation chain.
+     *         participate in the relation chain.
      * @xmlcomments.args xmltag="&lt;language_representation_names&gt;"
      * xmldescription="This tag defines the names of the LanguageRepresentation
      * that should be used to express this relation chain"
@@ -106,8 +103,8 @@ public class RelationChain implements Serializable {
     @XmlElement(name = "language_representation_names")
     public List<String> getLanguageRepresentationNames_() {
         List<String> language_representation_names_ = new ArrayList<>();
-        for (LanguageRepresentation LanguageRepresentationName :
-                LanguageRepresentationNames) {
+        for (LanguageRepresentation LanguageRepresentationName
+                : LanguageRepresentationNames) {
             language_representation_names_.add(
                     LanguageRepresentationName.getText());
         }
@@ -136,8 +133,8 @@ public class RelationChain implements Serializable {
             rels.add(0, null);
         }
         for (RelationChain_Relation Relation : Relations) {
-            rels.add((int) Relation.getRelationOrder(), Relation.getRelation());
-            rels.remove((int) Relation.getRelationOrder() + 1);
+            rels.add((int)Relation.getRelationOrder(), Relation.getRelation());
+            rels.remove((int)Relation.getRelationOrder() + 1);
         }
         return rels;
     }
@@ -190,7 +187,7 @@ public class RelationChain implements Serializable {
         if (!(object instanceof RelationChain)) {
             return false;
         }
-        RelationChain other = (RelationChain) object;
+        RelationChain other = (RelationChain)object;
 
         if (this.getRelations().size() == other.getRelations().size()) {
             for (int i = 0; i < this.getRelations().size(); i++) {

@@ -17,7 +17,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -81,7 +80,7 @@ public class Verbalization implements Serializable {
         if (!(object instanceof Verbalization)) {
             return false;
         }
-        Verbalization other = (Verbalization) object;
+        Verbalization other = (Verbalization)object;
         if ((this.Id == null && other.Id != null) ||
                 (this.Id != null && !this.Id.equals(other.Id))) {
             return false;

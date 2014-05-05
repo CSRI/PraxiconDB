@@ -8,14 +8,12 @@ import csri.poeticon.praxicon.Constants;
 import csri.poeticon.praxicon.Globals;
 import csri.poeticon.praxicon.db.dao.ConceptDao;
 import csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
-import csri.poeticon.praxicon.db.entities.listeners.ConceptListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -29,7 +27,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -210,41 +207,59 @@ public class Concept implements Serializable {
         IntersectionsOfRelationChains = new ArrayList<>();
 
         for (int i = 0; i < newConcept.getLanguageRepresentations().size(); i++) {
-            if (!this.getLanguageRepresentations().contains(newConcept.getLanguageRepresentations().get(i))) {
-                newConcept.getLanguageRepresentations().get(i).getConcepts().remove(newConcept);
-                this.getLanguageRepresentations().add(newConcept.getLanguageRepresentations().get(i));
+            if (!this.getLanguageRepresentations().contains(newConcept.
+                    getLanguageRepresentations().get(i))) {
+                newConcept.getLanguageRepresentations().get(i).getConcepts().
+                        remove(newConcept);
+                this.getLanguageRepresentations().add(newConcept.
+                        getLanguageRepresentations().get(i));
             }
         }
 
-        for (int i = 0; i < newConcept.getVisualRepresentationsEntries().size(); i++) {
-            if (!this.getVisualRepresentationsEntries().contains(newConcept.getVisualRepresentationsEntries().get(i))) {
+        for (int i = 0; i < newConcept.getVisualRepresentationsEntries().size();
+                i++) {
+            if (!this.getVisualRepresentationsEntries().contains(newConcept.
+                    getVisualRepresentationsEntries().get(i))) {
                 // newConcept.getVisualRepresentationsEntries().get(i).setOwner(this); //Not needed since VisualRepresentationGroup is out
-                this.getVisualRepresentationsEntries().add(newConcept.getVisualRepresentationsEntries().get(i));
+                this.getVisualRepresentationsEntries().add(newConcept.
+                        getVisualRepresentationsEntries().get(i));
             }
         }
 
         for (int i = 0; i < newConcept.getMotoricRepresentations().size(); i++) {
-            if (!this.getMotoricRepresentations().contains(newConcept.getMotoricRepresentations().get(i))) {
+            if (!this.getMotoricRepresentations().contains(newConcept.
+                    getMotoricRepresentations().get(i))) {
                 // newConcept.getMotoricRepresentations().get(i).setOwner(this); //Not needed since MotoricRepresentationGroup is out
-                this.getMotoricRepresentations().add(newConcept.getMotoricRepresentations().get(i));
+                this.getMotoricRepresentations().add(newConcept.
+                        getMotoricRepresentations().get(i));
             }
         }
 
-        for (int i = 0; i < newConcept.getRelationsContainingConceptAsObject().size(); i++) {
-            if (!this.getRelationsContainingConceptAsObject().contains(newConcept.getRelationsContainingConceptAsObject().get(i))) {
-                if (newConcept.getRelationsContainingConceptAsObject().get(i).getObject().equals(newConcept)) {
-                    newConcept.getRelationsContainingConceptAsObject().get(i).setObject(this);
+        for (int i = 0; i < newConcept.getRelationsContainingConceptAsObject().
+                size(); i++) {
+            if (!this.getRelationsContainingConceptAsObject().contains(
+                    newConcept.getRelationsContainingConceptAsObject().get(i))) {
+                if (newConcept.getRelationsContainingConceptAsObject().get(i).
+                        getObject().equals(newConcept)) {
+                    newConcept.getRelationsContainingConceptAsObject().get(i).
+                            setObject(this);
                 } else {
-                    newConcept.getRelationsContainingConceptAsObject().get(i).setSubject(this);
+                    newConcept.getRelationsContainingConceptAsObject().get(i).
+                            setSubject(this);
                 }
-                this.getRelationsContainingConceptAsObject().add(newConcept.getRelationsContainingConceptAsObject().get(i));
+                this.getRelationsContainingConceptAsObject().add(newConcept.
+                        getRelationsContainingConceptAsObject().get(i));
             }
         }
 
-        for (int i = 0; i < newConcept.getIntersectionsOfRelationChains().size(); i++) {
-            if (!this.getIntersectionsOfRelationChains().contains(newConcept.getIntersectionsOfRelationChains().get(i))) {
-                newConcept.getIntersectionsOfRelationChains().get(i).setConcept(this);
-                this.getIntersectionsOfRelationChains().add(newConcept.getIntersectionsOfRelationChains().get(i));
+        for (int i = 0; i < newConcept.getIntersectionsOfRelationChains().size();
+                i++) {
+            if (!this.getIntersectionsOfRelationChains().contains(newConcept.
+                    getIntersectionsOfRelationChains().get(i))) {
+                newConcept.getIntersectionsOfRelationChains().get(i).setConcept(
+                        this);
+                this.getIntersectionsOfRelationChains().add(newConcept.
+                        getIntersectionsOfRelationChains().get(i));
             }
         }
     }
@@ -356,8 +371,8 @@ public class Concept implements Serializable {
 
     /**
      * @return @xmlcomments.args xmltag="&lt;unique_instance&gt;"
-     * xmldescription="This tag defines the source of the concept (from which
-     * resources was generated (for example: Wordnet)"
+     *         xmldescription="This tag defines the source of the concept (from which
+     *         resources was generated (for example: Wordnet)"
      */
     @XmlElement(name = "unique_instance")
     public unique_instance getUniqueInstance() {
@@ -392,8 +407,8 @@ public class Concept implements Serializable {
 
     /**
      * @return @xmlcomments.args xmltag="&lt;source&gt;" xmldescription="This
-     * tag defines the source of the concept (from which resources was generated
-     * (for example: Wordnet)"
+     *         tag defines the source of the concept (from which resources was generated
+     *         (for example: Wordnet)"
      */
     @XmlElement(name = "source")
     public String getSource() {
@@ -429,10 +444,10 @@ public class Concept implements Serializable {
     }
 
     public List<LanguageRepresentation> getLanguageRepresentationsEntries() {
-        List<LanguageRepresentation> language_representation_entries = 
+        List<LanguageRepresentation> language_representation_entries =
                 new ArrayList<>();
-        for (LanguageRepresentation LanguageRepresentation : 
-                this.LanguageRepresentations) {
+        for (LanguageRepresentation LanguageRepresentation
+                : this.LanguageRepresentations) {
             language_representation_entries.add(LanguageRepresentation);
         }
         return language_representation_entries;
@@ -490,8 +505,8 @@ public class Concept implements Serializable {
 
     /**
      * @return @xmlcomments.args xmltag="&lt;visual_representation&gt;"
-     * xmldescription="This tag defines the Visual Representation of the
-     * concept"
+     *         xmldescription="This tag defines the Visual Representation of the
+     *         concept"
      */
     @XmlElement(name = "visual_representation")
     public List<VisualRepresentation> getVisualRepresentations() {
@@ -511,8 +526,8 @@ public class Concept implements Serializable {
     public final List<VisualRepresentation> getVisualRepresentationsEntries() {
         List<VisualRepresentation> visual_representation_entries =
                 new ArrayList<>();
-        for (VisualRepresentation VisualRepresentation :
-                this.VisualRepresentations) {
+        for (VisualRepresentation VisualRepresentation
+                : this.VisualRepresentations) {
             visual_representation_entries.add(VisualRepresentation);
         }
         return visual_representation_entries;
@@ -537,7 +552,7 @@ public class Concept implements Serializable {
 
     /**
      * @return @xmlcomments.args xmltag="&lt;motoric_representation&gt;"
-     * xmldescription="This tag defines the motoric representation"
+     *         xmldescription="This tag defines the motoric representation"
      */
     @XmlElement(name = "motoric_representation")
     public final List<MotoricRepresentation> getMotoricRepresentations() {
@@ -547,8 +562,8 @@ public class Concept implements Serializable {
     public List<MotoricRepresentation> getMotoricRepresentationsEntries() {
         List<MotoricRepresentation> motoric_representation_entries =
                 new ArrayList<>();
-        for (MotoricRepresentation MotoricRepresentation :
-                this.MotoricRepresentations) {
+        for (MotoricRepresentation MotoricRepresentation
+                : this.MotoricRepresentations) {
             motoric_representation_entries.add(MotoricRepresentation);
         }
         return motoric_representation_entries;
@@ -590,7 +605,7 @@ public class Concept implements Serializable {
      */
     @XmlElement(name = "intersection_of_relation_chains")
     public final List<IntersectionOfRelationChains>
-         getIntersectionsOfRelationChains() {
+            getIntersectionsOfRelationChains() {
         return IntersectionsOfRelationChains;
     }
 
@@ -643,9 +658,9 @@ public class Concept implements Serializable {
      * Adds a new intersection of relation chains to this concept created using
      * given relation types (fw+bw) and given relation objects
      *
-     * @param rTypeForward list of forward types of relations
+     * @param rTypeForward  list of forward types of relations
      * @param rTypeBackward list of backward types of relations
-     * @param obj list of concepts to be used as objects
+     * @param obj           list of concepts to be used as objects
      */
     public void addRelation(List<String> rTypeForward,
             List<String> rTypeBackward, List<Concept> obj) {
@@ -729,7 +744,7 @@ public class Concept implements Serializable {
         if (!(object instanceof Concept)) {
             return false;
         }
-        Concept other = (Concept) object;
+        Concept other = (Concept)object;
         if (this.Name != null && other.Name != null &&
                 this.Name.equalsIgnoreCase(other.Name)) {
             return true;
@@ -744,8 +759,8 @@ public class Concept implements Serializable {
             return Name;
             // + " (Entity)";
         } else {
-            List<LanguageRepresentation> tmpList
-                    = this.getLanguageRepresentationsEntries();
+            List<LanguageRepresentation> tmpList =
+                     this.getLanguageRepresentationsEntries();
             if (tmpList.size() > 0) {
                 StringBuilder tmp = new StringBuilder(tmpList.get(0).getText());
                 for (int i = 1; i < tmpList.size(); i++) {
@@ -773,7 +788,7 @@ public class Concept implements Serializable {
                 cDao.update(this);
             }
         } else {
-            Concept tmp = (Concept) Constants.globalConcepts.get(
+            Concept tmp = (Concept)Constants.globalConcepts.get(
                     this.getName());
             if (tmp == null) {
                 if (this.ConceptType == null) {

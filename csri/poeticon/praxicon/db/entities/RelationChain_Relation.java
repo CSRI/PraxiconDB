@@ -4,9 +4,6 @@
  */
 package csri.poeticon.praxicon.db.entities;
 
-import csri.poeticon.praxicon.Globals;
-import csri.poeticon.praxicon.db.dao.RelationDao;
-import csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
 import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,10 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
@@ -110,7 +104,7 @@ public class RelationChain_Relation implements Serializable {
         if (!(object instanceof RelationChain_Relation)) {
             return false;
         }
-        RelationChain_Relation other = (RelationChain_Relation) object;
+        RelationChain_Relation other = (RelationChain_Relation)object;
         if (this.Relation.equals(other.Relation)) {
             return true;
         }

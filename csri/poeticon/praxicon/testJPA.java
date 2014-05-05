@@ -148,7 +148,8 @@ public class testJPA {
         //Adding a relation
         //1.) create the TypeOfRelation (or use an existing 1)
         RelationType type = new RelationType();
-        type.setForwardName(RelationType.relation_name_forward.HAS_PARTIAL_INSTANCE);
+        type.setForwardName(
+                RelationType.relation_name_forward.HAS_PARTIAL_INSTANCE);
         type.setBackwardName(RelationType.relation_name_backward.PART_OF);
 
         // 2.) create the relations (always there should be a type and an
@@ -193,8 +194,10 @@ public class testJPA {
         }
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
-        Set<ConstraintViolation<Concept>> violations = validator.validate(concept1);
-        Set<ConstraintViolation<Concept>> violation = validator.validate(concept2);
+        Set<ConstraintViolation<Concept>> violations = validator.validate(
+                concept1);
+        Set<ConstraintViolation<Concept>> violation = validator.validate(
+                concept2);
 
         System.out.println(concept2.getName());
 //        constraintViolations = validator.validate( concept1 );
@@ -204,7 +207,8 @@ public class testJPA {
     }
 
     public void persist(Object object) {
-        EntityManagerFactory emf = javax.persistence.Persistence.createEntityManagerFactory("PraxiconDBPU");
+        EntityManagerFactory emf = javax.persistence.Persistence.
+                createEntityManagerFactory("PraxiconDBPU");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         try {
