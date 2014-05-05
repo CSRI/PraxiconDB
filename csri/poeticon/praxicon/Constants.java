@@ -9,15 +9,14 @@ import java.io.IOException;
 import java.util.Hashtable; // TODO: This is obsolete
 
 /**
- * All the constants and globals of the project. 
- * All properties taken from "settings.properties" file.
- * 
+ * All the constants and globals of the project. All properties taken from
+ * "settings.properties" file.
+ *
  * @author Dimitris Mavroeidis
  * @date 18/09/2013
- * 
+ *
  */
-public class Constants
-{
+public class Constants {
 
     // DB settings constants
     public static String dbHost;
@@ -53,7 +52,6 @@ public class Constants
     public static String soundPath;
 
     // URL constants
-
     /**
      * The URL string to labelMe
      */
@@ -71,28 +69,31 @@ public class Constants
 
     // Other constants
     /**
-     * A weight that it is being used by the variable solver (the weight of an inherent relation)
+     * A weight that it is being used by the variable solver (the weight of an
+     * inherent relation)
      */
     public static double weightForVariableSolver;
 
     /**
-     * This is used by the similarity functions, to store which objects we have already visited
+     * This is used by the similarity functions, to store which objects we have
+     * already visited
      */
     public static Hashtable<String, Concept> conceptsVisited = new Hashtable();
-    
+
     /**
-     * A global variable that contains all the concepts that have been loaded from an xml.
-     * It is used in the XML mode (where we do not have any db)
+     * A global variable that contains all the concepts that have been loaded
+     * from an xml. It is used in the XML mode (where we do not have any db)
      */
     public static Hashtable globalConcepts = new Hashtable();
 
     /**
-     * A global variable that contains all the concepts that have been loaded from Wordnet.
-     * It is used in the Wordnet mode (where we do not have any db)
+     * A global variable that contains all the concepts that have been loaded
+     * from Wordnet. It is used in the Wordnet mode (where we do not have any
+     * db)
      */
     public static CollectionOfConcepts wordNetConcepts;
 
-    public static void Constants() throws FileNotFoundException, IOException{
+    public static void Constants() throws FileNotFoundException, IOException {
 
         Properties props = new Properties();
         FileInputStream fis = new FileInputStream("settings.properties");

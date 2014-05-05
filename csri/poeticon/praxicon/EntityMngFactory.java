@@ -2,6 +2,7 @@ package csri.poeticon.praxicon;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+
 /**
  *
  * @author Erevodifwntas
@@ -21,10 +22,10 @@ public class EntityMngFactory {
     private static EntityManager em = null;
 
     /**
-     * It was used by the singleton pattern, but we didn't use this pattern after all
+     * It was used by the singleton pattern, but we didn't use this pattern
+     * after all
      */
-    private static void createEntityMngFactory()
-    {
+    private static void createEntityMngFactory() {
         emf = javax.persistence.Persistence.createEntityManagerFactory(Globals.JpaPU);
         em = emf.createEntityManager();
     }
@@ -32,23 +33,20 @@ public class EntityMngFactory {
     /**
      * The constructor
      */
-    private EntityMngFactory()
-    {
+    private EntityMngFactory() {
         createEntityMngFactory();
     }
 
     /**
-     * It was used by the singleton pattern, but we didn't use this pattern after all
+     * It was used by the singleton pattern, but we didn't use this pattern
+     * after all
      */
-    public static void restart()
-    {
+    public static void restart() {
         createEntityMngFactory();
     }
 
-    public static EntityManager getEntityManager()
-    {
-        if (em == null || !em.isOpen())
-        {
+    public static EntityManager getEntityManager() {
+        if (em == null || !em.isOpen()) {
             createEntityMngFactory();
         }
         return em;
@@ -57,8 +55,7 @@ public class EntityMngFactory {
     /**
      * It closes the Entity Manager
      */
-    public static void close()
-    {
+    public static void close() {
         em = null;
     }
 }

@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package csri.poeticon.praxicon;
 
 import csri.poeticon.praxicon.db.dao.ConceptDao;
@@ -22,12 +21,11 @@ import javax.persistence.Query;
 /**
  *
  * @author Dimitris Mavroeidis
- * 
+ *
  */
-public class SimpleTest
-{
-    public static void main(String args[])
-    {
+public class SimpleTest {
+
+    public static void main(String args[]) {
 //        try
 //        {
 //            Constants.Constants();
@@ -56,8 +54,7 @@ public class SimpleTest
         //List<Concept> found = query.getResultList();
         //Concept startConcept = concepts.get(0);
         //System.out.println(concepts + " " + concepts.getSpecificityLevel());
-        for (Concept item: concepts)
-        {
+        for (Concept item : concepts) {
             System.out.println(item.getName());
         }
 
@@ -69,8 +66,7 @@ public class SimpleTest
         }
         sisters.remove(concepts.get(0));
 
-        for (Concept con: sisters)
-        {
+        for (Concept con : sisters) {
             System.out.println(con + " " + con.getSpecificityLevel());
         }
     }
