@@ -13,17 +13,20 @@ import javax.persistence.Query;
  *
  * @author Erevodifwntas
  */
-public class RelationTypeDaoImpl extends JpaDao<Long, RelationType> implements RelationTypeDao
+public class RelationTypeDaoImpl extends JpaDao<Long, RelationType> implements
+        RelationTypeDao
 {
     /**
-     * Creates q query to search for a RelationType using forward and backward name
+     * Creates q query to search for a RelationType using forward 
+     * and backward name
      * @param entity the RelationType to be searched
      * @return a query to search for the RelationType
      */
     @Override
     public Query getEntityQuery(RelationType entity)
     {
-        Query q = getEntityManager().createQuery("SELECT e FROM RelationType e " +
+        Query q = getEntityManager().createQuery(
+                "SELECT e FROM RelationType e " +
                 "where e.ForwardName = ?1 and e.BackwardName = ?2"
                 );
         q.setParameter(1, entity.getForwardName());
