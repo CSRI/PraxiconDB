@@ -2,8 +2,8 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package csri.poeticon.praxicon.db.entities;
+
 import csri.poeticon.praxicon.Globals;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -37,22 +37,22 @@ import javax.xml.bind.annotation.XmlType;
  *
  * @author Erevodifwntas
  * @author Dimitris Mavroeidis
- * 
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "language_representation", namespace = "http://www.csri.gr/language_representation")
-@XmlRootElement(name="language_representation", namespace = "http://www.csri.gr/language_representation")
 @Entity
-@Table(name="LanguageRepresentations")
-public class LanguageRepresentation implements Serializable
-{
+@Table(name = "LanguageRepresentations")
+public class LanguageRepresentation implements Serializable {
+
     private static final long serialVersionUID = 1L;
     private static List<LanguageRepresentation> language_representations;
 
-    public static enum language
-    {
+    public static enum language {
+
         // ISO-639-1 standard
-        AB, AA, AF, AK, SQ, AM, AR, AN, HY, AS, AV, AE, AY, BM, BA, EU, BE, BN, 
+
+        AB, AA, AF, AK, SQ, AM, AR, AN, HY, AS, AV, AE, AY, BM, BA, EU, BE, BN,
         BH, BI, BS, BR, BG, MY, CA, CH, CE, NY, ZH, CV, KW, CO, CR, HR, CS, DA,
         DV, NL, DZ, EN, EO, ET, EE, FO, FJ, FI, FR, FF, GL, KA, DE, EL, GN, GU,
         HT, HA, HE, HZ, HI, HO, HU, IA, ID, IE, GA, IG, IK, IO, IS, IT, IU, JA,
@@ -63,218 +63,217 @@ public class LanguageRepresentation implements Serializable
         SL, SO, ST, AZ, ES, SU, SW, SS, SV, TA, TE, TG, TH, TI, BO, TK, TL, TN,
         TO, TR, TS, TT, TW, TY, UG, UK, UR, UZ, VE, VI, VO, WA, CY, WO, FY, XH,
         YI, YO, ZA, ZU;
+
         @Override
-        public String toString()
-        {
+        public String toString() {
             return this.name();
         }
     }
 
-    public static enum part_of_speech
-    {
+    public static enum part_of_speech {
+
         ADJECTIVE, ADVERB, NOUN, PARTICIPLE, PROPER_NOUN, VERB;
+
         @Override
-        public String toString()
-        {
+        public String toString() {
             return this.name();
         }
     }
 
-    public static enum is_compositional
-    {
+    public static enum is_compositional {
+
         YES, NO, UNKNOWN;
+
         @Override
-        public String toString()
-        {
+        public String toString() {
             return this.name();
         }
     }
 
     @Id
-    @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
-    @Column(name="LanguageRepresentationId")
+    @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
+    @Column(name = "LanguageRepresentationId")
     private Long Id;
 
     /*  The name of the column was truncated because "Language" is a 
-        reserved SQL-99 keyword. */
-    @Column(name="Language") 
-    @NotNull(message="Language must be specified.")
+     reserved SQL-99 keyword. */
+    @Column(name = "Language")
+    @NotNull(message = "Language must be specified.")
     @Enumerated(EnumType.STRING)
     private language Language;
 
-    @Column(name="PartOfSpeech")
-    @NotNull(message="Part of speech must be specified.")
+    @Column(name = "PartOfSpeech")
+    @NotNull(message = "Part of speech must be specified.")
     @Enumerated(EnumType.STRING)
     private part_of_speech PartOfSpeech;
-    
-    @Column(name="IsCompositional")
+
+    @Column(name = "IsCompositional")
     private is_compositional IsCompositional;
 
-    @Column(name="Text")
-    @NotNull(message="Text must be specified.")
+    @Column(name = "Text")
+    @NotNull(message = "Text must be specified.")
     private String Text;
 
-    @Column(name="Comment")
+    @Column(name = "Comment")
     private String Comment;
 
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-        name="Concepts_LanguageRepresentations",
-        joinColumns={@JoinColumn(name="ConceptId")},
-        inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
+            name = "Concepts_LanguageRepresentations",
+            joinColumns = {
+                @JoinColumn(name = "ConceptId")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "LanguageRepresentationId")}
     )
     private List<Concept> Concepts;
 
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-        name="LanguageRepresentation_RelationSubject",
-        joinColumns={@JoinColumn(name="LanguageRepresentationId")},
-        inverseJoinColumns={@JoinColumn(name="RelationId")}
+            name = "LanguageRepresentation_RelationSubject",
+            joinColumns = {
+                @JoinColumn(name = "LanguageRepresentationId")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "RelationId")}
     )
     private List<Relation> RelationsWithLanguageRepresentationAsSubject;
 
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-        name="LanguageRepresentation_RelationObject",
-        joinColumns={@JoinColumn(name="LanguageRepresentationId")},
-        inverseJoinColumns={@JoinColumn(name="RelationId")}
+            name = "LanguageRepresentation_RelationObject",
+            joinColumns = {
+                @JoinColumn(name = "LanguageRepresentationId")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "RelationId")}
     )
     private List<Relation> RelationsWithLanguageRepresentationAsObject;
 
     // 
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-        joinColumns={@JoinColumn(name="RelationChainId")},
-        inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
+            joinColumns = {
+                @JoinColumn(name = "RelationChainId")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "LanguageRepresentationId")}
     )
     private List<RelationChain> LanguageRepresentationRelationChains;
 
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-        name="LanguageRepresentation_IntersectionOfRelationChains",
-        joinColumns={@JoinColumn(name="IntersectionOfRelationChainsId")},
-        inverseJoinColumns={@JoinColumn(name="LanguageRepresentationId")}
+            name = "LanguageRepresentation_IntersectionOfRelationChains",
+            joinColumns = {
+                @JoinColumn(name = "IntersectionOfRelationChainsId")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "LanguageRepresentationId")}
     )
-    private List<IntersectionOfRelationChains> LanguageRepresentationIntersections;
+    private List<IntersectionOfRelationChains>
+            LanguageRepresentationIntersections;
 
     // Foreign key
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "ConstituentLanguageRepresentation")
+    @OneToMany(cascade = CascadeType.ALL,
+            mappedBy = "ConstituentLanguageRepresentation")
     private List<Constituents> LanguageRepresentationConstituents;
 
     // Foreign key
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "LanguageRepresentation")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "LanguageRepresentation")
     private List<Constituents> Constituents;
 
     // Foreign key
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Compositionality Compositionality;
 
-    public LanguageRepresentation()
-    {
+    public LanguageRepresentation() {
         language_representations = new ArrayList<>();
     }
 
     /**
      * @return the constituents of the language representation.
-     * @xmlcomments.args
-     *	   xmltag="&lt;constituents&gt;"
-     *     xmldescription="This tag defines the constituents of a composite word or multiword"
+     * @xmlcomments.args xmltag="&lt;constituents&gt;" xmldescription="This tag
+     * defines the constituents of a composite word or multiword"
      */
     @XmlElement(name = "constituents")
-    public List<Constituents> getConstituents()
-    {
+    public List<Constituents> getConstituents() {
         List<Constituents> constituents = new ArrayList<>();
-        if (this.IsCompositional == is_compositional.YES)
-            {
-                for (csri.poeticon.praxicon.db.entities.Constituents Constituent : Constituents) 
-                {
-                    constituents.add(Constituent);
-                }           
+        if (this.IsCompositional == is_compositional.YES) {
+            for (csri.poeticon.praxicon.db.entities.Constituents Constituent :
+                    Constituents) {
+                constituents.add(Constituent);
             }
-        else
-            {
-                constituents = null;
-            }
+        } else {
+            constituents = null;
+        }
         return constituents;
     }
 
-    public void setConstituents(List<Constituents> constituents)
-    {
+    public void setConstituents(List<Constituents> constituents) {
         this.Constituents = constituents;
     }
 
     /**
-     * @return whether the language representation consists of more than one constituents.
-     * @xmlcomments.args
-     *	   xmltag="&lt;is_compositional&gt;"
-     *     xmldescription="This tag defines if the LanguageRepresentation is compositional or not"
+     * @return whether the language representation consists of more than one
+     * constituents.
+     * @xmlcomments.args xmltag="&lt;is_compositional&gt;" xmldescription="This
+     * tag defines if the LanguageRepresentation is compositional or not"
      */
     @XmlElement(name = "is_compositional")
-    public is_compositional isCompositional()
-    {
+    public is_compositional isCompositional() {
         return IsCompositional;
     }
 
-    public void setCompositional(is_compositional is_compositional)
-    {
+    public void setCompositional(is_compositional is_compositional) {
         this.IsCompositional = is_compositional;
     }
 
-
     /**
      * @return the language of the language representation.
-     * @xmlcomments.args
-     *	   xmltag="&lt;language&gt;"
-     *     xmldescription="This tag defines the language of the entry"
+     * @xmlcomments.args xmltag="&lt;language&gt;" xmldescription="This tag
+     * defines the language of the entry"
      */
-    @XmlElement(name="language")
-    public language getLanguage()
-    {
+    @XmlElement(name = "language")
+    public language getLanguage() {
         return Language;
     }
 
     /**
      * @return the part of speech of the language representation.
-     * @xmlcomments.args
-     *	   xmltag="&lt;part_of_speech&gt;"
-     *     xmldescription="This tag defines the Part Of Speech of the entry"
+     * @xmlcomments.args xmltag="&lt;part_of_speech&gt;" xmldescription="This
+     * tag defines the Part Of Speech of the entry"
      */
-    @XmlElement(name="part_of_speech")
-    public part_of_speech getPartOfSpeech()
-    {
+    @XmlElement(name = "part_of_speech")
+    public part_of_speech getPartOfSpeech() {
         return PartOfSpeech;
     }
 
-    public void setPartOfSpeech(part_of_speech pos)
-    {
+    public void setPartOfSpeech(part_of_speech pos) {
         this.PartOfSpeech = pos;
     }
 
-    public void setPartOfSpeech(String pos)
-    {
+    public void setPartOfSpeech(String pos) {
         // TODO: Check if it returns the correct value.
         this.PartOfSpeech = part_of_speech.valueOf(pos.trim().toUpperCase());
     }
 
     @XmlTransient
-    public List<LanguageRepresentation> getLanguageRepresentations()
-    {
-        List<LanguageRepresentation> language_representations_list = new ArrayList<>();
-        for (LanguageRepresentation language_representation : LanguageRepresentation.language_representations) {
+    public List<LanguageRepresentation> getLanguageRepresentations() {
+        List<LanguageRepresentation> language_representations_list =
+                new ArrayList<>();
+        for (LanguageRepresentation language_representation :
+                LanguageRepresentation.language_representations) {
             language_representations_list.add(language_representation);
         }
         return language_representations_list;
     }
 
     @XmlTransient
-    public List<Concept> getConcepts()
-    {
+    public List<Concept> getConcepts() {
         List<Concept> concepts = new ArrayList<>();
 
-        for (LanguageRepresentation language_representation : LanguageRepresentation.language_representations) {
-            for (int j = 0; j < language_representation.getConcepts().size(); j++) {
-                if (!concepts.contains(language_representation.getConcepts().get(j))) {
+        for (LanguageRepresentation language_representation : 
+                LanguageRepresentation.language_representations) {
+            for (int j = 0; j < language_representation.getConcepts().size();
+                    j++) {
+                if (!concepts.contains(language_representation.getConcepts().
+                        get(j))) {
                     concepts.add(language_representation.getConcepts().get(j));
                 }
             }
@@ -282,90 +281,78 @@ public class LanguageRepresentation implements Serializable
         return concepts;
     }
 
-    public void setLanguageRepresentations(List<LanguageRepresentation> language_representations)
-    {
-        LanguageRepresentation.language_representations = language_representations;
+    public void setLanguageRepresentations(List<LanguageRepresentation>
+            language_representations) {
+        LanguageRepresentation.language_representations =
+                language_representations;
     }
 
-    public void setLanguage(language language)
-    {
+    public void setLanguage(language language) {
         this.Language = language;
     }
 
     /**
      * @return Text.
-     * @xmlcomments.args
-     *	   xmltag="&lt;text&gt;"
-     *     xmldescription="This tag defines the text of the entry"
+     * @xmlcomments.args xmltag="&lt;text&gt;" xmldescription="This tag defines
+     * the text of the entry"
      */
     @XmlElement(name = "text")
-    public String getText()
-    {
+    public String getText() {
         return Text;
     }
 
-    public void setText(String text)
-    {
+    public void setText(String text) {
         this.Text = text;
     }
 
     @XmlAttribute
-    public Long getId()
-    {
+    public Long getId() {
         return Id;
     }
 
-    public void setId(Long id)
-    {
+    public void setId(Long id) {
         this.Id = id;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 0;
         hash += (Id != null ? Id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object)
-    {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof LanguageRepresentation))
-        {
+    public boolean equals(Object object) {
+        // TODO: Warning - method won't work in case the id fields are not set
+        if (!(object instanceof LanguageRepresentation)) {
             return false;
         }
         LanguageRepresentation other = (LanguageRepresentation) object;
-        if (this.Language!=null && this.Text!=null && this.PartOfSpeech!=null &&
-                this.Language.name().equals(other.Language.name())
+        if (this.Language != null && this.Text != null &&
+            this.PartOfSpeech != null
+                && this.Language.name().equals(other.Language.name())
                 && this.Text.equalsIgnoreCase(other.Text)
-                && this.PartOfSpeech == other.PartOfSpeech)
-        {
+                && this.PartOfSpeech == other.PartOfSpeech) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 
     @Override
-    public String toString()
-    {
-        return Text + "\\"+ this.PartOfSpeech+" (" + Language + ")";
+    public String toString() {
+        return Text + "\\" + this.PartOfSpeech + " (" + Language + ")";
     }
 
-    public void afterUnmarshal(Unmarshaller u, Object parent)
-    {
-        if (!Globals.ToMergeAfterUnMarshalling)
-        {
-          /*  try {
-                String tmp = new String(this.getText().getBytes(), "UTF-8");
-                this.setText(tmp);
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(LanguageEntry.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
+    public void afterUnmarshal(Unmarshaller u, Object parent) {
+        if (!Globals.ToMergeAfterUnMarshalling) {
+            /*  try {
+             String tmp = new String(this.getText().getBytes(), "UTF-8");
+             this.setText(tmp);
+             } catch (UnsupportedEncodingException ex) {
+             Logger.getLogger(LanguageEntry.class.getName()).log(Level.SEVERE,
+                                                                 null, ex);
+             }*/
         }
     }
 }

@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package csri.poeticon.praxicon.db.entities;
 
 import java.io.Serializable;
@@ -26,41 +25,39 @@ import javax.xml.bind.annotation.XmlType;
  * @author dmavroeidis
  */
 @XmlType(name = "verbalization", namespace = "http://www.csri.gr/verbalization")
-@XmlRootElement(name="verbalization", namespace = "http://www.csri.gr/verbalization")
 @Entity
-@Table(name="Verbalizations")
+@Table(name = "Verbalizations")
 public class Verbalization implements Serializable {
 
-    public static enum allowed
-    {
-        YES, NO, UNKNOWN ;
+    public static enum allowed {
+
+        YES, NO, UNKNOWN;
+
         @Override
-        public String toString()
-        {
+        public String toString() {
             return this.name();
         }
     }
 
     private static final long serialVersionUID = 1L;
     @Id
-    @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
-    @Column(name="VerbalizationId")
+    @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
+    @Column(name = "VerbalizationId")
     private Long Id;
 
-    @Column(name="Allowed")
+    @Column(name = "Allowed")
     @Enumerated(EnumType.STRING)
     private allowed Allowed;
 
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Concept Concept;
 
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private LanguageRepresentation LanguageRepresentation;
 
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Relation Relation;
-
 
     @XmlAttribute
     public Long getId() {
@@ -85,7 +82,8 @@ public class Verbalization implements Serializable {
             return false;
         }
         Verbalization other = (Verbalization) object;
-        if ((this.Id == null && other.Id != null) || (this.Id != null && !this.Id.equals(other.Id))) {
+        if ((this.Id == null && other.Id != null) ||
+                (this.Id != null && !this.Id.equals(other.Id))) {
             return false;
         }
         return true;
@@ -93,6 +91,7 @@ public class Verbalization implements Serializable {
 
     @Override
     public String toString() {
-        return "csri.poeticon.praxicon.db.entities.Verbalization[id=" + Id + "]";
+        return "csri.poeticon.praxicon.db.entities.Verbalization[id=" + Id +
+                "]";
     }
 }

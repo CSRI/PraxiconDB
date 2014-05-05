@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package csri.poeticon.praxicon.db.entities;
 
 import java.io.Serializable;
@@ -26,35 +25,35 @@ import javax.xml.bind.annotation.XmlType;
  *
  * @author dmavroeidis
  */
-@XmlType(name = "compositionality", namespace = "http://www.csri.gr/compositionality")
-@XmlRootElement(name="compositionality", namespace = "http://www.csri.gr/compositionality")
+@XmlType(name = "compositionality",
+        namespace = "http://www.csri.gr/compositionality")
 @Entity
-@Table(name="Compositionality")
+@Table(name = "Compositionality")
 public class Compositionality implements Serializable {
 
-    public static enum CompositionalityType
-    {
+    public static enum CompositionalityType {
+
         MULTIWORD, COMPOSITE_WORD, UNKNOWN;
+
         @Override
-        public String toString()
-        {
+        public String toString() {
             return this.name();
         }
     }
 
     private static final long serialVersionUID = 1L;
     @Id
-    @SequenceGenerator(name="CUST_SEQ", allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator="CUST_SEQ")
-    @Column(name="CompositionalityId")
+    @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
+    @Column(name = "CompositionalityId")
     private Long Id;
 
-    @Column(name="CompositionalityType")
+    @Column(name = "CompositionalityType")
     @Enumerated(EnumType.STRING)
     private CompositionalityType CompositionalityType;
 
     // Foreign keys
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "Compositionality")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Compositionality")
     private List<LanguageRepresentation> LanguageRepresentation;
 
     @XmlAttribute
@@ -75,12 +74,13 @@ public class Compositionality implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
+        // TODO: Warning - method won't work in case the id fields are not set
         if (!(object instanceof Compositionality)) {
             return false;
         }
         Compositionality other = (Compositionality) object;
-        if ((this.Id == null && other.Id != null) || (this.Id != null && !this.Id.equals(other.Id))) {
+        if ((this.Id == null && other.Id != null) ||
+                (this.Id != null && !this.Id.equals(other.Id))) {
             return false;
         }
         return true;
@@ -88,6 +88,7 @@ public class Compositionality implements Serializable {
 
     @Override
     public String toString() {
-        return "csri.poeticon.praxicon.db.entities.Compositionality[id=" + Id + "]";
+        return "csri.poeticon.praxicon.db.entities.Compositionality[id=" +
+                Id + "]";
     }
 }
