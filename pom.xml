@@ -32,8 +32,9 @@
                     </execution>
                 </executions>
                 <configuration>
+
                     <transformSchemas>
-                        <!--
+                    <!--                        
                             Each schema element defines:
 
                             a) A <<namespace uri>> for one of your namespaces.
@@ -53,7 +54,13 @@
 
                             c) The desired <<toFile>> name of the generated XML schema definition file,
                                excluding the ".xsd" suffix (which will be added automatically).
-                        -->
+                       
+                        <transformSchema>
+                            <uri>http://www.csri.gr/collection_of_concepts</uri>
+                            <toPrefix>collection_of_concepts</toPrefix>
+                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/collection_of_concepts.xsd</toFile>
+                        </transformSchema>
+                       -->
                         <transformSchema>
                             <uri>http://www.csri.gr/concept</uri>
                             <toPrefix>concept</toPrefix>
@@ -114,9 +121,8 @@
                             <toPrefix>verbalization</toPrefix>
                             <toFile>/home/dmavroeidis/work/praxicondb/xsd/verbalization.xsd</toFile>
                         </transformSchema>
-
-
                     </transformSchemas>
+
                     <includes>
                         <include>**/*.java</include>
                     </includes>
@@ -129,8 +135,16 @@
                 <version>3.13</version>
                 <extensions>true</extensions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.12.1</version>
+                <configuration>
+                    <configLocation>checkstyle.xml</configLocation>
+                </configuration>
+            </plugin>
         </plugins>
-    </build>
+    </build>    
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -202,6 +216,10 @@
             <version>2.2.7</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>checkstyle</groupId>
+            <artifactId>checkstyle</artifactId>
+            <version>5.0</version>
+        </dependency>
     </dependencies>
-    
 </project>
