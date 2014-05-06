@@ -226,7 +226,6 @@ public class Concept implements Serializable {
                 i++) {
             if (!this.getVisualRepresentationsEntries().contains(newConcept.
                     getVisualRepresentationsEntries().get(i))) {
-                // newConcept.getVisualRepresentationsEntries().get(i).setOwner(this); //Not needed since VisualRepresentationGroup is out
                 this.getVisualRepresentationsEntries().add(newConcept.
                         getVisualRepresentationsEntries().get(i));
             }
@@ -235,7 +234,6 @@ public class Concept implements Serializable {
         for (int i = 0; i < newConcept.getMotoricRepresentations().size(); i++) {
             if (!this.getMotoricRepresentations().contains(newConcept.
                     getMotoricRepresentations().get(i))) {
-                // newConcept.getMotoricRepresentations().get(i).setOwner(this); //Not needed since MotoricRepresentationGroup is out
                 this.getMotoricRepresentations().add(newConcept.
                         getMotoricRepresentations().get(i));
             }
@@ -377,8 +375,8 @@ public class Concept implements Serializable {
 
     /**
      * @return @xmlcomments.args xmltag="&lt;unique_instance&gt;"
-     *         xmldescription="This tag defines the source of the concept (from which
-     *         resources was generated (for example: Wordnet)"
+     *         xmldescription="This tag defines the source of the concept 
+     *         (from which resources was generated (for example: Wordnet)"
      */
     @XmlElement(name = "unique_instance")
     public unique_instance getUniqueInstance() {
