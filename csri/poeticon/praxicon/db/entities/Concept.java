@@ -48,7 +48,7 @@ import javax.xml.bind.annotation.XmlType;
 @Entity
 //@EntityListeners(ConceptListener.class)
 @NamedQuery(name = "findAllConcepts", query = "select c from Concept c")
-@Table(name = "Concepts") //, Definition = "SMALLINT UNSIGNED COMMENT 'The Concept table. This is the key table of the database'")
+@Table(name = "Concepts")
 //@ConceptConstraint(groups=ConceptGroup.class)
 public class Concept implements Serializable {
 
@@ -175,11 +175,17 @@ public class Concept implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "Concept")
     private List<IntersectionOfRelationChains> IntersectionsOfRelationChains;
 
+    /*
+        Relations that have "this" concept as Object.
+    */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "Object")
-    private List<Relation> RelationsContainingConceptAsObject; //Relations that have "this" concept as Object.
+    private List<Relation> RelationsContainingConceptAsObject; 
 
+    /*
+        Relations that have "this" concept as Subject.
+    */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "Subject")
-    private List<Relation> RelationsContainingConceptAsSubject; //Relations that have "this" concept as Subject.
+    private List<Relation> RelationsContainingConceptAsSubject; 
 
     // Public Constructor
     public Concept() {
@@ -407,8 +413,8 @@ public class Concept implements Serializable {
 
     /**
      * @return @xmlcomments.args xmltag="&lt;source&gt;" xmldescription="This
-     *         tag defines the source of the concept (from which resources was generated
-     *         (for example: Wordnet)"
+     *         tag defines the source of the concept (from which resources 
+     *         was generated (for example: Wordnet)"
      */
     @XmlElement(name = "source")
     public String getSource() {
@@ -805,7 +811,6 @@ public class Concept implements Serializable {
                 updateRelations(tmp);
             }
         }
-
         System.err.println("Finish unmarshalling: " + this.getName());
     }
 }
