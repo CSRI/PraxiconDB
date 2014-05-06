@@ -760,7 +760,7 @@ public class Concept implements Serializable {
             // + " (Entity)";
         } else {
             List<LanguageRepresentation> tmpList =
-                     this.getLanguageRepresentationsEntries();
+                    this.getLanguageRepresentationsEntries();
             if (tmpList.size() > 0) {
                 StringBuilder tmp = new StringBuilder(tmpList.get(0).getText());
                 for (int i = 1; i < tmpList.size(); i++) {

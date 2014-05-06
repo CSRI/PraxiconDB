@@ -328,9 +328,9 @@ public class LanguageRepresentation implements Serializable {
         LanguageRepresentation other = (LanguageRepresentation)object;
         if (this.Language != null && this.Text != null &&
                 this.PartOfSpeech != null &&
-                 this.Language.name().equals(other.Language.name()) &&
-                 this.Text.equalsIgnoreCase(other.Text) &&
-                 this.PartOfSpeech == other.PartOfSpeech) {
+                this.Language.name().equals(other.Language.name()) &&
+                this.Text.equalsIgnoreCase(other.Text) &&
+                this.PartOfSpeech == other.PartOfSpeech) {
             return true;
         } else {
             return false;
