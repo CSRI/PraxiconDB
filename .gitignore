@@ -6,3 +6,15 @@
 *.ear
 /dist/
 /build/
+/schema1.xsd
+/schema4.xsd
+/schema3.xsd
+/schema10.xsd
+/schema5.xsd
+/schema11.xsd
+/schema2.xsd
+/schema7.xsd
+/schema6.xsd
+/schema9.xsd
+/schema8.xsd
+/schema12.xsd
