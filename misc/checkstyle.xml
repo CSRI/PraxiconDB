@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.2//EN" "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
 <module name="Checker">
-    <module name="JavadocPackage"/>
+    <module name="JavadocPackage" />
     <module name="TreeWalker">
         <!-- Checks for common import -->
         <module name="AvoidStarImport"/>
@@ -12,10 +12,9 @@
         <module name="EqualsHashCode" />
         <module name="IllegalInstantiation" />
         <module name="ConstantName"/>
-        <module name="EmptyBlock"/>
-        <module name="InterfaceIsType"/>
+        <module name="EmptyBlock" />
+        <module name="InterfaceIsType" />
 
-        
         <!-- Miscellaneous other checks. -->
         <module name="ModifierOrder" />
         <module name="GenericWhitespace" />
