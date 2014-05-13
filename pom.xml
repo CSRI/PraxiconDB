@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>csri.poeticon.praxicon</groupId>
+    <groupId>gr.csri.poeticon.praxicon</groupId>
     <artifactId>praxicondb</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <build>
-        <sourceDirectory>/home/dmavroeidis/work/praxicondb</sourceDirectory>
+        <sourceDirectory>.</sourceDirectory>
         <resources>
             <resource>
                 <directory>resources</directory>
@@ -25,7 +25,7 @@
                         <phase>generate-resources</phase>
                         <configuration>
                             <includes>
-                                <include>csri/poeticon/praxicon/db/entities/*.java</include>
+                                <include>gr/csri/poeticon/praxicon/db/entities/*.java</include>
                             </includes>
                             <outputDirectory>${project.build.directory}/schemas</outputDirectory>
                         </configuration>
@@ -58,68 +58,68 @@
                         <transformSchema>
                             <uri>http://www.csri.gr/collection_of_concepts</uri>
                             <toPrefix>collection_of_concepts</toPrefix>
-                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/collection_of_concepts.xsd</toFile>
+                            <toFile>gr/praxicondb/xsd/collection_of_concepts.xsd</toFile>
                         </transformSchema>
                        -->
                         <transformSchema>
                             <uri>http://www.csri.gr/concept</uri>
                             <toPrefix>concept</toPrefix>
-                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/concept.xsd</toFile>
+                            <toFile>gr/praxicondb/xsd/concept.xsd</toFile>
                         </transformSchema>
                         <transformSchema>
                             <uri>http://www.csri.gr/compositionality</uri>
                             <toPrefix>compositionality</toPrefix>
-                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/compositionality.xsd</toFile>
+                            <toFile>gr/praxicondb/xsd/compositionality.xsd</toFile>
                         </transformSchema>
                         <transformSchema>
                             <uri>http://www.csri.gr/constituent</uri>
                             <toPrefix>constituent</toPrefix>
-                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/constituent.xsd</toFile>
+                            <toFile>gr/praxicondb/xsd/constituent.xsd</toFile>
                         </transformSchema>
                         <transformSchema>
                             <uri>http://www.csri.gr/relation</uri>
                             <toPrefix>relation</toPrefix>
-                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/relation.xsd</toFile>
+                            <toFile>gr/praxicondb/xsd/relation.xsd</toFile>
                         </transformSchema>
                         <transformSchema>
                             <uri>http://www.csri.gr/intersection_of_relation_chains</uri>
                             <toPrefix>intersection_of_relation_chains</toPrefix>
-                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/intersection_of_relation_chains.xsd</toFile>
+                            <toFile>gr/praxicondb/xsd/intersection_of_relation_chains.xsd</toFile>
                         </transformSchema>
                         <transformSchema>
                             <uri>http://www.csri.gr/language_representation</uri>
                             <toPrefix>language_representation</toPrefix>
-                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/language_representation.xsd</toFile>
+                            <toFile>gr/praxicondb/xsd/language_representation.xsd</toFile>
                         </transformSchema>
                         <transformSchema>
                             <uri>http://www.csri.gr/motoric_representation</uri>
                             <toPrefix>motoric_representation</toPrefix>
-                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/motoric_representation.xsd</toFile>
+                            <toFile>gr/praxicondb/xsd/motoric_representation.xsd</toFile>
                         </transformSchema>
                         <transformSchema>
                             <uri>http://www.csri.gr/visual_representation</uri>
                             <toPrefix>visual_representation</toPrefix>
-                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/visual_representation.xsd</toFile>
+                            <toFile>gr/praxicondb/xsd/visual_representation.xsd</toFile>
                         </transformSchema>
                         <transformSchema>
                             <uri>http://www.csri.gr/relation_chain</uri>
                             <toPrefix>relation_chain</toPrefix>
-                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/relation_chain.xsd</toFile>
+                            <toFile>gr/praxicondb/xsd/relation_chain.xsd</toFile>
                         </transformSchema>
                         <transformSchema>
                             <uri>http://www.csri.gr/relationchain_relation</uri>
                             <toPrefix>relationchain_relation</toPrefix>
-                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/relationchain_relation.xsd</toFile>
+                            <toFile>gr/praxicondb/xsd/relationchain_relation.xsd</toFile>
                         </transformSchema>
                         <transformSchema>
                             <uri>http://www.csri.gr/relation_type</uri>
                             <toPrefix>relation_type</toPrefix>
-                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/relation_type.xsd</toFile>
+                            <toFile>gr/praxicondb/xsd/relation_type.xsd</toFile>
                         </transformSchema>
                         <transformSchema>
                             <uri>http://www.csri.gr/verbalization</uri>
                             <toPrefix>verbalization</toPrefix>
-                            <toFile>/home/dmavroeidis/work/praxicondb/xsd/verbalization.xsd</toFile>
+                            <toFile>gr/praxicondb/xsd/verbalization.xsd</toFile>
                         </transformSchema>
                     </transformSchemas>
 
