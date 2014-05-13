@@ -6,10 +6,10 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <build>
-        <sourceDirectory>.</sourceDirectory>
+        <sourceDirectory>src</sourceDirectory>
         <resources>
             <resource>
-                <directory>resources</directory>
+                <directory>src/resources</directory>
             </resource>
         </resources>
         <plugins>
