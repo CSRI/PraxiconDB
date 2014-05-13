@@ -163,7 +163,7 @@ public class MotoricRepresentation implements Serializable {
 
     @Override
     public String toString() {
-        return "csri.poeticon.praxicon.db.entities.MotoricRepresentation[id=" +
+        return "gr.csri.poeticon.praxicon.db.entities.MotoricRepresentation[id=" +
                 Id + "]";
     }
 

@@ -87,7 +87,7 @@ public class Compositionality implements Serializable {
 
     @Override
     public String toString() {
-        return "csri.poeticon.praxicon.db.entities.Compositionality[id=" +
+        return "gr.csri.poeticon.praxicon.db.entities.Compositionality[id=" +
                 Id + "]";
     }
 }

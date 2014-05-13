@@ -16,7 +16,7 @@ import javax.xml.bind.Marshaller;
 
 /**
  * A class that helps you to serialize any entity of the
- * csri.poeticon.praxicon.db.entities as an XML
+ * gr.csri.poeticon.praxicon.db.entities as an XML
  *
  * @author Erevodifwntas
  */
@@ -27,7 +27,7 @@ public class XML_Utils {
      * should be empty (the function appends the xml content in the end of the
      * file)
      *
-     * @param objects      The entities of the csri.poeticon.praxicon.db.entities
+     * @param objects      The entities of the gr.csri.poeticon.praxicon.db.entities
      *                     that are going to be serialized as an XML
      * @param XML_FileName The name of the XML file (with or without a path)
      */
@@ -35,7 +35,7 @@ public class XML_Utils {
         try {
             //Initialization
             JAXBContext context = JAXBContext.newInstance(
-                    "csri.poeticon.praxicon.db.entities");
+                    "gr.csri.poeticon.praxicon.db.entities");
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
@@ -53,7 +53,7 @@ public class XML_Utils {
      * should be empty (the function appends the xml content in the end of the
      * file)
      *
-     * @param collection   The entities of the csri.poeticon.praxicon.db.entities
+     * @param collection   The entities of the gr.csri.poeticon.praxicon.db.entities
      *                     that are going to be serialized as an XML
      * @param XML_FileName The name of the XML file (with or without a path)
      */
@@ -62,7 +62,7 @@ public class XML_Utils {
         try {
             //Initialization
             JAXBContext context = JAXBContext.newInstance(
-                    "csri.poeticon.praxicon.db.entities");
+                    "gr.csri.poeticon.praxicon.db.entities");
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 

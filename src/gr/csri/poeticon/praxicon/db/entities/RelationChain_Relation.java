@@ -122,7 +122,7 @@ public class RelationChain_Relation implements Serializable {
 
     @Override
     public String toString() {
-        return "csri.poeticon.praxicon.db.entities.RelationChain_Relation[id=" +
+        return "gr.csri.poeticon.praxicon.db.entities.RelationChain_Relation[id=" +
                 Id + "]";
     }
 

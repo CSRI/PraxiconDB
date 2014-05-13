@@ -1,16 +1,17 @@
 package gr.csri.poeticon.praxicon;
 
-import gr.csri.poeticon.praxicon.db.entities.CollectionOfConcepts;
 import gr.csri.poeticon.praxicon.db.dao.RelationDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
+import gr.csri.poeticon.praxicon.db.entities.CollectionOfConcepts;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.*;
-import javax.xml.bind.*;
+import java.util.List;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
 
 /**
  *
@@ -23,7 +24,7 @@ public class LoadXML {
 
     public static void main(String args[]) throws Exception {
         JAXBContext context = JAXBContext.newInstance(
-                "csri.poeticon.praxicon.db.entities");
+                "gr.csri.poeticon.praxicon.db.entities");
 
         if (args.length == 2 && args[0].equalsIgnoreCase("-f")) {
             File dir = new File(args[1]);

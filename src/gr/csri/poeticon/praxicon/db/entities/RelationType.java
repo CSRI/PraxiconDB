@@ -351,7 +351,7 @@ public class RelationType implements Serializable {
 
     @Override
     public String toString() {
-        return "csri.poeticon.praxicon.db.entities.RelationType[Id=" + Id + "]";
+        return "gr.csri.poeticon.praxicon.db.entities.RelationType[Id=" + Id + "]";
     }
 
 }

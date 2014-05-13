@@ -213,7 +213,7 @@ public class IntersectionOfRelationChains implements Serializable {
 
     @Override
     public String toString() {
-        return "csri.poeticon.praxicon.db.entities." +
+        return "gr.csri.poeticon.praxicon.db.entities." +
                 "IntersectionOfRelationChains[id=" + Id + "]";
     }
 

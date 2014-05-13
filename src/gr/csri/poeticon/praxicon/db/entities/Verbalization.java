@@ -90,7 +90,7 @@ public class Verbalization implements Serializable {
 
     @Override
     public String toString() {
-        return "csri.poeticon.praxicon.db.entities.Verbalization[id=" + Id +
+        return "gr.csri.poeticon.praxicon.db.entities.Verbalization[id=" + Id +
                 "]";
     }
 }
