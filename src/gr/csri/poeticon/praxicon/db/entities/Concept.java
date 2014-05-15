@@ -22,6 +22,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -47,7 +48,15 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "concept", namespace = "http://www.csri.gr/concept")
 @Entity
 //@EntityListeners(ConceptListener.class)
-@NamedQuery(name = "findAllConcepts", query = "select c from Concept c")
+@NamedQueries({
+    @NamedQuery(name = "findAllConcepts", query= "SELECT c FROM Concept c"),
+    @NamedQuery(name = "findConceptsByNameExact", query= "SELECT c FROM Concept c WHERE c.Name = :concept_name"),
+    @NamedQuery(name = "findConceptsByName", query= "SELECT c FROM Concept c WHERE c.Name LIKE :concept_name"),
+    @NamedQuery(name = "findConceptsByLanguageRepresentation", 
+            query= "SELECT c FROM Concept c WHERE c.LanguageRepresentations.Text LIKE :lr_name"),
+    @NamedQuery(name = "findConceptsByLanguageRepresentationExact", 
+            query= "SELECT c FROM Concept c WHERE c.LanguageRepresentations.Text = :lr_name"),
+})
 @Table(name = "Concepts")
 //@ConceptConstraint(groups=ConceptGroup.class)
 public class Concept implements Serializable {
@@ -282,7 +291,6 @@ public class Concept implements Serializable {
      * @xmlcomments.args xmltag="name" xmldescription="This attribute defines
      * the name of the element"
      */
-    @XmlAttribute(name = "name")
     public String getName() {
         if (Name != null) {
             return Name;
@@ -313,7 +321,6 @@ public class Concept implements Serializable {
      * defines the type of the concept entity (abstract, entity, feature,
      * movement, unknown)"
      */
-    @XmlElement(name = "concept_type")
     public type getConceptType() {
         return ConceptType;
     }
@@ -331,7 +338,6 @@ public class Concept implements Serializable {
      * @xmlcomments.args xmltag="&lt;specificity_level&gt;" xmldescription="This
      * tag defines the specificity level of the concept"
      */
-    @XmlElement(name = "specificity_level")
     public specificity_level getSpecificityLevel() {
         return SpecificityLevel;
     }
@@ -357,7 +363,6 @@ public class Concept implements Serializable {
      * @xmlcomments.args xmltag="&lt;status&gt;" xmldescription="This tag
      * defines if the entity is a variable, a constant or a template"
      */
-    @XmlElement(name = "status")
     //@ConstantConcepts(value=status.CONSTANT)
     public status getStatus() {
         return Status;
@@ -378,7 +383,6 @@ public class Concept implements Serializable {
      *         xmldescription="This tag defines the source of the concept 
      *         (from which resources was generated (for example: Wordnet)"
      */
-    @XmlElement(name = "unique_instance")
     public unique_instance getUniqueInstance() {
         return UniqueInstance;
     }
@@ -392,7 +396,6 @@ public class Concept implements Serializable {
      * @xmlcomments.args xmltag="&lt;pragmatic_status&gt;" xmldescription="This
      * tag defines if the entity is literal or figurative"
      */
-    @XmlElement(name = "pragmatic_status")
     public pragmatic_status getPragmaticStatus() {
         return PragmaticStatus;
     }
@@ -414,7 +417,6 @@ public class Concept implements Serializable {
      *         tag defines the source of the concept (from which resources 
      *         was generated (for example: Wordnet)"
      */
-    @XmlElement(name = "source")
     public String getSource() {
         return Source;
     }
@@ -429,7 +431,6 @@ public class Concept implements Serializable {
      *
      *
      */
-    @XmlElement(name = "comment")
     public String getComment() {
         return Comment;
     }
@@ -442,7 +443,6 @@ public class Concept implements Serializable {
      * @return the language representations of the concept
      *
      */
-    @XmlElement(name = "language_representation")
     public final List<LanguageRepresentation> getLanguageRepresentations() {
         return LanguageRepresentations;
     }
@@ -512,7 +512,6 @@ public class Concept implements Serializable {
      *         xmldescription="This tag defines the Visual Representation of the
      *         concept"
      */
-    @XmlElement(name = "visual_representation")
     public List<VisualRepresentation> getVisualRepresentations() {
         return VisualRepresentations;
     }
@@ -558,7 +557,6 @@ public class Concept implements Serializable {
      * @return @xmlcomments.args xmltag="&lt;motoric_representation&gt;"
      *         xmldescription="This tag defines the motoric representation"
      */
-    @XmlElement(name = "motoric_representation")
     public final List<MotoricRepresentation> getMotoricRepresentations() {
         return MotoricRepresentations;
     }
@@ -607,7 +605,6 @@ public class Concept implements Serializable {
      * xmldescription="This tag defines the intersection of relation chains this
      * concept participates in"
      */
-    @XmlElement(name = "intersection_of_relation_chains")
     public final List<IntersectionOfRelationChains>
             getIntersectionsOfRelationChains() {
         return IntersectionsOfRelationChains;
