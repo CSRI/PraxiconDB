@@ -16,18 +16,17 @@ import java.util.List;
  */
 public interface ConceptDao extends Dao<Long, Concept> {
 
-    @Override
-    List<Concept> findAll();
+    List<Concept> findAllConcepts();
 
-    List<Concept> findAllByLanguageRepresentation(String queryString);
+    List<Concept> findConceptsByLanguageRepresentation(String queryString);
 
-    List<Concept> findByLanguageRepresentation(String queryString);
+    List<Concept> findConceptsByLanguageRepresentationExact(String queryString);
 
-    List<Concept> findAllByName(String name);
+    List<Concept> findConceptsByName(String name);
 
-    List<Concept> findByName(String name);
+    List<Concept> findConceptsByNameExact(String name);
 
-    List<Concept> findByStatus(status status);
+    List<Concept> findConceptsByStatus(status status);
 
     Concept getConceptWithNameOrID(String v);
 

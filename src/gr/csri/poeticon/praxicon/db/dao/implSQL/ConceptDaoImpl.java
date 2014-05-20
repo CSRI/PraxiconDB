@@ -31,7 +31,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of all concepts in the database
      */
     @Override
-    public List<Concept> findAll() {
+    public List<Concept> findAllConcepts() {
         Query query = getEntityManager().createNamedQuery("findAllConcepts");
         List<Concept> concepts = query.getResultList();
         return concepts;
@@ -45,13 +45,14 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts found in the database
      */
     @Override
-    public List<Concept> findAllByLanguageRepresentation(String queryString) {
-        Query q = getEntityManager().createQuery("SELECT c FROM Concept c, " +
-                "IN (c.LanguageRepresentation) as clr, " +
-                "IN (clr.LanguageRepresentationConstituents) as entry " +
-                "where entry.Name like ?1");
-        q.setParameter(1, "%" + queryString + "%");
-        return q.getResultList();
+    public List<Concept> findConceptsByLanguageRepresentation(String queryString) {
+        Query query = getEntityManager().createNamedQuery(
+                "findConceptsByLanguageRepresentation").
+                setParameter("lr_name", "%" + queryString + "%");
+//        Query query = getEntityManager().createNamedQuery(
+//                "findConceptsByLanguageRepresentation").
+//                setParameter("lr_name", "%" + queryString + "%");
+        return query.getResultList();
     }
 
     /**
@@ -62,7 +63,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts found in the database
      */
     @Override
-    public List<Concept> findByLanguageRepresentation(String queryString) {
+    public List<Concept> findConceptsByLanguageRepresentationExact(String queryString) {
         this.clearManager();
         Query q = getEntityManager().createQuery(
                 "SELECT e FROM LanguageRepresentation e " +
@@ -91,11 +92,14 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts found in the database
      */
     @Override
-    public List<Concept> findAllByName(String name) {
-        List<Concept> res = findByLanguageRepresentation(name);
-        res.addAll(findAllByLanguageRepresentation(name));
+    public List<Concept> findConceptsByName(String name) {
+        
+        
+        
+        List<Concept> res = findConceptsByLanguageRepresentation(name);
+        res.addAll(findConceptsByLanguageRepresentation(name));
         Query q = getEntityManager().createQuery("SELECT c FROM Concept c " +
-                 "where c.Name like ?1");
+                "where c.Name like ?1");
         q.setParameter(1, "%" + name + "%");
         res.addAll(q.getResultList());
 
@@ -109,9 +113,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts found in the database
      */
     @Override
-    public List<Concept> findByName(String name) {
+    public List<Concept> findConceptsByNameExact(String name) {
         Query q = getEntityManager().createQuery("SELECT c FROM Concept c " +
-                 "where c.Name = ?1");
+                "where c.Name = ?1");
         q.setParameter(1, name);
         return q.getResultList();
     }
@@ -123,9 +127,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts found in the database
      */
     @Override
-    public List<Concept> findByStatus(status status) {
+    public List<Concept> findConceptsByStatus(status status) {
         Query q = getEntityManager().createQuery("SELECT c FROM Concept c " +
-                 "where c.Status = ?1");
+                "where c.Status = ?1");
         q.setParameter(1, status);
         return q.getResultList();
     }
@@ -178,7 +182,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     @Override
     public Concept updatedConcept(Concept newCon) {
         Query q = getEntityManager().createQuery("SELECT c FROM Concept c " +
-                 "where c.Name = ?1");
+                "where c.Name = ?1");
         q.setParameter(1, newCon.getName());
         List tmp = q.getResultList();
 
@@ -215,7 +219,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         try {
             Query q = getEntityManager().createQuery(
                     "SELECT c FROM Concept c " +
-                     "where c.Name = ?1");
+                    "where c.Name = ?1");
             q.setParameter(1, newCon.getName());
             List tmp = q.getResultList();
 
@@ -535,8 +539,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             return getBasicLevelOfAnAbstractConcept(c);
         } else {
             if (c.getConceptType() == Concept.type.ENTITY ||
-                     c.getConceptType() == Concept.type.MOVEMENT ||
-                     c.getConceptType() == Concept.type.FEATURE) {
+                    c.getConceptType() == Concept.type.MOVEMENT ||
+                    c.getConceptType() == Concept.type.FEATURE) {
                 return getBasicLevelOfAnEntityConcept(c);
             }
         }
@@ -845,7 +849,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                     RelationChain rc = inter.getRelationChains().get(k);
                     for (int l = 0; l < rc.getRelations().size(); l++) {
                         RelationChain_Relation rcr =
-                                 rc.getRelations().get(l);
+                                rc.getRelations().get(l);
                         Relation rel = rcr.getRelation();
                         if (rel.getSubject().getName().
                                 equalsIgnoreCase(newCon.getName())) {
