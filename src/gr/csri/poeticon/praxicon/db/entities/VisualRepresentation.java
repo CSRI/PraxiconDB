@@ -22,8 +22,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -32,7 +33,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author Dimitris Mavroeidis
  *
  */
-//@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "visual_representation",
         namespace = "http://www.csri.gr/visual_representation")
 @Entity
@@ -60,14 +61,14 @@ public class VisualRepresentation implements Serializable {
     private media_type MediaType;
 
     @Column(name = "Representation")
-    private String Representation;
+    private String Name;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Concept Concept;
 
     @Column(name = "URI")
     @NotNull(message = "URI must be specified.")
-    private URI URI;
+    private URI Uri;
 
     @Column(name = "Comment")
     private String Comment;
@@ -95,9 +96,9 @@ public class VisualRepresentation implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     private MotoricRepresentation MotoricRepresentation;
 
-    public VisualRepresentation(media_type media_type, String representation) {
+    public VisualRepresentation(media_type media_type, String name) {
         this.MediaType = media_type;
-        this.Representation = representation;
+        this.Name = name;
     }
 
     public VisualRepresentation() {
@@ -107,7 +108,6 @@ public class VisualRepresentation implements Serializable {
      * @xmlcomments.args xmltag="&lt;media_type&gt;" xmldescription="This tag
      * defines the type of the media that represents visually the entity
      */
-    @XmlElement(name = "media_type")
     public media_type getMediaType() {
         return MediaType;
     }
@@ -121,42 +121,41 @@ public class VisualRepresentation implements Serializable {
      * @xmlcomments.args xmltag="&lt;uri&gt;" xmldescription="This tag defines
      * the URI of the media."
      */
-    @XmlElement(name = "uri")
     public URI getURI() {
-        return URI;
+        return Uri;
     }
 
     public void setURI(URI uri) {
-        this.URI = uri;
+        this.Uri = uri;
     }
 
     public void setURI(String uri) {
-        if (URI.resolve(uri) != null) {
-            this.URI = URI.resolve(uri);
+        if (Uri.resolve(uri) != null) {
+            this.Uri = Uri.resolve(uri);
         }
     }
 
-    @XmlElement(name = "visual_representation")
+
     public String getRepresentation() {
-        return Representation;
+        return Name;
     }
 
     public String getRepresentationWithPath() {
-        if (Representation.startsWith("http:")) {
-            return Representation;
+        if (Name.startsWith("http:")) {
+            return Name;
         }
-        if (Representation.startsWith("file:")) {
-            return Representation;
+        if (Name.startsWith("file:")) {
+            return Name;
         }
         if (this.MediaType.equals(media_type.IMAGE)) {
-            return Constants.imagePath + Representation;
+            return Constants.imagePath + Name;
         } else {
-            return Constants.videoPath + Representation;
+            return Constants.videoPath + Name;
         }
     }
 
-    public void setRepresentation(String representation) {
-        this.Representation = representation;
+    public void setRepresentation(String name) {
+        this.Name = name;
     }
 
     @XmlAttribute
@@ -182,9 +181,9 @@ public class VisualRepresentation implements Serializable {
             return false;
         }
         VisualRepresentation other = (VisualRepresentation)object;
-        if (this.MediaType != null && this.Representation != null &&
+        if (this.MediaType != null && this.Name != null &&
                 this.MediaType.equals(other.MediaType) &&
-                this.Representation.equalsIgnoreCase(other.Representation)) {
+                this.Name.equalsIgnoreCase(other.Name)) {
             return true;
         }
         if ((this.Id == null && other.Id != null) ||
@@ -199,7 +198,7 @@ public class VisualRepresentation implements Serializable {
 
     @Override
     public String toString() {
-        return "[Id=" + Id + "] " + this.MediaType + ": " + this.Representation;
+        return "[Id=" + Id + "] " + this.MediaType + ": " + this.Name ;
     }
 
     public void afterUnmarshal(Unmarshaller u, Object parent) {
