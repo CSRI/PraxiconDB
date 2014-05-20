@@ -49,13 +49,23 @@ import javax.xml.bind.annotation.XmlType;
 @Entity
 //@EntityListeners(ConceptListener.class)
 @NamedQueries({
-    @NamedQuery(name = "findAllConcepts", query= "SELECT c FROM Concept c"),
-    @NamedQuery(name = "findConceptsByNameExact", query= "SELECT c FROM Concept c WHERE c.Name = :concept_name"),
-    @NamedQuery(name = "findConceptsByName", query= "SELECT c FROM Concept c WHERE c.Name LIKE :concept_name"),
-    @NamedQuery(name = "findConceptsByLanguageRepresentation", 
-            query= "SELECT c FROM Concept c WHERE c.LanguageRepresentations.Text LIKE :lr_name"),
-    @NamedQuery(name = "findConceptsByLanguageRepresentationExact", 
-            query= "SELECT c FROM Concept c WHERE c.LanguageRepresentations.Text = :lr_name"),
+    @NamedQuery(name = "findAllConcepts", query = "SELECT c FROM Concept c"),
+    @NamedQuery(name = "findConceptsByName", query =
+            "SELECT c FROM Concept c WHERE c.Name LIKE :concept_name"),
+    @NamedQuery(name = "findConceptsByNameExact", query =
+            "SELECT c FROM Concept c WHERE c.Name = :concept_name"),
+    @NamedQuery(name = "findConceptsByLanguageRepresentation",
+            query = "SELECT c FROM Concept c " +
+            "JOIN Concept_LanguageRepresentation clr " +
+            "JOIN LanguageRepresentation lr " +
+            "WHERE lr.Text LIKE :lr_name"),
+//    @NamedQuery(name = "findConceptsByLanguageRepresentationExact",
+//            query = "SELECT c.Name FROM Concepts as c" +
+//            "INNER JOIN Concepts_LanguageRepresentations as clr" +
+//            "ON c.ConceptId = clr.ConceptId" +
+//            "INNER JOIN LanguageRepresentations as lr" +
+//            "ON clr.LanguageRepresentationId = lr.LanguageRepresentationId" +
+//            "WHERE c.Name = :lr_name"),
 })
 @Table(name = "Concepts")
 //@ConceptConstraint(groups=ConceptGroup.class)
@@ -185,16 +195,16 @@ public class Concept implements Serializable {
     private List<IntersectionOfRelationChains> IntersectionsOfRelationChains;
 
     /*
-        Relations that have "this" concept as Object.
-    */
+     Relations that have "this" concept as Object.
+     */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "Object")
-    private List<Relation> RelationsContainingConceptAsObject; 
+    private List<Relation> RelationsContainingConceptAsObject;
 
     /*
-        Relations that have "this" concept as Subject.
-    */
+     Relations that have "this" concept as Subject.
+     */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "Subject")
-    private List<Relation> RelationsContainingConceptAsSubject; 
+    private List<Relation> RelationsContainingConceptAsSubject;
 
     // Public Constructor
     public Concept() {
@@ -380,7 +390,7 @@ public class Concept implements Serializable {
 
     /**
      * @return @xmlcomments.args xmltag="&lt;unique_instance&gt;"
-     *         xmldescription="This tag defines the source of the concept 
+     *         xmldescription="This tag defines the source of the concept
      *         (from which resources was generated (for example: Wordnet)"
      */
     public unique_instance getUniqueInstance() {
@@ -414,7 +424,7 @@ public class Concept implements Serializable {
 
     /**
      * @return @xmlcomments.args xmltag="&lt;source&gt;" xmldescription="This
-     *         tag defines the source of the concept (from which resources 
+     *         tag defines the source of the concept (from which resources
      *         was generated (for example: Wordnet)"
      */
     public String getSource() {
