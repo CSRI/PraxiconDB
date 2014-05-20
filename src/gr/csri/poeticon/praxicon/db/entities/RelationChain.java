@@ -19,8 +19,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
@@ -30,7 +31,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author Dimitris Mavroeidis
  *
  */
-//@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "relation_chain",
         namespace = "http://www.csri.gr/relation_chain")
 @Entity
@@ -43,11 +44,10 @@ public class RelationChain implements Serializable {
     @SequenceGenerator(name = "CUST_SEQ", sequenceName = "RelationChainIdSeq",
             allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
-
     private Long Id;
 
     @Column(name = "Name")
-    String name = "";
+    private String Name;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -79,13 +79,11 @@ public class RelationChain implements Serializable {
         LanguageRepresentationNames = new ArrayList<>();
     }
 
-    @XmlElement(name = "name")
     public String getName() {
-        return name;
+        return Name;
     }
-
     public void setName(String name) {
-        this.name = name;
+        this.Name = name;
     }
 
     @XmlTransient
@@ -100,7 +98,6 @@ public class RelationChain implements Serializable {
      * xmldescription="This tag defines the names of the LanguageRepresentation
      * that should be used to express this relation chain"
      */
-    @XmlElement(name = "language_representation_names")
     public List<String> getLanguageRepresentationNames_() {
         List<String> language_representation_names_ = new ArrayList<>();
         for (LanguageRepresentation LanguageRepresentationName
@@ -121,7 +118,6 @@ public class RelationChain implements Serializable {
      * @xmlcomments.args xmltag="&lt;relation_order&gt;" xmldescription="This
      * tag defines the relations of the entity
      */
-    @XmlElement(name = "relation")
     public List<RelationChain_Relation> getRelations() {
         return Relations;
     }

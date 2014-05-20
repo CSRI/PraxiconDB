@@ -18,7 +18,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
@@ -29,6 +30,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author Dimitris Mavroeidis
  *
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "relation_type", namespace = "http://www.csri.gr/relation_type")
 @Entity
 @Table(name = "RelationTypes")
@@ -89,10 +91,10 @@ public class RelationType implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "Type")
     List<Relation> Relations;
 
-    @Transient
+    //@Transient
     String XmlRelationForward;
 
-    @Transient
+    //@Transient
     String XmlRelationBackward;
 
     @XmlTransient
@@ -203,7 +205,7 @@ public class RelationType implements Serializable {
      * name of the relation when the relational triplet is used from left to
      * right"
      */
-    @XmlAttribute(name = "left-to-right_name")
+    //@XmlAttribute(name = "left-to-right_name")
     public String getForwardNameString() {
         if (ForwardName != null && !ForwardName.name().equalsIgnoreCase("")) {
             return ForwardName.name();
@@ -246,7 +248,7 @@ public class RelationType implements Serializable {
      * name of the relation when the relational triplet is used from left to
      * right"
      */
-    @XmlAttribute(name = "right-to-left_name")
+    //@XmlAttribute(name = "right-to-left_name")
     public String getBackwardNameString() {
         if (BackwardName != null && !BackwardName.name().equalsIgnoreCase("")) {
             return BackwardName.name();

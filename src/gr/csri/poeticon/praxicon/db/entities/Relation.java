@@ -28,7 +28,6 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
@@ -164,7 +163,6 @@ public class Relation implements Serializable {
      * the object that the relation is related to"
      */
     //@XmlAttribute(name="subject")
-    @XmlElement(name = "subject")
     public Concept getSubject() {
         return Subject;
     }
@@ -196,7 +194,6 @@ public class Relation implements Serializable {
         this.MainFunctions = main_functions;
     }
 
-    @XmlElement(name = "object")
     /**
      * @xmlcomments.args xmltag="object" xmldescription="This attribute defines
      * the object that the relation is related to"
@@ -214,7 +211,6 @@ public class Relation implements Serializable {
      * @xmlcomments.args xmltag="&lt;relation_type&gt;" xmldescription="This tag
      * defines the type of the relation"
      */
-    @XmlElement(name = "relation_type")
     public RelationType getType() {
         return Type;
     }
@@ -249,7 +245,6 @@ public class Relation implements Serializable {
         this.Id = id;
     }
 
-    @XmlElement(name = "comment")
     public String getComment() {
         return Comment;
     }
@@ -270,7 +265,6 @@ public class Relation implements Serializable {
      * xmldescription="This tag defines the LanguageRepresentation that should
      * be used to express the Object in this relation"
      */
-    @XmlElement(name = "language_representation_object")
     public String getLanguageRepresentationObject_() {
         String language_representation_object_;
         language_representation_object_ = new String();
@@ -302,7 +296,6 @@ public class Relation implements Serializable {
      * xmldescription="This tag defines the MotoricRepresentation that should be
      * used to express the Object in this relation"
      */
-    @XmlElement(name = "motoric_representation_object")
     public List<String> getMotoricRepresentationObject_() {
         List<String> motoric_representation_object_ = new ArrayList<>();
         for (MotoricRepresentation MotoricRepresentationObject1
