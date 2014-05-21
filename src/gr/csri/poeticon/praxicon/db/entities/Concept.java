@@ -49,16 +49,16 @@ import javax.xml.bind.annotation.XmlType;
 @Entity
 //@EntityListeners(ConceptListener.class)
 @NamedQueries({
-    @NamedQuery(name = "findAllConcepts", query = "SELECT c FROM Concept c"),
+    @NamedQuery(name = "findAllConcepts", query = "FROM Concept c"),
     @NamedQuery(name = "findConceptsByName", query =
-            "SELECT c FROM Concept c WHERE c.Name LIKE :concept_name"),
+            "FROM Concept c WHERE c.Name LIKE :concept_name"),
     @NamedQuery(name = "findConceptsByNameExact", query =
-            "SELECT c FROM Concept c WHERE c.Name = :concept_name"),
-    @NamedQuery(name = "findConceptsByLanguageRepresentation",
-            query = "SELECT c FROM Concept c " +
-            "JOIN Concept_LanguageRepresentation clr " +
-            "JOIN LanguageRepresentation lr " +
-            "WHERE lr.Text LIKE :lr_name"),
+            "FROM Concept c WHERE c.Name = :concept_name"),
+//    @NamedQuery(name = "findConceptsByLanguageRepresentation",
+//            query = "SELECT c FROM Concept c " +
+//            "JOIN Concept_LanguageRepresentation clr " +
+//            "JOIN LanguageRepresentation lr " +
+//            "WHERE lr.Text LIKE :lr_name"),
 //    @NamedQuery(name = "findConceptsByLanguageRepresentationExact",
 //            query = "SELECT c.Name FROM Concepts as c" +
 //            "INNER JOIN Concepts_LanguageRepresentations as clr" +
