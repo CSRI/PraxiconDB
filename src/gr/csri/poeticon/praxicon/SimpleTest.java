@@ -7,16 +7,7 @@ package gr.csri.poeticon.praxicon;
 import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
-import java.util.HashSet;
 import java.util.List;
-
-//import csri.poeticon.praxicon.Constants;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
 
 /**
  *
@@ -40,7 +31,7 @@ public class SimpleTest {
 //        }
         ConceptDao cDao = new ConceptDaoImpl();
 
-        String toSearch = "concept1";
+        String toSearch = "String";
         //String toSearch = "spoon%1:06:00::";
         //String toSearch = "eating_utensil%1:06:00::";
 
@@ -48,7 +39,9 @@ public class SimpleTest {
 //                        + "where c.Name = ?1");
 //        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Concepts");
 //        EntityManager em = emf.createEntityManager();
-        List<Concept> concepts = cDao.findAll();
+        List<Concept> concepts = cDao.findConceptsByLanguageRepresentationExact("spoon");
+        List<Concept> concepts_all = cDao.findAllConcepts();
+        Concept concept_by_name = cDao.findConceptByNameExact("spoon");
         //List<Concept> concepts = query.getResultList();
         //query.setParameter(1, toSearch);
         //List<Concept> found = query.getResultList();
@@ -57,17 +50,23 @@ public class SimpleTest {
         for (Concept item : concepts) {
             System.out.println(item.getName());
         }
-
-        HashSet<Concept> sisters = new HashSet<>();
-
-        List<Concept> parents = cDao.getParentsOf(concepts.get(0));
-        for (Concept parent : parents) {
-            sisters.addAll(cDao.getChildrenOf(parent));
+        for (Concept item : concepts_all) {
+            System.out.println(item.getName());
         }
-        sisters.remove(concepts.get(0));
 
-        for (Concept con : sisters) {
-            System.out.println(con + " " + con.getSpecificityLevel());
-        }
+            System.out.println(concept_by_name);
+
+        
+//        HashSet<Concept> sisters = new HashSet<>();
+//
+//        List<Concept> parents = cDao.getParentsOf(concepts.get(0));
+//        for (Concept parent : parents) {
+//            sisters.addAll(cDao.getChildrenOf(parent));
+//        }
+//        sisters.remove(concepts.get(0));
+//
+//        for (Concept con : sisters) {
+//            System.out.println(con + " " + con.getSpecificityLevel());
+//        }
     }
 }

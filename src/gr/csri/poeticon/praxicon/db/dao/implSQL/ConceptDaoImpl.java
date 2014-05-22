@@ -25,6 +25,8 @@ import javax.persistence.Query;
 public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         ConceptDao {
 
+    private String String;
+
     /**
      * Finds all the concepts
      *
@@ -38,20 +40,61 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     }
 
     /**
-     * Finds all concepts that have a language representation containing a given
-     * string
+     * Finds all concepts that have a specific conceptId
      *
-     * @param queryString the string to search for
+     * @param concept_id the concept id to search for
      * @return a list of concepts found in the database
      */
     @Override
-    public List<Concept> findConceptsByLanguageRepresentation(String queryString) {
+    public Concept findConceptByConceptId(long concept_id) {
+        Query query = getEntityManager().createNamedQuery(
+                "findConceptsByConceptId").
+                setParameter("concept_id", concept_id);
+        return (Concept)query.getSingleResult();
+    }
+
+    /**
+     * Finds all concepts that have a name or language representation containing
+     * a given string
+     *
+     * @param concept_name the concept name to search for
+     * @return a list of concepts found in the database
+     */
+    @Override
+    public List<Concept> findConceptsByName(String concept_name) {
+        Query query = getEntityManager().createNamedQuery("findConceptsByName").
+                setParameter("concept_name", "%" + concept_name + "%");
+        return query.getResultList();
+    }
+
+    /**
+     * Finds all concepts that have a name equal to a given string
+     *
+     * @param concept_name the concept name to search for
+     * @return a list of concepts found in the database
+     */
+    @Override
+    public Concept findConceptByNameExact(String concept_name) {
+        Query query = getEntityManager().createNamedQuery(
+                "findConceptsByNameExact").
+                setParameter("concept_name", concept_name);
+        return (Concept)query.getSingleResult();
+    }
+
+    /**
+     * Finds all concepts that have a language representation containing a given
+     * string
+     *
+     * @param language_representation_name the language representation name
+     *                                     to search for
+     * @return a list of concepts found in the database
+     */
+    @Override
+    public List<Concept> findConceptsByLanguageRepresentation(
+            String language_representation_name) {
         Query query = getEntityManager().createNamedQuery(
                 "findConceptsByLanguageRepresentation").
-                setParameter("lr_name", "%" + queryString + "%");
-//        Query query = getEntityManager().createNamedQuery(
-//                "findConceptsByLanguageRepresentation").
-//                setParameter("lr_name", "%" + queryString + "%");
+                setParameter("lr_name", "%" + language_representation_name + "%");
         return query.getResultList();
     }
 
@@ -65,55 +108,10 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     @Override
     public List<Concept> findConceptsByLanguageRepresentationExact(
             String queryString) {
-        this.clearManager();
-        Query q = getEntityManager().createQuery(
-                "SELECT e FROM LanguageRepresentation e " +
-                "where UPPER(e.Text) = ?1"
-        );
-        q.setParameter(1, queryString.toUpperCase());
-        List<LanguageRepresentation> lrs = q.getResultList();
-
-        List<LanguageRepresentation> lrgs = new ArrayList<>();
-        for (LanguageRepresentation lr : lrs) {
-            lrgs.addAll(lr.getLanguageRepresentations());
-        }
-
-        List<Concept> res = new ArrayList<>();
-        for (LanguageRepresentation lrg : lrgs) {
-            res.addAll(lrg.getConcepts());
-        }
-        return res;
-    }
-
-    /**
-     * Finds all concepts that have a name or language representation containing
-     * a given string
-     *
-     * @param name
-     * @return a list of concepts found in the database
-     */
-    @Override
-    public List<Concept> findConceptsByName(String name) {
-        List<Concept> res = new ArrayList();
-        Query query = getEntityManager().createNamedQuery("findConceptsByName").
-                setParameter("concept_name", "%" + name + "%");
-        res.addAll(query.getResultList());
-
-        return res;
-    }
-
-    /**
-     * Finds all concepts that have a name equal to a given string
-     *
-     * @param name
-     * @return a list of concepts found in the database
-     */
-    @Override
-    public List<Concept> findConceptsByNameExact(String name) {
-        Query q = getEntityManager().createQuery("SELECT c FROM Concept c " +
-                "where c.Name = ?1");
-        q.setParameter(1, name);
-        return q.getResultList();
+        Query query = getEntityManager().createNamedQuery(
+                "findConceptsByLanguageRepresentationExact").
+                setParameter("lr_name", queryString);
+        return query.getResultList();
     }
 
     /**
@@ -124,10 +122,10 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      */
     @Override
     public List<Concept> findConceptsByStatus(status status) {
-        Query q = getEntityManager().createQuery("SELECT c FROM Concept c " +
-                "where c.Status = ?1");
-        q.setParameter(1, status);
-        return q.getResultList();
+        Query query = getEntityManager().createNamedQuery(
+                "findConceptsByStatusExact").
+                setParameter("status", status);
+        return query.getResultList();
     }
 
     /**
@@ -146,26 +144,10 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             //it is the name of the concept
         }
         if (id == -1) {
-            q = getEntityManager().createQuery(
-                    "SELECT c FROM Concept c where c.Name=?1");
-            q.setParameter(1, v.trim());
-            List res = q.getResultList();
-            for (Object re : res) {
-                Concept tmp = (Concept)re;
-                if (tmp.getName().trim().equalsIgnoreCase(v.trim())) {
-                    return (Concept)re;
-                }
-            }
+            return findConceptByNameExact(v.trim());
         } else {
-            q = getEntityManager().createQuery(
-                    "SELECT c FROM Concept c where c.Id = ?1");
-            q.setParameter(1, id);
-            List res = q.getResultList();
-            if (res.size() >= 1) {
-                return (Concept)res.get(0);
-            }
+            return findConceptByConceptId(id);
         }
-        return null;
     }
 
     /**

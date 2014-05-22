@@ -50,6 +50,8 @@ import javax.xml.bind.annotation.XmlType;
 //@EntityListeners(ConceptListener.class)
 @NamedQueries({
     @NamedQuery(name = "findAllConcepts", query = "FROM Concept c"),
+    @NamedQuery(name = "findConceptsByConceptId", query =
+            "FROM Concept c WHERE c.Id = :concept_id"),
     @NamedQuery(name = "findConceptsByName", query =
             "FROM Concept c WHERE c.Name LIKE :concept_name"),
     @NamedQuery(name = "findConceptsByNameExact", query =
@@ -62,6 +64,9 @@ import javax.xml.bind.annotation.XmlType;
             "SELECT c FROM Concept c " +
             "JOIN c.LanguageRepresentations lr " +
             "WHERE lr.Text = :lr_name"),
+    @NamedQuery(name = "findConceptsByStatusExact", query = 
+            "SELECT c FROM Concept c " +
+            "WHERE c.Status = :status"),
 })
 @Table(name = "Concepts")
 //@ConceptConstraint(groups=ConceptGroup.class)

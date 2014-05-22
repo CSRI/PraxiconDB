@@ -18,13 +18,15 @@ public interface ConceptDao extends Dao<Long, Concept> {
 
     List<Concept> findAllConcepts();
 
-    List<Concept> findConceptsByLanguageRepresentation(String queryString);
-
-    List<Concept> findConceptsByLanguageRepresentationExact(String queryString);
+    Concept findConceptByConceptId(long concept_id);
 
     List<Concept> findConceptsByName(String name);
 
-    List<Concept> findConceptsByNameExact(String name);
+    Concept findConceptByNameExact(String name);
+
+    List<Concept> findConceptsByLanguageRepresentation(String queryString);
+
+    List<Concept> findConceptsByLanguageRepresentationExact(String queryString);
 
     List<Concept> findConceptsByStatus(status status);
 
