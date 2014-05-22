@@ -63,7 +63,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts found in the database
      */
     @Override
-    public List<Concept> findConceptsByLanguageRepresentationExact(String queryString) {
+    public List<Concept> findConceptsByLanguageRepresentationExact(
+            String queryString) {
         this.clearManager();
         Query q = getEntityManager().createQuery(
                 "SELECT e FROM LanguageRepresentation e " +
@@ -93,15 +94,10 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      */
     @Override
     public List<Concept> findConceptsByName(String name) {
-        
-        
-        
-        List<Concept> res = findConceptsByLanguageRepresentation(name);
-        res.addAll(findConceptsByLanguageRepresentation(name));
-        Query q = getEntityManager().createQuery("SELECT c FROM Concept c " +
-                "where c.Name like ?1");
-        q.setParameter(1, "%" + name + "%");
-        res.addAll(q.getResultList());
+        List<Concept> res = new ArrayList();
+        Query query = getEntityManager().createNamedQuery("findConceptsByName").
+                setParameter("concept_name", "%" + name + "%");
+        res.addAll(query.getResultList());
 
         return res;
     }
