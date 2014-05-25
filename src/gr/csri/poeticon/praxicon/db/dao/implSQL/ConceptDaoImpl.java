@@ -76,7 +76,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     @Override
     public Concept findConceptByNameExact(String concept_name) {
         Query query = getEntityManager().createNamedQuery(
-                "findConceptsByNameExact").
+                "findConceptByNameExact").
                 setParameter("concept_name", concept_name);
         return (Concept)query.getSingleResult();
     }
@@ -154,110 +154,106 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * Updates a concept from the database that has the same name as another
      * concept that is used as source of the update
      *
-     * @param newCon concept to use as source
+     * @param newConcept concept to use as source
      * @return the updated concept
      */
     @Override
-    public Concept updatedConcept(Concept newCon) {
-        Query q = getEntityManager().createQuery("SELECT c FROM Concept c " +
-                "where c.Name = ?1");
-        q.setParameter(1, newCon.getName());
-        List tmp = q.getResultList();
+    public Concept updatedConcept(Concept newConcept) {
+                
+        Concept oldConcept = new Concept(); 
+        try {
+            oldConcept = this.findConceptByNameExact(newConcept.getName());
+        } catch (Exception e) {
+            
+            return newConcept;
+        } finally {
+            oldConcept.setConceptType(newConcept.getConceptType());
+            oldConcept.setPragmaticStatus(newConcept.getPragmaticStatus());
+            oldConcept.setStatus(newConcept.getStatus());
+            oldConcept.setSpecificityLevel(newConcept.getSpecificityLevel());
+            oldConcept.setComment(newConcept.getComment());
 
-        Concept oldCon = null;
-        if (tmp.isEmpty()) {
-            return newCon;
-        } else {
-            oldCon = (Concept)tmp.get(0);
+            updateLanguageRepresentations(newConcept, oldConcept);
+            updateVisualRepresentations(newConcept, oldConcept);
+            updateMotoricRepresentations(newConcept, oldConcept);
+            updateObjOfRelations(newConcept, oldConcept);
+            updateRelations(newConcept, oldConcept);
+            return oldConcept;
         }
-
-        oldCon.setConceptType(newCon.getConceptType());
-        oldCon.setPragmaticStatus(newCon.getPragmaticStatus());
-        oldCon.setStatus(newCon.getStatus());
-        oldCon.setSpecificityLevel(newCon.getSpecificityLevel());
-        oldCon.setComment(newCon.getComment());
-
-        updateLanguageRepresentations(newCon, oldCon);
-        updateVisualRepresentations(newCon, oldCon);
-        updateMotoricRepresentations(newCon, oldCon);
-        updateObjOfRelations(newCon, oldCon);
-        updateRelations(newCon, oldCon);
-
-        return oldCon;
     }
 
     /**
      * Updates a concept from the database (in place) that has the same name as
      * another concept that is used as source of the update
      *
-     * @param newCon concept to use as source
+     * @param newConcept concept to use as source
      */
     @Override
-    public void update(Concept newCon) {
+    public void update(Concept newConcept) {
         try {
             Query q = getEntityManager().createQuery(
                     "SELECT c FROM Concept c " +
                     "where c.Name = ?1");
-            q.setParameter(1, newCon.getName());
+            q.setParameter(1, newConcept.getName());
             List tmp = q.getResultList();
 
-            Concept oldCon = null;
+            Concept oldConcept = null;
 
             if (tmp.isEmpty()) {
-                oldCon = new Concept();
+                oldConcept = new Concept();
             } else {
-                oldCon = (Concept)tmp.get(0);
+                oldConcept = (Concept)tmp.get(0);
             }
-            if (oldCon.getConceptType() == null ||
-                    oldCon.getConceptType() == Concept.type.UNKNOWN) {
-                oldCon.setConceptType(newCon.getConceptType());
+            if (oldConcept.getConceptType() == null ||
+                    oldConcept.getConceptType() == Concept.type.UNKNOWN) {
+                oldConcept.setConceptType(newConcept.getConceptType());
             }
-            if (oldCon.getPragmaticStatus() == null) {
-                oldCon.setPragmaticStatus(newCon.getPragmaticStatus());
+            if (oldConcept.getPragmaticStatus() == null) {
+                oldConcept.setPragmaticStatus(newConcept.getPragmaticStatus());
             }
-            if (oldCon.getStatus() == null) {
-                oldCon.setStatus(newCon.getStatus());
-            }
-
-            oldCon.setSpecificityLevel(newCon.getSpecificityLevel());
-            if (oldCon.getComment() == null ||
-                    oldCon.getComment().equalsIgnoreCase("") ||
-                    oldCon.getComment().equalsIgnoreCase("Unknown")) {
-                oldCon.setComment(newCon.getComment());
-            }
-            if (newCon.getSource() != null && !newCon.getSource().isEmpty()) {
-                oldCon.setSource(newCon.getSource());
+            if (oldConcept.getStatus() == null) {
+                oldConcept.setStatus(newConcept.getStatus());
             }
 
+            oldConcept.setSpecificityLevel(newConcept.getSpecificityLevel());
+            if (oldConcept.getComment() == null ||
+                    oldConcept.getComment().equalsIgnoreCase("") ||
+                    oldConcept.getComment().equalsIgnoreCase("Unknown")) {
+                oldConcept.setComment(newConcept.getComment());
+            }
+            if (newConcept.getSource() != null && !newConcept.getSource().isEmpty()) {
+                oldConcept.setSource(newConcept.getSource());
+            }
+
             if (!getEntityManager().getTransaction().isActive()) {
                 getEntityManager().getTransaction().begin();
             }
-            updateLanguageRepresentations(newCon, oldCon);
-            oldCon = entityManager.merge(oldCon);
+            updateLanguageRepresentations(newConcept, oldConcept);
+            oldConcept = entityManager.merge(oldConcept);
             entityManager.getTransaction().commit();
             if (!getEntityManager().getTransaction().isActive()) {
                 getEntityManager().getTransaction().begin();
             }
-            updateVisualRepresentations(newCon, oldCon);
-            oldCon = entityManager.merge(oldCon);
+            updateVisualRepresentations(newConcept, oldConcept);
+            oldConcept = entityManager.merge(oldConcept);
             entityManager.getTransaction().commit();
             if (!getEntityManager().getTransaction().isActive()) {
                 getEntityManager().getTransaction().begin();
             }
-            updateMotoricRepresentations(newCon, oldCon);
-            oldCon = entityManager.merge(oldCon);
+            updateMotoricRepresentations(newConcept, oldConcept);
+            oldConcept = entityManager.merge(oldConcept);
             entityManager.getTransaction().commit();
             if (!getEntityManager().getTransaction().isActive()) {
                 getEntityManager().getTransaction().begin();
             }
-            updateObjOfRelations(newCon, oldCon);
-            oldCon = entityManager.merge(oldCon);
+            updateObjOfRelations(newConcept, oldConcept);
+            oldConcept = entityManager.merge(oldConcept);
             entityManager.getTransaction().commit();
             if (!getEntityManager().getTransaction().isActive()) {
                 getEntityManager().getTransaction().begin();
             }
-            updateRelations(newCon, oldCon);
-            oldCon = entityManager.merge(oldCon);
+            updateRelations(newConcept, oldConcept);
+            oldConcept = entityManager.merge(oldConcept);
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             entityManager.getTransaction().rollback();
@@ -268,35 +264,35 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     /**
      * Updates a concept using another concept (in place).
      *
-     * @param oldCon concept to be updated
-     * @param newCon concept to use as source
+     * @param oldConcept concept to be updated
+     * @param newConcept concept to use as source
      */
     @Override
-    public void update(Concept oldCon, Concept newCon) {
+    public void update(Concept oldConcept, Concept newConcept) {
         try {
             //     entityManager.getTransaction().begin();
-            if (oldCon.getConceptType() == null ||
-                    oldCon.getConceptType() == Concept.type.UNKNOWN) {
-                oldCon.setConceptType(newCon.getConceptType());
+            if (oldConcept.getConceptType() == null ||
+                    oldConcept.getConceptType() == Concept.type.UNKNOWN) {
+                oldConcept.setConceptType(newConcept.getConceptType());
             }
-            if (oldCon.getPragmaticStatus() == null) {
-                oldCon.setPragmaticStatus(newCon.getPragmaticStatus());
+            if (oldConcept.getPragmaticStatus() == null) {
+                oldConcept.setPragmaticStatus(newConcept.getPragmaticStatus());
             }
-            if (oldCon.getStatus() == null) {
-                oldCon.setStatus(newCon.getStatus());
+            if (oldConcept.getStatus() == null) {
+                oldConcept.setStatus(newConcept.getStatus());
             }
-            oldCon.setSpecificityLevel(newCon.getSpecificityLevel());
-            if (oldCon.getComment() == null ||
-                    oldCon.getComment().equalsIgnoreCase("") ||
-                    oldCon.getComment().equalsIgnoreCase("Unknown")) {
-                oldCon.setComment(newCon.getComment());
+            oldConcept.setSpecificityLevel(newConcept.getSpecificityLevel());
+            if (oldConcept.getComment() == null ||
+                    oldConcept.getComment().equalsIgnoreCase("") ||
+                    oldConcept.getComment().equalsIgnoreCase("Unknown")) {
+                oldConcept.setComment(newConcept.getComment());
             }
-            updateVisualRepresentations(newCon, oldCon);
-            updateMotoricRepresentations(newCon, oldCon);
-            updateObjOfRelations(newCon, oldCon);
-            updateRelations(newCon, oldCon);
-            merge(oldCon);
-            updateLanguageRepresentations(newCon, oldCon);
+            updateVisualRepresentations(newConcept, oldConcept);
+            updateMotoricRepresentations(newConcept, oldConcept);
+            updateObjOfRelations(newConcept, oldConcept);
+            updateRelations(newConcept, oldConcept);
+            merge(oldConcept);
+            updateLanguageRepresentations(newConcept, oldConcept);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -734,20 +730,20 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * LanguageRepresentation of another concept (removing them from that
      * concept).
      *
-     * @param newCon concept with LanguageRepresentation to be moved
-     * @param oldCon concept to be updated
+     * @param newConcept concept with LanguageRepresentation to be moved
+     * @param oldConcept concept to be updated
      */
-    private void updateLanguageRepresentations(Concept newCon, Concept oldCon) {
+    private void updateLanguageRepresentations(Concept newConcept, Concept oldConcept) {
         try {
-            for (int i = 0; i < newCon.getLanguageRepresentations().size();
+            for (int i = 0; i < newConcept.getLanguageRepresentations().size();
                     i++) {
-                if (!oldCon.getLanguageRepresentations().
-                        contains(newCon.getLanguageRepresentations().get(i))) {
+                if (!oldConcept.getLanguageRepresentations().
+                        contains(newConcept.getLanguageRepresentations().get(i))) {
                     LanguageRepresentation tmpLanguageRepresentation =
-                            newCon.getLanguageRepresentations().get(i);
-                    tmpLanguageRepresentation.getConcepts().remove(newCon);
-                    tmpLanguageRepresentation.getConcepts().add(oldCon);
-                    oldCon.getLanguageRepresentations().
+                            newConcept.getLanguageRepresentations().get(i);
+                    tmpLanguageRepresentation.getConcepts().remove(newConcept);
+                    tmpLanguageRepresentation.getConcepts().add(oldConcept);
+                    oldConcept.getLanguageRepresentations().
                             add(tmpLanguageRepresentation);
                 }
             }
@@ -764,15 +760,15 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * MotoricRepresentations of another concept (removing them from that
      * concept).
      *
-     * @param newCon concept with MotoricRepresentations to be moved
-     * @param oldCon concept to be updated
+     * @param newConcept concept with MotoricRepresentations to be moved
+     * @param oldConcept concept to be updated
      */
-    private void updateMotoricRepresentations(Concept newCon, Concept oldCon) {
-        for (int i = 0; i < newCon.getMotoricRepresentations().size(); i++) {
-            if (!oldCon.getMotoricRepresentations().
-                    contains(newCon.getMotoricRepresentations().get(i))) {
-                oldCon.getMotoricRepresentations().
-                        add(newCon.getMotoricRepresentations().get(i));
+    private void updateMotoricRepresentations(Concept newConcept, Concept oldConcept) {
+        for (int i = 0; i < newConcept.getMotoricRepresentations().size(); i++) {
+            if (!oldConcept.getMotoricRepresentations().
+                    contains(newConcept.getMotoricRepresentations().get(i))) {
+                oldConcept.getMotoricRepresentations().
+                        add(newConcept.getMotoricRepresentations().get(i));
             }
         }
     }
@@ -781,26 +777,26 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * Updates the ObjectOf relations of a concept, adding the ObjectOf
      * relations of another concept (removing them from that concept).
      *
-     * @param newCon concept with ObjectOf relations to be moved
-     * @param oldCon concept to be updated
+     * @param newConcept concept with ObjectOf relations to be moved
+     * @param oldConcept concept to be updated
      */
-    private void updateObjOfRelations(Concept newCon, Concept oldCon) {
+    private void updateObjOfRelations(Concept newConcept, Concept oldConcept) {
         for (int i = 0;
-                i < newCon.getRelationsContainingConceptAsObject().size();
+                i < newConcept.getRelationsContainingConceptAsObject().size();
                 i++) {
-            if (!oldCon.getRelationsContainingConceptAsObject().
-                    contains(newCon.getRelationsContainingConceptAsObject().
+            if (!oldConcept.getRelationsContainingConceptAsObject().
+                    contains(newConcept.getRelationsContainingConceptAsObject().
                             get(i))) {
-                if (newCon.getRelationsContainingConceptAsObject().get(i).
-                        getObject().equals(newCon)) {
-                    newCon.getRelationsContainingConceptAsObject().get(i).
-                            setObject(oldCon);
+                if (newConcept.getRelationsContainingConceptAsObject().get(i).
+                        getObject().equals(newConcept)) {
+                    newConcept.getRelationsContainingConceptAsObject().get(i).
+                            setObject(oldConcept);
                 } else {
-                    newCon.getRelationsContainingConceptAsObject().get(i).
-                            setSubject(oldCon);
+                    newConcept.getRelationsContainingConceptAsObject().get(i).
+                            setSubject(oldConcept);
                 }
-                oldCon.getRelationsContainingConceptAsObject().
-                        add(newCon.getRelationsContainingConceptAsObject().
+                oldConcept.getRelationsContainingConceptAsObject().
+                        add(newConcept.getRelationsContainingConceptAsObject().
                                 get(i));
             }
         }
@@ -810,19 +806,19 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * Updates the relations of a concept, adding the relations of another
      * concept (removing them from that concept).
      *
-     * @param newCon concept with relations to be moved
-     * @param oldCon concept to be updated
+     * @param newConcept concept with relations to be moved
+     * @param oldConcept concept to be updated
      */
-    private void updateRelations(Concept newCon, Concept oldCon) {
-        for (int i = 0; i < newCon.getIntersectionsOfRelationChains().size();
+    private void updateRelations(Concept newConcept, Concept oldConcept) {
+        for (int i = 0; i < newConcept.getIntersectionsOfRelationChains().size();
                 i++) {
-            if (!oldCon.getIntersectionsOfRelationChains().
-                    contains(newCon.getIntersectionsOfRelationChains().
+            if (!oldConcept.getIntersectionsOfRelationChains().
+                    contains(newConcept.getIntersectionsOfRelationChains().
                             get(i))) {
-                newCon.getIntersectionsOfRelationChains().get(i).
-                        setConcept(oldCon);
+                newConcept.getIntersectionsOfRelationChains().get(i).
+                        setConcept(oldConcept);
                 IntersectionOfRelationChains inter =
-                        newCon.getIntersectionsOfRelationChains().get(i);
+                        newConcept.getIntersectionsOfRelationChains().get(i);
                 for (int k = 0; k < inter.getRelationChains().size(); k++) {
                     RelationChain rc = inter.getRelationChains().get(k);
                     for (int l = 0; l < rc.getRelations().size(); l++) {
@@ -830,19 +826,19 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                                 rc.getRelations().get(l);
                         Relation rel = rcr.getRelation();
                         if (rel.getSubject().getName().
-                                equalsIgnoreCase(newCon.getName())) {
-                            rel.setSubject(oldCon);
+                                equalsIgnoreCase(newConcept.getName())) {
+                            rel.setSubject(oldConcept);
                         } else {
                             if (rel.getObject().getName().
-                                    equalsIgnoreCase(newCon.getName())) {
-                                rel.setObject(oldCon);
+                                    equalsIgnoreCase(newConcept.getName())) {
+                                rel.setObject(oldConcept);
                             }
                         }
                     }
                 }
 
-                oldCon.getIntersectionsOfRelationChains().
-                        add(newCon.getIntersectionsOfRelationChains().get(i));
+                oldConcept.getIntersectionsOfRelationChains().
+                        add(newConcept.getIntersectionsOfRelationChains().get(i));
             }
         }
     }
@@ -852,16 +848,16 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * VisualRepresentations of another concept (removing them from that
      * concept).
      *
-     * @param newCon concept with VisualRepresentations to be moved
-     * @param oldCon concept to be updated
+     * @param newConcept concept with VisualRepresentations to be moved
+     * @param oldConcept concept to be updated
      */
-    private void updateVisualRepresentations(Concept newCon, Concept oldCon) {
-        for (int i = 0; i < newCon.getVisualRepresentationsEntries().size();
+    private void updateVisualRepresentations(Concept newConcept, Concept oldConcept) {
+        for (int i = 0; i < newConcept.getVisualRepresentationsEntries().size();
                 i++) {
-            if (!oldCon.getVisualRepresentationsEntries().
-                    contains(newCon.getVisualRepresentationsEntries().get(i))) {
-                oldCon.getVisualRepresentationsEntries().
-                        add(newCon.getVisualRepresentationsEntries().get(i));
+            if (!oldConcept.getVisualRepresentationsEntries().
+                    contains(newConcept.getVisualRepresentationsEntries().get(i))) {
+                oldConcept.getVisualRepresentationsEntries().
+                        add(newConcept.getVisualRepresentationsEntries().get(i));
             }
         }
     }
