@@ -303,18 +303,18 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     /**
      * Checks if two concepts are related by a certain relation
      *
-     * @param conA     first concept
+     * @param conceptA     first concept
      * @param relation relation name as a string
-     * @param conB     second concept
+     * @param conceptB     second concept
      * @return true/false
      */
     @Override
-    public boolean areRelated(Concept conA, String relation, Concept conB) {
+    public boolean areRelated(Concept conceptA, String relation, Concept conceptB) {
         for (int intersection = 0;
-                intersection < conA.getIntersectionsOfRelationChains().size();
+                intersection < conceptA.getIntersectionsOfRelationChains().size();
                 intersection++) {
             IntersectionOfRelationChains tmpIntersection =
-                    conA.getIntersectionsOfRelationChains().get(intersection);
+                    conceptA.getIntersectionsOfRelationChains().get(intersection);
             for (int relationChain = 0;
                     relationChain < tmpIntersection.getRelationChains().size();
                     relationChain++) {
@@ -327,7 +327,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                         RelationType tmpTypeOfRelation =
                                 tmpRelationChain.getRelations().get(rel).
                                 getRelation().getType();
-                        if (conB.equals(tmpRelationChain.getRelations().
+                        if (conceptB.equals(tmpRelationChain.getRelations().
                                 get(rel).getRelation().getObject())) {
                             if (tmpTypeOfRelation.getForwardName() ==
                                     RelationType.relation_name_forward.
@@ -354,7 +354,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts
      */
     @Override
-    public List<Concept> getChildrenOf(Concept c) {
+    public List<Concept> getChildrenOfConcept(Concept c) {
         List<Concept> res = new ArrayList<>();
 
         RelationDao rDao = new RelationDaoImpl();
@@ -378,7 +378,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts
      */
     @Override
-    public List<Concept> getParentsOf(Concept c) {
+    public List<Concept> getParentsOfConcept(Concept c) {
         List<Concept> res = new ArrayList<>();
 
         RelationDao rDao = new RelationDaoImpl();
@@ -405,7 +405,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     public List<Concept> getAllAncestors(Concept concept) {
         List<Concept> res = new ArrayList<>();
 
-        List<Concept> parents = getParentsOf(concept);
+        List<Concept> parents = getParentsOfConcept(concept);
         for (Concept parent : parents) {
             if (!res.contains(parent)) {
                 res.add(parent);
@@ -430,7 +430,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     @Override
     public List<Concept> getAllOffsprings(Concept concept) {
         List<Concept> res = new ArrayList<>();
-        List<Concept> children = getChildrenOf(concept);
+        List<Concept> children = getChildrenOfConcept(concept);
         for (Concept child : children) {
             if (!res.contains(child)) {
                 res.add(child);
@@ -536,7 +536,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         if (con.getSpecificityLevel() !=
                 Concept.specificity_level.BASIC_LEVEL &&
                 con.getConceptType() != Concept.type.ABSTRACT) {
-            List<Concept> parents = getParentsOf(con);
+            List<Concept> parents = getParentsOfConcept(con);
             for (Concept parent : parents) {
                 res.addAll(getBasicLevelOfAnEntityConcept(parent));
             }
@@ -568,7 +568,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
 
         if (c.getSpecificityLevel() != Concept.specificity_level.BASIC_LEVEL &&
                 c.getConceptType() == Concept.type.ABSTRACT) {
-            List<Concept> children = getChildrenOf(c);
+            List<Concept> children = getChildrenOfConcept(c);
             for (Concept children1 : children) {
                 res.addAll(getBasicLevelOfAnAbstractConcept(children1));
             }
@@ -614,7 +614,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
 
         if (con.getSpecificityLevel() !=
                 Concept.specificity_level.BASIC_LEVEL) {
-            List<Concept> parents = getParentsOf(con);
+            List<Concept> parents = getParentsOfConcept(con);
             for (Concept parent : parents) {
                 res.addAll(getBasicLevelOfMovementOriginConceptGoingUp(parent));
             }
@@ -648,7 +648,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
 
         if (con.getSpecificityLevel() !=
                 Concept.specificity_level.BASIC_LEVEL) {
-            List<Concept> children = getChildrenOf(con);
+            List<Concept> children = getChildrenOfConcept(con);
             for (Concept children1 : children) {
                 res.addAll(getBasicLevelOfMovementOriginConceptGoingDown(
                         children1));
@@ -663,7 +663,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     }
 
     /**
-     * Finds all concepts that are related toa given concept using a given
+     * Finds all concepts that are related to a given concept using a given
      * relation type
      *
      * @param c     the concept

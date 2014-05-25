@@ -40,9 +40,9 @@ public interface ConceptDao extends Dao<Long, Concept> {
 
     boolean areRelated(Concept conA, String relation, Concept conB);
 
-    List<Concept> getChildrenOf(Concept c);
+    List<Concept> getChildrenOfConcept(Concept c);
 
-    List<Concept> getParentsOf(Concept c);
+    List<Concept> getParentsOfConcept(Concept c);
 
     public List<Concept> getAllAncestors(Concept c);
 
