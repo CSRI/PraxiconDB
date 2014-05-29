@@ -21,6 +21,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -40,6 +42,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "relation", namespace = "http://www.csri.gr/relation")
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "findAllConcepts", query = "FROM Concept c"),
+    @NamedQuery(name = "findRelationsByRelationType", query =
+            "SELECT r FROM Relations r, RelationTypes " +
+            "WHERE ((r.Subject_conceptId = :subject_concept_id " +
+            "OR r.Object_ConceptId = :object_concept_id) " +
+            "AND r.Type_Id = :relation_type_id)"),
+})
 @Table(name = "Relations")
 public class Relation implements Serializable {
 

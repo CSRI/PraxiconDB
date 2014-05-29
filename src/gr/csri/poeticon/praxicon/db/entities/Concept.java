@@ -54,7 +54,7 @@ import javax.xml.bind.annotation.XmlType;
             "FROM Concept c WHERE c.Id = :concept_id"),
     @NamedQuery(name = "findConceptsByName", query =
             "FROM Concept c WHERE c.Name LIKE :concept_name"),
-    @NamedQuery(name = "findConceptsByNameExact", query =
+    @NamedQuery(name = "findConceptByNameExact", query =
             "FROM Concept c WHERE c.Name = :concept_name"),
     @NamedQuery(name = "findConceptsByLanguageRepresentation", query =
             "SELECT c FROM Concept c " +
