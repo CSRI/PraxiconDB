@@ -67,6 +67,12 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name = "findConceptsByStatusExact", query = 
             "SELECT c FROM Concept c " +
             "WHERE c.Status = :status"),
+    @NamedQuery(name = "getEntityQuery", query = 
+            "SELECT c FROM Concept c " +
+            "WHERE c.Status = :status " +
+            "AND c.Name = :name " +
+            "AND c.ConceptType = :type " +
+            "AND c.PragmaticStatus = :pragmatic_status"),
 })
 @Table(name = "Concepts")
 //@ConceptConstraint(groups=ConceptGroup.class)

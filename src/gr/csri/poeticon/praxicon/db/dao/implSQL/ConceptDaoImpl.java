@@ -712,15 +712,14 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      */
     @Override
     public Query getEntityQuery(Concept concept) {
-        Query q = getEntityManager().createQuery("SELECT e FROM Concept e "
-                + "where e.Name = ?1 and e.ConceptType = ?2 and e.Status = ?3"
-                + " and e.PragmaticStatus = ?4");
+        Query query = getEntityManager().createNamedQuery(
+                "getEntityQuery").
+                setParameter("name", concept.getName()).
+                setParameter("type", concept.getStatus()).
+                setParameter("status", concept.getStatus()).
+                setParameter("pragmatic_status", concept.getPragmaticStatus());
         System.out.println("Concept name: " + concept.getName());
-        q.setParameter(1, concept.getName());
-        q.setParameter(2, concept.getConceptType());
-        q.setParameter(3, concept.getStatus());
-        q.setParameter(4, concept.getPragmaticStatus());
-        return q;
+        return query;
     }
 
     /**
