@@ -16,9 +16,9 @@ public interface LanguageRepresentationDao extends
         Dao<Long, LanguageRepresentation> {
 
     List<LanguageRepresentation> find(String searchString);
-
-    LanguageRepresentation findByLanguageRepresentation(
-            String language, String text, String pos);
+// TODO: Commented for now, as the case sensitive search can be implemented otherwise
+//    LanguageRepresentation findByLanguageRepresentation(
+//            String language, String text, String pos);
 
     LanguageRepresentation findLanguageRepresentation(
             String language, String text, String pos);

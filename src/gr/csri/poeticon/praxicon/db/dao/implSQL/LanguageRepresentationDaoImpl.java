@@ -43,33 +43,34 @@ public class LanguageRepresentationDaoImpl extends
         }
     }
 
-    /**
-     * Finds the LanguageRepresentation that has the given language, text and
-     * pos Case insensitive search.
-     *
-     * @param language the language to search
-     * @param text     the text to search
-     * @param pos      the pos to search
-     * @return A LanguageRepresentation (null if not found)
-     */
-    @Override
-    public LanguageRepresentation
-            findByLanguageRepresentation(String language, String text,
-                    String pos) {
-        Query q = getEntityManager().createQuery(
-                "SELECT e FROM LanguageRepresentation e " +
-                "where e.text = ?1 and e.lang = ?2 and UPPER(e.POS) = ?3"
-        );
-        q.setParameter(1, text);
-        q.setParameter(2, language.toUpperCase());
-        q.setParameter(3, pos.toUpperCase());
-        List res = q.getResultList();
-        if (res.size() > 0) {
-            return (LanguageRepresentation)res.get(0);
-        } else {
-            return null;
-        }
-    }
+// TODO: Commented for now, as the case sensitive search can be implemented otherwise
+//    /**
+//     * Finds the LanguageRepresentation that has the given language, text and
+//     * pos Case insensitive search.
+//     *
+//     * @param language the language to search
+//     * @param text     the text to search
+//     * @param pos      the pos to search
+//     * @return A LanguageRepresentation (null if not found)
+//     */
+//    @Override
+//    public LanguageRepresentation
+//            findByLanguageRepresentation(String language, String text,
+//                    String pos) {
+//        Query q = getEntityManager().createQuery(
+//                "SELECT e FROM LanguageRepresentation e " +
+//                "where e.text = ?1 and e.lang = ?2 and UPPER(e.POS) = ?3"
+//        );
+//        q.setParameter(1, text);
+//        q.setParameter(2, language.toUpperCase());
+//        q.setParameter(3, pos.toUpperCase());
+//        List res = q.getResultList();
+//        if (res.size() > 0) {
+//            return (LanguageRepresentation)res.get(0);
+//        } else {
+//            return null;
+//        }
+//    }
 
     /**
      * Finds the LanguageRepresentations that have text field containing the
