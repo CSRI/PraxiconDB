@@ -20,6 +20,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -42,6 +44,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "language_representation", namespace =
         "http://www.csri.gr/language_representation")
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "findAllLanguageRepresentations", query = "FROM LanguageRepresentation lr"),
+    @NamedQuery(name = "findLanguageRepresentationsByTextLanguagePos", query =
+            "FROM LanguageRepresentation lr " +
+                "WHERE UPPER(lr.Text) = :text " +
+                "AND lr.Language = :language " +
+                "AND lr.PartOfSpeech = :pos"),
+})
 @Table(name = "LanguageRepresentations")
 public class LanguageRepresentation implements Serializable {
 

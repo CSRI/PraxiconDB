@@ -30,14 +30,12 @@ public class LanguageRepresentationDaoImpl extends
     @Override
     public LanguageRepresentation
             findLanguageRepresentation(String language, String text, String pos) {
-        Query q = getEntityManager().createQuery(
-                "SELECT e FROM LanguageRepresentation e " +
-                "where UPPER(e.text) = ?1 and e.lang = ?2 and UPPER(e.POS) = ?3"
-        );
-        q.setParameter(1, text.toUpperCase());
-        q.setParameter(2, language.toUpperCase());
-        q.setParameter(3, pos.toUpperCase());
-        List res = q.getResultList();
+        Query query = getEntityManager().createNamedQuery(
+                "findLanguageRepresentationsByTextLanguagePos").
+                        setParameter("text", text).
+                        setParameter("language", language).
+                        setParameter("pos", pos);
+        List res = query.getResultList();
         if (res.size() > 0) {
             return (LanguageRepresentation)res.get(0);
         } else {
@@ -122,7 +120,7 @@ public class LanguageRepresentationDaoImpl extends
         Query q = getEntityManager().createQuery(
                 "SELECT e FROM Concept c, " +
                 "IN(c.LanguageRepresentations) as lr, IN(lr.entries) e " +
-                 "where c=?1 order by e.lang"
+                "where c=?1 order by e.lang"
         );
         q.setParameter(1, c);
         return q.getResultList();
@@ -139,10 +137,9 @@ public class LanguageRepresentationDaoImpl extends
         Query q = getEntityManager().createQuery(
                 "SELECT e FROM Concept c, " +
                 "IN(c.LanguageRepresentations) as lr, IN(lr.entries) e " +
-                 "where c=?1"
+                "where c=?1"
         );
         q.setParameter(1, c);
         return q.getResultList();
     }
-
 }
