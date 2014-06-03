@@ -109,6 +109,7 @@ public class VisualRepresentation implements Serializable {
     }
 
     /**
+     * @return the media type of this visual representation.
      * @xmlcomments.args xmltag="&lt;media_type&gt;" xmldescription="This tag
      * defines the type of the media that represents visually the entity
      */
