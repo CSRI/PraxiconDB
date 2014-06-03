@@ -19,6 +19,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -74,7 +75,7 @@ import javax.xml.bind.annotation.XmlType;
             "AND c.ConceptType = :type " +
             "AND c.PragmaticStatus = :pragmatic_status"),
 })
-@Table(name = "Concepts")
+@Table(name = "Concepts", indexes = {@Index(columnList="Name"), @Index(columnList="ConceptId")})
 //@ConceptConstraint(groups=ConceptGroup.class)
 public class Concept implements Serializable {
 
