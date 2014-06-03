@@ -23,13 +23,13 @@ public class RelationTypeDaoImpl extends JpaDao<Long, RelationType> implements
      * @return a query to search for the RelationType
      */
     @Override
-    public Query getEntityQuery(RelationType entity) {
+    public Query getEntityQuery(RelationType relationType) {
         Query q = getEntityManager().createQuery(
                 "SELECT e FROM RelationType e " +
                 "where e.ForwardName = ?1 and e.BackwardName = ?2"
         );
-        q.setParameter(1, entity.getForwardName());
-        q.setParameter(2, entity.getBackwardName());
+        q.setParameter(1, relationType.getForwardName());
+        q.setParameter(2, relationType.getBackwardName());
         return q;
     }
 }

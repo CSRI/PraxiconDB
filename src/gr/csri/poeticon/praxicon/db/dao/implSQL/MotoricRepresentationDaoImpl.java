@@ -24,10 +24,10 @@ public class MotoricRepresentationDaoImpl
      * @return a query to search for the MotoricRepresentation
      */
     @Override
-    public Query getEntityQuery(MotoricRepresentation mr) {
+    public Query getEntityQuery(MotoricRepresentation motoricRepresentation) {
         Query query = getEntityManager().createNamedQuery(
                 "getLanguageRepresentationEntityQuery").setParameter("comment",
-                        mr.getComment().toUpperCase());
+                        motoricRepresentation.getComment().toUpperCase());
         return query;
     }
 

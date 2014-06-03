@@ -46,10 +46,10 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts found in the database
      */
     @Override
-    public Concept findConceptByConceptId(long concept_id) {
+    public Concept findConceptByConceptId(long conceptId) {
         Query query = getEntityManager().createNamedQuery(
                 "findConceptsByConceptId").
-                setParameter("concept_id", concept_id);
+                setParameter("concept_id", conceptId);
         return (Concept)query.getSingleResult();
     }
 
@@ -61,9 +61,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts found in the database
      */
     @Override
-    public List<Concept> findConceptsByName(String concept_name) {
+    public List<Concept> findConceptsByName(String conceptName) {
         Query query = getEntityManager().createNamedQuery("findConceptsByName").
-                setParameter("concept_name", "%" + concept_name + "%");
+                setParameter("concept_name", "%" + conceptName + "%");
         return query.getResultList();
     }
 
@@ -74,10 +74,10 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts found in the database
      */
     @Override
-    public Concept findConceptByNameExact(String concept_name) {
+    public Concept findConceptByNameExact(String conceptName) {
         Query query = getEntityManager().createNamedQuery(
                 "findConceptByNameExact").
-                setParameter("concept_name", concept_name);
+                setParameter("concept_name", conceptName);
         return (Concept)query.getSingleResult();
     }
 
@@ -91,10 +91,10 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      */
     @Override
     public List<Concept> findConceptsByLanguageRepresentation(
-            String language_representation_name) {
+            String languageRepresentationName) {
         Query query = getEntityManager().createNamedQuery(
                 "findConceptsByLanguageRepresentation").
-                setParameter("lr_name", "%" + language_representation_name + 
+                setParameter("lr_name", "%" + languageRepresentationName +
                         "%");
         return query.getResultList();
     }
@@ -108,10 +108,10 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      */
     @Override
     public List<Concept> findConceptsByLanguageRepresentationExact(
-            String queryString) {
+            String languageRepresentationName) {
         Query query = getEntityManager().createNamedQuery(
                 "findConceptsByLanguageRepresentationExact").
-                setParameter("lr_name", queryString);
+                setParameter("lr_name", languageRepresentationName);
         return query.getResultList();
     }
 
@@ -205,7 +205,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 oldConcept = tmpConcept;
             }
             if (oldConcept.getConceptType() == null ||
-                     oldConcept.getConceptType() == Concept.type.UNKNOWN) {
+                    oldConcept.getConceptType() == Concept.type.UNKNOWN) {
                 oldConcept.setConceptType(newConcept.getConceptType());
             }
             if (oldConcept.getPragmaticStatus() == null) {
@@ -217,8 +217,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
 
             oldConcept.setSpecificityLevel(newConcept.getSpecificityLevel());
             if (oldConcept.getComment() == null ||
-                     oldConcept.getComment().equalsIgnoreCase("") ||
-                     oldConcept.getComment().equalsIgnoreCase("Unknown")) {
+                    oldConcept.getComment().equalsIgnoreCase("") ||
+                    oldConcept.getComment().equalsIgnoreCase("Unknown")) {
                 oldConcept.setComment(newConcept.getComment());
             }
             if (newConcept.getSource() != null && !newConcept.getSource().
@@ -273,7 +273,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         try {
             //     entityManager.getTransaction().begin();
             if (oldConcept.getConceptType() == null ||
-                     oldConcept.getConceptType() == Concept.type.UNKNOWN) {
+                    oldConcept.getConceptType() == Concept.type.UNKNOWN) {
                 oldConcept.setConceptType(newConcept.getConceptType());
             }
             if (oldConcept.getPragmaticStatus() == null) {
@@ -284,8 +284,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             }
             oldConcept.setSpecificityLevel(newConcept.getSpecificityLevel());
             if (oldConcept.getComment() == null ||
-                     oldConcept.getComment().equalsIgnoreCase("") ||
-                     oldConcept.getComment().equalsIgnoreCase("Unknown")) {
+                    oldConcept.getComment().equalsIgnoreCase("") ||
+                    oldConcept.getComment().equalsIgnoreCase("Unknown")) {
                 oldConcept.setComment(newConcept.getComment());
             }
             updateVisualRepresentations(newConcept, oldConcept);
@@ -317,27 +317,27 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 size();
                 intersection++) {
             IntersectionOfRelationChains tmpIntersection =
-                     conceptA.getIntersectionsOfRelationChains().get(
+                    conceptA.getIntersectionsOfRelationChains().get(
                             intersection);
             for (int relationChain = 0;
                     relationChain < tmpIntersection.getRelationChains().size();
                     relationChain++) {
                 RelationChain tmpRelationChain =
-                         tmpIntersection.getRelationChains().get(relationChain);
+                        tmpIntersection.getRelationChains().get(relationChain);
                 for (int rel = 0; rel < tmpRelationChain.getRelations().size();
                         rel++) {
                     if (tmpRelationChain.getRelations().get(rel).
                             getRelationOrder() == 0) {
                         RelationType tmpTypeOfRelation =
-                                 tmpRelationChain.getRelations().get(rel).
+                                tmpRelationChain.getRelations().get(rel).
                                 getRelation().getType();
                         if (conceptB.equals(tmpRelationChain.getRelations().
                                 get(rel).getRelation().getObject())) {
                             if (tmpTypeOfRelation.getForwardName() ==
-                                     RelationType.relation_name_forward.
+                                    RelationType.relation_name_forward.
                                     valueOf(relation) ||
-                                     tmpTypeOfRelation.getBackwardName() ==
-                                     RelationType.relation_name_backward.
+                                    tmpTypeOfRelation.getBackwardName() ==
+                                    RelationType.relation_name_backward.
                                     valueOf(relation)) {
                                 return true;
                             }
@@ -358,15 +358,15 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts
      */
     @Override
-    public List<Concept> getChildrenOfConcept(Concept c) {
+    public List<Concept> getChildrenOfConcept(Concept concept) {
         List<Concept> res = new ArrayList<>();
 
         RelationDao rDao = new RelationDaoImpl();
-        List<Relation> relations = rDao.allRelationsOf(c);
+        List<Relation> relations = rDao.allRelationsOf(concept);
         for (Relation relation : relations) {
             if (relation.getType().getForwardName() ==
-                     RelationType.relation_name_forward.TYPE_TOKEN &&
-                     relation.getSubject().equals(c)) {
+                    RelationType.relation_name_forward.TYPE_TOKEN &&
+                    relation.getSubject().equals(concept)) {
                 res.add(relation.getObject());
             }
         }
@@ -382,15 +382,15 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts
      */
     @Override
-    public List<Concept> getParentsOfConcept(Concept c) {
+    public List<Concept> getParentsOfConcept(Concept concept) {
         List<Concept> res = new ArrayList<>();
 
         RelationDao rDao = new RelationDaoImpl();
-        List<Relation> relations = rDao.allRelationsOf(c);
+        List<Relation> relations = rDao.allRelationsOf(concept);
         for (Relation relation : relations) {
             if (relation.getType().getForwardName() ==
-                     RelationType.relation_name_forward.TYPE_TOKEN &&
-                     relation.getObject().equals(c)) {
+                    RelationType.relation_name_forward.TYPE_TOKEN &&
+                    relation.getObject().equals(concept)) {
                 res.add(relation.getSubject());
             }
         }
@@ -457,14 +457,14 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts
      */
     @Override
-    public List<Concept> getClassesOfInstance(Concept c) {
+    public List<Concept> getClassesOfInstance(Concept concept) {
         List<Concept> res = new ArrayList<>();
         RelationDao rDao = new RelationDaoImpl();
-        List<Relation> relations = rDao.allRelationsOf(c);
+        List<Relation> relations = rDao.allRelationsOf(concept);
         for (Relation relation : relations) {
             if (relation.getType().getForwardName() ==
-                     RelationType.relation_name_forward.HAS_INSTANCE &&
-                     relation.getObject().equals(c)) {
+                    RelationType.relation_name_forward.HAS_INSTANCE &&
+                    relation.getObject().equals(concept)) {
                 res.add(relation.getSubject());
             }
         }
@@ -479,14 +479,14 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts
      */
     @Override
-    public List<Concept> getInstancesOf(Concept c) {
+    public List<Concept> getInstancesOf(Concept concept) {
         List<Concept> res = new ArrayList<>();
         RelationDao rDao = new RelationDaoImpl();
-        List<Relation> relations = rDao.allRelationsOf(c);
+        List<Relation> relations = rDao.allRelationsOf(concept);
         for (Relation relation : relations) {
             if (relation.getType().getForwardName() ==
-                     RelationType.relation_name_forward.HAS_INSTANCE &&
-                     relation.getObject().equals(c)) {
+                    RelationType.relation_name_forward.HAS_INSTANCE &&
+                    relation.getObject().equals(concept)) {
                 res.add(relation.getSubject());
             }
         }
@@ -501,11 +501,11 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return The list of BL
      */
     @Override
-    public List<Concept> getBasicLevel(Concept c) {
+    public List<Concept> getBasicLevel(Concept concept) {
 // Temporarily disabled the block below until cleared
 //        if (c.getOrigin() == Concept.Origin.MOVEMENT)
 //        {
-//            return getBasicLevelOfMovementOriginConcept(c);
+//            return getBasicLevelOfMovementOriginConcept(concept);
 //        }
 //      else
 //        {
@@ -513,13 +513,13 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         // AN BL επιστρέφει λίστα με τον εαυτό του.
         // Αν είναι above BL getBLofanabstractlevel
         // ελσε ιφ below BL τρέξε BL entity concept
-        if (c.getConceptType() == Concept.type.ABSTRACT) {
-            return getBasicLevelOfAnAbstractConcept(c);
+        if (concept.getConceptType() == Concept.type.ABSTRACT) {
+            return getBasicLevelOfAnAbstractConcept(concept);
         } else {
-            if (c.getConceptType() == Concept.type.ENTITY ||
-                     c.getConceptType() == Concept.type.MOVEMENT ||
-                     c.getConceptType() == Concept.type.FEATURE) {
-                return getBasicLevelOfAnEntityConcept(c);
+            if (concept.getConceptType() == Concept.type.ENTITY ||
+                    concept.getConceptType() == Concept.type.MOVEMENT ||
+                    concept.getConceptType() == Concept.type.FEATURE) {
+                return getBasicLevelOfAnEntityConcept(concept);
             }
         }
 //        }
@@ -534,27 +534,27 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return The list of BL
      */
     @Override
-    public List<Concept> getBasicLevelOfAnEntityConcept(Concept con) {
+    public List<Concept> getBasicLevelOfAnEntityConcept(Concept concept) {
         List<Concept> res = new ArrayList<>();
 
-        if (con.getSpecificityLevel() !=
-                 Concept.specificity_level.BASIC_LEVEL &&
-                 con.getConceptType() != Concept.type.ABSTRACT) {
-            List<Concept> parents = getParentsOfConcept(con);
+        if (concept.getSpecificityLevel() !=
+                Concept.specificity_level.BASIC_LEVEL &&
+                concept.getConceptType() != Concept.type.ABSTRACT) {
+            List<Concept> parents = getParentsOfConcept(concept);
             for (Concept parent : parents) {
                 res.addAll(getBasicLevelOfAnEntityConcept(parent));
             }
 
             if (parents.isEmpty()) {
-                List<Concept> classes = getClassesOfInstance(con);
+                List<Concept> classes = getClassesOfInstance(concept);
                 for (Concept classe : classes) {
                     res.addAll(getBasicLevelOfAnEntityConcept(classe));
                 }
             }
         } else {
-            if (con.getSpecificityLevel() ==
-                     Concept.specificity_level.BASIC_LEVEL) {
-                res.add(con);
+            if (concept.getSpecificityLevel() ==
+                    Concept.specificity_level.BASIC_LEVEL) {
+                res.add(concept);
             }
         }
         return res;
@@ -567,19 +567,19 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return The list of BL
      */
     @Override
-    public List<Concept> getBasicLevelOfAnAbstractConcept(Concept c) {
+    public List<Concept> getBasicLevelOfAnAbstractConcept(Concept concept) {
         List<Concept> res = new ArrayList<>();
 
-        if (c.getSpecificityLevel() != Concept.specificity_level.BASIC_LEVEL &&
-                 c.getConceptType() == Concept.type.ABSTRACT) {
-            List<Concept> children = getChildrenOfConcept(c);
+        if (concept.getSpecificityLevel() != Concept.specificity_level.BASIC_LEVEL &&
+                concept.getConceptType() == Concept.type.ABSTRACT) {
+            List<Concept> children = getChildrenOfConcept(concept);
             for (Concept children1 : children) {
                 res.addAll(getBasicLevelOfAnAbstractConcept(children1));
             }
         } else {
-            if (c.getSpecificityLevel() ==
-                     Concept.specificity_level.BASIC_LEVEL) {
-                res.add(c);
+            if (concept.getSpecificityLevel() ==
+                    Concept.specificity_level.BASIC_LEVEL) {
+                res.add(concept);
             }
         }
         return res;
@@ -593,14 +593,14 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      */
     // special getting BL for movement origin concepts 
     // lookin up and down regardless type
-    private List<Concept> getBasicLevelOfMovementOriginConcept(Concept c) {
+    private List<Concept> getBasicLevelOfMovementOriginConcept(Concept concept) {
         List<Concept> res = new ArrayList<>();
 
-        if (c.getSpecificityLevel() == Concept.specificity_level.BASIC_LEVEL) {
-            res.add(c);
+        if (concept.getSpecificityLevel() == Concept.specificity_level.BASIC_LEVEL) {
+            res.add(concept);
         } else {
-            res.addAll(getBasicLevelOfMovementOriginConceptGoingDown(c));
-            res.addAll(getBasicLevelOfMovementOriginConceptGoingUp(c));
+            res.addAll(getBasicLevelOfMovementOriginConceptGoingDown(concept));
+            res.addAll(getBasicLevelOfMovementOriginConceptGoingUp(concept));
         }
         return res;
     }
@@ -617,7 +617,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         List<Concept> res = new ArrayList<>();
 
         if (concept.getSpecificityLevel() !=
-                 Concept.specificity_level.BASIC_LEVEL) {
+                Concept.specificity_level.BASIC_LEVEL) {
             List<Concept> parents = getParentsOfConcept(concept);
             for (Concept parent : parents) {
                 res.addAll(getBasicLevelOfMovementOriginConceptGoingUp(parent));
@@ -632,7 +632,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             }
         } else {
             if (concept.getSpecificityLevel() ==
-                     Concept.specificity_level.BASIC_LEVEL) {
+                    Concept.specificity_level.BASIC_LEVEL) {
                 res.add(concept);
             }
         }
@@ -647,20 +647,20 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return The list of BL
      */
     private List<Concept> getBasicLevelOfMovementOriginConceptGoingDown(
-            Concept con) {
+            Concept concept) {
         List<Concept> res = new ArrayList<>();
 
-        if (con.getSpecificityLevel() !=
-                 Concept.specificity_level.BASIC_LEVEL) {
-            List<Concept> children = getChildrenOfConcept(con);
+        if (concept.getSpecificityLevel() !=
+                Concept.specificity_level.BASIC_LEVEL) {
+            List<Concept> children = getChildrenOfConcept(concept);
             for (Concept children1 : children) {
                 res.addAll(getBasicLevelOfMovementOriginConceptGoingDown(
                         children1));
             }
         } else {
-            if (con.getSpecificityLevel() ==
-                     Concept.specificity_level.BASIC_LEVEL) {
-                res.add(con);
+            if (concept.getSpecificityLevel() ==
+                    Concept.specificity_level.BASIC_LEVEL) {
+                res.add(concept);
             }
         }
         return res;
@@ -676,19 +676,19 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      */
     @Override
     public List<Concept> getConceptsRelatedWithByRelationType(
-            Concept c, RelationType relation_type) {
+            Concept concept, RelationType relationType) {
         List<Concept> res = new ArrayList<>();
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByRelationType").
-                setParameter("subject_concept_id", c.getId()).
-                setParameter("object_concept_id", c.getId()).
-                setParameter("relation_type_id", relation_type);
+                setParameter("subject_concept_id", concept.getId()).
+                setParameter("object_concept_id", concept.getId()).
+                setParameter("relation_type_id", relationType);
         Concept tmpConcept = (Concept)query.getSingleResult();
 
         List<Relation> tmpR = query.getResultList();
         if (tmpR != null && tmpR.size() > 0) {
             for (Relation tmpR1 : tmpR) {
-                if (tmpR1.getSubject().equals(c)) {
+                if (tmpR1.getSubject().equals(concept)) {
                     res.add(tmpR1.getObject());
                 } else {
                     res.add(tmpR1.getSubject());
@@ -743,7 +743,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                         contains(newConcept.getLanguageRepresentations().
                                 get(i))) {
                     LanguageRepresentation tmpLanguageRepresentation =
-                             newConcept.getLanguageRepresentations().get(i);
+                            newConcept.getLanguageRepresentations().get(i);
                     tmpLanguageRepresentation.getConcepts().remove(newConcept);
                     tmpLanguageRepresentation.getConcepts().add(oldConcept);
                     oldConcept.getLanguageRepresentations().
@@ -768,7 +768,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      */
     private void updateMotoricRepresentations(Concept newConcept,
             Concept oldConcept) {
-        for (int i = 0; i < newConcept.getMotoricRepresentations().size(); 
+        for (int i = 0; i < newConcept.getMotoricRepresentations().size();
                 i++) {
             if (!oldConcept.getMotoricRepresentations().
                     contains(newConcept.getMotoricRepresentations().get(i))) {
@@ -823,12 +823,12 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 newConcept.getIntersectionsOfRelationChains().get(i).
                         setConcept(oldConcept);
                 IntersectionOfRelationChains inter =
-                         newConcept.getIntersectionsOfRelationChains().get(i);
+                        newConcept.getIntersectionsOfRelationChains().get(i);
                 for (int k = 0; k < inter.getRelationChains().size(); k++) {
                     RelationChain rc = inter.getRelationChains().get(k);
                     for (int l = 0; l < rc.getRelations().size(); l++) {
                         RelationChain_Relation rcr =
-                                 rc.getRelations().get(l);
+                                rc.getRelations().get(l);
                         Relation rel = rcr.getRelation();
                         if (rel.getSubject().getName().
                                 equalsIgnoreCase(newConcept.getName())) {

@@ -26,14 +26,14 @@ public class VisualRepresentationDaoImpl extends
      * @return a query to search for the VisualRepresentation
      */
     @Override
-    public Query getEntityQuery(VisualRepresentation entity) {
+    public Query getEntityQuery(VisualRepresentation visualRepresentation) {
         Query q = getEntityManager().createQuery(
                 "SELECT e FROM VisualRepresentation e " +
                  "WHERE UPPER(e.MediaType) = ?1 AND" +
                  " UPPER(e.Representation) = ?2 AND e.Prototype = ?3"
         );
-        q.setParameter(1, entity.getMediaType());
-        q.setParameter(2, entity.getRepresentation().toUpperCase());
+        q.setParameter(1, visualRepresentation.getMediaType());
+        q.setParameter(2, visualRepresentation.getRepresentation().toUpperCase());
         //q.setParameter(3, entity.isPrototype());
         return q;
     }
@@ -45,14 +45,14 @@ public class VisualRepresentationDaoImpl extends
      * @return a list of VisualRepresentation
      */
     @Override
-    public List<VisualRepresentation> getEntries(Concept c) {
+    public List<VisualRepresentation> getEntries(Concept concept) {
         Query q = getEntityManager().createQuery(
                 "SELECT Entry FROM Concept c, " +
                  "IN(c.VisualRepresentations) AS VR, " +
                  "IN(VR.Entries) entry " +
                  "where c=?1"
         );
-        q.setParameter(1, c);
+        q.setParameter(1, concept);
         return q.getResultList();
     }
 }

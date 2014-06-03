@@ -97,16 +97,15 @@ public class LanguageRepresentationDaoImpl extends
          * @return a query to search for the LanguageRepresentation
          */
         @Override
-        public Query getEntityQuery(LanguageRepresentation lr) {
+        public Query getEntityQuery(LanguageRepresentation languageRepresentation) {
 
             Query query = getEntityManager().createNamedQuery(
                     "getLanguageRepresentationEntityQuery").
-                    setParameter("text", lr.getText().toUpperCase()).
-                    setParameter("language", lr.getLanguage().name().
+                    setParameter("text", languageRepresentation.getText().toUpperCase()).
+                    setParameter("language", languageRepresentation.getLanguage().name().
                             toUpperCase()).
-                    setParameter("status", lr.getPartOfSpeech().toString());
-            System.out.println("Language Representation Text: " + lr.
-                    getText());
+                    setParameter("status", languageRepresentation.getPartOfSpeech().toString());
+            System.out.println("Language Representation Text: " + languageRepresentation.getText());
             return query;
         }
 
