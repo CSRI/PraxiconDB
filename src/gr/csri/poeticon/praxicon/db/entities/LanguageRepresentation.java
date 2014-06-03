@@ -247,8 +247,8 @@ public class LanguageRepresentation implements Serializable {
         return IsCompositional;
     }
 
-    public void setCompositional(is_compositional is_compositional) {
-        this.IsCompositional = is_compositional;
+    public void setCompositional(is_compositional isCompositional) {
+        this.IsCompositional = isCompositional;
     }
 
     /**
@@ -309,9 +309,9 @@ public class LanguageRepresentation implements Serializable {
     }
 
     public void setLanguageRepresentations(
-            List<LanguageRepresentation> language_representations) {
+            List<LanguageRepresentation> languageRepresentations) {
         LanguageRepresentation.language_representations =
-                language_representations;
+                languageRepresentations;
     }
 
     public void setLanguage(language language) {

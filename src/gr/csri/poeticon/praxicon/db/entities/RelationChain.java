@@ -113,8 +113,8 @@ public class RelationChain implements Serializable {
     }
 
     public void setLanguageRepresentationNames(
-            List<LanguageRepresentation> language_representation_names) {
-        this.LanguageRepresentationNames = language_representation_names;
+            List<LanguageRepresentation> languageRepresentationNames) {
+        this.LanguageRepresentationNames = languageRepresentationNames;
     }
 
     /**

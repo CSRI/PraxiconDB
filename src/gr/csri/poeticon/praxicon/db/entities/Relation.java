@@ -287,8 +287,8 @@ public class Relation implements Serializable {
     }
 
     public void setLanguageRepresentationObject(
-            List<LanguageRepresentation> language_representation_object) {
-        this.LanguageRepresentationObject = language_representation_object;
+            List<LanguageRepresentation> languageRepresentationObject) {
+        this.LanguageRepresentationObject = languageRepresentationObject;
     }
 
     @XmlTransient
@@ -319,8 +319,8 @@ public class Relation implements Serializable {
     }
 
     public void setMotoricRepresentationObject(
-            List<MotoricRepresentation> motoric_representation_object) {
-        this.MotoricRepresentationObject = motoric_representation_object;
+            List<MotoricRepresentation> motoricRepresentationObject) {
+        this.MotoricRepresentationObject = motoricRepresentationObject;
     }
 
     @XmlTransient
@@ -334,8 +334,8 @@ public class Relation implements Serializable {
     }
 
     public void setVisualRepresentationObject(
-            List<VisualRepresentation> visual_representation_object) {
-        this.VisualRepresentationObject = visual_representation_object;
+            List<VisualRepresentation> visualRepresentationObject) {
+        this.VisualRepresentationObject = visualRepresentationObject;
     }
 
     @XmlTransient
@@ -344,8 +344,8 @@ public class Relation implements Serializable {
     }
 
     public void setVisualRepresentationSubject(
-            List<VisualRepresentation> visual_representation_subject) {
-        this.VisualRepresentationSubject = visual_representation_subject;
+            List<VisualRepresentation> visualRepresentationSubject) {
+        this.VisualRepresentationSubject = visualRepresentationSubject;
     }
 
     @Override

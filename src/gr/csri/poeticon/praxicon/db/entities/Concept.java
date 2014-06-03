@@ -360,16 +360,16 @@ public class Concept implements Serializable {
         return SpecificityLevel;
     }
 
-    public void setSpecificityLevel(specificity_level level_type) {
-        this.SpecificityLevel = level_type;
+    public void setSpecificityLevel(specificity_level levelType) {
+        this.SpecificityLevel = levelType;
     }
 
-    public void setSpecificityLevel(String level_type) {
-        if (level_type.equalsIgnoreCase("BASIC_LEVEL")) {
+    public void setSpecificityLevel(String levelType) {
+        if (levelType.equalsIgnoreCase("BASIC_LEVEL")) {
             this.SpecificityLevel = Concept.specificity_level.BASIC_LEVEL;
-        } else if (level_type.equalsIgnoreCase("SUPERORDINATE")) {
+        } else if (levelType.equalsIgnoreCase("SUPERORDINATE")) {
             this.SpecificityLevel = Concept.specificity_level.SUPERORDINATE;
-        } else if (level_type.equalsIgnoreCase("SUBORDINATE")) {
+        } else if (levelType.equalsIgnoreCase("SUBORDINATE")) {
             this.SpecificityLevel = Concept.specificity_level.SUBORDINATE;
         } else {
             this.SpecificityLevel = Concept.specificity_level.UNKNOWN;
@@ -405,8 +405,8 @@ public class Concept implements Serializable {
         return UniqueInstance;
     }
 
-    public void setUniqueInstance(unique_instance unique_instance) {
-        this.UniqueInstance = unique_instance;
+    public void setUniqueInstance(unique_instance uniqueInstance) {
+        this.UniqueInstance = uniqueInstance;
     }
 
     /**
@@ -422,8 +422,8 @@ public class Concept implements Serializable {
         this.PragmaticStatus = pragmatic_status;
     }
 
-    public void setPragmaticStatus(String pragmatic_status) {
-        String tmp = pragmatic_status;
+    public void setPragmaticStatus(String pragmaticStatus) {
+        String tmp = pragmaticStatus;
         tmp = tmp.replace(".", "_");
         tmp = tmp.replace(":", "_");
         // TODO: Check below if it returns the correct value.
@@ -476,13 +476,13 @@ public class Concept implements Serializable {
     }
 
     public void addLanguageRepresentation(
-            LanguageRepresentation language_representation) {
-        this.LanguageRepresentations.add(language_representation);
+            LanguageRepresentation languageRepresentation) {
+        this.LanguageRepresentations.add(languageRepresentation);
     }
 
     public void setLanguageRepresentation(
-            List<LanguageRepresentation> language_representations) {
-        this.LanguageRepresentations = language_representations;
+            List<LanguageRepresentation> languageRepresentations) {
+        this.LanguageRepresentations = languageRepresentations;
     }
 
     /**
@@ -510,16 +510,16 @@ public class Concept implements Serializable {
      *
      * @param oldCon the concept to be updated
      */
-    public void updateLanguageRepresentations(Concept oldCon) {
+    public void updateLanguageRepresentations(Concept oldConcept) {
         for (int i = 0; i <
                 this.getLanguageRepresentationsEntries().size(); i++) {
-            if (!oldCon.getLanguageRepresentationsEntries().contains(
+            if (!oldConcept.getLanguageRepresentationsEntries().contains(
                     this.getLanguageRepresentationsEntries().get(i))) {
                 this.getLanguageRepresentationsEntries().get(i).getConcepts().
                         remove(this);
                 this.getLanguageRepresentationsEntries().get(i).getConcepts().
                         add(this);
-                oldCon.getLanguageRepresentationsEntries().add(
+                oldConcept.getLanguageRepresentationsEntries().add(
                         this.getLanguageRepresentationsEntries().get(i));
             }
         }
@@ -560,12 +560,12 @@ public class Concept implements Serializable {
      *
      * @param oldCon the concept to be updated
      */
-    public void updateVisualRepresentations(Concept oldCon) {
+    public void updateVisualRepresentations(Concept oldConcept) {
         for (int i = 0; i < this.getVisualRepresentations().size(); i++) {
-            if (!oldCon.getVisualRepresentations().contains(
+            if (!oldConcept.getVisualRepresentations().contains(
                     this.getVisualRepresentations().get(i))) {
                 this.getVisualRepresentations().get(i);
-                oldCon.getVisualRepresentations().add(
+                oldConcept.getVisualRepresentations().add(
                         this.getVisualRepresentations().get(i));
             }
         }
@@ -590,13 +590,13 @@ public class Concept implements Serializable {
     }
 
     public void setMotoricRepresentations(
-            List<MotoricRepresentation> motoric_representations) {
-        this.MotoricRepresentations = motoric_representations;
+            List<MotoricRepresentation> motoricRepresentations) {
+        this.MotoricRepresentations = motoricRepresentations;
     }
 
     public void addMotoricRepresentation(
-            MotoricRepresentation motoric_representation) {
-        this.MotoricRepresentations.add(motoric_representation);
+            MotoricRepresentation motoricRepresentation) {
+        this.MotoricRepresentations.add(motoricRepresentation);
     }
 
     /**
@@ -605,12 +605,12 @@ public class Concept implements Serializable {
      *
      * @param oldCon the concept to be updated
      */
-    public void updateMotoricRepresentations(Concept oldCon) {
+    public void updateMotoricRepresentations(Concept oldConcept) {
         for (int i = 0; i < this.getMotoricRepresentations().size(); i++) {
-            if (!oldCon.getMotoricRepresentations().contains(
+            if (!oldConcept.getMotoricRepresentations().contains(
                     this.getMotoricRepresentations().get(i))) {
                 this.getMotoricRepresentations().get(i);
-                oldCon.getMotoricRepresentations().add(
+                oldConcept.getMotoricRepresentations().add(
                         this.getMotoricRepresentations().get(i));
             }
         }
@@ -634,8 +634,8 @@ public class Concept implements Serializable {
     }
 
     public void setRelationsContainingConceptAsObject(
-            List<Relation> objOfRelations) {
-        this.RelationsContainingConceptAsObject = objOfRelations;
+            List<Relation> objectOfRelations) {
+        this.RelationsContainingConceptAsObject = objectOfRelations;
     }
 
     /**
@@ -643,20 +643,20 @@ public class Concept implements Serializable {
      *
      * @param oldCon the concept to be updated
      */
-    public void updateObjOfRelations(Concept oldCon) {
+    public void updateObjOfRelations(Concept oldConcept) {
         for (int i = 0; i < this.getRelationsContainingConceptAsObject().size();
                 i++) {
-            if (!oldCon.getRelationsContainingConceptAsObject().contains(
+            if (!oldConcept.getRelationsContainingConceptAsObject().contains(
                     this.getRelationsContainingConceptAsObject().get(i))) {
                 if (this.getRelationsContainingConceptAsObject().get(i).
                         getObject().equals(this)) {
                     this.getRelationsContainingConceptAsObject().get(i).
-                            setObject(oldCon);
+                            setObject(oldConcept);
                 } else {
                     this.getRelationsContainingConceptAsObject().get(i).
-                            setSubject(oldCon);
+                            setSubject(oldConcept);
                 }
-                oldCon.getRelationsContainingConceptAsObject().add(
+                oldConcept.getRelationsContainingConceptAsObject().add(
                         this.getRelationsContainingConceptAsObject().get(i));
             }
         }
@@ -681,13 +681,13 @@ public class Concept implements Serializable {
      * @param rTypeBackward list of backward types of relations
      * @param obj           list of concepts to be used as objects
      */
-    public void addRelation(List<String> rTypeForward,
-            List<String> rTypeBackward, List<Concept> obj) {
+    public void addRelation(List<String> relationTypeForward,
+            List<String> relationTypeBackward, List<Concept> obj) {
         IntersectionOfRelationChains inter = new IntersectionOfRelationChains();
-        for (int i = 0; i < rTypeForward.size(); i++) {
+        for (int i = 0; i < relationTypeForward.size(); i++) {
             RelationType rType = new RelationType();
-            rType.setForwardName(rTypeForward.get(i));
-            rType.setBackwardName(rTypeBackward.get(i));
+            rType.setForwardName(relationTypeForward.get(i));
+            rType.setBackwardName(relationTypeBackward.get(i));
             Relation rel = new Relation();
             rel.setType(rType);
             rel.setSubject(this);
@@ -704,14 +704,14 @@ public class Concept implements Serializable {
      *
      * @param oldCon the concept to be updated
      */
-    public void updateRelations(Concept oldCon) {
+    public void updateRelations(Concept oldConcept) {
         for (int i = 0; i < this.getIntersectionsOfRelationChains().size();
                 i++) {
-            if (!oldCon.getIntersectionsOfRelationChains().contains(
+            if (!oldConcept.getIntersectionsOfRelationChains().contains(
                     this.getIntersectionsOfRelationChains().get(i))) {
                 this.getIntersectionsOfRelationChains().get(i).setConcept(
-                        oldCon);
-                oldCon.getIntersectionsOfRelationChains().add(
+                        oldConcept);
+                oldConcept.getIntersectionsOfRelationChains().add(
                         this.getIntersectionsOfRelationChains().get(i));
             }
         }

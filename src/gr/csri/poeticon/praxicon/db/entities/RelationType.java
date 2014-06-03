@@ -220,8 +220,8 @@ public class RelationType implements Serializable {
         return BackwardName;
     }
 
-    public void setBackwardName(relation_name_backward backward_name) {
-        this.BackwardName = backward_name;
+    public void setBackwardName(relation_name_backward backwardName) {
+        this.BackwardName = backwardName;
     }
 
     public final void setBackwardName(String name) {
@@ -264,8 +264,8 @@ public class RelationType implements Serializable {
         return Relations;
     }
 
-    public void setRelations(List<Relation> Relations) {
-        this.Relations = Relations;
+    public void setRelations(List<Relation> relations) {
+        this.Relations = relations;
     }
 
     public void addRelation(Relation relation) {

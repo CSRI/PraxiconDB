@@ -117,8 +117,8 @@ public class VisualRepresentation implements Serializable {
         return MediaType;
     }
 
-    public void setMediaType(media_type media_type) {
-        this.MediaType = media_type;
+    public void setMediaType(media_type mediaType) {
+        this.MediaType = mediaType;
     }
 
     /**
@@ -184,7 +184,7 @@ public class VisualRepresentation implements Serializable {
         if (!(object instanceof VisualRepresentation)) {
             return false;
         }
-        VisualRepresentation other = (VisualRepresentation)object;
+        VisualRepresentation other = (VisualRepresentation) object;
         if (this.MediaType != null && this.Name != null &&
                 this.MediaType.equals(other.MediaType) &&
                 this.Name.equalsIgnoreCase(other.Name)) {

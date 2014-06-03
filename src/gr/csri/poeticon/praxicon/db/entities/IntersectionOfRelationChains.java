@@ -133,21 +133,21 @@ public class IntersectionOfRelationChains implements Serializable {
     }
 
     public void setLanguageRepresentationNames(
-            List<LanguageRepresentation> language_representation_names) {
-        this.LanguageRepresentationNames = language_representation_names;
+            List<LanguageRepresentation> languageRepresentationNames) {
+        this.LanguageRepresentationNames = languageRepresentationNames;
     }
 
-    public void addRelationChain(RelationChain rc) {
-        rc.getIntersections().add(this);
-        RelationChains.add(rc);
+    public void addRelationChain(RelationChain relationChain) {
+        relationChain.getIntersections().add(this);
+        RelationChains.add(relationChain);
     }
 
-    public void addRelationChain1way(RelationChain rc) {
-        RelationChains.add(rc);
+    public void addRelationChain1way(RelationChain relationChain) {
+        RelationChains.add(relationChain);
     }
 
-    public void setRelationChains(List<RelationChain> relation_chains) {
-        this.RelationChains = relation_chains;
+    public void setRelationChains(List<RelationChain> relationChains) {
+        this.RelationChains = relationChains;
     }
 
     @XmlAttribute
