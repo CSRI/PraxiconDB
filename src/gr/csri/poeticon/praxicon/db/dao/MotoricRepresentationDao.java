@@ -14,7 +14,7 @@ import javax.persistence.Query;
 public interface MotoricRepresentationDao extends
         Dao<Long, MotoricRepresentation> {
 
-    public Query getEntityQuery(MotoricRepresentation mr);
+    public Query getEntityQuery(MotoricRepresentation motoricRepresentation);
 
 // TODO: Delete the two methods below after I make sure they are not used in other projects.    
     //public List<MotoricRepresentation> getEntries(Concept c);

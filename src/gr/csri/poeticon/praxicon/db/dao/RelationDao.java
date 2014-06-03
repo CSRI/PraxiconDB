@@ -5,9 +5,9 @@
 package gr.csri.poeticon.praxicon.db.dao;
 
 import gr.csri.poeticon.praxicon.db.entities.Concept;
+import gr.csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
-import gr.csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains;
 import java.util.List;
 
 /**
@@ -16,14 +16,14 @@ import java.util.List;
  */
 public interface RelationDao extends Dao<Long, Relation> {
 
-    List<Concept> getOwners(Relation rel);
+    List<Concept> getOwners(Relation relation);
 
-    List<IntersectionOfRelationChains> getObjRelations(Concept c);
+    List<IntersectionOfRelationChains> getObjRelations(Concept concept);
 
-    List<Relation> allRelationsOf(Concept c);
+    List<Relation> allRelationsOf(Concept concept);
 
-    boolean areRelated(Concept c1, Concept c2);
+    boolean areRelated(Concept concept1, Concept concept2);
 
     List<Relation> findRelationsByConceptTypeOfRelation(
-            Concept concept, RelationType type);
+            Concept concept, RelationType relationType);
 }

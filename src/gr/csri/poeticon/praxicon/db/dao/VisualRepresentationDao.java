@@ -14,5 +14,5 @@ import java.util.List;
  */
 public interface VisualRepresentationDao extends Dao<Long, VisualRepresentation> {
 
-    List<VisualRepresentation> getEntries(Concept c);
+    List<VisualRepresentation> getEntries(Concept concept);
 }

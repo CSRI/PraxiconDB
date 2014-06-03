@@ -14,5 +14,5 @@ import java.util.List;
  */
 public interface RelationChainDao extends Dao<Long, RelationChain> {
 
-    List<RelationChain> getRelationChainsContainingConcept(Concept c);
+    List<RelationChain> getRelationChainsContainingConcept(Concept concept);
 }

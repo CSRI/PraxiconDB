@@ -32,34 +32,34 @@ public interface ConceptDao extends Dao<Long, Concept> {
 
     Concept getConceptWithNameOrID(String v);
 
-    Concept updatedConcept(Concept newCon);
+    Concept updatedConcept(Concept newConcept);
 
-    void update(Concept newCon);
+    void update(Concept newConcept);
 
-    void update(Concept oldCon, Concept newCon);
+    void update(Concept oldConcept, Concept newConcept);
 
-    boolean areRelated(Concept conA, String relation, Concept conB);
+    boolean areRelated(Concept conceptA, String relation, Concept conceptB);
 
-    List<Concept> getChildrenOfConcept(Concept c);
+    List<Concept> getChildrenOfConcept(Concept concept);
 
-    List<Concept> getParentsOfConcept(Concept c);
+    List<Concept> getParentsOfConcept(Concept concept);
 
-    public List<Concept> getAllAncestors(Concept c);
+    public List<Concept> getAllAncestors(Concept concept);
 
-    public List<Concept> getAllOffsprings(Concept c);
+    public List<Concept> getAllOffsprings(Concept concept);
 
-    List<Concept> getClassesOfInstance(Concept c);
+    List<Concept> getClassesOfInstance(Concept concept);
 
-    List<Concept> getInstancesOf(Concept c);
+    List<Concept> getInstancesOf(Concept concept);
 
-    public List<Concept> getBasicLevel(Concept c);
+    public List<Concept> getBasicLevel(Concept concept);
 
-    public List<Concept> getBasicLevelOfAnEntityConcept(Concept con);
+    public List<Concept> getBasicLevelOfAnEntityConcept(Concept concept);
 
-    public List<Concept> getBasicLevelOfAnAbstractConcept(Concept c);
+    public List<Concept> getBasicLevelOfAnAbstractConcept(Concept concept);
 
     public List<Concept> getConceptsRelatedWithByRelationType(
-            Concept c, RelationType rtype);
+            Concept concept, RelationType relationType);
 
     public void clearManager();
 }
