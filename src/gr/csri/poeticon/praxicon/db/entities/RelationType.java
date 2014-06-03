@@ -15,6 +15,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -33,7 +34,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "relation_type", namespace = "http://www.csri.gr/relation_type")
 @Entity
-@Table(name = "RelationTypes")
+@Table(name = "RelationTypes", indexes = {
+    @Index(columnList = "RelationTypeId")})
 public class RelationType implements Serializable {
 
     //public static relation_name[] Bequethed = {relation_name_forward.HAS_PART, relation_name_backward.PART_OF};
@@ -353,7 +355,8 @@ public class RelationType implements Serializable {
 
     @Override
     public String toString() {
-        return "gr.csri.poeticon.praxicon.db.entities.RelationType[Id=" + Id + "]";
+        return "gr.csri.poeticon.praxicon.db.entities.RelationType[Id=" + Id +
+                "]";
     }
 
 }

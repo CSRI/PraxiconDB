@@ -16,6 +16,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -68,7 +69,9 @@ import javax.xml.bind.annotation.XmlType;
             "FROM LanguageRepresentation lr " +
             "WHERE UPPER(lr.Text) = :text"),
 })
-@Table(name = "LanguageRepresentations") //, indexes = {@Index(columnList="Text"), @Index(columnList="LanguageRepresentationId")})
+@Table(name = "LanguageRepresentations", indexes = {
+    @Index(columnList = "Text"),
+    @Index(columnList = "LanguageRepresentationId")})
 public class LanguageRepresentation implements Serializable {
 
     private static final long serialVersionUID = 1L;
