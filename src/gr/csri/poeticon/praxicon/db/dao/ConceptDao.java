@@ -18,7 +18,7 @@ public interface ConceptDao extends Dao<Long, Concept> {
 
     List<Concept> findAllConcepts();
 
-    Concept findConceptByConceptId(long concept_id);
+    Concept findConceptByConceptId(long conceptId);
 
     List<Concept> findConceptsByName(String name);
 
