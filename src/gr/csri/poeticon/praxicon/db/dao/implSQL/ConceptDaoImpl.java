@@ -717,7 +717,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     @Override
     public Query getEntityQuery(Concept concept) {
         Query query = getEntityManager().createNamedQuery(
-                "getEntityQuery").
+                "getConceptEntityQuery").
                 setParameter("name", concept.getName()).
                 setParameter("type", concept.getStatus()).
                 setParameter("status", concept.getStatus()).

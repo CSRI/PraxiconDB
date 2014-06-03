@@ -67,7 +67,7 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name = "findConceptsByStatusExact", query = 
             "SELECT c FROM Concept c " +
             "WHERE c.Status = :status"),
-    @NamedQuery(name = "getEntityQuery", query = 
+    @NamedQuery(name = "getConceptEntityQuery", query = 
             "SELECT c FROM Concept c " +
             "WHERE c.Status = :status " +
             "AND c.Name = :name " +
