@@ -17,6 +17,8 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -36,6 +38,13 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "relation_chain",
         namespace = "http://www.csri.gr/relation_chain")
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "getRelationChainsByConcept", query = 
+        "SELECT rc FROM RelationChain rc " +
+        "IN(rc.Relation) AS rc_rel " +
+        "WHERE rc_rel.Relation.Object = :concept_id " +
+        "OR rc_rel.Relation.Subject = :concept_id"),
+})
 @Table(name = "RelationChains", indexes = {
     @Index(columnList = "Name"),
     @Index(columnList = "RelationChainId")})

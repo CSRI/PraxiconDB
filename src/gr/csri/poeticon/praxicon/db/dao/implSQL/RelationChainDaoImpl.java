@@ -16,6 +16,7 @@ import javax.persistence.Query;
  */
 public class RelationChainDaoImpl extends JpaDao<Long, RelationChain>
         implements RelationChainDao {
+
     /**
      * Finds all RelationChain that have a relation with subject or object a
      * given concept.
@@ -26,15 +27,14 @@ public class RelationChainDaoImpl extends JpaDao<Long, RelationChain>
     @Override
     public List<RelationChain> getRelationChainsContainingConcept(
             Concept concept) {
-        Query q = getEntityManager().createQuery(
-                "SELECT rc FROM RelationChain rc," +
-                " IN(rc.relations) as rc_rel " +
-                "WHERE rc_rel.relation.obj = ?1 or " +
-                "rc_rel.relation.subject = ?1");
-        q.setParameter(1, concept);
+        Query q = getEntityManager().createNamedQuery(
+                "getRelationChainsByConcept").setParameter("concept_id",
+                        concept.getId());
         return q.getResultList();
     }
 
+    
+    //TODO: Convert it to Named query asap.
     /**
      * Creates q query to search for a RelationChain using relations.
      *
@@ -43,11 +43,11 @@ public class RelationChainDaoImpl extends JpaDao<Long, RelationChain>
      */
     @Override
     public Query getEntityQuery(RelationChain relationChain) {
-        StringBuilder sb = new StringBuilder("SELECT e FROM RelationChain e");
+        StringBuilder sb = new StringBuilder("SELECT rc FROM RelationChain rc");
         for (int i = 0; i < relationChain.getRelations().size(); i++) {
-            sb.append(", IN (e.relations) as rel").append(i);
+            sb.append(", IN (rc.relations) as rel").append(i);
         }
-        sb.append(" where UPPER(e.name) = ?1");
+        sb.append(" where UPPER(rc.name) = ?1");
         for (int i = 0; i < relationChain.getRelations().size(); i++) {
             sb.append("and rel").append(i).append("=?").append(i + 2);
         }
