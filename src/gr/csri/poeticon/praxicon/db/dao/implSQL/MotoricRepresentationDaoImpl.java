@@ -25,12 +25,10 @@ public class MotoricRepresentationDaoImpl
      */
     @Override
     public Query getEntityQuery(MotoricRepresentation mr) {
-        Query q = getEntityManager().createQuery(
-                "SELECT e FROM MotoricRepresentation e " +
-                "where UPPER(e.Comment) = ?1"
-        );
-        q.setParameter(1, mr.getComment().toUpperCase());
-        return q;
+        Query query = getEntityManager().createNamedQuery(
+                "getLanguageRepresentationEntityQuery").setParameter("comment",
+                        mr.getComment().toUpperCase());
+        return query;
     }
 
 // TODO: Delete the two methods below after I make sure they are not used in other projects.
