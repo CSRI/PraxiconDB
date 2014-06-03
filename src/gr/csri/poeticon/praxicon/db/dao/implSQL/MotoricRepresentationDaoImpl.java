@@ -5,16 +5,14 @@
 package gr.csri.poeticon.praxicon.db.dao.implSQL;
 
 import gr.csri.poeticon.praxicon.db.dao.MotoricRepresentationDao;
-import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.MotoricRepresentation;
-import java.util.List;
 import javax.persistence.Query;
 
 /**
  *
  * @author Erevodifwntas
  */
-public class MotoricRepresentationDaoImpl 
+public class MotoricRepresentationDaoImpl
         extends JpaDao<Long, MotoricRepresentation>
         implements MotoricRepresentationDao {
 
@@ -26,30 +24,31 @@ public class MotoricRepresentationDaoImpl
      * @return a query to search for the MotoricRepresentation
      */
     @Override
-    public Query getEntityQuery(MotoricRepresentation entity) {
+    public Query getEntityQuery(MotoricRepresentation mr) {
         Query q = getEntityManager().createQuery(
                 "SELECT e FROM MotoricRepresentation e " +
                 "where UPPER(e.Comment) = ?1"
         );
-        q.setParameter(1, entity.getComment().toUpperCase());
+        q.setParameter(1, mr.getComment().toUpperCase());
         return q;
     }
 
-    /**
-     * Gets the Motoric Representations of a given concept
-     *
-     * @param c the concept
-     * @return a list of MotoricRepresentations
-     */
-    @Override
-    public List<MotoricRepresentation> getEntries(Concept c) {
-        Query q = getEntityManager().createQuery(
-                "SELECT entry FROM " +
-                "Concept c, IN(c.MotoricRepresentations) as MR, " +
-                "IN(MR.entries) entry " +
-                "where c=?1"
-        );
-        q.setParameter(1, c);
-        return q.getResultList();
-    }
+// TODO: Delete the two methods below after I make sure they are not used in other projects.
+//    /**
+//     * Gets the Motoric Representations of a given concept
+//     *
+//     * @param c the concept
+//     * @return a list of MotoricRepresentations
+//     */
+//    @Override
+//    public List<MotoricRepresentation> getEntries(Concept c) {
+//        Query q = getEntityManager().createQuery(
+//                "SELECT entry FROM " +
+//                "Concept c, IN(c.MotoricRepresentations) as MR, " +
+//                "IN(MR.entries) entry " +
+//                "where c=?1"
+//        );
+//        q.setParameter(1, c);
+//        return q.getResultList();
+//    }
 }
