@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  *
- * @author Erevodifwntas
+ * @author dmavroeidis
  */
 public interface LanguageRepresentationDao extends
         Dao<Long, LanguageRepresentation> {
@@ -21,7 +21,6 @@ public interface LanguageRepresentationDao extends
 
     LanguageRepresentation findLanguageRepresentationsCaseInsensitive(
             String language, String text, String pos);
-
     
 // TODO: Delete the two methods below after I make sure they are not used 
 //       in other projects.
