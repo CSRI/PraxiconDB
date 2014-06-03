@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -33,7 +34,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "motoric_representation",
         namespace = "http://www.csri.gr/motoric_representation")
 @Entity
-@Table(name = "MotoricRepresentations")
+@Table(name = "MotoricRepresentations", indexes = {
+    @Index(columnList = "MotoricRepresentationId")})
 public class MotoricRepresentation implements Serializable {
 
     public static enum performing_agent {
@@ -50,6 +52,7 @@ public class MotoricRepresentation implements Serializable {
     @Id
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
+    @Column(name = "MotoricRepresentationId")
     private Long Id;
 
     @Column(name = "PerformingAgent")

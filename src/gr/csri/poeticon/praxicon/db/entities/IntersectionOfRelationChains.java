@@ -18,6 +18,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -41,7 +42,9 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "intersection_of_relation_chains",
         namespace = "http://www.csri.gr/intersection_of_relation_chains")
 @Entity
-@Table(name = "IntersectionsOfRelationChains")
+@Table(name = "IntersectionsOfRelationChains", indexes = {
+    @Index(columnList = "Name"),
+    @Index(columnList = "IntersectionOfRelationChainsId")})
 public class IntersectionOfRelationChains implements Serializable {
 
     public static enum inherent {
@@ -217,22 +220,16 @@ public class IntersectionOfRelationChains implements Serializable {
                 "IntersectionOfRelationChains[id=" + Id + "]";
     }
 
-    public void afterUnmarshal(Unmarshaller u, Object parent)
-    {
-        if (Globals.ToMergeAfterUnMarshalling)
-        {
+    public void afterUnmarshal(Unmarshaller u, Object parent) {
+        if (Globals.ToMergeAfterUnMarshalling) {
             RelationChainDao rcDao = new RelationChainDaoImpl();
-            for (int i = 0; i<this.getRelationChains().size(); i++)
-            {
-                RelationChain rc =  rcDao.getEntity(this.getRelationChains().
-                                    get(i));
-                this.getRelationChains().set(i,rc);
+            for (int i = 0; i < this.getRelationChains().size(); i++) {
+                RelationChain rc = rcDao.getEntity(this.getRelationChains().
+                        get(i));
+                this.getRelationChains().set(i, rc);
             }
-        }
-        else
-        {
-            for (int i = 0; i<this.getRelationChains().size(); i++)
-            {
+        } else {
+            for (int i = 0; i < this.getRelationChains().size(); i++) {
                 this.getRelationChains().get(i).getIntersections().add(this);
             }
         }

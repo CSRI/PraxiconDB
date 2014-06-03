@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -37,7 +38,10 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "visual_representation",
         namespace = "http://www.csri.gr/visual_representation")
 @Entity
-@Table(name = "VisualRepresentations")
+@Table(name = "VisualRepresentations", indexes = {
+    @Index(columnList = "Name"),
+    @Index(columnList = "Uri"),
+    @Index(columnList = "VisualRepresentationId")})
 public class VisualRepresentation implements Serializable {
 
     public static enum media_type {
@@ -60,13 +64,13 @@ public class VisualRepresentation implements Serializable {
     @NotNull(message = "Media type must be specified.")
     private media_type MediaType;
 
-    @Column(name = "Representation")
+    @Column(name = "Name")
     private String Name;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Concept Concept;
 
-    @Column(name = "URI")
+    @Column(name = "Uri")
     @NotNull(message = "URI must be specified.")
     private URI Uri;
 
@@ -135,7 +139,6 @@ public class VisualRepresentation implements Serializable {
         }
     }
 
-
     public String getRepresentation() {
         return Name;
     }
@@ -198,7 +201,7 @@ public class VisualRepresentation implements Serializable {
 
     @Override
     public String toString() {
-        return "[Id=" + Id + "] " + this.MediaType + ": " + this.Name ;
+        return "[Id=" + Id + "] " + this.MediaType + ": " + this.Name;
     }
 
     public void afterUnmarshal(Unmarshaller u, Object parent) {

@@ -4,7 +4,6 @@
  */
 package gr.csri.poeticon.praxicon.db.dao;
 
-import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import java.util.List;
 
@@ -15,15 +14,19 @@ import java.util.List;
 public interface LanguageRepresentationDao extends
         Dao<Long, LanguageRepresentation> {
 
-    List<LanguageRepresentation> find(String searchString);
+    List<LanguageRepresentation> findLanguageRepresentations(String text);
 
-    LanguageRepresentation findByLanguageRepresentation(
+    LanguageRepresentation findLanguageRepresentations(
             String language, String text, String pos);
 
-    LanguageRepresentation findLanguageRepresentation(
+    LanguageRepresentation findLanguageRepresentationsCaseInsensitive(
             String language, String text, String pos);
 
-    List<LanguageRepresentation> getEntriesSorted(Concept c);
-
-    List<LanguageRepresentation> getEntries(Concept c);
+// TODO: Delete the two methods below after I make sure they are not used 
+//       in other projects.
+//    List<LanguageRepresentation> getLanguageRepresentationsOfConceptSortedByLanguage(
+//            Concept concept);
+//
+//    List<LanguageRepresentation> getLanguageRepresentationsOfConcept(
+//            Concept concept);
 }

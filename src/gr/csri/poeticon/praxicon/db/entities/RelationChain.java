@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -35,7 +36,9 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "relation_chain",
         namespace = "http://www.csri.gr/relation_chain")
 @Entity
-@Table(name = "RelationChains")
+@Table(name = "RelationChains", indexes = {
+    @Index(columnList = "Name"),
+    @Index(columnList = "RelationChainId")})
 public class RelationChain implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -82,6 +85,7 @@ public class RelationChain implements Serializable {
     public String getName() {
         return Name;
     }
+
     public void setName(String name) {
         this.Name = name;
     }

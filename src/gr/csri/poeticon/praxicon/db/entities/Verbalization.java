@@ -13,6 +13,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -25,7 +26,8 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlType(name = "verbalization", namespace = "http://www.csri.gr/verbalization")
 @Entity
-@Table(name = "Verbalizations")
+@Table(name = "Verbalizations", indexes = {
+    @Index(columnList = "VerbalizationId")})
 public class Verbalization implements Serializable {
 
     public static enum allowed {

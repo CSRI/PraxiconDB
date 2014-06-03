@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -26,7 +27,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "constituent", namespace = "http://www.csri.gr/constituent")
 @Entity
-@Table(name = "Constituents")
+@Table(name = "Constituents", indexes = {
+    @Index(columnList = "ConstituentId")})
 public class Constituents implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -79,6 +81,7 @@ public class Constituents implements Serializable {
 
     @Override
     public String toString() {
-        return "gr.csri.poeticon.praxicon.db.entities.Constituents[id=" + Id + "]";
+        return "gr.csri.poeticon.praxicon.db.entities.Constituents[id=" + Id +
+                "]";
     }
 }

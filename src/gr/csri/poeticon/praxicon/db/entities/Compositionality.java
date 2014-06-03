@@ -14,6 +14,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -27,7 +28,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "compositionality",
         namespace = "http://www.csri.gr/compositionality")
 @Entity
-@Table(name = "Compositionality")
+@Table(name = "Compositionality", indexes = {@Index(columnList="CompositionalityId")})
 public class Compositionality implements Serializable {
 
     public static enum CompositionalityType {
@@ -51,7 +52,7 @@ public class Compositionality implements Serializable {
     @Enumerated(EnumType.STRING)
     private CompositionalityType CompositionalityType;
 
-    // Foreign keys
+    // Foreign key
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "Compositionality")
     private List<LanguageRepresentation> LanguageRepresentation;
 

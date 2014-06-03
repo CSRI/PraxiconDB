@@ -17,6 +17,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -48,9 +49,10 @@ import javax.xml.bind.annotation.XmlType;
             "SELECT r FROM Relations r, RelationTypes " +
             "WHERE ((r.Subject_conceptId = :subject_concept_id " +
             "OR r.Object_ConceptId = :object_concept_id) " +
-            "AND r.Type_Id = :relation_type_id)"),
-})
-@Table(name = "Relations")
+            "AND r.Type_Id = :relation_type_id)"),})
+@Table(name = "Relations", indexes = {
+    @Index(columnList = "Comment"),
+    @Index(columnList = "RelationId")})
 public class Relation implements Serializable {
 
     public static enum derivation_supported {
