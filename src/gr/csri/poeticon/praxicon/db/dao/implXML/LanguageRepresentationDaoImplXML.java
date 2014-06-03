@@ -9,10 +9,7 @@ import gr.csri.poeticon.praxicon.db.dao.LanguageRepresentationDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.JpaDao;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
-import gr.csri.poeticon.praxicon.db.entities.comparators.LexicalEntryComparator;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.List;
 import javax.persistence.Query;
@@ -26,7 +23,8 @@ public class LanguageRepresentationDaoImplXML extends
         implements LanguageRepresentationDao {
 
     @Override
-    public LanguageRepresentation findLanguageRepresentation(String language,
+    public LanguageRepresentation findLanguageRepresentationsCaseInsensitive(
+            String language,
             String text, String pos) {
 
         Enumeration en = Constants.globalConcepts.elements();
@@ -34,9 +32,9 @@ public class LanguageRepresentationDaoImplXML extends
             Concept con = (Concept)en.nextElement();
             for (LanguageRepresentation entry : con.getLanguageRepresentations()) {
                 if (entry.getLanguage().name().equalsIgnoreCase(language) &&
-                         entry.getText().equalsIgnoreCase(text) &&
-                         entry.getPartOfSpeech() ==
-                         LanguageRepresentation.part_of_speech.valueOf(pos)) {
+                        entry.getText().equalsIgnoreCase(text) &&
+                        entry.getPartOfSpeech() ==
+                        LanguageRepresentation.part_of_speech.valueOf(pos)) {
                     return entry;
                 }
             }
@@ -45,7 +43,8 @@ public class LanguageRepresentationDaoImplXML extends
     }
 
     @Override
-    public List<LanguageRepresentation> find(String searchString) {
+    public List<LanguageRepresentation> findLanguageRepresentations(
+            String searchString) {
         List<LanguageRepresentation> res = new ArrayList<>();
         Enumeration en = Constants.globalConcepts.elements();
         while (en.hasMoreElements()) {
@@ -65,28 +64,29 @@ public class LanguageRepresentationDaoImplXML extends
         return null;
     }
 
+// TODO: Delete the two methods below after I make sure they are not used 
+//       in other projects.
+//    @Override
+//    public List<LanguageRepresentation> getEntriesSorted(Concept c) {
+//        List<LanguageRepresentation> res = new ArrayList<>();
+//        for (LanguageRepresentation lr : c.getLanguageRepresentations()) {
+//            res.add(lr);
+//        }
+//        Comparator<LanguageRepresentation> leCom = new LexicalEntryComparator();
+//        Collections.sort(res, leCom);
+//        return res;
+//    }
+//
+//    @Override
+//    public List<LanguageRepresentation> getEntries(Concept c) {
+//        List<LanguageRepresentation> res = new ArrayList<>();
+//        for (LanguageRepresentation lr : c.getLanguageRepresentations()) {
+//            res.add(lr);
+//        }
+//        return res;
+//    }
     @Override
-    public List<LanguageRepresentation> getEntriesSorted(Concept c) {
-        List<LanguageRepresentation> res = new ArrayList<>();
-        for (LanguageRepresentation lr : c.getLanguageRepresentations()) {
-            res.add(lr);
-        }
-        Comparator<LanguageRepresentation> leCom = new LexicalEntryComparator();
-        Collections.sort(res, leCom);
-        return res;
-    }
-
-    @Override
-    public List<LanguageRepresentation> getEntries(Concept c) {
-        List<LanguageRepresentation> res = new ArrayList<>();
-        for (LanguageRepresentation lr : c.getLanguageRepresentations()) {
-            res.add(lr);
-        }
-        return res;
-    }
-
-    @Override
-    public LanguageRepresentation findByLanguageRepresentation(String language,
+    public LanguageRepresentation findLanguageRepresentations(String language,
             String text, String pos) {
         throw new UnsupportedOperationException("Not supported yet.");
     }

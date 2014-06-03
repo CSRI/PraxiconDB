@@ -45,14 +45,30 @@ import javax.xml.bind.annotation.XmlType;
         "http://www.csri.gr/language_representation")
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "findAllLanguageRepresentations", query = "FROM LanguageRepresentation lr"),
+    @NamedQuery(name = "findAllLanguageRepresentations", query =
+            "FROM LanguageRepresentation lr"),
     @NamedQuery(name = "findLanguageRepresentationsByTextLanguagePos", query =
             "FROM LanguageRepresentation lr " +
-                "WHERE UPPER(lr.Text) = :text " +
-                "AND lr.Language = :language " +
-                "AND lr.PartOfSpeech = :pos"),
+            "WHERE UPPER(lr.Text) = :text " +
+            "AND lr.Language = :language " +
+            "AND lr.PartOfSpeech = :pos"),
+    @NamedQuery(name =
+            "findLanguageRepresentationsByTextLanguagePosCaseInsensitive",
+            query =
+            "FROM LanguageRepresentation lr " +
+            "WHERE lr.Text = :text " +
+            "AND lr.Language = :language " +
+            "AND lr.PartOfSpeech = :pos"),
+    @NamedQuery(name = "getLanguageRepresentationEntityQuery", query =
+            "FROM LanguageRepresentation lr " +
+            "WHERE UPPER(lr.Text) = :text " +
+            "AND UPPER(lr.Language) = :language " +
+            "AND UPPER(lr.PartOfSpeech) = :pos"),
+    @NamedQuery(name = "findLanguageRepresentationsByText", query =
+            "FROM LanguageRepresentation lr " +
+            "WHERE UPPER(lr.Text) = :text"),
 })
-@Table(name = "LanguageRepresentations")
+@Table(name = "LanguageRepresentations") //, indexes = {@Index(columnList="Text"), @Index(columnList="LanguageRepresentationId")})
 public class LanguageRepresentation implements Serializable {
 
     private static final long serialVersionUID = 1L;
