@@ -36,15 +36,13 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  *
- * @author Erevodifwntas
- * @author Dimitris Mavroeidis
+ * @author dmavroeidis
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "relation", namespace = "http://www.csri.gr/relation")
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "findAllConcepts", query = "FROM Concept c"),
     @NamedQuery(name = "findRelationsByRelationType", query =
             "SELECT r FROM Relations r, RelationTypes " +
             "WHERE ((r.Subject_conceptId = :subject_concept_id " +

@@ -41,8 +41,7 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  *
- * @author Erevodifwntas
- * @author Dimitris Mavroeidis
+ * @author dmavroeidis
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "concept", namespace = "http://www.csri.gr/concept")

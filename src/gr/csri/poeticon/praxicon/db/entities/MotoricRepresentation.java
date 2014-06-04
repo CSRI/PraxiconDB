@@ -28,8 +28,7 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  *
- * @author Erevodifwntas
- * @author Erevodifwntas
+ * @author dmavroeidis
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
