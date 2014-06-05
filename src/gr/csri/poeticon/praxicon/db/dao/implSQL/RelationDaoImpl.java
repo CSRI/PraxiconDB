@@ -16,7 +16,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author Erevodifwntas
+ * @author dmavroeidis
  * @author Dimitris Mavroeidis
  *
  */

@@ -12,7 +12,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author Erevodifwntas
+ * @author dmavroeidis
  * @author dmavroeidis
  */
 public class VisualRepresentationDaoImpl extends

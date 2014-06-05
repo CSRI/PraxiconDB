@@ -8,7 +8,7 @@ import gr.csri.poeticon.praxicon.db.entities.RelationType;
 
 /**
  *
- * @author Erevodifwntas
+ * @author dmavroeidis
  */
 public interface RelationTypeDao extends Dao<Long, RelationType> {
 

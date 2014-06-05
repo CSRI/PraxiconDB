@@ -5,7 +5,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author Erevodifwntas
+ * @author dmavroeidis
  *
  * This class administrates everything that have to do with the Entity Manager
  */

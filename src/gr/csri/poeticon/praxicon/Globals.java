@@ -7,7 +7,7 @@ package gr.csri.poeticon.praxicon;
 
 /**
  *
- * @author admin
+ * @author dmavroeidis
  *
  * All the globals of the project
  */

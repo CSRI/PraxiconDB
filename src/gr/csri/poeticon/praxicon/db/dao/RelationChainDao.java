@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  *
- * @author Erevodifwntas
+ * @author dmavroeidis
  */
 public interface RelationChainDao extends Dao<Long, RelationChain> {
 

@@ -4,14 +4,13 @@
  */
 package gr.csri.poeticon.praxicon.db.dao;
 
-import javax.persistence.EntityManager;
 import java.util.List;
+import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 /**
  *
- * @author Erevodifwntas
- * @author dmavroeidis
+  * @author dmavroeidis
  * @param <K>
  * @param <E>
  */

@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Erevodifwntas
+ * @author dmavroeidis
  */
 @XmlRootElement(name = "collection", namespace =
         "http://www.csri.gr/collection_of_concepts")

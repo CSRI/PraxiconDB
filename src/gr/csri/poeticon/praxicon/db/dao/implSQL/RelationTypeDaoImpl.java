@@ -10,7 +10,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author Erevodifwntas
+ * @author dmavroeidis
  */
 public class RelationTypeDaoImpl extends JpaDao<Long, RelationType> implements
         RelationTypeDao {

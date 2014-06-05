@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  *
- * @author Erevodifwntas
+ * @author dmavroeidis
  */
 public interface RelationDao extends Dao<Long, Relation> {
 

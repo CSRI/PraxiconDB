@@ -12,7 +12,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author Erevodifwntas
+ * @author dmavroeidis
  */
 public class RelationChainDaoImpl extends JpaDao<Long, RelationChain>
         implements RelationChainDao {

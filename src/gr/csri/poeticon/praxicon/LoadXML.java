@@ -10,7 +10,7 @@ import javax.xml.bind.Unmarshaller;
 
 /**
  *
- * @author Erevodifwntas
+ * @author dmavroeidis
  *
  * This is used to load data from an xml. The path to the xml is given as an
  * argument "-f <pathToXML>"

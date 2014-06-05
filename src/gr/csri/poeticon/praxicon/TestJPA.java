@@ -25,13 +25,12 @@ import org.junit.BeforeClass;
 
 /**
  *
- * @author Erevodifwntas
- * @author Dimitris Mavroeidis
+ * @author dmavroeidis
  *
  * An XML of how we can create new concepts in the db, without using XMLs. Some
  * parts are obsolete
  */
-public class testJPA {
+public class TestJPA {
 
     private static Validator validator;
 

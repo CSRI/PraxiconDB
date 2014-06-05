@@ -17,7 +17,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author Erevodifwntas
+ * @author dmavroeidis
  */
 public class VisualRepresentationDaoImplXML 
         extends JpaDao<Long, VisualRepresentation>

@@ -8,7 +8,7 @@ import gr.csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains;
 
 /**
  *
- * @author Dimitris Mavroeidis
+ * @author dmavroeidis
  */
 public interface IntersectionOfRelationChainsDao extends
         Dao<Long, IntersectionOfRelationChains> {

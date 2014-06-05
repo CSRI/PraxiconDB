@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  *
- * @author Erevodifwntas
+ * @author dmavroeidis
  */
 public interface VisualRepresentationDao extends Dao<Long, VisualRepresentation> {
 

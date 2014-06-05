@@ -18,9 +18,9 @@ import javax.xml.bind.Marshaller;
  * A class that helps you to serialize any entity of the
  * gr.csri.poeticon.praxicon.db.entities as an XML
  *
- * @author Erevodifwntas
+ * @author dmavroeidis
  */
-public class XML_Utils {
+public class XmlUtils {
 
     /**
      * Saves all the entities as an XML file. The file should not exist, or
@@ -43,7 +43,7 @@ public class XML_Utils {
                 marshaller.marshal(object, new FileWriter(XML_FileName, true));
             }
         } catch (IOException | JAXBException ex) {
-            Logger.getLogger(XML_Utils.class.getName()).
+            Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
         }
     }
@@ -71,7 +71,7 @@ public class XML_Utils {
                 marshaller.marshal(collection, fWriter);
             }
         } catch (IOException | JAXBException ex) {
-            Logger.getLogger(XML_Utils.class.getName()).
+            Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
         }
     }

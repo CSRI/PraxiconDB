@@ -9,7 +9,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author Erevodifwntas
+ * @author dmavroeidis
  */
 public interface MotoricRepresentationDao extends
         Dao<Long, MotoricRepresentation> {

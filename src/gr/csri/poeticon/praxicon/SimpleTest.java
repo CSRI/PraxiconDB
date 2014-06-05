@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  *
- * @author Dimitris Mavroeidis
+ * @author dmavroeidis
  *
  */
 public class SimpleTest {

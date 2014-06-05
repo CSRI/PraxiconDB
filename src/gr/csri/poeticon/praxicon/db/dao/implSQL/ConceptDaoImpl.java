@@ -20,7 +20,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author Dimitris Mavroeidis
+ * @author dmavroeidis
  */
 public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         ConceptDao {
