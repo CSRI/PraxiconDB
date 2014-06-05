@@ -78,6 +78,7 @@ public class RelationType implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
+    @Column(name = "RelationTypeId")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     private Long Id;
 

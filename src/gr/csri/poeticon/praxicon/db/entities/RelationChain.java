@@ -40,9 +40,10 @@ import javax.xml.bind.annotation.XmlType;
 @NamedQueries({
     @NamedQuery(name = "getRelationChainsByConcept", query = 
         "SELECT rc FROM RelationChain rc " +
-        "IN(rc.Relation) AS rc_rel " +
+        "JOIN rc.Relations rc_rel " +
         "WHERE rc_rel.Relation.Object = :concept_id " +
-        "OR rc_rel.Relation.Subject = :concept_id"),
+        "OR rc_rel.Relation.Subject = :concept_id"
+    ),
 })
 @Table(name = "RelationChains", indexes = {
     @Index(columnList = "Name"),

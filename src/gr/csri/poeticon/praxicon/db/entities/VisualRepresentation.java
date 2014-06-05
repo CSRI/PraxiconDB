@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlType;
 @Entity
 @Table(name = "VisualRepresentations", indexes = {
     @Index(columnList = "Name"),
-    @Index(columnList = "Uri"),
+    //@Index(columnList = "Uri"),
     @Index(columnList = "VisualRepresentationId")})
 public class VisualRepresentation implements Serializable {
 
@@ -56,6 +56,7 @@ public class VisualRepresentation implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
+    @Column(name = "VisualRepresentationId")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     private Long Id;
 

@@ -44,10 +44,10 @@ import javax.xml.bind.annotation.XmlType;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "findRelationsByRelationType", query =
-            "SELECT r FROM Relations r, RelationTypes " +
-            "WHERE ((r.Subject_conceptId = :subject_concept_id " +
-            "OR r.Object_ConceptId = :object_concept_id) " +
-            "AND r.Type_Id = :relation_type_id)"),})
+            "SELECT r FROM Relation r, RelationType " +
+            "WHERE ((r.Subject = :subject_concept_id " +
+            "OR r.Object = :object_concept_id) " +
+            "AND r.Id = :relation_type_id)"),})
 @Table(name = "Relations", indexes = {
     @Index(columnList = "Comment"),
     @Index(columnList = "RelationId")})
