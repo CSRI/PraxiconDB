@@ -43,11 +43,31 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "relation", namespace = "http://www.csri.gr/relation")
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "findRelationsByRelationType", query =
+    @NamedQuery(name = "findRelationsByRelationTypeConcept", query =
             "SELECT r FROM Relation r, RelationType " +
             "WHERE ((r.Subject = :subject_concept_id " +
             "OR r.Object = :object_concept_id) " +
-            "AND r.Id = :relation_type_id)"),})
+            "AND r.Id = :relation_type_id)"),
+    @NamedQuery(name = "findRelationsByConceptObjectOrSubject", query =
+            "SELECT r FROM Relation r" +
+            "WHERE r.Object = :concept_id OR r.Subject = :concept_id"),
+    @NamedQuery(name = "findRelationsByConceptRelationType", query =
+            "SELECT r FROM Relation r, RelationType rt " +
+            "WHERE (r.Subject = :concept_id OR r.Object = :concept_id) " +
+            "AND r.Type = rt " +
+            "AND rt.ForwardName = :relation_type)"),
+    @NamedQuery(name = "findRelationsByConceptObject", query =
+            "SELECT r FROM Relation r" +
+            "WHERE r.Object = :concept_id"),
+    @NamedQuery(name = "findRelationsByConceptSubject", query =
+            "SELECT r FROM Relation r" +
+            "WHERE r.Subject = :concept_id"),
+    @NamedQuery(name = "areRelated", query =
+            "SELECT r FROM Relation r" +
+            "WHERE (r.Subject = :concept_id_subject" +
+            "AND r.Object = :concept_id_object)" +
+            "OR (r.Subject = :concept_id_object" +
+            "AND r.Object = :concept_id_subject"),})
 @Table(name = "Relations", indexes = {
     @Index(columnList = "Comment"),
     @Index(columnList = "RelationId")})
