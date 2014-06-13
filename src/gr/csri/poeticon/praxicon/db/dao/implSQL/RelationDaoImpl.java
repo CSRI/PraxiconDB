@@ -97,7 +97,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         getEntityManager().clear();
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByConceptObjectOrSubject").
-                setParameter("concept_id", concept.getId());
+                setParameter("concept_name", concept.getName());
         List<Relation> res = query.getResultList();
         return res;
     }
