@@ -47,8 +47,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
     }
 
     /**
-     * Finds relations that have a given concept as object and creates Union of
-     * Intersections that contain only one relation each
+     * Finds relations that have a given concept as object and creates 
+     * Intersections of RelationChains that contain only one relation each
      *
      * @param c the concept to be searched
      * @return a list of IntersectionOfRelationChains
@@ -93,7 +93,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      * @return a list of Relation
      */
     @Override
-    public List<Relation> allRelationsOf(Concept concept) {
+    public List<Relation> getAllRelationsOfConcept(Concept concept) {
         getEntityManager().clear();
 
         Query q = getEntityManager().createQuery("SELECT r FROM Relation r " +

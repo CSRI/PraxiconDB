@@ -362,7 +362,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         List<Concept> res = new ArrayList<>();
 
         RelationDao rDao = new RelationDaoImpl();
-        List<Relation> relations = rDao.allRelationsOf(concept);
+        List<Relation> relations = rDao.getAllRelationsOfConcept(concept);
         for (Relation relation : relations) {
             if (relation.getType().getForwardName() ==
                     RelationType.relation_name_forward.TYPE_TOKEN &&
@@ -386,7 +386,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         List<Concept> res = new ArrayList<>();
 
         RelationDao rDao = new RelationDaoImpl();
-        List<Relation> relations = rDao.allRelationsOf(concept);
+        List<Relation> relations = rDao.getAllRelationsOfConcept(concept);
         for (Relation relation : relations) {
             if (relation.getType().getForwardName() ==
                     RelationType.relation_name_forward.TYPE_TOKEN &&
@@ -460,7 +460,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     public List<Concept> getClassesOfInstance(Concept concept) {
         List<Concept> res = new ArrayList<>();
         RelationDao rDao = new RelationDaoImpl();
-        List<Relation> relations = rDao.allRelationsOf(concept);
+        List<Relation> relations = rDao.getAllRelationsOfConcept(concept);
         for (Relation relation : relations) {
             if (relation.getType().getForwardName() ==
                     RelationType.relation_name_forward.HAS_INSTANCE &&
@@ -482,7 +482,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     public List<Concept> getInstancesOf(Concept concept) {
         List<Concept> res = new ArrayList<>();
         RelationDao rDao = new RelationDaoImpl();
-        List<Relation> relations = rDao.allRelationsOf(concept);
+        List<Relation> relations = rDao.getAllRelationsOfConcept(concept);
         for (Relation relation : relations) {
             if (relation.getType().getForwardName() ==
                     RelationType.relation_name_forward.HAS_INSTANCE &&

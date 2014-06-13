@@ -20,7 +20,7 @@ public interface RelationDao extends Dao<Long, Relation> {
 
     List<IntersectionOfRelationChains> getObjRelations(Concept concept);
 
-    List<Relation> allRelationsOf(Concept concept);
+    List<Relation> getAllRelationsOfConcept(Concept concept);
 
     boolean areRelated(Concept concept1, Concept concept2);
 
