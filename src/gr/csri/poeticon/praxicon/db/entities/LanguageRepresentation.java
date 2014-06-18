@@ -52,24 +52,24 @@ import javax.xml.bind.annotation.XmlType;
             "FROM LanguageRepresentation lr"),
     @NamedQuery(name = "findLanguageRepresentationsByTextLanguagePos", query =
             "FROM LanguageRepresentation lr " +
-            "WHERE UPPER(lr.Text) = :text " +
-            "AND lr.Language = :language " +
-            "AND lr.PartOfSpeech = :pos"),
+            "WHERE UPPER(lr.text) = :text " +
+            "AND lr.language = :language " +
+            "AND lr.partOfSpeech = :pos"),
     @NamedQuery(name =
             "findLanguageRepresentationsByTextLanguagePosCaseInsensitive",
             query =
             "FROM LanguageRepresentation lr " +
-            "WHERE lr.Text = :text " +
-            "AND lr.Language = :language " +
-            "AND lr.PartOfSpeech = :pos"),
+            "WHERE lr.text = :text " +
+            "AND lr.language = :language " +
+            "AND lr.partOfSpeech = :pos"),
     @NamedQuery(name = "getLanguageRepresentationEntityQuery", query =
             "FROM LanguageRepresentation lr " +
-            "WHERE UPPER(lr.Text) = :text " +
-            "AND UPPER(lr.Language) = :language " +
-            "AND UPPER(lr.PartOfSpeech) = :pos"),
+            "WHERE UPPER(lr.text) = :text " +
+            "AND UPPER(lr.language) = :language " +
+            "AND UPPER(lr.partOfSpeech) = :pos"),
     @NamedQuery(name = "findLanguageRepresentationsByText", query =
             "FROM LanguageRepresentation lr " +
-            "WHERE UPPER(lr.Text) = :text"),})
+            "WHERE UPPER(lr.text) = :text"),})
 @Table(name = "LanguageRepresentations", indexes = {
     @Index(columnList = "Text"),
     @Index(columnList = "LanguageRepresentationId")})
@@ -148,7 +148,7 @@ public class LanguageRepresentation implements Serializable {
     private String comment;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy =
-            "Concepts_LanguageRepresentations")
+            "concept")
     private List<Concept_LanguageRepresentation> concepts;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -193,11 +193,11 @@ public class LanguageRepresentation implements Serializable {
 
     // Foreign key
     @OneToMany(cascade = CascadeType.ALL,
-            mappedBy = "ConstituentLanguageRepresentation")
+            mappedBy = "constituentLanguageRepresentation")
     private List<Constituents> languageRepresentationConstituents;
 
     // Foreign key
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "LanguageRepresentation")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "languageRepresentation")
     private List<Constituents> constituents;
 
     // Foreign key

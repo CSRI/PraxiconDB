@@ -28,7 +28,7 @@ public class RelationChainDaoImpl extends JpaDao<Long, RelationChain>
     public List<RelationChain> getRelationChainsContainingConcept(
             Concept concept) {
         Query q = getEntityManager().createNamedQuery(
-                "getRelationChainsByConcept").setParameter("concept_id",
+                "findRelationChainsByConcept").setParameter("concept_id",
                         concept.getId());
         return q.getResultList();
     }

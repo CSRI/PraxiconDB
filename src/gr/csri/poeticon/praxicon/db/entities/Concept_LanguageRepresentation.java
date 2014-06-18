@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package gr.csri.poeticon.praxicon.db.entities;
 
 import java.io.Serializable;
@@ -29,13 +28,16 @@ import javax.xml.bind.annotation.XmlType;
  * @author dmavroeidis
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "concept_languagerepresentation", namespace = "http://www.csri.gr/concept_languagerepresentation")
-@XmlRootElement(name = "concept_languagerepresentation", namespace = "http://www.csri.gr/concept_languagerepresentation")
+@XmlType(name = "concept_languagerepresentation", namespace =
+        "http://www.csri.gr/concept_languagerepresentation")
+@XmlRootElement(name = "concept_languagerepresentation", namespace =
+        "http://www.csri.gr/concept_languagerepresentation")
 @Entity
-@Table(name = "Concepts_LanguageRepresentations", indexes = {@Index(columnList="Concept_LanguageRepresentationId")})
+@Table(name = "Concepts_LanguageRepresentations", indexes = {
+    @Index(columnList = "Concept_LanguageRepresentationId")})
 //@ConceptConstraint(groups=ConceptGroup.class)
 
-public class Concept_LanguageRepresentation implements Serializable{
+public class Concept_LanguageRepresentation implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -45,19 +47,16 @@ public class Concept_LanguageRepresentation implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "Concept_LanguageRepresentationId")
     private Long id;
-    
-    @Column(name = "RepresentativeLanguageRepresentation")
 
-    
-    
+    //@Column(name = "RepresentativeLanguageRepresentation")
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "ConceptId")
     private Concept concept;
-    
+
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "LanguageRepresentationId")
     private LanguageRepresentation languageRepresentation;
-    
+
     /**
      * @return the language representation.
      */
@@ -65,7 +64,8 @@ public class Concept_LanguageRepresentation implements Serializable{
         return languageRepresentation;
     }
 
-    public void setLanguageRepresentation(LanguageRepresentation languageRepresentation) {
+    public void setLanguageRepresentation(
+            LanguageRepresentation languageRepresentation) {
         this.languageRepresentation = languageRepresentation;
     }
 

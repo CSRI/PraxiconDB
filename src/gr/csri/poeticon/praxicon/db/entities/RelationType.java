@@ -90,7 +90,7 @@ public class RelationType implements Serializable {
     @Enumerated(EnumType.STRING)
     private relation_name_backward backwardName;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Type")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "type")
     private List<Relation> relations;
 
     //@Transient

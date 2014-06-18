@@ -38,11 +38,11 @@ import javax.xml.bind.annotation.XmlType;
         namespace = "http://www.csri.gr/relation_chain")
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "getRelationChainsByConcept", query = 
+    @NamedQuery(name = "findRelationChainsByConcept", query = 
         "SELECT rc FROM RelationChain rc " +
-        "JOIN rc.Relations rc_rel " +
-        "WHERE rc_rel.Relation.Object = :concept_id " +
-        "OR rc_rel.Relation.Subject = :concept_id"
+        "JOIN rc.relations rc_rel " +
+        "WHERE rc_rel.relation.object = :concept_id " +
+        "OR rc_rel.relation.subject = :concept_id"
     ),
 })
 @Table(name = "RelationChains", indexes = {
@@ -71,7 +71,7 @@ public class RelationChain implements Serializable {
     )
     private List<IntersectionOfRelationChains> IntersectionsOfRelationChains;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "RelationChain")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationChain")
     private List<RelationChain_Relation> relations;
 
     @ManyToMany(cascade = CascadeType.ALL)

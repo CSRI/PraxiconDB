@@ -48,28 +48,30 @@ import javax.xml.bind.annotation.XmlType;
 @NamedQueries({
     @NamedQuery(name = "findAllConcepts", query = "FROM Concept c"),
     @NamedQuery(name = "findConceptsByConceptId", query =
-            "FROM Concept c WHERE c.Id = :concept_id"),
+            "FROM Concept c WHERE c.id = :concept_id"),
     @NamedQuery(name = "findConceptsByName", query =
-            "FROM Concept c WHERE c.Name LIKE :concept_name"),
+            "FROM Concept c WHERE c.name LIKE :concept_name"),
     @NamedQuery(name = "findConceptByNameExact", query =
-            "FROM Concept c WHERE c.Name = :concept_name"),
+            "FROM Concept c WHERE c.name = :concept_name"),
     @NamedQuery(name = "findConceptsByLanguageRepresentation", query =
             "SELECT c FROM Concept c " +
-            "JOIN c.LanguageRepresentations lr " +
-            "WHERE lr.Text LIKE :lr_name"),
+            "JOIN c.languageRepresentations clr " +
+            "JOIN clr.languageRepresentation lr " +
+            "WHERE lr.text LIKE :lr_name"),
     @NamedQuery(name = "findConceptsByLanguageRepresentationExact", query =
             "SELECT c FROM Concept c " +
-            "JOIN c.LanguageRepresentations lr " +
-            "WHERE lr.Text = :lr_name"),
+            "JOIN c.languageRepresentations clr " +
+            "JOIN clr.languageRepresentation lr " +
+            "WHERE lr.text = :lr_name"),
     @NamedQuery(name = "findConceptsByStatusExact", query =
             "SELECT c FROM Concept c " +
-            "WHERE c.Status = :status"),
+            "WHERE c.status = :status"),
     @NamedQuery(name = "getConceptEntityQuery", query =
             "SELECT c FROM Concept c " +
-            "WHERE c.Status = :status " +
-            "AND c.Name = :name " +
+            "WHERE c.status = :status " +
+            "AND c.name = :name " +
             "AND c.conceptType = :type " +
-            "AND c.PragmaticStatus = :pragmatic_status"),})
+            "AND c.pragmaticStatus = :pragmatic_status"),})
 @Table(name = "Concepts", indexes = {
     @Index(columnList = "Name"),
     @Index(columnList = "ConceptId")})
@@ -180,28 +182,28 @@ public class Concept implements Serializable {
     private String comment;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy =
-            "Concepts_LanguageRepresentations")
+            "concept")
     private List<Concept_LanguageRepresentation> languageRepresentations;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Concept")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
     private List<VisualRepresentation> visualRepresentations;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Concept")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
     private List<MotoricRepresentation> motoricRepresentations;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Concept")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
     private List<IntersectionOfRelationChains> intersectionsOfRelationChains;
 
     /*
      Relations that have "this" concept as Object.
      */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Object")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "object")
     private List<Relation> relationsContainingConceptAsObject;
 
     /*
      Relations that have "this" concept as Subject.
      */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Subject")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subject")
     private List<Relation> relationsContainingConceptAsSubject;
 
     // Public Constructor

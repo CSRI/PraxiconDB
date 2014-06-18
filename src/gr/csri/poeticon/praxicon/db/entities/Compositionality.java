@@ -53,7 +53,7 @@ public class Compositionality implements Serializable {
     private CompositionalityType compositionalityType;
 
     // Foreign key
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Compositionality")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "compositionality")
     private List<LanguageRepresentation> languageRepresentation;
 
     @XmlAttribute

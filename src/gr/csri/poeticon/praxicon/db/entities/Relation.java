@@ -45,29 +45,29 @@ import javax.xml.bind.annotation.XmlType;
 @NamedQueries({
     @NamedQuery(name = "findRelationsByRelationTypeConcept", query =
             "SELECT r FROM Relation r, RelationType " +
-            "WHERE ((r.Subject = :subject_concept_id " +
-            "OR r.Object = :object_concept_id) " +
-            "AND r.Id = :relation_type_id)"),
+            "WHERE ((r.subject = :subject_concept_id " +
+            "OR r.object = :object_concept_id) " +
+            "AND r.id = :relation_type_id)"),
     @NamedQuery(name = "findRelationsByConceptObjectOrSubject", query =
             "SELECT r FROM Relation r " +
-            "WHERE r.Object = :concept OR r.Subject = :concept"),
+            "WHERE r.object = :concept OR r.subject = :concept"),
     @NamedQuery(name = "findRelationsByConceptRelationType", query =
             "SELECT r FROM Relation r, RelationType rt " +
-            "WHERE (r.Subject = :concept_id OR r.Object = :concept_id) " +
-            "AND r.Type = rt " +
-            "AND rt.ForwardName = :relation_type)"),
+            "WHERE (r.subject = :concept_id OR r.object = :concept_id) " +
+            "AND r.type = rt " +
+            "AND rt.forwardName = :relation_type)"),
     @NamedQuery(name = "findRelationsByConceptObject", query =
             "SELECT r FROM Relation r " +
-            "WHERE r.Object = :concept_id"),
+            "WHERE r.object = :concept_id"),
     @NamedQuery(name = "findRelationsByConceptSubject", query =
             "SELECT r FROM Relation r " +
-            "WHERE r.Subject = :concept_id"),
+            "WHERE r.subject = :concept_id"),
     @NamedQuery(name = "areRelated", query =
             "SELECT r FROM Relation r " +
-            "WHERE (r.Subject = :concept_id_subject " +
-            "AND r.Object = :concept_id_object) " +
-            "OR (r.Subject = :concept_id_object " +
-            "AND r.Object = :concept_id_subject)"),})
+            "WHERE (r.subject = :concept_id_subject " +
+            "AND r.object = :concept_id_object) " +
+            "OR (r.subject = :concept_id_object " +
+            "AND r.object = :concept_id_subject)"),})
 @Table(name = "Relations", indexes = {
     @Index(columnList = "Comment"),
     @Index(columnList = "RelationId")})
@@ -93,7 +93,7 @@ public class Relation implements Serializable {
     @Column(name = "Comment")
     private String comment;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Relation")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "relation")
     private List<RelationChain_Relation> mainFunctions;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)

@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlType;
 @NamedQueries({
     @NamedQuery(name = "getMotoricRepresentationEntityQuery", query =
             "FROM MotoricRepresentation mr " +
-            "WHERE UPPER(mr.Comment) = :comment"),
+            "WHERE UPPER(mr.comment) = :comment"),
 })
 @Table(name = "MotoricRepresentations", indexes = {
     @Index(columnList = "MotoricRepresentationId")})
@@ -95,7 +95,7 @@ public class MotoricRepresentation implements Serializable {
     )
     private List<Relation> relationsWithMotoricRepresentationAsObject;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "MotoricRepresentation")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "motoricRepresentation")
     private List<VisualRepresentation> visualRepresentations;
 
     public MotoricRepresentation() {
