@@ -84,20 +84,20 @@ public class RelationType implements Serializable {
 
     @Column(name = "ForwardName")
     @Enumerated(EnumType.STRING)
-    relation_name_forward forwardName;
+    private relation_name_forward forwardName;
 
     @Column(name = "BackwardName")
     @Enumerated(EnumType.STRING)
-    relation_name_backward backwardName;
+    private relation_name_backward backwardName;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "Type")
-    List<Relation> relations;
+    private List<Relation> relations;
 
     //@Transient
-    String xmlRelationForward;
+    private String xmlRelationForward;
 
     //@Transient
-    String xmlRelationBackward;
+    private String xmlRelationBackward;
 
     @XmlTransient
     public String getXmlRelationForward() {
@@ -355,7 +355,7 @@ public class RelationType implements Serializable {
 
     @Override
     public String toString() {
-        return "gr.csri.poeticon.praxicon.db.entities.RelationType[Id=" + Id +
+        return "gr.csri.poeticon.praxicon.db.entities.RelationType[Id=" + id +
                 "]";
     }
 

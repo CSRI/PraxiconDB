@@ -42,14 +42,14 @@ public class RelationChain_Relation implements Serializable {
     // TODO: This could be a OneToMany and the corresponding a ManyToOne
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "RelationChainId")
-    RelationChain relationChain;
+    private RelationChain relationChain;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "RelationId")
-    Relation relation;
+    private Relation relation;
 
     @Column(name = "RelationOrder")
-    long relationOrder;
+    private long relationOrder;
 
     @XmlElement(name = "relation")
     public Relation getRelation() {
@@ -124,7 +124,7 @@ public class RelationChain_Relation implements Serializable {
     @Override
     public String toString() {
         return "gr.csri.poeticon.praxicon.db.entities.RelationChain_Relation[id=" +
-                Id + "]";
+                id + "]";
     }
 
 //    public void afterUnmarshal(Unmarshaller u, Object parent)

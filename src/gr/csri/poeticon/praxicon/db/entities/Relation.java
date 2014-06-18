@@ -113,7 +113,7 @@ public class Relation implements Serializable {
     @Column(name = "DerivationSupported")
     @NotNull(message = "Derivation support must be specified.")
     @Enumerated(EnumType.STRING)
-    protected derivation_supported derivationSupported;
+    private derivation_supported derivationSupported;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(

@@ -171,7 +171,7 @@ public class MotoricRepresentation implements Serializable {
     @Override
     public String toString() {
         return "gr.csri.poeticon.praxicon.db.entities.MotoricRepresentation[id=" +
-                Id + "]";
+                id + "]";
     }
 
     public void afterUnmarshal(Unmarshaller u, Object parent) {

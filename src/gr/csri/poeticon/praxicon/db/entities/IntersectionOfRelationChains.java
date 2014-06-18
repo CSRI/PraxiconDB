@@ -68,7 +68,7 @@ public class IntersectionOfRelationChains implements Serializable {
 
     @Column(name = "Inherent")
     @Enumerated(EnumType.STRING)
-    protected inherent inherent;
+    private inherent inherent;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
