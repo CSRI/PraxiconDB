@@ -37,7 +37,6 @@ import javax.xml.bind.annotation.XmlType;
 @Entity
 @Table(name = "Concepts_LanguageRepresentations", indexes = {
     @Index(columnList = "Concept_LanguageRepresentationId")})
-//@ConceptConstraint(groups=ConceptGroup.class)
 
 public class Concept_LanguageRepresentation implements Serializable {
 
