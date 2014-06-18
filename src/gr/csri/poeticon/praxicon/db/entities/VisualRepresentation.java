@@ -58,24 +58,24 @@ public class VisualRepresentation implements Serializable {
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @Column(name = "VisualRepresentationId")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
-    private Long Id;
+    private Long id;
 
     @Column(name = "MediaType")
     @NotNull(message = "Media type must be specified.")
-    private media_type MediaType;
+    private media_type mediaType;
 
     @Column(name = "Name")
-    private String Name;
+    private String name;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    private Concept Concept;
+    private Concept concept;
 
     @Column(name = "Uri")
     @NotNull(message = "URI must be specified.")
-    private URI Uri;
+    private URI uri;
 
     @Column(name = "Comment")
-    private String Comment;
+    private String comment;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -85,7 +85,7 @@ public class VisualRepresentation implements Serializable {
             inverseJoinColumns = {
                 @JoinColumn(name = "RelationId")}
     )
-    private List<Relation> RelationsWithVisualRepresentationAsSubject;
+    private List<Relation> relationsWithVisualRepresentationAsSubject;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -95,14 +95,14 @@ public class VisualRepresentation implements Serializable {
             inverseJoinColumns = {
                 @JoinColumn(name = "RelationId")}
     )
-    private List<Relation> RelationsWithVisualRepresentationAsObject;
+    private List<Relation> relationsWithVisualRepresentationAsObject;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    private MotoricRepresentation MotoricRepresentation;
+    private MotoricRepresentation motoricRepresentation;
 
     public VisualRepresentation(media_type media_type, String name) {
-        this.MediaType = media_type;
-        this.Name = name;
+        this.mediaType = media_type;
+        this.name = name;
     }
 
     public VisualRepresentation() {
@@ -114,11 +114,11 @@ public class VisualRepresentation implements Serializable {
      * defines the type of the media that represents visually the entity
      */
     public media_type getMediaType() {
-        return MediaType;
+        return mediaType;
     }
 
     public void setMediaType(media_type mediaType) {
-        this.MediaType = mediaType;
+        this.mediaType = mediaType;
     }
 
     /**
@@ -127,54 +127,54 @@ public class VisualRepresentation implements Serializable {
      * the URI of the media."
      */
     public URI getURI() {
-        return Uri;
+        return uri;
     }
 
     public void setURI(URI uri) {
-        this.Uri = uri;
+        this.uri = uri;
     }
 
     public void setURI(String uri) {
-        if (Uri.resolve(uri) != null) {
-            this.Uri = Uri.resolve(uri);
+        if (this.uri.resolve(uri) != null) {
+            this.uri = this.uri.resolve(uri);
         }
     }
 
     public String getRepresentation() {
-        return Name;
+        return name;
     }
 
     public String getRepresentationWithPath() {
-        if (Name.startsWith("http:")) {
-            return Name;
+        if (name.startsWith("http:")) {
+            return name;
         }
-        if (Name.startsWith("file:")) {
-            return Name;
+        if (name.startsWith("file:")) {
+            return name;
         }
-        if (this.MediaType.equals(media_type.IMAGE)) {
-            return Constants.imagePath + Name;
+        if (this.mediaType.equals(media_type.IMAGE)) {
+            return Constants.imagePath + name;
         } else {
-            return Constants.videoPath + Name;
+            return Constants.videoPath + name;
         }
     }
 
     public void setRepresentation(String name) {
-        this.Name = name;
+        this.name = name;
     }
 
     @XmlAttribute
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        this.Id = id;
+        this.id = id;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (Id != null ? Id.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -184,17 +184,17 @@ public class VisualRepresentation implements Serializable {
         if (!(object instanceof VisualRepresentation)) {
             return false;
         }
-        VisualRepresentation other = (VisualRepresentation) object;
-        if (this.MediaType != null && this.Name != null &&
-                this.MediaType.equals(other.MediaType) &&
-                this.Name.equalsIgnoreCase(other.Name)) {
+        VisualRepresentation other = (VisualRepresentation)object;
+        if (this.mediaType != null && this.name != null &&
+                this.mediaType.equals(other.mediaType) &&
+                this.name.equalsIgnoreCase(other.name)) {
             return true;
         }
-        if ((this.Id == null && other.Id != null) ||
-                (this.Id != null && !this.Id.equals(other.Id))) {
+        if ((this.id == null && other.id != null) ||
+                (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
-        if (this.Id == null && other.Id == null) {
+        if (this.id == null && other.id == null) {
             return false;
         }
         return true;
@@ -202,7 +202,7 @@ public class VisualRepresentation implements Serializable {
 
     @Override
     public String toString() {
-        return "[Id=" + Id + "] " + this.MediaType + ": " + this.Name;
+        return "[Id=" + id + "] " + this.mediaType + ": " + this.name;
     }
 
     public void afterUnmarshal(Unmarshaller u, Object parent) {

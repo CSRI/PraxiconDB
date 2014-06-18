@@ -59,21 +59,21 @@ public class MotoricRepresentation implements Serializable {
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "MotoricRepresentationId")
-    private Long Id;
+    private Long id;
 
     @Column(name = "PerformingAgent")
     @NotNull(message = "Performing agent must be specified.")
-    private performing_agent PerformingAgent;
+    private performing_agent performingAgent;
 
     @Column(name = "URI")
     @NotNull(message = "URI must be specified.")
-    private URI URI;
+    private URI uri;
 
     @Column(name = "Comment")
-    private String Comment;
+    private String comment;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    private Concept Concept;
+    private Concept concept;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -83,7 +83,7 @@ public class MotoricRepresentation implements Serializable {
             inverseJoinColumns = {
                 @JoinColumn(name = "RelationId")}
     )
-    private List<Relation> RelationsWithMotoricRepresentationAsSubject;
+    private List<Relation> relationsWithMotoricRepresentationAsSubject;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -93,10 +93,10 @@ public class MotoricRepresentation implements Serializable {
             inverseJoinColumns = {
                 @JoinColumn(name = "RelationId")}
     )
-    private List<Relation> RelationsWithMotoricRepresentationAsObject;
+    private List<Relation> relationsWithMotoricRepresentationAsObject;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "MotoricRepresentation")
-    private List<VisualRepresentation> VisualRepresentations;
+    private List<VisualRepresentation> visualRepresentations;
 
     public MotoricRepresentation() {
     }
@@ -124,26 +124,26 @@ public class MotoricRepresentation implements Serializable {
 //        this.owner = owner;
 //    }
     public String getComment() {
-        return Comment;
+        return comment;
     }
 
     public void setComment(String comment) {
-        this.Comment = comment;
+        this.comment = comment;
     }
 
     @XmlAttribute
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        this.Id = id;
+        this.id = id;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (Id != null ? Id.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -154,15 +154,15 @@ public class MotoricRepresentation implements Serializable {
             return false;
         }
         MotoricRepresentation other = (MotoricRepresentation)object;
-        if (this.Comment != null &&
-                this.Comment.equalsIgnoreCase(other.Comment)) {
+        if (this.comment != null &&
+                this.comment.equalsIgnoreCase(other.comment)) {
             return true;
         }
-        if ((this.Id == null && other.Id != null) ||
-                (this.Id != null && !this.Id.equals(other.Id))) {
+        if ((this.id == null && other.id != null) ||
+                (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
-        if (this.Id == null && other.Id == null) {
+        if (this.id == null && other.id == null) {
             return false;
         }
         return true;

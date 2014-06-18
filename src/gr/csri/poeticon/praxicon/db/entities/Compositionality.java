@@ -46,29 +46,29 @@ public class Compositionality implements Serializable {
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "CompositionalityId")
-    private Long Id;
+    private Long id;
 
     @Column(name = "CompositionalityType")
     @Enumerated(EnumType.STRING)
-    private CompositionalityType CompositionalityType;
+    private CompositionalityType compositionalityType;
 
     // Foreign key
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "Compositionality")
-    private List<LanguageRepresentation> LanguageRepresentation;
+    private List<LanguageRepresentation> languageRepresentation;
 
     @XmlAttribute
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        this.Id = id;
+        this.id = id;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (Id != null ? Id.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -79,8 +79,8 @@ public class Compositionality implements Serializable {
             return false;
         }
         Compositionality other = (Compositionality)object;
-        if ((this.Id == null && other.Id != null) ||
-                (this.Id != null && !this.Id.equals(other.Id))) {
+        if ((this.id == null && other.id != null) ||
+                (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -89,6 +89,6 @@ public class Compositionality implements Serializable {
     @Override
     public String toString() {
         return "gr.csri.poeticon.praxicon.db.entities.Compositionality[id=" +
-                Id + "]";
+                id + "]";
     }
 }

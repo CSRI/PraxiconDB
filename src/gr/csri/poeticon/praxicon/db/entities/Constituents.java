@@ -36,32 +36,32 @@ public class Constituents implements Serializable {
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "ConstituentId")
-    private Long Id;
+    private Long id;
 
     @Column(name = "ConstituentOrder")
-    private Short Order;
+    private Short order;
 
     // Foreign key
     @ManyToOne(cascade = CascadeType.ALL)
-    private LanguageRepresentation ConstituentLanguageRepresentation;
+    private LanguageRepresentation constituentLanguageRepresentation;
 
     // Foreign key
     @ManyToOne(cascade = CascadeType.ALL)
-    private LanguageRepresentation LanguageRepresentation;
+    private LanguageRepresentation languageRepresentation;
 
     @XmlAttribute
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        this.Id = id;
+        this.id = id;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (Id != null ? Id.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -72,8 +72,8 @@ public class Constituents implements Serializable {
             return false;
         }
         Constituents other = (Constituents)object;
-        if ((this.Id == null && other.Id != null) ||
-                (this.Id != null && !this.Id.equals(other.Id))) {
+        if ((this.id == null && other.id != null) ||
+                (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -81,7 +81,7 @@ public class Constituents implements Serializable {
 
     @Override
     public String toString() {
-        return "gr.csri.poeticon.praxicon.db.entities.Constituents[id=" + Id +
+        return "gr.csri.poeticon.praxicon.db.entities.Constituents[id=" + id +
                 "]";
     }
 }

@@ -37,36 +37,36 @@ public class RelationChain_Relation implements Serializable {
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "RelationChain_RelationId")
-    private Long Id;
+    private Long id;
 
     // TODO: This could be a OneToMany and the corresponding a ManyToOne
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "RelationChainId")
-    RelationChain RelationChain;
+    RelationChain relationChain;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "RelationId")
-    Relation Relation;
+    Relation relation;
 
     @Column(name = "RelationOrder")
-    long RelationOrder;
+    long relationOrder;
 
     @XmlElement(name = "relation")
     public Relation getRelation() {
-        return Relation;
+        return relation;
     }
 
     public void setRelation(Relation relation) {
-        this.Relation = relation;
+        this.relation = relation;
     }
 
     @XmlTransient
     public RelationChain getRelationChain() {
-        return RelationChain;
+        return relationChain;
     }
 
     public void setRelationChain(RelationChain relationChain) {
-        this.RelationChain = relationChain;
+        this.relationChain = relationChain;
     }
 
     /**
@@ -76,26 +76,26 @@ public class RelationChain_Relation implements Serializable {
      */
     @XmlElement(name = "relation_order")
     public long getRelationOrder() {
-        return RelationOrder;
+        return relationOrder;
     }
 
     public void setRelationOrder(long relationOrder) {
-        this.RelationOrder = relationOrder;
+        this.relationOrder = relationOrder;
     }
 
     @XmlTransient
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        this.Id = id;
+        this.id = id;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (Id != null ? Id.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -106,16 +106,16 @@ public class RelationChain_Relation implements Serializable {
             return false;
         }
         RelationChain_Relation other = (RelationChain_Relation)object;
-        if (this.Relation.equals(other.Relation)) {
+        if (this.relation.equals(other.relation)) {
             return true;
         }
 
-        if ((this.Id == null && other.Id != null) ||
-                (this.Id != null && !this.Id.equals(other.Id))) {
+        if ((this.id == null && other.id != null) ||
+                (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
 
-        if (this.Id == null && other.Id == null) {
+        if (this.id == null && other.id == null) {
             return false;
         }
         return true;

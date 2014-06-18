@@ -45,34 +45,34 @@ public class Verbalization implements Serializable {
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "VerbalizationId")
-    private Long Id;
+    private Long id;
 
     @Column(name = "Allowed")
     @Enumerated(EnumType.STRING)
-    private allowed Allowed;
+    private allowed allowed;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Concept Concept;
+    private Concept concept;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private LanguageRepresentation LanguageRepresentation;
+    private LanguageRepresentation languageRepresentation;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Relation Relation;
+    private Relation relation;
 
     @XmlAttribute
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        this.Id = id;
+        this.id = id;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (Id != null ? Id.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -83,8 +83,8 @@ public class Verbalization implements Serializable {
             return false;
         }
         Verbalization other = (Verbalization)object;
-        if ((this.Id == null && other.Id != null) ||
-                (this.Id != null && !this.Id.equals(other.Id))) {
+        if ((this.id == null && other.id != null) ||
+                (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -92,7 +92,7 @@ public class Verbalization implements Serializable {
 
     @Override
     public String toString() {
-        return "gr.csri.poeticon.praxicon.db.entities.Verbalization[id=" + Id +
+        return "gr.csri.poeticon.praxicon.db.entities.Verbalization[id=" + id +
                 "]";
     }
 }
