@@ -173,6 +173,10 @@ public class Concept implements Serializable {
     @Enumerated(EnumType.STRING)
     private pragmatic_status pragmaticStatus;
 
+    @Column(name = "OntologicalDomain")
+    //@XmlElement(required = false)
+    private String ontologicalDomain;
+
     @Column(name = "Source")
     //@XmlElement(required = false)
     private String source;
@@ -234,7 +238,8 @@ public class Concept implements Serializable {
         for (int i = 0; i < newConcept.getLanguageRepresentations().size(); i++) {
             if (!this.getLanguageRepresentations().contains(newConcept.
                     getLanguageRepresentations().get(i))) {
-                newConcept.getLanguageRepresentations().get(i).getLanguageRepresentation().
+                newConcept.getLanguageRepresentations().get(i).
+                        getLanguageRepresentation().
                         getConcepts().
                         remove(newConcept);
                 this.getLanguageRepresentations().add(newConcept.
@@ -425,9 +430,25 @@ public class Concept implements Serializable {
     }
 
     /**
-     * @return @xmlcomments.args xmltag="&lt;source&gt;" xmldescription="This
-     *         tag defines the source of the concept (from which resources
-     *         was generated (for example: Wordnet)"
+     * @return  The ontological domain of the concept 
+     *          (e.g. natural event, activity or physical process.)
+     * @xmlcomments.args xmltag="&lt;ontological_domain&gt;" xmldescription="This
+     * tag defines the domain in terms of ontology that the concept belongs 
+     * (for example: natural event, activity or physical process) "
+     */
+    public String getOntologicalDomain() {
+        return ontologicalDomain;
+    }
+
+    public void setOntologicalDomain(String ontologicalDomain) {
+        this.ontologicalDomain = ontologicalDomain;
+    }
+
+    /**
+     * @return
+     * @xmlcomments.args xmltag="&lt;source&gt;" xmldescription="This
+     * tag defines the source of the concept (from which resources
+     * was generated (for example: Wordnet)"
      */
     public String getSource() {
         return source;
@@ -511,10 +532,12 @@ public class Concept implements Serializable {
                 this.getLanguageRepresentationsEntries().size(); i++) {
             if (!oldConcept.getLanguageRepresentationsEntries().contains(
                     this.getLanguageRepresentationsEntries().get(i))) {
-                this.getLanguageRepresentationsEntries().get(i).getLanguageRepresentation().
+                this.getLanguageRepresentationsEntries().get(i).
+                        getLanguageRepresentation().
                         getConcepts().
                         remove(this);
-                this.getLanguageRepresentationsEntries().get(i).getLanguageRepresentation().
+                this.getLanguageRepresentationsEntries().get(i).
+                        getLanguageRepresentation().
                         getConcepts().
                         add(this);
                 oldConcept.getLanguageRepresentationsEntries().add(
