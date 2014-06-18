@@ -39,22 +39,22 @@ public class SimpleTest {
 //                        + "where c.Name = ?1");
 //        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Concepts");
 //        EntityManager em = emf.createEntityManager();
-        List<Concept> concepts = cDao.findConceptsByLanguageRepresentationExact("spoon");
+        //List<Concept> concepts = cDao.findConceptsByLanguageRepresentationExact("spoon");
         List<Concept> concepts_all = cDao.findAllConcepts();
-        Concept concept_by_name = cDao.findConceptByNameExact("spoon");
+        //Concept concept_by_name = cDao.findConceptByNameExact("spoon");
         //List<Concept> concepts = query.getResultList();
         //query.setParameter(1, toSearch);
         //List<Concept> found = query.getResultList();
         //Concept startConcept = concepts.get(0);
         //System.out.println(concepts + " " + concepts.getSpecificityLevel());
-        for (Concept item : concepts) {
-            System.out.println(item.getName());
-        }
+//        for (Concept item : concepts) {
+//            System.out.println(item.getName());
+//        }
         for (Concept item : concepts_all) {
             System.out.println(item.getName());
         }
 
-            System.out.println(concept_by_name);
+//            System.out.println(concept_by_name);
 
         
 //        HashSet<Concept> sisters = new HashSet<>();
