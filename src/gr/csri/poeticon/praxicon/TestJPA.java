@@ -3,6 +3,7 @@ package gr.csri.poeticon.praxicon;
 import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
+import gr.csri.poeticon.praxicon.db.entities.Concept_LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
@@ -62,18 +63,23 @@ public class TestJPA {
         // How to add an LR //
         //////////////////////
         //1.) create the LR
-        List<LanguageRepresentation> lr;
+        List<Concept_LanguageRepresentation> lr;
         lr = new ArrayList<>();
 
         //2.) create the lexical entries (language representations)
-        LanguageRepresentation le = new LanguageRepresentation();
-        le.setLanguage(LanguageRepresentation.language.EN);
-        le.setText("test");
-        le.setPartOfSpeech(LanguageRepresentation.part_of_speech.NOUN);
-        LanguageRepresentation le2 = new LanguageRepresentation();
-        le2.setLanguage(LanguageRepresentation.language.EN);
-        le2.setText("test");
-        le2.setPartOfSpeech(LanguageRepresentation.part_of_speech.VERB);
+        Concept_LanguageRepresentation le = new Concept_LanguageRepresentation();
+        le.getLanguageRepresentation().setLanguage(
+                LanguageRepresentation.language.EN);
+        le.getLanguageRepresentation().setText("test");
+        le.getLanguageRepresentation().setPartOfSpeech(
+                LanguageRepresentation.part_of_speech.NOUN);
+        Concept_LanguageRepresentation le2 =
+                new Concept_LanguageRepresentation();
+        le2.getLanguageRepresentation().setLanguage(
+                LanguageRepresentation.language.EN);
+        le2.getLanguageRepresentation().setText("test");
+        le2.getLanguageRepresentation().setPartOfSpeech(
+                LanguageRepresentation.part_of_speech.VERB);
 
         //3.) add the entries to the Langage Representation
         lr.add(le);
@@ -81,7 +87,7 @@ public class TestJPA {
 
         //4.) add the Language Representation to the Concept
         for (int i = 0; i < 2; i++) {
-            concept1.getLanguageRepresentations().add(lr.get(i));
+            concept1.addLanguageRepresentation(lr.get(i));
         }
 
         //////////////////////////

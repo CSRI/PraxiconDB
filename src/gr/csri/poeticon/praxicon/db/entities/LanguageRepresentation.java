@@ -6,8 +6,11 @@ package gr.csri.poeticon.praxicon.db.entities;
 
 import gr.csri.poeticon.praxicon.Globals;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -66,8 +69,7 @@ import javax.xml.bind.annotation.XmlType;
             "AND UPPER(lr.PartOfSpeech) = :pos"),
     @NamedQuery(name = "findLanguageRepresentationsByText", query =
             "FROM LanguageRepresentation lr " +
-            "WHERE UPPER(lr.Text) = :text"),
-})
+            "WHERE UPPER(lr.Text) = :text"),})
 @Table(name = "LanguageRepresentations", indexes = {
     @Index(columnList = "Text"),
     @Index(columnList = "LanguageRepresentationId")})
@@ -145,15 +147,9 @@ public class LanguageRepresentation implements Serializable {
     @Column(name = "Comment")
     private String comment;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "Concepts_LanguageRepresentations",
-            joinColumns = {
-                @JoinColumn(name = "ConceptId")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "LanguageRepresentationId")}
-    )
-    private List<Concept> concepts;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy =
+            "Concepts_LanguageRepresentations")
+    private List<Concept_LanguageRepresentation> concepts;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -372,13 +368,13 @@ public class LanguageRepresentation implements Serializable {
 
     public void afterUnmarshal(Unmarshaller u, Object parent) {
         if (!Globals.ToMergeAfterUnMarshalling) {
-            /*  try {
+            try {
              String tmp = new String(this.getText().getBytes(), "UTF-8");
              this.setText(tmp);
              } catch (UnsupportedEncodingException ex) {
-             Logger.getLogger(LanguageEntry.class.getName()).log(Level.SEVERE,
+             Logger.getLogger(LanguageRepresentation.class.getName()).log(Level.SEVERE,
              null, ex);
-             }*/
+             }
         }
     }
 }

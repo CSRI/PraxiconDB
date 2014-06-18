@@ -1,4 +1,4 @@
-    /*
+/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -8,8 +8,8 @@ import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationDao;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Concept.status;
+import gr.csri.poeticon.praxicon.db.entities.Concept_LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains;
-import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationChain;
 import gr.csri.poeticon.praxicon.db.entities.RelationChain_Relation;
@@ -570,7 +570,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     public List<Concept> getBasicLevelOfAnAbstractConcept(Concept concept) {
         List<Concept> res = new ArrayList<>();
 
-        if (concept.getSpecificityLevel() != Concept.specificity_level.BASIC_LEVEL &&
+        if (concept.getSpecificityLevel() !=
+                Concept.specificity_level.BASIC_LEVEL &&
                 concept.getConceptType() == Concept.type.ABSTRACT) {
             List<Concept> children = getChildrenOfConcept(concept);
             for (Concept children1 : children) {
@@ -596,7 +597,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     private List<Concept> getBasicLevelOfMovementOriginConcept(Concept concept) {
         List<Concept> res = new ArrayList<>();
 
-        if (concept.getSpecificityLevel() == Concept.specificity_level.BASIC_LEVEL) {
+        if (concept.getSpecificityLevel() ==
+                Concept.specificity_level.BASIC_LEVEL) {
             res.add(concept);
         } else {
             res.addAll(getBasicLevelOfMovementOriginConceptGoingDown(concept));
@@ -742,10 +744,12 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 if (!oldConcept.getLanguageRepresentations().
                         contains(newConcept.getLanguageRepresentations().
                                 get(i))) {
-                    LanguageRepresentation tmpLanguageRepresentation =
+                    Concept_LanguageRepresentation tmpLanguageRepresentation =
                             newConcept.getLanguageRepresentations().get(i);
-                    tmpLanguageRepresentation.getConcepts().remove(newConcept);
-                    tmpLanguageRepresentation.getConcepts().add(oldConcept);
+                    tmpLanguageRepresentation.getLanguageRepresentation().
+                            getConcepts().remove(newConcept);
+                    tmpLanguageRepresentation.getLanguageRepresentation().
+                            getConcepts().add(oldConcept);
                     oldConcept.getLanguageRepresentations().
                             add(tmpLanguageRepresentation);
                 }

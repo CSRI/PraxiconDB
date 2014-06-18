@@ -20,9 +20,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -136,62 +133,55 @@ public class Concept implements Serializable {
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "ConceptId")
-    protected Long id;
+    private Long id;
 
     @Column(name = "Name")
     //@Size(min = 5, max = 14)
     //@XmlElement(required = true)
     @NotNull(message = "Concept name must be specified.")
-    String name;
+    private String name;
 
     @Column(name = "Type")
     //@XmlElement(required = true)
     @NotNull(message = "Concept type must be specified.")
     @Enumerated(EnumType.STRING)
-    protected type conceptType;
+    private type conceptType;
 
     @Column(name = "SpecificityLevel")
     //@XmlElement(required = true)
     @NotNull(message = "Specificity level must be specified.")
     @Enumerated(EnumType.STRING)
-    protected specificity_level specificityLevel;
+    private specificity_level specificityLevel;
 
     @Column(name = "Status")
     //@XmlElement(required = true)
     @NotNull(message = "Concept status must be specified.")
     @Enumerated(EnumType.STRING)
-    protected status status;
+    private status status;
 
     @Column(name = "UniqueInstance")
     //@XmlElement(required = false)
     @NotNull(message = "Concept unique instance must be specified.")
     @Enumerated(EnumType.STRING)
-    protected unique_instance uniqueInstance;
+    private unique_instance uniqueInstance;
 
     @Column(name = "PragmaticStatus")
     //@XmlElement(required = false)
     @NotNull(message = "Concept pragmatic status must be specified.")
     @Enumerated(EnumType.STRING)
-    protected pragmatic_status pragmaticStatus;
+    private pragmatic_status pragmaticStatus;
 
     @Column(name = "Source")
     //@XmlElement(required = false)
-    protected String source;
+    private String source;
 
     @Column(name = "Comment")
     //@XmlElement(required = false)
-    protected String comment;
+    private String comment;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    //@XmlElement(required = true)
-    @JoinTable(
-            name = "Concepts_LanguageRepresentations",
-            joinColumns = {
-                @JoinColumn(name = "LanguageRepresentationId")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "ConceptId")}
-    )
-    private List<LanguageRepresentation> languageRepresentations;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy =
+            "Concepts_LanguageRepresentations")
+    private List<Concept_LanguageRepresentation> languageRepresentations;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "Concept")
     private List<VisualRepresentation> visualRepresentations;
@@ -242,7 +232,8 @@ public class Concept implements Serializable {
         for (int i = 0; i < newConcept.getLanguageRepresentations().size(); i++) {
             if (!this.getLanguageRepresentations().contains(newConcept.
                     getLanguageRepresentations().get(i))) {
-                newConcept.getLanguageRepresentations().get(i).getConcepts().
+                newConcept.getLanguageRepresentations().get(i).getLanguageRepresentation().
+                        getConcepts().
                         remove(newConcept);
                 this.getLanguageRepresentations().add(newConcept.
                         getLanguageRepresentations().get(i));
@@ -462,27 +453,27 @@ public class Concept implements Serializable {
      * @return the language representations of the concept
      *
      */
-    public final List<LanguageRepresentation> getLanguageRepresentations() {
+    public final List<Concept_LanguageRepresentation> getLanguageRepresentations() {
         return languageRepresentations;
     }
 
-    public List<LanguageRepresentation> getLanguageRepresentationsEntries() {
-        List<LanguageRepresentation> language_representation_entries =
+    public List<Concept_LanguageRepresentation> getLanguageRepresentationsEntries() {
+        List<Concept_LanguageRepresentation> language_representation_entries =
                 new ArrayList<>();
-        for (LanguageRepresentation LanguageRepresentation
+        for (Concept_LanguageRepresentation languageRepresentation
                 : this.languageRepresentations) {
-            language_representation_entries.add(LanguageRepresentation);
+            language_representation_entries.add(languageRepresentation);
         }
         return language_representation_entries;
     }
 
     public void addLanguageRepresentation(
-            LanguageRepresentation languageRepresentation) {
+            Concept_LanguageRepresentation languageRepresentation) {
         this.languageRepresentations.add(languageRepresentation);
     }
 
     public void setLanguageRepresentation(
-            List<LanguageRepresentation> languageRepresentations) {
+            List<Concept_LanguageRepresentation> languageRepresentations) {
         this.languageRepresentations = languageRepresentations;
     }
 
@@ -493,14 +484,16 @@ public class Concept implements Serializable {
      * @return a string
      */
     public String getLanguageRepresentationName() {
-        List<LanguageRepresentation> les = this.getLanguageRepresentations();
-        for (LanguageRepresentation le : les) {
-            if (le.getLanguage().name().equalsIgnoreCase("en")) {
-                return le.getText();
+        List<Concept_LanguageRepresentation> clrs = this.
+                getLanguageRepresentations();
+        for (Concept_LanguageRepresentation clr : clrs) {
+            if (clr.getLanguageRepresentation().getLanguage().name().
+                    equalsIgnoreCase("en")) {
+                return clr.getLanguageRepresentation().getText();
             }
         }
-        if (les.size() > 0) {
-            return les.get(0).getText();
+        if (clrs.size() > 0) {
+            return clrs.get(0).getLanguageRepresentation().getText();
         }
         return "noname";
     }
@@ -516,9 +509,11 @@ public class Concept implements Serializable {
                 this.getLanguageRepresentationsEntries().size(); i++) {
             if (!oldConcept.getLanguageRepresentationsEntries().contains(
                     this.getLanguageRepresentationsEntries().get(i))) {
-                this.getLanguageRepresentationsEntries().get(i).getConcepts().
+                this.getLanguageRepresentationsEntries().get(i).getLanguageRepresentation().
+                        getConcepts().
                         remove(this);
-                this.getLanguageRepresentationsEntries().get(i).getConcepts().
+                this.getLanguageRepresentationsEntries().get(i).getLanguageRepresentation().
+                        getConcepts().
                         add(this);
                 oldConcept.getLanguageRepresentationsEntries().add(
                         this.getLanguageRepresentationsEntries().get(i));
@@ -779,12 +774,14 @@ public class Concept implements Serializable {
             return name;
             // + " (Entity)";
         } else {
-            List<LanguageRepresentation> tmpList =
+            List<Concept_LanguageRepresentation> tmpList =
                     this.getLanguageRepresentationsEntries();
             if (tmpList.size() > 0) {
-                StringBuilder tmp = new StringBuilder(tmpList.get(0).getText());
+                StringBuilder tmp = new StringBuilder(
+                        tmpList.get(0).getLanguageRepresentation().getText());
                 for (int i = 1; i < tmpList.size(); i++) {
-                    tmp.append("\\").append(tmpList.get(i).getText());
+                    tmp.append("\\").append(
+                            tmpList.get(i).getLanguageRepresentation().getText());
                 }
                 return tmp.toString();
             } else {

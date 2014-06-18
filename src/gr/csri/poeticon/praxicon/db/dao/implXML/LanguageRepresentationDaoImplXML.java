@@ -8,6 +8,7 @@ import gr.csri.poeticon.praxicon.Constants;
 import gr.csri.poeticon.praxicon.db.dao.LanguageRepresentationDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.JpaDao;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
+import gr.csri.poeticon.praxicon.db.entities.Concept_LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -30,12 +31,12 @@ public class LanguageRepresentationDaoImplXML extends
         Enumeration en = Constants.globalConcepts.elements();
         while (en.hasMoreElements()) {
             Concept con = (Concept)en.nextElement();
-            for (LanguageRepresentation entry : con.getLanguageRepresentations()) {
-                if (entry.getLanguage().name().equalsIgnoreCase(language) &&
-                        entry.getText().equalsIgnoreCase(text) &&
-                        entry.getPartOfSpeech() ==
+            for (Concept_LanguageRepresentation entry : con.getLanguageRepresentations()) {
+                if (entry.getLanguageRepresentation().getLanguage().name().equalsIgnoreCase(language) &&
+                        entry.getLanguageRepresentation().getText().equalsIgnoreCase(text) &&
+                        entry.getLanguageRepresentation().getPartOfSpeech() ==
                         LanguageRepresentation.part_of_speech.valueOf(pos)) {
-                    return entry;
+                    return entry.getLanguageRepresentation();
                 }
             }
         }
@@ -49,10 +50,10 @@ public class LanguageRepresentationDaoImplXML extends
         Enumeration en = Constants.globalConcepts.elements();
         while (en.hasMoreElements()) {
             Concept con = (Concept)en.nextElement();
-            for (LanguageRepresentation entry : con.getLanguageRepresentations()) {
-                if (entry.getText().toUpperCase().contains(searchString.
+            for (Concept_LanguageRepresentation entry : con.getLanguageRepresentations()) {
+                if (entry.getLanguageRepresentation().getText().toUpperCase().contains(searchString.
                         toUpperCase())) {
-                    res.add(entry);
+                    res.add(entry.getLanguageRepresentation());
                 }
             }
         }
