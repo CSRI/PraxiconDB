@@ -17,8 +17,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -50,10 +48,8 @@ public class Concept_LanguageRepresentation implements Serializable {
     private Long id;
 
     @Column(name = "RepresentativeLanguageRepresentation")
-    @Min(0)
-    @Max(10)
-    private int representativeLanguageRepresentation;
-    
+    private boolean representativeLanguageRepresentation;
+
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "ConceptId")
     private Concept concept;

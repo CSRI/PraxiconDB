@@ -430,10 +430,10 @@ public class Concept implements Serializable {
     }
 
     /**
-     * @return  The ontological domain of the concept 
-     *          (e.g. natural event, activity or physical process.)
+     * @return The ontological domain of the concept
+     *         (e.g. natural event, activity or physical process.)
      * @xmlcomments.args xmltag="&lt;ontological_domain&gt;" xmldescription="This
-     * tag defines the domain in terms of ontology that the concept belongs 
+     * tag defines the domain in terms of ontology that the concept belongs
      * (for example: natural event, activity or physical process) "
      */
     public String getOntologicalDomain() {
@@ -493,6 +493,17 @@ public class Concept implements Serializable {
     public void addLanguageRepresentation(
             Concept_LanguageRepresentation languageRepresentation) {
         this.languageRepresentations.add(languageRepresentation);
+    }
+
+    public void addLanguageRepresentation(LanguageRepresentation lr,
+            boolean isRepresentative) {
+        Concept_LanguageRepresentation clr =
+                new Concept_LanguageRepresentation();
+        clr.setConcept(this);
+        clr.setLanguageRepresentation(lr);
+        //clr.setLanguageRepresentationId(lr.getId());
+        this.languageRepresentations.add(clr);
+        //lr.getConcepts().add(clr);
     }
 
     public void setLanguageRepresentation(

@@ -147,8 +147,7 @@ public class LanguageRepresentation implements Serializable {
     @Column(name = "Comment")
     private String comment;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy =
-            "concept")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
     private List<Concept_LanguageRepresentation> concepts;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -369,12 +368,13 @@ public class LanguageRepresentation implements Serializable {
     public void afterUnmarshal(Unmarshaller u, Object parent) {
         if (!Globals.ToMergeAfterUnMarshalling) {
             try {
-             String tmp = new String(this.getText().getBytes(), "UTF-8");
-             this.setText(tmp);
-             } catch (UnsupportedEncodingException ex) {
-             Logger.getLogger(LanguageRepresentation.class.getName()).log(Level.SEVERE,
-             null, ex);
-             }
+                String tmp = new String(this.getText().getBytes(), "UTF-8");
+                this.setText(tmp);
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(LanguageRepresentation.class.getName()).log(
+                        Level.SEVERE,
+                        null, ex);
+            }
         }
     }
 }
