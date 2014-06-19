@@ -166,6 +166,15 @@ public class IntersectionOfRelationChains implements Serializable {
         this.name = name;
     }
 
+    public inherent getIsInherent(){
+        return inherent;
+    }
+    
+    public void setIsInherent(inherent inherent){
+        this.inherent = inherent;
+    }
+    
+    
     @XmlTransient
     public Concept getConcept() {
         return concept;
