@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "relation_type", namespace = "http://www.csri.gr/relation_type")
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "getConceptEntityQuery", query =
+    @NamedQuery(name = "getRelationTypeEntityQuery", query =
             "SELECT e FROM RelationType e " +
             "where e.RelationType = :relationType"),
 })
