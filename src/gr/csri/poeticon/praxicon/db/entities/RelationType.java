@@ -16,6 +16,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -33,6 +35,11 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "relation_type", namespace = "http://www.csri.gr/relation_type")
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "getConceptEntityQuery", query =
+            "SELECT e FROM RelationType e " +
+            "where e.RelationType = :relationType"),
+})
 @Table(name = "RelationTypes", indexes = {
     @Index(columnList = "RelationTypeId")})
 public class RelationType implements Serializable {
