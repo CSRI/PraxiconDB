@@ -185,8 +185,7 @@ public class Concept implements Serializable {
     //@XmlElement(required = false)
     private String comment;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy =
-            "concept")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
     private List<Concept_LanguageRepresentation> languageRepresentations;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
@@ -235,15 +234,12 @@ public class Concept implements Serializable {
         relationsContainingConceptAsObject = new ArrayList<>();
         intersectionsOfRelationChains = new ArrayList<>();
 
-        for (int i = 0; i < newConcept.getLanguageRepresentations().size(); i++) {
-            if (!this.getLanguageRepresentations().contains(newConcept.
-                    getLanguageRepresentations().get(i))) {
-                newConcept.getLanguageRepresentations().get(i).
-                        getLanguageRepresentation().
-                        getConcepts().
-                        remove(newConcept);
-                this.getLanguageRepresentations().add(newConcept.
-                        getLanguageRepresentations().get(i));
+        for (LanguageRepresentation tmpLanguageRepresentation : newConcept.
+                getLanguageRepresentations()) {
+            if (!this.getLanguageRepresentations().contains(
+                    tmpLanguageRepresentation)) {
+                tmpLanguageRepresentation.getConcepts().remove(newConcept);
+                this.getLanguageRepresentations().add(tmpLanguageRepresentation);
             }
         }
 
@@ -256,7 +252,8 @@ public class Concept implements Serializable {
             }
         }
 
-        for (int i = 0; i < newConcept.getMotoricRepresentations().size(); i++) {
+        for (int i = 0; i < newConcept.getMotoricRepresentations().size();
+                i++) {
             if (!this.getMotoricRepresentations().contains(newConcept.
                     getMotoricRepresentations().get(i))) {
                 this.getMotoricRepresentations().add(newConcept.
@@ -267,7 +264,8 @@ public class Concept implements Serializable {
         for (int i = 0; i < newConcept.getRelationsContainingConceptAsObject().
                 size(); i++) {
             if (!this.getRelationsContainingConceptAsObject().contains(
-                    newConcept.getRelationsContainingConceptAsObject().get(i))) {
+                    newConcept.getRelationsContainingConceptAsObject().
+                    get(i))) {
                 if (newConcept.getRelationsContainingConceptAsObject().get(i).
                         getObject().equals(newConcept)) {
                     newConcept.getRelationsContainingConceptAsObject().get(i).
@@ -476,7 +474,21 @@ public class Concept implements Serializable {
      * @return the language representations of the concept
      *
      */
-    public final List<Concept_LanguageRepresentation> getLanguageRepresentations() {
+    public final List<LanguageRepresentation> getLanguageRepresentations() {
+        List<LanguageRepresentation> lrs;
+        lrs = new ArrayList();
+        for (Concept_LanguageRepresentation clr : this.languageRepresentations) {
+            lrs.add(clr.getLanguageRepresentation());
+        }
+        return lrs;
+    }
+
+    /**
+     * @return the concept language representation instance of the concept
+     *
+     */
+    public final List<Concept_LanguageRepresentation>
+            getConceptLanguageRepresentation() {
         return languageRepresentations;
     }
 
@@ -490,20 +502,36 @@ public class Concept implements Serializable {
         return language_representation_entries;
     }
 
-    public void addLanguageRepresentation(
-            Concept_LanguageRepresentation languageRepresentation) {
-        this.languageRepresentations.add(languageRepresentation);
+    /**
+     * Adds a Concept_LanguageRepresentation instance to the concept.
+     *
+     * @param conceptLanguageRepresentation A structure that contains the
+     *                                      language representation with
+     *                                      information about its
+     *                                      representativeness.
+     */
+    public void addConceptLanguageRepresentation(
+            Concept_LanguageRepresentation conceptLanguageRepresentation) {
+        this.languageRepresentations.add(conceptLanguageRepresentation);
     }
 
-    public void addLanguageRepresentation(LanguageRepresentation lr,
+    /**
+     * Adds a LanguageRepresentation instance to the concept.
+     *
+     * @param languageRepresentation a language representation.
+     * @param isRepresentative       whether the language representation is
+     *                               representative of the concept or not.
+     *                               There can be more than one representative
+     *                               language representations.
+     */
+    public void addLanguageRepresentation(
+            LanguageRepresentation languageRepresentation,
             boolean isRepresentative) {
         Concept_LanguageRepresentation clr =
                 new Concept_LanguageRepresentation();
         clr.setConcept(this);
-        clr.setLanguageRepresentation(lr);
-        //clr.setLanguageRepresentationId(lr.getId());
+        clr.setLanguageRepresentation(languageRepresentation);
         this.languageRepresentations.add(clr);
-        //lr.getConcepts().add(clr);
     }
 
     public void setLanguageRepresentation(
@@ -513,21 +541,19 @@ public class Concept implements Serializable {
 
     /**
      * Gets text of the first language representation of language "en" for this
-     * concept
+     * concept.
      *
-     * @return a string
+     * @return the name of the first language representation of the concept.
      */
     public String getLanguageRepresentationName() {
-        List<Concept_LanguageRepresentation> clrs = this.
-                getLanguageRepresentations();
-        for (Concept_LanguageRepresentation clr : clrs) {
-            if (clr.getLanguageRepresentation().getLanguage().name().
-                    equalsIgnoreCase("en")) {
-                return clr.getLanguageRepresentation().getText();
+        List<LanguageRepresentation> lrs = this.getLanguageRepresentations();
+        for (LanguageRepresentation lr : lrs) {
+            if (lr.getLanguage().name().equalsIgnoreCase("en")) {
+                return lr.getText();
             }
         }
-        if (clrs.size() > 0) {
-            return clrs.get(0).getLanguageRepresentation().getText();
+        if (lrs.size() > 0) {
+            return lrs.get(0).getText();
         }
         return "noname";
     }

@@ -34,7 +34,8 @@ import javax.xml.bind.annotation.XmlType;
         "http://www.csri.gr/concept_languagerepresentation")
 @Entity
 @Table(name = "Concepts_LanguageRepresentations", indexes = {
-    @Index(columnList = "Concept_LanguageRepresentationId")})
+    @Index(columnList = "Concept_LanguageRepresentationId")
+})
 
 public class Concept_LanguageRepresentation implements Serializable {
 
@@ -79,5 +80,45 @@ public class Concept_LanguageRepresentation implements Serializable {
 
     public void setConcept(Concept concept) {
         this.concept = concept;
+    }
+
+    /**
+     * @return whether the language representation is representative or not.
+     */
+    public boolean getIsRepresentative() {
+        return representativeLanguageRepresentation;
+    }
+
+    public void setIsRepresentative(boolean isRepresentative) {
+        this.representativeLanguageRepresentation = isRepresentative;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - method won't work in case the id fields are not set
+        if (!(object instanceof Concept_LanguageRepresentation)) {
+            return false;
+        }
+        Concept_LanguageRepresentation other = (Concept_LanguageRepresentation)object;
+        if (this.languageRepresentation.equals(other.languageRepresentation)) {
+            return true;
+        }
+
+        if ((this.id == null && other.id != null) ||
+                (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+
+        if (this.id == null && other.id == null) {
+            return false;
+        }
+        return true;
     }
 }

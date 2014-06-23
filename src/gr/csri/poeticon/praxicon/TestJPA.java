@@ -63,33 +63,35 @@ public class TestJPA {
         // How to add an LR //
         //////////////////////
         //1.) create the LR
-        List<Concept_LanguageRepresentation> lr;
+        List<LanguageRepresentation> lr;
         lr = new ArrayList<>();
 
         //2.) create the lexical entries (language representations)
-        Concept_LanguageRepresentation le = new Concept_LanguageRepresentation();
-        le.getLanguageRepresentation().setLanguage(
-                LanguageRepresentation.language.EN);
-        le.getLanguageRepresentation().setText("test");
-        le.getLanguageRepresentation().setPartOfSpeech(
-                LanguageRepresentation.part_of_speech.NOUN);
-        Concept_LanguageRepresentation le2 =
-                new Concept_LanguageRepresentation();
-        le2.getLanguageRepresentation().setLanguage(
-                LanguageRepresentation.language.EN);
-        le2.getLanguageRepresentation().setText("test");
-        le2.getLanguageRepresentation().setPartOfSpeech(
-                LanguageRepresentation.part_of_speech.VERB);
+        LanguageRepresentation le = new LanguageRepresentation();
+        le.setLanguage(LanguageRepresentation.language.EN);
+        le.setText("test");
+        le.setPartOfSpeech(LanguageRepresentation.part_of_speech.NOUN);
+        LanguageRepresentation le2 = new LanguageRepresentation();
+        le2.setLanguage(LanguageRepresentation.language.EN);
+        le2.setText("test");
+        le2.setPartOfSpeech(LanguageRepresentation.part_of_speech.VERB);
 
         //3.) add the entries to the Langage Representation
         lr.add(le);
         lr.add(le2);
-
-        //4.) add the Language Representation to the Concept
-        for (int i = 0; i < 2; i++) {
-            concept1.addLanguageRepresentation(lr.get(i));
-        }
-
+        
+        List<Concept_LanguageRepresentation> clr;
+        clr = new ArrayList<>();
+        
+        Concept_LanguageRepresentation clr1 = new Concept_LanguageRepresentation();
+        Concept_LanguageRepresentation clr2 = new Concept_LanguageRepresentation();
+        clr1.setLanguageRepresentation(le);
+        clr2.setLanguageRepresentation(le2);
+        
+        //4.) add the Language Representations to the Concept
+        concept1.addLanguageRepresentation(le, false);
+        concept1.addLanguageRepresentation(le2, true);
+        
         //////////////////////////
         //How to add a Relation //
         //////////////////////////

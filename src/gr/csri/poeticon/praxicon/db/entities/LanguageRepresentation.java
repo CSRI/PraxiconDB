@@ -147,7 +147,7 @@ public class LanguageRepresentation implements Serializable {
     @Column(name = "Comment")
     private String comment;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "languageRepresentation")
     private List<Concept_LanguageRepresentation> concepts;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -288,7 +288,6 @@ public class LanguageRepresentation implements Serializable {
     @XmlTransient
     public List<Concept> getConcepts() {
         List<Concept> concepts = new ArrayList<>();
-
         for (LanguageRepresentation language_representation
                 : LanguageRepresentation.language_representations) {
             for (int j = 0; j < language_representation.getConcepts().size();

@@ -8,8 +8,8 @@ import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationDao;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Concept.status;
-import gr.csri.poeticon.praxicon.db.entities.Concept_LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains;
+import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationChain;
 import gr.csri.poeticon.praxicon.db.entities.RelationChain_Relation;
@@ -744,12 +744,10 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 if (!oldConcept.getLanguageRepresentations().
                         contains(newConcept.getLanguageRepresentations().
                                 get(i))) {
-                    Concept_LanguageRepresentation tmpLanguageRepresentation =
+                    LanguageRepresentation tmpLanguageRepresentation =
                             newConcept.getLanguageRepresentations().get(i);
-                    tmpLanguageRepresentation.getLanguageRepresentation().
-                            getConcepts().remove(newConcept);
-                    tmpLanguageRepresentation.getLanguageRepresentation().
-                            getConcepts().add(oldConcept);
+                    tmpLanguageRepresentation.getConcepts().remove(newConcept);
+                    tmpLanguageRepresentation.getConcepts().add(oldConcept);
                     oldConcept.getLanguageRepresentations().
                             add(tmpLanguageRepresentation);
                 }
