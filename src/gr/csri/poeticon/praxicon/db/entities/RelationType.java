@@ -38,7 +38,8 @@ import javax.xml.bind.annotation.XmlType;
 @NamedQueries({
     @NamedQuery(name = "getRelationTypeEntityQuery", query =
             "SELECT e FROM RelationType e " +
-            "where e.RelationType = :relationType"),
+            "WHERE e.ForwardName = :forwardName " +
+            "AND e.BackwardName = :backwardName"),
 })
 @Table(name = "RelationTypes", indexes = {
     @Index(columnList = "RelationTypeId")})
