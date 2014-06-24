@@ -125,46 +125,6 @@ public class RelationType implements Serializable {
         this.xmlRelationBackward = xmlRelation;
     }
 
-    public static List<RelationType> getLocationRelations() {
-        List<RelationType> res = new ArrayList<>();
-        RelationType tmp = new RelationType();
-        tmp.setForwardName("action_location");
-        tmp.setBackwardName("location_action");
-        res.add(tmp);
-
-        tmp = new RelationType();
-        tmp.setForwardName("place_event");
-        tmp.setBackwardName("event_place");
-        res.add(tmp);
-
-        tmp = new RelationType();
-        tmp.setForwardName("place_institution");
-        tmp.setBackwardName("institution_place");
-        res.add(tmp);
-
-        tmp = new RelationType();
-        tmp.setForwardName("place_people");
-        tmp.setBackwardName("people_place");
-        res.add(tmp);
-
-        tmp = new RelationType();
-        tmp.setForwardName("entity_location");
-        tmp.setBackwardName("location_entity");
-        res.add(tmp);
-
-        tmp = new RelationType();
-        tmp.setForwardName("has_location");
-        tmp.setBackwardName("location_of");
-        res.add(tmp);
-
-        tmp = new RelationType();
-        tmp.setForwardName("has_direction");
-        tmp.setBackwardName("direction_of");
-        res.add(tmp);
-
-        return res;
-    }
-
     public RelationType() {
         relations = new ArrayList<>();
     }
