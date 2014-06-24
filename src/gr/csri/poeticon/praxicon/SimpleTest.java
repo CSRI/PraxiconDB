@@ -7,6 +7,7 @@ package gr.csri.poeticon.praxicon;
 import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -17,21 +18,10 @@ import java.util.List;
 public class SimpleTest {
 
     public static void main(String args[]) {
-//        try
-//        {
-//            Constants.Constants();
-//        } //OK
-//        catch (FileNotFoundException ex)
-//        {
-//            System.out.println("File not found");
-//        }
-//        catch (IOException ex2)
-//        {
-//            System.out.println("Could not read from file");
-//        }
+
         ConceptDao cDao = new ConceptDaoImpl();
 
-        String toSearch = "String";
+        //String toSearch = "String";
         //String toSearch = "spoon%1:06:00::";
         //String toSearch = "eating_utensil%1:06:00::";
 
@@ -54,19 +44,16 @@ public class SimpleTest {
             System.out.println(item.getName());
         }
 
-//            System.out.println(concept_by_name);
-
-        
-//        HashSet<Concept> sisters = new HashSet<>();
+        HashSet<Concept> sisters = new HashSet<>();
 //
-//        List<Concept> parents = cDao.getParentsOf(concepts.get(0));
-//        for (Concept parent : parents) {
-//            sisters.addAll(cDao.getChildrenOf(parent));
-//        }
-//        sisters.remove(concepts.get(0));
+        List<Concept> parents = cDao.getParentsOfConcept(concepts_all.get(0));
+        for (Concept parent : parents) {
+            sisters.addAll(cDao.getChildrenOfConcept(parent));
+        }
+        //sisters.remove(concepts_all.get(0));
 //
-//        for (Concept con : sisters) {
-//            System.out.println(con + " " + con.getSpecificityLevel());
-//        }
+        for (Concept con : sisters) {
+            System.out.println(con + " " + con.getSpecificityLevel());
+        }
     }
 }
