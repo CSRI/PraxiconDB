@@ -78,6 +78,9 @@ import javax.xml.bind.annotation.XmlType;
 //@ConceptConstraint(groups=ConceptGroup.class)
 public class Concept implements Serializable {
 
+    /**
+     * Enumeration for the concept type.
+     */
     public static enum type {
 
         ABSTRACT, ENTITY, FEATURE, MOVEMENT, UNKNOWN;
@@ -88,6 +91,9 @@ public class Concept implements Serializable {
         }
     }
 
+    /**
+     * Enumeration for the specificity level of a concept.
+     */
     public static enum specificity_level {
 
         BASIC_LEVEL, SUPERORDINATE, SUBORDINATE, UNKNOWN;
@@ -98,6 +104,9 @@ public class Concept implements Serializable {
         }
     }
 
+    /**
+     * Enumeration for the type of concept status.
+     */
     public static enum status {
 
         CONSTANT, VARIABLE, TEMPLATE;
@@ -108,6 +117,9 @@ public class Concept implements Serializable {
         }
     }
 
+    /**
+     * A YES/NO/UNKNOWN enumeration for the unique instance.
+     */
     public static enum unique_instance {
 
         YES, NO, UNKNOWN;
@@ -118,6 +130,9 @@ public class Concept implements Serializable {
         }
     }
 
+    /**
+     * Enumeration of the types of pragmatic status.
+     */
     public static enum pragmatic_status {
 
         FIGURATIVE, LITERAL, UNKNOWN;
@@ -443,7 +458,7 @@ public class Concept implements Serializable {
     }
 
     /**
-     * @return
+     * @return the source of the concept (where the concept came from)
      * @xmlcomments.args xmltag="&lt;source&gt;" xmldescription="This
      * tag defines the source of the concept (from which resources
      * was generated (for example: Wordnet)"
@@ -457,10 +472,7 @@ public class Concept implements Serializable {
     }
 
     /**
-     *
      * @return a string containing additional information about the concept.
-     *
-     *
      */
     public String getComment() {
         return comment;
@@ -562,7 +574,7 @@ public class Concept implements Serializable {
      * Updates LanguageRepresentation of a concept using this concept's
      * LanguageRepresentation
      *
-     * @param oldCon the concept to be updated
+     * @param oldConcept the concept to be updated
      */
     public void updateLanguageRepresentations(Concept oldConcept) {
         for (int i = 0; i <
@@ -616,7 +628,7 @@ public class Concept implements Serializable {
      * Updates VisualRepresentations of a concept using this concept
      * VisualRepresentations
      *
-     * @param oldCon the concept to be updated
+     * @param oldConcept the concept to be updated
      */
     public void updateVisualRepresentations(Concept oldConcept) {
         for (int i = 0; i < this.getVisualRepresentations().size(); i++) {
@@ -661,7 +673,7 @@ public class Concept implements Serializable {
      * Updates MotoricRepresentations of a concept using this concept
      * MotoricRepresentations
      *
-     * @param oldCon the concept to be updated
+     * @param oldConcept the concept to be updated
      */
     public void updateMotoricRepresentations(Concept oldConcept) {
         for (int i = 0; i < this.getMotoricRepresentations().size(); i++) {
@@ -699,7 +711,7 @@ public class Concept implements Serializable {
     /**
      * Updates object relations of a concept using this concept object relations
      *
-     * @param oldCon the concept to be updated
+     * @param oldConcept the concept to be updated
      */
     public void updateObjOfRelations(Concept oldConcept) {
         for (int i = 0; i < this.getRelationsContainingConceptAsObject().size();
@@ -720,6 +732,16 @@ public class Concept implements Serializable {
         }
     }
 
+    @XmlTransient
+    public final List<Relation> getRelationsContainingConceptAsSubject() {
+        return relationsContainingConceptAsSubject;
+    }
+
+    public void setRelationsContainingConceptAsSubject(
+            List<Relation> subjectOfRelations) {
+        this.relationsContainingConceptAsSubject = subjectOfRelations;
+    }
+
     /**
      * Adds a new intersection of relation chains to this concept
      *
@@ -735,12 +757,12 @@ public class Concept implements Serializable {
      * Adds a new intersection of relation chains to this concept created using
      * given relation types (fw+bw) and given relation objects
      *
-     * @param rTypeForward  list of forward types of relations
-     * @param rTypeBackward list of backward types of relations
-     * @param obj           list of concepts to be used as objects
+     * @param relationTypeForward  list of forward types of relations
+     * @param relationTypeBackward list of backward types of relations
+     * @param objectConcepts       list of concepts to be used as objects
      */
     public void addRelation(List<String> relationTypeForward,
-            List<String> relationTypeBackward, List<Concept> obj) {
+            List<String> relationTypeBackward, List<Concept> objectConcepts) {
         IntersectionOfRelationChains inter = new IntersectionOfRelationChains();
         for (int i = 0; i < relationTypeForward.size(); i++) {
             RelationType rType = new RelationType();
@@ -749,7 +771,7 @@ public class Concept implements Serializable {
             Relation rel = new Relation();
             rel.setType(rType);
             rel.setSubject(this);
-            rel.setObject(obj.get(i));
+            rel.setObject(objectConcepts.get(i));
             RelationChain rChain = new RelationChain();
             rChain.addRelation(rel, 0);
             inter.addRelationChain(rChain);
@@ -760,7 +782,7 @@ public class Concept implements Serializable {
     /**
      * Updates relations of a concept using this concept relations
      *
-     * @param oldCon the concept to be updated
+     * @param oldConcept the concept to be updated
      */
     public void updateRelations(Concept oldConcept) {
         for (int i = 0; i < this.getIntersectionsOfRelationChains().size();
@@ -861,7 +883,6 @@ public class Concept implements Serializable {
                 if (this.conceptType == null) {
                     this.conceptType = type.UNKNOWN;
                 }
-
                 cDao.merge(this);
             } else {
                 cDao.update(this);
