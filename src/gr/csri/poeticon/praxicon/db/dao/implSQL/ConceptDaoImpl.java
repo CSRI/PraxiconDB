@@ -85,7 +85,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * Finds all concepts that have a language representation containing a given
      * string
      *
-     * @param language_representation_name the language representation name to
+     * @param languageRepresentationName the language representation name to
      *                                     search for
      * @return a list of concepts found in the database
      */
@@ -378,7 +378,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * Finds all concepts that are parents (token-type related) of a given
      * concept
      *
-     * @param c the concept
+     * @param concept the concept
      * @return a list of concepts
      */
     @Override
@@ -453,7 +453,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * Finds all concepts that are classes of instance (has-instance related) of
      * a given concept
      *
-     * @param c the concept
+     * @param concept the concept
      * @return a list of concepts
      */
     @Override
@@ -475,7 +475,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * Finds all concepts that are instances (instance-of related) of a given
      * concept
      *
-     * @param c the concept
+     * @param concept the concept
      * @return a list of concepts
      */
     @Override
@@ -497,7 +497,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     /**
      * Finds all the Basic Level concepts for the given concept
      *
-     * @param c concept to be checked
+     * @param concept concept to be checked
      * @return The list of BL
      */
     @Override
@@ -530,7 +530,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     /**
      * Finds all the Basic Level concepts for the given non abstract concept.
      *
-     * @param con
+     * @param concept
      * @return The list of BL
      */
     @Override
@@ -563,7 +563,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     /**
      * Finds all the Basic Level concepts for the given abstract concept.
      *
-     * @param c concept to be checked
+     * @param concept concept to be checked
      * @return The list of BL
      */
     @Override
@@ -589,7 +589,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     /**
      * Finds all the Basic Level concepts for the given movement origin concept.
      *
-     * @param c concept to be checked
+     * @param concept concept to be checked
      * @return The list of BL
      */
     // special getting BL for movement origin concepts 
@@ -645,7 +645,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * Finds all the Basic Level concepts for the given concept, moving only
      * down in the hierarchy.
      *
-     * @param c concept to be checked
+     * @param concept concept to be checked
      * @return The list of BL
      */
     private List<Concept> getBasicLevelOfMovementOriginConceptGoingDown(
@@ -672,7 +672,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * Finds all concepts that are related to a given concept using a given
      * relation type
      *
-     * @param c             the concept
+     * @param concept       the concept
      * @param relation_type the type of relation (direction sensitive)
      * @return a list of concepts
      */
@@ -843,7 +843,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                         }
                     }
                 }
-
                 oldConcept.getIntersectionsOfRelationChains().
                         add(newConcept.getIntersectionsOfRelationChains().
                                 get(i));
