@@ -296,12 +296,12 @@ public class Relation implements Serializable {
      * be used to express the Object in this relation"
      */
     public String getLanguageRepresentationObject_() {
-        String language_representation_object_;
-        language_representation_object_ = new String();
+        String languageRepresentationObject_;
+        languageRepresentationObject_ = new String();
         // TODO: Not sure about the data type below.
-        language_representation_object_ =
-                languageRepresentationObject.toString();  //.getLanguaText();
-        return language_representation_object_;
+        languageRepresentationObject_ =
+                languageRepresentationObject_.toString();  //.getLanguaText();
+        return languageRepresentationObject_;
     }
 
     public void setLanguageRepresentationObject(
@@ -327,13 +327,13 @@ public class Relation implements Serializable {
      * used to express the Object in this relation"
      */
     public List<String> getMotoricRepresentationObject_() {
-        List<String> motoric_representation_object_ = new ArrayList<>();
+        List<String> motoricRepresentationObject_ = new ArrayList<>();
         for (MotoricRepresentation motoricRepresentationObject1
                 : motoricRepresentationObject) {
-            motoric_representation_object_.add(
+            motoricRepresentationObject_.add(
                     motoricRepresentationObject1.toString());
         }
-        return motoric_representation_object_;
+        return motoricRepresentationObject_;
     }
 
     public void setMotoricRepresentationObject(
