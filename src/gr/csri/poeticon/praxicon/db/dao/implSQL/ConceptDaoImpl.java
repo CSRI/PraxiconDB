@@ -42,7 +42,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     /**
      * Finds all concepts that have a specific conceptId
      *
-     * @param concept_id the concept id to search for
+     * @param conceptId the concept id to search for
      * @return a list of concepts found in the database
      */
     @Override
@@ -57,7 +57,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * Finds all concepts that have a name or language representation containing
      * a given string
      *
-     * @param concept_name the concept name to search for
+     * @param conceptName the concept name to search for
      * @return a list of concepts found in the database
      */
     @Override
@@ -70,7 +70,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     /**
      * Finds all concepts that have a name equal to a given string
      *
-     * @param concept_name the concept name to search for
+     * @param conceptName the concept name to search for
      * @return a list of concepts found in the database
      */
     @Override
@@ -354,7 +354,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * Finds all concepts that are children (type-token related) of a given
      * concept
      *
-     * @param c the concept
+     * @param concept the concept
      * @return a list of concepts
      */
     @Override
@@ -673,7 +673,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * relation type
      *
      * @param concept       the concept
-     * @param relation_type the type of relation (direction sensitive)
+     * @param relationType the type of relation (direction sensitive)
      * @return a list of concepts
      */
     @Override
