@@ -211,8 +211,8 @@ public class Relation implements Serializable {
         return derivationSupported;
     }
 
-    public void setDerivation(derivation_supported derivation_supported) {
-        this.derivationSupported = derivation_supported;
+    public void setDerivation(derivation_supported derivationSupported) {
+        this.derivationSupported = derivationSupported;
     }
 
     @XmlTransient
@@ -296,11 +296,11 @@ public class Relation implements Serializable {
      * be used to express the Object in this relation"
      */
     public String getLanguageRepresentationObject_() {
-        String languageΡepresentationΟbject;
-        languageΡepresentationΟbject = new String();
+        String languageΡepresentationΟbject_;
+        languageΡepresentationΟbject_ = new String();
         // TODO: Not sure about the data type below.
-        languageΡepresentationΟbject = languageRepresentationObject.toString();
-        return languageΡepresentationΟbject;
+        languageΡepresentationΟbject_ = languageRepresentationObject.toString();
+        return languageΡepresentationΟbject_;
     }
 
     public void setLanguageRepresentationObject(
@@ -326,13 +326,13 @@ public class Relation implements Serializable {
      * used to express the Object in this relation"
      */
     public List<String> getMotoricRepresentationObject_() {
-        List<String> motoric_representation_object_ = new ArrayList<>();
+        List<String> motoricRepresentationObject_ = new ArrayList<>();
         for (MotoricRepresentation motoricRepresentationObject1
                 : motoricRepresentationObject) {
-            motoric_representation_object_.add(
+            motoricRepresentationObject_.add(
                     motoricRepresentationObject1.toString());
         }
-        return motoric_representation_object_;
+        return motoricRepresentationObject_;
     }
 
     public void setMotoricRepresentationObject(
