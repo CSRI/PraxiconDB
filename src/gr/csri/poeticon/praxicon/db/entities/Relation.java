@@ -296,12 +296,11 @@ public class Relation implements Serializable {
      * be used to express the Object in this relation"
      */
     public String getLanguageRepresentationObject_() {
-        String language_representation_object_;
-        language_representation_object_ = new String();
+        String languageΡepresentationΟbject;
+        languageΡepresentationΟbject = new String();
         // TODO: Not sure about the data type below.
-        language_representation_object_ =
-                languageRepresentationObject.toString();  //.getLanguaText();
-        return language_representation_object_;
+        languageΡepresentationΟbject = languageRepresentationObject.toString();
+        return languageΡepresentationΟbject;
     }
 
     public void setLanguageRepresentationObject(
