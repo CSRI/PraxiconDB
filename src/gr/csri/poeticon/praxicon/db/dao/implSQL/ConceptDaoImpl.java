@@ -42,7 +42,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     /**
      * Finds all concepts that have a specific conceptId
      *
-     * @param concept_id the concept id to search for
+     * @param conceptId the concept id to search for
      * @return a list of concepts found in the database
      */
     @Override
@@ -57,7 +57,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * Finds all concepts that have a name or language representation containing
      * a given string
      *
-     * @param concept_name the concept name to search for
+     * @param conceptName the concept name to search for
      * @return a list of concepts found in the database
      */
     @Override
@@ -70,7 +70,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     /**
      * Finds all concepts that have a name equal to a given string
      *
-     * @param concept_name the concept name to search for
+     * @param conceptName the concept name to search for
      * @return a list of concepts found in the database
      */
     @Override
@@ -523,7 +523,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             }
         }
 //        }
-
         return new ArrayList<>();
     }
 
@@ -592,8 +591,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @param concept concept to be checked
      * @return The list of BL
      */
-    // special getting BL for movement origin concepts 
-    // lookin up and down regardless type
     private List<Concept> getBasicLevelOfMovementOriginConcept(Concept concept) {
         List<Concept> res = new ArrayList<>();
 
@@ -756,8 +753,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             e.printStackTrace();
             //    entityManager.getTransaction().rollback();
         }
-        // System.out.println("DONE WITH LanguageRepresentation");
-
     }
 
     /**
