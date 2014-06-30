@@ -55,7 +55,7 @@ import javax.xml.bind.annotation.XmlType;
             "SELECT r FROM Relation r, RelationType rt " +
             "WHERE (r.subject = :concept_id OR r.object = :concept_id) " +
             "AND r.type = rt " +
-            "AND rt.forwardName = :relation_type)"),
+            "AND rt.forwardName = :relation_type"),
     @NamedQuery(name = "findRelationsByConceptObject", query =
             "SELECT r FROM Relation r " +
             "WHERE r.object = :concept_id"),
