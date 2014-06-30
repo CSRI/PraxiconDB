@@ -30,7 +30,35 @@ public class RelationArgument implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL)
     private RelationSet relationSet;
-    
+
+    /**
+     * Constructor #1. Both concept and relationSet are set to null.
+     */
+    public RelationArgument() {
+        this.concept = null;
+        this.relationSet = null;
+    }
+
+    /**
+     * Constructor #2. concept is given and relationSet is set to null.
+     *
+     * @param concept
+     */
+    public RelationArgument(Concept concept) {
+        this.concept = concept;
+        this.relationSet = null;
+    }
+
+    /**
+     * Constructor #3. relationSet is given and concept is set to null.
+     *
+     * @param relationSet
+     */
+    public RelationArgument(RelationSet relationSet) {
+        this.concept = null;
+        this.relationSet = relationSet;
+    }
+
     public Long getId() {
         return id;
     }
@@ -39,7 +67,40 @@ public class RelationArgument implements Serializable {
         this.id = id;
     }
 
-    
+    public Concept getConcept() {
+        return concept;
+    }
+
+    public void setConcept(Concept concept) {
+        this.concept = concept;
+    }
+
+    public RelationSet getRelationSet() {
+        return relationSet;
+    }
+
+    public void setRelationSet(RelationSet relationSet) {
+        this.relationSet = relationSet;
+    }
+
+    public Object getArgumentAsObject() {
+        if (concept != null) {
+            return (Object)this.concept;
+        } else if (relationSet != null) {
+            return (Object)this.relationSet;
+        }
+        return null;
+    }
+
+    public Class getArgumentClassType() {
+        if (concept != null) {
+            return this.concept.getClass();
+        } else if (relationSet != null) {
+            return this.relationSet.getClass();
+        }
+        return null;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -66,9 +127,4 @@ public class RelationArgument implements Serializable {
         return "gr.csri.poeticon.praxicon.db.entities.RelationArgument[ id=" +
                 id + " ]";
     }
-
-    Object getRelationsContainingConceptAsObject() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 }
