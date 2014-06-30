@@ -3,34 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package gr.csri.poeticon.praxicon.db.entities;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 /**
  *
  * @author dmavroeidis
  */
 @Entity
-public class RelationArgument implements Serializable {
-
+public class RelationSet implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Concept concept;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private RelationSet relationSet;
-    
     public Long getId() {
         return id;
     }
@@ -39,7 +31,6 @@ public class RelationArgument implements Serializable {
         this.id = id;
     }
 
-    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -50,10 +41,10 @@ public class RelationArgument implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof RelationArgument)) {
+        if (!(object instanceof RelationSet)) {
             return false;
         }
-        RelationArgument other = (RelationArgument)object;
+        RelationSet other = (RelationSet)object;
         if ((this.id == null && other.id != null) ||
                 (this.id != null && !this.id.equals(other.id))) {
             return false;
@@ -63,12 +54,8 @@ public class RelationArgument implements Serializable {
 
     @Override
     public String toString() {
-        return "gr.csri.poeticon.praxicon.db.entities.RelationArgument[ id=" +
-                id + " ]";
+        return "gr.csri.poeticon.praxicon.db.entities.RelationSet[ id=" + id +
+                " ]";
     }
-
-    Object getRelationsContainingConceptAsObject() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
 }
