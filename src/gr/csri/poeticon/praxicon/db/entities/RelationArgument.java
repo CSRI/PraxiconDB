@@ -6,12 +6,16 @@
 package gr.csri.poeticon.praxicon.db.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 
 /**
  *
@@ -22,7 +26,9 @@ public class RelationArgument implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
+    @Column(name = "RelationArgumentId")
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -30,6 +36,18 @@ public class RelationArgument implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL)
     private RelationSet relationSet;
+
+    /*
+     Relations that have "this" RelationArgument as Object.
+     */
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "object")
+    private List<Relation> relationsContainingRelationArgumentAsObject;
+
+    /*
+     Relations that have "this" RelationArgument as Subject.
+     */
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subject")
+    private List<Relation> relationsContainingRelationArgumentAsSubject;
 
     /**
      * Constructor #1. Both concept and relationSet are set to null.
@@ -59,31 +77,70 @@ public class RelationArgument implements Serializable {
         this.relationSet = relationSet;
     }
 
+    /**
+     * Gets the id of this RelationArgument.
+     *
+     * @return Long integer.
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     *
+     * Sets the id of this RelationArgument.
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return the Concept connected with this RelationArgument (can be null)
+     */
     public Concept getConcept() {
         return concept;
     }
 
+    /**
+     *
+     * Sets the concept of this RelationArgument. It cannot be set if the
+     * relationSet has already been set.
+     *
+     * @param concept
+     */
     public void setConcept(Concept concept) {
-        this.concept = concept;
+        if (this.relationSet == null) {
+            this.concept = concept;
+        }
     }
 
+    /**
+     * Gets the RelationSet of this RelationArgument.
+     *
+     * @return the RelationSet connected with this RelationArgument (can be null)
+     */
     public RelationSet getRelationSet() {
         return relationSet;
     }
 
+    /**
+     * Sets the RelationSet of this RelationArgument. It cannot be set if the
+     * concept has already been set.
+     *
+     * @param relationSet
+     */
     public void setRelationSet(RelationSet relationSet) {
-        this.relationSet = relationSet;
+        if (this.concept == null) {
+            this.relationSet = relationSet;
+        }
     }
 
-    public Object getArgumentAsObject() {
+    /**
+     *
+     * @return an Object that is either a Concept or RelationSet.
+     */
+    public Object getRelationArgumentAsObject() {
         if (concept != null) {
             return (Object)this.concept;
         } else if (relationSet != null) {
@@ -92,7 +149,12 @@ public class RelationArgument implements Serializable {
         return null;
     }
 
-    public Class getArgumentClassType() {
+    /**
+     *
+     * @return the class type of this RelationArgument.
+     *         Can be either Concept or RelationSet.
+     */
+    public Class getRelationArgumentClassType() {
         if (concept != null) {
             return this.concept.getClass();
         } else if (relationSet != null) {
