@@ -24,7 +24,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -45,8 +44,8 @@ import javax.xml.bind.annotation.XmlType;
 @NamedQueries({
     @NamedQuery(name = "findRelationsByRelationTypeConcept", query =
             "SELECT r FROM Relation r, RelationType rt " +
-            "WHERE ((r.subject = :subject_concept_id " +
-            "OR r.object = :object_concept_id) " +
+            "WHERE ((r.subject = :subject_id " +
+            "OR r.object = :object_id) " +
             "AND rt.id = :relation_type_id)"),
     @NamedQuery(name = "findRelationsByConceptObjectOrSubject", query =
             "SELECT r FROM Relation r " +
@@ -93,22 +92,19 @@ public class Relation implements Serializable {
     @Column(name = "Comment")
     private String comment;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "relation")
-    private List<RelationChain_Relation> mainFunctions;
-
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     //@JoinColumn(name="Id")
     private RelationType type;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    // @JoinColumn(name="ConceptId")
-    @NotNull(message = "Concept Id name must be specified.")
-    private Concept object;
+    @JoinColumn(name = "RelationArgumentId")
+    @NotNull(message = "Object of relation must be specified.")
+    private RelationArgument object;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    // @JoinColumn(name="ConceptId")
-    @NotNull(message = "Concept Id must be specified.")
-    private Concept subject;
+    @JoinColumn(name = "RelationArgumentId")
+    @NotNull(message = "Subject of relation must be specified.")
+    private RelationArgument subject;
 
     @Column(name = "DerivationSupported")
     @NotNull(message = "Derivation support must be specified.")
@@ -177,7 +173,8 @@ public class Relation implements Serializable {
 
 // TODO: Uncomment each method after checking it first
     public Relation() {
-        mainFunctions = new ArrayList<>();
+        subject = new RelationArgument();
+        object = new RelationArgument();
         visualRepresentationObject = new ArrayList<>();
         visualRepresentationSubject = new ArrayList<>();
         languageRepresentationObject = new ArrayList<>();
@@ -187,18 +184,39 @@ public class Relation implements Serializable {
         type = new RelationType();
     }
 
+    @XmlAttribute
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     /**
-     * @return Concept as subject
+     * @return RelationArgument as subject
      * @xmlcomments.args xmltag="subject" xmldescription="This attribute defines
      * the object that the relation is related to"
      */
     //@XmlAttribute(name="subject")
-    public Concept getSubject() {
+    public RelationArgument getSubject() {
         return subject;
     }
 
-    public void setSubject(Concept subject) {
+    public void setSubject(RelationArgument subject) {
         this.subject = subject;
+    }
+
+    /**
+     * @xmlcomments.args xmltag="object" xmldescription="This attribute defines
+     * the object that the relation is related to"
+     */
+    public RelationArgument getObject() {
+        return object;
+    }
+
+    public void setObject(RelationArgument object) {
+        this.object = object;
     }
 
     /**
@@ -215,27 +233,6 @@ public class Relation implements Serializable {
         this.derivationSupported = derivationSupported;
     }
 
-    @XmlTransient
-    public List<RelationChain_Relation> getMainFunctions() {
-        return mainFunctions;
-    }
-
-    public void setMainFunctions(List<RelationChain_Relation> mainFunctions) {
-        this.mainFunctions = mainFunctions;
-    }
-
-    /**
-     * @xmlcomments.args xmltag="object" xmldescription="This attribute defines
-     * the object that the relation is related to"
-     */
-    public Concept getObject() {
-        return object;
-    }
-
-    public void setObject(Concept object) {
-        this.object = object;
-    }
-
     /**
      * @return the type of the relation.
      * @xmlcomments.args xmltag="&lt;relation_type&gt;" xmldescription="This tag
@@ -247,9 +244,9 @@ public class Relation implements Serializable {
 
     /**
      * Sets the type of the Relation but it doesn't check if there is the same
-     * type twice
+     * type twice.
      *
-     * @param type the type of the relation
+     * @param type the type of relation
      */
     public void setTypeSimple(RelationType type) {
         this.type = type;
@@ -266,15 +263,6 @@ public class Relation implements Serializable {
         this.type = type;
     }
 
-    @XmlAttribute
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getComment() {
         return comment;
     }
@@ -289,8 +277,8 @@ public class Relation implements Serializable {
     }
 
     /**
-     * @return the language representation of the concept that is on the object
-     *         side of the relation.
+     * @return the language representation of the object side of the relation.
+     *         The object can be a Concept or a RelationSet.
      * @xmlcomments.args xmltag="&lt;language_representation_object&gt;"
      * xmldescription="This tag defines the LanguageRepresentation that should
      * be used to express the Object in this relation"
@@ -298,7 +286,6 @@ public class Relation implements Serializable {
     public String getLanguageRepresentationObject_() {
         String languageΡepresentationΟbject_;
         languageΡepresentationΟbject_ = new String();
-        // TODO: Not sure about the data type below.
         languageΡepresentationΟbject_ = languageRepresentationObject.toString();
         return languageΡepresentationΟbject_;
     }
