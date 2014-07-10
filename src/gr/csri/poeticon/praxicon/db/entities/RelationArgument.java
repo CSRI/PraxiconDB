@@ -6,7 +6,10 @@
 package gr.csri.poeticon.praxicon.db.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -89,6 +92,8 @@ public class RelationArgument implements Serializable {
     /**
      *
      * Sets the id of this RelationArgument.
+     *
+     * @param id
      */
     public void setId(Long id) {
         this.id = id;
@@ -112,6 +117,9 @@ public class RelationArgument implements Serializable {
     public void setConcept(Concept concept) {
         if (this.relationSet == null) {
             this.concept = concept;
+        } else {
+            System.err.println("Cannot set concept of the relation argument " +
+                    "as a concept is already present.");
         }
     }
 
@@ -133,7 +141,43 @@ public class RelationArgument implements Serializable {
     public void setRelationSet(RelationSet relationSet) {
         if (this.concept == null) {
             this.relationSet = relationSet;
+        } else {
+            System.err.println("Cannot set relation set of the " +
+                    "relation argument as a concept is already present.");
         }
+    }
+
+    /**
+     * Gets relations that contain this relationArgument as object.
+     *
+     * @return A list of relations
+     */
+    public List<Relation> getRelationsContainingRelationArgumentAsObject() {
+        return relationsContainingRelationArgumentAsObject;
+    }
+
+
+    /**
+     * Gets relations that contain this relationArgument as subject.
+     *
+     * @return A list of relations
+     */
+    public List<Relation> getRelationsContainingRelationArgumentAsSubject() {
+        return relationsContainingRelationArgumentAsSubject;
+    }
+
+    /**
+     * Gets relations that contain this relationArgument either as subject or
+     * object. A set is used, so that there are no duplicate entries.
+     *
+     * @return a set of relations
+     */
+    public Set<Relation> getRelationsContainingRelationArgument() {
+        List<Relation> relationList = new ArrayList();
+        relationList.addAll(this.relationsContainingRelationArgumentAsObject);
+        relationList.addAll(this.relationsContainingRelationArgumentAsSubject);
+        HashSet<Relation> relationSet = new HashSet<>(relationList);
+        return relationSet;
     }
 
     /**
