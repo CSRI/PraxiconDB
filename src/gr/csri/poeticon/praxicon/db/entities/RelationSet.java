@@ -16,6 +16,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
@@ -35,6 +38,16 @@ public class RelationSet implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet")
     private List<RelationSet_Relation> relations;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "LanguageRepresentation_RelationSet",
+            joinColumns = {
+                @JoinColumn(name = "RelationSetId")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "LanguageRepresentationId")}
+    )
+    List<LanguageRepresentation> languageRepresentations;
 
     public Long getId() {
         return id;
@@ -68,6 +81,29 @@ public class RelationSet implements Serializable {
     public Set<Relation> getRelationsSet() {
         HashSet<Relation> relationSet = new HashSet<>(this.getRelationsList());
         return relationSet;
+    }
+
+    public List<LanguageRepresentation> getLanguageRepresentations() {
+        return languageRepresentations;
+    }
+
+    /**
+     * @return the names of the language representations of the concepts that
+     *         participate in the relation chain.
+     */
+    public List<String> getLanguageRepresentationNames() {
+        List<String> languageRepresentationNames = new ArrayList<>();
+        for (LanguageRepresentation languageRepresentation
+                : languageRepresentations) {
+            languageRepresentationNames.add(
+                    languageRepresentation.getText());
+        }
+        return languageRepresentationNames;
+    }
+
+    public void setLanguageRepresentationNames(
+            List<LanguageRepresentation> languageRepresentationNames) {
+        this.languageRepresentations = languageRepresentationNames;
     }
 
     @Override

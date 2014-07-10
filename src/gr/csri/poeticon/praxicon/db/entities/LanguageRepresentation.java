@@ -170,25 +170,15 @@ public class LanguageRepresentation implements Serializable {
     )
     private List<Relation> relationsWithLanguageRepresentationAsObject;
 
-    // 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
+            name = "LanguageRepresentation_RelationSet",
             joinColumns = {
-                @JoinColumn(name = "RelationChainId")},
+                @JoinColumn(name = "LanguageRepresentationId")},
             inverseJoinColumns = {
-                @JoinColumn(name = "LanguageRepresentationId")}
+                @JoinColumn(name = "RelationSetId")}
     )
-    private List<RelationChain> languageRepresentationRelationChains;
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "LanguageRepresentation_IntersectionOfRelationChains",
-            joinColumns = {
-                @JoinColumn(name = "IntersectionOfRelationChainsId")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "LanguageRepresentationId")}
-    )
-    private List<IntersectionOfRelationChains> languageRepresentationIntersections;
+    private List<RelationSet> RelationSets;
 
     // Foreign key
     @OneToMany(cascade = CascadeType.ALL,
