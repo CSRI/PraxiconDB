@@ -45,7 +45,7 @@ public class RelationSet implements Serializable {
     }
 
     /**
-     * Gets all Relations contained in this RelationSet.
+     * Gets a list of all Relations contained in this RelationSet.
      *
      * @return a list of relations
      */
@@ -53,21 +53,20 @@ public class RelationSet implements Serializable {
         List<RelationSet_Relation> relationSet_RelationList = new ArrayList();
         List<Relation> relationList = new ArrayList();
         relationSet_RelationList = this.relations;
-        for (RelationSet_Relation relationSetRelation :
-                relationSet_RelationList) {
+        for (RelationSet_Relation relationSetRelation : relationSet_RelationList) {
             relationList.add(relationSetRelation.getRelation());
         }
         return relationList;
     }
 
     /**
-     * Gets all Relations contained in this RelationSet.
+     * Gets all Relations contained in this RelationSet in the form of Set,
+     * which means that there are no duplicate entries.
      *
      * @return a set of relations
      */
     public Set<Relation> getRelationsSet() {
-        HashSet<Relation> relationSet = new HashSet<Relation>(this.
-                getRelationsList());
+        HashSet<Relation> relationSet = new HashSet<>(this.getRelationsList());
         return relationSet;
     }
 
