@@ -23,6 +23,7 @@ import javax.persistence.Index;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -33,7 +34,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -200,6 +200,9 @@ public class Concept implements Serializable {
     //@XmlElement(required = false)
     private String comment;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private RelationArgument relationArgument;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
     private List<Concept_LanguageRepresentation> languageRepresentations;
 
@@ -212,18 +215,6 @@ public class Concept implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
     private List<IntersectionOfRelationChains> intersectionsOfRelationChains;
 
-    /*
-     Relations that have "this" concept as Object.
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "object")
-    private List<Relation> relationsContainingConceptAsObject;
-
-    /*
-     Relations that have "this" concept as Subject.
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subject")
-    private List<Relation> relationsContainingConceptAsSubject;
-
     // Public Constructor
     public Concept() {
         name = null;
@@ -232,8 +223,6 @@ public class Concept implements Serializable {
         languageRepresentations = new ArrayList<>();
         visualRepresentations = new ArrayList<>();
         motoricRepresentations = new ArrayList<>();
-        relationsContainingConceptAsObject = new ArrayList<>();
-        relationsContainingConceptAsSubject = new ArrayList<>();
         intersectionsOfRelationChains = new ArrayList<>();
     }
 
@@ -246,7 +235,6 @@ public class Concept implements Serializable {
         languageRepresentations = new ArrayList<>();
         visualRepresentations = new ArrayList<>();
         motoricRepresentations = new ArrayList<>();
-        relationsContainingConceptAsObject = new ArrayList<>();
         intersectionsOfRelationChains = new ArrayList<>();
 
         for (LanguageRepresentation tmpLanguageRepresentation : newConcept.
@@ -273,24 +261,6 @@ public class Concept implements Serializable {
                     getMotoricRepresentations().get(i))) {
                 this.getMotoricRepresentations().add(newConcept.
                         getMotoricRepresentations().get(i));
-            }
-        }
-
-        for (int i = 0; i < newConcept.getRelationsContainingConceptAsObject().
-                size(); i++) {
-            if (!this.getRelationsContainingConceptAsObject().contains(
-                    newConcept.getRelationsContainingConceptAsObject().
-                    get(i))) {
-                if (newConcept.getRelationsContainingConceptAsObject().get(i).
-                        getObject().equals(newConcept)) {
-                    newConcept.getRelationsContainingConceptAsObject().get(i).
-                            setObject(this);
-                } else {
-                    newConcept.getRelationsContainingConceptAsObject().get(i).
-                            setSubject(this);
-                }
-                this.getRelationsContainingConceptAsObject().add(newConcept.
-                        getRelationsContainingConceptAsObject().get(i));
             }
         }
 
@@ -689,58 +659,75 @@ public class Concept implements Serializable {
     //
     /**
      * @return an intersection of relation chains.
-     * @xmlcomments.args xmltag="&lt;intersection_of_relation_chains&gt;"
-     * xmldescription="This tag defines the intersection of relation chains this
-     * concept participates in"
+     *
      */
     public final List<IntersectionOfRelationChains>
             getIntersectionsOfRelationChains() {
         return intersectionsOfRelationChains;
     }
 
-    @XmlTransient
-    public final List<Relation> getRelationsContainingConceptAsObject() {
-        return relationsContainingConceptAsObject;
-    }
-
-    public void setRelationsContainingConceptAsObject(
-            List<Relation> objectOfRelations) {
-        this.relationsContainingConceptAsObject = objectOfRelations;
+    /**
+     * Gets all relations that contain this concept as object.
+     *
+     * @return a list of relations
+     */
+    public List<Relation> getRelationsContainingConceptAsObject() {
+        List<Relation> relationList = new ArrayList();
+        for (Relation relation : this.relationArgument.
+                getRelationsContainingRelationArgumentAsObject()) {
+            if (relation.getObject().isConcept()) {
+                if (relation.getObject().getConcept().equals(this)) {
+                    relationList.add(relation);
+                }
+            }
+        }
+        return relationList;
     }
 
     /**
-     * Updates object relations of a concept using this concept object relations
+     * Gets all relations that contain this concept as subject.
      *
-     * @param oldConcept the concept to be updated
+     * @return a list of relations
+     *
      */
-    public void updateObjOfRelations(Concept oldConcept) {
-        for (int i = 0; i < this.getRelationsContainingConceptAsObject().size();
-                i++) {
-            if (!oldConcept.getRelationsContainingConceptAsObject().contains(
-                    this.getRelationsContainingConceptAsObject().get(i))) {
-                if (this.getRelationsContainingConceptAsObject().get(i).
-                        getObject().equals(this)) {
-                    this.getRelationsContainingConceptAsObject().get(i).
-                            setObject(oldConcept);
-                } else {
-                    this.getRelationsContainingConceptAsObject().get(i).
-                            setSubject(oldConcept);
+    public List<Relation> getRelationsContainingConceptAsSubject() {
+        List<Relation> relationList = new ArrayList();
+        for (Relation relation : this.relationArgument.
+                getRelationsContainingRelationArgumentAsSubject()) {
+            if (relation.getObject().isConcept()) {
+                if (relation.getSubject().getConcept().equals(this)) {
+                    relationList.add(relation);
                 }
-                oldConcept.getRelationsContainingConceptAsObject().add(
-                        this.getRelationsContainingConceptAsObject().get(i));
             }
         }
+        return relationList;
     }
 
-    @XmlTransient
-    public final List<Relation> getRelationsContainingConceptAsSubject() {
-        return relationsContainingConceptAsSubject;
-    }
-
-    public void setRelationsContainingConceptAsSubject(
-            List<Relation> subjectOfRelations) {
-        this.relationsContainingConceptAsSubject = subjectOfRelations;
-    }
+    /* TODO: The following is not used anywhere in the project. So, for now
+     it is commented. */
+//    /**
+//     * Updates object relations of a concept using this concept object relations
+//     *
+//     * @param oldConcept the concept to be updated
+//     */
+//    public void updateObjOfRelations(Concept oldConcept) {
+//        for (int i = 0; i < this.getRelationsContainingConceptAsObject().size();
+//                i++) {
+//            if (!oldConcept.getRelationsContainingConceptAsObject().contains(
+//                    this.getRelationsContainingConceptAsObject().get(i))) {
+//                if (this.getRelationsContainingConceptAsObject().get(i).
+//                        getObject().equals(this)) {
+//                    this.getRelationsContainingConceptAsObject().get(i).
+//                            setObject(oldConcept);
+//                } else {
+//                    this.getRelationsContainingConceptAsObject().get(i).
+//                            setSubject(oldConcept);
+//                }
+//                oldConcept.getRelationsContainingConceptAsObject().add(
+//                        this.getRelationsContainingConceptAsObject().get(i));
+//            }
+//        }
+//    }
 
     /**
      * Adds a new intersection of relation chains to this concept
@@ -753,32 +740,34 @@ public class Concept implements Serializable {
         this.intersectionsOfRelationChains.add(intersection);
     }
 
-    /**
-     * Adds a new intersection of relation chains to this concept created using
-     * given relation types (fw+bw) and given relation objects
-     *
-     * @param relationTypeForward  list of forward types of relations
-     * @param relationTypeBackward list of backward types of relations
-     * @param objectConcepts       list of concepts to be used as objects
-     */
-    public void addRelation(List<String> relationTypeForward,
-            List<String> relationTypeBackward, List<Concept> objectConcepts) {
-        IntersectionOfRelationChains inter = new IntersectionOfRelationChains();
-        for (int i = 0; i < relationTypeForward.size(); i++) {
-            RelationType rType = new RelationType();
-            rType.setForwardName(relationTypeForward.get(i));
-            rType.setBackwardName(relationTypeBackward.get(i));
-            Relation rel = new Relation();
-            rel.setType(rType);
-            rel.setSubject(this);
-            rel.setObject(objectConcepts.get(i));
-            RelationChain rChain = new RelationChain();
-            rChain.addRelation(rel, 0);
-            inter.addRelationChain(rChain);
-        }
-        this.addIntersectionOfRelationChains(inter);
-    }
-
+    /* TODO: The following is not used anywhere in the project. So, for now
+     it is commented. */
+//    /**
+//     * Adds a new intersection of relation chains to this concept created using
+//     * given relation types (fw+bw) and given relation objects
+//     *
+//     * @param relationTypeForward  list of forward types of relations
+//     * @param relationTypeBackward list of backward types of relations
+//     * @param objectConcepts       list of concepts to be used as objects
+//     */
+//    public void addRelation(List<String> relationTypeForward,
+//            List<String> relationTypeBackward, List<Concept> objectConcepts) {
+//        IntersectionOfRelationChains inter = new IntersectionOfRelationChains();
+//        for (int i = 0; i < relationTypeForward.size(); i++) {
+//            RelationType rType = new RelationType();
+//            rType.setForwardName(relationTypeForward.get(i));
+//            rType.setBackwardName(relationTypeBackward.get(i));
+//            Relation rel = new Relation();
+//            rel.setType(rType);
+//            rel.setSubject(this);
+//            rel.setObject(objectConcepts.get(i));
+//            RelationChain rChain = new RelationChain();
+//            rChain.addRelation(rel, 0);
+//            inter.addRelationChain(rChain);
+//        }
+//        this.addIntersectionOfRelationChains(inter);
+//    }
+    
     /**
      * Updates relations of a concept using this concept relations
      *
@@ -901,7 +890,7 @@ public class Concept implements Serializable {
                 updateLanguageRepresentations(tmp);
                 updateVisualRepresentations(tmp);
                 updateMotoricRepresentations(tmp);
-                updateObjOfRelations(tmp);
+                //updateObjOfRelations(tmp);
                 updateRelations(tmp);
             }
         }
