@@ -156,7 +156,6 @@ public class RelationArgument implements Serializable {
         return relationsContainingRelationArgumentAsObject;
     }
 
-
     /**
      * Gets relations that contain this relationArgument as subject.
      *
@@ -205,6 +204,14 @@ public class RelationArgument implements Serializable {
             return this.relationSet.getClass();
         }
         return null;
+    }
+
+    public boolean isConcept() {
+        if (this.getRelationArgumentClassType() == Concept.class) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
