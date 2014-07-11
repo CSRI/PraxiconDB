@@ -6,9 +6,9 @@ package gr.csri.poeticon.praxicon.db.dao.implSQL;
 
 import gr.csri.poeticon.praxicon.db.dao.RelationDao;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
-import gr.csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
-import gr.csri.poeticon.praxicon.db.entities.RelationChain;
+import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
+import gr.csri.poeticon.praxicon.db.entities.RelationSet;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,21 +49,21 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      * Finds relations that have a given concept as object and creates
      * Intersections of RelationChains that contain only one relation each
      *
-     * @param c the concept to be searched
+     * @param relationArgument the relation argument to be searched
      * @return a list of IntersectionOfRelationChains
      */
     @Override
-    public List<IntersectionOfRelationChains> getIntersectionsWithConceptAsObject(
-            Concept concept) {
+    public List<RelationSet> getRelationSetsWithRelationArgumentAsObject(
+            RelationArgument relationArgument) {
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByConceptObjectOrSubject").
-                setParameter("concept_id", concept.getId());
+                setParameter("concept_id", relationArgument.getId());
         List<Relation> objRels = query.getResultList();
-        List<IntersectionOfRelationChains> res = new ArrayList<>();
+        List<RelationSet> res = new ArrayList<>();
         for (Relation r : objRels) {
-            if (r.getObject().equals(concept)) {
+            if (r.getObject().equals(relationArgument)) {
                 r.setObject(r.getSubject());
-                r.setSubject(concept);
+                r.setSubject(relationArgument);
                 RelationType tmpType = new RelationType();
                 RelationType.relation_name_backward tmp =
                         r.getType().getBackwardName();
@@ -71,17 +71,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
                 tmpType.setBackwardName(tmp);
                 r.setType(tmpType);
             }
-            RelationChain rc = new RelationChain();
-            rc.addRelation(r, 0);
-            IntersectionOfRelationChains ir =
-                    new IntersectionOfRelationChains();
-            ir.getRelationChains().add(rc);
-            rc.getIntersections().add(ir);
-            IntersectionOfRelationChains ui =
-                    new IntersectionOfRelationChains();
-            if (!concept.getIntersectionsOfRelationChains().contains(ui)) {
-                res.add(ui);
-            }
+            RelationSet rs = new RelationSet();
+            rs.addRelation(r, 0);
         }
         return res;
     }

@@ -4,10 +4,10 @@
  */
 package gr.csri.poeticon.praxicon.db.dao.implXML;
 
-import gr.csri.poeticon.praxicon.db.dao.RelationChainDao;
+import gr.csri.poeticon.praxicon.db.dao.RelationSetDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.JpaDao;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
-import gr.csri.poeticon.praxicon.db.entities.RelationChain;
+import gr.csri.poeticon.praxicon.db.entities.RelationSet;
 import java.util.List;
 import javax.persistence.Query;
 
@@ -15,11 +15,11 @@ import javax.persistence.Query;
  *
  * @author dmavroeidis
  */
-public class RelationChainDaoImplXML extends JpaDao<Long, RelationChain>
-        implements RelationChainDao {
+public class RelationSetDaoImplXML extends JpaDao<Long, RelationSet>
+        implements RelationSetDao {
 
     @Override
-    public List<RelationChain> getRelationChainsContainingConcept(Concept c) {
+    public List<RelationSet> getRelationSetsContainingConcept(Concept c) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -57,7 +57,7 @@ public class RelationChainDaoImplXML extends JpaDao<Long, RelationChain>
      * @return null //for now
      */
     @Override
-    public Query getEntityQuery(RelationChain entity) {
+    public Query getEntityQuery(RelationSet entity) {
         return null;
     }
 

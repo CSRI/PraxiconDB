@@ -13,6 +13,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,6 +31,16 @@ import javax.persistence.SequenceGenerator;
 @Entity
 public class RelationSet implements Serializable {
 
+    public static enum inherent {
+
+        YES, NO, UNKNOWN;
+
+        @Override
+        public String toString() {
+            return this.name();
+        }
+    }
+
     private static final long serialVersionUID = 1L;
     @Id
     @Column(name = "RelationChainId", nullable = false)
@@ -36,6 +48,13 @@ public class RelationSet implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     private Long id;
 
+    @Column(name = "Name")
+    private String name;
+
+    @Column(name = "Inherent")
+    @Enumerated(EnumType.STRING)
+    private inherent inherent;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet")
     private List<RelationSet_Relation> relations;
 
@@ -55,6 +74,22 @@ public class RelationSet implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public inherent getIsInherent(){
+        return inherent;
+    }
+    
+    public void setIsInherent(inherent inherent){
+        this.inherent = inherent;
+    }
+  
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
@@ -85,6 +120,35 @@ public class RelationSet implements Serializable {
 
     public List<LanguageRepresentation> getLanguageRepresentations() {
         return languageRepresentations;
+    }
+
+    public List<RelationSet_Relation> getRelations() {
+        return relations;
+    }
+
+    public List<Relation> getActualRelations() {
+        List<Relation> rels;
+        rels = new ArrayList<>(relations.size());
+        for (RelationSet_Relation relation : relations) {
+            rels.add(0, null);
+        }
+        for (RelationSet_Relation Relation : relations) {
+            rels.add((int)Relation.getRelationOrder(), Relation.getRelation());
+            rels.remove((int)Relation.getRelationOrder() + 1);
+        }
+        return rels;
+    }
+
+    public void setRelations(List<RelationSet_Relation> relations) {
+        this.relations = relations;
+    }
+
+    public void addRelation(Relation relation, int order) {
+        RelationSet_Relation rcr = new RelationSet_Relation();
+        rcr.setRelation(relation);
+        rcr.setRelationSet(this);
+        rcr.setRelationOrder(order);
+        this.relations.add(rcr);
     }
 
     /**

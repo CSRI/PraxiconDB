@@ -39,11 +39,6 @@ public class RelationChain_Relation implements Serializable {
     @Column(name = "RelationChain_RelationId")
     private Long id;
 
-    // TODO: This could be a OneToMany and the corresponding a ManyToOne
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "RelationChainId")
-    private RelationChain relationChain;
-
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "RelationId")
     private Relation relation;
@@ -58,15 +53,6 @@ public class RelationChain_Relation implements Serializable {
 
     public void setRelation(Relation relation) {
         this.relation = relation;
-    }
-
-    @XmlTransient
-    public RelationChain getRelationChain() {
-        return relationChain;
-    }
-
-    public void setRelationChain(RelationChain relationChain) {
-        this.relationChain = relationChain;
     }
 
     /**

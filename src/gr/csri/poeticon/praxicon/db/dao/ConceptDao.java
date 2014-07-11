@@ -38,8 +38,6 @@ public interface ConceptDao extends Dao<Long, Concept> {
 
     void update(Concept oldConcept, Concept newConcept);
 
-    boolean areRelated(Concept conceptA, String relation, Concept conceptB);
-
     List<Concept> getChildrenOfConcept(Concept concept);
 
     List<Concept> getParentsOfConcept(Concept concept);

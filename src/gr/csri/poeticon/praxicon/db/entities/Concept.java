@@ -212,9 +212,6 @@ public class Concept implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
     private List<MotoricRepresentation> motoricRepresentations;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
-    private List<IntersectionOfRelationChains> intersectionsOfRelationChains;
-
     // Public Constructor
     public Concept() {
         name = null;
@@ -223,7 +220,6 @@ public class Concept implements Serializable {
         languageRepresentations = new ArrayList<>();
         visualRepresentations = new ArrayList<>();
         motoricRepresentations = new ArrayList<>();
-        intersectionsOfRelationChains = new ArrayList<>();
     }
 
     private Concept(Concept newConcept) {
@@ -235,14 +231,14 @@ public class Concept implements Serializable {
         languageRepresentations = new ArrayList<>();
         visualRepresentations = new ArrayList<>();
         motoricRepresentations = new ArrayList<>();
-        intersectionsOfRelationChains = new ArrayList<>();
 
         for (LanguageRepresentation tmpLanguageRepresentation : newConcept.
                 getLanguageRepresentations()) {
             if (!this.getLanguageRepresentations().contains(
                     tmpLanguageRepresentation)) {
                 tmpLanguageRepresentation.getConcepts().remove(newConcept);
-                this.getLanguageRepresentations().add(tmpLanguageRepresentation);
+                this.getLanguageRepresentations().add(
+                        tmpLanguageRepresentation);
             }
         }
 
@@ -261,17 +257,6 @@ public class Concept implements Serializable {
                     getMotoricRepresentations().get(i))) {
                 this.getMotoricRepresentations().add(newConcept.
                         getMotoricRepresentations().get(i));
-            }
-        }
-
-        for (int i = 0; i < newConcept.getIntersectionsOfRelationChains().size();
-                i++) {
-            if (!this.getIntersectionsOfRelationChains().contains(newConcept.
-                    getIntersectionsOfRelationChains().get(i))) {
-                newConcept.getIntersectionsOfRelationChains().get(i).setConcept(
-                        this);
-                this.getIntersectionsOfRelationChains().add(newConcept.
-                        getIntersectionsOfRelationChains().get(i));
             }
         }
     }
@@ -656,16 +641,6 @@ public class Concept implements Serializable {
         }
     }
 
-    //
-    /**
-     * @return an intersection of relation chains.
-     *
-     */
-    public final List<IntersectionOfRelationChains>
-            getIntersectionsOfRelationChains() {
-        return intersectionsOfRelationChains;
-    }
-
     /**
      * Gets all relations that contain this concept as object.
      *
@@ -729,17 +704,6 @@ public class Concept implements Serializable {
 //        }
 //    }
 
-    /**
-     * Adds a new intersection of relation chains to this concept
-     *
-     * @param intersection ready-made intersection of relation chains
-     */
-    public void addIntersectionOfRelationChains(
-            IntersectionOfRelationChains intersection) {
-        intersection.setConcept(this);
-        this.intersectionsOfRelationChains.add(intersection);
-    }
-
     /* TODO: The following is not used anywhere in the project. So, for now
      it is commented. */
 //    /**
@@ -767,25 +731,23 @@ public class Concept implements Serializable {
 //        }
 //        this.addIntersectionOfRelationChains(inter);
 //    }
-    
-    /**
-     * Updates relations of a concept using this concept relations
-     *
-     * @param oldConcept the concept to be updated
-     */
-    public void updateRelations(Concept oldConcept) {
-        for (int i = 0; i < this.getIntersectionsOfRelationChains().size();
-                i++) {
-            if (!oldConcept.getIntersectionsOfRelationChains().contains(
-                    this.getIntersectionsOfRelationChains().get(i))) {
-                this.getIntersectionsOfRelationChains().get(i).setConcept(
-                        oldConcept);
-                oldConcept.getIntersectionsOfRelationChains().add(
-                        this.getIntersectionsOfRelationChains().get(i));
-            }
-        }
-    }
-
+//    /**
+//     * Updates relations of a concept using this concept relations
+//     *
+//     * @param oldConcept the concept to be updated
+//     */
+//    public void updateRelations(Concept oldConcept) {
+//        for (int i = 0; i < this.getIntersectionsOfRelationChains().size();
+//                i++) {
+//            if (!oldConcept.getIntersectionsOfRelationChains().contains(
+//                    this.getIntersectionsOfRelationChains().get(i))) {
+//                this.getIntersectionsOfRelationChains().get(i).setConcept(
+//                        oldConcept);
+//                oldConcept.getIntersectionsOfRelationChains().add(
+//                        this.getIntersectionsOfRelationChains().get(i));
+//            }
+//        }
+//    }
     /**
      * Gets a string of concatenated full info for the concept. concept type,
      * status, pragmatic status, basic level, description
@@ -891,7 +853,7 @@ public class Concept implements Serializable {
                 updateVisualRepresentations(tmp);
                 updateMotoricRepresentations(tmp);
                 //updateObjOfRelations(tmp);
-                updateRelations(tmp);
+                //updateRelations(tmp);
             }
         }
         System.err.println("Finish unmarshalling: " + this.getName());

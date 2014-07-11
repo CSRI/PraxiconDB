@@ -14,9 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -25,7 +22,6 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -53,78 +49,19 @@ public class RelationChain implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Column(name = "RelationChainId", nullable = false)
-    @SequenceGenerator(name = "CUST_SEQ", sequenceName = "RelationChainIdSeq",
-            allocationSize = 1)
+    @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     private Long id;
 
-    @Column(name = "Name")
-    private String name;
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "Intersection_Relation",
-            joinColumns = {
-                @JoinColumn(name = "RelationId")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "IntersectionId")}
-    )
-    private List<IntersectionOfRelationChains> IntersectionsOfRelationChains;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationChain")
     private List<RelationChain_Relation> relations;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "LanguageRepresentation_RelationChain",
-            joinColumns = {
-                @JoinColumn(name = "RelationChainId")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "LanguageRepresentationId")}
-    )
-    List<LanguageRepresentation> languageRepresentationNames;
-
     // Constructor
     public RelationChain() {
-        IntersectionsOfRelationChains = new ArrayList<>();
         relations = new ArrayList<>();
-        languageRepresentationNames = new ArrayList<>();
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @XmlTransient
-    public List<LanguageRepresentation> getLanguageRepresentationNames() {
-        return languageRepresentationNames;
-    }
-
-    /**
-     * @return the names of the language representations of the concepts that
-     *         participate in the relation chain.
-     * @xmlcomments.args xmltag="&lt;language_representation_names&gt;"
-     * xmldescription="This tag defines the names of the LanguageRepresentation
-     * that should be used to express this relation chain"
-     */
-    public List<String> getLanguageRepresentationNames_() {
-        List<String> language_representation_names_ = new ArrayList<>();
-        for (LanguageRepresentation languageRepresentationName
-                : languageRepresentationNames) {
-            language_representation_names_.add(
-                    languageRepresentationName.getText());
-        }
-        return language_representation_names_;
-    }
-
-    public void setLanguageRepresentationNames(
-            List<LanguageRepresentation> languageRepresentationNames) {
-        this.languageRepresentationNames = languageRepresentationNames;
-    }
 
     /**
      * @return the relations that participate in the relation chain.
@@ -135,40 +72,6 @@ public class RelationChain implements Serializable {
         return relations;
     }
 
-    public List<Relation> getActualRelations() {
-        List<Relation> rels;
-        rels = new ArrayList<>(relations.size());
-        for (RelationChain_Relation Relation : relations) {
-            rels.add(0, null);
-        }
-        for (RelationChain_Relation Relation : relations) {
-            rels.add((int)Relation.getRelationOrder(), Relation.getRelation());
-            rels.remove((int)Relation.getRelationOrder() + 1);
-        }
-        return rels;
-    }
-
-    public void setRelations(List<RelationChain_Relation> relations) {
-        this.relations = relations;
-    }
-
-    public void addRelation(Relation relation, long order) {
-        RelationChain_Relation rcr = new RelationChain_Relation();
-        rcr.setRelation(relation);
-        rcr.setRelationChain(this);
-        rcr.setRelationOrder(order);
-        this.relations.add(rcr);
-    }
-
-    @XmlTransient
-    public List<IntersectionOfRelationChains> getIntersections() {
-        return IntersectionsOfRelationChains;
-    }
-
-    public void setIntersections(
-            List<IntersectionOfRelationChains> intersections) {
-        this.IntersectionsOfRelationChains = intersections;
-    }
 
     @XmlAttribute
     public Long getId() {

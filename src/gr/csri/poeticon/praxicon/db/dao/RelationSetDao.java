@@ -5,14 +5,14 @@
 package gr.csri.poeticon.praxicon.db.dao;
 
 import gr.csri.poeticon.praxicon.db.entities.Concept;
-import gr.csri.poeticon.praxicon.db.entities.RelationChain;
+import gr.csri.poeticon.praxicon.db.entities.RelationSet;
 import java.util.List;
 
 /**
  *
  * @author dmavroeidis
  */
-public interface RelationChainDao extends Dao<Long, RelationChain> {
+public interface RelationSetDao extends Dao<Long, RelationSet> {
 
-    List<RelationChain> getRelationChainsContainingConcept(Concept concept);
+    List<RelationSet> getRelationSetsContainingConcept(Concept concept);
 }

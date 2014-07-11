@@ -8,11 +8,8 @@ import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationDao;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Concept.status;
-import gr.csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
-import gr.csri.poeticon.praxicon.db.entities.RelationChain;
-import gr.csri.poeticon.praxicon.db.entities.RelationChain_Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import java.util.ArrayList;
 import java.util.List;
@@ -301,54 +298,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
 
     }
 
-    /**
-     * Checks if two concepts are related by a certain relation
-     *
-     * @param conceptA first concept
-     * @param relation relation name as a string
-     * @param conceptB second concept
-     * @return true/false
-     */
-    @Override
-    public boolean areRelated(Concept conceptA, String relation,
-            Concept conceptB) {
-        for (int intersection = 0;
-                intersection < conceptA.getIntersectionsOfRelationChains().
-                size();
-                intersection++) {
-            IntersectionOfRelationChains tmpIntersection =
-                    conceptA.getIntersectionsOfRelationChains().get(
-                            intersection);
-            for (int relationChain = 0;
-                    relationChain < tmpIntersection.getRelationChains().size();
-                    relationChain++) {
-                RelationChain tmpRelationChain =
-                        tmpIntersection.getRelationChains().get(relationChain);
-                for (int rel = 0; rel < tmpRelationChain.getRelations().size();
-                        rel++) {
-                    if (tmpRelationChain.getRelations().get(rel).
-                            getRelationOrder() == 0) {
-                        RelationType tmpTypeOfRelation =
-                                tmpRelationChain.getRelations().get(rel).
-                                getRelation().getType();
-                        if (conceptB.equals(tmpRelationChain.getRelations().
-                                get(rel).getRelation().getObject())) {
-                            if (tmpTypeOfRelation.getForwardName() ==
-                                    RelationType.relation_name_forward.
-                                    valueOf(relation) ||
-                                    tmpTypeOfRelation.getBackwardName() ==
-                                    RelationType.relation_name_backward.
-                                    valueOf(relation)) {
-                                return true;
-                            }
-                        }
-                    }
-                }
-                //               }
-            }
-        }
-        return false;
-    }
 
     /**
      * Finds all concepts that are children (type-token related) of a given
@@ -809,46 +758,48 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         }
     }
 
-    /**
-     * Updates the relations of a concept, adding the relations of another
-     * concept (removing them from that concept).
-     *
-     * @param newConcept concept with relations to be moved
-     * @param oldConcept concept to be updated
-     */
-    private void updateRelations(Concept newConcept, Concept oldConcept) {
-        for (int i = 0; i < newConcept.getIntersectionsOfRelationChains().size();
-                i++) {
-            if (!oldConcept.getIntersectionsOfRelationChains().
-                    contains(newConcept.getIntersectionsOfRelationChains().
-                            get(i))) {
-                newConcept.getIntersectionsOfRelationChains().get(i).
-                        setConcept(oldConcept);
-                IntersectionOfRelationChains inter =
-                        newConcept.getIntersectionsOfRelationChains().get(i);
-                for (int k = 0; k < inter.getRelationChains().size(); k++) {
-                    RelationChain rc = inter.getRelationChains().get(k);
-                    for (int l = 0; l < rc.getRelations().size(); l++) {
-                        RelationChain_Relation rcr =
-                                rc.getRelations().get(l);
-                        Relation rel = rcr.getRelation();
-                        if (rel.getSubject().getName().
-                                equalsIgnoreCase(newConcept.getName())) {
-                            rel.setSubject(oldConcept);
-                        } else {
-                            if (rel.getObject().getName().
-                                    equalsIgnoreCase(newConcept.getName())) {
-                                rel.setObject(oldConcept);
-                            }
-                        }
-                    }
-                }
-                oldConcept.getIntersectionsOfRelationChains().
-                        add(newConcept.getIntersectionsOfRelationChains().
-                                get(i));
-            }
-        }
-    }
+    
+// TODO: 10/7/2014 - Temporarily disabled until RelationSet settles in. 
+//    /**
+//     * Updates the relations of a concept, adding the relations of another
+//     * concept (removing them from that concept).
+//     *
+//     * @param newConcept concept with relations to be moved
+//     * @param oldConcept concept to be updated
+//     */
+//    private void updateRelations(Concept newConcept, Concept oldConcept) {
+//        for (int i = 0; i < newConcept.getIntersectionsOfRelationChains().size();
+//                i++) {
+//            if (!oldConcept.getIntersectionsOfRelationChains().
+//                    contains(newConcept.getIntersectionsOfRelationChains().
+//                            get(i))) {
+//                newConcept.getIntersectionsOfRelationChains().get(i).
+//                        setConcept(oldConcept);
+//                IntersectionOfRelationChains inter =
+//                        newConcept.getIntersectionsOfRelationChains().get(i);
+//                for (int k = 0; k < inter.getRelationChains().size(); k++) {
+//                    RelationSet rc = inter.getRelationChains().get(k);
+//                    for (int l = 0; l < rc.getRelations().size(); l++) {
+//                        RelationChain_Relation rcr =
+//                                rc.getRelations().get(l);
+//                        Relation rel = rcr.getRelation();
+//                        if (rel.getSubject().getName().
+//                                equalsIgnoreCase(newConcept.getName())) {
+//                            rel.setSubject(oldConcept);
+//                        } else {
+//                            if (rel.getObject().getName().
+//                                    equalsIgnoreCase(newConcept.getName())) {
+//                                rel.setObject(oldConcept);
+//                            }
+//                        }
+//                    }
+//                }
+//                oldConcept.getIntersectionsOfRelationChains().
+//                        add(newConcept.getIntersectionsOfRelationChains().
+//                                get(i));
+//            }
+//        }
+//    }
 
     /**
      * Updates the visual representations of a concept, adding the

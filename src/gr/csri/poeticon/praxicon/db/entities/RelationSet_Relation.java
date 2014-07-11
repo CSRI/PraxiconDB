@@ -31,12 +31,12 @@ public class RelationSet_Relation implements Serializable {
     private Long id;
 
     @Column(name = "RelationOrder")
-    private short relationOrder;
+    private int relationOrder;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "RelationSetId")
     private RelationSet relationSet;
-
+ 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "RelationId")
     private Relation relation;
@@ -53,7 +53,7 @@ public class RelationSet_Relation implements Serializable {
         return relationOrder;
     }
 
-    public void setRelationOrder(short relationOrder) {
+    public void setRelationOrder(int relationOrder) {
         this.relationOrder = relationOrder;
     }
 
