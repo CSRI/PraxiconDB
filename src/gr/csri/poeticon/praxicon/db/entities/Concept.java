@@ -70,8 +70,7 @@ import javax.xml.bind.annotation.XmlType;
             "SELECT c FROM Concept c " +
             "WHERE c.status = :status " +
             "AND c.name = :name " +
-            "AND c.conceptType = :type " +
-            "AND c.pragmaticStatus = :pragmatic_status"),})
+            "AND c.conceptType = :type"),})
 @Table(name = "Concepts", indexes = {
     @Index(columnList = "Name"),
     @Index(columnList = "ConceptId")})
@@ -708,7 +707,7 @@ public class Concept implements Serializable {
 //    }
     /**
      * Gets a string of concatenated full info for the concept. concept type,
-     * status, pragmatic status, basic level, description
+     * status, pragmatic status, specificity level, description
      *
      * @return a string
      */
@@ -725,7 +724,7 @@ public class Concept implements Serializable {
 
     /**
      * Gets a string of concatenated short info for the concept. concept type
-     * and basic level
+     * and specificity level
      *
      * @return a string
      */
