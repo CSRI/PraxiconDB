@@ -130,19 +130,6 @@ public class Concept implements Serializable {
         }
     }
 
-    /**
-     * Enumeration of the types of pragmatic status.
-     */
-    public static enum pragmatic_status {
-
-        FIGURATIVE, LITERAL, UNKNOWN;
-
-        @Override
-        public String toString() {
-            return this.name();
-        }
-    }
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -182,12 +169,6 @@ public class Concept implements Serializable {
     @Enumerated(EnumType.STRING)
     private unique_instance uniqueInstance;
 
-    @Column(name = "PragmaticStatus")
-    //@XmlElement(required = false)
-    @NotNull(message = "Concept pragmatic status must be specified.")
-    @Enumerated(EnumType.STRING)
-    private pragmatic_status pragmaticStatus;
-
     @Column(name = "OntologicalDomain")
     //@XmlElement(required = false)
     private String ontologicalDomain;
@@ -226,7 +207,6 @@ public class Concept implements Serializable {
         this.name = newConcept.name;
         this.conceptType = newConcept.getConceptType();
         this.specificityLevel = newConcept.getSpecificityLevel();
-        this.pragmaticStatus = newConcept.getPragmaticStatus();
         this.status = newConcept.getStatus();
         languageRepresentations = new ArrayList<>();
         visualRepresentations = new ArrayList<>();
@@ -373,28 +353,6 @@ public class Concept implements Serializable {
 
     public void setUniqueInstance(unique_instance uniqueInstance) {
         this.uniqueInstance = uniqueInstance;
-    }
-
-    /**
-     * @return the pragmatic status of the concept.
-     * @xmlcomments.args xmltag="&lt;pragmatic_status&gt;" xmldescription="This
-     * tag defines if the entity is literal or figurative"
-     */
-    public pragmatic_status getPragmaticStatus() {
-        return pragmaticStatus;
-    }
-
-    public void setPragmaticStatus(pragmatic_status pragmaticStatus) {
-        this.pragmaticStatus = pragmaticStatus;
-    }
-
-    public void setPragmaticStatus(String pragmaticStatus) {
-        String tmp = pragmaticStatus;
-        tmp = tmp.replace(".", "_");
-        tmp = tmp.replace(":", "_");
-        // TODO: Check below if it returns the correct value.
-        this.pragmaticStatus = pragmatic_status.
-                valueOf(tmp.trim().toUpperCase());
     }
 
     /**
@@ -759,8 +717,6 @@ public class Concept implements Serializable {
         sb.append(this.getConceptType());
         sb.append("#");
         sb.append(this.getStatus());
-        sb.append("#");
-        sb.append(this.getPragmaticStatus());
         sb.append("#");
         sb.append(this.getSpecificityLevel());
 

@@ -99,6 +99,19 @@ public class LanguageRepresentation implements Serializable {
         }
     }
 
+    /**
+     * Enumeration of the types of pragmatic status.
+     */
+    public static enum pragmatic_status {
+
+        FIGURATIVE, LITERAL, UNKNOWN;
+
+        @Override
+        public String toString() {
+            return this.name();
+        }
+    }
+
     public static enum part_of_speech {
 
         ADJECTIVE, ADVERB, NOUN, PARTICIPLE, PROPER_NOUN, VERB;
@@ -131,6 +144,12 @@ public class LanguageRepresentation implements Serializable {
     @NotNull(message = "Language must be specified.")
     @Enumerated(EnumType.STRING)
     private language language;
+
+    @Column(name = "PragmaticStatus")
+    //@XmlElement(required = false)
+    @NotNull(message = "Concept pragmatic status must be specified.")
+    @Enumerated(EnumType.STRING)
+    private pragmatic_status pragmaticStatus;
 
     @Column(name = "PartOfSpeech")
     @NotNull(message = "Part of speech must be specified.")
@@ -302,6 +321,28 @@ public class LanguageRepresentation implements Serializable {
     }
 
     /**
+     * @return the pragmatic status of the concept.
+     * @xmlcomments.args xmltag="&lt;pragmatic_status&gt;" xmldescription="This
+     * tag defines if the entity is literal or figurative"
+     */
+    public pragmatic_status getPragmaticStatus() {
+        return pragmaticStatus;
+    }
+
+    public void setPragmaticStatus(pragmatic_status pragmaticStatus) {
+        this.pragmaticStatus = pragmaticStatus;
+    }
+
+    public void setPragmaticStatus(String pragmaticStatus) {
+        String tmp = pragmaticStatus;
+        tmp = tmp.replace(".", "_");
+        tmp = tmp.replace(":", "_");
+        // TODO: Check below if it returns the correct value.
+        this.pragmaticStatus = pragmatic_status.
+                valueOf(tmp.trim().toUpperCase());
+    }
+
+    /**
      * @return Text.
      * @xmlcomments.args xmltag="&lt;text&gt;" xmldescription="This tag defines
      * the text of the entry"
@@ -342,7 +383,8 @@ public class LanguageRepresentation implements Serializable {
                 this.partOfSpeech != null &&
                 this.language.name().equals(other.language.name()) &&
                 this.text.equalsIgnoreCase(other.text) &&
-                this.partOfSpeech == other.partOfSpeech) {
+                this.partOfSpeech == other.partOfSpeech &&
+                this.pragmaticStatus == other.pragmaticStatus) {
             return true;
         } else {
             return false;
