@@ -70,6 +70,9 @@ public class VisualRepresentation implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     private Concept concept;
 
+    @Column(name= "Source")
+    private String source;
+    
     @Column(name = "Uri")
     @NotNull(message = "URI must be specified.")
     private URI uri;
@@ -121,6 +124,18 @@ public class VisualRepresentation implements Serializable {
         this.mediaType = mediaType;
     }
 
+    /**
+     * @return the source of the visual representation. 
+     * This can be ImageNet, GoogleImages, etc.
+    */
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+    
     /**
      * @return the URI of the visual representation. Usually a URL or file path.
      * @xmlcomments.args xmltag="&lt;uri&gt;" xmldescription="This tag defines

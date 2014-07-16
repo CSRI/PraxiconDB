@@ -38,8 +38,7 @@ import javax.xml.bind.annotation.XmlType;
 @NamedQueries({
     @NamedQuery(name = "getMotoricRepresentationEntityQuery", query =
             "FROM MotoricRepresentation mr " +
-            "WHERE UPPER(mr.comment) = :comment"),
-})
+            "WHERE UPPER(mr.comment) = :comment"),})
 @Table(name = "MotoricRepresentations", indexes = {
     @Index(columnList = "MotoricRepresentationId")})
 public class MotoricRepresentation implements Serializable {
@@ -64,6 +63,9 @@ public class MotoricRepresentation implements Serializable {
     @Column(name = "PerformingAgent")
     @NotNull(message = "Performing agent must be specified.")
     private performing_agent performingAgent;
+
+    @Column(name = "Source")
+    private String source;
 
     @Column(name = "URI")
     @NotNull(message = "URI must be specified.")
@@ -110,19 +112,48 @@ public class MotoricRepresentation implements Serializable {
         return "video";
     }
 
-    public String getRepresentationWithPath() {
-        //NOT IMPLEMENTED YET
-        return "";
+    /**
+     * @return the source of the visual representation.
+     *         This can be ImageNet, GoogleImages, etc.
+     */
+    public performing_agent getPerformingAgent() {
+        return performingAgent;
     }
 
-//    @XmlTransient
-//    public MotoricRepresentation getOwner() {
-//        return owner;
-//    }
-//
-//    public void setOwner(MotoricRepresentation owner) {
-//        this.owner = owner;
-//    }
+    public void setSource(performing_agent performingAgent) {
+        this.performingAgent = performingAgent;
+    }
+
+    /**
+     * @return the source of the visual representation.
+     *         This can be ImageNet, GoogleImages, etc.
+     */
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    /**
+     * @return the source of the visual representation.
+     *         This can be ImageNet, GoogleImages, etc.
+     */
+    public URI getUri() {
+        return uri;
+    }
+
+    public void setUri(URI uri) {
+        this.uri = uri;
+    }
+
+    public void setUri(String uri) {
+        if (this.uri.resolve(uri) != null) {
+            this.uri = this.uri.resolve(uri);
+        }
+    }
+
     public String getComment() {
         return comment;
     }
