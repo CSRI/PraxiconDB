@@ -67,10 +67,10 @@ import javax.xml.bind.annotation.XmlType;
             "WHERE UPPER(lr.text) = :text " +
             "AND UPPER(lr.language) = :language " +
             "AND UPPER(lr.partOfSpeech) = :pos " +
-            "AND lr.pragmaticStatus = :pragmatic_status"),
+            "AND UPPER(lr.pragmaticStatus) = :pragmatic_status"),
     @NamedQuery(name = "findLanguageRepresentationsByText", query =
             "FROM LanguageRepresentation lr " +
-            "WHERE UPPER(lr.text) = :text"),})
+            "WHERE UPPER(lr.text) = :text"), })
 @Table(name = "LanguageRepresentations", indexes = {
     @Index(columnList = "Text"),
     @Index(columnList = "LanguageRepresentationId")})

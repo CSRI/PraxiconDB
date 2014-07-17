@@ -10,6 +10,7 @@ import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Concept.status;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
+import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +84,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * string
      *
      * @param languageRepresentationName the language representation name to
-     *                                     search for
+     *                                   search for
      * @return a list of concepts found in the database
      */
     @Override
@@ -166,7 +167,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             return newConcept;
         } finally {
             oldConcept.setConceptType(newConcept.getConceptType());
-            oldConcept.setPragmaticStatus(newConcept.getPragmaticStatus());
             oldConcept.setStatus(newConcept.getStatus());
             oldConcept.setSpecificityLevel(newConcept.getSpecificityLevel());
             oldConcept.setComment(newConcept.getComment());
@@ -174,8 +174,11 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             updateLanguageRepresentations(newConcept, oldConcept);
             updateVisualRepresentations(newConcept, oldConcept);
             updateMotoricRepresentations(newConcept, oldConcept);
-            updateObjOfRelations(newConcept, oldConcept);
-            updateRelations(newConcept, oldConcept);
+
+// These are not needed any more since the relation argument has replace concept 
+// as the object of a relation
+//            updateObjOfRelations(newConcept, oldConcept);
+//            updateRelations(newConcept, oldConcept);
             return oldConcept;
         }
     }
@@ -204,9 +207,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             if (oldConcept.getConceptType() == null ||
                     oldConcept.getConceptType() == Concept.type.UNKNOWN) {
                 oldConcept.setConceptType(newConcept.getConceptType());
-            }
-            if (oldConcept.getPragmaticStatus() == null) {
-                oldConcept.setPragmaticStatus(newConcept.getPragmaticStatus());
             }
             if (oldConcept.getStatus() == null) {
                 oldConcept.setStatus(newConcept.getStatus());
@@ -244,13 +244,17 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             if (!getEntityManager().getTransaction().isActive()) {
                 getEntityManager().getTransaction().begin();
             }
-            updateObjOfRelations(newConcept, oldConcept);
+// These are not needed any more since the relation argument has replace concept 
+// as the object of a relation
+//            updateObjOfRelations(newConcept, oldConcept);
             oldConcept = entityManager.merge(oldConcept);
             entityManager.getTransaction().commit();
             if (!getEntityManager().getTransaction().isActive()) {
                 getEntityManager().getTransaction().begin();
             }
-            updateRelations(newConcept, oldConcept);
+// These are not needed any more since the relation argument has replace concept 
+// as the object of a relation
+//            updateRelations(newConcept, oldConcept);
             oldConcept = entityManager.merge(oldConcept);
             entityManager.getTransaction().commit();
         } catch (Exception e) {
@@ -273,9 +277,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                     oldConcept.getConceptType() == Concept.type.UNKNOWN) {
                 oldConcept.setConceptType(newConcept.getConceptType());
             }
-            if (oldConcept.getPragmaticStatus() == null) {
-                oldConcept.setPragmaticStatus(newConcept.getPragmaticStatus());
-            }
             if (oldConcept.getStatus() == null) {
                 oldConcept.setStatus(newConcept.getStatus());
             }
@@ -287,8 +288,11 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             }
             updateVisualRepresentations(newConcept, oldConcept);
             updateMotoricRepresentations(newConcept, oldConcept);
-            updateObjOfRelations(newConcept, oldConcept);
-            updateRelations(newConcept, oldConcept);
+            // These are not needed any more since the relation argument has replace concept 
+// as the object of a relation
+//            updateObjOfRelations(newConcept, oldConcept);
+//            updateRelations(newConcept, oldConcept);
+
             merge(oldConcept);
             updateLanguageRepresentations(newConcept, oldConcept);
 
@@ -297,7 +301,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         }
 
     }
-
 
     /**
      * Finds all concepts that are children (type-token related) of a given
@@ -316,7 +319,10 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             if (relation.getType().getForwardName() ==
                     RelationType.relation_name_forward.TYPE_TOKEN &&
                     relation.getSubject().equals(concept)) {
-                res.add(relation.getObject());
+                if (relation.getObject().isConcept()) {
+                    res.add(relation.getObject().getConcept());
+                }
+
             }
         }
         entityManager.clear();
@@ -340,7 +346,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             if (relation.getType().getForwardName() ==
                     RelationType.relation_name_forward.TYPE_TOKEN &&
                     relation.getObject().equals(concept)) {
-                res.add(relation.getSubject());
+                if (relation.getObject().isConcept()) {
+                    res.add(relation.getSubject().getConcept());
+                }
             }
         }
         entityManager.clear();
@@ -414,7 +422,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             if (relation.getType().getForwardName() ==
                     RelationType.relation_name_forward.HAS_INSTANCE &&
                     relation.getObject().equals(concept)) {
-                res.add(relation.getSubject());
+                if (relation.getObject().isConcept()) {
+                    res.add(relation.getSubject().getConcept());
+                }
             }
         }
         return res;
@@ -436,7 +446,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             if (relation.getType().getForwardName() ==
                     RelationType.relation_name_forward.HAS_INSTANCE &&
                     relation.getObject().equals(concept)) {
-                res.add(relation.getSubject());
+                if (relation.getObject().isConcept()) {
+                    res.add(relation.getSubject().getConcept());
+                }
             }
         }
 
@@ -621,7 +633,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * Finds all concepts that are related to a given concept using a given
      * relation type
      *
-     * @param concept       the concept
+     * @param concept      the concept
      * @param relationType the type of relation (direction sensitive)
      * @return a list of concepts
      */
@@ -639,10 +651,12 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         List<Relation> tmpR = query.getResultList();
         if (tmpR != null && tmpR.size() > 0) {
             for (Relation tmpR1 : tmpR) {
-                if (tmpR1.getSubject().equals(concept)) {
-                    res.add(tmpR1.getObject());
-                } else {
-                    res.add(tmpR1.getSubject());
+                if (tmpR1.getSubject().isConcept()) {
+                    if (tmpR1.getSubject().getConcept().equals(concept)) {
+                        res.add(tmpR1.getObject().getConcept());
+                    } else {
+                        res.add(tmpR1.getSubject().getConcept());
+                    }
                 }
             }
         }
@@ -671,8 +685,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 "getConceptEntityQuery").
                 setParameter("name", concept.getName()).
                 setParameter("type", concept.getStatus()).
-                setParameter("status", concept.getStatus()).
-                setParameter("pragmatic_status", concept.getPragmaticStatus());
+                setParameter("status", concept.getStatus());
         System.out.println("Concept name: " + concept.getName());
         return query;
     }
@@ -733,33 +746,46 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * Updates the ObjectOf relations of a concept, adding the ObjectOf
      * relations of another concept (removing them from that concept).
      *
-     * @param newConcept concept with ObjectOf relations to be moved
-     * @param oldConcept concept to be updated
+     * @param newRelationArgument concept with ObjectOf relations to be moved
+     * @param oldRelationArgument concept to be updated
      */
-    private void updateObjOfRelations(Concept newConcept, Concept oldConcept) {
+    private void updateObjOfRelations(RelationArgument newRelationArgument,
+            RelationArgument oldRelationArgument) {
         for (int i = 0;
-                i < newConcept.getRelationsContainingConceptAsObject().size();
+                i < newRelationArgument.getConcept().
+                getRelationsContainingConceptAsObject().
+                size();
                 i++) {
-            if (!oldConcept.getRelationsContainingConceptAsObject().
-                    contains(newConcept.getRelationsContainingConceptAsObject().
+            if (!oldRelationArgument.getConcept().
+                    getRelationsContainingConceptAsObject().
+                    contains(newRelationArgument.getConcept().
+                            getRelationsContainingConceptAsObject().
                             get(i))) {
-                if (newConcept.getRelationsContainingConceptAsObject().get(i).
-                        getObject().equals(newConcept)) {
-                    newConcept.getRelationsContainingConceptAsObject().get(i).
-                            setObject(oldConcept);
+                if (newRelationArgument.getConcept().
+                        getRelationsContainingConceptAsObject().
+                        get(i).
+                        getObject().equals(newRelationArgument)) {
+                    newRelationArgument.getConcept().
+                            getRelationsContainingConceptAsObject().
+                            get(i).
+                            setObject(oldRelationArgument);
                 } else {
-                    newConcept.getRelationsContainingConceptAsObject().get(i).
-                            setSubject(oldConcept);
+                    newRelationArgument.getConcept().
+                            getRelationsContainingConceptAsObject().
+                            get(i).
+                            setSubject(oldRelationArgument);
                 }
-                oldConcept.getRelationsContainingConceptAsObject().
-                        add(newConcept.getRelationsContainingConceptAsObject().
+                oldRelationArgument.getConcept().
+                        getRelationsContainingConceptAsObject().
+                        add(newRelationArgument.getConcept().
+                                getRelationsContainingConceptAsObject().
                                 get(i));
             }
         }
     }
 
-    
-// TODO: 10/7/2014 - Temporarily disabled until RelationSet settles in. 
+// TODO: 10/7/2014 - I think this is not needed. Will check and reinstate 
+//                  if necessary
 //    /**
 //     * Updates the relations of a concept, adding the relations of another
 //     * concept (removing them from that concept).
@@ -800,7 +826,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
 //            }
 //        }
 //    }
-
     /**
      * Updates the visual representations of a concept, adding the
      * VisualRepresentations of another concept (removing them from that

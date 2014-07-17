@@ -4,10 +4,10 @@ import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Concept_LanguageRepresentation;
-import gr.csri.poeticon.praxicon.db.entities.IntersectionOfRelationChains;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
-import gr.csri.poeticon.praxicon.db.entities.RelationChain;
+import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
+import gr.csri.poeticon.praxicon.db.entities.RelationSet;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import gr.csri.poeticon.praxicon.db.entities.VisualRepresentation;
 import java.net.URI;
@@ -55,7 +55,6 @@ public class TestJPA {
         concept1.setName("concept1");
         concept1.setConceptType(Concept.type.ABSTRACT);
         concept1.setStatus(Concept.status.CONSTANT);
-        concept1.setPragmaticStatus(Concept.pragmatic_status.FIGURATIVE);
         concept1.setUniqueInstance(Concept.unique_instance.YES);
         System.out.println(concept1);
 
@@ -96,10 +95,10 @@ public class TestJPA {
         //How to add a Relation //
         //////////////////////////
         //1.) Create the IntersectionOfRelations
-        IntersectionOfRelationChains inter = new IntersectionOfRelationChains();
+        //IntersectionOfRelationChains inter = new IntersectionOfRelationChains();
 
         //2.) Create the Relation Chain of the relation
-        RelationChain rChain = new RelationChain();
+        RelationSet rChain = new RelationSet();
 
         //3.) Create the relation for this relation chain
         Relation r1 = new Relation();
@@ -120,17 +119,19 @@ public class TestJPA {
         concept2.setConceptType(Concept.type.MOVEMENT);
         concept2.setStatus(Concept.status.VARIABLE);
         concept2.setUniqueInstance(Concept.unique_instance.NO);
-        concept2.setPragmaticStatus(Concept.pragmatic_status.LITERAL);
-        r1.setObject(concept2);
-        r1.setSubject(concept1);
+        // TODO: put the concepts inside RelationArguments
+        RelationArgument relationArgument2 = new RelationArgument(concept2);
+        RelationArgument relationArgument1 = new RelationArgument(concept1);
+        r1.setObject(relationArgument1);
+        r1.setSubject(relationArgument2);
         r1.setDerivation(Relation.derivation_supported.YES);
 
         //5.) Add the relation to the chain
         //the second argument is the order of the relation in the chain
-        rChain.addRelation(r1, 0);
+        //rChain.addRelation(r1, 0);
 
         //6.) add the chain to the Intersection
-        inter.getRelationChains().add(rChain);
+        //inter.getRelationChains().add(rChain);
 
         //7.) add the intersection to the Union
         //union.getIntersections().add(inter);
@@ -163,24 +164,21 @@ public class TestJPA {
         // Object for the relation)
         Relation rel = new Relation();
         rel.setType(type);
-        rel.setObject(concept1);
+        // TODO: Put the concepts inside RelationArguments.
+        //rel.setObject(concept1);
         // here is an example for another relation
         Relation rel2 = new Relation();
         rel2.setType(type);
-        rel2.setObject(concept2);
+        rel2.setObject(relationArgument2);
 
         //3.) create the relation chain
-        RelationChain rc = new RelationChain();
+        RelationSet rc = new RelationSet();
         //there should be in the correct order (the order counter must start from 0)
         rc.addRelation(rel, 0);
         rc.addRelation(rel2, 1);
 
-        // 4.) create the intersection
-        IntersectionOfRelationChains inter1 = new IntersectionOfRelationChains();
-        inter1.addRelationChain(rc);
-
         // 5.) add the intersection to the concept
-        concept1.addIntersectionOfRelationChains(inter);
+        //concept1.addIntersectionOfRelationChains(inter);
         // Causes java.lang.StackOverflowError
         //concept2.addIntersectionOfRelationChains(inter1);
 
@@ -188,7 +186,6 @@ public class TestJPA {
         // here you should determine if the union is describing the basic use of
         // the object or how important is this use for the entity
         concept1.setConceptType(Concept.type.ABSTRACT);
-        concept1.setPragmaticStatus(Concept.pragmatic_status.FIGURATIVE);
         concept1.setStatus(Concept.status.VARIABLE);
         concept1.setUniqueInstance(Concept.unique_instance.YES);
 
