@@ -12,22 +12,27 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 /**
  *
  * @author dmavroeidis
  */
 @Entity
+@Table(name = "RelationSets_Relations", indexes = {
+    @Index(columnList = "RelationSet_RelationId")
+})
 public class RelationSet_Relation implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
-    @Column(name = "RelationChain_RelationId")
+    @Column(name = "RelationSet_RelationId")
     private Long id;
 
     @Column(name = "RelationOrder")
