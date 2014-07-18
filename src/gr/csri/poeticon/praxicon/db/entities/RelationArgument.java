@@ -16,15 +16,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 /**
  *
  * @author dmavroeidis
  */
 @Entity
+@Table(name = "RelationArguments", indexes = {
+    @Index(columnList = "RelationArgumentId"),
+    @Index(columnList = "RelationObjectRelationArgumentId"),
+    @Index(columnList = "RelationSubjectRelationArgumentId")})
 public class RelationArgument implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,12 +50,14 @@ public class RelationArgument implements Serializable {
      Relations that have "this" RelationArgument as Object.
      */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "object")
+    @Column(name = "RelationObjectRelationArgumentId")
     private List<Relation> relationsContainingRelationArgumentAsObject;
 
     /*
      Relations that have "this" RelationArgument as Subject.
      */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subject")
+    @Column(name = "RelationSubjectRelationArgumentId")
     private List<Relation> relationsContainingRelationArgumentAsSubject;
 
     /**
