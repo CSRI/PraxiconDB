@@ -18,17 +18,22 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 /**
  *
  * @author dmavroeidis
  */
 @Entity
+@Table(name = "RelationSets", indexes = {
+    @Index(columnList = "RelationSetId"),
+    @Index(columnList = "Name")})
 public class RelationSet implements Serializable {
 
     public static enum inherent {
@@ -43,7 +48,7 @@ public class RelationSet implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Column(name = "RelationChainId", nullable = false)
+    @Column(name = "RelationSetId", nullable = false)
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     private Long id;
