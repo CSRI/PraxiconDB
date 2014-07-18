@@ -149,11 +149,11 @@ public class RelationSet implements Serializable {
     }
 
     public void addRelation(Relation relation, int order) {
-        RelationSet_Relation rcr = new RelationSet_Relation();
-        rcr.setRelation(relation);
-        rcr.setRelationSet(this);
-        rcr.setRelationOrder(order);
-        this.relations.add(rcr);
+        RelationSet_Relation rsr = new RelationSet_Relation();
+        rsr.setRelation(relation);
+        rsr.setRelationSet(this);
+        rsr.setRelationOrder(order);
+        this.relations.add(rsr);
     }
 
     /**

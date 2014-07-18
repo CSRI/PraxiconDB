@@ -97,12 +97,12 @@ public class Relation implements Serializable {
     private RelationType type;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "RelationArgumentId")
+    @JoinColumn(name = "RelationArgumentId", insertable = false, updatable = false)
     @NotNull(message = "Object of relation must be specified.")
     private RelationArgument object;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "RelationArgumentId")
+    @JoinColumn(name = "RelationArgumentId", insertable = false, updatable = false)
     @NotNull(message = "Subject of relation must be specified.")
     private RelationArgument subject;
 
