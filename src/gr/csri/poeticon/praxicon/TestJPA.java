@@ -1,13 +1,21 @@
 package gr.csri.poeticon.praxicon;
 
 import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
+import gr.csri.poeticon.praxicon.db.dao.LanguageRepresentationDao;
+import gr.csri.poeticon.praxicon.db.dao.RelationDao;
+import gr.csri.poeticon.praxicon.db.dao.RelationSetDao;
+import gr.csri.poeticon.praxicon.db.dao.VisualRepresentationDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
+import gr.csri.poeticon.praxicon.db.dao.implSQL.LanguageRepresentationDaoImpl;
+import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
+import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationSetDaoImpl;
+import gr.csri.poeticon.praxicon.db.dao.implSQL.VisualRepresentationDaoImpl;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
-import gr.csri.poeticon.praxicon.db.entities.Concept_LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import gr.csri.poeticon.praxicon.db.entities.RelationSet;
+import gr.csri.poeticon.praxicon.db.entities.RelationSet_Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import gr.csri.poeticon.praxicon.db.entities.VisualRepresentation;
 import java.net.URI;
@@ -46,153 +54,182 @@ public class TestJPA {
 
     @SuppressWarnings("empty-statement")
     public static void main(String args[]) {
-
         /*
-         * Creating an entity
+         * Create Concept1 
          */
-        Concept concept1 = new Concept();
 
+        Concept concept1 = new Concept();
         concept1.setName("concept1");
         concept1.setConceptType(Concept.type.ABSTRACT);
         concept1.setStatus(Concept.status.CONSTANT);
         concept1.setUniqueInstance(Concept.unique_instance.YES);
-        System.out.println(concept1);
+        concept1.setSource("myMind");
+        System.out.println(concept1.getName());
 
-        //////////////////////
-        // How to add an LR //
-        //////////////////////
-        //1.) create the LR
-        List<LanguageRepresentation> lr;
-        lr = new ArrayList<>();
-
-        //2.) create the lexical entries (language representations)
-        LanguageRepresentation le = new LanguageRepresentation();
-        le.setLanguage(LanguageRepresentation.language.EN);
-        le.setText("test");
-        le.setPartOfSpeech(LanguageRepresentation.part_of_speech.NOUN);
-        LanguageRepresentation le2 = new LanguageRepresentation();
-        le2.setLanguage(LanguageRepresentation.language.EN);
-        le2.setText("test");
-        le2.setPartOfSpeech(LanguageRepresentation.part_of_speech.VERB);
-
-        //3.) add the entries to the Langage Representation
-        lr.add(le);
-        lr.add(le2);
-        
-        List<Concept_LanguageRepresentation> clr;
-        clr = new ArrayList<>();
-        
-        Concept_LanguageRepresentation clr1 = new Concept_LanguageRepresentation();
-        Concept_LanguageRepresentation clr2 = new Concept_LanguageRepresentation();
-        clr1.setLanguageRepresentation(le);
-        clr2.setLanguageRepresentation(le2);
-        
-        //4.) add the Language Representations to the Concept
-        concept1.addLanguageRepresentation(le, false);
-        concept1.addLanguageRepresentation(le2, true);
-        
-        //////////////////////////
-        //How to add a Relation //
-        //////////////////////////
-        //1.) Create the IntersectionOfRelations
-        //IntersectionOfRelationChains inter = new IntersectionOfRelationChains();
-
-        //2.) Create the Relation Chain of the relation
-        RelationSet rChain = new RelationSet();
-
-        //3.) Create the relation for this relation chain
-        Relation r1 = new Relation();
-
-        //4.a.) Create the type of the relation
-        RelationType rType = new RelationType();
-        rType.setForwardName(RelationType.relation_name_forward.HAS_PART);
-        rType.setBackwardName(RelationType.relation_name_backward.PART_OF);
-
-        //4.b) Set the type to the relation
-        r1.setTypeSimple(rType);
-
-        //4.c) set the object and the subject of the relation
-        //(if the concepts do not exist you should create them -just set their name
-        //the name should be unique -it works like their ID)
+        /*
+         * Create Concept2
+         */
         Concept concept2 = new Concept();
         concept2.setName("concept2");
         concept2.setConceptType(Concept.type.MOVEMENT);
         concept2.setStatus(Concept.status.VARIABLE);
         concept2.setUniqueInstance(Concept.unique_instance.NO);
-        // TODO: put the concepts inside RelationArguments
-        RelationArgument relationArgument2 = new RelationArgument(concept2);
-        RelationArgument relationArgument1 = new RelationArgument(concept1);
-        r1.setObject(relationArgument1);
-        r1.setSubject(relationArgument2);
-        r1.setDerivation(Relation.derivation_supported.YES);
+        concept2.setSource("myMind2");
+        System.out.println(concept2.getName());
 
-        //5.) Add the relation to the chain
-        //the second argument is the order of the relation in the chain
-        //rChain.addRelation(r1, 0);
+        /* 
+         * Add Language Representations to the concepts
+         */
+        List<LanguageRepresentation> languageRepresentations1;
+        languageRepresentations1 = new ArrayList<>();
 
-        //6.) add the chain to the Intersection
-        //inter.getRelationChains().add(rChain);
+        LanguageRepresentation languageRepresentation1 =
+                new LanguageRepresentation();
+        languageRepresentation1.setLanguage(LanguageRepresentation.language.EN);
+        languageRepresentation1.setText("LR1");
+        languageRepresentation1.setPartOfSpeech(
+                LanguageRepresentation.part_of_speech.NOUN);
+        languageRepresentation1.setPragmaticStatus(
+                LanguageRepresentation.pragmatic_status.FIGURATIVE);
 
-        //7.) add the intersection to the Union
-        //union.getIntersections().add(inter);
-        //8.) add the union to the Concept
-        //con.addRelation(union);
-        ////////////////////////////////////////
-        // How to add a Visual Representation //
-        ////////////////////////////////////////
-        VisualRepresentation vr = new VisualRepresentation();
-        vr.setRepresentation("this is a test VR");
-        vr.setMediaType(VisualRepresentation.media_type.IMAGE);
+        LanguageRepresentation languageRepresentation2 =
+                new LanguageRepresentation();
+        languageRepresentation2.setLanguage(LanguageRepresentation.language.EN);
+        languageRepresentation2.setText("LR2");
+        languageRepresentation2.setPartOfSpeech(
+                LanguageRepresentation.part_of_speech.VERB);
+        languageRepresentation2.setPragmaticStatus(
+                LanguageRepresentation.pragmatic_status.FIGURATIVE);
+
+        LanguageRepresentation languageRepresentation3 =
+                new LanguageRepresentation();
+        languageRepresentation3.setLanguage(LanguageRepresentation.language.EL);
+        languageRepresentation3.setText("LR3");
+        languageRepresentation3.setPartOfSpeech(
+                LanguageRepresentation.part_of_speech.ADVERB);
+        languageRepresentation3.setPragmaticStatus(
+                LanguageRepresentation.pragmatic_status.LITERAL);
+
+        concept1.addLanguageRepresentation(languageRepresentation1, false);
+        concept1.addLanguageRepresentation(languageRepresentation2, true);
+        concept2.addLanguageRepresentation(languageRepresentation3, true);
+
+        /* 
+         * Add Visual Representations to the concepts
+         */
+        VisualRepresentation visualRepresentation1 = new VisualRepresentation();
+        visualRepresentation1.setName("VR1");
+        visualRepresentation1.
+                setMediaType(VisualRepresentation.media_type.IMAGE);
         URI new_uri = null;
         try {
-            new_uri = new URI("https://www.google.com/");
+            new_uri = new URI(
+                    "http://iphonewallpaperhds.com/images/1810-lucky.jpg");
         } catch (URISyntaxException error_uri) {
             System.out.println("caught URI error");
             System.out.println(Arrays.toString(error_uri.getStackTrace()));
         };
-        vr.setURI(new_uri);
-        concept1.addVisualRepresentation(vr);
+        visualRepresentation1.setURI(new_uri);
+        concept1.addVisualRepresentation(visualRepresentation1);
 
-        //Adding a relation
-        //1.) create the TypeOfRelation (or use an existing 1)
-        RelationType type = new RelationType();
-        type.setForwardName(
+        VisualRepresentation visualRepresentation2 = new VisualRepresentation();
+        visualRepresentation2.setName("VR2");
+        visualRepresentation2.
+                setMediaType(VisualRepresentation.media_type.IMAGE);
+        try {
+            new_uri = new URI(
+                    "http://www.picgifs.com/clip-art/cartoons/lucky-luke/clip-art-lucky-luke-240603.jpg");
+        } catch (URISyntaxException error_uri) {
+            System.out.println("caught URI error");
+            System.out.println(Arrays.toString(error_uri.getStackTrace()));
+        };
+        visualRepresentation2.setURI(new_uri);
+        concept2.addVisualRepresentation(visualRepresentation2);
+
+
+        /* 
+         * Create a relation with concept1 as subject and concept2 as object.
+         */
+        Relation relation1 = new Relation();
+        RelationType relationType1 = new RelationType();
+        relationType1.
+                setForwardName(RelationType.relation_name_forward.HAS_PART);
+        relationType1.setBackwardName(
+                RelationType.relation_name_backward.PART_OF);
+        relation1.setType(relationType1);
+
+        RelationArgument relationArgument1 = new RelationArgument(concept1);
+        RelationArgument relationArgument2 = new RelationArgument(concept2);
+
+        relation1.setObject(relationArgument1);
+        relation1.setSubject(relationArgument2);
+        relation1.setDerivation(Relation.derivation_supported.YES);
+
+        /* 
+         * Create a relation with concept2 as subject and concept1 as object.
+         */
+        Relation relation2 = new Relation();
+        RelationType relationType2 = new RelationType();
+        relationType2.setForwardName(
                 RelationType.relation_name_forward.HAS_PARTIAL_INSTANCE);
-        type.setBackwardName(RelationType.relation_name_backward.PART_OF);
+        relationType2.setBackwardName(
+                RelationType.relation_name_backward.PART_OF);
+        relation2.setType(relationType2);
 
-        // 2.) create the relations (always there should be a type and an
-        // Object for the relation)
-        Relation rel = new Relation();
-        rel.setType(type);
-        // TODO: Put the concepts inside RelationArguments.
-        //rel.setObject(concept1);
-        // here is an example for another relation
-        Relation rel2 = new Relation();
-        rel2.setType(type);
-        rel2.setObject(relationArgument2);
+        relation2.setSubject(relationArgument2);
+        relation2.setObject(relationArgument1);
+        relation1.setDerivation(Relation.derivation_supported.NO);
 
-        //3.) create the relation chain
-        RelationSet rc = new RelationSet();
-        //there should be in the correct order (the order counter must start from 0)
-        rc.addRelation(rel, 0);
-        rc.addRelation(rel2, 1);
 
-        // 5.) add the intersection to the concept
-        //concept1.addIntersectionOfRelationChains(inter);
-        // Causes java.lang.StackOverflowError
-        //concept2.addIntersectionOfRelationChains(inter1);
+        /* 
+         * Create a RelationSet_Relation structure to store relations
+         */
+        List<RelationSet_Relation> relationSetRelationList = new ArrayList<>();
+        RelationSet_Relation relationSetRelation1 = new RelationSet_Relation();
+        RelationSet_Relation relationSetRelation2 = new RelationSet_Relation();
 
-        // 6.) create the Concept_UnionRelation
-        // here you should determine if the union is describing the basic use of
-        // the object or how important is this use for the entity
-        concept1.setConceptType(Concept.type.ABSTRACT);
-        concept1.setStatus(Concept.status.VARIABLE);
-        concept1.setUniqueInstance(Concept.unique_instance.YES);
+        /* 
+         * Create an ordered relation set with relation1 and relation2 
+         * as members.
+         */
+        RelationSet relationSet1 = new RelationSet();
+        relationSetRelation1.setRelation(relation2);
+        relationSetRelation1.setRelationSet(relationSet1);
+        relationSetRelation2.setRelation(relation1);
+        relationSetRelation2.setRelationSet(relationSet1);
 
-        ConceptDao new_concept_dao = new ConceptDaoImpl();
+//
+//        
+//        relationSet1.addRelation(relation1, 0);
+//        relationSet1.addRelation(relation2, 1);
+
+        /* 
+         * Create an unordered relation set with relation1 and relation2 
+         * as members.
+         */
+//        RelationSet relationSet2 = new RelationSet();
+//        relationSet2.addRelation(relation2);
+//        relationSet2.addRelation(relation1);
+        ConceptDao newConceptDao = new ConceptDaoImpl();
+        LanguageRepresentationDao newLanguageRepresentationDao =
+                new LanguageRepresentationDaoImpl();
+        VisualRepresentationDao newVisualRepresentationDao =
+                new VisualRepresentationDaoImpl();
+        RelationDao newRelationDao = new RelationDaoImpl();
+        RelationSetDao newRelationSetDao = new RelationSetDaoImpl();
 
         try {
-            new_concept_dao.persist(concept1);
+            newConceptDao.persist(concept1);
+            newConceptDao.persist(concept2);
+            newLanguageRepresentationDao.persist(languageRepresentation3);
+            newLanguageRepresentationDao.persist(languageRepresentation2);
+            newLanguageRepresentationDao.persist(languageRepresentation1);
+            newVisualRepresentationDao.persist(visualRepresentation2);
+            newVisualRepresentationDao.persist(visualRepresentation1);
+            newRelationDao.persist(relation2);
+            newRelationDao.persist(relation1);
+            newRelationSetDao.persist(relationSet1);
+
         } catch (javax.validation.ConstraintViolationException ee) {
             System.out.println("Size constraint violated.");
         }
