@@ -173,7 +173,7 @@ public class VisualRepresentation implements Serializable {
         }
     }
 
-    public void setRepresentation(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
