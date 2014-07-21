@@ -178,7 +178,7 @@ public class TestJPA {
 
         relation2.setSubject(relationArgument2);
         relation2.setObject(relationArgument1);
-        relation1.setDerivation(Relation.derivation_supported.NO);
+        relation2.setDerivation(Relation.derivation_supported.NO);
 
 
         /* 
@@ -192,6 +192,7 @@ public class TestJPA {
          * Create an ordered relation set with relation1 and relation2 
          * as members.
          */
+        // TODO: Must fix the way relations become parts of relation sets!!!
         RelationSet relationSet1 = new RelationSet();
         relationSetRelation1.setRelation(relation2);
         relationSetRelation1.setRelationSet(relationSet1);
