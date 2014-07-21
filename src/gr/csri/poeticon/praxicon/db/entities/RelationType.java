@@ -21,26 +21,22 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author dmavroeidis
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "relation_type", namespace = "http://www.csri.gr/relation_type")
+//@XmlAccessorType(XmlAccessType.FIELD)
+//@XmlType(name = "relation_type", namespace = "http://www.csri.gr/relation_type")
 @Entity
 @NamedQueries({
     @NamedQuery(name = "getRelationTypeEntityQuery", query =
             "SELECT e FROM RelationType e " +
             "WHERE e.forwardName = :forwardName " +
-            "AND e.backwardName = :backwardName"),
-})
+            "AND e.backwardName = :backwardName"),})
 @Table(name = "RelationTypes", indexes = {
     @Index(columnList = "RelationTypeId")})
 public class RelationType implements Serializable {
@@ -101,30 +97,6 @@ public class RelationType implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "type")
     private List<Relation> relations;
 
-    //@Transient
-    private String xmlRelationForward;
-
-    //@Transient
-    private String xmlRelationBackward;
-
-    @XmlTransient
-    public String getXmlRelationForward() {
-        return xmlRelationForward;
-    }
-
-    public void setXmlRelationForward(String xmlRelation) {
-        this.xmlRelationForward = xmlRelation;
-    }
-
-    @XmlTransient
-    public String getXmlRelationBackward() {
-        return xmlRelationBackward;
-    }
-
-    public void setXmlRelationBackward(String xmlRelation) {
-        this.xmlRelationBackward = xmlRelation;
-    }
-
     public RelationType() {
         relations = new ArrayList<>();
     }
@@ -161,7 +133,7 @@ public class RelationType implements Serializable {
         try {
             this.forwardName = relation_name_forward.valueOf(tmp.toUpperCase());
         } catch (Exception e) {
-            this.xmlRelationForward = name;
+
         }
     }
 
@@ -179,9 +151,8 @@ public class RelationType implements Serializable {
     public String getForwardNameString() {
         if (forwardName != null && !forwardName.name().equalsIgnoreCase("")) {
             return forwardName.name();
-        } else {
-            return this.xmlRelationForward;
         }
+        return null;
     }
 
     public relation_name_backward getBackwardName() {
@@ -208,7 +179,6 @@ public class RelationType implements Serializable {
             this.backwardName =
                     relation_name_backward.valueOf(tmp.toUpperCase());
         } catch (Exception e) {
-            this.xmlRelationBackward = name;
         }
     }
 
@@ -222,9 +192,8 @@ public class RelationType implements Serializable {
     public String getBackwardNameString() {
         if (backwardName != null && !backwardName.name().equalsIgnoreCase("")) {
             return backwardName.name();
-        } else {
-            return this.xmlRelationBackward;
         }
+        return null;
     }
 
     @XmlTransient
