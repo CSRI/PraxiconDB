@@ -59,7 +59,7 @@ public class RelationSet implements Serializable {
     @Column(name = "Inherent")
     @Enumerated(EnumType.STRING)
     private inherent inherent;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet")
     private List<RelationSet_Relation> relations;
 
@@ -81,14 +81,14 @@ public class RelationSet implements Serializable {
         this.id = id;
     }
 
-    public inherent getIsInherent(){
+    public inherent getIsInherent() {
         return inherent;
     }
-    
-    public void setIsInherent(inherent inherent){
+
+    public void setIsInherent(inherent inherent) {
         this.inherent = inherent;
     }
-  
+
     public String getName() {
         return name;
     }
@@ -151,8 +151,15 @@ public class RelationSet implements Serializable {
     public void addRelation(Relation relation, int order) {
         RelationSet_Relation rsr = new RelationSet_Relation();
         rsr.setRelation(relation);
-        rsr.setRelationSet(this);
+        //rsr.setRelationSet(this);
         rsr.setRelationOrder(order);
+        //System.out.println(rsr.getRelation().toString());
+        this.relations.add(rsr);
+    }
+
+    public void addRelation(Relation relation) {
+        RelationSet_Relation rsr = new RelationSet_Relation();
+        rsr.setRelation(relation);
         this.relations.add(rsr);
     }
 
