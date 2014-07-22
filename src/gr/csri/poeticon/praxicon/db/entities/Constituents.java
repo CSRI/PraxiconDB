@@ -58,6 +58,34 @@ public class Constituents implements Serializable {
         this.id = id;
     }
 
+    @XmlAttribute
+    public Short getOrder() {
+        return order;
+    }
+
+    public void setOrder(Short order) {
+        this.order = order;
+    }
+
+    @XmlAttribute
+    public LanguageRepresentation getConstituentLanguageRepresentation() {
+        return constituentLanguageRepresentation;
+    }
+
+    public void setConstituentLanguageRepresentation(LanguageRepresentation clr) {
+        this.constituentLanguageRepresentation = clr;
+    }
+
+    @XmlAttribute
+    public LanguageRepresentation getLanguageRepresentation() {
+        return languageRepresentation;
+    }
+
+    public void setLanguageRepresentation(
+            LanguageRepresentation languageRepresentation) {
+        this.languageRepresentation = languageRepresentation;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
