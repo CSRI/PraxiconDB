@@ -49,7 +49,7 @@ public class Concept_LanguageRepresentation implements Serializable {
     private Long id;
 
     @Column(name = "RepresentativeLanguageRepresentation")
-    private boolean representativeLanguageRepresentation;
+    private boolean isRepresentativeLanguageRepresentation;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "ConceptId")
@@ -86,11 +86,11 @@ public class Concept_LanguageRepresentation implements Serializable {
      * @return whether the language representation is representative or not.
      */
     public boolean getIsRepresentative() {
-        return representativeLanguageRepresentation;
+        return isRepresentativeLanguageRepresentation;
     }
 
     public void setIsRepresentative(boolean isRepresentative) {
-        this.representativeLanguageRepresentation = isRepresentative;
+        this.isRepresentativeLanguageRepresentation = isRepresentative;
     }
 
     @Override
@@ -106,7 +106,8 @@ public class Concept_LanguageRepresentation implements Serializable {
         if (!(object instanceof Concept_LanguageRepresentation)) {
             return false;
         }
-        Concept_LanguageRepresentation other = (Concept_LanguageRepresentation)object;
+        Concept_LanguageRepresentation other =
+                (Concept_LanguageRepresentation)object;
         if (this.languageRepresentation.equals(other.languageRepresentation)) {
             return true;
         }
@@ -121,4 +122,11 @@ public class Concept_LanguageRepresentation implements Serializable {
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "gr.csri.poeticon.praxicon.db.entities.Concept_LanguageRepresentation[ " +
+                "id=" + id + " ]";
+    }
+
 }
