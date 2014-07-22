@@ -25,11 +25,16 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author dmavroeidis
  */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "relation_set", namespace = "http://www.csri.gr/relation_set")
 @Entity
 @Table(name = "RelationSets", indexes = {
     @Index(columnList = "RelationSetId"),
@@ -48,9 +53,9 @@ public class RelationSet implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Column(name = "RelationSetId", nullable = false)
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
+    @Column(name = "RelationSetId")
     private Long id;
 
     @Column(name = "Name")
@@ -72,6 +77,27 @@ public class RelationSet implements Serializable {
                 @JoinColumn(name = "LanguageRepresentationId")}
     )
     List<LanguageRepresentation> languageRepresentations;
+
+    /**
+     * Constructor #1.
+     */
+    public RelationSet() {
+        this.name = null;
+        this.relations = null;
+        this.inherent = this.inherent.UNKNOWN;
+        this.languageRepresentations = null;
+    }
+    
+    /**
+     * Constructor #2.
+     */
+    public RelationSet(String name, List<RelationSet_Relation> relationSetRelationsList, inherent isInherent, List<LanguageRepresentation> languageRepresentation) {
+        this.name = name;
+        this.relations = relationSetRelationsList;
+        this.inherent = isInherent;
+        this.languageRepresentations = null;
+    }
+    
 
     public Long getId() {
         return id;
@@ -147,20 +173,34 @@ public class RelationSet implements Serializable {
     public void setRelations(List<RelationSet_Relation> relations) {
         this.relations = relations;
     }
-
-    public void addRelation(Relation relation, int order) {
-        RelationSet_Relation rsr = new RelationSet_Relation();
-        rsr.setRelation(relation);
-        //rsr.setRelationSet(this);
-        rsr.setRelationOrder(order);
-        //System.out.println(rsr.getRelation().toString());
-        this.relations.add(rsr);
-    }
+//
+//    public void addRelation(Relation relation, int order) {
+//        RelationSet_Relation rsr = new RelationSet_Relation();
+//        rsr.setRelation(relation);
+//        rsr.setRelationSet(this);
+//        rsr.setRelationOrder(order);
+//        System.out.println("RELATION: " + relation.toString());
+//        this.relations.add(rsr);
+//    }
 
     public void addRelation(Relation relation) {
         RelationSet_Relation rsr = new RelationSet_Relation();
         rsr.setRelation(relation);
         this.relations.add(rsr);
+    }
+
+    public void addRelation(Relation relation, int order) {
+        RelationSet_Relation rsr = new RelationSet_Relation(order);
+        rsr.setRelation(relation);
+        rsr.setRelationSet(this);
+
+        try {
+            this.relations.add(rsr);
+        } catch (Exception ex) {
+            System.err.println("THE ERROR MESSAGE:");
+            ex.printStackTrace();
+        }
+
     }
 
     /**
