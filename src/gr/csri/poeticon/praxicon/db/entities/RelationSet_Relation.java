@@ -17,11 +17,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author dmavroeidis
  */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "relationset_relation", namespace =
+        "http://www.csri.gr/relationset_relation")
 @Entity
 @Table(name = "RelationSets_Relations", indexes = {
     @Index(columnList = "RelationSet_RelationId")
@@ -29,6 +35,7 @@ import javax.persistence.Table;
 public class RelationSet_Relation implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
@@ -41,10 +48,28 @@ public class RelationSet_Relation implements Serializable {
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "RelationSetId")
     private RelationSet relationSet;
- 
+
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "RelationId")
     private Relation relation;
+
+    /**
+     * Constructor #1.
+     */
+    public RelationSet_Relation() {
+        this.relation = null;
+        //this.relationOrder = 0;
+        this.relationSet = null;
+    }
+
+    /**
+     * Constructor #2.
+     */
+    public RelationSet_Relation(int order) {
+        this.relation = null;
+        this.relationOrder = order;
+        this.relationSet = null;
+    }
 
     public Long getId() {
         return id;
