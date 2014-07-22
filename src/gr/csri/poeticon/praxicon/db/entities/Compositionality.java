@@ -18,6 +18,8 @@ import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
@@ -25,10 +27,12 @@ import javax.xml.bind.annotation.XmlType;
  *
  * @author dmavroeidis
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "compositionality",
         namespace = "http://www.csri.gr/compositionality")
 @Entity
-@Table(name = "Compositionality", indexes = {@Index(columnList="CompositionalityId")})
+@Table(name = "Compositionality", indexes = {
+    @Index(columnList = "CompositionalityId")})
 public class Compositionality implements Serializable {
 
     public static enum CompositionalityType {
@@ -54,7 +58,7 @@ public class Compositionality implements Serializable {
 
     // Foreign key
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "compositionality")
-    private List<LanguageRepresentation> languageRepresentation;
+    private List<LanguageRepresentation> languageRepresentations;
 
     @XmlAttribute
     public Long getId() {
@@ -63,6 +67,26 @@ public class Compositionality implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @XmlAttribute
+    public CompositionalityType getCompositionalityType() {
+        return compositionalityType;
+    }
+
+    public void setCompositionalityType(
+            CompositionalityType compositionalityType) {
+        this.compositionalityType = compositionalityType;
+    }
+
+    @XmlAttribute
+    public List<LanguageRepresentation> getLanguageRepresentations() {
+        return languageRepresentations;
+    }
+
+    public void setLanguageRepresentations(
+            List<LanguageRepresentation> languageRepresentations) {
+        this.languageRepresentations = languageRepresentations;
     }
 
     @Override
