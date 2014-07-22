@@ -21,11 +21,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author dmavroeidis
  */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "relation_argument", namespace =
+        "http://www.csri.gr/relation_argument")
 @Entity
 @Table(name = "RelationArguments", indexes = {
     @Index(columnList = "RelationArgumentId")})
@@ -211,11 +217,7 @@ public class RelationArgument implements Serializable {
     }
 
     public boolean isConcept() {
-        if (this.getRelationArgumentClassType() == Concept.class) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.getRelationArgumentClassType() == Concept.class;
     }
 
     @Override

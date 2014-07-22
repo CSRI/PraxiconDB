@@ -70,7 +70,7 @@ import javax.xml.bind.annotation.XmlType;
             "AND UPPER(lr.pragmaticStatus) = :pragmatic_status"),
     @NamedQuery(name = "findLanguageRepresentationsByText", query =
             "FROM LanguageRepresentation lr " +
-            "WHERE UPPER(lr.text) = :text"), })
+            "WHERE UPPER(lr.text) = :text"),})
 @Table(name = "LanguageRepresentations", indexes = {
     @Index(columnList = "Text"),
     @Index(columnList = "LanguageRepresentationId")})
@@ -226,8 +226,7 @@ public class LanguageRepresentation implements Serializable {
     public List<Constituents> getConstituents() {
         List<Constituents> constituents = new ArrayList<>();
         if (this.isCompositional == is_compositional.YES) {
-            for (gr.csri.poeticon.praxicon.db.entities.Constituents constituent
-                    : constituents) {
+            for (Constituents constituent : constituents) {
                 constituents.add(constituent);
             }
         } else {

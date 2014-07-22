@@ -635,8 +635,8 @@ public class Concept implements Serializable {
         return relationList;
     }
 
-    /* TODO: The following is not used anywhere in the project. So, for now
-     it is commented. */
+    /* TODO: The following is not used anywhere in the project. So, it is 
+     commented until it is usefull again. */
 //    /**
 //     * Updates object relations of a concept using this concept object relations
 //     *

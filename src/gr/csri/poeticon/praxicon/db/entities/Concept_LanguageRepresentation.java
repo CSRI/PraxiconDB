@@ -20,7 +20,6 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -29,8 +28,6 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "concept_languagerepresentation", namespace =
-        "http://www.csri.gr/concept_languagerepresentation")
-@XmlRootElement(name = "concept_languagerepresentation", namespace =
         "http://www.csri.gr/concept_languagerepresentation")
 @Entity
 @Table(name = "Concepts_LanguageRepresentations", indexes = {
