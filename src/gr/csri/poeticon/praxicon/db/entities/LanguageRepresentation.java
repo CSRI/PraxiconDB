@@ -203,11 +203,11 @@ public class LanguageRepresentation implements Serializable {
     // Foreign key
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "constituentLanguageRepresentation")
-    private List<Constituents> languageRepresentationConstituents;
+    private List<Constituent> languageRepresentationConstituents;
 
     // Foreign key
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "languageRepresentation")
-    private List<Constituents> constituents;
+    private List<Constituent> constituents;
 
     // Foreign key
     @ManyToOne(cascade = CascadeType.ALL)
@@ -223,10 +223,10 @@ public class LanguageRepresentation implements Serializable {
      * defines the constituents of a composite word or multiword"
      */
     @XmlElement(name = "constituents")
-    public List<Constituents> getConstituents() {
-        List<Constituents> constituents = new ArrayList<>();
+    public List<Constituent> getConstituents() {
+        List<Constituent> constituents = new ArrayList<>();
         if (this.isCompositional == is_compositional.YES) {
-            for (Constituents constituent : constituents) {
+            for (Constituent constituent : constituents) {
                 constituents.add(constituent);
             }
         } else {
@@ -235,7 +235,7 @@ public class LanguageRepresentation implements Serializable {
         return constituents;
     }
 
-    public void setConstituents(List<Constituents> constituents) {
+    public void setConstituents(List<Constituent> constituents) {
         this.constituents = constituents;
     }
 

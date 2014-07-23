@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlType;
 @Entity
 @Table(name = "Constituents", indexes = {
     @Index(columnList = "ConstituentId")})
-public class Constituents implements Serializable {
+public class Constituent implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -39,7 +39,7 @@ public class Constituents implements Serializable {
     private Long id;
 
     @Column(name = "ConstituentOrder")
-    private Short order;
+    private short order;
 
     // Foreign key
     @ManyToOne(cascade = CascadeType.ALL)
@@ -59,11 +59,11 @@ public class Constituents implements Serializable {
     }
 
     @XmlAttribute
-    public Short getOrder() {
+    public short getOrder() {
         return order;
     }
 
-    public void setOrder(Short order) {
+    public void setOrder(short order) {
         this.order = order;
     }
 
@@ -96,10 +96,10 @@ public class Constituents implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - method won't work in case the id fields are not set
-        if (!(object instanceof Constituents)) {
+        if (!(object instanceof Constituent)) {
             return false;
         }
-        Constituents other = (Constituents)object;
+        Constituent other = (Constituent)object;
         if ((this.id == null && other.id != null) ||
                 (this.id != null && !this.id.equals(other.id))) {
             return false;
