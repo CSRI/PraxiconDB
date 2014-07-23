@@ -43,7 +43,7 @@ public class RelationSet_Relation implements Serializable {
     private Long id;
 
     @Column(name = "RelationOrder")
-    private int relationOrder;
+    private short relationOrder;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "RelationSetId")
@@ -65,7 +65,7 @@ public class RelationSet_Relation implements Serializable {
     /**
      * Constructor #2.
      */
-    public RelationSet_Relation(int order) {
+    public RelationSet_Relation(short order) {
         this.relation = null;
         this.relationOrder = order;
         this.relationSet = null;
@@ -83,7 +83,7 @@ public class RelationSet_Relation implements Serializable {
         return relationOrder;
     }
 
-    public void setRelationOrder(int relationOrder) {
+    public void setRelationOrder(short relationOrder) {
         this.relationOrder = relationOrder;
     }
 

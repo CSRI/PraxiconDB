@@ -87,17 +87,19 @@ public class RelationSet implements Serializable {
         this.inherent = this.inherent.UNKNOWN;
         this.languageRepresentations = null;
     }
-    
+
     /**
      * Constructor #2.
      */
-    public RelationSet(String name, List<RelationSet_Relation> relationSetRelationsList, inherent isInherent, List<LanguageRepresentation> languageRepresentation) {
+    public RelationSet(String name,
+            List<RelationSet_Relation> relationSetRelationsList,
+            inherent isInherent,
+            List<LanguageRepresentation> languageRepresentation) {
         this.name = name;
         this.relations = relationSetRelationsList;
         this.inherent = isInherent;
         this.languageRepresentations = null;
     }
-    
 
     public Long getId() {
         return id;
@@ -186,10 +188,16 @@ public class RelationSet implements Serializable {
     public void addRelation(Relation relation) {
         RelationSet_Relation rsr = new RelationSet_Relation();
         rsr.setRelation(relation);
-        this.relations.add(rsr);
+        rsr.setRelationSet(this);
+        try {
+            this.relations.add(rsr);
+        } catch (Exception ex) {
+            System.err.println("THE ERROR MESSAGE:");
+            ex.printStackTrace();
+        }
     }
 
-    public void addRelation(Relation relation, int order) {
+    public void addRelation(Relation relation, short order) {
         RelationSet_Relation rsr = new RelationSet_Relation(order);
         rsr.setRelation(relation);
         rsr.setRelationSet(this);
