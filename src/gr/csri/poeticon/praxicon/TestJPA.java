@@ -10,7 +10,9 @@ import gr.csri.poeticon.praxicon.db.dao.implSQL.LanguageRepresentationDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationSetDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.VisualRepresentationDaoImpl;
+import gr.csri.poeticon.praxicon.db.entities.Compositionality;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
+import gr.csri.poeticon.praxicon.db.entities.Constituent;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
@@ -55,7 +57,7 @@ public class TestJPA {
     @SuppressWarnings("empty-statement")
     public static void main(String args[]) {
         /*
-         * Create Concept1 
+         * Create Concept1
          */
 
         Concept concept1 = new Concept();
@@ -77,7 +79,7 @@ public class TestJPA {
         concept2.setSource("myMind2");
         System.out.println(concept2.getName());
 
-        /* 
+        /*
          * Add Language Representations to the concepts
          */
         List<LanguageRepresentation> languageRepresentations1;
@@ -138,7 +140,8 @@ public class TestJPA {
                 setMediaType(VisualRepresentation.media_type.IMAGE);
         try {
             new_uri = new URI(
-                    "http://www.picgifs.com/clip-art/cartoons/lucky-luke/clip-art-lucky-luke-240603.jpg");
+                    "http://www.picgifs.com/clip-art/cartoons/lucky-luke/" +
+                    "clip-art-lucky-luke-240603.jpg");
         } catch (URISyntaxException error_uri) {
             System.out.println("caught URI error");
             System.out.println(Arrays.toString(error_uri.getStackTrace()));
@@ -146,6 +149,24 @@ public class TestJPA {
         visualRepresentation2.setURI(new_uri);
         concept2.addVisualRepresentation(visualRepresentation2);
 
+        /* 
+         * Create a compositionality entry
+         */
+        Compositionality compositionality = new Compositionality();
+        languageRepresentation1.setCompositional(
+                LanguageRepresentation.is_compositional.YES);
+        Constituent constituent1 = new Constituent();
+        Constituent constituent2 = new Constituent();
+        constituent1.setLanguageRepresentation(languageRepresentation1);
+        constituent1.setOrder((short)0);
+        constituent2.setLanguageRepresentation(languageRepresentation2);
+        constituent2.setOrder((short)1);
+
+        List<Constituent> constituents = new ArrayList();
+        constituents.add(constituent2);
+        constituents.add(constituent1);
+
+        languageRepresentation1.setConstituents(constituents);
 
         /* 
          * Create a relation with concept1 as subject and concept2 as object.
@@ -160,7 +181,12 @@ public class TestJPA {
 
         RelationArgument relationArgument1 = new RelationArgument(concept1);
         RelationArgument relationArgument2 = new RelationArgument(concept2);
-
+        System.out.println("CONCEPT 1: " + concept1.toString());
+        System.out.println("CONCEPT 2: " + concept2.toString());
+        System.out.println("RELATION ARGUMENT 1: " + relationArgument1.
+                toString());
+        System.out.println("RELATION ARGUMENT 2: " + relationArgument2.
+                toString());
         relation1.setObject(relationArgument1);
         relation1.setSubject(relationArgument2);
         relation1.setDerivation(Relation.derivation_supported.YES);
@@ -192,17 +218,15 @@ public class TestJPA {
          * Create an ordered relation set with relation1 and relation2 
          * as members.
          */
-        // TODO: Must fix the way relations become parts of relation sets!!!
-        RelationSet relationSet1 = new RelationSet();
-        relationSetRelation1.setRelation(relation2);
-        relationSetRelation1.setRelationSet(relationSet1);
-        relationSetRelation2.setRelation(relation1);
-        relationSetRelation2.setRelationSet(relationSet1);
+        // TODO: Must fix the way relations become part of relation sets!!!
+        relationSetRelationList.add(relationSetRelation2);
+        relationSetRelationList.add(relationSetRelation1);
+        RelationSet relationSet1 = new RelationSet("relationSetName1",
+                relationSetRelationList, RelationSet.inherent.YES,
+                languageRepresentations1);
 
-//
-//        
-//        relationSet1.addRelation(relation1, 0);
-//        relationSet1.addRelation(relation2, 1);
+//        relationSet1.addRelation(relation1, 1);
+//        relationSet1.addRelation(relation2, 2);
 
         /* 
          * Create an unordered relation set with relation1 and relation2 
@@ -260,7 +284,9 @@ public class TestJPA {
             em.getTransaction().rollback();
             System.out.println("transaction error");
         } finally {
+            em.flush();
             em.close();
+
         }
     }
 
