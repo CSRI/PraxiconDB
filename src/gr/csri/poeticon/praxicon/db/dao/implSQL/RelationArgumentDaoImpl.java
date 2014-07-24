@@ -18,7 +18,7 @@ import javax.persistence.Query;
  * @author Dimitris Mavroeidis
  *
  */
-public class RelationArgumentDaoImpl extends JpaDao<Long, Relation> implements
+public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument> implements
         RelationArgumentDao {
 
     /**
