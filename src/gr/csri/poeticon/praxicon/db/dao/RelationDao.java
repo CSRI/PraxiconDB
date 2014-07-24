@@ -18,8 +18,8 @@ import java.util.List;
 public interface RelationDao extends Dao<Long, Relation> {
 
     //List<Concept> getOwners(Relation relation);
-
-    List<RelationSet> getRelationSetsWithRelationArgumentAsObject(RelationArgument relationArgument);
+    List<RelationSet> getRelationSetsWithConceptAsObject(
+            Concept concept);
 
     List<Relation> getAllRelationsOfConcept(Concept concept);
 
@@ -27,4 +27,16 @@ public interface RelationDao extends Dao<Long, Relation> {
 
     List<Relation> findRelationsByConceptTypeOfRelation(
             Concept concept, RelationType relationType);
+
+    List<RelationSet> getRelationSetsWithRelationArgumentAsObject(
+            RelationArgument relationArgument);
+
+    List<Relation> getAllRelationsOfRelationArgument(
+            RelationArgument relationArgument);
+
+    boolean areRelated(RelationArgument relationArgument1,
+            RelationArgument relationArgument2);
+
+    List<Relation> findRelationsByRelationArgumentTypeOfRelation(
+            RelationArgument relationArgument, RelationType relationType);
 }
