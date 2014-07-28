@@ -2,13 +2,17 @@ package gr.csri.poeticon.praxicon;
 
 import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
 import gr.csri.poeticon.praxicon.db.dao.LanguageRepresentationDao;
+import gr.csri.poeticon.praxicon.db.dao.RelationArgumentDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationSetDao;
+import gr.csri.poeticon.praxicon.db.dao.RelationTypeDao;
 import gr.csri.poeticon.praxicon.db.dao.VisualRepresentationDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.LanguageRepresentationDaoImpl;
+import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationArgumentDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationSetDaoImpl;
+import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationTypeDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.VisualRepresentationDaoImpl;
 import gr.csri.poeticon.praxicon.db.entities.Compositionality;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
@@ -17,7 +21,6 @@ import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import gr.csri.poeticon.praxicon.db.entities.RelationSet;
-import gr.csri.poeticon.praxicon.db.entities.RelationSet_Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import gr.csri.poeticon.praxicon.db.entities.VisualRepresentation;
 import java.net.URI;
@@ -187,8 +190,8 @@ public class TestJPA {
                 toString());
         System.out.println("RELATION ARGUMENT 2: " + relationArgument2.
                 toString());
-        relation1.setObject(relationArgument1);
-        relation1.setSubject(relationArgument2);
+        relation1.setSubject(relationArgument1);
+        relation1.setObject(relationArgument2);
         relation1.setDerivation(Relation.derivation_supported.YES);
 
         /* 
@@ -206,57 +209,53 @@ public class TestJPA {
         relation2.setObject(relationArgument1);
         relation2.setDerivation(Relation.derivation_supported.NO);
 
+        System.out.println("RELATION1 ID (pre-persist): " + relation1.getId());
+        System.out.println("RELATION2 ID (pre-persist):" + relation2.getId());
 
         /* 
-         * Create a RelationSet_Relation structure to store relations
+         * Create an unordered RelationSet 
          */
-        List<RelationSet_Relation> relationSetRelationList = new ArrayList<>();
-        RelationSet_Relation relationSetRelation1 = new RelationSet_Relation();
-        RelationSet_Relation relationSetRelation2 = new RelationSet_Relation();
+        RelationSet relationSet1 = new RelationSet();
+        relationSet1.setIsInherent(RelationSet.inherent.YES);
+        relationSet1.setLanguageRepresentations(languageRepresentations1);
+
+        relationSet1.setName("NewRelationSet1");
+        List<Relation> relations = new ArrayList<>();
+        relations.add(relation1);
+        relations.add(relation2);
+        relationSet1.addRelationsWithoutOrder(relations);
 
         /* 
-         * Create an ordered relation set with relation1 and relation2 
-         * as members.
+         * Create an ordered RelationSet 
          */
-        // TODO: Must fix the way relations become part of relation sets!!!
-        relationSetRelationList.add(relationSetRelation2);
-        relationSetRelationList.add(relationSetRelation1);
-        RelationSet relationSet1 = new RelationSet("relationSetName1",
-                relationSetRelationList, RelationSet.inherent.YES,
-                languageRepresentations1);
+        RelationSet relationSet2 = new RelationSet();
+        relationSet2.setIsInherent(RelationSet.inherent.YES);
+        List<LanguageRepresentation> languageRepresentations2 =
+                new ArrayList<>();
+        languageRepresentations2.add(languageRepresentation3);
+        relationSet2.setLanguageRepresentations(languageRepresentations2);
+        relationSet2.setName("NewRelationSet2");
+        relationSet2.addRelation(relation2, (short)1);
+        relationSet2.addRelation(relation1, (short)2);
 
-//        relationSet1.addRelation(relation1, 1);
-//        relationSet1.addRelation(relation2, 2);
-
-        /* 
-         * Create an unordered relation set with relation1 and relation2 
-         * as members.
-         */
-//        RelationSet relationSet2 = new RelationSet();
-//        relationSet2.addRelation(relation2);
-//        relationSet2.addRelation(relation1);
         ConceptDao newConceptDao = new ConceptDaoImpl();
+        RelationArgumentDao newRelationArgumentDao =
+                new RelationArgumentDaoImpl();
+        RelationTypeDao newRelationTypeDao = new RelationTypeDaoImpl();
         LanguageRepresentationDao newLanguageRepresentationDao =
                 new LanguageRepresentationDaoImpl();
         VisualRepresentationDao newVisualRepresentationDao =
                 new VisualRepresentationDaoImpl();
-        RelationDao newRelationDao = new RelationDaoImpl();
         RelationSetDao newRelationSetDao = new RelationSetDaoImpl();
+        RelationDao newRelationDao = new RelationDaoImpl();
 
         try {
-            newConceptDao.persist(concept1);
-            newConceptDao.persist(concept2);
-            newLanguageRepresentationDao.persist(languageRepresentation3);
-            newLanguageRepresentationDao.persist(languageRepresentation2);
-            newLanguageRepresentationDao.persist(languageRepresentation1);
-            newVisualRepresentationDao.persist(visualRepresentation2);
-            newVisualRepresentationDao.persist(visualRepresentation1);
-            newRelationDao.persist(relation2);
-            newRelationDao.persist(relation1);
             newRelationSetDao.persist(relationSet1);
-
+            newRelationSetDao.persist(relationSet2);
         } catch (javax.validation.ConstraintViolationException ee) {
             System.out.println("Size constraint violated.");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
