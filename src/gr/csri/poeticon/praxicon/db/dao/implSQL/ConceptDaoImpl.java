@@ -10,7 +10,6 @@ import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Concept.status;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
-import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import java.util.ArrayList;
 import java.util.List;
@@ -742,47 +741,50 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         }
     }
 
-    /**
-     * Updates the ObjectOf relations of a concept, adding the ObjectOf
-     * relations of another concept (removing them from that concept).
-     *
-     * @param newRelationArgument concept with ObjectOf relations to be moved
-     * @param oldRelationArgument concept to be updated
-     */
-    private void updateObjOfRelations(RelationArgument newRelationArgument,
-            RelationArgument oldRelationArgument) {
-        for (int i = 0;
-                i < newRelationArgument.getConcept().
-                getRelationsContainingConceptAsObject().
-                size();
-                i++) {
-            if (!oldRelationArgument.getConcept().
-                    getRelationsContainingConceptAsObject().
-                    contains(newRelationArgument.getConcept().
-                            getRelationsContainingConceptAsObject().
-                            get(i))) {
-                if (newRelationArgument.getConcept().
-                        getRelationsContainingConceptAsObject().
-                        get(i).
-                        getObject().equals(newRelationArgument)) {
-                    newRelationArgument.getConcept().
-                            getRelationsContainingConceptAsObject().
-                            get(i).
-                            setObject(oldRelationArgument);
-                } else {
-                    newRelationArgument.getConcept().
-                            getRelationsContainingConceptAsObject().
-                            get(i).
-                            setSubject(oldRelationArgument);
-                }
-                oldRelationArgument.getConcept().
-                        getRelationsContainingConceptAsObject().
-                        add(newRelationArgument.getConcept().
-                                getRelationsContainingConceptAsObject().
-                                get(i));
-            }
-        }
-    }
+    //TODO: It is commented out until proven that is needed. 
+    // Will be deleted otherwise.
+    
+//    /**
+//     * Updates the ObjectOf relations of a concept, adding the ObjectOf
+//     * relations of another concept (removing them from that concept).
+//     *
+//     * @param newRelationArgument concept with ObjectOf relations to be moved
+//     * @param oldRelationArgument concept to be updated
+//     */
+//    private void updateObjOfRelations(RelationArgument newRelationArgument,
+//            RelationArgument oldRelationArgument) {
+//        for (int i = 0;
+//                i < newRelationArgument.getConcept().
+//                getRelationsContainingConceptAsObject().
+//                size();
+//                i++) {
+//            if (!oldRelationArgument.getConcept().
+//                    getRelationsContainingConceptAsObject().
+//                    contains(newRelationArgument.getConcept().
+//                            getRelationsContainingConceptAsObject().
+//                            get(i))) {
+//                if (newRelationArgument.getConcept().
+//                        getRelationsContainingConceptAsObject().
+//                        get(i).
+//                        getObject().equals(newRelationArgument)) {
+//                    newRelationArgument.getConcept().
+//                            getRelationsContainingConceptAsObject().
+//                            get(i).
+//                            setObject(oldRelationArgument);
+//                } else {
+//                    newRelationArgument.getConcept().
+//                            getRelationsContainingConceptAsObject().
+//                            get(i).
+//                            setSubject(oldRelationArgument);
+//                }
+//                oldRelationArgument.getConcept().
+//                        getRelationsContainingConceptAsObject().
+//                        add(newRelationArgument.getConcept().
+//                                getRelationsContainingConceptAsObject().
+//                                get(i));
+//            }
+//        }
+//    }
 
 // TODO: 10/7/2014 - I think this is not needed. Will check and reinstate 
 //                  if necessary

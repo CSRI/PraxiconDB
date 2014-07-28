@@ -51,6 +51,9 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      * @param relationArgument the relation argument to be searched
      * @return a list of IntersectionOfRelationChains
      */
+    
+    // TODO: this needs repair. Find another way to get the related relations.
+    
     @Override
     public List<RelationSet> getRelationSetsWithConceptAsObject(
             Concept concept) {
@@ -63,7 +66,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
             if (r.getObject().isConcept()) {
                 if (r.getObject().getConcept().equals(concept)) {
                     r.setObject(r.getSubject());
-                    r.setSubject(concept.getRelationArgument());
+                    //r.setSubject(concept.getRelationArgument());
                     RelationType tmpType = new RelationType();
                     RelationType.relation_name_backward tmp =
                             r.getType().getBackwardName();
