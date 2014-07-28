@@ -56,16 +56,12 @@ public class Concept_LanguageRepresentation implements Serializable {
     @JoinColumn(name = "LanguageRepresentationId")
     private LanguageRepresentation languageRepresentation;
 
-    /**
-     * @return the language representation.
-     */
-    public LanguageRepresentation getLanguageRepresentation() {
-        return languageRepresentation;
+    public Long getId() {
+        return id;
     }
 
-    public void setLanguageRepresentation(
-            LanguageRepresentation languageRepresentation) {
-        this.languageRepresentation = languageRepresentation;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**
@@ -88,6 +84,18 @@ public class Concept_LanguageRepresentation implements Serializable {
 
     public void setIsRepresentative(boolean isRepresentative) {
         this.isRepresentativeLanguageRepresentation = isRepresentative;
+    }
+
+    /**
+     * @return the language representation.
+     */
+    public LanguageRepresentation getLanguageRepresentation() {
+        return languageRepresentation;
+    }
+
+    public void setLanguageRepresentation(
+            LanguageRepresentation languageRepresentation) {
+        this.languageRepresentation = languageRepresentation;
     }
 
     @Override
