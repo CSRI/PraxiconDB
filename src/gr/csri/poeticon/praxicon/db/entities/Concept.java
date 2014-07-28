@@ -23,7 +23,6 @@ import javax.persistence.Index;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -179,9 +178,6 @@ public class Concept implements Serializable {
     @Column(name = "Comment")
     //@XmlElement(required = false)
     private String comment;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private RelationArgument relationArgument;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
     private List<Concept_LanguageRepresentation> languageRepresentations;
@@ -596,51 +592,6 @@ public class Concept implements Serializable {
                         this.getMotoricRepresentations().get(i));
             }
         }
-    }
-
-    /**
-     * Gets all relations that contain this concept as object.
-     *
-     * @return a list of relations
-     */
-    public List<Relation> getRelationsContainingConceptAsObject() {
-        List<Relation> relationList = new ArrayList();
-        for (Relation relation : this.relationArgument.
-                getRelationsContainingRelationArgumentAsObject()) {
-            if (relation.getObject().isConcept()) {
-                if (relation.getObject().getConcept().equals(this)) {
-                    relationList.add(relation);
-                }
-            }
-        }
-        return relationList;
-    }
-
-    /**
-     * Gets all relations that contain this concept as subject.
-     *
-     * @return a list of relations
-     *
-     */
-    public List<Relation> getRelationsContainingConceptAsSubject() {
-        List<Relation> relationList = new ArrayList();
-        for (Relation relation : this.relationArgument.
-                getRelationsContainingRelationArgumentAsSubject()) {
-            if (relation.getObject().isConcept()) {
-                if (relation.getSubject().getConcept().equals(this)) {
-                    relationList.add(relation);
-                }
-            }
-        }
-        return relationList;
-    }
-
-    /**
-     *
-     * @return The relationArgument which this concept belongs to.
-     */
-    public RelationArgument getRelationArgument() {
-        return relationArgument;
     }
 
     /* TODO: The following is not used anywhere in the project. So, it is 
