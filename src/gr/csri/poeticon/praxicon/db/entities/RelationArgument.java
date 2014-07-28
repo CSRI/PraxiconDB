@@ -51,13 +51,13 @@ public class RelationArgument implements Serializable {
     private RelationSet relationSet;
 
     /*
-     Relations that have "this" RelationArgument as Object.
+     * Relations that have "this" RelationArgument as Object.
      */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "object")
     private List<Relation> relationsContainingRelationArgumentAsObject;
 
     /*
-     Relations that have "this" RelationArgument as Subject.
+     * Relations that have "this" RelationArgument as Subject.
      */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subject")
     private List<Relation> relationsContainingRelationArgumentAsSubject;
@@ -129,7 +129,7 @@ public class RelationArgument implements Serializable {
             this.concept = concept;
         } else {
             System.err.println("Cannot set concept of the relation argument " +
-                    "as a concept is already present.");
+                    "as a relation set is already present.");
         }
     }
 

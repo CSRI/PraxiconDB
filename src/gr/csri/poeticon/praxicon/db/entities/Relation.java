@@ -24,6 +24,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -47,9 +48,9 @@ import javax.xml.bind.annotation.XmlType;
             "WHERE ((r.subject = :subject_id " +
             "OR r.object = :object_id) " +
             "AND rt.id = :relation_type_id)"),
-    @NamedQuery(name = "findRelationsByConceptObjectOrSubject", query =
+    @NamedQuery(name = "findRelationsByRelationArgumentObjectOrSubject", query =
             "SELECT r FROM Relation r " +
-            "WHERE r.object = :concept OR r.subject = :concept"),
+            "WHERE r.object = :relationArgument OR r.subject = :relationArgument"),
     @NamedQuery(name = "findRelationsByConceptRelationType", query =
             "SELECT r FROM Relation r, RelationType rt " +
             "WHERE (r.subject = :concept_id OR r.object = :concept_id) " +
@@ -106,6 +107,9 @@ public class Relation implements Serializable {
     @NotNull(message = "Subject of relation must be specified.")
     private RelationArgument subject;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "relation")
+    private List<RelationSet_Relation> relationSet;
+    
     @Column(name = "DerivationSupported")
     @NotNull(message = "Derivation support must be specified.")
     @Enumerated(EnumType.STRING)
@@ -171,7 +175,6 @@ public class Relation implements Serializable {
     )
     private List<VisualRepresentation> visualRepresentationObject;
 
-// TODO: Uncomment each method after checking it first
     public Relation() {
         subject = new RelationArgument();
         object = new RelationArgument();

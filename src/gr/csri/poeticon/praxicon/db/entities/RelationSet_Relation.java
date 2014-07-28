@@ -12,34 +12,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author dmavroeidis
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "relationset_relation", namespace =
-        "http://www.csri.gr/relationset_relation")
 @Entity
-@Table(name = "RelationSets_Relations", indexes = {
-    @Index(columnList = "RelationSet_RelationId")
-})
 public class RelationSet_Relation implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
     @Id
-    @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
-    @Column(name = "RelationSet_RelationId")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "RelationOrder")
@@ -53,24 +38,19 @@ public class RelationSet_Relation implements Serializable {
     @JoinColumn(name = "RelationId")
     private Relation relation;
 
-    /**
-     * Constructor #1.
-     */
-    public RelationSet_Relation() {
-        this.relation = null;
-        //this.relationOrder = 0;
+    public RelationSet_Relation(short relationOrder){
+        this.relationOrder = relationOrder;
         this.relationSet = null;
-    }
-
-    /**
-     * Constructor #2.
-     */
-    public RelationSet_Relation(short order) {
         this.relation = null;
-        this.relationOrder = order;
-        this.relationSet = null;
     }
-
+    
+    public RelationSet_Relation(){
+        this.relationSet = null;
+        this.relation = null;
+    }
+    
+    
+    
     public Long getId() {
         return id;
     }
@@ -79,7 +59,7 @@ public class RelationSet_Relation implements Serializable {
         this.id = id;
     }
 
-    public long getRelationOrder() {
+    public short getRelationOrder() {
         return relationOrder;
     }
 
@@ -126,8 +106,7 @@ public class RelationSet_Relation implements Serializable {
 
     @Override
     public String toString() {
-        return "gr.csri.poeticon.praxicon.db.entities.RelationSet_Relation[ " +
-                "id=" + id + " ]";
+        return "gr.csri.poeticon.praxicon.db.entities.RelationSet_Relation[ id=" +
+                id + " ]";
     }
-
 }
