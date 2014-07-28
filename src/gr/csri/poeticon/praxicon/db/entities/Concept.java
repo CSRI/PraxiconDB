@@ -458,7 +458,7 @@ public class Concept implements Serializable {
         this.languageRepresentations.add(clr);
     }
 
-    public void setLanguageRepresentation(
+    public void setLanguageRepresentations(
             List<Concept_LanguageRepresentation> languageRepresentations) {
         this.languageRepresentations = languageRepresentations;
     }
@@ -633,6 +633,14 @@ public class Concept implements Serializable {
             }
         }
         return relationList;
+    }
+
+    /**
+     *
+     * @return The relationArgument which this concept belongs to.
+     */
+    public RelationArgument getRelationArgument() {
+        return relationArgument;
     }
 
     /* TODO: The following is not used anywhere in the project. So, it is 
