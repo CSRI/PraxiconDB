@@ -12,14 +12,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author dmavroeidis
  */
 @Entity
+@Table(name = "RelationSets_Relations", indexes = {
+    @Index(columnList = "RelationSet_RelationId")
+})
 public class RelationSet_Relation implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,19 +44,17 @@ public class RelationSet_Relation implements Serializable {
     @JoinColumn(name = "RelationId")
     private Relation relation;
 
-    public RelationSet_Relation(short relationOrder){
+    public RelationSet_Relation(short relationOrder) {
         this.relationOrder = relationOrder;
         this.relationSet = null;
         this.relation = null;
     }
-    
-    public RelationSet_Relation(){
+
+    public RelationSet_Relation() {
         this.relationSet = null;
         this.relation = null;
     }
-    
-    
-    
+
     public Long getId() {
         return id;
     }
