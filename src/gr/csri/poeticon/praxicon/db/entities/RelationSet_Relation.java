@@ -46,13 +46,13 @@ public class RelationSet_Relation implements Serializable {
 
     public RelationSet_Relation(short relationOrder) {
         this.relationOrder = relationOrder;
-        this.relationSet = null;
-        this.relation = null;
+        this.relationSet = new RelationSet();
+        this.relation = new Relation();
     }
 
     public RelationSet_Relation() {
-        this.relationSet = null;
-        this.relation = null;
+        this.relationSet = new RelationSet();
+        this.relation = new Relation();
     }
 
     public Long getId() {

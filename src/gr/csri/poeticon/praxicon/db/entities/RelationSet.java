@@ -83,9 +83,9 @@ public class RelationSet implements Serializable {
      */
     public RelationSet() {
         this.name = null;
-        this.relations = null;
+        this.relations = new ArrayList<>();
         this.inherent = this.inherent.UNKNOWN;
-        this.languageRepresentations = null;
+        this.languageRepresentations = new ArrayList<>();
     }
 
     /**
@@ -133,8 +133,6 @@ public class RelationSet implements Serializable {
     public List<Relation> getRelationsList() {
         List<RelationSet_Relation> relationSet_RelationList = new ArrayList();
         List<Relation> relationList = new ArrayList();
-        System.out.
-                println("RELATIONS IN RELATIONS SET: " + relations.toString());
         relationSet_RelationList = this.relations;
         for (RelationSet_Relation relationSetRelation : relationSet_RelationList) {
             relationList.add(relationSetRelation.getRelation());
@@ -153,41 +151,26 @@ public class RelationSet implements Serializable {
         return relationSet;
     }
 
+    /**
+     * Gets a list of all relations contained in this relation set.
+     *
+     * @return a List of Relation
+     */
     public List<RelationSet_Relation> getRelations() {
         return relations;
     }
 
-    public List<Relation> getActualRelations() {
-        List<Relation> rels;
-        rels = new ArrayList<>(relations.size());
-        for (RelationSet_Relation relation : relations) {
-            rels.add(0, null);
-        }
-        for (RelationSet_Relation Relation : relations) {
-            rels.add((int)Relation.getRelationOrder(), Relation.getRelation());
-            rels.remove((int)Relation.getRelationOrder() + 1);
-        }
-        return rels;
-    }
-
+    /**
+     * Sets the relations for this relation set.
+     *
+     * @param relations
+     */
     public void setRelations(List<RelationSet_Relation> relations) {
         this.relations = relations;
     }
 
-//    public void addRelation(Relation relation) {
-//        RelationSet_Relation rsr = new RelationSet_Relation();
-//
-//        rsr.setRelationSet(this);
-//        rsr.setRelation(relation);
-//
-//        try {
-//            this.getRelations().add(1, rsr);
-//        } catch (Exception ex) {
-//            System.err.println("THE ERROR MESSAGE:");
-//            ex.printStackTrace();
-//        }
-//    }
     /**
+     * Adds a relation to the relation set without information on the order.
      *
      * @param relation
      */
@@ -197,16 +180,26 @@ public class RelationSet implements Serializable {
         relationSetRelation.setRelationSet(this);
     }
 
-//    public void addRelation(Relation relation, short order) {
-//        List<RelationSet_Relation> rsr = new ArrayList<>();
-//        RelationSet_Relation relationSetRelation = new RelationSet_Relation(
-//                order);
-//        relationSetRelation.setRelation(relation);
-//        relationSetRelation.setRelationSet(this);
-//        rsr.add(relationSetRelation);
-//
-//        this.relations = rsr;
-//    }
+    /**
+     * Adds a relation to the relation set with a specific placement.
+     *
+     * @param relation
+     * @param order
+     */
+    public void addRelation(Relation relation, short order) {
+        List<RelationSet_Relation> rsr = new ArrayList<>();
+        RelationSet_Relation relationSetRelation = new RelationSet_Relation(
+                order);
+        relationSetRelation.setRelation(relation);
+        relationSetRelation.setRelationSet(this);
+        this.relations.add(relationSetRelation);
+    }
+
+    /**
+     * Adds relations to the relation set without consideration for their order.
+     *
+     * @param relations
+     */
     public void addRelationsWithoutOrder(List<Relation> relations) {
         List<RelationSet_Relation> rsr = new ArrayList<>();
         RelationSet_Relation relationSetRelation = new RelationSet_Relation();
@@ -218,6 +211,11 @@ public class RelationSet implements Serializable {
         this.relations = rsr;
     }
 
+    /**
+     * Retrieves the list of language representations for this relation set.
+     *
+     * @return a list of LanguageRepresentation
+     */
     public List<LanguageRepresentation> getLanguageRepresentations() {
         return languageRepresentations;
     }
@@ -236,11 +234,21 @@ public class RelationSet implements Serializable {
         return languageRepresentationNames;
     }
 
+    /**
+     * Sets the language representation for this relation set.
+     *
+     * @param languageRepresentations
+     */
     public void setLanguageRepresentations(
             List<LanguageRepresentation> languageRepresentations) {
         this.languageRepresentations = languageRepresentations;
     }
 
+    /**
+     * Adds a language representation to the relation set.
+     *
+     * @param languageRepresentation
+     */
     public void addLanguageRepresentation(
             LanguageRepresentation languageRepresentation) {
         this.languageRepresentations.add(languageRepresentation);
