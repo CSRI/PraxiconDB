@@ -94,11 +94,11 @@ public class RelationSet implements Serializable {
     public RelationSet(String name,
             List<RelationSet_Relation> relationSetRelationsList,
             inherent isInherent,
-            List<LanguageRepresentation> languageRepresentation) {
+            List<LanguageRepresentation> languageRepresentations) {
         this.name = name;
         this.relations = relationSetRelationsList;
         this.inherent = isInherent;
-        this.languageRepresentations = null;
+        this.languageRepresentations = languageRepresentations;
     }
 
     public Long getId() {
@@ -133,6 +133,8 @@ public class RelationSet implements Serializable {
     public List<Relation> getRelationsList() {
         List<RelationSet_Relation> relationSet_RelationList = new ArrayList();
         List<Relation> relationList = new ArrayList();
+        System.out.
+                println("RELATIONS IN RELATIONS SET: " + relations.toString());
         relationSet_RelationList = this.relations;
         for (RelationSet_Relation relationSetRelation : relationSet_RelationList) {
             relationList.add(relationSetRelation.getRelation());
@@ -149,10 +151,6 @@ public class RelationSet implements Serializable {
     public Set<Relation> getRelationsSet() {
         HashSet<Relation> relationSet = new HashSet<>(this.getRelationsList());
         return relationSet;
-    }
-
-    public List<LanguageRepresentation> getLanguageRepresentations() {
-        return languageRepresentations;
     }
 
     public List<RelationSet_Relation> getRelations() {
@@ -176,31 +174,39 @@ public class RelationSet implements Serializable {
         this.relations = relations;
     }
 
+//    public void addRelation(Relation relation) {
+//        RelationSet_Relation rsr = new RelationSet_Relation();
+//
+//        rsr.setRelationSet(this);
+//        rsr.setRelation(relation);
+//
+//        try {
+//            this.getRelations().add(1, rsr);
+//        } catch (Exception ex) {
+//            System.err.println("THE ERROR MESSAGE:");
+//            ex.printStackTrace();
+//        }
+//    }
+    /**
+     *
+     * @param relation
+     */
     public void addRelation(Relation relation) {
-        RelationSet_Relation rsr = new RelationSet_Relation();
-
-        rsr.setRelationSet(this);
-        rsr.setRelation(relation);
-
-        try {
-            this.getRelations().add(1, rsr);
-        } catch (Exception ex) {
-            System.err.println("THE ERROR MESSAGE:");
-            ex.printStackTrace();
-        }
-    }
-
-    public void addRelation(Relation relation, short order) {
-        List<RelationSet_Relation> rsr = new ArrayList<>();
-        RelationSet_Relation relationSetRelation = new RelationSet_Relation(
-                order);
+        RelationSet_Relation relationSetRelation = new RelationSet_Relation();
         relationSetRelation.setRelation(relation);
         relationSetRelation.setRelationSet(this);
-        rsr.add(relationSetRelation);
-
-        this.relations = rsr;
     }
 
+//    public void addRelation(Relation relation, short order) {
+//        List<RelationSet_Relation> rsr = new ArrayList<>();
+//        RelationSet_Relation relationSetRelation = new RelationSet_Relation(
+//                order);
+//        relationSetRelation.setRelation(relation);
+//        relationSetRelation.setRelationSet(this);
+//        rsr.add(relationSetRelation);
+//
+//        this.relations = rsr;
+//    }
     public void addRelationsWithoutOrder(List<Relation> relations) {
         List<RelationSet_Relation> rsr = new ArrayList<>();
         RelationSet_Relation relationSetRelation = new RelationSet_Relation();
@@ -209,8 +215,11 @@ public class RelationSet implements Serializable {
             relationSetRelation.setRelationSet(this);
             rsr.add(relationSetRelation);
         }
-        
         this.relations = rsr;
+    }
+
+    public List<LanguageRepresentation> getLanguageRepresentations() {
+        return languageRepresentations;
     }
 
     /**
@@ -230,6 +239,11 @@ public class RelationSet implements Serializable {
     public void setLanguageRepresentations(
             List<LanguageRepresentation> languageRepresentations) {
         this.languageRepresentations = languageRepresentations;
+    }
+
+    public void addLanguageRepresentation(
+            LanguageRepresentation languageRepresentation) {
+        this.languageRepresentations.add(languageRepresentation);
     }
 
     @Override
