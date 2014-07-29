@@ -76,7 +76,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
                 }
             }
             RelationSet rs = new RelationSet();
-            //rs.addRelation(r, (short)0);
+            rs.addRelation(r, (short)0);
         }
         return res;
     }
@@ -157,7 +157,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
                 r.setType(tmpType);
             }
             RelationSet rs = new RelationSet();
-            //rs.addRelation(r, (short)0);
+            rs.addRelation(r, (short)0);
         }
         return res;
     }
