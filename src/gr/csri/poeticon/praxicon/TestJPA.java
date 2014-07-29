@@ -184,12 +184,6 @@ public class TestJPA {
 
         RelationArgument relationArgument1 = new RelationArgument(concept1);
         RelationArgument relationArgument2 = new RelationArgument(concept2);
-        System.out.println("CONCEPT 1: " + concept1.toString());
-        System.out.println("CONCEPT 2: " + concept2.toString());
-        System.out.println("RELATION ARGUMENT 1: " + relationArgument1.
-                toString());
-        System.out.println("RELATION ARGUMENT 2: " + relationArgument2.
-                toString());
         relation1.setSubject(relationArgument1);
         relation1.setObject(relationArgument2);
         relation1.setDerivation(Relation.derivation_supported.YES);
@@ -217,13 +211,12 @@ public class TestJPA {
          */
         RelationSet relationSet1 = new RelationSet();
         relationSet1.setIsInherent(RelationSet.inherent.YES);
-        relationSet1.setLanguageRepresentations(languageRepresentations1);
+        relationSet1.addLanguageRepresentation(languageRepresentation3);
+        relationSet1.addLanguageRepresentation(languageRepresentation1);
 
         relationSet1.setName("NewRelationSet1");
-        List<Relation> relations = new ArrayList<>();
-        relations.add(relation1);
-        relations.add(relation2);
-        relationSet1.addRelationsWithoutOrder(relations);
+        relationSet1.addRelation(relation1);
+        relationSet1.addRelation(relation2);
 
         /* 
          * Create an ordered RelationSet 
@@ -235,8 +228,8 @@ public class TestJPA {
         languageRepresentations2.add(languageRepresentation3);
         relationSet2.setLanguageRepresentations(languageRepresentations2);
         relationSet2.setName("NewRelationSet2");
-        relationSet2.addRelation(relation2, (short)1);
-        relationSet2.addRelation(relation1, (short)2);
+        relationSet2.addRelation(relation2, (short) 1);
+        relationSet2.addRelation(relation1, (short) 2);
 
         ConceptDao newConceptDao = new ConceptDaoImpl();
         RelationArgumentDao newRelationArgumentDao =
