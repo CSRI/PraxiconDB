@@ -23,28 +23,6 @@ import javax.persistence.Query;
 public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         RelationDao {
 
-//    /**
-//     * Finds all concepts are owners of (have a union of intersections
-//     * containing) a given relation
-//     *
-//     * @param rel the relation to be searched
-//     * @return a list of concepts
-//     */
-//    @Override
-//    public List<Concept> getOwners(Relation relation) {
-//        Query q = getEntityManager().createQuery(
-//                "SELECT c FROM Concept c, " +
-//                 "IN(c.relations) AS union, " +
-//                 "IntersectionOfRelations inter, " +
-//                 "IN(inter.unions) AS interUnion, " +
-//                 "IN(inter.relations) AS interRel, " +
-//                 "IN(interRel.relations) AS rcr, " +
-//                 "RelationChain_Relation rc " +
-//                 "WHERE union.union = interUnion AND rcr = rc AND " +
-//                 "rc.relation = ?1");
-//        q.setParameter(1, relation);
-//        return q.getResultList();
-//    }
     /**
      * Finds relations that have a given relationArgument as object
      *
@@ -76,7 +54,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
                 }
             }
             RelationSet rs = new RelationSet();
-            rs.addRelation(r, (short)0);
+            rs.addRelation(r, (short) 0);
         }
         return res;
     }
@@ -157,7 +135,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
                 r.setType(tmpType);
             }
             RelationSet rs = new RelationSet();
-            rs.addRelation(r, (short)0);
+            rs.addRelation(r, (short) 0);
         }
         return res;
     }
