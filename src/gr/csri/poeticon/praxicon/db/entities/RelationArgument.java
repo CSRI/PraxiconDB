@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
         "http://www.csri.gr/relation_argument")
 @Entity
 @Table(name = "RelationArguments", indexes = {
-    @Index(columnList = "RelationArgumentId")})
+    @Index(columnList = "RelationArgumentId") })
 public class RelationArgument implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -178,6 +178,7 @@ public class RelationSet implements Serializable {
         RelationSet_Relation relationSetRelation = new RelationSet_Relation();
         relationSetRelation.setRelation(relation);
         relationSetRelation.setRelationSet(this);
+        this.relations.add(relationSetRelation);
     }
 
     /**

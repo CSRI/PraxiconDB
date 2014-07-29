@@ -130,8 +130,8 @@ public class Concept_LanguageRepresentation implements Serializable {
 
     @Override
     public String toString() {
-        return "gr.csri.poeticon.praxicon.db.entities.Concept_LanguageRepresentation[ " +
-                "id=" + id + " ]";
+        return "gr.csri.poeticon.praxicon.db.entities.Concept_LanguageRepre" +
+                "sentation[ id=" + id + " ]";
     }
 
 }
