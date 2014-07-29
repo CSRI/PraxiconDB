@@ -105,10 +105,14 @@ public class LanguageRepresentationDaoImpl extends
                                 setParameter("text", languageRepresentation.
                                         getText().toUpperCase()).
                                 setParameter("language", languageRepresentation.
-                                        getLanguage().name().
-                                        toUpperCase()).
+                                        getLanguage().name().toUpperCase()).
                                 setParameter("status", languageRepresentation.
-                                        getPartOfSpeech().toString());
+                                        getPartOfSpeech().toString().
+                                        toUpperCase()).
+                                setParameter("pragmaticStatus",
+                                        languageRepresentation.
+                                        getPragmaticStatus().toString().
+                                        toUpperCase());
                         System.out.println("Language Representation Text: " +
                                 languageRepresentation.getText());
                         return query;

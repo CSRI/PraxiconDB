@@ -59,7 +59,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
             Concept concept) {
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByConceptObjectOrSubject").
-                setParameter("concept_id", concept.getId());
+                setParameter("conceptId", concept.getId());
         List<Relation> objRels = query.getResultList();
         List<RelationSet> res = new ArrayList<>();
         for (Relation r : objRels) {
@@ -76,7 +76,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
                 }
             }
             RelationSet rs = new RelationSet();
-            rs.addRelation(r, (short)0);
+            //rs.addRelation(r, (short)0);
         }
         return res;
     }
@@ -107,8 +107,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
     @Override
     public boolean areRelated(Concept concept1, Concept concept2) {
         Query query = getEntityManager().createNamedQuery("areRelated").
-                setParameter("concept_id_subject", concept1).
-                setParameter("concept_id_object", concept2);
+                setParameter("conceptIdSubject", concept1).
+                setParameter("conceptIdObject", concept2);
         List<Relation> objRels = query.getResultList();
         return objRels.size() > 0;
     }
@@ -126,8 +126,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
             Concept concept, RelationType relationType) {
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByConceptRelationType").
-                setParameter("concept_id", concept).
-                setParameter("relation_type", relationType.getForwardName());
+                setParameter("conceptId", concept).
+                setParameter("relationType", relationType.getForwardName());
         return query.getResultList();
     }
 
@@ -142,7 +142,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
             RelationArgument relationArgument) {
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByRelationArgumentObjectOrSubject").
-                setParameter("concept_id", relationArgument.getId());
+                setParameter("conceptId", relationArgument.getId());
         List<Relation> objRels = query.getResultList();
         List<RelationSet> res = new ArrayList<>();
         for (Relation r : objRels) {
@@ -157,7 +157,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
                 r.setType(tmpType);
             }
             RelationSet rs = new RelationSet();
-            rs.addRelation(r, (short)0);
+            //rs.addRelation(r, (short)0);
         }
         return res;
     }
@@ -210,7 +210,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByRelationArgumentRelationType").
                 setParameter("relationArgument", relationArgument).
-                setParameter("relation_type", relationType.getForwardName());
+                setParameter("relationType", relationType.getForwardName());
         return query.getResultList();
     }
 }

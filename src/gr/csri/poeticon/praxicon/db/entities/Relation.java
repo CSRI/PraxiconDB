@@ -45,29 +45,29 @@ import javax.xml.bind.annotation.XmlType;
 @NamedQueries({
     @NamedQuery(name = "findRelationsByRelationTypeConcept", query =
             "SELECT r FROM Relation r, RelationType rt " +
-            "WHERE ((r.subject = :subject_id " +
-            "OR r.object = :object_id) " +
-            "AND rt.id = :relation_type_id)"),
+            "WHERE ((r.subject = :subjectId " +
+            "OR r.object = :objectId) " +
+            "AND rt.id = :relationTypeId)"),
     @NamedQuery(name = "findRelationsByRelationArgumentObjectOrSubject", query =
             "SELECT r FROM Relation r " +
             "WHERE r.object = :relationArgument OR r.subject = :relationArgument"),
     @NamedQuery(name = "findRelationsByConceptRelationType", query =
             "SELECT r FROM Relation r, RelationType rt " +
-            "WHERE (r.subject = :concept_id OR r.object = :concept_id) " +
+            "WHERE (r.subject = :conceptId OR r.object = :conceptId) " +
             "AND r.type = rt " +
-            "AND rt.forwardName = :relation_type"),
+            "AND rt.forwardName = :relationType"),
     @NamedQuery(name = "findRelationsByConceptObject", query =
             "SELECT r FROM Relation r " +
-            "WHERE r.object = :concept_id"),
+            "WHERE r.object = :conceptId"),
     @NamedQuery(name = "findRelationsByConceptSubject", query =
             "SELECT r FROM Relation r " +
-            "WHERE r.subject = :concept_id"),
+            "WHERE r.subject = :conceptId"),
     @NamedQuery(name = "areRelated", query =
             "SELECT r FROM Relation r " +
-            "WHERE (r.subject = :concept_id_subject " +
-            "AND r.object = :concept_id_object) " +
-            "OR (r.subject = :concept_id_object " +
-            "AND r.object = :concept_id_subject)"),})
+            "WHERE (r.subject = :conceptIdSubject " +
+            "AND r.object = :conceptIdObject) " +
+            "OR (r.subject = :conceptIdObject " +
+            "AND r.object = :conceptIdSubject)"),})
 @Table(name = "Relations", indexes = {
     @Index(columnList = "Comment"),
     @Index(columnList = "RelationId")})

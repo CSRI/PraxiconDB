@@ -28,7 +28,7 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
     public List<RelationSet> getRelationSetsContainingConcept(
             Concept concept) {
         Query q = getEntityManager().createNamedQuery(
-                "findRelationSetsByConcept").setParameter("concept_id",
+                "findRelationSetsByConcept").setParameter("conceptId",
                         concept.getId());
         return q.getResultList();
     }

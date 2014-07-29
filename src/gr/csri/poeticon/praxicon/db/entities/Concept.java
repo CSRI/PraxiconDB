@@ -47,21 +47,21 @@ import javax.xml.bind.annotation.XmlType;
 @NamedQueries({
     @NamedQuery(name = "findAllConcepts", query = "FROM Concept c"),
     @NamedQuery(name = "findConceptsByConceptId", query =
-            "FROM Concept c WHERE c.id = :concept_id"),
+            "FROM Concept c WHERE c.id = :conceptId"),
     @NamedQuery(name = "findConceptsByName", query =
-            "FROM Concept c WHERE c.name LIKE :concept_name"),
+            "FROM Concept c WHERE c.name LIKE :conceptName"),
     @NamedQuery(name = "findConceptByNameExact", query =
-            "FROM Concept c WHERE c.name = :concept_name"),
+            "FROM Concept c WHERE c.name = :conceptName"),
     @NamedQuery(name = "findConceptsByLanguageRepresentation", query =
             "SELECT c FROM Concept c " +
             "JOIN c.languageRepresentations clr " +
             "JOIN clr.languageRepresentation lr " +
-            "WHERE lr.text LIKE :lr_name"),
+            "WHERE lr.text LIKE :languageRepresentationName"),
     @NamedQuery(name = "findConceptsByLanguageRepresentationExact", query =
             "SELECT c FROM Concept c " +
             "JOIN c.languageRepresentations clr " +
             "JOIN clr.languageRepresentation lr " +
-            "WHERE lr.text = :lr_name"),
+            "WHERE lr.text = :languageRepresentationName"),
     @NamedQuery(name = "findConceptsByStatusExact", query =
             "SELECT c FROM Concept c " +
             "WHERE c.status = :status"),

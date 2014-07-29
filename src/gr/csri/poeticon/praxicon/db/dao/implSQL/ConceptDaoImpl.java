@@ -46,7 +46,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     public Concept findConceptByConceptId(long conceptId) {
         Query query = getEntityManager().createNamedQuery(
                 "findConceptsByConceptId").
-                setParameter("concept_id", conceptId);
+                setParameter("conceptId", conceptId);
         return (Concept)query.getSingleResult();
     }
 
@@ -60,7 +60,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     @Override
     public List<Concept> findConceptsByName(String conceptName) {
         Query query = getEntityManager().createNamedQuery("findConceptsByName").
-                setParameter("concept_name", "%" + conceptName + "%");
+                setParameter("conceptName", "%" + conceptName + "%");
         return query.getResultList();
     }
 
@@ -74,7 +74,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     public Concept findConceptByNameExact(String conceptName) {
         Query query = getEntityManager().createNamedQuery(
                 "findConceptByNameExact").
-                setParameter("concept_name", conceptName);
+                setParameter("conceptName", conceptName);
         return (Concept)query.getSingleResult();
     }
 
@@ -91,8 +91,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             String languageRepresentationName) {
         Query query = getEntityManager().createNamedQuery(
                 "findConceptsByLanguageRepresentation").
-                setParameter("lr_name", "%" + languageRepresentationName +
-                        "%");
+                setParameter("languageRepresentationName", "%" +
+                        languageRepresentationName + "%");
         return query.getResultList();
     }
 
@@ -108,7 +108,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             String languageRepresentationName) {
         Query query = getEntityManager().createNamedQuery(
                 "findConceptsByLanguageRepresentationExact").
-                setParameter("lr_name", languageRepresentationName);
+                setParameter("languageRepresentationName",
+                        languageRepresentationName);
         return query.getResultList();
     }
 
@@ -193,7 +194,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         try {
             Query query = getEntityManager().createNamedQuery(
                     "findConceptByNameExact").
-                    setParameter("concept_name", newConcept.getName());
+                    setParameter("conceptName", newConcept.getName());
             Concept tmpConcept = (Concept)query.getSingleResult();
 
             Concept oldConcept = null;
@@ -642,9 +643,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         List<Concept> res = new ArrayList<>();
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByRelationType").
-                setParameter("subject_concept_id", concept.getId()).
-                setParameter("object_concept_id", concept.getId()).
-                setParameter("relation_type_id", relationType);
+                setParameter("subjectConceptId", concept.getId()).
+                setParameter("objectConceptId", concept.getId()).
+                setParameter("relationTypeId", relationType);
         Concept tmpConcept = (Concept)query.getSingleResult();
 
         List<Relation> tmpR = query.getResultList();
@@ -743,7 +744,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
 
     //TODO: It is commented out until proven that is needed. 
     // Will be deleted otherwise.
-    
 //    /**
 //     * Updates the ObjectOf relations of a concept, adding the ObjectOf
 //     * relations of another concept (removing them from that concept).
@@ -785,7 +785,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
 //            }
 //        }
 //    }
-
 // TODO: 10/7/2014 - I think this is not needed. Will check and reinstate 
 //                  if necessary
 //    /**
