@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package test.java.gr.csri.poeticon.praxicon.db.dao.implSQL;
+package test.gr.csri.poeticon.praxicon.db.dao.implSQL;
 
 import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
@@ -13,12 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -32,38 +33,43 @@ import org.junit.Test;
  */
 public class ConceptDaoImplTest {
 
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory(
-            "PraxiconDBTestPU");
-    private EntityManager em = emf.createEntityManager();
+    /**
+     * The factory that produces entity manager.
+     */
+    private static EntityManagerFactory emfTest;
 
-    UserTransaction utx;
+    /**
+     * The entity manager that persists and queries the DB.
+     */
+    @PersistenceContext(unitName="PraxiconDBTestPU")
+    private static EntityManager emTest;
 
+//    EntityTransaction trx = emTest.getTransaction();
     public ConceptDaoImplTest() {
     }
 
     @BeforeClass
     public static void setUpClass() {
-
+        // Get the entity manager for the tests.
+        emfTest = Persistence.createEntityManagerFactory("PraxiconDBTestPU");
+        emTest = emfTest.createEntityManager();
     }
 
     @AfterClass
     public static void tearDownClass() {
+        emTest.close();
+        emfTest.close();
     }
 
     @Before
     public void setUp() throws Exception {
 
-//        
-//        clearData();
-//        insertData();
-//        startTransaction();
     }
 
     @After
     public void tearDown() throws RollbackException, HeuristicMixedException,
             HeuristicRollbackException, SecurityException, IllegalStateException,
             SystemException {
-        utx.commit();
     }
 
     /**
@@ -73,7 +79,11 @@ public class ConceptDaoImplTest {
     public void testFindAllConcepts() {
         System.out.println("findAllConcepts");
 
+        EntityTransaction transaction = emTest.getTransaction();
+        transaction.begin();
+
         Concept concept1 = new Concept();
+        assertEquals((Long)null, concept1.getId());
         concept1.setName("concept1");
         concept1.setConceptType(Concept.type.ABSTRACT);
         concept1.setStatus(Concept.status.CONSTANT);
@@ -81,11 +91,20 @@ public class ConceptDaoImplTest {
         concept1.setSource("myMind");
 
         Concept concept2 = new Concept();
+        assertEquals((Long)null, concept2.getId());
         concept2.setName("concept2");
         concept2.setConceptType(Concept.type.MOVEMENT);
         concept2.setStatus(Concept.status.VARIABLE);
         concept2.setUniqueInstance(Concept.unique_instance.NO);
         concept2.setSource("myMind2");
+
+        emTest.persist(concept1);
+        emTest.persist(concept2);
+
+        transaction.commit();
+
+        assertEquals((Long)1l, concept1.getId());
+        assertEquals((Long)2l, concept2.getId());
 
         List<Concept> conceptsList = new ArrayList<>();
         conceptsList.add(concept1);
@@ -446,18 +465,17 @@ public class ConceptDaoImplTest {
     }
 
     private void clearData() throws Exception {
-        System.out.println(utx.toString());
-        utx.begin();
-        em.joinTransaction();
-        System.out.println("Dumping old records...");
-        //em.createQuery("delete from Game").executeUpdate();
-        utx.commit();
+//        System.out.println(utx.toString());
+//        utx.begin();
+//        emTest.joinTransaction();
+//        System.out.println("Dumping old records...");
+//        //em.createQuery("delete from Game").executeUpdate();
+//        utx.commit();
     }
 
     private void insertData() throws Exception {
-        utx.begin();
-        em.joinTransaction();
 
+        //em.joinTransaction();
         System.out.println("Inserting records...");
         /*
          * Create Concept1
@@ -518,15 +536,11 @@ public class ConceptDaoImplTest {
         concept1.addLanguageRepresentation(languageRepresentation2, true);
         concept2.addLanguageRepresentation(languageRepresentation3, true);
 
-        em.persist(concept1);
-        em.persist(concept2);
-        utx.commit();
-        // clear the persistence context (first-level cache)
-        em.clear();
+//        emTest.persist(concept1);
+//        emTest.persist(concept2);
+//
+//        // clear the persistence context (first-level cache)
+//        emTest.clear();
     }
 
-    private void startTransaction() throws Exception {
-        utx.begin();
-        em.joinTransaction();
-    }
 }
