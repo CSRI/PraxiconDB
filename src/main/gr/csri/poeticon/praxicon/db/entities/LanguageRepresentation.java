@@ -50,14 +50,15 @@ import javax.xml.bind.annotation.XmlType;
 @NamedQueries({
     @NamedQuery(name = "findAllLanguageRepresentations", query =
             "FROM LanguageRepresentation lr"),
-    @NamedQuery(name = "findLanguageRepresentationsByTextLanguagePos", query =
+    @NamedQuery(name =
+            "findLanguageRepresentationsByTextLanguagePosCaseInsensitive",
+            query =
             "FROM LanguageRepresentation lr " +
             "WHERE UPPER(lr.text) = :text " +
             "AND lr.language = :language " +
             "AND lr.partOfSpeech = :pos"),
     @NamedQuery(name =
-            "findLanguageRepresentationsByTextLanguagePosCaseInsensitive",
-            query =
+            "findLanguageRepresentationsByTextLanguagePos", query =
             "FROM LanguageRepresentation lr " +
             "WHERE lr.text = :text " +
             "AND lr.language = :language " +
