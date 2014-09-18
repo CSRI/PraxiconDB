@@ -6,13 +6,16 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <build>
-        <sourceDirectory>src</sourceDirectory>
+        <sourceDirectory>src/main</sourceDirectory>
         <resources>
             <resource>
-                <directory>src/resources</directory>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/test/resources</directory>
             </resource>
         </resources>
-        <plugins>
+        <plugins>       
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jaxb2-maven-plugin</artifactId>
@@ -55,7 +58,7 @@
                             c) The desired <<toFile>> name of the generated XML schema definition file,
                                excluding the ".xsd" suffix (which will be added automatically).
                        
-                       -->
+                        -->
                         <transformSchema>
                             <uri>http://www.csri.gr/concept</uri>
                             <toPrefix>concept</toPrefix>
@@ -158,7 +161,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>4.3.6.Final</version>
+            <version>4.2.6.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -249,14 +252,14 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>2.12.1</version>
-                    <reportSets>
-                        <reportSet>
-                            <reports>
-                                <report>checkstyle</report>
-                            </reports>
-                      </reportSet>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>checkstyle</report>
+                        </reports>
+                    </reportSet>
                 </reportSets>
             </plugin>
-          </plugins>
+        </plugins>
     </reporting>
 </project>
