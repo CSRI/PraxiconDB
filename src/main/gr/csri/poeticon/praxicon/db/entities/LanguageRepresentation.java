@@ -51,18 +51,20 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name = "findAllLanguageRepresentations", query =
             "FROM LanguageRepresentation lr"),
     @NamedQuery(name =
-            "findLanguageRepresentationsByTextLanguagePosCaseInsensitive",
+            "findLanguageRepresentationsByTextLanguagePosPStatusCaseInsensitive",
             query =
             "FROM LanguageRepresentation lr " +
             "WHERE UPPER(lr.text) = :text " +
             "AND lr.language = :language " +
-            "AND lr.partOfSpeech = :pos"),
+            "AND lr.partOfSpeech = :pos " +
+            "AND lr.pragmaticStatus = :pragmaticStatus"),
     @NamedQuery(name =
-            "findLanguageRepresentationsByTextLanguagePos", query =
+            "findLanguageRepresentationsByTextLanguagePosPStatus", query =
             "FROM LanguageRepresentation lr " +
             "WHERE lr.text = :text " +
             "AND lr.language = :language " +
-            "AND lr.partOfSpeech = :pos"),
+            "AND lr.partOfSpeech = :pos " +
+            "AND lr.pragmaticStatus = :pragmaticStatus"),
     @NamedQuery(name = "getLanguageRepresentationEntityQuery", query =
             "FROM LanguageRepresentation lr " +
             "WHERE UPPER(lr.text) = :text " +

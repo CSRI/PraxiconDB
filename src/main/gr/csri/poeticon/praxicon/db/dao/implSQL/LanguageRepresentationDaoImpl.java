@@ -22,101 +22,101 @@ public class LanguageRepresentationDaoImpl extends
      * part of speech
      * Overloaded.
      *
+     * @param language        the language to search
+     * @param text            the text to search
+     * @param pos             the pos to search
+     * @param pragmaticStatus the pragmatic status to search
+     * @return A LanguageRepresentation (null if not found)
+     */
+    @Override
+    public LanguageRepresentation findLanguageRepresentations(
+            String language, String text, String pos, String pragmaticStatus) {
+        Query query = getEntityManager().createNamedQuery(
+                "findLanguageRepresentationsByTextLanguagePosPStatus").
+                setParameter("text", text).
+                setParameter("language", language).
+                setParameter("pos", pos).
+                setParameter("pragmaticStatus", pragmaticStatus);
+        List res = query.getResultList();
+        if (res.size() > 0) {
+            return (LanguageRepresentation)res.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Finds the LanguageRepresentation that has the given language, text and
+     * part of speech
+     * Case insensitive search.
+     *
      * @param language the language to search
      * @param text     the text to search
      * @param pos      the pos to search
      * @return A LanguageRepresentation (null if not found)
      */
     @Override
-    public LanguageRepresentation
-            findLanguageRepresentations(
-                    String language, String text, String pos) {
-                Query query = getEntityManager().createNamedQuery(
-                        "findLanguageRepresentationsByTextLanguagePos").
-                        setParameter("text", text).
-                        setParameter("language", language).
-                        setParameter("pos", pos);
-                List res = query.getResultList();
-                if (res.size() > 0) {
-                    return (LanguageRepresentation)res.get(0);
-                } else {
-                    return null;
-                }
-            }
+    public LanguageRepresentation findLanguageRepresentationsCaseInsensitive(
+            String language, String text, String pos, String pragmaticStatus) {
+        Query query = getEntityManager().createNamedQuery(
+                "findLanguageRepresentationsBy" +
+                "TextLanguagePosPStatusCaseInsensitive").
+                setParameter("text", text).
+                setParameter("language", language).
+                setParameter("pos", pos).
+                setParameter("pragmaticStatus", pragmaticStatus);
+        List res = query.getResultList();
+        if (res.size() > 0) {
+            return (LanguageRepresentation)res.get(0);
+        } else {
+            return null;
+        }
+    }
 
-            /**
-             * Finds the LanguageRepresentation that has the given language, text and
-             * part of speech
-             * Case insensitive search.
-             *
-             * @param language the language to search
-             * @param text     the text to search
-             * @param pos      the pos to search
-             * @return A LanguageRepresentation (null if not found)
-             */
-            @Override
-            public LanguageRepresentation
-                    findLanguageRepresentationsCaseInsensitive(
-                            String language, String text, String pos) {
-                        Query query = getEntityManager().createNamedQuery(
-                                "findLanguageRepresentationsByTextLanguagePosCase" +
-                                "Insensitive").
-                                setParameter("text", text).
-                                setParameter("language", language).
-                                setParameter("pos", pos);
-                        List res = query.getResultList();
-                        if (res.size() > 0) {
-                            return (LanguageRepresentation)res.get(0);
-                        } else {
-                            return null;
-                        }
-                    }
+    /**
+     * Finds the LanguageRepresentations that have text field containing the
+     * given string Case insensitive search.
+     * Overloaded.
+     *
+     * @param text the language representation text
+     * @return A list of LanguageRepresentations
+     */
+    @Override
+    public List<LanguageRepresentation> findLanguageRepresentations(
+            String text) {
+        Query query = getEntityManager().createNamedQuery(
+                "findLanguageRepresentationsByText").
+                setParameter("text", text);
+        return query.getResultList();
+    }
 
-                    /**
-                     * Finds the LanguageRepresentations that have text field containing the
-                     * given string Case insensitive search.
-                     * Overloaded.
-                     *
-                     * @param text the language representation text
-                     * @return A list of LanguageRepresentations
-                     */
-                    @Override
-                    public List<LanguageRepresentation> findLanguageRepresentations(
-                            String text) {
-                        Query query = getEntityManager().createNamedQuery(
-                                "findLanguageRepresentationsByText").
-                                setParameter("text", text);
-                        return query.getResultList();
-                    }
-
-                    /**
-                     * Creates q query to search for a LanguageRepresentation using text, lang
-                     * and pos
-                     *
-                     * @param lr the LanguageRepresentation
-                     * @return a query to search for the LanguageRepresentation
-                     */
-                    @Override
-                    public Query getEntityQuery(
-                            LanguageRepresentation languageRepresentation) {
-
-                        Query query = getEntityManager().createNamedQuery(
-                                "getLanguageRepresentationEntityQuery").
-                                setParameter("text", languageRepresentation.
-                                        getText().toUpperCase()).
-                                setParameter("language", languageRepresentation.
-                                        getLanguage().name().toUpperCase()).
-                                setParameter("status", languageRepresentation.
-                                        getPartOfSpeech().toString().
-                                        toUpperCase()).
-                                setParameter("pragmaticStatus",
-                                        languageRepresentation.
-                                        getPragmaticStatus().toString().
-                                        toUpperCase());
-                        System.out.println("Language Representation Text: " +
-                                languageRepresentation.getText());
-                        return query;
-                    }
+    /**
+     * Creates q query to search for a LanguageRepresentation using text, lang
+     * and pos
+     *
+     * @param lr the LanguageRepresentation
+     * @return a query to search for the LanguageRepresentation
+     */
+    @Override
+    public Query getEntityQuery(
+            LanguageRepresentation languageRepresentation) {
+        Query query = getEntityManager().createNamedQuery(
+                "getLanguageRepresentationEntityQuery").
+                setParameter("text", languageRepresentation.
+                        getText().toUpperCase()).
+                setParameter("language", languageRepresentation.
+                        getLanguage().name().toUpperCase()).
+                setParameter("status", languageRepresentation.
+                        getPartOfSpeech().toString().
+                        toUpperCase()).
+                setParameter("pragmaticStatus",
+                        languageRepresentation.
+                        getPragmaticStatus().toString().
+                        toUpperCase());
+        System.out.println("Language Representation Text: " +
+                languageRepresentation.getText());
+        return query;
+    }
 
 // TODO: Delete the two methods below after I make sure they are not used in other projects.
 //            /**

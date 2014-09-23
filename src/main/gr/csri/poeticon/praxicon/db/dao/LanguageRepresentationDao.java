@@ -17,11 +17,11 @@ public interface LanguageRepresentationDao extends
     List<LanguageRepresentation> findLanguageRepresentations(String text);
 
     LanguageRepresentation findLanguageRepresentations(
-            String language, String text, String pos);
+            String language, String text, String pos, String pragmaticStatus);
 
     LanguageRepresentation findLanguageRepresentationsCaseInsensitive(
-            String language, String text, String pos);
-    
+            String language, String text, String pos, String pragmaticStatus);
+
 // TODO: Delete the two methods below after I make sure they are not used 
 //       in other projects.
 //    List<LanguageRepresentation> getLanguageRepresentationsOfConceptSortedByLanguage(
