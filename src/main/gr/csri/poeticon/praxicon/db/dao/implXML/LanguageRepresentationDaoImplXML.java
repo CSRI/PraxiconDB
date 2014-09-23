@@ -24,8 +24,7 @@ public class LanguageRepresentationDaoImplXML extends
 
     @Override
     public LanguageRepresentation findLanguageRepresentationsCaseInsensitive(
-            String language,
-            String text, String pos) {
+            String language, String text, String pos, String pragmaticStatus) {
 
         Enumeration en = Constants.globalConcepts.elements();
         while (en.hasMoreElements()) {
@@ -91,7 +90,7 @@ public class LanguageRepresentationDaoImplXML extends
 //    }
     @Override
     public LanguageRepresentation findLanguageRepresentations(String language,
-            String text, String pos) {
+            String text, String pos, String pragmaticStatus) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }
