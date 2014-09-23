@@ -7,6 +7,7 @@ package gr.csri.poeticon.praxicon.db.dao.implSQL;
 import gr.csri.poeticon.praxicon.db.dao.LanguageRepresentationDao;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.language;
+import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.part_of_speech;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.pragmatic_status;
 import java.util.List;
 import javax.persistence.Query;
@@ -32,7 +33,7 @@ public class LanguageRepresentationDaoImpl extends
      */
     @Override
     public LanguageRepresentation findLanguageRepresentations(
-            language language, String text, String pos,
+            language language, String text, part_of_speech pos,
             pragmatic_status pragmaticStatus) {
         Query query = getEntityManager().createNamedQuery(
                 "findLanguageRepresentationsByTextLanguagePosPStatus").
@@ -61,7 +62,7 @@ public class LanguageRepresentationDaoImpl extends
      */
     @Override
     public LanguageRepresentation findLanguageRepresentationsCaseInsensitive(
-            language language, String text, String pos,
+            language language, String text, part_of_speech pos,
             pragmatic_status pragmaticStatus) {
         Query query = getEntityManager().createNamedQuery(
                 "findLanguageRepresentationsBy" +
@@ -111,7 +112,7 @@ public class LanguageRepresentationDaoImpl extends
                         getText().toUpperCase()).
                 setParameter("language", languageRepresentation.
                         getLanguage().name().toUpperCase()).
-                setParameter("status", languageRepresentation.
+                setParameter("pos", languageRepresentation.
                         getPartOfSpeech().toString().
                         toUpperCase()).
                 setParameter("pragmaticStatus",

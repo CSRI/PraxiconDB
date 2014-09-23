@@ -64,8 +64,8 @@ import javax.xml.bind.annotation.XmlType;
             "WHERE r.subject = :conceptId"),
     @NamedQuery(name = "findRelationsByConceptObjectOrSubject", query =
             "SELECT r FROM Relation r " +
-            "WHERE r.subject = :conceptId " +
-            "OR r.object = :conceptId"),
+            "WHERE r.subject = :concept " +
+            "OR r.object = :concept"),
     @NamedQuery(name = "areRelated", query =
             "SELECT r FROM Relation r " +
             "WHERE (r.subject = :conceptIdSubject " +
