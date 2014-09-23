@@ -9,6 +9,8 @@ import gr.csri.poeticon.praxicon.db.dao.LanguageRepresentationDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.JpaDao;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
+import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.language;
+import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.pragmatic_status;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -24,7 +26,8 @@ public class LanguageRepresentationDaoImplXML extends
 
     @Override
     public LanguageRepresentation findLanguageRepresentationsCaseInsensitive(
-            String language, String text, String pos, String pragmaticStatus) {
+            language language, String text, String pos,
+            pragmatic_status pragmaticStatus) {
 
         Enumeration en = Constants.globalConcepts.elements();
         while (en.hasMoreElements()) {
@@ -32,7 +35,7 @@ public class LanguageRepresentationDaoImplXML extends
             for (LanguageRepresentation tmpLanguageRepresentation : concept.
                     getLanguageRepresentations()) {
                 if (tmpLanguageRepresentation.getLanguage().name().
-                        equalsIgnoreCase(language) &&
+                        equals(language) &&
                         tmpLanguageRepresentation.getText().
                         equalsIgnoreCase(text) &&
                         tmpLanguageRepresentation.getPartOfSpeech() ==
@@ -89,8 +92,8 @@ public class LanguageRepresentationDaoImplXML extends
 //        return res;
 //    }
     @Override
-    public LanguageRepresentation findLanguageRepresentations(String language,
-            String text, String pos, String pragmaticStatus) {
+    public LanguageRepresentation findLanguageRepresentations(language language,
+            String text, String pos, pragmatic_status pragmaticStatus) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

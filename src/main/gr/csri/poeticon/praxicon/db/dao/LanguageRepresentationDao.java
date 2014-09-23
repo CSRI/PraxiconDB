@@ -5,6 +5,8 @@
 package gr.csri.poeticon.praxicon.db.dao;
 
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
+import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.language;
+import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.pragmatic_status;
 import java.util.List;
 
 /**
@@ -17,10 +19,12 @@ public interface LanguageRepresentationDao extends
     List<LanguageRepresentation> findLanguageRepresentations(String text);
 
     LanguageRepresentation findLanguageRepresentations(
-            String language, String text, String pos, String pragmaticStatus);
+            language language, String text, String pos,
+            pragmatic_status pragmaticStatus);
 
     LanguageRepresentation findLanguageRepresentationsCaseInsensitive(
-            String language, String text, String pos, String pragmaticStatus);
+            language language, String text, String pos,
+            pragmatic_status pragmaticStatus);
 
 // TODO: Delete the two methods below after I make sure they are not used 
 //       in other projects.

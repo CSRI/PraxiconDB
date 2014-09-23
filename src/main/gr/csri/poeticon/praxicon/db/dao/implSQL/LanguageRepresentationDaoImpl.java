@@ -6,6 +6,8 @@ package gr.csri.poeticon.praxicon.db.dao.implSQL;
 
 import gr.csri.poeticon.praxicon.db.dao.LanguageRepresentationDao;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
+import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.language;
+import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.pragmatic_status;
 import java.util.List;
 import javax.persistence.Query;
 
@@ -30,7 +32,8 @@ public class LanguageRepresentationDaoImpl extends
      */
     @Override
     public LanguageRepresentation findLanguageRepresentations(
-            String language, String text, String pos, String pragmaticStatus) {
+            language language, String text, String pos,
+            pragmatic_status pragmaticStatus) {
         Query query = getEntityManager().createNamedQuery(
                 "findLanguageRepresentationsByTextLanguagePosPStatus").
                 setParameter("text", text).
@@ -50,14 +53,16 @@ public class LanguageRepresentationDaoImpl extends
      * part of speech
      * Case insensitive search.
      *
-     * @param language the language to search
-     * @param text     the text to search
-     * @param pos      the pos to search
+     * @param language        the language to search
+     * @param text            the text to search
+     * @param pos             the pos to search
+     * @param pragmaticStatus
      * @return A LanguageRepresentation (null if not found)
      */
     @Override
     public LanguageRepresentation findLanguageRepresentationsCaseInsensitive(
-            String language, String text, String pos, String pragmaticStatus) {
+            language language, String text, String pos,
+            pragmatic_status pragmaticStatus) {
         Query query = getEntityManager().createNamedQuery(
                 "findLanguageRepresentationsBy" +
                 "TextLanguagePosPStatusCaseInsensitive").
