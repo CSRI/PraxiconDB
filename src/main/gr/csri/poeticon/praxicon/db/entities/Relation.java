@@ -62,6 +62,10 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name = "findRelationsByConceptSubject", query =
             "SELECT r FROM Relation r " +
             "WHERE r.subject = :conceptId"),
+    @NamedQuery(name = "findRelationsByConceptObjectOrSubject", query =
+            "SELECT r FROM Relation r " +
+            "WHERE r.subject = :conceptId " +
+            "OR r.object = :conceptId"),
     @NamedQuery(name = "areRelated", query =
             "SELECT r FROM Relation r " +
             "WHERE (r.subject = :conceptIdSubject " +
@@ -109,7 +113,7 @@ public class Relation implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "relation")
     private List<RelationSet_Relation> relationSet;
-    
+
     @Column(name = "DerivationSupported")
     @NotNull(message = "Derivation support must be specified.")
     @Enumerated(EnumType.STRING)
