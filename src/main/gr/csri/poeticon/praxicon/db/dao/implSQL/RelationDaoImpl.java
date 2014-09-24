@@ -29,84 +29,54 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      * @param relationArgument the relation argument to be searched
      * @return a list of IntersectionOfRelationChains
      */
-    
     // TODO: this needs repair. Find another way to get the related relations.
-    
     @Override
     public List<RelationSet> getRelationSetsWithConceptAsObject(
             Concept concept) {
-        Query query = getEntityManager().createNamedQuery(
-                "findRelationsByConceptObjectOrSubject").
-                setParameter("conceptId", concept.getId());
-        List<Relation> objRels = query.getResultList();
-        List<RelationSet> res = new ArrayList<>();
-        for (Relation r : objRels) {
-            if (r.getObject().isConcept()) {
-                if (r.getObject().getConcept().equals(concept)) {
-                    r.setObject(r.getSubject());
-                    //r.setSubject(concept.getRelationArgument());
-                    RelationType tmpType = new RelationType();
-                    RelationType.relation_name_backward tmp =
-                            r.getType().getBackwardName();
-                    tmpType.setForwardName(r.getType().getForwardName());
-                    tmpType.setBackwardName(tmp);
-                    r.setType(tmpType);
-                }
-            }
-            RelationSet rs = new RelationSet();
-            rs.addRelation(r, (short) 0);
-        }
-        return res;
+        RelationArgument newRelationArgument = new RelationArgument(concept);
+        return getRelationSetsWithRelationArgumentAsObject(newRelationArgument);
     }
 
     /**
      * Finds all relations of a given concept
      *
-     * @param c the concept to be searched
+     * @param concept the concept to be searched
      * @return a list of Relation
      */
     @Override
     public List<Relation> getAllRelationsOfConcept(Concept concept) {
-        getEntityManager().clear();
-        Query query = getEntityManager().createNamedQuery(
-                "findRelationsByConceptObjectOrSubject").
-                setParameter("concept", concept);
-        List<Relation> res = query.getResultList();
-        return res;
+        RelationArgument newRelationArgument = new RelationArgument(concept);
+        return getAllRelationsOfRelationArgument(newRelationArgument);
     }
 
     /**
      * Checks if two concepts are related
      *
-     * @param c1 the first concept
-     * @param c2 the second concept
+     * @param concept1 the first concept
+     * @param concept2 the second concept
      * @return true/false
      */
     @Override
     public boolean areRelated(Concept concept1, Concept concept2) {
-        Query query = getEntityManager().createNamedQuery("areRelated").
-                setParameter("conceptIdSubject", concept1).
-                setParameter("conceptIdObject", concept2);
-        List<Relation> objRels = query.getResultList();
-        return objRels.size() > 0;
+        RelationArgument relationArgument1 = new RelationArgument(concept1);
+        RelationArgument relationArgument2 = new RelationArgument(concept2);
+        return areRelated(relationArgument1, relationArgument2);
     }
 
     /**
      * Finds the relations of a given concept that have a certain
      * type of relation. Checks only for the given concept as a subject
      *
-     * @param concept the concept
-     * @param type    the type of relation
+     * @param concept      the concept
+     * @param relationType the type of relation
      * @return List of relations
      */
     @Override
-    public List<Relation> findRelationsByConceptTypeOfRelation(
+    public List<Relation> getRelationsByConceptTypeOfRelation(
             Concept concept, RelationType relationType) {
-        Query query = getEntityManager().createNamedQuery(
-                "findRelationsByConceptRelationType").
-                setParameter("conceptId", concept).
-                setParameter("relationType", relationType.getForwardName());
-        return query.getResultList();
+        RelationArgument newRelationArgument = new RelationArgument(concept);
+        return getRelationsByRelationArgumentTypeOfRelation(newRelationArgument,
+                relationType);
     }
 
     /**
@@ -120,7 +90,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
             RelationArgument relationArgument) {
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByRelationArgumentObjectOrSubject").
-                setParameter("conceptId", relationArgument.getId());
+                setParameter("relationArgument", relationArgument);
         List<Relation> objRels = query.getResultList();
         List<RelationSet> res = new ArrayList<>();
         for (Relation r : objRels) {
@@ -135,7 +105,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
                 r.setType(tmpType);
             }
             RelationSet rs = new RelationSet();
-            rs.addRelation(r, (short) 0);
+            rs.addRelation(r, (short)0);
         }
         return res;
     }
@@ -183,7 +153,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      * @return A list of relations
      */
     @Override
-    public List<Relation> findRelationsByRelationArgumentTypeOfRelation(
+    public List<Relation> getRelationsByRelationArgumentTypeOfRelation(
             RelationArgument relationArgument, RelationType relationType) {
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByRelationArgumentRelationType").

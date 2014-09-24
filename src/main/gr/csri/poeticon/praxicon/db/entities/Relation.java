@@ -43,35 +43,26 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "relation", namespace = "http://www.csri.gr/relation")
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "findRelationsByRelationTypeConcept", query =
-            "SELECT r FROM Relation r, RelationType rt " +
-            "WHERE ((r.subject = :subjectId " +
-            "OR r.object = :objectId) " +
-            "AND rt.id = :relationTypeId)"),
     @NamedQuery(name = "findRelationsByRelationArgumentObjectOrSubject", query =
             "SELECT r FROM Relation r " +
-            "WHERE r.object = :relationArgument OR r.subject = :relationArgument"),
-    @NamedQuery(name = "findRelationsByConceptRelationType", query =
+            "WHERE r.object = :relationArgument " +
+            "OR r.subject = :relationArgument"),
+    @NamedQuery(name = "findRelationsByRelationArgumentRelationType", query =
             "SELECT r FROM Relation r, RelationType rt " +
-            "WHERE (r.subject = :conceptId OR r.object = :conceptId) " +
+            "WHERE (r.subject = :relationArgument OR r.object = :relationArgument) " +
             "AND r.type = rt " +
             "AND rt.forwardName = :relationType"),
-    @NamedQuery(name = "findRelationsByConceptObject", query =
+    @NamedQuery(name = "findRelationsByRelationArgumentObject", query =
             "SELECT r FROM Relation r " +
-            "WHERE r.object = :conceptId"),
-    @NamedQuery(name = "findRelationsByConceptSubject", query =
+            "WHERE r.object = :relationArgument"),
+    @NamedQuery(name = "findRelationsByRelationArgumentSubject", query =
             "SELECT r FROM Relation r " +
-            "WHERE r.subject = :conceptId"),
-    @NamedQuery(name = "findRelationsByConceptObjectOrSubject", query =
+            "WHERE r.subject = :relationArgument"),
+    @NamedQuery(name = "findRelationsByRelationArgumentObjectOrSubject", query =
             "SELECT r FROM Relation r " +
-            "WHERE r.subject = :concept " +
-            "OR r.object = :concept"),
-    @NamedQuery(name = "areRelated", query =
-            "SELECT r FROM Relation r " +
-            "WHERE (r.subject = :conceptIdSubject " +
-            "AND r.object = :conceptIdObject) " +
-            "OR (r.subject = :conceptIdObject " +
-            "AND r.object = :conceptIdSubject)"),})
+            "WHERE r.subject = :relationArgument " +
+            "OR r.object = :relationArgument"),
+})
 @Table(name = "Relations", indexes = {
     @Index(columnList = "Comment"),
     @Index(columnList = "RelationId")})

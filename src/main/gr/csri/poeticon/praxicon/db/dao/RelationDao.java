@@ -25,7 +25,7 @@ public interface RelationDao extends Dao<Long, Relation> {
 
     boolean areRelated(Concept concept1, Concept concept2);
 
-    List<Relation> findRelationsByConceptTypeOfRelation(
+    List<Relation> getRelationsByConceptTypeOfRelation(
             Concept concept, RelationType relationType);
 
     List<RelationSet> getRelationSetsWithRelationArgumentAsObject(
@@ -37,6 +37,6 @@ public interface RelationDao extends Dao<Long, Relation> {
     boolean areRelated(RelationArgument relationArgument1,
             RelationArgument relationArgument2);
 
-    List<Relation> findRelationsByRelationArgumentTypeOfRelation(
+    List<Relation> getRelationsByRelationArgumentTypeOfRelation(
             RelationArgument relationArgument, RelationType relationType);
 }

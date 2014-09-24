@@ -322,7 +322,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 if (relation.getObject().isConcept()) {
                     res.add(relation.getObject().getConcept());
                 }
-
             }
         }
         entityManager.clear();
@@ -497,7 +496,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     @Override
     public List<Concept> getBasicLevelOfAnEntityConcept(Concept concept) {
         List<Concept> res = new ArrayList<>();
-
         if (concept.getSpecificityLevel() !=
                 Concept.specificity_level.BASIC_LEVEL &&
                 concept.getConceptType() != Concept.type.ABSTRACT) {
