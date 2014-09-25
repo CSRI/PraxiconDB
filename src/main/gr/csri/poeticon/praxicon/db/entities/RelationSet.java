@@ -27,6 +27,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -282,4 +283,10 @@ public class RelationSet implements Serializable {
                 " ]";
     }
 
+    @XmlRegistry
+    class ObjectFactory {
+        RelationSet createRelationSet() {
+            return new RelationSet();
+        }
+    }
 }
