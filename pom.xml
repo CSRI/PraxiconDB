@@ -80,6 +80,11 @@
                             <toFile>gr/praxicondb/xsd/relation.xsd</toFile>
                         </transformSchema>
                         <transformSchema>
+                            <uri>http://www.csri.gr/relation_argument</uri>
+                            <toPrefix>relation_argument</toPrefix>
+                            <toFile>gr/praxicondb/xsd/relation_argument.xsd</toFile>
+                        </transformSchema>
+                        <transformSchema>
                             <uri>http://www.csri.gr/language_representation</uri>
                             <toPrefix>language_representation</toPrefix>
                             <toFile>gr/praxicondb/xsd/language_representation.xsd</toFile>
