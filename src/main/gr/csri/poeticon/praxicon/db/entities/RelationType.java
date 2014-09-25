@@ -295,5 +295,4 @@ public class RelationType implements Serializable {
         return "gr.csri.poeticon.praxicon.db.entities.RelationType[Id=" + id +
                 "]";
     }
-
 }

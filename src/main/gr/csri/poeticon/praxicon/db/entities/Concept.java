@@ -776,7 +776,6 @@ public class Concept implements Serializable {
 
 @XmlRegistry
 class ObjectFactory {
-
     Concept createConcept() {
         return new Concept();
     }

@@ -58,6 +58,12 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name = "findRelationsByRelationArgumentSubject", query =
             "SELECT r FROM Relation r " +
             "WHERE r.subject = :relationArgument"),
+    @NamedQuery(name = "areRelated", query =
+            "SELECT r FROM Relation r " +
+            "WHERE (r.subject = :relationArgument1 " +
+            "AND r.object = :relationArgument2) " +
+            "OR (r.subject = :relationArgument2 " +
+            "AND r.object = :relationArgument1)")
 })
 @Table(name = "Relations", indexes = {
     @Index(columnList = "Comment"),
