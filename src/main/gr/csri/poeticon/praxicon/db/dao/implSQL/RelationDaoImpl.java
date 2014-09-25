@@ -138,8 +138,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
     public boolean areRelated(RelationArgument relationArgument1,
             RelationArgument relationArgument2) {
         Query query = getEntityManager().createNamedQuery("areRelated").
-                setParameter("relationArgumentSubject", relationArgument1).
-                setParameter("relationArgumentObject", relationArgument2);
+                setParameter("relationArgument1", relationArgument1).
+                setParameter("relationArgument2", relationArgument2);
         List<Relation> objRels = query.getResultList();
         return objRels.size() > 0;
     }
