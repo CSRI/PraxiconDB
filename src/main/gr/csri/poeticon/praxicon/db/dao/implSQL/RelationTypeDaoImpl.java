@@ -19,7 +19,7 @@ public class RelationTypeDaoImpl extends JpaDao<Long, RelationType> implements
      * Creates q query to search for a RelationType using forward
      * and backward name
      *
-     * @param entity the RelationType to be searched
+     * @param relationType the RelationType to be searched
      * @return a query to search for the RelationType
      */
     @Override
