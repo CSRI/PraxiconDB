@@ -175,6 +175,9 @@ public class Concept implements Serializable {
     //@XmlElement(required = false)
     private String source;
 
+    @Column(name = "ExternalSourceId")
+    private String externalSourceId;
+
     @Column(name = "Comment")
     //@XmlElement(required = false)
     private String comment;
@@ -379,6 +382,17 @@ public class Concept implements Serializable {
         this.source = source;
     }
 
+    /**
+     * @return the identification of the concept according to its source
+     */
+    public String getExternalSourceId() {
+        return externalSourceId;
+    }
+    
+    public void setExternalSourceId(String externalSourceId){
+        this.externalSourceId = externalSourceId;
+    }
+    
     /**
      * @return a string containing additional information about the concept.
      */
@@ -593,7 +607,7 @@ public class Concept implements Serializable {
             }
         }
     }
- 
+
     /* TODO: The following is not used anywhere in the project. So, it is 
      commented until it is usefull again. */
 //    /**
@@ -776,6 +790,7 @@ public class Concept implements Serializable {
 
 @XmlRegistry
 class ObjectFactory {
+
     Concept createConcept() {
         return new Concept();
     }
