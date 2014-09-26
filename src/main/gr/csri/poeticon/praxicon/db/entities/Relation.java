@@ -45,25 +45,25 @@ import javax.xml.bind.annotation.XmlType;
 @NamedQueries({
     @NamedQuery(name = "findRelationsByRelationArgumentObjectOrSubject", query =
             "SELECT r FROM Relation r " +
-            "WHERE r.object = :relationArgument " +
-            "OR r.subject = :relationArgument"),
+            "WHERE (r.object = :relationArgumentId " +
+            "OR r.subject = :relationArgumentId)"),
     @NamedQuery(name = "findRelationsByRelationArgumentRelationType", query =
             "SELECT r FROM Relation r, RelationType rt " +
-            "WHERE (r.subject = :relationArgument OR r.object = :relationArgument) " +
+            "WHERE (r.subject = :relationArgumentId OR r.object = :relationArgumentId) " +
             "AND r.type = rt " +
             "AND rt.forwardName = :relationType"),
     @NamedQuery(name = "findRelationsByRelationArgumentObject", query =
             "SELECT r FROM Relation r " +
-            "WHERE r.object = :relationArgument"),
+            "WHERE r.object = :relationArgumentId"),
     @NamedQuery(name = "findRelationsByRelationArgumentSubject", query =
             "SELECT r FROM Relation r " +
-            "WHERE r.subject = :relationArgument"),
+            "WHERE r.subject = :relationArgumentId"),
     @NamedQuery(name = "areRelated", query =
             "SELECT r FROM Relation r " +
-            "WHERE (r.subject = :relationArgument1 " +
-            "AND r.object = :relationArgument2) " +
-            "OR (r.subject = :relationArgument2 " +
-            "AND r.object = :relationArgument1)")
+            "WHERE (r.subject = :relationArgumentId1 " +
+            "AND r.object = :relationArgumentId2) " +
+            "OR (r.subject = :relationArgumentId2 " +
+            "AND r.object = :relationArgumentId1)")
 })
 @Table(name = "Relations", indexes = {
     @Index(columnList = "Comment"),

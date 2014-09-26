@@ -343,8 +343,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         List<Relation> relations = rDao.getAllRelationsOfConcept(concept);
         for (Relation relation : relations) {
             if (relation.getType().getForwardName() ==
-                    RelationType.relation_name_forward.TYPE_TOKEN &&
-                    relation.getObject().equals(concept)) {
+                    RelationType.relation_name_forward.TYPE_TOKEN) {
                 if (relation.getObject().isConcept()) {
                     res.add(relation.getSubject().getConcept());
                 }

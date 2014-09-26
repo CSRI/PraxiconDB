@@ -220,6 +220,10 @@ public class RelationArgument implements Serializable {
         return this.getRelationArgumentClassType() == Concept.class;
     }
 
+    public boolean isRelationSet() {
+        return this.getRelationArgumentClassType() == RelationSet.class;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;

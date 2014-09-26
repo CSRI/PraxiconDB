@@ -593,7 +593,7 @@ public class Concept implements Serializable {
             }
         }
     }
-
+ 
     /* TODO: The following is not used anywhere in the project. So, it is 
      commented until it is usefull again. */
 //    /**

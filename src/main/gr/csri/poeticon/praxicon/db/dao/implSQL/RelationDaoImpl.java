@@ -17,8 +17,6 @@ import javax.persistence.Query;
 /**
  *
  * @author dmavroeidis
- * @author Dimitris Mavroeidis
- *
  */
 public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         RelationDao {
@@ -83,17 +81,17 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      * Finds relations that have a given relationArgument as object
      *
      * @param relationArgument the relation argument to be searched
-     * @return a list of IntersectionOfRelationChains
+     * @return a list of RelationSets
      */
     @Override
     public List<RelationSet> getRelationSetsWithRelationArgumentAsObject(
             RelationArgument relationArgument) {
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByRelationArgumentObjectOrSubject").
-                setParameter("relationArgument", relationArgument);
-        List<Relation> objRels = query.getResultList();
+                setParameter("relationArgumentId", relationArgument.getId());
+        List<Relation> objectRelations = query.getResultList();
         List<RelationSet> res = new ArrayList<>();
-        for (Relation r : objRels) {
+        for (Relation r : objectRelations) {
             if (r.getObject().equals(relationArgument)) {
                 r.setObject(r.getSubject());
                 r.setSubject(relationArgument);
@@ -122,7 +120,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         getEntityManager().clear();
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByRelationArgumentObjectOrSubject").
-                setParameter("relationArgument", relationArgument);
+                setParameter("relationArgumentId", relationArgument.getId());
         List<Relation> res = query.getResultList();
         return res;
     }
@@ -138,8 +136,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
     public boolean areRelated(RelationArgument relationArgument1,
             RelationArgument relationArgument2) {
         Query query = getEntityManager().createNamedQuery("areRelated").
-                setParameter("relationArgument1", relationArgument1).
-                setParameter("relationArgument2", relationArgument2);
+                setParameter("relationArgumentId1", relationArgument1.getId()).
+                setParameter("relationArgumentId2", relationArgument2.getId());
         List<Relation> objRels = query.getResultList();
         return objRels.size() > 0;
     }
@@ -157,7 +155,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
             RelationArgument relationArgument, RelationType relationType) {
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByRelationArgumentRelationType").
-                setParameter("relationArgument", relationArgument).
+                setParameter("relationArgumentId", relationArgument.getId()).
                 setParameter("relationType", relationType.getForwardName());
         return query.getResultList();
     }
