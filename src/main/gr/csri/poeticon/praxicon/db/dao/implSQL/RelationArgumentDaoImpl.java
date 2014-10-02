@@ -5,6 +5,7 @@
 package gr.csri.poeticon.praxicon.db.dao.implSQL;
 
 import gr.csri.poeticon.praxicon.db.dao.RelationArgumentDao;
+import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
@@ -18,7 +19,8 @@ import javax.persistence.Query;
  * @author Dimitris Mavroeidis
  *
  */
-public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument> implements
+public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument>
+        implements
         RelationArgumentDao {
 
     /**
@@ -49,6 +51,17 @@ public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument> impl
                 }
             }
         }
+        return res;
+    }
+
+    @Override
+    public RelationArgument getRelationArgumentsByConcept(Concept concept) {
+        RelationArgument res;
+        res = new RelationArgument();
+        Query query = getEntityManager().createNamedQuery(
+                "findRelationArgumentsByConcept").
+                setParameter("conceptId", concept.getId());
+        res = (RelationArgument)query.getSingleResult();
         return res;
     }
 }

@@ -24,8 +24,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
     /**
      * Finds relations that have a given relationArgument as object
      *
-     * @param relationArgument the relation argument to be searched
-     * @return a list of IntersectionOfRelationChains
+     * @param concept the concept which we want the relation sets of
+     * @return a list of relation sets
      */
     // TODO: this needs repair. Find another way to get the related relations.
     @Override
@@ -38,7 +38,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
     /**
      * Finds all relations of a given concept
      *
-     * @param concept the concept to be searched
+     * @param concept the concept 
      * @return a list of Relation
      */
     @Override
@@ -136,8 +136,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
     public boolean areRelated(RelationArgument relationArgument1,
             RelationArgument relationArgument2) {
         Query query = getEntityManager().createNamedQuery("areRelated").
-                setParameter("relationArgumentId1", relationArgument1.getId()).
-                setParameter("relationArgumentId2", relationArgument2.getId());
+                setParameter("relationArgumentId1", relationArgument1).
+                setParameter("relationArgumentId2", relationArgument2);
         List<Relation> objRels = query.getResultList();
         return objRels.size() > 0;
     }
