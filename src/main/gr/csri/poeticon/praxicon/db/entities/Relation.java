@@ -45,8 +45,8 @@ import javax.xml.bind.annotation.XmlType;
 @NamedQueries({
     @NamedQuery(name = "findRelationsByRelationArgumentObjectOrSubject", query =
             "SELECT r FROM Relation r " +
-            "WHERE (r.object = :relationArgumentId " +
-            "OR r.subject = :relationArgumentId)"),
+            "WHERE (r.object = :relationArgument " +
+            "OR r.subject = :relationArgument)"),
     @NamedQuery(name = "findRelationsByRelationArgumentRelationType", query =
             "SELECT r FROM Relation r, RelationType rt " +
             "WHERE (r.subject = :relationArgumentId OR r.object = :relationArgumentId) " +

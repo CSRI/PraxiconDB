@@ -4,6 +4,7 @@
  */
 package gr.csri.poeticon.praxicon.db.dao.implSQL;
 
+import gr.csri.poeticon.praxicon.db.dao.RelationArgumentDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationDao;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
@@ -38,13 +39,15 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
     /**
      * Finds all relations of a given concept
      *
-     * @param concept the concept 
+     * @param concept the concept
      * @return a list of Relation
      */
     @Override
     public List<Relation> getAllRelationsOfConcept(Concept concept) {
-        RelationArgument newRelationArgument = new RelationArgument(concept);
-        return getAllRelationsOfRelationArgument(newRelationArgument);
+        RelationArgumentDao raDao = new RelationArgumentDaoImpl();
+        RelationArgument conceptRelationArgument = raDao.
+                getRelationArgumentByConcept(concept);
+        return getAllRelationsOfRelationArgument(conceptRelationArgument);
     }
 
     /**
@@ -120,7 +123,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         getEntityManager().clear();
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByRelationArgumentObjectOrSubject").
-                setParameter("relationArgumentId", relationArgument.getId());
+                setParameter("relationArgument", relationArgument);
         List<Relation> res = query.getResultList();
         return res;
     }
