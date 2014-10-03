@@ -13,6 +13,8 @@ import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -36,14 +38,16 @@ public class SimpleTest {
         // Get the language representations of all concepts having "spoon" as 
         // language representation.
         String toSearch = "spoon";
-        List<Concept> concepts_spoon = cDao.
+        List<Concept> conceptsSpoon = cDao.
                 findConceptsByLanguageRepresentationExact(toSearch);
         System.out.println("\n\nLanguage Representations of spoon: ");
         System.out.println("---------------------------------");
-        for (Concept concept : concepts_spoon) {
+        for (Concept concept : conceptsSpoon) {
             System.out.print(concept.getLanguageRepresentationName());
             System.out.print(" - ");
-            System.out.println(concept.getName());
+            System.out.print(concept.getName());
+            System.out.print(" - ");
+            System.out.println(concept.getSpecificityLevel());
         }
 
         // Check whether concepts "shape" and "round_shape" are related.
@@ -72,40 +76,33 @@ public class SimpleTest {
             System.out.println(relation);
         }
 
-        // Get children concepts of the first concept in the list of concepts
-        // that have language representation spoon.
+        // Get children concepts and specificity level of the first concept 
+        // in the list of concepts that have language representation spoon.
         System.out.println("\n\nChildren of the first occurence of a concept" +
                 " having language representation spoon: ");
         System.out.println("------------------------------------------------" +
                 "---------------------------------- ");
-        List<Concept> children_of_spoon = cDao.getChildrenOfConcept(
-                concepts_spoon.get(0));
-        //System.out.println(concepts_spoon.get(0));
-        for (Concept concept : children_of_spoon) {
-
-            System.out.println(concept.getName());
+        List<Concept> childrenOfSpoon = cDao.getChildrenOfConcept(
+                conceptsSpoon.get(0));
+        for (Concept concept : childrenOfSpoon) {
+            System.out.print(concept.getName());
+            System.out.print(" - ");
+            System.out.println(concept.getSpecificityLevel());
         }
-//System.out.println(concepts + " " + concepts.getSpecificityLevel());
-        //        for (Concept item : concepts) {
-        //            System.out.println(item.getName());
-        //        }
-        //        List<Concept> concepts_1 = cDao.findConceptsByName("spoon");
-        //        List<Concept> concepts_by_LR = cDao.findConceptsByLanguageRepresentationExact("fork");
-        //        for (Concept item : concepts_by_LR) {
-        //            System.out.println(item.getName());
-        //        }
-        //
-        //        
-        ////        for (Concept item : concepts_all) {
-        ////            System.out.println(item.getName());
-        ////        }
-        //
-        //        HashSet<Concept> sisters = new HashSet<>();
-        //        List<Concept> parents = new ArrayList<>();
-        ////        Concept concept1 = concepts_all.get(0);
-        ////
-        ////        cDao.persist(concept1);
-        //        System.out.println("ANCESTORS: " + cDao.getAllAncestors(concepts_by_LR.get(0)));
+
+        // Get sister concepts and specificity level of the first concept 
+        // in the list of concepts that have language representation spoon.
+        System.out.println("\n\nParents of the first occurence of a concept" +
+                " having language representation spoon: ");
+        System.out.println("------------------------------------------------" +
+                "---------------------------------- ");
+        HashSet<Concept> sisters = new HashSet<>();
+        List<Concept> parents = new ArrayList<>();
+        System.out.println("Parents: " + cDao.getParentsOfConcept(conceptsSpoon.
+                get(0)));
+        
+        
+        
         ////        
         //        
         //        //System.out.println("Concept0: " + concepts_1.get(0));
