@@ -55,13 +55,13 @@ public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument>
     }
 
     @Override
-    public RelationArgument getRelationArgumentsByConcept(Concept concept) {
-        RelationArgument res;
-        res = new RelationArgument();
+    public RelationArgument getRelationArgumentByConcept(Concept concept) {
+        RelationArgument newRelationArgument;
+        newRelationArgument = new RelationArgument();
         Query query = getEntityManager().createNamedQuery(
-                "findRelationArgumentsByConcept").
+                "findRelationArgumentByConcept").
                 setParameter("conceptId", concept.getId());
-        res = (RelationArgument)query.getSingleResult();
-        return res;
+        newRelationArgument = (RelationArgument)query.getSingleResult();
+        return newRelationArgument;
     }
 }

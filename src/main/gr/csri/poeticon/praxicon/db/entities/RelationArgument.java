@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlType;
 @NamedQueries({
     @NamedQuery(name = "findAllRelationArguments", query =
             "FROM RelationArgument ra"),
-    @NamedQuery(name = "findRelationArgumentsByConcept", query =
+    @NamedQuery(name = "findRelationArgumentByConcept", query =
             "SELECT ra FROM RelationArgument ra " +
             "JOIN ra.concept rac " +
             "WHERE rac.id = :conceptId"),

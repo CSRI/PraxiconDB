@@ -18,6 +18,6 @@ public interface RelationArgumentDao extends Dao<Long, RelationArgument> {
     public List<RelationArgument> getRelationArgumentsRelatedWithByRelationType(
             RelationArgument relationArgument, RelationType relationType);
 
-    public RelationArgument getRelationArgumentsByConcept(Concept concept);
+    public RelationArgument getRelationArgumentByConcept(Concept concept);
 
 }
