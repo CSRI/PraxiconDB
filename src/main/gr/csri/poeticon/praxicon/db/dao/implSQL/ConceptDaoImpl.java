@@ -339,13 +339,13 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     @Override
     public List<Concept> getParentsOfConcept(Concept concept) {
         List<Concept> res = new ArrayList<>();
-
         RelationDao rDao = new RelationDaoImpl();
         List<Relation> relations = rDao.getAllRelationsOfConcept(concept);
         for (Relation relation : relations) {
             if (relation.getType().getForwardName() ==
                     RelationType.relation_name_forward.TYPE_TOKEN) {
-                if (relation.getObject().isConcept()) {
+                if (relation.getSubject().isConcept() 
+                        && relation.getObject().getConcept().equals(concept)) {
                     res.add(relation.getSubject().getConcept());
                 }
             }
