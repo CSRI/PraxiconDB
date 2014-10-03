@@ -311,7 +311,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      */
     @Override
     public List<Concept> getChildrenOfConcept(Concept concept) {
-        List<Concept> res = new ArrayList<>();
+        List<Concept> conceptList = new ArrayList<>();
         RelationDao rDao = new RelationDaoImpl();
         List<Relation> relations = rDao.getAllRelationsOfConcept(concept);
         for (Relation relation : relations) {
@@ -319,14 +319,14 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                     RelationType.relation_name_forward.TYPE_TOKEN &&
                     relation.getSubject().getConcept().equals(concept)) {
                 if (relation.getObject().isConcept()) {
-                    res.add(relation.getObject().getConcept());
+                    conceptList.add(relation.getObject().getConcept());
                 } else {
                     System.err.println("A relation set cannot have children");
                 }
             }
         }
         entityManager.clear();
-        return res;
+        return conceptList;
     }
 
     /**
