@@ -11,6 +11,7 @@ import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationArgumentDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
+import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import java.util.List;
 
@@ -45,8 +46,7 @@ public class SimpleTest {
             System.out.println(concept.getName());
         }
 
-        // Check whether concepts "shape" and "round_shape" are related and 
-        // with what relation type.
+        // Check whether concepts "shape" and "round_shape" are related.
         System.out.println("\n\nCheck whether two concepts are related: ");
         System.out.println("--------------------------------------- ");
         Concept conceptRoundShape = cDao.findConceptByNameExact(
@@ -54,24 +54,37 @@ public class SimpleTest {
         Concept conceptShape = cDao.findConceptByNameExact("shape%1:03:00::");
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
         RelationArgument relationArgumentConceptShape = raDao.
-                getRelationArgumentsByConcept(conceptShape);
+                getRelationArgumentByConcept(conceptShape);
         RelationArgument relationArgumentConceptRoundShape = raDao.
-                getRelationArgumentsByConcept(conceptRoundShape);
+                getRelationArgumentByConcept(conceptRoundShape);
         boolean areRelated;
         areRelated = rDao.areRelated(relationArgumentConceptShape,
                 relationArgumentConceptRoundShape);
-        System.out.println((areRelated) ? "shape and round_shape are related" :
-                "shape and round_shape are not related");
-        
-        
+        System.out.print("shape and round_shape are ");
+        System.out.println((areRelated) ? "related" : "not related");
 
-// Get children concepts of the first concept that has language 
-        // representation spoon.
-//        List<Concept> children_of_spoon = cDao.getChildrenOfConcept(
-//                concepts_spoon.get(0));
-//        for (Concept concept : children_of_spoon){
-//            System.out.println(concept.getName());
-//        }
+        // Get all relations of a Concept
+        System.out.println("\n\nAll relations of concept shape: ");
+        System.out.println("------------------------------- ");
+        List<Relation> allRelationsOfConceptShape = rDao.
+                getAllRelationsOfConcept(conceptShape);
+        for (Relation relation : allRelationsOfConceptShape) {
+            System.out.println(relation);
+        }
+
+        // Get children concepts of the first concept in the list of concepts
+        // that have language representation spoon.
+        System.out.println("\n\nChildren of the first occurence of a concept" +
+                " having language representation spoon: ");
+        System.out.println("------------------------------------------------" +
+                "---------------------------------- ");
+        List<Concept> children_of_spoon = cDao.getChildrenOfConcept(
+                concepts_spoon.get(0));
+        //System.out.println(concepts_spoon.get(0));
+        for (Concept concept : children_of_spoon) {
+
+            System.out.println(concept.getName());
+        }
 //System.out.println(concepts + " " + concepts.getSpecificityLevel());
         //        for (Concept item : concepts) {
         //            System.out.println(item.getName());
