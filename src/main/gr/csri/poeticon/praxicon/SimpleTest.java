@@ -69,7 +69,7 @@ public class SimpleTest {
 
         // Get all relations of a Concept
         System.out.println("\n\nAll relations of concept shape: ");
-        System.out.println("------------------------------- ");
+        System.out.println("-------------------------------");
         List<Relation> allRelationsOfConceptShape = rDao.
                 getAllRelationsOfConcept(conceptShape);
         for (Relation relation : allRelationsOfConceptShape) {
@@ -81,7 +81,7 @@ public class SimpleTest {
         System.out.println("\n\nChildren of the first occurence of a concept" +
                 " having language representation spoon: ");
         System.out.println("------------------------------------------------" +
-                "---------------------------------- ");
+                "----------------------------------");
         List<Concept> childrenOfSpoon = cDao.getChildrenOfConcept(
                 conceptsSpoon.get(0));
         for (Concept concept : childrenOfSpoon) {
@@ -90,34 +90,28 @@ public class SimpleTest {
             System.out.println(concept.getSpecificityLevel());
         }
 
+        // Get parent concepts and specificity level of the first concept 
+        // in the list of concepts that have language representation spoon.
+        System.out.println("\n\nParent concepts of the first occurence of a " +
+                "concept having language representation spoon: ");
+        System.out.println("------------------------------------------------" +
+                "-----------------------------------------");
+        List<Concept> parents = new ArrayList<>();
+        HashSet<Concept> sisters = new HashSet<>();
+        parents = cDao.getParentsOfConcept(conceptsSpoon.get(0));
+        for (Concept parent : parents) {
+            System.out.println(parent + " - \t"+ parent.getSpecificityLevel());
+            sisters.addAll(cDao.getChildrenOfConcept(parent));
+        }
+        
         // Get sister concepts and specificity level of the first concept 
         // in the list of concepts that have language representation spoon.
-        System.out.println("\n\nParents of the first occurence of a concept" +
-                " having language representation spoon: ");
+        System.out.println("\n\nSister concepts of the first occurence of a " +
+                "concept having language representation spoon: ");
         System.out.println("------------------------------------------------" +
-                "---------------------------------- ");
-        HashSet<Concept> sisters = new HashSet<>();
-        List<Concept> parents = new ArrayList<>();
-        System.out.println("Parents: " + cDao.getParentsOfConcept(conceptsSpoon.
-                get(0)));
-        
-        
-        
-        ////        
-        //        
-        //        //System.out.println("Concept0: " + concepts_1.get(0));
-        //
-        //        parents = cDao.getParentsOfConcept(concepts_by_LR.get(0));
-        //        for (Concept parent : parents) {
-        //            System.out.println("PARENT: " + parent);
-        //            sisters.addAll(cDao.getChildrenOfConcept(parent));
-        //        }
-        //        sisters.remove(concepts_by_LR.get(0));
-        //
-        //        System.out.println("\n\nSISTERS: \n");
-        //        
-        //        for (Concept con : sisters) {
-        //            System.out.println(con + " " + con.getSpecificityLevel());
-        //        }
+                "-----------------------------------------");
+        for (Concept sister : sisters) {
+            System.out.println(sister + " - \t" + sister.getSpecificityLevel());
+        }
     }
 }
