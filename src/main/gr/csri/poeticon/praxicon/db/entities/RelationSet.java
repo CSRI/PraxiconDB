@@ -91,6 +91,10 @@ public class RelationSet implements Serializable {
 
     /**
      * Constructor #2.
+     * @param name
+     * @param relationSetRelationsList
+     * @param isInherent
+     * @param languageRepresentations
      */
     public RelationSet(String name,
             List<RelationSet_Relation> relationSetRelationsList,
@@ -223,8 +227,9 @@ public class RelationSet implements Serializable {
     }
 
     /**
-     * @return the names of the language representations of the concepts that
-     *         participate in the relation chain.
+     * Retrieves the names of the language representations of this relation set.
+     * 
+     * @return a list strings containing the names of language representation
      */
     public List<String> getLanguageRepresentationNames() {
         List<String> languageRepresentationNames = new ArrayList<>();
