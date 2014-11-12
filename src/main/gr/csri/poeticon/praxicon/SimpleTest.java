@@ -45,7 +45,7 @@ public class SimpleTest {
         for (Concept concept : conceptsSpoon) {
             System.out.print(concept.getLanguageRepresentationName());
             System.out.print(" - ");
-            System.out.print(concept.getName());
+            System.out.print(concept.getExternalSourceId());
             System.out.print(" - ");
             System.out.println(concept.getSpecificityLevel());
         }
@@ -53,9 +53,9 @@ public class SimpleTest {
         // Check whether concepts "shape" and "round_shape" are related.
         System.out.println("\n\nCheck whether two concepts are related: ");
         System.out.println("--------------------------------------- ");
-        Concept conceptRoundShape = cDao.findConceptByNameExact(
+        Concept conceptRoundShape = cDao.findConceptByExternalSourceIdExact(
                 "round_shape%1:25:00::");
-        Concept conceptShape = cDao.findConceptByNameExact("shape%1:03:00::");
+        Concept conceptShape = cDao.findConceptByExternalSourceIdExact("shape%1:03:00::");
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
         RelationArgument relationArgumentConceptShape = raDao.
                 getRelationArgumentByConcept(conceptShape);
@@ -85,7 +85,7 @@ public class SimpleTest {
         List<Concept> childrenOfSpoon = cDao.getChildrenOfConcept(
                 conceptsSpoon.get(0));
         for (Concept concept : childrenOfSpoon) {
-            System.out.print(concept.getName());
+            System.out.print(concept.getExternalSourceId());
             System.out.print(" - ");
             System.out.println(concept.getSpecificityLevel());
         }
@@ -100,10 +100,10 @@ public class SimpleTest {
         HashSet<Concept> sisters = new HashSet<>();
         parents = cDao.getParentsOfConcept(conceptsSpoon.get(0));
         for (Concept parent : parents) {
-            System.out.println(parent + " - \t"+ parent.getSpecificityLevel());
+            System.out.println(parent + " - \t" + parent.getSpecificityLevel());
             sisters.addAll(cDao.getChildrenOfConcept(parent));
         }
-        
+
         // Get sister concepts and specificity level of the first concept 
         // in the list of concepts that have language representation spoon.
         System.out.println("\n\nSister concepts of the first occurence of a " +
@@ -113,5 +113,23 @@ public class SimpleTest {
         for (Concept sister : sisters) {
             System.out.println(sister + " - \t" + sister.getSpecificityLevel());
         }
+
     }
+
+//    public static List<Concept> getObjectsOfRelation(RelationType relationType) {
+//        
+//        //create the JPQL query
+//        Query q = EntityMngFactory.getEntityManager().createQuery(
+//            "SELECT DISTINCT r.object FROM Relation r, RelationType rType " +
+//            "WHERE r.type = rType.id AND rType.forwardName = ?1");
+//        q.setParameter(1, relationType);
+//        
+//        List<Concept> concepts = new ArrayList<>();
+//        for (RelationArgument item : q.getResultList()){
+//            System.out.println(item);
+//        }
+//        //Get the results
+//        return concepts;
+//    }
+
 }
