@@ -20,9 +20,9 @@ public interface ConceptDao extends Dao<Long, Concept> {
 
     Concept findConceptByConceptId(long conceptId);
 
-    List<Concept> findConceptsByExternalSourceId(String name);
+    List<Concept> findConceptsByName(String name);
 
-    Concept findConceptByExternalSourceIdExact(String name);
+    Concept findConceptByNameExact(String name);
 
     List<Concept> findConceptsByLanguageRepresentation(String queryString);
 
@@ -30,7 +30,7 @@ public interface ConceptDao extends Dao<Long, Concept> {
 
     List<Concept> findConceptsByStatus(status status);
 
-    Concept getConceptWithExternalSourceIdOrId(String v);
+    Concept getConceptWithNameOrID(String v);
 
     Concept updatedConcept(Concept newConcept);
 
