@@ -64,23 +64,23 @@ public class TestJPA {
          */
 
         Concept concept1 = new Concept();
-        concept1.setName("concept1");
+        concept1.setExternalSourceId("concept1");
         concept1.setConceptType(Concept.type.ABSTRACT);
         concept1.setStatus(Concept.status.CONSTANT);
         concept1.setUniqueInstance(Concept.unique_instance.YES);
         concept1.setSource("myMind");
-        System.out.println(concept1.getName());
+        System.out.println(concept1.getExternalSourceId());
 
         /*
          * Create Concept2
          */
         Concept concept2 = new Concept();
-        concept2.setName("concept2");
+        concept2.setExternalSourceId("concept2");
         concept2.setConceptType(Concept.type.MOVEMENT);
         concept2.setStatus(Concept.status.VARIABLE);
         concept2.setUniqueInstance(Concept.unique_instance.NO);
         concept2.setSource("myMind2");
-        System.out.println(concept2.getName());
+        System.out.println(concept2.getExternalSourceId());
 
         /*
          * Add Language Representations to the concepts
@@ -257,7 +257,7 @@ public class TestJPA {
         Set<ConstraintViolation<Concept>> violation = validator.validate(
                 concept2);
 
-        System.out.println(concept2.getName());
+        System.out.println(concept2.getExternalSourceId());
 //        constraintViolations = validator.validate( concept1 );
 //        assertEquals( 1, constraintViolations.size() );
 //        assertEquals( "may not be null", constraintViolations.iterator().next().getMessage() );
