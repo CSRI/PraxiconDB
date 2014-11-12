@@ -58,8 +58,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts found in the database
      */
     @Override
-    public List<Concept> findConceptsByName(String conceptName) {
-        Query query = getEntityManager().createNamedQuery("findConceptsByName").
+    public List<Concept> findConceptsByExternalSourceId(String conceptName) {
+        Query query = getEntityManager().createNamedQuery(
+                "findConceptsByExternalSourceId").
                 setParameter("conceptName", "%" + conceptName + "%");
         return query.getResultList();
     }
@@ -71,9 +72,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts found in the database
      */
     @Override
-    public Concept findConceptByNameExact(String conceptName) {
+    public Concept findConceptByExternalSourceIdExact(String conceptName) {
         Query query = getEntityManager().createNamedQuery(
-                "findConceptByNameExact").
+                "findConceptByExternalSourceIdExact").
                 setParameter("conceptName", conceptName);
         return (Concept)query.getSingleResult();
     }
@@ -134,7 +135,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return the concept found in the database (null if not found)
      */
     @Override
-    public Concept getConceptWithNameOrID(String v) {
+    public Concept getConceptWithExternalSourceIdOrId(String v) {
         Query q;
         long id = -1;
         try {
@@ -143,7 +144,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             //it is the name of the concept
         }
         if (id == -1) {
-            return findConceptByNameExact(v.trim());
+            return findConceptByExternalSourceIdExact(v.trim());
         } else {
             return findConceptByConceptId(id);
         }
@@ -161,7 +162,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
 
         Concept oldConcept = new Concept();
         try {
-            oldConcept = this.findConceptByNameExact(newConcept.getName());
+            oldConcept = this.findConceptByExternalSourceIdExact(newConcept.
+                    getExternalSourceId());
         } catch (Exception e) {
 
             return newConcept;
@@ -193,8 +195,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     public void update(Concept newConcept) {
         try {
             Query query = getEntityManager().createNamedQuery(
-                    "findConceptByNameExact").
-                    setParameter("conceptName", newConcept.getName());
+                    "findConceptByExternalSourceIdExact").
+                    setParameter("conceptExternalSourceId", newConcept.
+                            getExternalSourceId());
             Concept tmpConcept = (Concept)query.getSingleResult();
 
             Concept oldConcept = null;
@@ -344,8 +347,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         for (Relation relation : relations) {
             if (relation.getType().getForwardName() ==
                     RelationType.relation_name_forward.TYPE_TOKEN) {
-                if (relation.getSubject().isConcept() 
-                        && relation.getObject().getConcept().equals(concept)) {
+                if (relation.getSubject().isConcept() &&
+                        relation.getObject().getConcept().equals(concept)) {
                     res.add(relation.getSubject().getConcept());
                 }
             }
@@ -681,10 +684,10 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     public Query getEntityQuery(Concept concept) {
         Query query = getEntityManager().createNamedQuery(
                 "getConceptEntityQuery").
-                setParameter("name", concept.getName()).
+                setParameter("name", concept.getExternalSourceId()).
                 setParameter("type", concept.getStatus()).
                 setParameter("status", concept.getStatus());
-        System.out.println("Concept name: " + concept.getName());
+        System.out.println("Concept name: " + concept.getExternalSourceId());
         return query;
     }
 
@@ -808,12 +811,12 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
 //                        RelationChain_Relation rcr =
 //                                rc.getRelations().get(l);
 //                        Relation rel = rcr.getRelation();
-//                        if (rel.getSubject().getName().
-//                                equalsIgnoreCase(newConcept.getName())) {
+//                        if (rel.getSubject().getExternalSourceId().
+//                                equalsIgnoreCase(newConcept.getExternalSourceId())) {
 //                            rel.setSubject(oldConcept);
 //                        } else {
-//                            if (rel.getObject().getName().
-//                                    equalsIgnoreCase(newConcept.getName())) {
+//                            if (rel.getObject().getExternalSourceId().
+//                                    equalsIgnoreCase(newConcept.getExternalSourceId())) {
 //                                rel.setObject(oldConcept);
 //                            }
 //                        }

@@ -43,7 +43,7 @@ public class CollectionOfConcepts {
             Concept tmp = this.concepts.get(i);
             tmp = cDao.updatedConcept(tmp);
 
-            System.out.println(i + " " + tmp.getName());
+            System.out.println(i + " " + tmp.getExternalSourceId());
             cDao.merge(tmp);
         }
     }
