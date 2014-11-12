@@ -63,14 +63,14 @@ public class RelationArgument implements Serializable {
     /*
      * Relations that have "this" RelationArgument as Object.
      */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "object")
-    private List<Relation> relationsContainingRelationArgumentAsObject;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "leftArgument")
+    private List<Relation> relationsContainingRelationArgumentAsRightArgument;
 
     /*
-     * Relations that have "this" RelationArgument as Subject.
+     * Relations that have "this" RelationArgument as leftArgument.
      */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subject")
-    private List<Relation> relationsContainingRelationArgumentAsSubject;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rightArgument")
+    private List<Relation> relationsContainingRelationArgumentAsLeftArgument;
 
     /**
      * Constructor #1. Both concept and relationSet are set to null.
@@ -168,33 +168,33 @@ public class RelationArgument implements Serializable {
     }
 
     /**
-     * Gets relations that contain this relationArgument as object.
+     * Gets relations that contain this relationArgument as rightArgument.
      *
      * @return A list of relations
      */
-    public List<Relation> getRelationsContainingRelationArgumentAsObject() {
-        return relationsContainingRelationArgumentAsObject;
+    public List<Relation> getRelationsContainingRelationArgumentAsRightArgument() {
+        return relationsContainingRelationArgumentAsRightArgument;
     }
 
     /**
-     * Gets relations that contain this relationArgument as subject.
+     * Gets relations that contain this relationArgument as leftArgument.
      *
      * @return A list of relations
      */
-    public List<Relation> getRelationsContainingRelationArgumentAsSubject() {
-        return relationsContainingRelationArgumentAsSubject;
+    public List<Relation> getRelationsContainingRelationArgumentAsLeftArgument() {
+        return relationsContainingRelationArgumentAsLeftArgument;
     }
 
     /**
-     * Gets relations that contain this relationArgument either as subject or
-     * object. A set is used, so that there are no duplicate entries.
+     * Gets relations that contain this relationArgument either as leftArgument 
+     * or rightArgument. A set is used, so that there are no duplicate entries.
      *
      * @return a set of relations
      */
     public Set<Relation> getRelationsContainingRelationArgument() {
         List<Relation> relationList = new ArrayList();
-        relationList.addAll(this.relationsContainingRelationArgumentAsObject);
-        relationList.addAll(this.relationsContainingRelationArgumentAsSubject);
+        relationList.addAll(this.relationsContainingRelationArgumentAsRightArgument);
+        relationList.addAll(this.relationsContainingRelationArgumentAsLeftArgument);
         HashSet<Relation> relationSet = new HashSet<>(relationList);
         return relationSet;
     }

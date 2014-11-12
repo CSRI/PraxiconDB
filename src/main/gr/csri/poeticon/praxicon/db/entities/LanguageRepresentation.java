@@ -161,13 +161,13 @@ public class LanguageRepresentation implements Serializable {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "LanguageRepresentation_RelationSubject",
+            name = "LanguageRepresentation_RelationLeftArgument",
             joinColumns = {
                 @JoinColumn(name = "LanguageRepresentationId")},
             inverseJoinColumns = {
                 @JoinColumn(name = "RelationId")}
     )
-    private List<Relation> relationsWithLanguageRepresentationAsSubject;
+    private List<Relation> relationsWithLanguageRepresentationAsleftArgument;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(

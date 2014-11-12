@@ -82,23 +82,23 @@ public class VisualRepresentation implements Serializable {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "VisualRepresentation_RelationSubject",
+            name = "VisualRepresentation_RelationLeftArgument",
             joinColumns = {
                 @JoinColumn(name = "VisualRepresentationId")},
             inverseJoinColumns = {
                 @JoinColumn(name = "RelationId")}
     )
-    private List<Relation> relationsWithVisualRepresentationAsSubject;
+    private List<Relation> relationsWithVisualRepresentationAsLeftArgument;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "VisualRepresentation_RelationObject",
+            name = "VisualRepresentation_RelationRightArgument",
             joinColumns = {
                 @JoinColumn(name = "VisualRepresentationId")},
             inverseJoinColumns = {
                 @JoinColumn(name = "RelationId")}
     )
-    private List<Relation> relationsWithVisualRepresentationAsObject;
+    private List<Relation> relationsWithVisualRepresentationAsRelationArgument;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private MotoricRepresentation motoricRepresentation;

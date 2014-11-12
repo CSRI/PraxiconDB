@@ -23,17 +23,18 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         RelationDao {
 
     /**
-     * Finds relations that have a given relationArgument as object
+     * Finds relations that have a given relationArgument as rightArgument
      *
      * @param concept the concept which we want the relation sets of
      * @return a list of relation sets
      */
     // TODO: this needs repair. Find another way to get the related relations.
     @Override
-    public List<RelationSet> getRelationSetsWithConceptAsObject(
+    public List<RelationSet> getRelationSetsWithConceptAsRightArgument(
             Concept concept) {
         RelationArgument newRelationArgument = new RelationArgument(concept);
-        return getRelationSetsWithRelationArgumentAsObject(newRelationArgument);
+        return getRelationSetsWithRelationArgumentAsRightArgument(
+                newRelationArgument);
     }
 
     /**
@@ -66,7 +67,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
 
     /**
      * Finds the relations of a given concept that have a certain
-     * type of relation. Checks only for the given concept as a subject
+     * type of relation. Checks only for the given concept as a leftArgument
      *
      * @param concept      the concept
      * @param relationType the type of relation
@@ -81,23 +82,23 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
     }
 
     /**
-     * Finds relations that have a given relationArgument as object
+     * Finds relations that have a given relationArgument as rightArgument
      *
      * @param relationArgument the relation argument to be searched
      * @return a list of RelationSets
      */
     @Override
-    public List<RelationSet> getRelationSetsWithRelationArgumentAsObject(
+    public List<RelationSet> getRelationSetsWithRelationArgumentAsRightArgument(
             RelationArgument relationArgument) {
         Query query = getEntityManager().createNamedQuery(
-                "findRelationsByRelationArgumentObjectOrSubject").
+                "findRelationsByRelationArgumentRightArgumentOrleftArgument").
                 setParameter("relationArgumentId", relationArgument.getId());
-        List<Relation> objectRelations = query.getResultList();
+        List<Relation> rightArgumentRelations = query.getResultList();
         List<RelationSet> res = new ArrayList<>();
-        for (Relation r : objectRelations) {
-            if (r.getObject().equals(relationArgument)) {
-                r.setObject(r.getSubject());
-                r.setSubject(relationArgument);
+        for (Relation r : rightArgumentRelations) {
+            if (r.getRightArgument().equals(relationArgument)) {
+                r.setRightArgument(r.getLeftArgument());
+                r.setLeftArgument(relationArgument);
                 RelationType tmpType = new RelationType();
                 RelationType.RelationNameBackward tmp =
                         r.getType().getBackwardName();
@@ -122,7 +123,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
             RelationArgument relationArgument) {
         getEntityManager().clear();
         Query query = getEntityManager().createNamedQuery(
-                "findRelationsByRelationArgumentObjectOrSubject").
+                "findRelationsByRelationArgumentRightArgumentOrleftArgument").
                 setParameter("relationArgument", relationArgument);
         List<Relation> res = query.getResultList();
         return res;
@@ -147,7 +148,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
 
     /**
      * Finds the relations of a given concept that have a certain
-     * type of relation. Checks only for the given concept as a subject
+     * type of relation. Checks only for the given concept as a leftArgument
      *
      * @param relationArgument the relation argument
      * @param relationType     the type of relation

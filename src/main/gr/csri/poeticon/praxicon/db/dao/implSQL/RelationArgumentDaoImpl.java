@@ -37,17 +37,19 @@ public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument>
         List<RelationArgument> res = new ArrayList<>();
         Query query = getEntityManager().createNamedQuery(
                 "findRelationArgumentsRelatedWithByRelationType").
-                setParameter("subjectRelationArgumnet", relationArgument.getId()).
-                setParameter("objectRelationArgument", relationArgument.getId()).
+                setParameter("leftArgumentRelationArgumnet", relationArgument.
+                        getId()).
+                setParameter("rightArgumentRelationArgument", relationArgument.
+                        getId()).
                 setParameter("relationType", relationType);
 
         List<Relation> relationsList = query.getResultList();
         if (relationsList != null && relationsList.size() > 0) {
             for (Relation tmpRelation : relationsList) {
-                if (tmpRelation.getSubject().equals(relationArgument)) {
-                    res.add(tmpRelation.getObject());
+                if (tmpRelation.getLeftArgument().equals(relationArgument)) {
+                    res.add(tmpRelation.getRightArgument());
                 } else {
-                    res.add(tmpRelation.getSubject());
+                    res.add(tmpRelation.getLeftArgument());
                 }
             }
         }

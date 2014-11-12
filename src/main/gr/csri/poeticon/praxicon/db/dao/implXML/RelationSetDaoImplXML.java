@@ -40,7 +40,7 @@ public class RelationSetDaoImplXML extends JpaDao<Long, RelationSet>
 //                    {
 //                        List<Relation> rc = con.getRelations().get(k).getActualRelations();
 //                        for (Relation rc1 : rc) {
-//                            if (rc1.getSubject().getName().equalsIgnoreCase(c.getName()) || rc1.getObject().getName().equalsIgnoreCase(c.getName())) {
+//                            if (rc1.getLeftArgument().getName().equalsIgnoreCase(c.getName()) || rc1.getObject().getName().equalsIgnoreCase(c.getName())) {
 //                                res.add(con.getRelations().get(i).getIntersections().get(j).getRelations().get(k));
 //                                break;
 //                            }

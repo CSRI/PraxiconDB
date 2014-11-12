@@ -18,8 +18,8 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
         implements RelationSetDao {
 
     /**
-     * Finds all RelationChain that have a relation with subject or object a
-     * given concept.
+     * Finds all RelationChain that have a relation with leftArgument or 
+     * rightArgument a given concept.
      *
      * @param concept the concept
      * @return a list of RelationChains

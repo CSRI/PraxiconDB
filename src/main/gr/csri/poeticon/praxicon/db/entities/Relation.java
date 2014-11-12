@@ -43,27 +43,27 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "relation", namespace = "http://www.csri.gr/relation")
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "findRelationsByRelationArgumentObjectOrSubject", query =
+    @NamedQuery(name = "findRelationsByRelationArgumentRightArgumentOrLeftArgument", query =
             "SELECT r FROM Relation r " +
-            "WHERE (r.object = :relationArgument " +
-            "OR r.subject = :relationArgument)"),
+            "WHERE (r.rightArgument = :relationArgument " +
+            "OR r.leftArgument = :relationArgument)"),
     @NamedQuery(name = "findRelationsByRelationArgumentRelationType", query =
             "SELECT r FROM Relation r, RelationType rt " +
-            "WHERE (r.subject = :relationArgumentId OR r.object = :relationArgumentId) " +
+            "WHERE (r.leftArgument = :relationArgumentId OR r.rightArgument = :relationArgumentId) " +
             "AND r.type = rt " +
             "AND rt.forwardName = :relationType"),
-    @NamedQuery(name = "findRelationsByRelationArgumentObject", query =
+    @NamedQuery(name = "findRelationsByRelationArgumentRightArgument", query =
             "SELECT r FROM Relation r " +
-            "WHERE r.object = :relationArgumentId"),
-    @NamedQuery(name = "findRelationsByRelationArgumentSubject", query =
+            "WHERE r.rightArgument = :relationArgumentId"),
+    @NamedQuery(name = "findRelationsByRelationArgumentLeftArgument", query =
             "SELECT r FROM Relation r " +
-            "WHERE r.subject = :relationArgumentId"),
+            "WHERE r.leftArgument = :relationArgumentId"),
     @NamedQuery(name = "areRelated", query =
             "SELECT r FROM Relation r " +
-            "WHERE (r.subject = :relationArgumentId1 " +
-            "AND r.object = :relationArgumentId2) " +
-            "OR (r.subject = :relationArgumentId2 " +
-            "AND r.object = :relationArgumentId1)")
+            "WHERE (r.leftArgument = :relationArgumentId1 " +
+            "AND r.rightArgument = :relationArgumentId2) " +
+            "OR (r.leftArgument = :relationArgumentId2 " +
+            "AND r.rightArgument = :relationArgumentId1)")
 })
 @Table(name = "Relations", indexes = {
     @Index(columnList = "Comment"),
@@ -96,13 +96,13 @@ public class Relation implements Serializable {
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     //@JoinColumn(name = "RelationArgumentId")
-    @NotNull(message = "Object of relation must be specified.")
-    private RelationArgument object;
+    @NotNull(message = "LeftArgument of relation must be specified.")
+    private RelationArgument leftArgument;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     //@JoinColumn(name = "RelationArgumentId")
-    @NotNull(message = "Subject of relation must be specified.")
-    private RelationArgument subject;
+    @NotNull(message = "RightArgument of relation must be specified.")
+    private RelationArgument rightArgument;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "relation")
     private List<RelationSet_Relation> relationSet;
@@ -114,73 +114,73 @@ public class Relation implements Serializable {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "LanguageRepresentation_RelationSubject",
+            name = "LanguageRepresentation_RelationLeftArgument",
             joinColumns = {
                 @JoinColumn(name = "RelationId")},
             inverseJoinColumns = {
                 @JoinColumn(name = "LanguageRepresentationId")}
     )
-    private List<LanguageRepresentation> languageRepresentationSubject;
+    private List<LanguageRepresentation> languageRepresentationLeftArgument;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "LanguageRepresentation_RelationObject",
+            name = "LanguageRepresentation_RelationRightArgument",
             joinColumns = {
                 @JoinColumn(name = "RelationId")},
             inverseJoinColumns = {
                 @JoinColumn(name = "LanguageRepresentationId")}
     )
-    private List<LanguageRepresentation> languageRepresentationObject;
+    private List<LanguageRepresentation> languageRepresentationRightArgument;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "MotoricRepresentation_RelationSubject",
+            name = "MotoricRepresentation_RelationLeftArgument",
             joinColumns = {
                 @JoinColumn(name = "RelationId")},
             inverseJoinColumns = {
                 @JoinColumn(name = "MotoricRepresentationId")}
     )
-    private List<MotoricRepresentation> motoricRepresentationSubject;
+    private List<MotoricRepresentation> motoricRepresentationLeftArgument;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "MotoricRepresentation_RelationObject",
+            name = "MotoricRepresentation_RelationRightArgument",
             joinColumns = {
                 @JoinColumn(name = "RelationId")},
             inverseJoinColumns = {
                 @JoinColumn(name = "MotoricRepresentationId")}
     )
-    private List<MotoricRepresentation> motoricRepresentationObject;
+    private List<MotoricRepresentation> motoricRepresentationRightArgument;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "VisualRepresentation_RelationSubject",
+            name = "VisualRepresentation_RelationLeftArgument",
             joinColumns = {
                 @JoinColumn(name = "RelationId")},
             inverseJoinColumns = {
                 @JoinColumn(name = "VisualRepresentationId")}
     )
-    private List<VisualRepresentation> visualRepresentationSubject;
+    private List<VisualRepresentation> visualRepresentationLeftArgument;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "VisualRepresentation_RelationObject",
+            name = "VisualRepresentation_RelationRightArgument",
             joinColumns = {
                 @JoinColumn(name = "RelationId")},
             inverseJoinColumns = {
                 @JoinColumn(name = "VisualRepresentationId")}
     )
-    private List<VisualRepresentation> visualRepresentationObject;
+    private List<VisualRepresentation> visualRepresentationRightArgument;
 
     public Relation() {
-        subject = new RelationArgument();
-        object = new RelationArgument();
-        visualRepresentationObject = new ArrayList<>();
-        visualRepresentationSubject = new ArrayList<>();
-        languageRepresentationObject = new ArrayList<>();
-        languageRepresentationSubject = new ArrayList<>();
-        motoricRepresentationObject = new ArrayList<>();
-        motoricRepresentationSubject = new ArrayList<>();
+        leftArgument = new RelationArgument();
+        rightArgument = new RelationArgument();
+        visualRepresentationRightArgument = new ArrayList<>();
+        visualRepresentationLeftArgument = new ArrayList<>();
+        languageRepresentationRightArgument = new ArrayList<>();
+        languageRepresentationLeftArgument = new ArrayList<>();
+        motoricRepresentationRightArgument = new ArrayList<>();
+        motoricRepresentationLeftArgument = new ArrayList<>();
         type = new RelationType();
     }
 
@@ -194,29 +194,29 @@ public class Relation implements Serializable {
     }
 
     /**
-     * @return RelationArgument as subject
-     * @xmlcomments.args xmltag="subject" xmldescription="This attribute defines
-     * the object that the relation is related to"
+     * @return RelationArgument as leftArgument
+     * @xmlcomments.args xmltag="leftArgument" xmldescription="This attribute defines
+     * the rightArgument that the relation is related to"
      */
-    //@XmlAttribute(name="subject")
-    public RelationArgument getSubject() {
-        return subject;
+    //@XmlAttribute(name="leftArgument")
+    public RelationArgument getLeftArgument() {
+        return leftArgument;
     }
 
-    public void setSubject(RelationArgument subject) {
-        this.subject = subject;
+    public void setLeftArgument(RelationArgument leftArgument) {
+        this.leftArgument = leftArgument;
     }
 
     /**
-     * @xmlcomments.args xmltag="object" xmldescription="This attribute defines
-     * the object that the relation is related to"
+     * @xmlcomments.args xmltag="rightArgument" xmldescription="This attribute defines
+     * the rightArgument that the relation is related to"
      */
-    public RelationArgument getObject() {
-        return object;
+    public RelationArgument getRightArgument() {
+        return rightArgument;
     }
 
-    public void setObject(RelationArgument object) {
-        this.object = object;
+    public void setRightArgument(RelationArgument rightArgument) {
+        this.rightArgument = rightArgument;
     }
 
     /**
@@ -272,84 +272,83 @@ public class Relation implements Serializable {
     }
 
     @XmlTransient
-    public List<LanguageRepresentation> getLanguageRepresentationObject() {
-        return languageRepresentationObject;
+    public List<LanguageRepresentation> getLanguageRepresentationRightArgument() {
+        return languageRepresentationRightArgument;
     }
 
     /**
-     * @return the language representation of the object side of the relation.
-     *         The object can be a Concept or a RelationSet.
-     * @xmlcomments.args xmltag="&lt;language_representation_object&gt;"
+     * @return the language representation of the rightArgument side of the relation.
+         The rightArgument can be a Concept or a RelationSet.
+     * @xmlcomments.args xmltag="&lt;language_representation_rightArgument&gt;"
      * xmldescription="This tag defines the LanguageRepresentation that should
-     * be used to express the Object in this relation"
+     * be used to express the RightArgument in this relation"
      */
-    public String getLanguageRepresentationObject_() {
+    public String getLanguageRepresentationRightArgument_() {
         String languageΡepresentationΟbject_;
         languageΡepresentationΟbject_ = new String();
-        languageΡepresentationΟbject_ = languageRepresentationObject.toString();
+        languageΡepresentationΟbject_ = languageRepresentationRightArgument.toString();
         return languageΡepresentationΟbject_;
     }
 
-    public void setLanguageRepresentationObject(
-            List<LanguageRepresentation> languageRepresentationObject) {
-        this.languageRepresentationObject = languageRepresentationObject;
+    public void setLanguageRepresentationRightArgument(
+            List<LanguageRepresentation> languageRepresentationRightArgument) {
+        this.languageRepresentationRightArgument = languageRepresentationRightArgument;
     }
 
     @XmlTransient
-    public List<LanguageRepresentation> getLanguageRepresentationSubject() {
-        return languageRepresentationSubject;
+    public List<LanguageRepresentation> getLanguageRepresentationLeftArgument() {
+        return languageRepresentationLeftArgument;
     }
 
     @XmlTransient
-    public List<MotoricRepresentation> getMotoricRepresentationObject() {
-        return motoricRepresentationObject;
+    public List<MotoricRepresentation> getMotoricRepresentationRightArgument() {
+        return motoricRepresentationRightArgument;
     }
 
     /**
-     * @return the motoric representation of the concept that is on the object
-     *         side of the relation.
-     * @xmlcomments.args xmltag="&lt;motoric_representation_object&gt;"
+     * @return the motoric representation of the concept that is on the rightArgument
+         side of the relation.
+     * @xmlcomments.args xmltag="&lt;motoric_representation_rightArgument&gt;"
      * xmldescription="This tag defines the MotoricRepresentation that should be
-     * used to express the Object in this relation"
+     * used to express the RightArgument in this relation"
      */
-    public List<String> getMotoricRepresentationObject_() {
-        List<String> motoricRepresentationObject_ = new ArrayList<>();
-        for (MotoricRepresentation motoricRepresentationObject1
-                : motoricRepresentationObject) {
-            motoricRepresentationObject_.add(
-                    motoricRepresentationObject1.toString());
+    public List<String> getMotoricRepresentationRightArgument_() {
+        List<String> motoricRepresentationRightArgument_ = new ArrayList<>();
+        for (MotoricRepresentation motoricRepresentationRightArgument1
+                : motoricRepresentationRightArgument) {
+            motoricRepresentationRightArgument_.add(motoricRepresentationRightArgument1.toString());
         }
-        return motoricRepresentationObject_;
+        return motoricRepresentationRightArgument_;
     }
 
-    public void setMotoricRepresentationObject(
-            List<MotoricRepresentation> motoricRepresentationObject) {
-        this.motoricRepresentationObject = motoricRepresentationObject;
-    }
-
-    @XmlTransient
-    public List<MotoricRepresentation> getMotoricRepresentationSubject() {
-        return motoricRepresentationSubject;
+    public void setMotoricRepresentationRightArgument(
+            List<MotoricRepresentation> motoricRepresentationRightArgument) {
+        this.motoricRepresentationRightArgument = motoricRepresentationRightArgument;
     }
 
     @XmlTransient
-    public List<VisualRepresentation> getVisualRepresentationObject() {
-        return visualRepresentationObject;
-    }
-
-    public void setVisualRepresentationObject(
-            List<VisualRepresentation> visualRepresentationObject) {
-        this.visualRepresentationObject = visualRepresentationObject;
+    public List<MotoricRepresentation> getMotoricRepresentationLeftArgument() {
+        return motoricRepresentationLeftArgument;
     }
 
     @XmlTransient
-    public List<VisualRepresentation> getVisualRepresentationSubject() {
-        return visualRepresentationSubject;
+    public List<VisualRepresentation> getVisualRepresentationRightArgument() {
+        return visualRepresentationRightArgument;
     }
 
-    public void setVisualRepresentationSubject(
-            List<VisualRepresentation> visualRepresentationSubject) {
-        this.visualRepresentationSubject = visualRepresentationSubject;
+    public void setVisualRepresentationRightArgument(
+            List<VisualRepresentation> visualRepresentationRightArgument) {
+        this.visualRepresentationRightArgument = visualRepresentationRightArgument;
+    }
+
+    @XmlTransient
+    public List<VisualRepresentation> getVisualRepresentationLeftArgument() {
+        return visualRepresentationLeftArgument;
+    }
+
+    public void setVisualRepresentationLeftArgument(
+            List<VisualRepresentation> visualRepresentationLeftArgument) {
+        this.visualRepresentationLeftArgument = visualRepresentationLeftArgument;
     }
 
     @Override
@@ -360,21 +359,21 @@ public class Relation implements Serializable {
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object rightArgument) {
         // TODO: Warning - method won't work in case the id fields are not set
-        if (!(object instanceof Relation)) {
+        if (!(rightArgument instanceof Relation)) {
             return false;
         }
-        Relation other = (Relation)object;
+        Relation other = (Relation)rightArgument;
         try {
-            if ((this.type != null && this.object != null &&
-                    this.subject != null && this.type.equals(other.type) &&
-                    this.object.equals(other.object) &&
-                    this.subject.equals(other.subject)) ||
-                    (this.type != null && this.object != null &&
-                    this.subject != null && this.type.equals(other.type) &&
-                    this.object.equals(other.subject) &&
-                    this.subject.equals(other.object))) {
+            if ((this.type != null && this.rightArgument != null &&
+                    this.leftArgument != null && this.type.equals(other.type) &&
+                    this.rightArgument.equals(other.rightArgument) &&
+                    this.leftArgument.equals(other.leftArgument)) ||
+                    (this.type != null && this.rightArgument != null &&
+                    this.leftArgument != null && this.type.equals(other.type) &&
+                    this.rightArgument.equals(other.leftArgument) &&
+                    this.leftArgument.equals(other.rightArgument))) {
                 return true;
             } else {
                 return false;
@@ -387,8 +386,8 @@ public class Relation implements Serializable {
 
     @Override
     public String toString() {
-        return this.getSubject() + " " + this.getType().getForwardName() +
-                " " + this.getObject();
+        return this.getLeftArgument() + " " + this.getType().getForwardName() +
+                " " + this.getRightArgument();
     }
 
 //    public void afterUnmarshal(Unmarshaller u, Object parent) 
@@ -400,7 +399,7 @@ public class Relation implements Serializable {
 //            ConceptDao cDao = new ConceptDaoImpl();
 //            this.Object = cDao.getEntity(Object);
 //            Object.getRelationsContainingConceptAsObject().add(this);
-//            this.Subject = cDao.getEntity(Subject);
+//            this.LeftArgument = cDao.getEntity(LeftArgument);
 //        }
 //    }
 }

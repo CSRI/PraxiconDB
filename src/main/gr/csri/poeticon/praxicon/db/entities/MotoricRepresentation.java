@@ -79,13 +79,13 @@ public class MotoricRepresentation implements Serializable {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "MotoricRepresentation_RelationSubject",
+            name = "MotoricRepresentation_RelationLeftArgument",
             joinColumns = {
                 @JoinColumn(name = "MotoricRepresentationId")},
             inverseJoinColumns = {
                 @JoinColumn(name = "RelationId")}
     )
-    private List<Relation> relationsWithMotoricRepresentationAsSubject;
+    private List<Relation> relationsWithMotoricRepresentationAsLeftArgument;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -95,7 +95,7 @@ public class MotoricRepresentation implements Serializable {
             inverseJoinColumns = {
                 @JoinColumn(name = "RelationId")}
     )
-    private List<Relation> relationsWithMotoricRepresentationAsObject;
+    private List<Relation> relationsWithMotoricRepresentationAsRightArgument;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "motoricRepresentation")
     private List<VisualRepresentation> visualRepresentations;

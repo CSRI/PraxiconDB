@@ -181,7 +181,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             updateMotoricRepresentations(newConcept, oldConcept);
 
 // These are not needed any more since the relation argument has replace concept 
-// as the object of a relation
+// as the rightArgument of a relation
 //            updateObjOfRelations(newConcept, oldConcept);
 //            updateRelations(newConcept, oldConcept);
             return oldConcept;
@@ -251,7 +251,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 getEntityManager().getTransaction().begin();
             }
 // These are not needed any more since the relation argument has replace concept 
-// as the object of a relation
+// as the rightArgument of a relation
 //            updateObjOfRelations(newConcept, oldConcept);
             oldConcept = entityManager.merge(oldConcept);
             entityManager.getTransaction().commit();
@@ -323,9 +323,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         for (Relation relation : relations) {
             if (relation.getType().getForwardName() ==
                     RelationType.RelationNameForward.TYPE_TOKEN &&
-                    relation.getSubject().getConcept().equals(concept)) {
-                if (relation.getObject().isConcept()) {
-                    conceptList.add(relation.getObject().getConcept());
+                    relation.getLeftArgument().getConcept().equals(concept)) {
+                if (relation.getRightArgument().isConcept()) {
+                    conceptList.add(relation.getRightArgument().getConcept());
                 } else {
                     System.err.println("A relation set cannot have children");
                 }
@@ -350,9 +350,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         for (Relation relation : relations) {
             if (relation.getType().getForwardName() ==
                     RelationType.RelationNameForward.TYPE_TOKEN) {
-                if (relation.getSubject().isConcept() &&
-                        relation.getObject().getConcept().equals(concept)) {
-                    res.add(relation.getSubject().getConcept());
+                if (relation.getLeftArgument().isConcept() &&
+                        relation.getRightArgument().getConcept().equals(concept)) {
+                    res.add(relation.getLeftArgument().getConcept());
                 }
             }
         }
@@ -426,9 +426,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         for (Relation relation : relations) {
             if (relation.getType().getForwardName() ==
                     RelationType.RelationNameForward.HAS_INSTANCE &&
-                    relation.getObject().equals(concept)) {
-                if (relation.getObject().isConcept()) {
-                    res.add(relation.getSubject().getConcept());
+                    relation.getRightArgument().equals(concept)) {
+                if (relation.getRightArgument().isConcept()) {
+                    res.add(relation.getLeftArgument().getConcept());
                 }
             }
         }
@@ -450,9 +450,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         for (Relation relation : relations) {
             if (relation.getType().getForwardName() ==
                     RelationType.RelationNameForward.HAS_INSTANCE &&
-                    relation.getObject().equals(concept)) {
-                if (relation.getObject().isConcept()) {
-                    res.add(relation.getSubject().getConcept());
+                    relation.getRightArgument().equals(concept)) {
+                if (relation.getRightArgument().isConcept()) {
+                    res.add(relation.getLeftArgument().getConcept());
                 }
             }
         }
@@ -647,19 +647,19 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         List<Concept> res = new ArrayList<>();
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByRelationType").
-                setParameter("subjectConceptId", concept.getId()).
-                setParameter("objectConceptId", concept.getId()).
+                setParameter("leftArgumentConceptId", concept.getId()).
+                setParameter("rightArgumentConceptId", concept.getId()).
                 setParameter("relationTypeId", relationType);
         Concept tmpConcept = (Concept)query.getSingleResult();
 
         List<Relation> tmpR = query.getResultList();
         if (tmpR != null && tmpR.size() > 0) {
             for (Relation tmpR1 : tmpR) {
-                if (tmpR1.getSubject().isConcept()) {
-                    if (tmpR1.getSubject().getConcept().equals(concept)) {
-                        res.add(tmpR1.getObject().getConcept());
+                if (tmpR1.getLeftArgument().isConcept()) {
+                    if (tmpR1.getLeftArgument().getConcept().equals(concept)) {
+                        res.add(tmpR1.getRightArgument().getConcept());
                     } else {
-                        res.add(tmpR1.getSubject().getConcept());
+                        res.add(tmpR1.getLeftArgument().getConcept());
                     }
                 }
             }
@@ -779,7 +779,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
 //                    newRelationArgument.getConcept().
 //                            getRelationsContainingConceptAsObject().
 //                            get(i).
-//                            setSubject(oldRelationArgument);
+//                            setRightArgument(oldRelationArgument);
 //                }
 //                oldRelationArgument.getConcept().
 //                        getRelationsContainingConceptAsObject().
@@ -814,9 +814,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
 //                        RelationChain_Relation rcr =
 //                                rc.getRelations().get(l);
 //                        Relation rel = rcr.getRelation();
-//                        if (rel.getSubject().getExternalSourceId().
+//                        if (rel.getRightArgument().getExternalSourceId().
 //                                equalsIgnoreCase(newConcept.getExternalSourceId())) {
-//                            rel.setSubject(oldConcept);
+//                            rel.setRightArgument(oldConcept);
 //                        } else {
 //                            if (rel.getObject().getExternalSourceId().
 //                                    equalsIgnoreCase(newConcept.getExternalSourceId())) {

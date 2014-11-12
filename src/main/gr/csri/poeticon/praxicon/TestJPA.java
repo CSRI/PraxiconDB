@@ -151,7 +151,8 @@ public class TestJPA {
         concept2.addVisualRepresentation(visualRepresentation2);
 
         /* 
-         * Create a relation with concept1 as subject and concept2 as object.
+         * Create a relation with concept1 as leftArgument and concept2 as 
+         * rightArgument.
          */
         Relation relation1 = new Relation();
         RelationType relationType1 = new RelationType();
@@ -163,12 +164,13 @@ public class TestJPA {
 
         RelationArgument relationArgument1 = new RelationArgument(concept1);
         RelationArgument relationArgument2 = new RelationArgument(concept2);
-        relation1.setSubject(relationArgument1);
-        relation1.setObject(relationArgument2);
+        relation1.setLeftArgument(relationArgument1);
+        relation1.setRightArgument(relationArgument2);
         relation1.setLinguisticSupport(Relation.LinguisticallySupported.YES);
 
         /* 
-         * Create a relation with concept2 as subject and concept1 as object.
+         * Create a relation with concept2 as leftArgument and concept1 as 
+         * rightArgument.
          */
         Relation relation2 = new Relation();
         RelationType relationType2 = new RelationType();
@@ -178,8 +180,8 @@ public class TestJPA {
                 RelationType.RelationNameBackward.INSTANCE_OF);
         relation2.setType(relationType2);
 
-        relation2.setSubject(relationArgument2);
-        relation2.setObject(relationArgument1);
+        relation2.setLeftArgument(relationArgument2);
+        relation2.setRightArgument(relationArgument1);
         relation2.setLinguisticSupport(Relation.LinguisticallySupported.NO);
 
         System.out.println("RELATION1 ID (pre-persist): " + relation1.getId());
