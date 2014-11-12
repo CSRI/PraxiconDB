@@ -70,7 +70,7 @@ import javax.xml.bind.annotation.XmlType;
     @Index(columnList = "RelationId")})
 public class Relation implements Serializable {
 
-    public static enum derivation_supported {
+    public static enum LinguisticallySupported {
 
         YES, NO, UNKNOWN;
 
@@ -107,10 +107,10 @@ public class Relation implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "relation")
     private List<RelationSet_Relation> relationSet;
 
-    @Column(name = "DerivationSupported")
-    @NotNull(message = "Derivation support must be specified.")
+    @Column(name = "LinguisticallySupported")
+    @NotNull(message = "Linguistic support must be specified.")
     @Enumerated(EnumType.STRING)
-    private derivation_supported derivationSupported;
+    private LinguisticallySupported linguisticallySupported;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -224,13 +224,13 @@ public class Relation implements Serializable {
      * @xmlcomments.args xmltag="derivation_supported" xmldescription="This
      * attribute defines if the relation supports derivation or not"
      */
-    //@XmlAttribute(name = "derivation_supported")
-    public derivation_supported DerivationSupported() {
-        return derivationSupported;
+    //@XmlAttribute(name = "LinguisticallySupported")
+    public LinguisticallySupported isLinguisticallySupported() {
+        return linguisticallySupported;
     }
 
-    public void setDerivation(derivation_supported derivationSupported) {
-        this.derivationSupported = derivationSupported;
+    public void setLinguisticSupport(LinguisticallySupported derivationSupported) {
+        this.linguisticallySupported = derivationSupported;
     }
 
     /**

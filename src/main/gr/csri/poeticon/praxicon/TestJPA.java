@@ -186,7 +186,7 @@ public class TestJPA {
         RelationArgument relationArgument2 = new RelationArgument(concept2);
         relation1.setSubject(relationArgument1);
         relation1.setObject(relationArgument2);
-        relation1.setDerivation(Relation.derivation_supported.YES);
+        relation1.setLinguisticSupport(Relation.LinguisticallySupported.YES);
 
         /* 
          * Create a relation with concept2 as subject and concept1 as object.
@@ -201,7 +201,7 @@ public class TestJPA {
 
         relation2.setSubject(relationArgument2);
         relation2.setObject(relationArgument1);
-        relation2.setDerivation(Relation.derivation_supported.NO);
+        relation2.setLinguisticSupport(Relation.LinguisticallySupported.NO);
 
         System.out.println("RELATION1 ID (pre-persist): " + relation1.getId());
         System.out.println("RELATION2 ID (pre-persist):" + relation2.getId());
