@@ -14,8 +14,8 @@ import javax.validation.ConstraintValidatorContext;
 import javax.validation.Payload;
 //import csri.poeticon.praxicon.db.entities.Concept.ConstantConcepts;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
-import gr.csri.poeticon.praxicon.db.entities.Concept.status;
-import gr.csri.poeticon.praxicon.db.entities.Concept.unique_instance;
+import gr.csri.poeticon.praxicon.db.entities.Concept.Status;
+import gr.csri.poeticon.praxicon.db.entities.Concept.UniqueInstance;
 
 
 /**
@@ -36,7 +36,7 @@ public class ConceptValidator implements ConstraintValidator<ConstantConcepts, C
     @Override
     public boolean isValid(Concept value, ConstraintValidatorContext context)
     {
-        if ((value.getStatus() == status.CONSTANT) && (value.getUniqueInstance() == unique_instance.YES))
+        if ((value.getStatus() == Status.CONSTANT) && (value.getUniqueInstance() == UniqueInstance.YES))
         {
             return true;
         }

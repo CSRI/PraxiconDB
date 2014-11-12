@@ -41,18 +41,19 @@ import javax.xml.bind.annotation.XmlTransient;
     @Index(columnList = "RelationTypeId")})
 public class RelationType implements Serializable {
 
-    //public static relation_name[] Bequethed = {relation_name_forward.HAS_PART, relation_name_backward.PART_OF};
-    public static enum relation_name_forward {
+    //public static relation_name[] Bequethed = {RelationNameForward.HAS_PART, RelationNameBackward.PART_OF};
+    public static enum RelationNameForward {
 
         ACTION_AGENT, ACTION_GOAL, ACTION_OBJECT, ACTION_RESULT, ACTION_TOOL,
         ASPECT_CONCEPT, COMPARED_WITH, ENABLES, HAS_ANTHROPOGENIC_EFFECT,
         HAS_COLOUR, HAS_CONDITION, HAS_CONTENT, HAS_DEPTH, HAS_FORCE,
-        HAS_HEIGHT, HAS_HUE, HAS_MOTOR_PROGRAM, HAS_INTENSITY, HAS_LENGTH,
-        HAS_LOCATION, HAS_LUMINANCE, HAS_MATERIAL, HAS_MEASUREMENT_UNIT,
-        HAS_MEASUREMENT_VALUE, HAS_NATURAL_EFFECT, HAS_PART, HAS_SHAPE, 
-        HAS_SIZE, HAS_SPEED_RATE, HAS_STEP, HAS_TEMPERATURE, HAS_TEXTURE, 
-        HAS_TIME_PERIOD, HAS_VISUAL_PATTERN, HAS_VOLUME, HAS_WEIGHT, HAS_WIDTH, 
-        LESS, MORE, TYPE_TOKEN, HAS_VALUE, HAS_MATERIAL_RESISTANCE, HAS_REGION;
+        HAS_HEIGHT, HAS_HUE, HAS_MOTOR_PROGRAM, HAS_INSTANCE, HAS_INTENSITY,
+        HAS_LENGTH, HAS_LOCATION, HAS_LUMINANCE, HAS_MATERIAL, 
+        HAS_MEASUREMENT_UNIT, HAS_MEASUREMENT_VALUE, HAS_NATURAL_EFFECT, 
+        HAS_PART, HAS_SHAPE, HAS_SIZE, HAS_SPEED_RATE, HAS_STEP, 
+        HAS_TEMPERATURE, HAS_TEXTURE, HAS_TIME_PERIOD, HAS_VISUAL_PATTERN, 
+        HAS_VOLUME, HAS_WEIGHT, HAS_WIDTH, LESS, MORE, TYPE_TOKEN, HAS_VALUE, 
+        HAS_MATERIAL_RESISTANCE, HAS_REGION;
 
         @Override
         public String toString() {
@@ -60,13 +61,13 @@ public class RelationType implements Serializable {
         }
     }
 
-    public static enum relation_name_backward {
+    public static enum RelationNameBackward {
 
         AGENT_ACTION, GOAL_ACTION, OBJECT_ACTION, RESULT_ACTION, TOOL_ACTION,
         CONCEPT_ASPECT, ENABLED_BY, ANTHROPOGENIC_EFFECT_OF, COLOUR_OF,
         CONDITION_OF, CONTENT_OF, DEPTH_OF, FORCE_OF, HEIGHT_OF, HUE_OF,
-        MOTOR_PROGRAM_OF, INTENSITY_OF, LENGTH_OF, LOCATION_OF, LUMINANCE_OF,
-        MATERIAL_OF, MEASUREMENT_UNIT_OF, MEASUREMENT_VALUE_OF,
+        MOTOR_PROGRAM_OF, INSTANCE_OF, INTENSITY_OF, LENGTH_OF, LOCATION_OF,
+        LUMINANCE_OF, MATERIAL_OF, MEASUREMENT_UNIT_OF, MEASUREMENT_VALUE_OF,
         NATURAL_EFFECT_OF, PART_OF, SHAPE_OF, SIZE_OF, SPEED_RATE_OF, STEP_OF,
         TEMPERATURE_OF, TEXTURE_OF, TIME_PERIOD_OF, VISUAL_PATTERN_OF,
         VOLUME_OF, WEIGHT_OF, WIDTH_OF, NO, TOKEN_TYPE, VALUE_OF,
@@ -87,11 +88,11 @@ public class RelationType implements Serializable {
 
     @Column(name = "ForwardName")
     @Enumerated(EnumType.STRING)
-    private relation_name_forward forwardName;
+    private RelationNameForward forwardName;
 
     @Column(name = "BackwardName")
     @Enumerated(EnumType.STRING)
-    private relation_name_backward backwardName;
+    private RelationNameBackward backwardName;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "type")
     private List<Relation> relations;
@@ -106,18 +107,18 @@ public class RelationType implements Serializable {
         this.setBackwardName(backward_name);
     }
 
-    public RelationType(relation_name_forward forward_name,
-            relation_name_backward backward_name) {
+    public RelationType(RelationNameForward forward_name,
+            RelationNameBackward backward_name) {
         relations = new ArrayList<>();
         this.forwardName = forward_name;
         this.backwardName = backward_name;
     }
 
-    public relation_name_forward getForwardName() {
+    public RelationNameForward getForwardName() {
         return forwardName;
     }
 
-    public void setForwardName(relation_name_forward name) {
+    public void setForwardName(RelationNameForward name) {
         this.forwardName = name;
     }
 
@@ -130,14 +131,14 @@ public class RelationType implements Serializable {
     public void setForwardNameString(String name) {
         String tmp = name.replaceAll("-", "_");
         try {
-            this.forwardName = relation_name_forward.valueOf(tmp.toUpperCase());
+            this.forwardName = RelationNameForward.valueOf(tmp.toUpperCase());
         } catch (Exception e) {
 
         }
     }
 
     public final void setForwardName(String name) {
-        this.forwardName = relation_name_forward.valueOf(name.toUpperCase());
+        this.forwardName = RelationNameForward.valueOf(name.toUpperCase());
     }
 
     /**
@@ -154,16 +155,16 @@ public class RelationType implements Serializable {
         return null;
     }
 
-    public relation_name_backward getBackwardName() {
+    public RelationNameBackward getBackwardName() {
         return backwardName;
     }
 
-    public void setBackwardName(relation_name_backward backwardName) {
+    public void setBackwardName(RelationNameBackward backwardName) {
         this.backwardName = backwardName;
     }
 
     public final void setBackwardName(String name) {
-        this.backwardName = relation_name_backward.valueOf(name.toUpperCase());
+        this.backwardName = RelationNameBackward.valueOf(name.toUpperCase());
     }
 
     /**
@@ -176,7 +177,7 @@ public class RelationType implements Serializable {
         String tmp = name.replaceAll("-", "_");
         try {
             this.backwardName =
-                    relation_name_backward.valueOf(tmp.toUpperCase());
+                    RelationNameBackward.valueOf(tmp.toUpperCase());
         } catch (Exception e) {
         }
     }

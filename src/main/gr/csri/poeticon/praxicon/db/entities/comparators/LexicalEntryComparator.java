@@ -16,9 +16,9 @@ public class LexicalEntryComparator implements Comparator<LanguageRepresentation
 {
 
     /**
-     * Compares languages of two language representations
-     * @param a the first language representation
-     * @param b the second language representation
+     * Compares languages of two Language representations
+     * @param a the first Language representation
+     * @param b the second Language representation
      * @return integer result of compare
      */
     @Override

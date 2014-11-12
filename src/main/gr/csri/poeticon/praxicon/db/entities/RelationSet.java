@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlType;
     @Index(columnList = "Name")})
 public class RelationSet implements Serializable {
 
-    public static enum inherent {
+    public static enum Inherent {
 
         YES, NO, UNKNOWN;
 
@@ -64,7 +64,7 @@ public class RelationSet implements Serializable {
 
     @Column(name = "Inherent")
     @Enumerated(EnumType.STRING)
-    private inherent inherent;
+    private Inherent inherent;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet")
     private List<RelationSet_Relation> relations;
@@ -98,7 +98,7 @@ public class RelationSet implements Serializable {
      */
     public RelationSet(String name,
             List<RelationSet_Relation> relationSetRelationsList,
-            inherent isInherent,
+            Inherent isInherent,
             List<LanguageRepresentation> languageRepresentations) {
         this.name = name;
         this.relations = relationSetRelationsList;
@@ -114,11 +114,11 @@ public class RelationSet implements Serializable {
         this.id = id;
     }
 
-    public inherent getIsInherent() {
+    public Inherent getIsInherent() {
         return inherent;
     }
 
-    public void setIsInherent(inherent inherent) {
+    public void setIsInherent(Inherent inherent) {
         this.inherent = inherent;
     }
 

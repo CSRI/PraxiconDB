@@ -66,8 +66,8 @@ public class TestJPA {
         Concept concept1 = new Concept();
         concept1.setExternalSourceId("concept1");
         concept1.setConceptType(Concept.type.ABSTRACT);
-        concept1.setStatus(Concept.status.CONSTANT);
-        concept1.setUniqueInstance(Concept.unique_instance.YES);
+        concept1.setStatus(Concept.Status.CONSTANT);
+        concept1.setUniqueInstance(Concept.UniqueInstance.YES);
         concept1.setSource("myMind");
         System.out.println(concept1.getExternalSourceId());
 
@@ -77,8 +77,8 @@ public class TestJPA {
         Concept concept2 = new Concept();
         concept2.setExternalSourceId("concept2");
         concept2.setConceptType(Concept.type.MOVEMENT);
-        concept2.setStatus(Concept.status.VARIABLE);
-        concept2.setUniqueInstance(Concept.unique_instance.NO);
+        concept2.setStatus(Concept.Status.VARIABLE);
+        concept2.setUniqueInstance(Concept.UniqueInstance.NO);
         concept2.setSource("myMind2");
         System.out.println(concept2.getExternalSourceId());
 
@@ -90,30 +90,30 @@ public class TestJPA {
 
         LanguageRepresentation languageRepresentation1 =
                 new LanguageRepresentation();
-        languageRepresentation1.setLanguage(LanguageRepresentation.language.EN);
+        languageRepresentation1.setLanguage(LanguageRepresentation.Language.EN);
         languageRepresentation1.setText("LR1");
         languageRepresentation1.setPartOfSpeech(
-                LanguageRepresentation.part_of_speech.NOUN);
+                LanguageRepresentation.PartOfSpeech.NOUN);
         languageRepresentation1.setPragmaticStatus(
-                LanguageRepresentation.pragmatic_status.FIGURATIVE);
+                LanguageRepresentation.PragmaticStatus.FIGURATIVE);
 
         LanguageRepresentation languageRepresentation2 =
                 new LanguageRepresentation();
-        languageRepresentation2.setLanguage(LanguageRepresentation.language.EN);
+        languageRepresentation2.setLanguage(LanguageRepresentation.Language.EN);
         languageRepresentation2.setText("LR2");
         languageRepresentation2.setPartOfSpeech(
-                LanguageRepresentation.part_of_speech.VERB);
+                LanguageRepresentation.PartOfSpeech.VERB);
         languageRepresentation2.setPragmaticStatus(
-                LanguageRepresentation.pragmatic_status.FIGURATIVE);
+                LanguageRepresentation.PragmaticStatus.FIGURATIVE);
 
         LanguageRepresentation languageRepresentation3 =
                 new LanguageRepresentation();
-        languageRepresentation3.setLanguage(LanguageRepresentation.language.EL);
+        languageRepresentation3.setLanguage(LanguageRepresentation.Language.EL);
         languageRepresentation3.setText("LR3");
         languageRepresentation3.setPartOfSpeech(
-                LanguageRepresentation.part_of_speech.ADVERB);
+                LanguageRepresentation.PartOfSpeech.ADVERB);
         languageRepresentation3.setPragmaticStatus(
-                LanguageRepresentation.pragmatic_status.LITERAL);
+                LanguageRepresentation.PragmaticStatus.LITERAL);
 
         concept1.addLanguageRepresentation(languageRepresentation1, false);
         concept1.addLanguageRepresentation(languageRepresentation2, true);
@@ -125,7 +125,7 @@ public class TestJPA {
         VisualRepresentation visualRepresentation1 = new VisualRepresentation();
         visualRepresentation1.setName("VR1");
         visualRepresentation1.
-                setMediaType(VisualRepresentation.media_type.IMAGE);
+                setMediaType(VisualRepresentation.MediaType.IMAGE);
         URI new_uri = null;
         try {
             new_uri = new URI(
@@ -140,7 +140,7 @@ public class TestJPA {
         VisualRepresentation visualRepresentation2 = new VisualRepresentation();
         visualRepresentation2.setName("VR2");
         visualRepresentation2.
-                setMediaType(VisualRepresentation.media_type.IMAGE);
+                setMediaType(VisualRepresentation.MediaType.IMAGE);
         try {
             new_uri = new URI(
                     "http://www.picgifs.com/clip-art/cartoons/lucky-luke/" +
@@ -157,7 +157,7 @@ public class TestJPA {
          */
         Compositionality compositionality = new Compositionality();
         languageRepresentation1.setCompositional(
-                LanguageRepresentation.is_compositional.YES);
+                LanguageRepresentation.IsCompositional.YES);
         Constituent constituent1 = new Constituent();
         Constituent constituent2 = new Constituent();
         constituent1.setLanguageRepresentation(languageRepresentation1);
@@ -177,9 +177,9 @@ public class TestJPA {
         Relation relation1 = new Relation();
         RelationType relationType1 = new RelationType();
         relationType1.
-                setForwardName(RelationType.relation_name_forward.HAS_PART);
+                setForwardName(RelationType.RelationNameForward.HAS_PART);
         relationType1.setBackwardName(
-                RelationType.relation_name_backward.PART_OF);
+                RelationType.RelationNameBackward.PART_OF);
         relation1.setType(relationType1);
 
         RelationArgument relationArgument1 = new RelationArgument(concept1);
@@ -194,9 +194,9 @@ public class TestJPA {
         Relation relation2 = new Relation();
         RelationType relationType2 = new RelationType();
         relationType2.setForwardName(
-                RelationType.relation_name_forward.HAS_PARTIAL_INSTANCE);
+                RelationType.RelationNameForward.HAS_INSTANCE);
         relationType2.setBackwardName(
-                RelationType.relation_name_backward.PART_OF);
+                RelationType.RelationNameBackward.INSTANCE_OF);
         relation2.setType(relationType2);
 
         relation2.setSubject(relationArgument2);
@@ -210,7 +210,7 @@ public class TestJPA {
          * Create an unordered RelationSet 
          */
         RelationSet relationSet1 = new RelationSet();
-        relationSet1.setIsInherent(RelationSet.inherent.YES);
+        relationSet1.setIsInherent(RelationSet.Inherent.YES);
         relationSet1.addLanguageRepresentation(languageRepresentation3);
         relationSet1.addLanguageRepresentation(languageRepresentation1);
 
@@ -222,7 +222,7 @@ public class TestJPA {
          * Create an ordered RelationSet 
          */
         RelationSet relationSet2 = new RelationSet();
-        relationSet2.setIsInherent(RelationSet.inherent.YES);
+        relationSet2.setIsInherent(RelationSet.Inherent.YES);
         List<LanguageRepresentation> languageRepresentations2 =
                 new ArrayList<>();
         languageRepresentations2.add(languageRepresentation3);

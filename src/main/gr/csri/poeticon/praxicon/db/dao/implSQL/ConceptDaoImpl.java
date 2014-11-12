@@ -7,7 +7,7 @@ package gr.csri.poeticon.praxicon.db.dao.implSQL;
 import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationDao;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
-import gr.csri.poeticon.praxicon.db.entities.Concept.status;
+import gr.csri.poeticon.praxicon.db.entities.Concept.Status;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
@@ -118,13 +118,13 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     }
 
     /**
-     * Finds all concepts that have a status equal to a given status
+     * Finds all concepts that have a Status equal to a given Status
      *
-     * @param status the concept status to search for
+     * @param status the concept Status to search for
      * @return a list of concepts found in the database
      */
     @Override
-    public List<Concept> findConceptsByStatus(status status) {
+    public List<Concept> findConceptsByStatus(Status status) {
         Query query = getEntityManager().createNamedQuery(
                 "findConceptsByStatusExact").
                 setParameter("status", status);
@@ -322,7 +322,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         List<Relation> relations = rDao.getAllRelationsOfConcept(concept);
         for (Relation relation : relations) {
             if (relation.getType().getForwardName() ==
-                    RelationType.relation_name_forward.TYPE_TOKEN &&
+                    RelationType.RelationNameForward.TYPE_TOKEN &&
                     relation.getSubject().getConcept().equals(concept)) {
                 if (relation.getObject().isConcept()) {
                     conceptList.add(relation.getObject().getConcept());
@@ -349,7 +349,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         List<Relation> relations = rDao.getAllRelationsOfConcept(concept);
         for (Relation relation : relations) {
             if (relation.getType().getForwardName() ==
-                    RelationType.relation_name_forward.TYPE_TOKEN) {
+                    RelationType.RelationNameForward.TYPE_TOKEN) {
                 if (relation.getSubject().isConcept() &&
                         relation.getObject().getConcept().equals(concept)) {
                     res.add(relation.getSubject().getConcept());
@@ -425,7 +425,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         List<Relation> relations = rDao.getAllRelationsOfConcept(concept);
         for (Relation relation : relations) {
             if (relation.getType().getForwardName() ==
-                    RelationType.relation_name_forward.HAS_INSTANCE &&
+                    RelationType.RelationNameForward.HAS_INSTANCE &&
                     relation.getObject().equals(concept)) {
                 if (relation.getObject().isConcept()) {
                     res.add(relation.getSubject().getConcept());
@@ -449,7 +449,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         List<Relation> relations = rDao.getAllRelationsOfConcept(concept);
         for (Relation relation : relations) {
             if (relation.getType().getForwardName() ==
-                    RelationType.relation_name_forward.HAS_INSTANCE &&
+                    RelationType.RelationNameForward.HAS_INSTANCE &&
                     relation.getObject().equals(concept)) {
                 if (relation.getObject().isConcept()) {
                     res.add(relation.getSubject().getConcept());
@@ -503,7 +503,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     public List<Concept> getBasicLevelOfAnEntityConcept(Concept concept) {
         List<Concept> res = new ArrayList<>();
         if (concept.getSpecificityLevel() !=
-                Concept.specificity_level.BASIC_LEVEL &&
+                Concept.SpecificityLevel.BASIC_LEVEL &&
                 concept.getConceptType() != Concept.type.ABSTRACT) {
             List<Concept> parents = getParentsOfConcept(concept);
             for (Concept parent : parents) {
@@ -518,7 +518,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             }
         } else {
             if (concept.getSpecificityLevel() ==
-                    Concept.specificity_level.BASIC_LEVEL) {
+                    Concept.SpecificityLevel.BASIC_LEVEL) {
                 res.add(concept);
             }
         }
@@ -536,7 +536,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         List<Concept> res = new ArrayList<>();
 
         if (concept.getSpecificityLevel() !=
-                Concept.specificity_level.BASIC_LEVEL &&
+                Concept.SpecificityLevel.BASIC_LEVEL &&
                 concept.getConceptType() == Concept.type.ABSTRACT) {
             List<Concept> children = getChildrenOfConcept(concept);
             for (Concept children1 : children) {
@@ -544,7 +544,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             }
         } else {
             if (concept.getSpecificityLevel() ==
-                    Concept.specificity_level.BASIC_LEVEL) {
+                    Concept.SpecificityLevel.BASIC_LEVEL) {
                 res.add(concept);
             }
         }
@@ -563,7 +563,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         List<Concept> res = new ArrayList<>();
 
         if (concept.getSpecificityLevel() ==
-                Concept.specificity_level.BASIC_LEVEL) {
+                Concept.SpecificityLevel.BASIC_LEVEL) {
             res.add(concept);
         } else {
             res.addAll(getBasicLevelOfMovementOriginConceptGoingDown(concept));
@@ -584,7 +584,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         List<Concept> res = new ArrayList<>();
 
         if (concept.getSpecificityLevel() !=
-                Concept.specificity_level.BASIC_LEVEL) {
+                Concept.SpecificityLevel.BASIC_LEVEL) {
             List<Concept> parents = getParentsOfConcept(concept);
             for (Concept parent : parents) {
                 res.addAll(getBasicLevelOfMovementOriginConceptGoingUp(parent));
@@ -599,7 +599,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             }
         } else {
             if (concept.getSpecificityLevel() ==
-                    Concept.specificity_level.BASIC_LEVEL) {
+                    Concept.SpecificityLevel.BASIC_LEVEL) {
                 res.add(concept);
             }
         }
@@ -618,7 +618,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         List<Concept> res = new ArrayList<>();
 
         if (concept.getSpecificityLevel() !=
-                Concept.specificity_level.BASIC_LEVEL) {
+                Concept.SpecificityLevel.BASIC_LEVEL) {
             List<Concept> children = getChildrenOfConcept(concept);
             for (Concept children1 : children) {
                 res.addAll(getBasicLevelOfMovementOriginConceptGoingDown(
@@ -626,7 +626,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             }
         } else {
             if (concept.getSpecificityLevel() ==
-                    Concept.specificity_level.BASIC_LEVEL) {
+                    Concept.SpecificityLevel.BASIC_LEVEL) {
                 res.add(concept);
             }
         }
@@ -677,8 +677,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
 
     // TODO: All methods below are not referenced in ConceptDao
     /**
-     * Creates q query to search for a concept using name, type, status and
-     * pragmatic status
+     * Creates q query to search for a concept using name, type, Status and
+ pragmatic Status
      *
      * @param concept the concept to be searched
      * @return a query to search for the concept

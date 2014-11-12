@@ -6,9 +6,9 @@ package gr.csri.poeticon.praxicon.db.dao.implSQL;
 
 import gr.csri.poeticon.praxicon.db.dao.LanguageRepresentationDao;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
-import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.language;
-import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.part_of_speech;
-import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.pragmatic_status;
+import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.Language;
+import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.PartOfSpeech;
+import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.PragmaticStatus;
 import java.util.List;
 import javax.persistence.Query;
 
@@ -21,11 +21,11 @@ public class LanguageRepresentationDaoImpl extends
         LanguageRepresentationDao {
 
     /**
-     * Finds the LanguageRepresentation that has the given language, text and
-     * part of speech
-     * Overloaded.
+     * Finds the LanguageRepresentation that has the given Language, text and
+ part of speech
+ Overloaded.
      *
-     * @param language        the language to search
+     * @param language        the Language to search
      * @param text            the text to search
      * @param pos             the pos to search
      * @param pragmaticStatus the pragmatic status to search
@@ -33,8 +33,8 @@ public class LanguageRepresentationDaoImpl extends
      */
     @Override
     public LanguageRepresentation findLanguageRepresentations(
-            language language, String text, part_of_speech pos,
-            pragmatic_status pragmaticStatus) {
+            Language language, String text, PartOfSpeech pos,
+            PragmaticStatus pragmaticStatus) {
         Query query = getEntityManager().createNamedQuery(
                 "findLanguageRepresentationsByTextLanguagePosPStatus").
                 setParameter("text", text).
@@ -50,11 +50,11 @@ public class LanguageRepresentationDaoImpl extends
     }
 
     /**
-     * Finds the LanguageRepresentation that has the given language, text and
-     * part of speech
-     * Case insensitive search.
+     * Finds the LanguageRepresentation that has the given Language, text and
+ part of speech
+ Case insensitive search.
      *
-     * @param language        the language to search
+     * @param language        the Language to search
      * @param text            the text to search
      * @param pos             the pos to search
      * @param pragmaticStatus
@@ -62,8 +62,8 @@ public class LanguageRepresentationDaoImpl extends
      */
     @Override
     public LanguageRepresentation findLanguageRepresentationsCaseInsensitive(
-            language language, String text, part_of_speech pos,
-            pragmatic_status pragmaticStatus) {
+            Language language, String text, PartOfSpeech pos,
+            PragmaticStatus pragmaticStatus) {
         Query query = getEntityManager().createNamedQuery(
                 "findLanguageRepresentationsBy" +
                 "TextLanguagePosPStatusCaseInsensitive").
@@ -84,7 +84,7 @@ public class LanguageRepresentationDaoImpl extends
      * given string Case insensitive search.
      * Overloaded.
      *
-     * @param text the language representation text
+     * @param text the Language representation text
      * @return A list of LanguageRepresentations
      */
     @Override
@@ -126,7 +126,7 @@ public class LanguageRepresentationDaoImpl extends
 
 // TODO: Delete the two methods below after I make sure they are not used in other projects.
 //            /**
-//             * Finds the LanguageRepresentations of a given concept sorted by language
+//             * Finds the LanguageRepresentations of a given concept sorted by Language
 //             *
 //             * @param concept the concept
 //             * @return A list of LanguageRepresentations

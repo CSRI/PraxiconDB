@@ -99,7 +99,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
                 r.setObject(r.getSubject());
                 r.setSubject(relationArgument);
                 RelationType tmpType = new RelationType();
-                RelationType.relation_name_backward tmp =
+                RelationType.RelationNameBackward tmp =
                         r.getType().getBackwardName();
                 tmpType.setForwardName(r.getType().getForwardName());
                 tmpType.setBackwardName(tmp);

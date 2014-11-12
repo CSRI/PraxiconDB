@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlType;
     @Index(columnList = "VisualRepresentationId")})
 public class VisualRepresentation implements Serializable {
 
-    public static enum media_type {
+    public static enum MediaType {
 
         IMAGE, VIDEO;
 
@@ -62,7 +62,7 @@ public class VisualRepresentation implements Serializable {
 
     @Column(name = "MediaType")
     @NotNull(message = "Media type must be specified.")
-    private media_type mediaType;
+    private MediaType mediaType;
 
     @Column(name = "Name")
     private String name;
@@ -103,7 +103,7 @@ public class VisualRepresentation implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     private MotoricRepresentation motoricRepresentation;
 
-    public VisualRepresentation(media_type media_type, String name) {
+    public VisualRepresentation(MediaType media_type, String name) {
         this.mediaType = media_type;
         this.name = name;
     }
@@ -116,11 +116,11 @@ public class VisualRepresentation implements Serializable {
      * @xmlcomments.args xmltag="&lt;media_type&gt;" xmldescription="This tag
      * defines the type of the media that represents visually the entity
      */
-    public media_type getMediaType() {
+    public MediaType getMediaType() {
         return mediaType;
     }
 
-    public void setMediaType(media_type mediaType) {
+    public void setMediaType(MediaType mediaType) {
         this.mediaType = mediaType;
     }
 
@@ -166,7 +166,7 @@ public class VisualRepresentation implements Serializable {
         if (name.startsWith("file:")) {
             return name;
         }
-        if (this.mediaType.equals(media_type.IMAGE)) {
+        if (this.mediaType.equals(MediaType.IMAGE)) {
             return Constants.imagePath + name;
         } else {
             return Constants.videoPath + name;

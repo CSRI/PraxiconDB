@@ -82,7 +82,7 @@ public class LanguageRepresentation implements Serializable {
     private static final long serialVersionUID = 1L;
     private static List<LanguageRepresentation> language_representations;
 
-    public static enum language {
+    public static enum Language {
 
         // ISO-639-1 standard
         AB, AA, AF, AK, SQ, AM, AR, AN, HY, AS, AV, AE, AY, BM, BA, EU, BE, BN,
@@ -106,7 +106,7 @@ public class LanguageRepresentation implements Serializable {
     /**
      * Enumeration of the types of pragmatic status.
      */
-    public static enum pragmatic_status {
+    public static enum PragmaticStatus {
 
         FIGURATIVE, LITERAL, UNKNOWN;
 
@@ -116,7 +116,7 @@ public class LanguageRepresentation implements Serializable {
         }
     }
 
-    public static enum part_of_speech {
+    public static enum PartOfSpeech {
 
         ADJECTIVE, ADVERB, NOUN, PARTICIPLE, PROPER_NOUN, VERB;
 
@@ -126,7 +126,7 @@ public class LanguageRepresentation implements Serializable {
         }
     }
 
-    public static enum is_compositional {
+    public static enum IsCompositional {
 
         YES, NO, UNKNOWN;
 
@@ -147,21 +147,21 @@ public class LanguageRepresentation implements Serializable {
     @Column(name = "Language")
     @NotNull(message = "Language must be specified.")
     @Enumerated(EnumType.STRING)
-    private language language;
+    private Language language;
 
     @Column(name = "PragmaticStatus")
     //@XmlElement(required = false)
     @NotNull(message = "Concept pragmatic status must be specified.")
     @Enumerated(EnumType.STRING)
-    private pragmatic_status pragmaticStatus;
+    private PragmaticStatus pragmaticStatus;
 
     @Column(name = "PartOfSpeech")
     @NotNull(message = "Part of speech must be specified.")
     @Enumerated(EnumType.STRING)
-    private part_of_speech partOfSpeech;
+    private PartOfSpeech partOfSpeech;
 
     @Column(name = "IsCompositional")
-    private is_compositional isCompositional;
+    private IsCompositional isCompositional;
 
     @Column(name = "Text")
     @NotNull(message = "Text must be specified.")
@@ -221,14 +221,14 @@ public class LanguageRepresentation implements Serializable {
     }
 
     /**
-     * @return the constituents of the language representation.
+     * @return the constituents of the Language representation.
      * @xmlcomments.args xmltag="&lt;constituents&gt;" xmldescription="This tag
      * defines the constituents of a composite word or multiword"
      */
     @XmlElement(name = "constituents")
     public List<Constituent> getConstituents() {
         List<Constituent> constituents = new ArrayList<>();
-        if (this.isCompositional == is_compositional.YES) {
+        if (this.isCompositional == IsCompositional.YES) {
             for (Constituent constituent : constituents) {
                 constituents.add(constituent);
             }
@@ -243,47 +243,47 @@ public class LanguageRepresentation implements Serializable {
     }
 
     /**
-     * @return whether the language representation consists of more than one
-     *         constituents.
+     * @return whether the Language representation consists of more than one
+         constituents.
      * @xmlcomments.args xmltag="&lt;is_compositional&gt;" xmldescription="This
      * tag defines if the LanguageRepresentation is compositional or not"
      */
     @XmlElement(name = "is_compositional")
-    public is_compositional isCompositional() {
+    public IsCompositional isCompositional() {
         return isCompositional;
     }
 
-    public void setCompositional(is_compositional isCompositional) {
+    public void setCompositional(IsCompositional isCompositional) {
         this.isCompositional = isCompositional;
     }
 
     /**
-     * @return the language of the language representation.
+     * @return the Language of the Language representation.
      * @xmlcomments.args xmltag="&lt;language&gt;" xmldescription="This tag
      * defines the language of the entry"
      */
     @XmlElement(name = "language")
-    public language getLanguage() {
+    public Language getLanguage() {
         return language;
     }
 
     /**
-     * @return the part of speech of the language representation.
+     * @return the part of speech of the Language representation.
      * @xmlcomments.args xmltag="&lt;part_of_speech&gt;" xmldescription="This
      * tag defines the Part Of Speech of the entry"
      */
     @XmlElement(name = "part_of_speech")
-    public part_of_speech getPartOfSpeech() {
+    public PartOfSpeech getPartOfSpeech() {
         return partOfSpeech;
     }
 
-    public void setPartOfSpeech(part_of_speech pos) {
+    public void setPartOfSpeech(PartOfSpeech pos) {
         this.partOfSpeech = pos;
     }
 
     public void setPartOfSpeech(String pos) {
         // TODO: Check if it returns the correct value.
-        this.partOfSpeech = part_of_speech.valueOf(pos.trim().toUpperCase());
+        this.partOfSpeech = PartOfSpeech.valueOf(pos.trim().toUpperCase());
     }
 
     @XmlTransient
@@ -319,7 +319,7 @@ public class LanguageRepresentation implements Serializable {
                 languageRepresentations;
     }
 
-    public void setLanguage(language language) {
+    public void setLanguage(Language language) {
         this.language = language;
     }
 
@@ -328,11 +328,11 @@ public class LanguageRepresentation implements Serializable {
      * @xmlcomments.args xmltag="&lt;pragmatic_status&gt;" xmldescription="This
      * tag defines if the entity is literal or figurative"
      */
-    public pragmatic_status getPragmaticStatus() {
+    public PragmaticStatus getPragmaticStatus() {
         return pragmaticStatus;
     }
 
-    public void setPragmaticStatus(pragmatic_status pragmaticStatus) {
+    public void setPragmaticStatus(PragmaticStatus pragmaticStatus) {
         this.pragmaticStatus = pragmaticStatus;
     }
 
@@ -341,7 +341,7 @@ public class LanguageRepresentation implements Serializable {
         tmp = tmp.replace(".", "_");
         tmp = tmp.replace(":", "_");
         // TODO: Check below if it returns the correct value.
-        this.pragmaticStatus = pragmatic_status.
+        this.pragmaticStatus = PragmaticStatus.
                 valueOf(tmp.trim().toUpperCase());
     }
 

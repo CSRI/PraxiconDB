@@ -92,7 +92,7 @@ public class Concept implements Serializable {
     /**
      * Enumeration for the specificity level of a concept.
      */
-    public static enum specificity_level {
+    public static enum SpecificityLevel {
 
         BASIC_LEVEL, BASIC_LEVEL_EXTENDED, SUPERORDINATE, SUBORDINATE, UNKNOWN;
 
@@ -103,9 +103,9 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Enumeration for the type of concept status.
+     * Enumeration for the type of concept Status.
      */
-    public static enum status {
+    public static enum Status {
 
         CONSTANT, VARIABLE;
 
@@ -118,7 +118,7 @@ public class Concept implements Serializable {
     /**
      * A YES/NO/UNKNOWN enumeration for the unique instance.
      */
-    public static enum unique_instance {
+    public static enum UniqueInstance {
 
         YES, NO, UNKNOWN;
 
@@ -153,19 +153,19 @@ public class Concept implements Serializable {
     //@XmlElement(required = true)
     @NotNull(message = "Specificity level must be specified.")
     @Enumerated(EnumType.STRING)
-    private specificity_level specificityLevel;
+    private SpecificityLevel specificityLevel;
 
     @Column(name = "Status")
     //@XmlElement(required = true)
     @NotNull(message = "Concept status must be specified.")
     @Enumerated(EnumType.STRING)
-    private status status;
+    private Status status;
 
     @Column(name = "UniqueInstance")
     //@XmlElement(required = false)
     @NotNull(message = "Concept unique instance must be specified.")
     @Enumerated(EnumType.STRING)
-    private unique_instance uniqueInstance;
+    private UniqueInstance uniqueInstance;
 
     @Column(name = "OntologicalDomain")
     //@XmlElement(required = false)
@@ -192,7 +192,7 @@ public class Concept implements Serializable {
     public Concept() {
         externalSourceId = null;
         comment = "";
-        specificityLevel = Concept.specificity_level.UNKNOWN;
+        specificityLevel = Concept.SpecificityLevel.UNKNOWN;
         languageRepresentations = new ArrayList<>();
         visualRepresentations = new ArrayList<>();
         motoricRepresentations = new ArrayList<>();
@@ -285,38 +285,38 @@ public class Concept implements Serializable {
      * @xmlcomments.args xmltag="&lt;specificity_level&gt;" xmldescription="This
      * tag defines the specificity level of the concept"
      */
-    public specificity_level getSpecificityLevel() {
+    public SpecificityLevel getSpecificityLevel() {
         return specificityLevel;
     }
 
-    public void setSpecificityLevel(specificity_level levelType) {
+    public void setSpecificityLevel(SpecificityLevel levelType) {
         this.specificityLevel = levelType;
     }
 
     public void setSpecificityLevel(String levelType) {
         if (levelType.equalsIgnoreCase("BASIC_LEVEL")) {
-            this.specificityLevel = Concept.specificity_level.BASIC_LEVEL;
+            this.specificityLevel = Concept.SpecificityLevel.BASIC_LEVEL;
         } else if (levelType.equalsIgnoreCase("SUPERORDINATE")) {
-            this.specificityLevel = Concept.specificity_level.SUPERORDINATE;
+            this.specificityLevel = Concept.SpecificityLevel.SUPERORDINATE;
         } else if (levelType.equalsIgnoreCase("SUBORDINATE")) {
-            this.specificityLevel = Concept.specificity_level.SUBORDINATE;
+            this.specificityLevel = Concept.SpecificityLevel.SUBORDINATE;
         } else {
-            this.specificityLevel = Concept.specificity_level.UNKNOWN;
+            this.specificityLevel = Concept.SpecificityLevel.UNKNOWN;
         }
     }
 
     /**
-     * @return the status of the concept.
+     * @return the Status of the concept.
      * @xmlcomments.args xmltag="&lt;status&gt;" xmldescription="This tag
      * defines if the entity is a variable, a constant or a template"
      */
-    //@ConstantConcepts(value=status.CONSTANT)
-    public status getStatus() {
+    //@ConstantConcepts(value=Status.CONSTANT)
+    public Status getStatus() {
         return status;
     }
 
     //@ConstantConcepts
-    public void setStatus(status varType) {
+    public void setStatus(Status varType) {
         this.status = varType;
     }
 
@@ -330,11 +330,11 @@ public class Concept implements Serializable {
      *         xmldescription="This tag defines the source of the concept
      *         (from which resources was generated (for example: Wordnet)"
      */
-    public unique_instance getUniqueInstance() {
+    public UniqueInstance getUniqueInstance() {
         return uniqueInstance;
     }
 
-    public void setUniqueInstance(unique_instance uniqueInstance) {
+    public void setUniqueInstance(UniqueInstance uniqueInstance) {
         this.uniqueInstance = uniqueInstance;
     }
 
@@ -379,7 +379,7 @@ public class Concept implements Serializable {
     }
 
     /**
-     * @return the language representations of the concept
+     * @return the Language representations of the concept
      *
      */
     public final List<LanguageRepresentation> getLanguageRepresentations() {
@@ -392,7 +392,7 @@ public class Concept implements Serializable {
     }
 
     /**
-     * @return the concept language representation instance of the concept
+     * @return the concept Language representation instance of the concept
      *
      */
     public final List<Concept_LanguageRepresentation>
@@ -414,9 +414,9 @@ public class Concept implements Serializable {
      * Adds a Concept_LanguageRepresentation instance to the concept.
      *
      * @param conceptLanguageRepresentation A structure that contains the
-     *                                      language representation with
-     *                                      information about its
-     *                                      representativeness.
+                                      Language representation with
+                                      information about its
+                                      representativeness.
      */
     public void addConceptLanguageRepresentation(
             Concept_LanguageRepresentation conceptLanguageRepresentation) {
@@ -426,11 +426,11 @@ public class Concept implements Serializable {
     /**
      * Adds a LanguageRepresentation instance to the concept.
      *
-     * @param languageRepresentation a language representation.
-     * @param isRepresentative       whether the language representation is
-     *                               representative of the concept or not.
-     *                               There can be more than one representative
-     *                               language representations.
+     * @param languageRepresentation a Language representation.
+     * @param isRepresentative       whether the Language representation is
+                               representative of the concept or not.
+                               There can be more than one representative
+                               Language representations.
      */
     public void addLanguageRepresentation(
             LanguageRepresentation languageRepresentation,
@@ -448,10 +448,10 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Gets text of the first language representation of language "en" for this
-     * concept.
+     * Gets text of the first Language representation of Language "en" for this
+ concept.
      *
-     * @return the externalSourceId of the first language representation of the concept.
+     * @return the externalSourceId of the first Language representation of the concept.
      */
     public String getLanguageRepresentationName() {
         List<LanguageRepresentation> lrs = this.getLanguageRepresentations();
@@ -584,7 +584,7 @@ public class Concept implements Serializable {
 
     /**
      * Gets a string of concatenated full info for the concept. concept type,
-     * status, pragmatic status, specificity level, description
+ Status, pragmatic Status, specificity level, description
      *
      * @return a string
      */

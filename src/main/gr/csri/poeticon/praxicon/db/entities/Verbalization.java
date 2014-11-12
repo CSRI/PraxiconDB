@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlType;
     @Index(columnList = "VerbalizationId")})
 public class Verbalization implements Serializable {
 
-    public static enum allowed {
+    public static enum Allowed {
 
         YES, NO, UNKNOWN;
 
@@ -49,7 +49,7 @@ public class Verbalization implements Serializable {
 
     @Column(name = "Allowed")
     @Enumerated(EnumType.STRING)
-    private allowed allowed;
+    private Allowed allowed;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Concept concept;

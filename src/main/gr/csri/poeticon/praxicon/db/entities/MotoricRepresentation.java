@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlType;
     @Index(columnList = "MotoricRepresentationId")})
 public class MotoricRepresentation implements Serializable {
 
-    public static enum performing_agent {
+    public static enum PerformingAgent {
 
         ADULT, CHILD, ICUB, NAO, PR2;
 
@@ -62,7 +62,7 @@ public class MotoricRepresentation implements Serializable {
 
     @Column(name = "PerformingAgent")
     @NotNull(message = "Performing agent must be specified.")
-    private performing_agent performingAgent;
+    private PerformingAgent performingAgent;
 
     @Column(name = "Source")
     private String source;
@@ -116,11 +116,11 @@ public class MotoricRepresentation implements Serializable {
      * @return the source of the visual representation.
      *         This can be ImageNet, GoogleImages, etc.
      */
-    public performing_agent getPerformingAgent() {
+    public PerformingAgent getPerformingAgent() {
         return performingAgent;
     }
 
-    public void setSource(performing_agent performingAgent) {
+    public void setSource(PerformingAgent performingAgent) {
         this.performingAgent = performingAgent;
     }
 

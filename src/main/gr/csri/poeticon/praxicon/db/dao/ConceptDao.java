@@ -5,7 +5,7 @@
 package gr.csri.poeticon.praxicon.db.dao;
 
 import gr.csri.poeticon.praxicon.db.entities.Concept;
-import gr.csri.poeticon.praxicon.db.entities.Concept.status;
+import gr.csri.poeticon.praxicon.db.entities.Concept.Status;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import java.util.List;
 
@@ -28,7 +28,7 @@ public interface ConceptDao extends Dao<Long, Concept> {
 
     List<Concept> findConceptsByLanguageRepresentationExact(String queryString);
 
-    List<Concept> findConceptsByStatus(status status);
+    List<Concept> findConceptsByStatus(Status status);
 
     Concept getConceptWithExternalSourceIdOrID(String v);
 
