@@ -14,9 +14,7 @@ import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationSetDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationTypeDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.VisualRepresentationDaoImpl;
-import gr.csri.poeticon.praxicon.db.entities.Compositionality;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
-import gr.csri.poeticon.praxicon.db.entities.Constituent;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
@@ -151,25 +149,6 @@ public class TestJPA {
         };
         visualRepresentation2.setURI(new_uri);
         concept2.addVisualRepresentation(visualRepresentation2);
-
-        /* 
-         * Create a compositionality entry
-         */
-        Compositionality compositionality = new Compositionality();
-        languageRepresentation1.setCompositional(
-                LanguageRepresentation.IsCompositional.YES);
-        Constituent constituent1 = new Constituent();
-        Constituent constituent2 = new Constituent();
-        constituent1.setLanguageRepresentation(languageRepresentation1);
-        constituent1.setOrder((short)0);
-        constituent2.setLanguageRepresentation(languageRepresentation2);
-        constituent2.setOrder((short)1);
-
-        List<Constituent> constituents = new ArrayList();
-        constituents.add(constituent2);
-        constituents.add(constituent1);
-
-        languageRepresentation1.setConstituents(constituents);
 
         /* 
          * Create a relation with concept1 as subject and concept2 as object.

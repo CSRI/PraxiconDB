@@ -23,7 +23,6 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -126,16 +125,6 @@ public class LanguageRepresentation implements Serializable {
         }
     }
 
-    public static enum IsCompositional {
-
-        YES, NO, UNKNOWN;
-
-        @Override
-        public String toString() {
-            return this.name();
-        }
-    }
-
     @Id
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
@@ -159,9 +148,6 @@ public class LanguageRepresentation implements Serializable {
     @NotNull(message = "Part of speech must be specified.")
     @Enumerated(EnumType.STRING)
     private PartOfSpeech partOfSpeech;
-
-    @Column(name = "IsCompositional")
-    private IsCompositional isCompositional;
 
     @Column(name = "Text")
     @NotNull(message = "Text must be specified.")
@@ -203,58 +189,8 @@ public class LanguageRepresentation implements Serializable {
     )
     private List<RelationSet> RelationSets;
 
-    // Foreign key
-    @OneToMany(cascade = CascadeType.ALL,
-            mappedBy = "constituentLanguageRepresentation")
-    private List<Constituent> languageRepresentationConstituents;
-
-    // Foreign key
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "languageRepresentation")
-    private List<Constituent> constituents;
-
-    // Foreign key
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Compositionality compositionality;
-
     public LanguageRepresentation() {
         language_representations = new ArrayList<>();
-    }
-
-    /**
-     * @return the constituents of the Language representation.
-     * @xmlcomments.args xmltag="&lt;constituents&gt;" xmldescription="This tag
-     * defines the constituents of a composite word or multiword"
-     */
-    @XmlElement(name = "constituents")
-    public List<Constituent> getConstituents() {
-        List<Constituent> constituents = new ArrayList<>();
-        if (this.isCompositional == IsCompositional.YES) {
-            for (Constituent constituent : constituents) {
-                constituents.add(constituent);
-            }
-        } else {
-            constituents = null;
-        }
-        return constituents;
-    }
-
-    public void setConstituents(List<Constituent> constituents) {
-        this.constituents = constituents;
-    }
-
-    /**
-     * @return whether the Language representation consists of more than one
-         constituents.
-     * @xmlcomments.args xmltag="&lt;is_compositional&gt;" xmldescription="This
-     * tag defines if the LanguageRepresentation is compositional or not"
-     */
-    @XmlElement(name = "is_compositional")
-    public IsCompositional isCompositional() {
-        return isCompositional;
-    }
-
-    public void setCompositional(IsCompositional isCompositional) {
-        this.isCompositional = isCompositional;
     }
 
     /**
