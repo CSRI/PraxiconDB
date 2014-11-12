@@ -107,7 +107,7 @@ public class Concept implements Serializable {
      */
     public static enum status {
 
-        CONSTANT, VARIABLE, TEMPLATE;
+        CONSTANT, VARIABLE;
 
         @Override
         public String toString() {
