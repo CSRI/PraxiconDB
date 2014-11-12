@@ -187,21 +187,6 @@ public class RelationSet implements Serializable {
     }
 
     /**
-     * Adds a relation to the relation set with a specific placement.
-     *
-     * @param relation
-     * @param order
-     */
-    public void addRelation(Relation relation, short order) {
-        List<RelationSet_Relation> rsr = new ArrayList<>();
-        RelationSet_Relation relationSetRelation = new RelationSet_Relation(
-                order);
-        relationSetRelation.setRelation(relation);
-        relationSetRelation.setRelationSet(this);
-        this.relations.add(relationSetRelation);
-    }
-
-    /**
      * Adds relations to the relation set without consideration for their order.
      *
      * @param relations

@@ -106,7 +106,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
                 r.setType(tmpType);
             }
             RelationSet rs = new RelationSet();
-            rs.addRelation(r, (short)0);
+            rs.addRelation(r);
         }
         return res;
     }

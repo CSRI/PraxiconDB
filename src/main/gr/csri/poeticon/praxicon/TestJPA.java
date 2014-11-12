@@ -228,8 +228,8 @@ public class TestJPA {
         languageRepresentations2.add(languageRepresentation3);
         relationSet2.setLanguageRepresentations(languageRepresentations2);
         relationSet2.setName("NewRelationSet2");
-        relationSet2.addRelation(relation2, (short) 1);
-        relationSet2.addRelation(relation1, (short) 2);
+        relationSet2.addRelation(relation2);
+        relationSet2.addRelation(relation1);
 
         ConceptDao newConceptDao = new ConceptDaoImpl();
         RelationArgumentDao newRelationArgumentDao =
