@@ -191,7 +191,6 @@ public class TestJPA {
          * Create an unordered RelationSet 
          */
         RelationSet relationSet1 = new RelationSet();
-        relationSet1.setIsInherent(RelationSet.Inherent.YES);
         relationSet1.addLanguageRepresentation(languageRepresentation3);
         relationSet1.addLanguageRepresentation(languageRepresentation1);
 
@@ -203,7 +202,6 @@ public class TestJPA {
          * Create an ordered RelationSet 
          */
         RelationSet relationSet2 = new RelationSet();
-        relationSet2.setIsInherent(RelationSet.Inherent.YES);
         List<LanguageRepresentation> languageRepresentations2 =
                 new ArrayList<>();
         languageRepresentations2.add(languageRepresentation3);

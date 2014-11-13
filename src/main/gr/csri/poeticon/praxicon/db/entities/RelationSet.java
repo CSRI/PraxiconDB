@@ -13,8 +13,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -62,10 +60,6 @@ public class RelationSet implements Serializable {
     @Column(name = "Name")
     private String name;
 
-    @Column(name = "Inherent")
-    @Enumerated(EnumType.STRING)
-    private Inherent inherent;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet")
     private List<RelationSet_Relation> relations;
 
@@ -85,12 +79,12 @@ public class RelationSet implements Serializable {
     public RelationSet() {
         this.name = null;
         this.relations = new ArrayList<>();
-        this.inherent = this.inherent.UNKNOWN;
         this.languageRepresentations = new ArrayList<>();
     }
 
     /**
      * Constructor #2.
+     *
      * @param name
      * @param relationSetRelationsList
      * @param isInherent
@@ -98,11 +92,9 @@ public class RelationSet implements Serializable {
      */
     public RelationSet(String name,
             List<RelationSet_Relation> relationSetRelationsList,
-            Inherent isInherent,
             List<LanguageRepresentation> languageRepresentations) {
         this.name = name;
         this.relations = relationSetRelationsList;
-        this.inherent = isInherent;
         this.languageRepresentations = languageRepresentations;
     }
 
@@ -112,14 +104,6 @@ public class RelationSet implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Inherent getIsInherent() {
-        return inherent;
-    }
-
-    public void setIsInherent(Inherent inherent) {
-        this.inherent = inherent;
     }
 
     public String getName() {
@@ -213,7 +197,7 @@ public class RelationSet implements Serializable {
 
     /**
      * Retrieves the names of the language representations of this relation set.
-     * 
+     *
      * @return a list strings containing the names of language representation
      */
     public List<String> getLanguageRepresentationNames() {
@@ -275,6 +259,7 @@ public class RelationSet implements Serializable {
 
     @XmlRegistry
     class ObjectFactory {
+
         RelationSet createRelationSet() {
             return new RelationSet();
         }
