@@ -49,7 +49,7 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name = "findConceptsByConceptId", query =
             "FROM Concept c WHERE c.id = :conceptId"),
     @NamedQuery(name = "findConceptsByExternalSourceId", query =
-            "FROM Concept c WHERE c.name LIKE :conceptExternalSourceId"),
+            "FROM Concept c WHERE c.externalSourceId LIKE :conceptExternalSourceId"),
     @NamedQuery(name = "findConceptByExternalSourceIdExact", query =
             "FROM Concept c WHERE c.externalSourceId = :conceptExternalSourceId"),
     @NamedQuery(name = "findConceptsByLanguageRepresentation", query =
@@ -71,7 +71,7 @@ import javax.xml.bind.annotation.XmlType;
             "AND c.externalSourceId = :externalSourceId " +
             "AND c.conceptType = :type"),})
 @Table(name = "Concepts", indexes = {
-    @Index(columnList = "Name"),
+//    @Index(columnList = "ExternalSourceId"),
     @Index(columnList = "ConceptId")})
 //@ConceptConstraint(groups=ConceptGroup.class)
 public class Concept implements Serializable {
@@ -140,7 +140,7 @@ public class Concept implements Serializable {
     @Column(name = "ExternalSourceId")
     //@Size(min = 5, max = 14)
     //@XmlElement(required = true)
-    //@NotNull(message = "Concept name must be specified.")
+    //@NotNull(message = "Concept externalSourceId must be specified.")
     private String externalSourceId;
 
     @Column(name = "Type")
@@ -258,8 +258,8 @@ public class Concept implements Serializable {
         }
     }
 
-    public void setExternalSourceId(String name) {
-        this.externalSourceId = name.trim();
+    public void setExternalSourceId(String externalSourceId) {
+        this.externalSourceId = externalSourceId.trim();
     }
 
     /**
@@ -414,9 +414,9 @@ public class Concept implements Serializable {
      * Adds a Concept_LanguageRepresentation instance to the concept.
      *
      * @param conceptLanguageRepresentation A structure that contains the
-                                      Language representation with
-                                      information about its
-                                      representativeness.
+     *                                      Language representation with
+     *                                      information about its
+     *                                      representativeness.
      */
     public void addConceptLanguageRepresentation(
             Concept_LanguageRepresentation conceptLanguageRepresentation) {
@@ -428,9 +428,9 @@ public class Concept implements Serializable {
      *
      * @param languageRepresentation a Language representation.
      * @param isRepresentative       whether the Language representation is
-                               representative of the concept or not.
-                               There can be more than one representative
-                               Language representations.
+     *                               representative of the concept or not.
+     *                               There can be more than one representative
+     *                               Language representations.
      */
     public void addLanguageRepresentation(
             LanguageRepresentation languageRepresentation,
@@ -449,7 +449,7 @@ public class Concept implements Serializable {
 
     /**
      * Gets text of the first Language representation of Language "en" for this
- concept.
+     * concept.
      *
      * @return the externalSourceId of the first Language representation of the concept.
      */
@@ -584,7 +584,7 @@ public class Concept implements Serializable {
 
     /**
      * Gets a string of concatenated full info for the concept. concept type,
- Status, pragmatic Status, specificity level, description
+     * Status, pragmatic Status, specificity level, description
      *
      * @return a string
      */
@@ -661,7 +661,8 @@ public class Concept implements Serializable {
 
         if (Globals.ToMergeAfterUnMarshalling) {
             ConceptDao cDao = new ConceptDaoImpl();
-            Concept tmp = cDao.getConceptWithExternalSourceIdOrID(this.getExternalSourceId());
+            Concept tmp = cDao.getConceptWithExternalSourceIdOrID(this.
+                    getExternalSourceId());
             if (tmp == null) {
                 if (this.conceptType == null) {
                     this.conceptType = type.UNKNOWN;
@@ -671,7 +672,8 @@ public class Concept implements Serializable {
                 cDao.update(this);
             }
         } else {
-            Concept tmp = (Concept)Constants.globalConcepts.get(this.getExternalSourceId());
+            Concept tmp = (Concept)Constants.globalConcepts.get(this.
+                    getExternalSourceId());
             if (tmp == null) {
                 if (this.conceptType == null) {
                     this.conceptType = type.UNKNOWN;
@@ -685,12 +687,14 @@ public class Concept implements Serializable {
                 updateMotoricRepresentations(tmp);
             }
         }
-        System.err.println("Finish unmarshalling: " + this.getExternalSourceId());
+        System.err.
+                println("Finish unmarshalling: " + this.getExternalSourceId());
     }
 }
 
 @XmlRegistry
 class ObjectFactory {
+
     Concept createConcept() {
         return new Concept();
     }

@@ -678,7 +678,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     // TODO: All methods below are not referenced in ConceptDao
     /**
      * Creates q query to search for a concept using name, type, Status and
- pragmatic Status
+     * pragmatic Status
      *
      * @param concept the concept to be searched
      * @return a query to search for the concept
@@ -690,7 +690,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 setParameter("externalSourceId", concept.getExternalSourceId()).
                 setParameter("type", concept.getStatus()).
                 setParameter("status", concept.getStatus());
-        System.out.println("Concept name: " + concept.getExternalSourceId());
+        System.out.println("Concept externalSourceId: " + concept.
+                getExternalSourceId());
         return query;
     }
 

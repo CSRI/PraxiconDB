@@ -43,13 +43,16 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "relation", namespace = "http://www.csri.gr/relation")
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "findRelationsByRelationArgumentRightArgumentOrLeftArgument", query =
+    @NamedQuery(name =
+            "findRelationsByRelationArgumentRightArgumentOrLeftArgument",
+            query =
             "SELECT r FROM Relation r " +
             "WHERE (r.rightArgument = :relationArgument " +
             "OR r.leftArgument = :relationArgument)"),
     @NamedQuery(name = "findRelationsByRelationArgumentRelationType", query =
             "SELECT r FROM Relation r, RelationType rt " +
-            "WHERE (r.leftArgument = :relationArgumentId OR r.rightArgument = :relationArgumentId) " +
+            "WHERE (r.leftArgument = :relationArgumentId " +
+            "OR r.rightArgument = :relationArgumentId) " +
             "AND r.type = rt " +
             "AND rt.forwardName = :relationType"),
     @NamedQuery(name = "findRelationsByRelationArgumentRightArgument", query =
@@ -278,7 +281,7 @@ public class Relation implements Serializable {
 
     /**
      * @return the language representation of the rightArgument side of the relation.
-         The rightArgument can be a Concept or a RelationSet.
+     *         The rightArgument can be a Concept or a RelationSet.
      * @xmlcomments.args xmltag="&lt;language_representation_rightArgument&gt;"
      * xmldescription="This tag defines the LanguageRepresentation that should
      * be used to express the RightArgument in this relation"
@@ -286,13 +289,15 @@ public class Relation implements Serializable {
     public String getLanguageRepresentationRightArgument_() {
         String languageΡepresentationΟbject_;
         languageΡepresentationΟbject_ = new String();
-        languageΡepresentationΟbject_ = languageRepresentationRightArgument.toString();
+        languageΡepresentationΟbject_ = languageRepresentationRightArgument.
+                toString();
         return languageΡepresentationΟbject_;
     }
 
     public void setLanguageRepresentationRightArgument(
             List<LanguageRepresentation> languageRepresentationRightArgument) {
-        this.languageRepresentationRightArgument = languageRepresentationRightArgument;
+        this.languageRepresentationRightArgument =
+                languageRepresentationRightArgument;
     }
 
     @XmlTransient
@@ -307,7 +312,7 @@ public class Relation implements Serializable {
 
     /**
      * @return the motoric representation of the concept that is on the rightArgument
-         side of the relation.
+     *         side of the relation.
      * @xmlcomments.args xmltag="&lt;motoric_representation_rightArgument&gt;"
      * xmldescription="This tag defines the MotoricRepresentation that should be
      * used to express the RightArgument in this relation"
@@ -316,14 +321,16 @@ public class Relation implements Serializable {
         List<String> motoricRepresentationRightArgument_ = new ArrayList<>();
         for (MotoricRepresentation motoricRepresentationRightArgument1
                 : motoricRepresentationRightArgument) {
-            motoricRepresentationRightArgument_.add(motoricRepresentationRightArgument1.toString());
+            motoricRepresentationRightArgument_.add(
+                    motoricRepresentationRightArgument1.toString());
         }
         return motoricRepresentationRightArgument_;
     }
 
     public void setMotoricRepresentationRightArgument(
             List<MotoricRepresentation> motoricRepresentationRightArgument) {
-        this.motoricRepresentationRightArgument = motoricRepresentationRightArgument;
+        this.motoricRepresentationRightArgument =
+                motoricRepresentationRightArgument;
     }
 
     @XmlTransient
@@ -338,7 +345,8 @@ public class Relation implements Serializable {
 
     public void setVisualRepresentationRightArgument(
             List<VisualRepresentation> visualRepresentationRightArgument) {
-        this.visualRepresentationRightArgument = visualRepresentationRightArgument;
+        this.visualRepresentationRightArgument =
+                visualRepresentationRightArgument;
     }
 
     @XmlTransient
