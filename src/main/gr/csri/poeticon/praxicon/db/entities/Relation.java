@@ -55,6 +55,10 @@ import javax.xml.bind.annotation.XmlType;
             "OR r.rightArgument = :relationArgumentId) " +
             "AND r.type = rt " +
             "AND rt.forwardName = :relationType"),
+    @NamedQuery(name = "findRelationsByRelationType", query =
+            "SELECT r FROM Relation r, RelationType rt " +
+            "WHERE r.type = rt " +
+            "AND rt.forwardName = :relationType"),
     @NamedQuery(name = "findRelationsByRelationArgumentRightArgument", query =
             "SELECT r FROM Relation r " +
             "WHERE r.rightArgument = :relationArgumentId"),

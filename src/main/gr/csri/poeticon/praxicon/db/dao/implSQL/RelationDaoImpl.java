@@ -74,11 +74,27 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      * @return List of relations
      */
     @Override
-    public List<Relation> getRelationsByConceptTypeOfRelation(
-            Concept concept, RelationType relationType) {
+    public List<Relation> getRelationsByConceptRelationType(
+            Concept concept, RelationType.RelationNameForward relationType) {
         RelationArgument newRelationArgument = new RelationArgument(concept);
         return getRelationsByRelationArgumentTypeOfRelation(newRelationArgument,
                 relationType);
+    }
+
+    /**
+     * Finds the relations of a given concept that have a certain
+     * type of relation. Checks only for the given concept as a leftArgument
+     *
+     * @param relationType the type of relation
+     * @return List of relations
+     */
+    @Override
+    public List<Relation> getRelationsByRelationType(
+            RelationType.RelationNameForward relationType) {
+        Query query = getEntityManager().createNamedQuery(
+                "findRelationsByRelationType").
+                setParameter("relationType", relationType);
+        return query.getResultList();
     }
 
     /**
@@ -156,11 +172,12 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      */
     @Override
     public List<Relation> getRelationsByRelationArgumentTypeOfRelation(
-            RelationArgument relationArgument, RelationType relationType) {
+            RelationArgument relationArgument,
+            RelationType.RelationNameForward relationType) {
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByRelationArgumentRelationType").
                 setParameter("relationArgumentId", relationArgument.getId()).
-                setParameter("relationType", relationType.getForwardName());
+                setParameter("relationType", relationType);
         return query.getResultList();
     }
 }
