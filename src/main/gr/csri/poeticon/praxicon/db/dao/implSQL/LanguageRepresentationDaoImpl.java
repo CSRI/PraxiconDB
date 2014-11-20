@@ -95,6 +95,20 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("text", text);
         return query.getResultList();
     }
+    
+    /**
+     * Gets all LanguageRepresentation Texts.
+     * Overloaded.
+     *
+     * @return A list of LanguageRepresentation Texts
+     */
+    @Override
+    public List<String> getAllLanguageRepresentationText() {
+        Query query = getEntityManager().createNamedQuery(
+                "getAllLanguageRepresentationTextByText");
+        return query.getResultList();
+    }
+    
 
     /**
      * Creates q query to search for a LanguageRepresentation using text, lang

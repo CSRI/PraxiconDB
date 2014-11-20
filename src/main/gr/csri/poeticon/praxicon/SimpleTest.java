@@ -5,9 +5,11 @@
 package gr.csri.poeticon.praxicon;
 
 import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
+import gr.csri.poeticon.praxicon.db.dao.LanguageRepresentationDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationArgumentDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
+import gr.csri.poeticon.praxicon.db.dao.implSQL.LanguageRepresentationDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationArgumentDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
@@ -30,6 +32,7 @@ public class SimpleTest {
         // Concepts:
         ConceptDao cDao = new ConceptDaoImpl();
         RelationDao rDao = new RelationDaoImpl();
+        LanguageRepresentationDao lrDao = new LanguageRepresentationDaoImpl();
 
         // Get the number of all concepts
         List<Concept> concepts = cDao.findAllConcepts();
@@ -55,7 +58,8 @@ public class SimpleTest {
         System.out.println("--------------------------------------- ");
         Concept conceptRoundShape = cDao.findConceptByExternalSourceIdExact(
                 "round_shape%1:25:00::");
-        Concept conceptShape = cDao.findConceptByExternalSourceIdExact("shape%1:03:00::");
+        Concept conceptShape = cDao.findConceptByExternalSourceIdExact(
+                "shape%1:03:00::");
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
         RelationArgument relationArgumentConceptShape = raDao.
                 getRelationArgumentByConcept(conceptShape);
@@ -114,6 +118,14 @@ public class SimpleTest {
             System.out.println(sister + " - \t" + sister.getSpecificityLevel());
         }
 
+        // Get all Language Representation texts.
+        System.out.println("\n\nCount of all Language Representation Texts:");
+        System.out.println("-------------------------------------------");
+        List<String> languageRepresentationTexts = new ArrayList<>();
+        languageRepresentationTexts = lrDao.getAllLanguageRepresentationText();
+        //for (String languageRepresentationText : languageRepresentationTexts) {
+            System.out.println(languageRepresentationTexts.size());
+        //}
     }
 
 //    public static List<Concept> getObjectsOfRelation(RelationType relationType) {
@@ -131,5 +143,4 @@ public class SimpleTest {
 //        //Get the results
 //        return concepts;
 //    }
-
 }

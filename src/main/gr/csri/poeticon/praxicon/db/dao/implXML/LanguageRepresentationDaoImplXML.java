@@ -95,4 +95,9 @@ public class LanguageRepresentationDaoImplXML extends
             String text, PartOfSpeech pos, PragmaticStatus pragmaticStatus) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public List<String> getAllLanguageRepresentationText() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

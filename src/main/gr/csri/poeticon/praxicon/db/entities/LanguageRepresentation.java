@@ -72,7 +72,10 @@ import javax.xml.bind.annotation.XmlType;
             "AND UPPER(lr.pragmaticStatus) = :pragmaticStatus"),
     @NamedQuery(name = "findLanguageRepresentationsByText", query =
             "FROM LanguageRepresentation lr " +
-            "WHERE UPPER(lr.text) = :text"),})
+            "WHERE UPPER(lr.text) = :text"),
+    @NamedQuery(name = "getAllLanguageRepresentationTextByText", query =
+            "SELECT DISTINCT lr.text FROM LanguageRepresentation lr"),
+})
 @Table(name = "LanguageRepresentations", indexes = {
     @Index(columnList = "Text"),
     @Index(columnList = "LanguageRepresentationId")})
