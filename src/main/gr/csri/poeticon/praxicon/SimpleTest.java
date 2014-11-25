@@ -15,6 +15,7 @@ import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
+import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -123,9 +124,34 @@ public class SimpleTest {
         System.out.println("-------------------------------------------");
         List<String> languageRepresentationTexts = new ArrayList<>();
         languageRepresentationTexts = lrDao.getAllLanguageRepresentationText();
-        //for (String languageRepresentationText : languageRepresentationTexts) {
-            System.out.println(languageRepresentationTexts.size());
-        //}
+        System.out.println(languageRepresentationTexts.size());
+
+        System.out.println("\n\nAll relations with relation type: HAS_INSTANCE");
+        System.out.println("-----------------------------------------------");
+        List<Relation> hasInstanceRelations = rDao.getRelationsByRelationType(
+                RelationType.RelationNameForward.HAS_INSTANCE);
+
+        for (Relation relation : hasInstanceRelations) {
+            //System.out.println(relation);
+            if (relation.getLeftArgument().isConcept() && relation.
+                    getRightArgument().isConcept()) {
+                if ((relation.getLeftArgument().getConcept().
+                        getLanguageRepresentations().size() != 0 && relation.
+                        getRightArgument().getConcept().
+                        getLanguageRepresentations().size() != 0) && (relation.
+                        getLeftArgument().getConcept().getConceptType() ==
+                        Concept.Type.MOVEMENT ||
+                        relation.getRightArgument().getConcept().
+                        getConceptType() == Concept.Type.MOVEMENT)) {
+                    System.out.println(relation.getLeftArgument().getConcept().
+                            getConceptType() + " " + relation.getType().
+                            getForwardNameString() + " " + relation.
+                            getRightArgument().getConcept().getConceptType());
+                }
+            } else {
+                System.out.println("One of the arguments is not a Concept");
+            }
+        }
     }
 
 //    public static List<Concept> getObjectsOfRelation(RelationType relationType) {
@@ -133,7 +159,7 @@ public class SimpleTest {
 //        //create the JPQL query
 //        Query q = EntityMngFactory.getEntityManager().createQuery(
 //            "SELECT DISTINCT r.object FROM Relation r, RelationType rType " +
-//            "WHERE r.type = rType.id AND rType.forwardName = ?1");
+//            "WHERE r.Type = rType.id AND rType.forwardName = ?1");
 //        q.setParameter(1, relationType);
 //        
 //        List<Concept> concepts = new ArrayList<>();
