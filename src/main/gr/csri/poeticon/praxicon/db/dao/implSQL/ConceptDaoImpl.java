@@ -211,7 +211,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 oldConcept = tmpConcept;
             }
             if (oldConcept.getConceptType() == null ||
-                    oldConcept.getConceptType() == Concept.type.UNKNOWN) {
+                    oldConcept.getConceptType() == Concept.Type.UNKNOWN) {
                 oldConcept.setConceptType(newConcept.getConceptType());
             }
             if (oldConcept.getStatus() == null) {
@@ -280,7 +280,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         try {
             //     entityManager.getTransaction().begin();
             if (oldConcept.getConceptType() == null ||
-                    oldConcept.getConceptType() == Concept.type.UNKNOWN) {
+                    oldConcept.getConceptType() == Concept.Type.UNKNOWN) {
                 oldConcept.setConceptType(newConcept.getConceptType());
             }
             if (oldConcept.getStatus() == null) {
@@ -309,8 +309,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     }
 
     /**
-     * Finds all concepts that are children (type-token related) of a given
-     * concept
+     * Finds all concepts that are children (Type-token related) of a given
+ concept
      *
      * @param concept the concept
      * @return a list of concepts
@@ -336,8 +336,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     }
 
     /**
-     * Finds all concepts that are parents (token-type related) of a given
-     * concept
+     * Finds all concepts that are parents (token-Type related) of a given
+ concept
      *
      * @param concept the concept
      * @return a list of concepts
@@ -479,12 +479,12 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         // AN BL επιστρέφει λίστα με τον εαυτό του.
         // Αν είναι above BL getBLofanabstractlevel
         // ελσε ιφ below BL τρέξε BL entity concept
-        if (concept.getConceptType() == Concept.type.ABSTRACT) {
+        if (concept.getConceptType() == Concept.Type.ABSTRACT) {
             return getBasicLevelOfAnAbstractConcept(concept);
         } else {
-            if (concept.getConceptType() == Concept.type.ENTITY ||
-                    concept.getConceptType() == Concept.type.MOVEMENT ||
-                    concept.getConceptType() == Concept.type.FEATURE) {
+            if (concept.getConceptType() == Concept.Type.ENTITY ||
+                    concept.getConceptType() == Concept.Type.MOVEMENT ||
+                    concept.getConceptType() == Concept.Type.FEATURE) {
                 return getBasicLevelOfAnEntityConcept(concept);
             }
         }
@@ -504,7 +504,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         List<Concept> res = new ArrayList<>();
         if (concept.getSpecificityLevel() !=
                 Concept.SpecificityLevel.BASIC_LEVEL &&
-                concept.getConceptType() != Concept.type.ABSTRACT) {
+                concept.getConceptType() != Concept.Type.ABSTRACT) {
             List<Concept> parents = getParentsOfConcept(concept);
             for (Concept parent : parents) {
                 res.addAll(getBasicLevelOfAnEntityConcept(parent));
@@ -537,7 +537,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
 
         if (concept.getSpecificityLevel() !=
                 Concept.SpecificityLevel.BASIC_LEVEL &&
-                concept.getConceptType() == Concept.type.ABSTRACT) {
+                concept.getConceptType() == Concept.Type.ABSTRACT) {
             List<Concept> children = getChildrenOfConcept(concept);
             for (Concept children1 : children) {
                 res.addAll(getBasicLevelOfAnAbstractConcept(children1));
@@ -558,7 +558,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return The list of BL
      */
     // special getting BL for movement origin concepts 
-    // lookin up and down regardless type
+    // lookin up and down regardless Type
     private List<Concept> getBasicLevelOfMovementOriginConcept(Concept concept) {
         List<Concept> res = new ArrayList<>();
 
@@ -635,10 +635,10 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
 
     /**
      * Finds all concepts that are related to a given concept using a given
-     * relation type
+ relation Type
      *
      * @param concept      the concept
-     * @param relationType the type of relation (direction sensitive)
+     * @param relationType the Type of relation (direction sensitive)
      * @return a list of concepts
      */
     @Override
@@ -677,8 +677,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
 
     // TODO: All methods below are not referenced in ConceptDao
     /**
-     * Creates q query to search for a concept using name, type, Status and
-     * pragmatic Status
+     * Creates q query to search for a concept using name, Type, Status and
+ pragmatic Status
      *
      * @param concept the concept to be searched
      * @return a query to search for the concept

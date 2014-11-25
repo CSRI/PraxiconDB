@@ -77,9 +77,9 @@ import javax.xml.bind.annotation.XmlType;
 public class Concept implements Serializable {
 
     /**
-     * Enumeration for the concept type.
+     * Enumeration for the concept Type.
      */
-    public static enum type {
+    public static enum Type {
 
         ABSTRACT, ENTITY, FEATURE, MOVEMENT, UNKNOWN;
 
@@ -103,7 +103,7 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Enumeration for the type of concept Status.
+     * Enumeration for the Type of concept Status.
      */
     public static enum Status {
 
@@ -147,7 +147,7 @@ public class Concept implements Serializable {
     //@XmlElement(required = true)
     @NotNull(message = "Concept type must be specified.")
     @Enumerated(EnumType.STRING)
-    private type conceptType;
+    private Type conceptType;
 
     @Column(name = "SpecificityLevel")
     //@XmlElement(required = true)
@@ -263,21 +263,21 @@ public class Concept implements Serializable {
     }
 
     /**
-     * @return the type of the concept.
+     * @return the Type of the concept.
      * @xmlcomments.args xmltag="&lt;concept_type&gt;" xmldescription="This tag
      * defines the type of the concept entity (abstract, entity, feature,
      * movement, unknown)"
      */
-    public type getConceptType() {
+    public Type getConceptType() {
         return conceptType;
     }
 
-    public void setConceptType(type conceptType) {
+    public void setConceptType(Type conceptType) {
         this.conceptType = conceptType;
     }
 
     public void setConceptType(String conceptType) {
-        this.conceptType = type.valueOf(conceptType.trim().toUpperCase());
+        this.conceptType = Type.valueOf(conceptType.trim().toUpperCase());
     }
 
     /**
@@ -583,8 +583,8 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Gets a string of concatenated full info for the concept. concept type,
-     * Status, pragmatic Status, specificity level, description
+     * Gets a string of concatenated full info for the concept. concept Type,
+ Status, pragmatic Status, specificity level, description
      *
      * @return a string
      */
@@ -600,8 +600,8 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Gets a string of concatenated short info for the concept. concept type
-     * and specificity level
+     * Gets a string of concatenated short info for the concept. concept Type
+ and specificity level
      *
      * @return a string
      */
@@ -665,7 +665,7 @@ public class Concept implements Serializable {
                     getExternalSourceId());
             if (tmp == null) {
                 if (this.conceptType == null) {
-                    this.conceptType = type.UNKNOWN;
+                    this.conceptType = Type.UNKNOWN;
                 }
                 cDao.merge(this);
             } else {
@@ -676,7 +676,7 @@ public class Concept implements Serializable {
                     getExternalSourceId());
             if (tmp == null) {
                 if (this.conceptType == null) {
-                    this.conceptType = type.UNKNOWN;
+                    this.conceptType = Type.UNKNOWN;
                 }
                 tmp = new Concept(this);
                 Constants.globalConcepts.put(tmp.getExternalSourceId(), tmp);

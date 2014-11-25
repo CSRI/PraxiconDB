@@ -63,7 +63,7 @@ public class TestJPA {
 
         Concept concept1 = new Concept();
         concept1.setExternalSourceId("concept1");
-        concept1.setConceptType(Concept.type.ABSTRACT);
+        concept1.setConceptType(Concept.Type.ABSTRACT);
         concept1.setStatus(Concept.Status.CONSTANT);
         concept1.setUniqueInstance(Concept.UniqueInstance.YES);
         concept1.setSource("myMind");
@@ -74,7 +74,7 @@ public class TestJPA {
          */
         Concept concept2 = new Concept();
         concept2.setExternalSourceId("concept2");
-        concept2.setConceptType(Concept.type.MOVEMENT);
+        concept2.setConceptType(Concept.Type.MOVEMENT);
         concept2.setStatus(Concept.Status.VARIABLE);
         concept2.setUniqueInstance(Concept.UniqueInstance.NO);
         concept2.setSource("myMind2");
