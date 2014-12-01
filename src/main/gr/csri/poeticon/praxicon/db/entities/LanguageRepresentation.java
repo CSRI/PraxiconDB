@@ -120,7 +120,7 @@ public class LanguageRepresentation implements Serializable {
 
     public static enum PartOfSpeech {
 
-        ADJECTIVE, ADVERB, NOUN, PARTICIPLE, PROPER_NOUN, VERB;
+        ADJECTIVE, ADVERB, NOUN, PARTICIPLE, PROPER_NOUN, VERB, VERB_PHRASE;
 
         @Override
         public String toString() {
