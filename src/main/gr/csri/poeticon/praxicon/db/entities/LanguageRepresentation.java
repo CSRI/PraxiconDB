@@ -74,8 +74,7 @@ import javax.xml.bind.annotation.XmlType;
             "FROM LanguageRepresentation lr " +
             "WHERE UPPER(lr.text) = :text"),
     @NamedQuery(name = "getAllLanguageRepresentationTextByText", query =
-            "SELECT DISTINCT lr.text FROM LanguageRepresentation lr"),
-})
+            "SELECT DISTINCT lr.text FROM LanguageRepresentation lr"),})
 @Table(name = "LanguageRepresentations", indexes = {
     @Index(columnList = "Text"),
     @Index(columnList = "LanguageRepresentationId")})
@@ -84,6 +83,9 @@ public class LanguageRepresentation implements Serializable {
     private static final long serialVersionUID = 1L;
     private static List<LanguageRepresentation> language_representations;
 
+    /**
+     * Enumeration of the languages.
+     */
     public static enum Language {
 
         // ISO-639-1 standard
@@ -106,6 +108,19 @@ public class LanguageRepresentation implements Serializable {
     }
 
     /**
+     * Enumeration of the types of part of speech.
+     */
+    public static enum PartOfSpeech {
+
+        ADJECTIVE, ADVERB, NOUN, PARTICIPLE, PROPER_NOUN, VERB, VERB_PHRASE;
+
+        @Override
+        public String toString() {
+            return this.name();
+        }
+    }
+
+    /**
      * Enumeration of the types of pragmatic status.
      */
     public static enum PragmaticStatus {
@@ -118,9 +133,16 @@ public class LanguageRepresentation implements Serializable {
         }
     }
 
-    public static enum PartOfSpeech {
+    /**
+     * Enumeration of the types of productivity.
+     * FULL: The word can produce other words, but is not a product itself.
+     * PARTIAL: The word can both be a product and produce.
+     * NONE: The word cannot produce other words.
+     *
+     */
+    public static enum Productivity {
 
-        ADJECTIVE, ADVERB, NOUN, PARTICIPLE, PROPER_NOUN, VERB, VERB_PHRASE;
+        FULL, PARTIAL, NONE, UNKNOWN;
 
         @Override
         public String toString() {
@@ -151,6 +173,10 @@ public class LanguageRepresentation implements Serializable {
     @NotNull(message = "Part of speech must be specified.")
     @Enumerated(EnumType.STRING)
     private PartOfSpeech partOfSpeech;
+
+    @Column(name = "Productivity")
+    @Enumerated(EnumType.STRING)
+    private Productivity productivity;
 
     @Column(name = "Text")
     @NotNull(message = "Text must be specified.")
@@ -223,6 +249,25 @@ public class LanguageRepresentation implements Serializable {
     public void setPartOfSpeech(String pos) {
         // TODO: Check if it returns the correct value.
         this.partOfSpeech = PartOfSpeech.valueOf(pos.trim().toUpperCase());
+    }
+
+    /**
+     * @return the part of speech of the Language representation.
+     * @xmlcomments.args xmltag="&lt;part_of_speech&gt;" xmldescription="This
+     * tag defines the Part Of Speech of the entry"
+     */
+    public Productivity getProductivity() {
+        return productivity;
+    }
+
+    public void setProductivity(Productivity productivity) {
+        this.productivity = productivity;
+    }
+
+    public void setProductivity(String productivity) {
+        // TODO: Check if it returns the correct value.
+        this.productivity = Productivity.valueOf(productivity.trim().
+                toUpperCase());
     }
 
     @XmlTransient
