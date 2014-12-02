@@ -71,7 +71,7 @@ import javax.xml.bind.annotation.XmlType;
             "AND c.externalSourceId = :externalSourceId " +
             "AND c.conceptType = :type"),})
 @Table(name = "Concepts", indexes = {
-//    @Index(columnList = "ExternalSourceId"),
+    //    @Index(columnList = "ExternalSourceId"),
     @Index(columnList = "ConceptId")})
 //@ConceptConstraint(groups=ConceptGroup.class)
 public class Concept implements Serializable {
@@ -385,7 +385,7 @@ public class Concept implements Serializable {
     public final List<LanguageRepresentation> getLanguageRepresentations() {
         List<LanguageRepresentation> lrs;
         lrs = new ArrayList();
-        for (Concept_LanguageRepresentation clr : this.languageRepresentations) {
+        for (Concept_LanguageRepresentation clr : this.getConceptLanguageRepresentation()) {
             lrs.add(clr.getLanguageRepresentation());
         }
         return lrs;
@@ -464,6 +464,26 @@ public class Concept implements Serializable {
             return lrs.get(0).getText();
         }
         return "noname";
+    }
+
+    /**
+     * Gets a list of Language representation texts for this concept.
+     *
+     * @return list of strings with all the texts of the Language
+     *         Representations of the Concept.
+     */
+    public List<String> getLanguageRepresentationsNames() {
+        List<LanguageRepresentation> lrs = this.getLanguageRepresentations();
+        List<String> lrNames = new ArrayList<>();
+        if (lrs.isEmpty()) {
+            lrNames.add("There are no Language Representations for Concept " +
+                    this.getExternalSourceId());
+        } else {
+            for (LanguageRepresentation lr : lrs) {
+                lrNames.add(lr.getText());
+            }
+        }
+        return lrNames;
     }
 
     /**
@@ -584,7 +604,7 @@ public class Concept implements Serializable {
 
     /**
      * Gets a string of concatenated full info for the concept. concept Type,
- Status, pragmatic Status, specificity level, description
+     * Status, pragmatic Status, specificity level, description
      *
      * @return a string
      */
@@ -601,7 +621,7 @@ public class Concept implements Serializable {
 
     /**
      * Gets a string of concatenated short info for the concept. concept Type
- and specificity level
+     * and specificity level
      *
      * @return a string
      */
