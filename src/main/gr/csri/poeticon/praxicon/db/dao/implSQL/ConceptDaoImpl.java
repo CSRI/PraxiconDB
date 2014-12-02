@@ -138,7 +138,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return the concept found in the database (null if not found)
      */
     @Override
-    public Concept getConceptWithExternalSourceIdOrID(String v) {
+    public Concept getConceptWithExternalSourceIdOrId(String v) {
         Query q;
         long id = -1;
         try {
@@ -179,11 +179,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             updateLanguageRepresentations(newConcept, oldConcept);
             updateVisualRepresentations(newConcept, oldConcept);
             updateMotoricRepresentations(newConcept, oldConcept);
-
-// These are not needed any more since the relation argument has replace concept 
-// as the rightArgument of a relation
-//            updateObjOfRelations(newConcept, oldConcept);
-//            updateRelations(newConcept, oldConcept);
             return oldConcept;
         }
     }
@@ -294,23 +289,16 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             }
             updateVisualRepresentations(newConcept, oldConcept);
             updateMotoricRepresentations(newConcept, oldConcept);
-            // These are not needed any more since the relation argument has replace concept 
-// as the object of a relation
-//            updateObjOfRelations(newConcept, oldConcept);
-//            updateRelations(newConcept, oldConcept);
-
             merge(oldConcept);
             updateLanguageRepresentations(newConcept, oldConcept);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     /**
-     * Finds all concepts that are children (Type-token related) of a given
- concept
+     * Finds all concepts that are children (TYPE_TOKEN relation) of a given
+     * concept.
      *
      * @param concept the concept
      * @return a list of concepts
@@ -336,8 +324,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     }
 
     /**
-     * Finds all concepts that are parents (token-Type related) of a given
- concept
+     * Finds all concepts that are parents (TOKEN_TYPE relation) of a given
+     * concept.
      *
      * @param concept the concept
      * @return a list of concepts
@@ -747,91 +735,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         }
     }
 
-    //TODO: It is commented out until proven that is needed. 
-    // Will be deleted otherwise.
-//    /**
-//     * Updates the ObjectOf relations of a concept, adding the ObjectOf
-//     * relations of another concept (removing them from that concept).
-//     *
-//     * @param newRelationArgument concept with ObjectOf relations to be moved
-//     * @param oldRelationArgument concept to be updated
-//     */
-//    private void updateObjOfRelations(RelationArgument newRelationArgument,
-//            RelationArgument oldRelationArgument) {
-//        for (int i = 0;
-//                i < newRelationArgument.getConcept().
-//                getRelationsContainingConceptAsObject().
-//                size();
-//                i++) {
-//            if (!oldRelationArgument.getConcept().
-//                    getRelationsContainingConceptAsObject().
-//                    contains(newRelationArgument.getConcept().
-//                            getRelationsContainingConceptAsObject().
-//                            get(i))) {
-//                if (newRelationArgument.getConcept().
-//                        getRelationsContainingConceptAsObject().
-//                        get(i).
-//                        getObject().equals(newRelationArgument)) {
-//                    newRelationArgument.getConcept().
-//                            getRelationsContainingConceptAsObject().
-//                            get(i).
-//                            setObject(oldRelationArgument);
-//                } else {
-//                    newRelationArgument.getConcept().
-//                            getRelationsContainingConceptAsObject().
-//                            get(i).
-//                            setRightArgument(oldRelationArgument);
-//                }
-//                oldRelationArgument.getConcept().
-//                        getRelationsContainingConceptAsObject().
-//                        add(newRelationArgument.getConcept().
-//                                getRelationsContainingConceptAsObject().
-//                                get(i));
-//            }
-//        }
-//    }
-// TODO: 10/7/2014 - I think this is not needed. Will check and reinstate 
-//                  if necessary
-//    /**
-//     * Updates the relations of a concept, adding the relations of another
-//     * concept (removing them from that concept).
-//     *
-//     * @param newConcept concept with relations to be moved
-//     * @param oldConcept concept to be updated
-//     */
-//    private void updateRelations(Concept newConcept, Concept oldConcept) {
-//        for (int i = 0; i < newConcept.getIntersectionsOfRelationChains().size();
-//                i++) {
-//            if (!oldConcept.getIntersectionsOfRelationChains().
-//                    contains(newConcept.getIntersectionsOfRelationChains().
-//                            get(i))) {
-//                newConcept.getIntersectionsOfRelationChains().get(i).
-//                        setConcept(oldConcept);
-//                IntersectionOfRelationChains inter =
-//                        newConcept.getIntersectionsOfRelationChains().get(i);
-//                for (int k = 0; k < inter.getRelationChains().size(); k++) {
-//                    RelationSet rc = inter.getRelationChains().get(k);
-//                    for (int l = 0; l < rc.getRelations().size(); l++) {
-//                        RelationChain_Relation rcr =
-//                                rc.getRelations().get(l);
-//                        Relation rel = rcr.getRelation();
-//                        if (rel.getRightArgument().getExternalSourceId().
-//                                equalsIgnoreCase(newConcept.getExternalSourceId())) {
-//                            rel.setRightArgument(oldConcept);
-//                        } else {
-//                            if (rel.getObject().getExternalSourceId().
-//                                    equalsIgnoreCase(newConcept.getExternalSourceId())) {
-//                                rel.setObject(oldConcept);
-//                            }
-//                        }
-//                    }
-//                }
-//                oldConcept.getIntersectionsOfRelationChains().
-//                        add(newConcept.getIntersectionsOfRelationChains().
-//                                get(i));
-//            }
-//        }
-//    }
     /**
      * Updates the visual representations of a concept, adding the
      * VisualRepresentations of another concept (removing them from that
