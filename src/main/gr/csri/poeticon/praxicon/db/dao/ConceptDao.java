@@ -30,7 +30,7 @@ public interface ConceptDao extends Dao<Long, Concept> {
 
     List<Concept> findConceptsByStatus(Status status);
 
-    Concept getConceptWithExternalSourceIdOrID(String v);
+    Concept getConceptWithExternalSourceIdOrId(String v);
 
     Concept updatedConcept(Concept newConcept);
 

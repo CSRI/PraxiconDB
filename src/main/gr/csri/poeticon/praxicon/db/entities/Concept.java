@@ -681,7 +681,7 @@ public class Concept implements Serializable {
 
         if (Globals.ToMergeAfterUnMarshalling) {
             ConceptDao cDao = new ConceptDaoImpl();
-            Concept tmp = cDao.getConceptWithExternalSourceIdOrID(this.
+            Concept tmp = cDao.getConceptWithExternalSourceIdOrId(this.
                     getExternalSourceId());
             if (tmp == null) {
                 if (this.conceptType == null) {
