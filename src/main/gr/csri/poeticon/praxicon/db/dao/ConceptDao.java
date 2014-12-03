@@ -51,10 +51,10 @@ public interface ConceptDao extends Dao<Long, Concept> {
     List<Concept> getInstancesOf(Concept concept);
 
     public List<Concept> getBasicLevel(Concept concept);
-
-    public List<Concept> getBasicLevelOfAnEntityConcept(Concept concept);
-
-    public List<Concept> getBasicLevelOfAnAbstractConcept(Concept concept);
+//
+//    public List<Concept> getBasicLevelOfAnEntityConcept(Concept concept);
+//
+//    public List<Concept> getBasicLevelOfAnAbstractConcept(Concept concept);
 
     public List<Concept> getConceptsRelatedWithByRelationType(
             Concept concept, RelationType relationType);

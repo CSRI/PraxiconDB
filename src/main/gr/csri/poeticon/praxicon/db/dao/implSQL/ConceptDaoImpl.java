@@ -7,6 +7,10 @@ package gr.csri.poeticon.praxicon.db.dao.implSQL;
 import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationDao;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
+import static gr.csri.poeticon.praxicon.db.entities.Concept.SpecificityLevel.BASIC_LEVEL;
+import static gr.csri.poeticon.praxicon.db.entities.Concept.SpecificityLevel.BASIC_LEVEL_EXTENDED;
+import static gr.csri.poeticon.praxicon.db.entities.Concept.SpecificityLevel.SUBORDINATE;
+import static gr.csri.poeticon.praxicon.db.entities.Concept.SpecificityLevel.SUPERORDINATE;
 import gr.csri.poeticon.praxicon.db.entities.Concept.Status;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
@@ -400,6 +404,41 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     }
 
     /**
+     * Finds all the Basic Level concepts for the given concept
+     *
+     * @param concept concept to be checked
+     * @return The list of BL
+     */
+    @Override
+    public List<Concept> getBasicLevel(Concept concept) {
+        List<Concept> basicLevelConceptsList = new ArrayList<>();
+        List<Concept> conceptsList = new ArrayList<>();
+        if (concept.getSpecificityLevel() == BASIC_LEVEL || concept.
+                getSpecificityLevel() == BASIC_LEVEL_EXTENDED) {
+            basicLevelConceptsList.add(concept);
+            return conceptsList;
+        } else if (concept.getSpecificityLevel() == SUBORDINATE || concept.
+                getSpecificityLevel() == SUPERORDINATE) {
+            conceptsList.addAll(getAllOffsprings(concept));
+            //System.out.println(conceptsList);
+            conceptsList.addAll(getAllAncestors(concept));
+            //System.out.println(conceptsList);
+
+            for (Concept item : conceptsList) {
+                Concept.SpecificityLevel specificityLevel = item.
+                        getSpecificityLevel();
+                //System.out.println(specificityLevel);
+                if (specificityLevel == BASIC_LEVEL || specificityLevel ==
+                        BASIC_LEVEL_EXTENDED) {
+                    //System.out.println(item);
+                    basicLevelConceptsList.add(item);
+                }
+            }
+        }
+        return basicLevelConceptsList;
+    }
+    
+    /**
      * Finds all concepts that are classes of instance (has-instance related) of
      * a given concept
      *
@@ -448,182 +487,145 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         return res;
     }
 
-    /**
-     * Finds all the Basic Level concepts for the given concept
-     *
-     * @param concept concept to be checked
-     * @return The list of BL
-     */
-    @Override
-    public List<Concept> getBasicLevel(Concept concept) {
-// Temporarily disabled the block below until cleared
-//        if (c.getOrigin() == Concept.Origin.MOVEMENT)
-//        {
-//            return getBasicLevelOfMovementOriginConcept(concept);
+
+//    /**
+//     * Finds all the Basic Level concepts for the given non abstract concept.
+//     *
+//     * @param concept
+//     * @return The list of BL
+//     */
+//    @Override
+//    public List<Concept> getBasicLevelOfAnEntityConcept(Concept concept) {
+//        List<Concept> res = new ArrayList<>();
+//        if (concept.getSpecificityLevel() !=
+//                Concept.SpecificityLevel.BASIC_LEVEL &&
+//                concept.getConceptType() != Concept.Type.ABSTRACT) {
+//            List<Concept> parents = getParentsOfConcept(concept);
+//            for (Concept parent : parents) {
+//                res.addAll(getBasicLevelOfAnEntityConcept(parent));
+//            }
+//
+//            if (parents.isEmpty()) {
+//                List<Concept> classes = getClassesOfInstance(concept);
+//                for (Concept classe : classes) {
+//                    res.addAll(getBasicLevelOfAnEntityConcept(classe));
+//                }
+//            }
+//        } else {
+//            if (concept.getSpecificityLevel() ==
+//                    Concept.SpecificityLevel.BASIC_LEVEL) {
+//                res.add(concept);
+//            }
 //        }
-//      else
-//        {
-
-        // AN BL επιστρέφει λίστα με τον εαυτό του.
-        // Αν είναι above BL getBLofanabstractlevel
-        // ελσε ιφ below BL τρέξε BL entity concept
-        if (concept.getConceptType() == Concept.Type.ABSTRACT) {
-            return getBasicLevelOfAnAbstractConcept(concept);
-        } else {
-            if (concept.getConceptType() == Concept.Type.ENTITY ||
-                    concept.getConceptType() == Concept.Type.MOVEMENT ||
-                    concept.getConceptType() == Concept.Type.FEATURE) {
-                return getBasicLevelOfAnEntityConcept(concept);
-            }
-        }
+//        return res;
+//    }
+//    /**
+//     * Finds all the Basic Level concepts for the given abstract concept.
+//     *
+//     * @param concept concept to be checked
+//     * @return The list of BL
+//     */
+//    @Override
+//    public List<Concept> getBasicLevelOfAnAbstractConcept(Concept concept) {
+//        List<Concept> res = new ArrayList<>();
+//
+//        if (concept.getSpecificityLevel() !=
+//                Concept.SpecificityLevel.BASIC_LEVEL &&
+//                concept.getConceptType() == Concept.Type.ABSTRACT) {
+//            List<Concept> children = getChildrenOfConcept(concept);
+//            for (Concept children1 : children) {
+//                res.addAll(getBasicLevelOfAnAbstractConcept(children1));
+//            }
+//        } else {
+//            if (concept.getSpecificityLevel() ==
+//                    Concept.SpecificityLevel.BASIC_LEVEL) {
+//                res.add(concept);
+//            }
 //        }
-
-        return new ArrayList<>();
-    }
-
-    /**
-     * Finds all the Basic Level concepts for the given non abstract concept.
-     *
-     * @param concept
-     * @return The list of BL
-     */
-    @Override
-    public List<Concept> getBasicLevelOfAnEntityConcept(Concept concept) {
-        List<Concept> res = new ArrayList<>();
-        if (concept.getSpecificityLevel() !=
-                Concept.SpecificityLevel.BASIC_LEVEL &&
-                concept.getConceptType() != Concept.Type.ABSTRACT) {
-            List<Concept> parents = getParentsOfConcept(concept);
-            for (Concept parent : parents) {
-                res.addAll(getBasicLevelOfAnEntityConcept(parent));
-            }
-
-            if (parents.isEmpty()) {
-                List<Concept> classes = getClassesOfInstance(concept);
-                for (Concept classe : classes) {
-                    res.addAll(getBasicLevelOfAnEntityConcept(classe));
-                }
-            }
-        } else {
-            if (concept.getSpecificityLevel() ==
-                    Concept.SpecificityLevel.BASIC_LEVEL) {
-                res.add(concept);
-            }
-        }
-        return res;
-    }
-
-    /**
-     * Finds all the Basic Level concepts for the given abstract concept.
-     *
-     * @param concept concept to be checked
-     * @return The list of BL
-     */
-    @Override
-    public List<Concept> getBasicLevelOfAnAbstractConcept(Concept concept) {
-        List<Concept> res = new ArrayList<>();
-
-        if (concept.getSpecificityLevel() !=
-                Concept.SpecificityLevel.BASIC_LEVEL &&
-                concept.getConceptType() == Concept.Type.ABSTRACT) {
-            List<Concept> children = getChildrenOfConcept(concept);
-            for (Concept children1 : children) {
-                res.addAll(getBasicLevelOfAnAbstractConcept(children1));
-            }
-        } else {
-            if (concept.getSpecificityLevel() ==
-                    Concept.SpecificityLevel.BASIC_LEVEL) {
-                res.add(concept);
-            }
-        }
-        return res;
-    }
-
-    /**
-     * Finds all the Basic Level concepts for the given movement origin concept.
-     *
-     * @param concept concept to be checked
-     * @return The list of BL
-     */
-    // special getting BL for movement origin concepts 
-    // lookin up and down regardless Type
-    private List<Concept> getBasicLevelOfMovementOriginConcept(Concept concept) {
-        List<Concept> res = new ArrayList<>();
-
-        if (concept.getSpecificityLevel() ==
-                Concept.SpecificityLevel.BASIC_LEVEL) {
-            res.add(concept);
-        } else {
-            res.addAll(getBasicLevelOfMovementOriginConceptGoingDown(concept));
-            res.addAll(getBasicLevelOfMovementOriginConceptGoingUp(concept));
-        }
-        return res;
-    }
-
-    /**
-     * Finds all the Basic Level concepts for the given concept, moving only up
-     * in the hierarchy.
-     *
-     * @param concept concept to be checked
-     * @return The list of BL
-     */
-    private List<Concept> getBasicLevelOfMovementOriginConceptGoingUp(
-            Concept concept) {
-        List<Concept> res = new ArrayList<>();
-
-        if (concept.getSpecificityLevel() !=
-                Concept.SpecificityLevel.BASIC_LEVEL) {
-            List<Concept> parents = getParentsOfConcept(concept);
-            for (Concept parent : parents) {
-                res.addAll(getBasicLevelOfMovementOriginConceptGoingUp(parent));
-            }
-
-            if (parents.isEmpty()) {
-                List<Concept> classes = getClassesOfInstance(concept);
-                for (Concept classe : classes) {
-                    res.addAll(getBasicLevelOfMovementOriginConceptGoingUp(
-                            classe));
-                }
-            }
-        } else {
-            if (concept.getSpecificityLevel() ==
-                    Concept.SpecificityLevel.BASIC_LEVEL) {
-                res.add(concept);
-            }
-        }
-        return res;
-    }
-
-    /**
-     * Finds all the Basic Level concepts for the given concept, moving only
-     * down in the hierarchy.
-     *
-     * @param concept concept to be checked
-     * @return The list of BL
-     */
-    private List<Concept> getBasicLevelOfMovementOriginConceptGoingDown(
-            Concept concept) {
-        List<Concept> res = new ArrayList<>();
-
-        if (concept.getSpecificityLevel() !=
-                Concept.SpecificityLevel.BASIC_LEVEL) {
-            List<Concept> children = getChildrenOfConcept(concept);
-            for (Concept children1 : children) {
-                res.addAll(getBasicLevelOfMovementOriginConceptGoingDown(
-                        children1));
-            }
-        } else {
-            if (concept.getSpecificityLevel() ==
-                    Concept.SpecificityLevel.BASIC_LEVEL) {
-                res.add(concept);
-            }
-        }
-        return res;
-    }
-
+//        return res;
+//    }
+//    /**
+//     * Finds all the Basic Level concepts for the given movement origin concept.
+//     *
+//     * @param concept concept to be checked
+//     * @return The list of BL
+//     */
+//    // special getting BL for movement origin concepts 
+//    // lookin up and down regardless Type
+//    private List<Concept> getBasicLevelOfMovementOriginConcept(Concept concept) {
+//        List<Concept> res = new ArrayList<>();
+//
+//        if (concept.getSpecificityLevel() ==
+//                Concept.SpecificityLevel.BASIC_LEVEL) {
+//            res.add(concept);
+//        } else {
+//            res.addAll(getBasicLevelOfMovementOriginConceptGoingDown(concept));
+//            res.addAll(getBasicLevelOfMovementOriginConceptGoingUp(concept));
+//        }
+//        return res;
+//    }
+//    /**
+//     * Finds all the Basic Level concepts for the given concept, moving only up
+//     * in the hierarchy.
+//     *
+//     * @param concept concept to be checked
+//     * @return The list of BL
+//     */
+//    private List<Concept> getBasicLevelOfMovementOriginConceptGoingUp(
+//            Concept concept) {
+//        List<Concept> res = new ArrayList<>();
+//
+//        if (concept.getSpecificityLevel() !=
+//                Concept.SpecificityLevel.BASIC_LEVEL) {
+//            List<Concept> parents = getParentsOfConcept(concept);
+//            for (Concept parent : parents) {
+//                res.addAll(getBasicLevelOfMovementOriginConceptGoingUp(parent));
+//            }
+//
+//            if (parents.isEmpty()) {
+//                List<Concept> classes = getClassesOfInstance(concept);
+//                for (Concept classe : classes) {
+//                    res.addAll(getBasicLevelOfMovementOriginConceptGoingUp(
+//                            classe));
+//                }
+//            }
+//        } else {
+//            if (concept.getSpecificityLevel() ==
+//                    Concept.SpecificityLevel.BASIC_LEVEL) {
+//                res.add(concept);
+//            }
+//        }
+//        return res;
+//    }
+//    /**
+//     * Finds all the Basic Level concepts for the given concept, moving only
+//     * down in the hierarchy.
+//     *
+//     * @param concept concept to be checked
+//     * @return The list of BL
+//     */
+//    private List<Concept> getBasicLevelOfMovementOriginConceptGoingDown(
+//            Concept concept) {
+//        List<Concept> res = new ArrayList<>();
+//
+//        if (concept.getSpecificityLevel() !=
+//                Concept.SpecificityLevel.BASIC_LEVEL) {
+//            List<Concept> children = getChildrenOfConcept(concept);
+//            for (Concept children1 : children) {
+//                res.addAll(getBasicLevelOfMovementOriginConceptGoingDown(
+//                        children1));
+//            }
+//        } else {
+//            if (concept.getSpecificityLevel() ==
+//                    Concept.SpecificityLevel.BASIC_LEVEL) {
+//                res.add(concept);
+//            }
+//        }
+//        return res;
+//    }
     /**
      * Finds all concepts that are related to a given concept using a given
- relation Type
+     * relation Type
      *
      * @param concept      the concept
      * @param relationType the Type of relation (direction sensitive)
@@ -666,7 +668,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     // TODO: All methods below are not referenced in ConceptDao
     /**
      * Creates q query to search for a concept using name, Type, Status and
- pragmatic Status
+     * pragmatic Status
      *
      * @param concept the concept to be searched
      * @return a query to search for the concept
