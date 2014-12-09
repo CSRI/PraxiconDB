@@ -17,7 +17,11 @@ import java.util.List;
 public interface ConceptDao extends Dao<Long, Concept> {
 
     List<Concept> findAllConcepts();
+    
+    List<Concept> findAllBasicLevelConcepts();
 
+        List<Concept> findAllNonBasicLevelConcepts();
+    
     Concept findConceptByConceptId(long conceptId);
 
     List<Concept> findConceptsByExternalSourceId(String name);

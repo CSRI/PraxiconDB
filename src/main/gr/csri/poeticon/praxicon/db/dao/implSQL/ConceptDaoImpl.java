@@ -16,6 +16,7 @@ import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.Query;
 
@@ -39,6 +40,21 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         List<Concept> concepts = query.getResultList();
         return concepts;
     }
+
+    public List<Concept> findAllBasicLevelConcepts() {
+        Query query = getEntityManager().createNamedQuery(
+                "findAllBasicLevelConcepts");
+        List<Concept> concepts = query.getResultList();
+        return concepts;
+    }
+    
+    public List<Concept> findAllNonBasicLevelConcepts() {
+        Query query = getEntityManager().createNamedQuery(
+                "findAllNonBasicLevelConcepts");
+        List<Concept> concepts = query.getResultList();
+        return concepts;
+    }
+    
 
     /**
      * Finds all concepts that have a specific conceptId
@@ -360,22 +376,22 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts
      */
     @Override
-    public List<Concept> getAllAncestors(Concept concept) {
-        List<Concept> res = new ArrayList<>();
+    public LinkedList<Concept> getAllAncestors(Concept concept) {
+        LinkedList<Concept> ancestorConcepts = new LinkedList<>();
 
         List<Concept> parents = getParentsOfConcept(concept);
         for (Concept parent : parents) {
-            if (!res.contains(parent)) {
-                res.add(parent);
-            }
-            List<Concept> tmp = getAllAncestors(parent);
-            for (Concept tmpC : tmp) {
-                if (!res.contains(tmpC)) {
-                    res.add(tmpC);
-                }
+//            if (!ancestorConcepts.contains(parent)) {
+            ancestorConcepts.add(parent);
+//            }
+            LinkedList<Concept> ancestors = getAllAncestors(parent);
+            for (Concept ancestor : ancestors) {
+//                if (!ancestorConcepts.contains(ancestor)) {
+                ancestorConcepts.add(ancestor);
+//                }
             }
         }
-        return res;
+        return ancestorConcepts;
     }
 
     /**
@@ -386,21 +402,23 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts
      */
     @Override
-    public List<Concept> getAllOffsprings(Concept concept) {
-        List<Concept> res = new ArrayList<>();
+    public LinkedList<Concept> getAllOffsprings(Concept concept) {
+        LinkedList<Concept> offspringConcepts = new LinkedList<>();
+
         List<Concept> children = getChildrenOfConcept(concept);
+
         for (Concept child : children) {
-            if (!res.contains(child)) {
-                res.add(child);
-            }
-            List<Concept> tmp = getAllOffsprings(child);
-            for (Concept tmpC : tmp) {
-                if (!res.contains(tmpC)) {
-                    res.add(tmpC);
-                }
+//            if (!offspringConcepts.contains(child)) {
+            offspringConcepts.add(child);
+//            }
+            LinkedList<Concept> offsprings = getAllOffsprings(child);
+            for (Concept offspring : offsprings) {
+//                if (!offspringConcepts.contains(offspring)) {
+                offspringConcepts.add(offspring);
+//                }
             }
         }
-        return res;
+        return offspringConcepts;
     }
 
     /**
@@ -410,34 +428,29 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return The list of BL
      */
     @Override
-    public List<Concept> getBasicLevel(Concept concept) {
-        List<Concept> basicLevelConceptsList = new ArrayList<>();
-        List<Concept> conceptsList = new ArrayList<>();
+    public LinkedList<Concept> getBasicLevel(Concept concept) {
+        LinkedList<Concept> basicLevelConceptsList = new LinkedList<>();
+        LinkedList<Concept> conceptsList = new LinkedList<>();
         if (concept.getSpecificityLevel() == BASIC_LEVEL || concept.
                 getSpecificityLevel() == BASIC_LEVEL_EXTENDED) {
             basicLevelConceptsList.add(concept);
-            return conceptsList;
         } else if (concept.getSpecificityLevel() == SUBORDINATE || concept.
                 getSpecificityLevel() == SUPERORDINATE) {
             conceptsList.addAll(getAllOffsprings(concept));
-            //System.out.println(conceptsList);
             conceptsList.addAll(getAllAncestors(concept));
-            //System.out.println(conceptsList);
 
             for (Concept item : conceptsList) {
                 Concept.SpecificityLevel specificityLevel = item.
                         getSpecificityLevel();
-                //System.out.println(specificityLevel);
                 if (specificityLevel == BASIC_LEVEL || specificityLevel ==
                         BASIC_LEVEL_EXTENDED) {
-                    //System.out.println(item);
                     basicLevelConceptsList.add(item);
                 }
             }
         }
         return basicLevelConceptsList;
     }
-    
+
     /**
      * Finds all concepts that are classes of instance (has-instance related) of
      * a given concept
@@ -487,7 +500,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         return res;
     }
 
-
 //    /**
 //     * Finds all the Basic Level concepts for the given non abstract concept.
 //     *
@@ -496,28 +508,28 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
 //     */
 //    @Override
 //    public List<Concept> getBasicLevelOfAnEntityConcept(Concept concept) {
-//        List<Concept> res = new ArrayList<>();
+//        List<Concept> offspringConcepts = new ArrayList<>();
 //        if (concept.getSpecificityLevel() !=
 //                Concept.SpecificityLevel.BASIC_LEVEL &&
 //                concept.getConceptType() != Concept.Type.ABSTRACT) {
 //            List<Concept> parents = getParentsOfConcept(concept);
 //            for (Concept parent : parents) {
-//                res.addAll(getBasicLevelOfAnEntityConcept(parent));
+//                offspringConcepts.addAll(getBasicLevelOfAnEntityConcept(parent));
 //            }
 //
 //            if (parents.isEmpty()) {
 //                List<Concept> classes = getClassesOfInstance(concept);
 //                for (Concept classe : classes) {
-//                    res.addAll(getBasicLevelOfAnEntityConcept(classe));
+//                    offspringConcepts.addAll(getBasicLevelOfAnEntityConcept(classe));
 //                }
 //            }
 //        } else {
 //            if (concept.getSpecificityLevel() ==
 //                    Concept.SpecificityLevel.BASIC_LEVEL) {
-//                res.add(concept);
+//                offspringConcepts.add(concept);
 //            }
 //        }
-//        return res;
+//        return offspringConcepts;
 //    }
 //    /**
 //     * Finds all the Basic Level concepts for the given abstract concept.
@@ -527,22 +539,22 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
 //     */
 //    @Override
 //    public List<Concept> getBasicLevelOfAnAbstractConcept(Concept concept) {
-//        List<Concept> res = new ArrayList<>();
+//        List<Concept> offspringConcepts = new ArrayList<>();
 //
 //        if (concept.getSpecificityLevel() !=
 //                Concept.SpecificityLevel.BASIC_LEVEL &&
 //                concept.getConceptType() == Concept.Type.ABSTRACT) {
 //            List<Concept> children = getChildrenOfConcept(concept);
 //            for (Concept children1 : children) {
-//                res.addAll(getBasicLevelOfAnAbstractConcept(children1));
+//                offspringConcepts.addAll(getBasicLevelOfAnAbstractConcept(children1));
 //            }
 //        } else {
 //            if (concept.getSpecificityLevel() ==
 //                    Concept.SpecificityLevel.BASIC_LEVEL) {
-//                res.add(concept);
+//                offspringConcepts.add(concept);
 //            }
 //        }
-//        return res;
+//        return offspringConcepts;
 //    }
 //    /**
 //     * Finds all the Basic Level concepts for the given movement origin concept.
@@ -553,16 +565,16 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
 //    // special getting BL for movement origin concepts 
 //    // lookin up and down regardless Type
 //    private List<Concept> getBasicLevelOfMovementOriginConcept(Concept concept) {
-//        List<Concept> res = new ArrayList<>();
+//        List<Concept> offspringConcepts = new ArrayList<>();
 //
 //        if (concept.getSpecificityLevel() ==
 //                Concept.SpecificityLevel.BASIC_LEVEL) {
-//            res.add(concept);
+//            offspringConcepts.add(concept);
 //        } else {
-//            res.addAll(getBasicLevelOfMovementOriginConceptGoingDown(concept));
-//            res.addAll(getBasicLevelOfMovementOriginConceptGoingUp(concept));
+//            offspringConcepts.addAll(getBasicLevelOfMovementOriginConceptGoingDown(concept));
+//            offspringConcepts.addAll(getBasicLevelOfMovementOriginConceptGoingUp(concept));
 //        }
-//        return res;
+//        return offspringConcepts;
 //    }
 //    /**
 //     * Finds all the Basic Level concepts for the given concept, moving only up
@@ -573,29 +585,29 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
 //     */
 //    private List<Concept> getBasicLevelOfMovementOriginConceptGoingUp(
 //            Concept concept) {
-//        List<Concept> res = new ArrayList<>();
+//        List<Concept> offspringConcepts = new ArrayList<>();
 //
 //        if (concept.getSpecificityLevel() !=
 //                Concept.SpecificityLevel.BASIC_LEVEL) {
 //            List<Concept> parents = getParentsOfConcept(concept);
 //            for (Concept parent : parents) {
-//                res.addAll(getBasicLevelOfMovementOriginConceptGoingUp(parent));
+//                offspringConcepts.addAll(getBasicLevelOfMovementOriginConceptGoingUp(parent));
 //            }
 //
 //            if (parents.isEmpty()) {
 //                List<Concept> classes = getClassesOfInstance(concept);
 //                for (Concept classe : classes) {
-//                    res.addAll(getBasicLevelOfMovementOriginConceptGoingUp(
+//                    offspringConcepts.addAll(getBasicLevelOfMovementOriginConceptGoingUp(
 //                            classe));
 //                }
 //            }
 //        } else {
 //            if (concept.getSpecificityLevel() ==
 //                    Concept.SpecificityLevel.BASIC_LEVEL) {
-//                res.add(concept);
+//                offspringConcepts.add(concept);
 //            }
 //        }
-//        return res;
+//        return offspringConcepts;
 //    }
 //    /**
 //     * Finds all the Basic Level concepts for the given concept, moving only
@@ -606,22 +618,22 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
 //     */
 //    private List<Concept> getBasicLevelOfMovementOriginConceptGoingDown(
 //            Concept concept) {
-//        List<Concept> res = new ArrayList<>();
+//        List<Concept> offspringConcepts = new ArrayList<>();
 //
 //        if (concept.getSpecificityLevel() !=
 //                Concept.SpecificityLevel.BASIC_LEVEL) {
 //            List<Concept> children = getChildrenOfConcept(concept);
 //            for (Concept children1 : children) {
-//                res.addAll(getBasicLevelOfMovementOriginConceptGoingDown(
+//                offspringConcepts.addAll(getBasicLevelOfMovementOriginConceptGoingDown(
 //                        children1));
 //            }
 //        } else {
 //            if (concept.getSpecificityLevel() ==
 //                    Concept.SpecificityLevel.BASIC_LEVEL) {
-//                res.add(concept);
+//                offspringConcepts.add(concept);
 //            }
 //        }
-//        return res;
+//        return offspringConcepts;
 //    }
     /**
      * Finds all concepts that are related to a given concept using a given
