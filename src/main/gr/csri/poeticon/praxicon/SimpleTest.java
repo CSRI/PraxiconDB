@@ -119,12 +119,45 @@ public class SimpleTest {
             System.out.println(sister + " - \t" + sister.getSpecificityLevel());
         }
 
-        // Get all Language Representation texts.
+        // Get all Language Representation texts count.
+        // Would be faster to implement a NamedQuery for that, but wanted to
+        // test the getAllLanguageRepresentationText() method.
         System.out.println("\n\nCount of all Language Representation Texts:");
         System.out.println("-------------------------------------------");
         List<String> languageRepresentationTexts = new ArrayList<>();
         languageRepresentationTexts = lrDao.getAllLanguageRepresentationText();
         System.out.println(languageRepresentationTexts.size());
+
+        // Get all Basic Level Concepts.
+        System.out.println("\n\nAll Basic Level Concepts:");
+        System.out.println("-------------------------------------------");
+        List<Concept> basicLevelConcepts = new ArrayList<>();
+        basicLevelConcepts = cDao.findAllBasicLevelConcepts();
+        for (Concept concept : basicLevelConcepts){
+            System.out.println(concept);
+        }
+        
+        String stringToSearch = "entity%1:03:00::";
+        System.out.println("\n\nBasic Level of concept " + stringToSearch);
+        System.out.println("-------------------------------------------");
+        Concept concept = cDao.findConceptByExternalSourceIdExact(
+                stringToSearch);
+        long startTime = System.nanoTime();
+        List<Concept> basicLevelOfConceptSoupSpoon = cDao.getBasicLevel(concept);
+        long endTime = System.nanoTime();
+        System.out.print(
+                "Time of getBasicLevel() for concept: " + stringToSearch + " ");
+        System.out.print((endTime - startTime) / 1000000000);
+        System.out.println(" seconds");
+
+        if (basicLevelOfConceptSoupSpoon.isEmpty()) {
+            System.out.println("Concept " + stringToSearch +
+                    " doesn't have a Basic Level Concept");
+        } else {
+            for (Concept item : basicLevelOfConceptSoupSpoon) {
+                System.out.println(item);
+            }
+        }
 
         System.out.println("\n\nAll relations with relation type: HAS_INSTANCE");
         System.out.println("-----------------------------------------------");
