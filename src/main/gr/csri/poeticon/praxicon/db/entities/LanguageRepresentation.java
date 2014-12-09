@@ -265,7 +265,6 @@ public class LanguageRepresentation implements Serializable {
     }
 
     public void setProductivity(String productivity) {
-        // TODO: Check if it returns the correct value.
         this.productivity = Productivity.valueOf(productivity.trim().
                 toUpperCase());
     }
@@ -371,7 +370,8 @@ public class LanguageRepresentation implements Serializable {
                 this.language.name().equals(other.language.name()) &&
                 this.text.equalsIgnoreCase(other.text) &&
                 this.partOfSpeech == other.partOfSpeech &&
-                this.pragmaticStatus == other.pragmaticStatus) {
+                this.pragmaticStatus == other.pragmaticStatus &&
+                this.productivity == other.productivity) {
             return true;
         } else {
             return false;
