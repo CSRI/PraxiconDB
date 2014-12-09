@@ -48,6 +48,10 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name = "findAllConcepts", query = "FROM Concept c"),
     @NamedQuery(name = "findConceptsByConceptId", query =
             "FROM Concept c WHERE c.id = :conceptId"),
+    @NamedQuery(name = "findAllBasicLevelConcepts", query =
+            "FROM Concept c WHERE c.specificityLevel = 'BASIC_LEVEL'"),
+    @NamedQuery(name = "findAllNonBasicLevelConcepts", query =
+            "FROM Concept c WHERE c.specificityLevel != 'BASIC_LEVEL'"),
     @NamedQuery(name = "findConceptsByExternalSourceId", query =
             "FROM Concept c WHERE c.externalSourceId LIKE :conceptExternalSourceId"),
     @NamedQuery(name = "findConceptByExternalSourceIdExact", query =
@@ -385,7 +389,8 @@ public class Concept implements Serializable {
     public final List<LanguageRepresentation> getLanguageRepresentations() {
         List<LanguageRepresentation> lrs;
         lrs = new ArrayList();
-        for (Concept_LanguageRepresentation clr : this.getConceptLanguageRepresentation()) {
+        for (Concept_LanguageRepresentation clr : this.
+                getConceptLanguageRepresentation()) {
             lrs.add(clr.getLanguageRepresentation());
         }
         return lrs;
