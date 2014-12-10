@@ -73,6 +73,12 @@ public class RelationSet implements Serializable {
     )
     List<LanguageRepresentation> languageRepresentations;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
+    private List<VisualRepresentation> visualRepresentations;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
+    private List<MotoricRepresentation> motoricRepresentations;
+
     /**
      * Constructor #1.
      */
@@ -228,6 +234,54 @@ public class RelationSet implements Serializable {
     public void addLanguageRepresentation(
             LanguageRepresentation languageRepresentation) {
         this.languageRepresentations.add(languageRepresentation);
+    }
+
+    public List<VisualRepresentation> getVisualRepresentations() {
+        return visualRepresentations;
+    }
+
+    public void addVisualRepresentation(
+            VisualRepresentation visualRepresentation) {
+        this.visualRepresentations.add(visualRepresentation);
+    }
+
+    public void setVisualRepresentation(
+            List<VisualRepresentation> visualRepresentations) {
+        this.visualRepresentations = visualRepresentations;
+    }
+
+    public final List<VisualRepresentation> getVisualRepresentationsEntries() {
+        List<VisualRepresentation> visualRepresentationEntries =
+                new ArrayList<>();
+        for (VisualRepresentation VisualRepresentation
+                : this.visualRepresentations) {
+            visualRepresentationEntries.add(VisualRepresentation);
+        }
+        return visualRepresentationEntries;
+    }
+
+    public final List<MotoricRepresentation> getMotoricRepresentations() {
+        return motoricRepresentations;
+    }
+
+    public List<MotoricRepresentation> getMotoricRepresentationsEntries() {
+        List<MotoricRepresentation> motoric_representation_entries =
+                new ArrayList<>();
+        for (MotoricRepresentation MotoricRepresentation
+                : this.motoricRepresentations) {
+            motoric_representation_entries.add(MotoricRepresentation);
+        }
+        return motoric_representation_entries;
+    }
+
+    public void setMotoricRepresentations(
+            List<MotoricRepresentation> motoricRepresentations) {
+        this.motoricRepresentations = motoricRepresentations;
+    }
+
+    public void addMotoricRepresentation(
+            MotoricRepresentation motoricRepresentation) {
+        this.motoricRepresentations.add(motoricRepresentation);
     }
 
     @Override
