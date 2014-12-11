@@ -108,6 +108,7 @@ public class Concept implements Serializable {
 
     /**
      * Enumeration for the Type of concept Status.
+     *
      */
     public static enum Status {
 
@@ -192,7 +193,9 @@ public class Concept implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
     private List<MotoricRepresentation> motoricRepresentations;
 
-    // Public Constructor
+    /**
+     * Public Constructor.
+     */
     public Concept() {
         externalSourceId = null;
         comment = "";
@@ -202,6 +205,11 @@ public class Concept implements Serializable {
         motoricRepresentations = new ArrayList<>();
     }
 
+    /**
+     * Public Constructor with argument.
+     *
+     * @param newConcept
+     */
     private Concept(Concept newConcept) {
         this.externalSourceId = newConcept.externalSourceId;
         this.conceptType = newConcept.getConceptType();
@@ -240,19 +248,30 @@ public class Concept implements Serializable {
         }
     }
 
+    /**
+     * Gets the id of the concept.
+     *
+     * @return long
+     */
     @XmlAttribute
     public Long getId() {
         return id;
     }
 
+    /**
+     * Sets the id of the concept.
+     *
+     * @param id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
     /**
-     * @return the externalSourceId of the concept.
-     * @xmlcomments.args xmltag="name" xmldescription="This attribute defines
-     * the name of the element"
+     * Gets the external source id of the concept. This is usually the id
+     * of the resource that was used to populate the Praxicon.
+     *
+     * @return String - The externalSourceId of the concept.
      */
     public String getExternalSourceId() {
         if (externalSourceId != null) {
@@ -262,44 +281,74 @@ public class Concept implements Serializable {
         }
     }
 
+    /**
+     * Sets the external source id.
+     *
+     * @param externalSourceId
+     */
     public void setExternalSourceId(String externalSourceId) {
         this.externalSourceId = externalSourceId.trim();
     }
 
     /**
-     * @return the Type of the concept.
-     * @xmlcomments.args xmltag="&lt;concept_type&gt;" xmldescription="This tag
-     * defines the type of the concept entity (abstract, entity, feature,
-     * movement, unknown)"
+     * Gets the type of the concept.
+     *
+     * @return Type - The Type of the concept.
      */
     public Type getConceptType() {
         return conceptType;
     }
 
+    /**
+     * Sets the type of the concept. Permitted values:
+     * ABSTRACT, ENTITY, FEATURE, MOVEMENT, UNKNOWN;
+     *
+     * @param conceptType - Type
+     */
     public void setConceptType(Type conceptType) {
         this.conceptType = conceptType;
     }
 
+    /**
+     * Sets the type of the concept. Overloaded.
+     *
+     * @param conceptType - String
+     */
     public void setConceptType(String conceptType) {
         this.conceptType = Type.valueOf(conceptType.trim().toUpperCase());
     }
 
     /**
+     * Gets the specificity level of the concept.
+     *
      * @return the specificity level of the concept.
-     * @xmlcomments.args xmltag="&lt;specificity_level&gt;" xmldescription="This
-     * tag defines the specificity level of the concept"
+     *
      */
     public SpecificityLevel getSpecificityLevel() {
         return specificityLevel;
     }
 
+    /**
+     * Sets the specificity level of the concept. Permitted values:
+     * SUBORDINATE, BASIC_LEVEL, BASIC_LEVEL_EXTENDED, SUPERORDINATE, UNKNOWN
+     *
+     * @param levelType
+     */
     public void setSpecificityLevel(SpecificityLevel levelType) {
         this.specificityLevel = levelType;
     }
 
+    /**
+     * Sets the specificity level of the concept. Overloaded.
+     *
+     * @param levelType - String
+     */
     public void setSpecificityLevel(String levelType) {
         if (levelType.equalsIgnoreCase("BASIC_LEVEL")) {
             this.specificityLevel = Concept.SpecificityLevel.BASIC_LEVEL;
+        } else if (levelType.equalsIgnoreCase("BASIC_LEVEL_EXTENDED")) {
+            this.specificityLevel =
+                    Concept.SpecificityLevel.BASIC_LEVEL_EXTENDED;
         } else if (levelType.equalsIgnoreCase("SUPERORDINATE")) {
             this.specificityLevel = Concept.SpecificityLevel.SUPERORDINATE;
         } else if (levelType.equalsIgnoreCase("SUBORDINATE")) {
@@ -310,80 +359,115 @@ public class Concept implements Serializable {
     }
 
     /**
+     * Gets the status of the concept.
+     *
      * @return the Status of the concept.
-     * @xmlcomments.args xmltag="&lt;status&gt;" xmldescription="This tag
-     * defines if the entity is a variable, a constant or a template"
      */
-    //@ConstantConcepts(value=Status.CONSTANT)
     public Status getStatus() {
         return status;
     }
 
-    //@ConstantConcepts
+    /**
+     * Sets the status of the concept. Permitted values:
+     * CONSTANT, VARIABLE
+     *
+     * @param varType - Status
+     */
     public void setStatus(Status varType) {
         this.status = varType;
     }
 
-    //@ConstantConcepts
+    /**
+     * Sets the status of the concept. Overloaded
+     *
+     * @param varType - String
+     */
     public void setStatus(String varType) {
         this.status = status.valueOf(varType.trim().toUpperCase());
     }
 
     /**
-     * @return @xmlcomments.args xmltag="&lt;unique_instance&gt;"
-     *         xmldescription="This tag defines the source of the concept
-     *         (from which resources was generated (for example: Wordnet)"
+     * Gets whether the concept is a unique instance.
+     *
+     * @return The unique instance of the concept
      */
     public UniqueInstance getUniqueInstance() {
         return uniqueInstance;
     }
 
+    /**
+     * Sets the unique instance of the concept. Permitted values:
+     * YES, NO, UNKNOWN
+     *
+     * @param uniqueInstance
+     */
     public void setUniqueInstance(UniqueInstance uniqueInstance) {
         this.uniqueInstance = uniqueInstance;
     }
 
     /**
+     * Gets the ontological domain of the concept. It defines the domain in
+     * terms of ontology that the concept belongs to
+     * (for example: natural event, activity or physical process)
+     *
      * @return The ontological domain of the concept
-     *         (e.g. natural event, activity or physical process.)
-     * @xmlcomments.args xmltag="&lt;ontological_domain&gt;" xmldescription="This
-     * tag defines the domain in terms of ontology that the concept belongs
-     * (for example: natural event, activity or physical process) "
      */
     public String getOntologicalDomain() {
         return ontologicalDomain;
     }
 
+    /**
+     * Sets the ontological domain of the concept.
+     *
+     * @param ontologicalDomain
+     */
     public void setOntologicalDomain(String ontologicalDomain) {
         this.ontologicalDomain = ontologicalDomain;
     }
 
     /**
-     * @return the source of the concept (where the concept came from)
-     * @xmlcomments.args xmltag="&lt;source&gt;" xmldescription="This
-     * tag defines the source of the concept (from which resources
-     * was generated (for example: Wordnet)"
+     * Gets the source of the concept. Where the concept came from
+     * (e.g. WordNew).
+     *
+     * @return the source of the concept
+     *
+     *
      */
     public String getSource() {
         return source;
     }
 
+    /**
+     * Sets the source of the concept.
+     *
+     * @param source
+     */
     public void setSource(String source) {
         this.source = source;
     }
 
     /**
+     * Gets the comment.
+     *
      * @return a string containing additional information about the concept.
      */
     public String getComment() {
         return comment;
     }
 
+    /**
+     * Sets the comment.
+     *
+     * @param comment
+     */
     public void setComment(String comment) {
         this.comment = comment;
     }
 
     /**
-     * @return the Language representations of the concept
+     * Gets the language representations of the concept.
+     *
+     * @return a list containing the concept's language representations
      *
      */
     public final List<LanguageRepresentation> getLanguageRepresentations() {
@@ -397,7 +481,10 @@ public class Concept implements Serializable {
     }
 
     /**
-     * @return the concept Language representation instance of the concept
+     * Gets the Concept_LanguageRepresentation construct which helps get
+     * the language representations.
+     *
+     * @return the Concept_LanguageRepresentation instance of the concept
      *
      */
     public final List<Concept_LanguageRepresentation>
@@ -405,6 +492,11 @@ public class Concept implements Serializable {
         return languageRepresentations;
     }
 
+    /**
+     * Gets a list of Concept_LanguageRepresentation instances.
+     *
+     * @return a list of Concept_LanguageRepresentation instances for the concept
+     */
     public List<Concept_LanguageRepresentation> getLanguageRepresentationsEntries() {
         List<Concept_LanguageRepresentation> language_representation_entries =
                 new ArrayList<>();
@@ -517,24 +609,39 @@ public class Concept implements Serializable {
     }
 
     /**
-     * @return @xmlcomments.args xmltag="&lt;visual_representation&gt;"
-     *         xmldescription="This tag defines the Visual Representation of the
-     *         concept"
+     * Gets the visual representations of the concept
+     *
+     * @return visual representations construct
      */
     public List<VisualRepresentation> getVisualRepresentations() {
         return visualRepresentations;
     }
 
+    /**
+     * Add a visual representation for this concept.
+     *
+     * @param visualRepresentation
+     */
     public void addVisualRepresentation(
             VisualRepresentation visualRepresentation) {
         this.visualRepresentations.add(visualRepresentation);
     }
 
+    /**
+     * Sets the visual representation for this concept.
+     *
+     * @param visualRepresentations
+     */
     public void setVisualRepresentation(
             List<VisualRepresentation> visualRepresentations) {
         this.visualRepresentations = visualRepresentations;
     }
 
+    /**
+     * Gets a list of visual representations for this concept
+     *
+     * @return a list of visual representations
+     */
     public final List<VisualRepresentation> getVisualRepresentationsEntries() {
         List<VisualRepresentation> visualRepresentationEntries =
                 new ArrayList<>();
@@ -547,7 +654,7 @@ public class Concept implements Serializable {
 
     /**
      * Updates VisualRepresentations of a concept using this concept
-     * VisualRepresentations
+     * VisualRepresentations.
      *
      * @param oldConcept the concept to be updated
      */
@@ -563,13 +670,18 @@ public class Concept implements Serializable {
     }
 
     /**
-     * @return @xmlcomments.args xmltag="&lt;motoric_representation&gt;"
-     *         xmldescription="This tag defines the motoric representation"
+     * Gets the motoric representation for this concept.
+     *
+     * @return motoric representation construct
      */
     public final List<MotoricRepresentation> getMotoricRepresentations() {
         return motoricRepresentations;
     }
 
+    /**
+     * Gets a list of motoric representations for this concept.
+     * @return a list of motoric representations
+     */
     public List<MotoricRepresentation> getMotoricRepresentationsEntries() {
         List<MotoricRepresentation> motoric_representation_entries =
                 new ArrayList<>();
@@ -580,6 +692,10 @@ public class Concept implements Serializable {
         return motoric_representation_entries;
     }
 
+    /**
+     * Sets the motoric representations for this concept.
+     * @param motoricRepresentations 
+     */
     public void setMotoricRepresentations(
             List<MotoricRepresentation> motoricRepresentations) {
         this.motoricRepresentations = motoricRepresentations;
@@ -608,10 +724,10 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Gets a string of concatenated full info for the concept. concept Type,
+     * Gets a string of concatenated full info for this concept. concept Type,
      * Status, pragmatic Status, specificity level, description
      *
-     * @return a string
+     * @return a string of information for this concept
      */
     public String getInfo() {
         StringBuilder sb = new StringBuilder();
@@ -628,7 +744,7 @@ public class Concept implements Serializable {
      * Gets a string of concatenated short info for the concept. concept Type
      * and specificity level
      *
-     * @return a string
+     * @return a string of short information for this concept
      */
     public String getInfoShort() {
         StringBuilder sb = new StringBuilder();
