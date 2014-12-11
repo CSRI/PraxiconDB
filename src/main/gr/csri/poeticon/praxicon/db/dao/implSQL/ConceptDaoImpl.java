@@ -450,7 +450,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             getBasicLevelConcepts(Concept concept) {
         List<Concept> conceptsListUp = new ArrayList<>();
         List<Concept> conceptsListDown = new ArrayList<>();
-
         List<Map.Entry<Concept, Direction>> basicLevelConceptsList;
         basicLevelConceptsList = new ArrayList<>();
         Concept.SpecificityLevel specificityLevel = concept.
@@ -470,7 +469,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 if (specificityLevelUp == BASIC_LEVEL || specificityLevelUp ==
                         BASIC_LEVEL_EXTENDED) {
                     AbstractMap.SimpleEntry<Concept, Direction> pair =
-                            new java.util.AbstractMap.SimpleEntry<>(concept,
+                            new java.util.AbstractMap.SimpleEntry<>(upConcept,
                                     Direction.UP);
                     basicLevelConceptsList.add(pair);
                 }
@@ -478,13 +477,14 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         } else if (specificityLevel == SUPERORDINATE) {
             conceptsListDown.addAll(getAllOffsprings(concept));
             conceptsListUp.addAll(getAllAncestors(concept));
+
             for (Concept downConcept : conceptsListDown) {
                 Concept.SpecificityLevel specificityLevelDown = downConcept.
                         getSpecificityLevel();
                 if (specificityLevelDown == BASIC_LEVEL ||
                         specificityLevelDown == BASIC_LEVEL_EXTENDED) {
                     AbstractMap.SimpleEntry<Concept, Direction> pair =
-                            new java.util.AbstractMap.SimpleEntry<>(concept,
+                            new java.util.AbstractMap.SimpleEntry<>(downConcept,
                                     Direction.DOWN);
                     basicLevelConceptsList.add(pair);
                 }
@@ -495,7 +495,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 if (specificityLevelUp == BASIC_LEVEL || specificityLevelUp ==
                         BASIC_LEVEL_EXTENDED) {
                     AbstractMap.SimpleEntry<Concept, Direction> pair =
-                            new java.util.AbstractMap.SimpleEntry<>(concept,
+                            new java.util.AbstractMap.SimpleEntry<>(upConcept,
                                     Direction.UP);
                     basicLevelConceptsList.add(pair);
                 }
