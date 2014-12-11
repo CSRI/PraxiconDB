@@ -15,9 +15,10 @@ import gr.csri.poeticon.praxicon.db.entities.Concept.Status;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
+import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.Query;
 
 /**
@@ -28,6 +29,16 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         ConceptDao {
 
     private String String;
+
+    public static enum Direction {
+
+        UP, DOWN, NONE;
+
+        @Override
+        public String toString() {
+            return this.name();
+        }
+    }
 
     /**
      * Finds all the concepts
@@ -47,14 +58,13 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         List<Concept> concepts = query.getResultList();
         return concepts;
     }
-    
+
     public List<Concept> findAllNonBasicLevelConcepts() {
         Query query = getEntityManager().createNamedQuery(
                 "findAllNonBasicLevelConcepts");
         List<Concept> concepts = query.getResultList();
         return concepts;
     }
-    
 
     /**
      * Finds all concepts that have a specific conceptId
@@ -376,19 +386,19 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts
      */
     @Override
-    public LinkedList<Concept> getAllAncestors(Concept concept) {
-        LinkedList<Concept> ancestorConcepts = new LinkedList<>();
+    public List<Concept> getAllAncestors(Concept concept) {
+        List<Concept> ancestorConcepts = new ArrayList<>();
 
         List<Concept> parents = getParentsOfConcept(concept);
         for (Concept parent : parents) {
-//            if (!ancestorConcepts.contains(parent)) {
-            ancestorConcepts.add(parent);
-//            }
-            LinkedList<Concept> ancestors = getAllAncestors(parent);
+            if (!ancestorConcepts.contains(parent)) {
+                ancestorConcepts.add(parent);
+            }
+            List<Concept> ancestors = getAllAncestors(parent);
             for (Concept ancestor : ancestors) {
-//                if (!ancestorConcepts.contains(ancestor)) {
-                ancestorConcepts.add(ancestor);
-//                }
+                if (!ancestorConcepts.contains(ancestor)) {
+                    ancestorConcepts.add(ancestor);
+                }
             }
         }
         return ancestorConcepts;
@@ -402,49 +412,92 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts
      */
     @Override
-    public LinkedList<Concept> getAllOffsprings(Concept concept) {
-        LinkedList<Concept> offspringConcepts = new LinkedList<>();
+    public List<Concept> getAllOffsprings(Concept concept) {
+        List<Concept> offspringConcepts = new ArrayList<>();
 
         List<Concept> children = getChildrenOfConcept(concept);
 
         for (Concept child : children) {
-//            if (!offspringConcepts.contains(child)) {
-            offspringConcepts.add(child);
-//            }
-            LinkedList<Concept> offsprings = getAllOffsprings(child);
+            if (!offspringConcepts.contains(child)) {
+                offspringConcepts.add(child);
+            }
+            List<Concept> offsprings = getAllOffsprings(child);
             for (Concept offspring : offsprings) {
-//                if (!offspringConcepts.contains(offspring)) {
-                offspringConcepts.add(offspring);
-//                }
+                if (!offspringConcepts.contains(offspring)) {
+                    offspringConcepts.add(offspring);
+                }
             }
         }
         return offspringConcepts;
     }
 
     /**
-     * Finds all the Basic Level concepts for the given concept
+     * Finds all the Basic Level concepts for the given concept.
+     * Algorithm:
+     * If the concept is subordinate, then:
+     * - Store all ancestors of concept in concept list
+     * Else if the concept is superordinate then:
+     * - Store both offsprings and ancestors of concept in concept list
+     * For each concept in concept list:
+     * - If the concept is basic level, add it to the list of BL concepts
+     * Return the list of BL concepts
      *
      * @param concept concept to be checked
-     * @return The list of BL
+     * @return The list of Basic Level Concepts
      */
     @Override
-    public LinkedList<Concept> getBasicLevel(Concept concept) {
-        LinkedList<Concept> basicLevelConceptsList = new LinkedList<>();
-        LinkedList<Concept> conceptsList = new LinkedList<>();
-        if (concept.getSpecificityLevel() == BASIC_LEVEL || concept.
-                getSpecificityLevel() == BASIC_LEVEL_EXTENDED) {
-            basicLevelConceptsList.add(concept);
-        } else if (concept.getSpecificityLevel() == SUBORDINATE || concept.
-                getSpecificityLevel() == SUPERORDINATE) {
-            conceptsList.addAll(getAllOffsprings(concept));
-            conceptsList.addAll(getAllAncestors(concept));
+    public List<Map.Entry<Concept, Direction>>
+            getBasicLevelConcepts(Concept concept) {
+        List<Concept> conceptsListUp = new ArrayList<>();
+        List<Concept> conceptsListDown = new ArrayList<>();
 
-            for (Concept item : conceptsList) {
-                Concept.SpecificityLevel specificityLevel = item.
+        List<Map.Entry<Concept, Direction>> basicLevelConceptsList;
+        basicLevelConceptsList = new ArrayList<>();
+        Concept.SpecificityLevel specificityLevel = concept.
+                getSpecificityLevel();
+
+        if (specificityLevel == BASIC_LEVEL || specificityLevel ==
+                BASIC_LEVEL_EXTENDED) {
+            AbstractMap.SimpleEntry<Concept, Direction> pair =
+                    new java.util.AbstractMap.SimpleEntry<>(concept,
+                            Direction.NONE);
+            basicLevelConceptsList.add(pair);
+        } else if (specificityLevel == SUBORDINATE) {
+            conceptsListUp.addAll(getAllAncestors(concept));
+            for (Concept upConcept : conceptsListUp) {
+                Concept.SpecificityLevel specificityLevelUp = upConcept.
                         getSpecificityLevel();
-                if (specificityLevel == BASIC_LEVEL || specificityLevel ==
+                if (specificityLevelUp == BASIC_LEVEL || specificityLevelUp ==
                         BASIC_LEVEL_EXTENDED) {
-                    basicLevelConceptsList.add(item);
+                    AbstractMap.SimpleEntry<Concept, Direction> pair =
+                            new java.util.AbstractMap.SimpleEntry<>(concept,
+                                    Direction.UP);
+                    basicLevelConceptsList.add(pair);
+                }
+            }
+        } else if (specificityLevel == SUPERORDINATE) {
+            conceptsListDown.addAll(getAllOffsprings(concept));
+            conceptsListUp.addAll(getAllAncestors(concept));
+            for (Concept downConcept : conceptsListDown) {
+                Concept.SpecificityLevel specificityLevelDown = downConcept.
+                        getSpecificityLevel();
+                if (specificityLevelDown == BASIC_LEVEL ||
+                        specificityLevelDown == BASIC_LEVEL_EXTENDED) {
+                    AbstractMap.SimpleEntry<Concept, Direction> pair =
+                            new java.util.AbstractMap.SimpleEntry<>(concept,
+                                    Direction.DOWN);
+                    basicLevelConceptsList.add(pair);
+                }
+            }
+            for (Concept upConcept : conceptsListUp) {
+                Concept.SpecificityLevel specificityLevelUp = upConcept.
+                        getSpecificityLevel();
+                if (specificityLevelUp == BASIC_LEVEL || specificityLevelUp ==
+                        BASIC_LEVEL_EXTENDED) {
+                    AbstractMap.SimpleEntry<Concept, Direction> pair =
+                            new java.util.AbstractMap.SimpleEntry<>(concept,
+                                    Direction.UP);
+                    basicLevelConceptsList.add(pair);
                 }
             }
         }
