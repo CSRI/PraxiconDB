@@ -92,7 +92,7 @@ public class TestJPA {
         languageRepresentation1.setText("LR1");
         languageRepresentation1.setPartOfSpeech(
                 LanguageRepresentation.PartOfSpeech.NOUN);
-        languageRepresentation1.setPragmaticStatus(
+        languageRepresentation1.setUseStatus(
                 LanguageRepresentation.UseStatus.FIGURATIVE);
 
         LanguageRepresentation languageRepresentation2 =
@@ -101,7 +101,7 @@ public class TestJPA {
         languageRepresentation2.setText("LR2");
         languageRepresentation2.setPartOfSpeech(
                 LanguageRepresentation.PartOfSpeech.VERB);
-        languageRepresentation2.setPragmaticStatus(
+        languageRepresentation2.setUseStatus(
                 LanguageRepresentation.UseStatus.FIGURATIVE);
 
         LanguageRepresentation languageRepresentation3 =
@@ -110,7 +110,7 @@ public class TestJPA {
         languageRepresentation3.setText("LR3");
         languageRepresentation3.setPartOfSpeech(
                 LanguageRepresentation.PartOfSpeech.ADVERB);
-        languageRepresentation3.setPragmaticStatus(
+        languageRepresentation3.setUseStatus(
                 LanguageRepresentation.UseStatus.LITERAL);
 
         concept1.addLanguageRepresentation(languageRepresentation1, false);

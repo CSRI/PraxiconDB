@@ -56,20 +56,20 @@ import javax.xml.bind.annotation.XmlType;
             "WHERE UPPER(lr.text) = :text " +
             "AND lr.language = :language " +
             "AND lr.partOfSpeech = :pos " +
-            "AND lr.pragmaticStatus = :pragmaticStatus"),
+            "AND lr.useStatus = :useStatus"),
     @NamedQuery(name =
             "findLanguageRepresentationsByTextLanguagePosPStatus", query =
             "FROM LanguageRepresentation lr " +
             "WHERE lr.text = :text " +
             "AND lr.language = :language " +
             "AND lr.partOfSpeech = :pos " +
-            "AND lr.pragmaticStatus = :pragmaticStatus"),
+            "AND lr.puseStatus = :useStatus"),
     @NamedQuery(name = "getLanguageRepresentationEntityQuery", query =
             "FROM LanguageRepresentation lr " +
             "WHERE UPPER(lr.text) = :text " +
             "AND UPPER(lr.language) = :language " +
             "AND UPPER(lr.partOfSpeech) = :pos " +
-            "AND UPPER(lr.pragmaticStatus) = :pragmaticStatus"),
+            "AND UPPER(lr.useStatus) = :useStatus"),
     @NamedQuery(name = "findLanguageRepresentationsByText", query =
             "FROM LanguageRepresentation lr " +
             "WHERE UPPER(lr.text) = :text"),
@@ -121,7 +121,7 @@ public class LanguageRepresentation implements Serializable {
     }
 
     /**
-     * Enumeration of the types of pragmatic status.
+     * Enumeration of the types of use status.
      */
     public static enum UseStatus {
 
@@ -163,11 +163,11 @@ public class LanguageRepresentation implements Serializable {
     @Enumerated(EnumType.STRING)
     private Language language;
 
-    @Column(name = "PragmaticStatus")
+    @Column(name = "UseStatus")
     //@XmlElement(required = false)
-    @NotNull(message = "Concept pragmatic status must be specified.")
+    @NotNull(message = "Concept use status must be specified.")
     @Enumerated(EnumType.STRING)
-    private UseStatus pragmaticStatus;
+    private UseStatus useStatus;
 
     @Column(name = "PartOfSpeech")
     @NotNull(message = "Part of speech must be specified.")
@@ -307,24 +307,22 @@ public class LanguageRepresentation implements Serializable {
     }
 
     /**
-     * @return the pragmatic status of the concept.
-     * @xmlcomments.args xmltag="&lt;pragmatic_status&gt;" xmldescription="This
-     * tag defines if the entity is literal or figurative"
+     * @return the use status of the concept.
      */
-    public UseStatus getPragmaticStatus() {
-        return pragmaticStatus;
+    public UseStatus getUseStatus() {
+        return useStatus;
     }
 
-    public void setPragmaticStatus(UseStatus pragmaticStatus) {
-        this.pragmaticStatus = pragmaticStatus;
+    public void setUseStatus(UseStatus useStatus) {
+        this.useStatus = useStatus;
     }
 
-    public void setPragmaticStatus(String pragmaticStatus) {
-        String tmp = pragmaticStatus;
+    public void setUseStatus(String useStatus) {
+        String tmp = useStatus;
         tmp = tmp.replace(".", "_");
         tmp = tmp.replace(":", "_");
         // TODO: Check below if it returns the correct value.
-        this.pragmaticStatus = UseStatus.
+        this.useStatus = UseStatus.
                 valueOf(tmp.trim().toUpperCase());
     }
 
@@ -370,7 +368,7 @@ public class LanguageRepresentation implements Serializable {
                 this.language.name().equals(other.language.name()) &&
                 this.text.equalsIgnoreCase(other.text) &&
                 this.partOfSpeech == other.partOfSpeech &&
-                this.pragmaticStatus == other.pragmaticStatus &&
+                this.useStatus == other.useStatus &&
                 this.productivity == other.productivity) {
             return true;
         } else {

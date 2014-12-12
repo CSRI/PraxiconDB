@@ -28,19 +28,19 @@ public class LanguageRepresentationDaoImpl extends
      * @param language        the Language to search
      * @param text            the text to search
      * @param pos             the pos to search
-     * @param pragmaticStatus the pragmatic status to search
+     * @param useStatus the use status to search
      * @return A LanguageRepresentation (null if not found)
      */
     @Override
     public LanguageRepresentation findLanguageRepresentations(
             Language language, String text, PartOfSpeech pos,
-            UseStatus pragmaticStatus) {
+            UseStatus useStatus) {
         Query query = getEntityManager().createNamedQuery(
                 "findLanguageRepresentationsByTextLanguagePosPStatus").
                 setParameter("text", text).
                 setParameter("language", language).
                 setParameter("pos", pos).
-                setParameter("pragmaticStatus", pragmaticStatus);
+                setParameter("useStatus", useStatus);
         List res = query.getResultList();
         if (res.size() > 0) {
             return (LanguageRepresentation)res.get(0);
@@ -57,20 +57,20 @@ public class LanguageRepresentationDaoImpl extends
      * @param language        the Language to search
      * @param text            the text to search
      * @param pos             the pos to search
-     * @param pragmaticStatus
+     * @param useStatus
      * @return A LanguageRepresentation (null if not found)
      */
     @Override
     public LanguageRepresentation findLanguageRepresentationsCaseInsensitive(
             Language language, String text, PartOfSpeech pos,
-            UseStatus pragmaticStatus) {
+            UseStatus useStatus) {
         Query query = getEntityManager().createNamedQuery(
                 "findLanguageRepresentationsBy" +
                 "TextLanguagePosPStatusCaseInsensitive").
                 setParameter("text", text).
                 setParameter("language", language).
                 setParameter("pos", pos).
-                setParameter("pragmaticStatus", pragmaticStatus);
+                setParameter("useStatus", useStatus);
         List res = query.getResultList();
         if (res.size() > 0) {
             return (LanguageRepresentation)res.get(0);
@@ -129,9 +129,8 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("pos", languageRepresentation.
                         getPartOfSpeech().toString().
                         toUpperCase()).
-                setParameter("pragmaticStatus",
-                        languageRepresentation.
-                        getPragmaticStatus().toString().
+                setParameter("useStatus",
+                        languageRepresentation.getUseStatus().toString().
                         toUpperCase());
         System.out.println("Language Representation Text: " +
                 languageRepresentation.getText());
