@@ -11,7 +11,7 @@ import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.Language;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.PartOfSpeech;
-import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.PragmaticStatus;
+import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.UseStatus;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -28,7 +28,7 @@ public class LanguageRepresentationDaoImplXML extends
     @Override
     public LanguageRepresentation findLanguageRepresentationsCaseInsensitive(
             Language language, String text, PartOfSpeech pos,
-            PragmaticStatus pragmaticStatus) {
+            UseStatus pragmaticStatus) {
         Enumeration en = Constants.globalConcepts.elements();
         while (en.hasMoreElements()) {
             Concept concept = (Concept)en.nextElement();
@@ -92,7 +92,7 @@ public class LanguageRepresentationDaoImplXML extends
 //    }
     @Override
     public LanguageRepresentation findLanguageRepresentations(Language language,
-            String text, PartOfSpeech pos, PragmaticStatus pragmaticStatus) {
+            String text, PartOfSpeech pos, UseStatus pragmaticStatus) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

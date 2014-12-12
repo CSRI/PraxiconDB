@@ -7,7 +7,7 @@ package gr.csri.poeticon.praxicon.db.dao;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.Language;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.PartOfSpeech;
-import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.PragmaticStatus;
+import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.UseStatus;
 import java.util.List;
 
 /**
@@ -21,11 +21,11 @@ public interface LanguageRepresentationDao extends
 
     LanguageRepresentation findLanguageRepresentations(
             Language language, String text, PartOfSpeech pos,
-            PragmaticStatus pragmaticStatus);
+            UseStatus pragmaticStatus);
 
     LanguageRepresentation findLanguageRepresentationsCaseInsensitive(
             Language language, String text, PartOfSpeech pos,
-            PragmaticStatus pragmaticStatus);
+            UseStatus pragmaticStatus);
     
     List<String> getAllLanguageRepresentationText();
 

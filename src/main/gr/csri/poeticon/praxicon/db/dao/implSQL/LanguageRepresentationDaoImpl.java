@@ -8,7 +8,7 @@ import gr.csri.poeticon.praxicon.db.dao.LanguageRepresentationDao;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.Language;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.PartOfSpeech;
-import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.PragmaticStatus;
+import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.UseStatus;
 import java.util.List;
 import javax.persistence.Query;
 
@@ -34,7 +34,7 @@ public class LanguageRepresentationDaoImpl extends
     @Override
     public LanguageRepresentation findLanguageRepresentations(
             Language language, String text, PartOfSpeech pos,
-            PragmaticStatus pragmaticStatus) {
+            UseStatus pragmaticStatus) {
         Query query = getEntityManager().createNamedQuery(
                 "findLanguageRepresentationsByTextLanguagePosPStatus").
                 setParameter("text", text).
@@ -63,7 +63,7 @@ public class LanguageRepresentationDaoImpl extends
     @Override
     public LanguageRepresentation findLanguageRepresentationsCaseInsensitive(
             Language language, String text, PartOfSpeech pos,
-            PragmaticStatus pragmaticStatus) {
+            UseStatus pragmaticStatus) {
         Query query = getEntityManager().createNamedQuery(
                 "findLanguageRepresentationsBy" +
                 "TextLanguagePosPStatusCaseInsensitive").

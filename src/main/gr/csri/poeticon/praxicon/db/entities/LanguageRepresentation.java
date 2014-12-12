@@ -123,7 +123,7 @@ public class LanguageRepresentation implements Serializable {
     /**
      * Enumeration of the types of pragmatic status.
      */
-    public static enum PragmaticStatus {
+    public static enum UseStatus {
 
         FIGURATIVE, LITERAL, UNKNOWN;
 
@@ -167,7 +167,7 @@ public class LanguageRepresentation implements Serializable {
     //@XmlElement(required = false)
     @NotNull(message = "Concept pragmatic status must be specified.")
     @Enumerated(EnumType.STRING)
-    private PragmaticStatus pragmaticStatus;
+    private UseStatus pragmaticStatus;
 
     @Column(name = "PartOfSpeech")
     @NotNull(message = "Part of speech must be specified.")
@@ -311,11 +311,11 @@ public class LanguageRepresentation implements Serializable {
      * @xmlcomments.args xmltag="&lt;pragmatic_status&gt;" xmldescription="This
      * tag defines if the entity is literal or figurative"
      */
-    public PragmaticStatus getPragmaticStatus() {
+    public UseStatus getPragmaticStatus() {
         return pragmaticStatus;
     }
 
-    public void setPragmaticStatus(PragmaticStatus pragmaticStatus) {
+    public void setPragmaticStatus(UseStatus pragmaticStatus) {
         this.pragmaticStatus = pragmaticStatus;
     }
 
@@ -324,7 +324,7 @@ public class LanguageRepresentation implements Serializable {
         tmp = tmp.replace(".", "_");
         tmp = tmp.replace(":", "_");
         // TODO: Check below if it returns the correct value.
-        this.pragmaticStatus = PragmaticStatus.
+        this.pragmaticStatus = UseStatus.
                 valueOf(tmp.trim().toUpperCase());
     }
 
