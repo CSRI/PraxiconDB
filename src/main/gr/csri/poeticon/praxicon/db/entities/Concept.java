@@ -119,6 +119,20 @@ public class Concept implements Serializable {
             return this.name();
         }
     }
+    
+    /**
+     * Enumeration for the Type of concept Status.
+     *
+     */
+    public static enum PragmaticStatus {
+
+        CONCRETE, ABSTRACT, UNKNOWN;
+
+        @Override
+        public String toString() {
+            return this.name();
+        }
+    }    
 
     /**
      * A YES/NO/UNKNOWN enumeration for the unique instance.
@@ -165,6 +179,11 @@ public class Concept implements Serializable {
     @NotNull(message = "Concept status must be specified.")
     @Enumerated(EnumType.STRING)
     private Status status;
+    
+    @Column(name = "PragmaticStatus")
+    @NotNull(message = "Concept pragmatic status must be specified")
+    @Enumerated(EnumType.STRING)
+    private PragmaticStatus pragmaticStatus;
 
     @Column(name = "UniqueInstance")
     //@XmlElement(required = false)
@@ -200,6 +219,7 @@ public class Concept implements Serializable {
         externalSourceId = null;
         comment = "";
         specificityLevel = Concept.SpecificityLevel.UNKNOWN;
+        pragmaticStatus = Concept.PragmaticStatus.UNKNOWN;
         languageRepresentations = new ArrayList<>();
         visualRepresentations = new ArrayList<>();
         motoricRepresentations = new ArrayList<>();
@@ -215,6 +235,7 @@ public class Concept implements Serializable {
         this.conceptType = newConcept.getConceptType();
         this.specificityLevel = newConcept.getSpecificityLevel();
         this.status = newConcept.getStatus();
+        this.pragmaticStatus = newConcept.getPragmaticStatus();
         languageRepresentations = new ArrayList<>();
         visualRepresentations = new ArrayList<>();
         motoricRepresentations = new ArrayList<>();
@@ -384,6 +405,34 @@ public class Concept implements Serializable {
      */
     public void setStatus(String varType) {
         this.status = status.valueOf(varType.trim().toUpperCase());
+    }
+    
+    /**
+     * Gets the pragmatic status of the concept.
+     *
+     * @return the Pragmatic Status of the concept.
+     */
+    public PragmaticStatus getPragmaticStatus() {
+        return pragmaticStatus;
+    }
+
+    /**
+     * Sets the pragmatic status of the concept. Permitted values:
+     * CONCRETE, ABSTRACT, UNKNOWN
+     *
+     * @param pragmaticStatus - PragmaticStatus
+     */
+    public void setPragmaticStatus(PragmaticStatus pragmaticStatus) {
+        this.pragmaticStatus = pragmaticStatus;
+    }
+
+    /**
+     * Sets the status of the concept. Overloaded
+     *
+     * @param varPragmaticStatus - String
+     */
+    public void setPragmaticStatus(String varPragmaticStatus) {
+        this.pragmaticStatus = pragmaticStatus.valueOf(varPragmaticStatus.trim().toUpperCase());
     }
 
     /**
