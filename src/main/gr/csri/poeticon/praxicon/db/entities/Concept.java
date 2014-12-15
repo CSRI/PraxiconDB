@@ -85,7 +85,7 @@ public class Concept implements Serializable {
      */
     public static enum Type {
 
-        ABSTRACT, ENTITY, FEATURE, MOVEMENT, UNKNOWN;
+        ENTITY, FEATURE, MOVEMENT, UNKNOWN;
 
         @Override
         public String toString() {
