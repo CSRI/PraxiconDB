@@ -121,7 +121,7 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Enumeration for the Type of concept Status.
+     * Enumeration for the Type of concept Pragmatic Status.
      *
      */
     public static enum PragmaticStatus {
