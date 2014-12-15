@@ -119,7 +119,7 @@ public class Concept implements Serializable {
             return this.name();
         }
     }
-    
+
     /**
      * Enumeration for the Type of concept Status.
      *
@@ -132,7 +132,7 @@ public class Concept implements Serializable {
         public String toString() {
             return this.name();
         }
-    }    
+    }
 
     /**
      * A YES/NO/UNKNOWN enumeration for the unique instance.
@@ -179,7 +179,7 @@ public class Concept implements Serializable {
     @NotNull(message = "Concept status must be specified.")
     @Enumerated(EnumType.STRING)
     private Status status;
-    
+
     @Column(name = "PragmaticStatus")
     @NotNull(message = "Concept pragmatic status must be specified")
     @Enumerated(EnumType.STRING)
@@ -406,7 +406,7 @@ public class Concept implements Serializable {
     public void setStatus(String varType) {
         this.status = status.valueOf(varType.trim().toUpperCase());
     }
-    
+
     /**
      * Gets the pragmatic status of the concept.
      *
@@ -427,12 +427,13 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Sets the status of the concept. Overloaded
+     * Sets the pragmatic status of the concept. Overloaded
      *
      * @param varPragmaticStatus - String
      */
     public void setPragmaticStatus(String varPragmaticStatus) {
-        this.pragmaticStatus = pragmaticStatus.valueOf(varPragmaticStatus.trim().toUpperCase());
+        this.pragmaticStatus = pragmaticStatus.valueOf(
+                varPragmaticStatus.trim().toUpperCase());
     }
 
     /**
@@ -729,6 +730,7 @@ public class Concept implements Serializable {
 
     /**
      * Gets a list of motoric representations for this concept.
+     *
      * @return a list of motoric representations
      */
     public List<MotoricRepresentation> getMotoricRepresentationsEntries() {
@@ -743,7 +745,8 @@ public class Concept implements Serializable {
 
     /**
      * Sets the motoric representations for this concept.
-     * @param motoricRepresentations 
+     *
+     * @param motoricRepresentations
      */
     public void setMotoricRepresentations(
             List<MotoricRepresentation> motoricRepresentations) {
