@@ -52,6 +52,12 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         return concepts;
     }
 
+    /**
+     * Finds all basic level concepts
+     *
+     * @return a list of all concepts in the database
+     */
+    @Override
     public List<Concept> findAllBasicLevelConcepts() {
         Query query = getEntityManager().createNamedQuery(
                 "findAllBasicLevelConcepts");
@@ -59,6 +65,12 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         return concepts;
     }
 
+    /**
+     * Finds all non-basic level concepts
+     *
+     * @return a list of all concepts in the database
+     */
+    @Override
     public List<Concept> findAllNonBasicLevelConcepts() {
         Query query = getEntityManager().createNamedQuery(
                 "findAllNonBasicLevelConcepts");
@@ -744,7 +756,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 "getConceptEntityQuery").
                 setParameter("externalSourceId", concept.getExternalSourceId()).
                 setParameter("type", concept.getStatus()).
-                setParameter("status", concept.getStatus());
+                setParameter("status", concept.getStatus()).
+                setParameter("pragmaticStatus", concept.getPragmaticStatus());
         System.out.println("Concept externalSourceId: " + concept.
                 getExternalSourceId());
         return query;
