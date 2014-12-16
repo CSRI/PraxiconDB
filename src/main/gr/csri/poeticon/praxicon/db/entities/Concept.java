@@ -73,7 +73,8 @@ import javax.xml.bind.annotation.XmlType;
             "SELECT c FROM Concept c " +
             "WHERE c.status = :status " +
             "AND c.externalSourceId = :externalSourceId " +
-            "AND c.conceptType = :type"),})
+            "AND c.conceptType = :type " +
+            "AND c.pragmaticStatus = :pragmaticStatus"),})
 @Table(name = "Concepts", indexes = {
     //    @Index(columnList = "ExternalSourceId"),
     @Index(columnList = "ConceptId")})
