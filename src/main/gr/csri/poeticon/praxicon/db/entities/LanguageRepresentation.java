@@ -63,7 +63,7 @@ import javax.xml.bind.annotation.XmlType;
             "WHERE lr.text = :text " +
             "AND lr.language = :language " +
             "AND lr.partOfSpeech = :pos " +
-            "AND lr.puseStatus = :useStatus"),
+            "AND lr.useStatus = :useStatus"),
     @NamedQuery(name = "getLanguageRepresentationEntityQuery", query =
             "FROM LanguageRepresentation lr " +
             "WHERE UPPER(lr.text) = :text " +
