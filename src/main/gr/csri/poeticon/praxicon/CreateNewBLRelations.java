@@ -9,6 +9,7 @@ import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationArgumentDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
+import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl.Direction;
 import static gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl.Direction.DOWN;
 import static gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl.Direction.UP;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationArgumentDaoImpl;
@@ -22,14 +23,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import org.jgrapht.DirectedGraph;
+import org.jgrapht.GraphPath;
+import org.jgrapht.Graphs;
+import org.jgrapht.alg.ConnectivityInspector;
 import org.jgrapht.alg.DijkstraShortestPath;
 import org.jgrapht.experimental.dag.DirectedAcyclicGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.EdgeReversedGraph;
-import org.jgrapht.traverse.TopologicalOrderIterator;
+import org.jgrapht.traverse.BreadthFirstIterator;
 
 /**
  *
@@ -39,26 +41,9 @@ public class CreateNewBLRelations {
 
     public static void main(String args[]) {
 
-        //ConceptGraph();
-        ConceptRecursive();
+        ConceptGraph();
+        //ConceptRecursive();
 
-    }
-
-    public void persist(Object object) {
-        EntityManagerFactory emf = javax.persistence.Persistence.
-                createEntityManagerFactory("PraxiconDBPU");
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        try {
-            em.persist(object);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            System.out.println("transaction error");
-        } finally {
-            em.flush();
-            em.close();
-        }
     }
 
     public static void ConceptRecursive() {
@@ -89,8 +74,7 @@ public class CreateNewBLRelations {
 
             counter += 1;
             if (conceptCountPer100 * countCounts == counter) {
-                System.out.println("\n\n\n\n\n\n\n\n\n\n" + 1 * countCounts +
-                        "%\n\n\n\n\n\n\n\n\n");
+                System.out.println(countCounts + "%");
                 countCounts += 1;
             }
 
@@ -200,8 +184,9 @@ public class CreateNewBLRelations {
         EdgeReversedGraph reverseConceptGraph = new EdgeReversedGraph(
                 conceptGraph);
 
-        insertBLRelations(conceptGraph, concepts);
-        insertBLRelations(reverseConceptGraph, concepts);
+        // Now insert all BL relations.
+        insertBLRelations(conceptGraph, concepts, DOWN);
+        //insertBLRelations(reverseConceptGraph, concepts, UP);
 
         // Following command fills the stack.
         //Collection allShortestPaths = shortestPaths.getShortestPaths();
@@ -227,78 +212,215 @@ public class CreateNewBLRelations {
     }
 
     public static void insertBLRelations(DirectedGraph conceptGraph,
-            List<Concept> concepts) {
+            List<Concept> concepts, Direction direction) {
 
         RelationDao rDao = new RelationDaoImpl();
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
-        List<Entry<Concept, Concept>> newBasicLevelConnections;
-        newBasicLevelConnections = new ArrayList<>();
+        List<Entry<Concept, Concept>> newBasicLevelConnections =
+                new ArrayList<>();
 
-        TopologicalOrderIterator<Concept, Integer> iter =
-                new TopologicalOrderIterator(
-                        conceptGraph);
-        //Concept c = new Concept();
-        int counter = 0;
-        int conceptCount = concepts.size();
-        int conceptCountPer100 = conceptCount / 100;
-        int countCounts = 1;
+        ConnectivityInspector ci = new ConnectivityInspector(conceptGraph);
+
+        // Find all leaves.
+        BreadthFirstIterator graphIter = new BreadthFirstIterator(conceptGraph);
+        List<Concept> islands = new ArrayList<>();
+        List<Concept> leaves = new ArrayList<>();
+        List<Concept> roots = new ArrayList<>();
+        List<Concept> internals = new ArrayList<>();
+        int maxOutDegree = 0;
+        Concept maxOutDegreeConcept = new Concept();
+        Concept maxInDegreeConcept = new Concept();
+        int maxInDegree = 0;
+        int count0BLPaths = 0;
+        int count1BLPaths = 0;
+        int count2BLPaths = 0;
+        int count3BLPaths = 0;
+        int countPaths = 0;
+
+        // Get leaves and roots
+        while (graphIter.hasNext()) {
+            Object o = graphIter.next();
+            Concept c = (Concept)o;
+            int outDegree = conceptGraph.outDegreeOf(c);
+            if (outDegree > maxOutDegree) {
+                maxOutDegree = outDegree;
+                maxOutDegreeConcept = c;
+            }
+            int inDegree = conceptGraph.inDegreeOf(c);
+            if (inDegree > maxInDegree) {
+                maxInDegree = inDegree;
+                maxInDegreeConcept = c;
+            }
+
+            if (outDegree == 0 && inDegree == 0) {
+                islands.add(c);
+//                System.out.print("Island: " + c + " " + c.getSpecificityLevel());
+//                System.out.println(" InDegree: " + inDegree + " OutDegree: " +
+//                        outDegree);
+            } else if (outDegree == 0 && inDegree > 0) {
+                leaves.add(c);
+//                System.out.print("Leaf: " + c + " " + c.getSpecificityLevel());
+//                System.out.println(" InDegree: " + inDegree + " OutDegree: " +
+//                        outDegree);
+            } else if (outDegree > 0 && inDegree == 0) {
+                roots.add(c);
+//                System.out.print("Root: " + c + " " + c.getSpecificityLevel());
+//                System.out.println(" InDegree: " + inDegree + " OutDegree: " +
+//                        outDegree);
+            } else {
+                internals.add(c);
+//                System.out.print("Internal: " + c + " " + c.
+//                        getSpecificityLevel());
+//                System.out.println(" InDegree: " + inDegree + " OutDegree: " +
+//                        outDegree);
+            }
+
+        }
+
+        System.out.println("Totals: ");
+        System.out.println("Islands: " + islands.size());
+        System.out.println("Roots: " + roots.size());
+        System.out.println("Leaves: " + leaves.size());
+        System.out.println("Internals: " + internals.size());
+        System.out.println("MaxOutDegree: " + maxOutDegree + " for concept: " +
+                maxOutDegreeConcept);
+        System.out.println("MaxInDegree: " + maxInDegree + " for concept: " +
+                maxInDegreeConcept);
+
+        long counter = 0;
+        long leafCount = leaves.size();
+        long conceptCountPer100 = leafCount / 100;
+        long countCounts = 1;
+
+        List<DijkstraShortestPath> allShortestPaths = new ArrayList<>();
+
+        // For each leaf, we find the path to each root. There will normally be
+        // only one path for each pair.
         long startTime = System.nanoTime();
-        while (iter.hasNext()) {
+        for (Concept leaf : leaves) {
+
             counter += 1;
             if (conceptCountPer100 * countCounts == counter) {
-                System.out.println(1 * countCounts + "%");
+                System.out.println(countCounts + "%");
                 countCounts += 1;
             }
 
-            Concept c = iter.next();
+            for (Concept root : roots) {
 
-            if (c.getSpecificityLevel() == Concept.SpecificityLevel.BASIC_LEVEL) {
-                TopologicalOrderIterator<Concept, Integer> new_iter =
-                        new TopologicalOrderIterator(conceptGraph);
-                while (new_iter.hasNext()) {
-                    Concept co = new_iter.next();
-                    List shortestPath = new ArrayList();
-                    shortestPath = DijkstraShortestPath.findPathBetween(
-                            conceptGraph, c, co);
-                    // If concepts are connected
-                    if ((shortestPath != null) && (!shortestPath.isEmpty())) {
-                        java.util.Map.Entry<Concept, Concept> pair1 =
-                                new java.util.AbstractMap.SimpleEntry<>(c, co);
-                        newBasicLevelConnections.add(pair1);
+                DijkstraShortestPath shortestPath = new DijkstraShortestPath(
+                        conceptGraph, root, leaf);
+
+                // If concepts are connected
+                if (shortestPath.getPathLength() != Double.POSITIVE_INFINITY) {
+                    countPaths++;
+
+                    //allShortestPaths.add(shortestPath);
+                    GraphPath path = shortestPath.getPath();
+                    List<Concept> pathGraph = Graphs.getPathVertexList(path);
+
+                    // Remove first vertex, to avoid connecting roots to themselves
+                    pathGraph.remove(0);
+                    List<Concept> blConcepts = new ArrayList<>();
+                    boolean blFound = false;
+                    // Get basic level concepts in the path
+                    for (Object vertex : pathGraph) {
+                        Concept concept = (Concept)vertex;
+                        if (concept.getSpecificityLevel() ==
+                                Concept.SpecificityLevel.BASIC_LEVEL ||
+                                concept.getSpecificityLevel() ==
+                                Concept.SpecificityLevel.BASIC_LEVEL_EXTENDED) {
+                            blConcepts.add(concept);
+                            if (blFound){
+                                System.out.println("Found 2 BLs!!");
+                                System.out.println("The whole Path: " + pathGraph);
+                                System.out.println("BL Concepts: " + blConcepts);
+                                System.out.println("root concept: " + root);
+                                System.out.println("leaf concept: " + concept);
+                            }
+                            
+                            blFound = true;
+                        } else if (concept.getSpecificityLevel() ==
+                                Concept.SpecificityLevel.SUBORDINATE ||
+                                concept.getSpecificityLevel() ==
+                                Concept.SpecificityLevel.SUPERORDINATE ||
+                                concept.getSpecificityLevel() ==
+                                Concept.SpecificityLevel.UNKNOWN) {
+                            // Get relation arguments of concepts
+                            RelationArgument relationArgument1 = raDao.
+                                    getRelationArgumentByConcept(root);
+                            RelationArgument relationArgument2 = raDao.
+                                    getRelationArgumentByConcept(concept);
+
+                            // Create new relation
+                            Relation newRelation = new Relation();
+                            RelationType newRelationType = new RelationType(
+                                    RelationType.RelationNameForward.TYPE_TOKEN,
+                                    RelationType.RelationNameBackward.TOKEN_TYPE);
+                            newRelation.setLinguisticSupport(
+                                    Relation.LinguisticallySupported.UNKNOWN);
+                            newRelation.setType(newRelationType);
+
+                            if (!blFound) {
+                                // if the basic level has been found in path,
+                                // reverse the direction of relation.
+                                newRelation.setLeftArgument(relationArgument1);
+                                newRelation.setRightArgument(relationArgument2);
+                            } else if (blFound) {
+                                newRelation.setLeftArgument(relationArgument2);
+                                newRelation.setRightArgument(relationArgument1);
+                            }
+
+                            // If the two relation arguments are not related, 
+                            // add the relation.
+//                            if (!rDao.areRelated(relationArgument1,
+//                                    relationArgument2)) {
+//                                System.out.print("Relation between ");
+//                                System.out.print(relationArgument1.getConcept());
+//                                System.out.print(" and ");
+//                                System.out.print(relationArgument2.getConcept());
+//                                System.out.println(
+//                                        " doesn't exist and will be created.");
+//                                //rDao.persist(newRelation);
+//                            } else {
+//                                System.out.print("Relation between ");
+//                                System.out.print(relationArgument1.getConcept());
+//                                System.out.print(" and ");
+//                                System.out.print(relationArgument2.getConcept());
+//                                System.out.println(" already exists.");
+//                            }
+                        }
+
+                    }
+                    if (blConcepts.size() != 1) {
+//                        System.out.println(
+//                                "This path has " + blConcepts.size() +
+//                                " basic level concepts.");
+                        if (blConcepts.size() == 0) {
+                            count0BLPaths++;
+                        } else if (blConcepts.size() == 2) {
+                            count2BLPaths++;
+                        } else if (blConcepts.size() >= 3) {
+                            count3BLPaths++;
+                        }
+
+                    } else {
+                        count1BLPaths++;
                     }
                 }
             }
         }
+
         long endTime = System.nanoTime();
-        System.out.print("\n\n\nFinished calculating shortest paths in ");
-        System.out.print((endTime - startTime) / (60000000000D));
-        System.out.println(" minutes!\n\n\n");
-
-        startTime = System.nanoTime();
-        for (java.util.Map.Entry<Concept, Concept> item
-                : newBasicLevelConnections) {
-            // Get relation arguments of concepts
-            RelationArgument relationArgument1 = raDao.
-                    getRelationArgumentByConcept(item.getValue());
-            RelationArgument relationArgument2 = raDao.
-                    getRelationArgumentByConcept(item.getKey());
-
-            // Create new relation
-            Relation newRelation = new Relation();
-            RelationType newRelationType = new RelationType(
-                    RelationType.RelationNameForward.HAS_BASIC_LEVEL,
-                    RelationType.RelationNameBackward.BASIC_LEVEL_OF);
-            newRelation.setLeftArgument(relationArgument1);
-            newRelation.setRightArgument(relationArgument2);
-            newRelation.setLinguisticSupport(
-                    Relation.LinguisticallySupported.UNKNOWN);
-            newRelation.setType(newRelationType);
-            rDao.persist(newRelation);
-        }
-        endTime = System.nanoTime();
         System.out.print("\n\n\nFinished adding relations to the database in ");
         System.out.print((endTime - startTime) / (60000000000D));
         System.out.println(" minutes!\n\n\n");
+        System.out.println("\n\n\n\n\nFinished execution!\n\n\n");
+        System.out.println("There are " + countPaths + " paths.");
+        System.out.println("We found " + count0BLPaths + " paths with no BLs.");
+        System.out.println("We found " + count1BLPaths + " paths with 1 BL.");
+        System.out.println("We found " + count2BLPaths + " paths with 2 BLs.");
+        System.out.println("We found " + count3BLPaths +
+                " paths with 3 or more BLs.");
     }
 
 }
