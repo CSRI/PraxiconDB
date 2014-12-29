@@ -186,6 +186,7 @@ public class SimpleTest {
 //                System.out.println("One of the arguments is not a Concept");
 //            }
 //        }
+        System.exit(0);
     }
 
 //    public static List<Concept> getObjectsOfRelation(RelationType relationType) {
