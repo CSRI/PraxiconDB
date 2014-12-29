@@ -81,6 +81,19 @@ public class SimpleTest {
             System.out.println(relation);
         }
 
+        System.out.println("\n\nAll relations of concept substance: ");
+        System.out.println("-------------------------------");
+        Concept conceptSubstance = cDao.findConceptByExternalSourceIdExact(
+                "substance%1:03:00::");
+        List<Relation> allRelationsOfConceptSubstance = rDao.
+                getAllRelationsOfConcept(conceptSubstance);
+        for (Relation relation : allRelationsOfConceptSubstance) {
+            System.out.println(
+                    relation.getLeftArgument().getConcept() + " " +
+                    relation.getType().getForwardNameString() + " " +
+                    relation.getRightArgument().getConcept());
+        }
+
         // Get children concepts and specificity level of the first concept 
         // in the list of concepts that have language representation spoon.
         System.out.println("\n\nChildren of the first occurence of a concept" +
@@ -120,7 +133,7 @@ public class SimpleTest {
         }
 
         // Get all Language Representation texts count.
-        // Would be faster to implement a NamedQuery for that, but wanted to
+        // Would be faster to write a NamedQuery for that, but wanted to
         // test the getAllLanguageRepresentationText() method.
         System.out.println("\n\nCount of all Language Representation Texts:");
         System.out.println("-------------------------------------------");
@@ -129,62 +142,50 @@ public class SimpleTest {
         System.out.println(languageRepresentationTexts.size());
 
         // Get all Basic Level Concepts.
-        System.out.println("\n\nAll Basic Level Concepts:");
+        System.out.println("\n\nCount All Basic Level Concepts:");
         System.out.println("-------------------------------------------");
-        List<Concept> basicLevelConcepts = new ArrayList<>();
-        basicLevelConcepts = cDao.findAllBasicLevelConcepts();
-        for (Concept concept : basicLevelConcepts){
-            System.out.println(concept);
-        }
-        
-        String stringToSearch = "entity%1:03:00::";
-        System.out.println("\n\nBasic Level of concept " + stringToSearch);
-        System.out.println("-------------------------------------------");
-        Concept concept = cDao.findConceptByExternalSourceIdExact(
-                stringToSearch);
-        long startTime = System.nanoTime();
-        List<Concept> basicLevelOfConceptSoupSpoon = cDao.getBasicLevel(concept);
-        long endTime = System.nanoTime();
-        System.out.print(
-                "Time of getBasicLevel() for concept: " + stringToSearch + " ");
-        System.out.print((endTime - startTime) / 1000000000);
-        System.out.println(" seconds");
+        List<Concept> basicLevelConcepts = cDao.findAllBasicLevelConcepts();
+        System.out.println(basicLevelConcepts.size());
 
-        if (basicLevelOfConceptSoupSpoon.isEmpty()) {
-            System.out.println("Concept " + stringToSearch +
-                    " doesn't have a Basic Level Concept");
-        } else {
-            for (Concept item : basicLevelOfConceptSoupSpoon) {
-                System.out.println(item);
-            }
-        }
-
-        System.out.println("\n\nAll relations with relation type: HAS_INSTANCE");
+//        String stringToSearch = "entity%1:03:00::";
+//        System.out.println("\n\nBasic Level of concept " + stringToSearch);
+//        System.out.println("-------------------------------------------");
+//        Concept concept = cDao.findConceptByExternalSourceIdExact(
+//                stringToSearch);
+//        long startTime = System.nanoTime();
+        //List<Concept> basicLevelOfConceptSoupSpoon = cDao.getBasicLevelConcepts(concept);
+//        long endTime = System.nanoTime();
+//        System.out.print(
+//                "Time of getBasicLevel() for concept: " + stringToSearch + " ");
+//        System.out.print((endTime - startTime) / 1000000000);
+//        System.out.println(" seconds");
+//
+//        if (basicLevelOfConceptSoupSpoon.isEmpty()) {
+//            System.out.println("Concept " + stringToSearch +
+//                    " doesn't have a Basic Level Concept");
+//        } else {
+//            for (Concept item : basicLevelOfConceptSoupSpoon) {
+//                System.out.println(item);
+//            }
+//        }
+        System.out.println("\n\nCount of all relations with relation type: HAS_INSTANCE");
         System.out.println("-----------------------------------------------");
         List<Relation> hasInstanceRelations = rDao.getRelationsByRelationType(
                 RelationType.RelationNameForward.HAS_INSTANCE);
 
-        for (Relation relation : hasInstanceRelations) {
-            //System.out.println(relation);
-            if (relation.getLeftArgument().isConcept() && relation.
-                    getRightArgument().isConcept()) {
-                if ((relation.getLeftArgument().getConcept().
-                        getLanguageRepresentations().size() != 0 && relation.
-                        getRightArgument().getConcept().
-                        getLanguageRepresentations().size() != 0) && (relation.
-                        getLeftArgument().getConcept().getConceptType() ==
-                        Concept.Type.MOVEMENT ||
-                        relation.getRightArgument().getConcept().
-                        getConceptType() == Concept.Type.MOVEMENT)) {
-                    System.out.println(relation.getLeftArgument().getConcept().
-                            getConceptType() + " " + relation.getType().
-                            getForwardNameString() + " " + relation.
-                            getRightArgument().getConcept().getConceptType());
-                }
-            } else {
-                System.out.println("One of the arguments is not a Concept");
-            }
-        }
+        System.out.println(hasInstanceRelations.size());
+//        for (Relation relation : hasInstanceRelations) {
+//            //System.out.println(relation);
+//            if (relation.getLeftArgument().isConcept() && relation.
+//                    getRightArgument().isConcept()) {
+//                System.out.println(
+//                        relation.getLeftArgument().getConcept() + " " +
+//                        relation.getType().getForwardNameString() + " " +
+//                        relation.getRightArgument().getConcept());
+//            } else {
+//                System.out.println("One of the arguments is not a Concept");
+//            }
+//        }
     }
 
 //    public static List<Concept> getObjectsOfRelation(RelationType relationType) {
