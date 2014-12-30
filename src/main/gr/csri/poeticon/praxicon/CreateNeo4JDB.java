@@ -6,14 +6,20 @@
 package gr.csri.poeticon.praxicon;
 
 import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
+import gr.csri.poeticon.praxicon.db.dao.RelationArgumentDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
+import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationArgumentDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import java.awt.Frame;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.DynamicLabel;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Label;
@@ -22,6 +28,8 @@ import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
+import org.neo4j.helpers.collection.IteratorUtil;
+import org.neo4j.tooling.GlobalGraphOperations;
 
 /**
  *
@@ -56,7 +64,7 @@ public class CreateNeo4JDB {
     private void removeData() {
 //        Transaction tx = graphDb.beginTx();
 //        try {
-//            myFirstNode.getSingleRelationship(RelTypes.IS_A, Direction.OUTGOING);
+//            myFirstNode.getSingleRelationship(RelTypes.TYPE_TOKEN, Direction.OUTGOING);
 //            System.out.println("Removing nodes...");
 //            myFirstNode.delete();
 //            mySecondNode.delete();
@@ -73,7 +81,7 @@ public class CreateNeo4JDB {
 
     private static enum RelTypes implements RelationshipType {
 
-        IS_A
+        TYPE_TOKEN
     }
 
     private void createGraph() {
@@ -91,7 +99,7 @@ public class CreateNeo4JDB {
         List<Concept> concepts = cDao.findAllConcepts();
         long endTime = System.nanoTime();
         System.out.print("\n\n\nFinished getting concepts in ");
-        System.out.print((endTime - startTime) / 1000000000);
+        System.out.print((endTime - startTime) / (1000000000));
         System.out.println(" seconds!");
 
         // Get relations from the database
@@ -101,7 +109,7 @@ public class CreateNeo4JDB {
                 RelationType.RelationNameForward.TYPE_TOKEN);
         endTime = System.nanoTime();
         System.out.print("\n\n\nFinished getting relations in ");
-        System.out.print((endTime - startTime) / 1000000000);
+        System.out.print((endTime - startTime) / (1000000000));
         System.out.println(" seconds!");
 
         try {
@@ -111,7 +119,6 @@ public class CreateNeo4JDB {
             for (Concept concept : concepts) {
 
                 conceptNode = graphDb.createNode();
-                //conceptNode.setProperty("concept", concept);
                 conceptNode.setProperty("conceptType", concept.getConceptType().
                         toString());
                 conceptNode.setProperty("conceptExternalSourceId", concept.
@@ -141,13 +148,12 @@ public class CreateNeo4JDB {
             System.out.print((endTime - startTime) / 1000000000);
             System.out.println(" seconds!");
 
-            System.out.println(graphDb.getNodeById(0).getLabels());
-            System.out.println(graphDb.getNodeById(0).getProperty(
-                    "conceptExternalSourceId"));
-            System.out.println(graphDb.getNodeById(1).getLabels());
-            System.out.println(graphDb.getNodeById(1).getProperty(
-                    "conceptExternalSourceId"));
-
+//            System.out.println(graphDb.getNodeById(0).getLabels());
+//            System.out.println(graphDb.getNodeById(0).getProperty(
+//                    "conceptExternalSourceId"));
+//            System.out.println(graphDb.getNodeById(1).getLabels());
+//            System.out.println(graphDb.getNodeById(1).getProperty(
+//                    "conceptExternalSourceId"));
             // Add relations (edges) to the graph database
             startTime = System.nanoTime();
             for (Relation relation : relationsTypeToken) {
@@ -173,23 +179,22 @@ public class CreateNeo4JDB {
                         "conceptExternalSourceId", rightConcept.
                         getExternalSourceId()).iterator().next();
 
-                System.out.println(leftNode.getProperty(
-                        "conceptExternalSourceId"));
-                System.out.println(rightNode.getProperty(
-                        "conceptExternalSourceId"));
-
+//                System.out.println(leftNode.getProperty(
+//                        "conceptExternalSourceId"));
+//                System.out.println(rightNode.getProperty(
+//                        "conceptExternalSourceId"));
                 relationEdge = leftNode.createRelationshipTo(rightNode,
-                        RelTypes.IS_A);
+                        RelTypes.TYPE_TOKEN);
 
                 relationEdge.setProperty("relationship-type", "is_a");
 
-                myString = (leftNode.getProperty("conceptExternalSourceId").
-                        toString()) +
-                        " " + (relationEdge.getProperty("relationship-type").
-                        toString()) +
-                        " " + (rightNode.getProperty("conceptExternalSourceId").
-                        toString());
-                System.out.println(myString);
+//                myString = (rightNode.getProperty("conceptExternalSourceId").
+//                        toString()) +
+//                        " " + (relationEdge.getProperty("relationship-type").
+//                        toString()) +
+//                        " " + (leftNode.getProperty("conceptExternalSourceId").
+//                        toString());
+//                System.out.println(myString);
             }
             endTime = System.nanoTime();
             System.out.print("\n\n\nFinished adding edges in ");
@@ -198,13 +203,17 @@ public class CreateNeo4JDB {
 
             tx.success();
 
+        } catch (Error e) {
+            System.out.println("Error occured: ");
+            System.out.println(e.getMessage());
+            System.out.println(Arrays.toString(e.getStackTrace()));
         } finally {
             tx.close();
-            System.exit(0);
+            System.exit(1);
         }
 
         // Now insert all BL relations.
-        //insertBLRelations(graphDb, concepts, DOWN);
+        findBLRelations(graphDb, concepts);
         if (cDao.getEntityManager().isOpen()) {
             cDao.close();
         }
@@ -217,17 +226,35 @@ public class CreateNeo4JDB {
         }
     }
 
-    public static void insertBLRelations(GraphDatabaseFactory graphDb,
-            List<Concept> concepts, ConceptDaoImpl.Direction direction) {
-//
-//        RelationDao rDao = new RelationDaoImpl();
-//        RelationArgumentDao raDao = new RelationArgumentDaoImpl();
-//        List<Map.Entry<Concept, Concept>> newBasicLevelConnections =
-//                new ArrayList<>();
-//
-////        ConnectivityInspector ci = new ConnectivityInspector(conceptGraph);
-//
-//        // Find all leaves.
+    public static void findBLRelations(GraphDatabaseService graphDb,
+            List<Concept> concepts) {
+
+        RelationDao rDao = new RelationDaoImpl();
+        RelationArgumentDao raDao = new RelationArgumentDaoImpl();
+        List<Map.Entry<Concept, Concept>> newBasicLevelConnections =
+                new ArrayList<>();
+
+        // Find all leaves.
+        
+        String output = "";
+//        for (Path position : graphDb.traversalDescription().depthFirst().relationships(RelTypes.TYPE_TOKEN).traverse(node)){
+//            output += position;
+//            System.out.println(output);
+//        
+//            
+//        }
+        for (Node n : GlobalGraphOperations.at(graphDb).getAllNodes()) {
+            System.out.println(n.getProperty("conceptExternalSourceId")+": "+ IteratorUtil.count(n.getRelationships(Direction.INCOMING))); 
+        }
+
+
+
+
+
+
+
+
+
 //        BreadthFirstIterator graphIter = new BreadthFirstIterator(conceptGraph);
 //        List<Concept> islands = new ArrayList<>();
 //        List<Concept> leaves = new ArrayList<>();
