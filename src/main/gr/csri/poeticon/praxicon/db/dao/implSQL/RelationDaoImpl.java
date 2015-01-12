@@ -82,6 +82,41 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
     }
 
     /**
+     * Finds the relations of a given concept at the left of a relation 
+     * that have a certain type of relation. 
+     * Checks only for the given concept as a leftArgument
+     *
+     * @param concept      the concept
+     * @param relationType the type of relation
+     * @return List of relations
+     */
+    @Override
+    public List<Relation> getRelationsByLeftConceptRelationType(
+            Concept concept, RelationType.RelationNameForward relationType) {
+        RelationArgument newRelationArgument = new RelationArgument(concept);
+        return getRelationsByLeftRelationArgumentTypeOfRelation(newRelationArgument,
+                relationType);
+    }
+
+        /**
+     * Finds the relations of a given concept at the right of a relation 
+     * that have a certain type of relation. 
+     * Checks only for the given concept as a rightArgument
+     *
+     * @param concept      the concept
+     * @param relationType the type of relation
+     * @return List of relations
+     */
+    @Override
+    public List<Relation> getRelationsByRightConceptRelationType(
+            Concept concept, RelationType.RelationNameForward relationType) {
+        RelationArgument newRelationArgument = new RelationArgument(concept);
+        return getRelationsByRightRelationArgumentTypeOfRelation(newRelationArgument,
+                relationType);
+    }
+    
+    
+    /**
      * Finds the relations of a given concept that have a certain
      * type of relation. Checks only for the given concept as a leftArgument
      *
@@ -176,6 +211,45 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
             RelationType.RelationNameForward relationType) {
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByRelationArgumentRelationType").
+                setParameter("relationArgumentId", relationArgument.getId()).
+                setParameter("relationType", relationType);
+        return query.getResultList();
+    }
+    
+    /**
+     * Finds the relations of a given concept that have a certain
+     * type of relation. Checks only for the given concept as a leftArgument
+     *
+     * @param relationArgument the relation argument
+     * @param relationType     the type of relation
+     * @return A list of relations
+     */
+    @Override
+    public List<Relation> getRelationsByLeftRelationArgumentTypeOfRelation(
+            RelationArgument relationArgument,
+            RelationType.RelationNameForward relationType) {
+        Query query = getEntityManager().createNamedQuery(
+                "findRelationsByLeftRelationArgumentRelationType").
+                setParameter("relationArgumentId", relationArgument.getId()).
+                setParameter("relationType", relationType);
+        return query.getResultList();
+    }
+    
+    
+    /**
+     * Finds the relations of a given concept that have a certain
+     * type of relation. Checks only for the given concept as a leftArgument
+     *
+     * @param relationArgument the relation argument
+     * @param relationType     the type of relation
+     * @return A list of relations
+     */
+    @Override
+    public List<Relation> getRelationsByRightRelationArgumentTypeOfRelation(
+            RelationArgument relationArgument,
+            RelationType.RelationNameForward relationType) {
+        Query query = getEntityManager().createNamedQuery(
+                "findRelationsByRightRelationArgumentRelationType").
                 setParameter("relationArgumentId", relationArgument.getId()).
                 setParameter("relationType", relationType);
         return query.getResultList();

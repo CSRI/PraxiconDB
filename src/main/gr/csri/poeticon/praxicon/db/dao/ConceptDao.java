@@ -17,11 +17,11 @@ import java.util.List;
 public interface ConceptDao extends Dao<Long, Concept> {
 
     List<Concept> findAllConcepts();
-    
+
     List<Concept> findAllBasicLevelConcepts();
 
-        List<Concept> findAllNonBasicLevelConcepts();
-    
+    List<Concept> findAllNonBasicLevelConcepts();
+
     Concept findConceptByConceptId(long conceptId);
 
     List<Concept> findConceptsByExternalSourceId(String name);
@@ -54,11 +54,7 @@ public interface ConceptDao extends Dao<Long, Concept> {
 
     List<Concept> getInstancesOf(Concept concept);
 
-    public List<Concept> getBasicLevel(Concept concept);
-//
-//    public List<Concept> getBasicLevelOfAnEntityConcept(Concept concept);
-//
-//    public List<Concept> getBasicLevelOfAnAbstractConcept(Concept concept);
+    public List<Concept> getBasicLevelConcepts(Concept concept);
 
     public List<Concept> getConceptsRelatedWithByRelationType(
             Concept concept, RelationType relationType);

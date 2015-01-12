@@ -446,7 +446,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     }
 
     /**
-     * Finds all the Basic Level concepts for the given concept.
+     * This is the old implementation of finding the basic levels of a concept.
      * Algorithm:
      * If the concept is subordinate, then:
      * - Store all ancestors of concept in concept list
@@ -459,9 +459,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @param concept concept to be checked
      * @return The list of Basic Level Concepts
      */
-    @Override
     public List<Map.Entry<Concept, Direction>>
-            getBasicLevelConcepts(Concept concept) {
+            getBasicLevelConceptsOld(Concept concept) {
         List<Concept> conceptsListUp = new ArrayList<>();
         List<Concept> conceptsListDown = new ArrayList<>();
         List<Map.Entry<Concept, Direction>> basicLevelConceptsList;
@@ -519,6 +518,58 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     }
 
     /**
+     * Finds all the Basic Level concepts for the given concept.
+     * New algorithm which takes advantage of the direct basic level TYPE_TOKEN
+     * relations added after the creation of the database:
+     * Return all concepts related to the concept and are BASIC_LEVEL or
+     * BASIC_LEVEL_EXTENDED.
+     *
+     * @param concept concept to be checked
+     * @return A list of Basic Level Concepts
+     */
+    @Override
+    public List<Concept> getBasicLevelConcepts(Concept concept) {
+        List<Concept> basicLevelConceptsList;
+        basicLevelConceptsList = new ArrayList<>();
+        RelationDao rDao = new RelationDaoImpl();
+        Concept.SpecificityLevel specificityLevel = concept.
+                getSpecificityLevel();
+
+        if (specificityLevel == BASIC_LEVEL || specificityLevel ==
+                BASIC_LEVEL_EXTENDED) {
+            basicLevelConceptsList.add(concept);
+        } else if (specificityLevel == SUBORDINATE ||
+                specificityLevel == SUPERORDINATE) {
+            List<Relation> rightRelations = rDao.
+                    getRelationsByRightConceptRelationType(
+                            concept, RelationType.RelationNameForward.TYPE_TOKEN);
+            List<Relation> leftRelations = rDao.
+                    getRelationsByLeftConceptRelationType(
+                            concept, RelationType.RelationNameForward.TYPE_TOKEN);
+
+            for (Relation relation : leftRelations) {
+                Concept rightConcept = relation.getRightArgument().
+                        getConcept();
+                if (rightConcept.getSpecificityLevel() == BASIC_LEVEL ||
+                        rightConcept.getSpecificityLevel() ==
+                        BASIC_LEVEL_EXTENDED) {
+                    basicLevelConceptsList.add(rightConcept);
+                }
+            }
+            for (Relation relation : rightRelations) {
+                Concept leftConcept = relation.getLeftArgument().
+                        getConcept();
+                if (leftConcept.getSpecificityLevel() == BASIC_LEVEL ||
+                        leftConcept.getSpecificityLevel() ==
+                        BASIC_LEVEL_EXTENDED) {
+                    basicLevelConceptsList.add(leftConcept);
+                }
+            }
+        }
+        return basicLevelConceptsList;
+    }
+
+    /**
      * Finds all concepts that are classes of instance (has-instance related) of
      * a given concept
      *
@@ -526,7 +577,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts
      */
     @Override
-    public List<Concept> getClassesOfInstance(Concept concept) {
+    public List<Concept> getClassesOfInstance(Concept concept
+    ) {
         List<Concept> res = new ArrayList<>();
         RelationDao rDao = new RelationDaoImpl();
         List<Relation> relations = rDao.getAllRelationsOfConcept(concept);
@@ -550,7 +602,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts
      */
     @Override
-    public List<Concept> getInstancesOf(Concept concept) {
+    public List<Concept> getInstancesOf(Concept concept
+    ) {
         List<Concept> res = new ArrayList<>();
         RelationDao rDao = new RelationDaoImpl();
         List<Relation> relations = rDao.getAllRelationsOfConcept(concept);
@@ -712,7 +765,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      */
     @Override
     public List<Concept> getConceptsRelatedWithByRelationType(
-            Concept concept, RelationType relationType) {
+            Concept concept, RelationType relationType
+    ) {
         List<Concept> res = new ArrayList<>();
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByRelationType").
@@ -753,10 +807,12 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a query to search for the concept
      */
     @Override
-    public Query getEntityQuery(Concept concept) {
+    public Query getEntityQuery(Concept concept
+    ) {
         Query query = getEntityManager().createNamedQuery(
                 "getConceptEntityQuery").
-                setParameter("externalSourceId", concept.getExternalSourceId()).
+                setParameter("externalSourceId", concept.
+                        getExternalSourceId()).
                 setParameter("type", concept.getStatus()).
                 setParameter("status", concept.getStatus()).
                 setParameter("pragmaticStatus", concept.getPragmaticStatus());
