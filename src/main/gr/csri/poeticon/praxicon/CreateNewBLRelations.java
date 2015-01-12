@@ -72,7 +72,7 @@ public class CreateNewBLRelations {
         // For each concept, get its basic level
         for (Concept concept : concepts) {
             List<Map.Entry<Concept, ConceptDaoImpl.Direction>> basicLevelConcepts =
-                    cDao.getBasicLevelConcepts(concept);
+                    cDao.getBasicLevelConceptsOld(concept);
 
             counter += 1;
             if (conceptCountPer100 * countCounts == counter) {
