@@ -39,7 +39,7 @@ import org.jgrapht.traverse.DepthFirstIterator;
 public class CreateNewBLRelations {
 
     public static void main(String args[]) {
-
+        //testAlgorithm();
         ConceptGraph();
         //ConceptRecursive();
 //        ConceptNeo4j();
@@ -245,25 +245,12 @@ public class CreateNewBLRelations {
 
             if (outDegree == 0 && inDegree == 0) {
                 islands.add(c);
-//                System.out.print("Island: " + c + " " + c.getSpecificityLevel());
-//                System.out.println(" InDegree: " + inDegree + " OutDegree: " +
-//                        outDegree);
             } else if (outDegree == 0 && inDegree > 0) {
                 leaves.add(c);
-//                System.out.print("Leaf: " + c + " " + c.getSpecificityLevel());
-//                System.out.println(" InDegree: " + inDegree + " OutDegree: " +
-//                        outDegree);
             } else if (outDegree > 0 && inDegree == 0) {
                 roots.add(c);
-//                System.out.print("Root: " + c + " " + c.getSpecificityLevel());
-//                System.out.println(" InDegree: " + inDegree + " OutDegree: " +
-//                        outDegree);
             } else {
                 internals.add(c);
-//                System.out.print("Internal: " + c + " " + c.
-//                        getSpecificityLevel());
-//                System.out.println(" InDegree: " + inDegree + " OutDegree: " +
-//                        outDegree);
             }
 
         }
@@ -283,206 +270,159 @@ public class CreateNewBLRelations {
         long conceptCountPer100 = leafCount / 100;
         long countCounts = 1;
 
-        //List<DijkstraShortestPath> allShortestPaths = new ArrayList<>();
         long startTime = System.nanoTime();
         List<List<Concept>> allPaths = new ArrayList<>();
         // For each leaf, we find all paths to each root. 
         for (Concept leaf : leaves) {
-//        for (Concept root : roots) {
             counter += 1;
             if (conceptCountPer100 * countCounts == counter) {
                 System.out.println(countCounts + "%");
                 countCounts += 1;
             }
 
-//            System.out.println("Leaf: " + leaf);
-            //System.out.println("Starting getting paths...");
             List<List<Concept>> paths = new ArrayList<>();
-
+            int count = 0;
             ConnectivityInspector conI = new ConnectivityInspector(conceptGraph);
             for (Concept root : roots) {
                 if (conI.pathExists(root, leaf)) {
-                    //System.out.println("Root: " + root);
-//                    for (List<Concept> item : getAllPaths(conceptGraph, root,
-//                            leaf)) {
-//                        System.out.println(item);
-//                        paths.add(item);
-//                    }
                     paths = getAllPaths(conceptGraph, root, leaf);
-                    for (List<Concept> item : paths) {
-                        System.out.println("Path for pair: " + root + " " +
-                                leaf + ": \n" + item);
+
+                    for (List<Concept> blPath : paths) {
+
+                        // Remove first vertex, to avoid connecting roots to themselves
+                        List<Concept> blConcepts = new ArrayList<>();
+                        boolean blFound = false;
+                        // Get basic level concepts in the path
+                        for (Concept concept : blPath) {
+                            if (concept.getSpecificityLevel() ==
+                                    Concept.SpecificityLevel.BASIC_LEVEL ||
+                                    concept.getSpecificityLevel() ==
+                                    Concept.SpecificityLevel.BASIC_LEVEL_EXTENDED) {
+                                blConcepts.add(concept);
+                                blFound = true;
+                            }
+                        }
+
+                        // Start adding relations
+                        if (blFound) {
+                            // Reset the switch to use it in this loop
+                            blFound = false;
+                            // For each BL concept in the path
+                            for (Concept blConcept : blConcepts) {
+                                // For each concept in the path starting from the leaf
+                                for (Concept concept : blPath) {
+                                    // If the concept is not the BL concept 
+                                    // under consideration
+                                    if (!blConcept.equals(concept)) {
+                                        // If the concept is not BL 
+                                        // (this check is needed in case we have 
+                                        // more than 1 BLs in the path).
+                                        if (concept.getSpecificityLevel() ==
+                                                Concept.SpecificityLevel.SUBORDINATE ||
+                                                concept.getSpecificityLevel() ==
+                                                Concept.SpecificityLevel.SUPERORDINATE ||
+                                                concept.getSpecificityLevel() ==
+                                                Concept.SpecificityLevel.UNKNOWN) {
+                                            // Get relation arguments of concepts
+                                            RelationArgument relationArgument2 =
+                                                    raDao.
+                                                    getRelationArgumentByConcept(
+                                                            concept);
+                                            RelationArgument relationArgument1 =
+                                                    raDao.
+                                                    getRelationArgumentByConcept(
+                                                            blConcept);
+
+                                            // Create new relation
+                                            Relation newRelation =
+                                                    new Relation();
+                                            RelationType newRelationType =
+                                                    new RelationType(
+                                                            RelationType.RelationNameForward.TYPE_TOKEN,
+                                                            RelationType.RelationNameBackward.TOKEN_TYPE);
+                                            newRelation.setLinguisticSupport(
+                                                    Relation.LinguisticallySupported.UNKNOWN);
+                                            newRelation.setType(newRelationType);
+
+                                            if (!blFound) {
+                                                newRelation.setLeftArgument(
+                                                        relationArgument1);
+                                                newRelation.setRightArgument(
+                                                        relationArgument2);
+//                                                System.out.println("DOWN");
+
+                                            } else if (blFound) {
+                                                // if the basic level has been found in path,
+                                                // reverse the direction of relation.
+                                                newRelation.setLeftArgument(
+                                                        relationArgument2);
+                                                newRelation.setRightArgument(
+                                                        relationArgument1);
+//                                                System.out.println("UP");
+                                            }
+
+                                            // If the two relation arguments are not related, 
+                                            // add the relation.
+                                            if (!rDao.areRelated(
+                                                    relationArgument1,
+                                                    relationArgument2)) {
+//                                                System.out.
+//                                                        print("Relation between ");
+//                                                System.out.print(
+//                                                        relationArgument1.
+//                                                        getConcept());
+//                                                System.out.print(" and ");
+//                                                System.out.print(
+//                                                        relationArgument2.
+//                                                        getConcept());
+//                                                System.out.println(
+//                                                        " doesn't exist and will be created.");
+                                                rDao.persist(newRelation);
+                                            } else {
+//                                                System.out.
+//                                                        print("Relation between ");
+//                                                System.out.print(
+//                                                        relationArgument1.
+//                                                        getConcept());
+//                                                System.out.print(" and ");
+//                                                System.out.print(
+//                                                        relationArgument2.
+//                                                        getConcept());
+//                                                System.out.println(
+//                                                        " already exists.");
+                                            }
+                                        }
+                                    } else if (blConcept.equals(concept)) {
+                                        blFound = true;
+                                    }
+                                }
+                            }
+                            
+                            
+                            if (blConcepts.size() != 1) {
+//                        System.out.println(
+//                                "This path has " + blConcepts.size() +
+//                                " basic level concepts.");
+                                if (blConcepts.size() == 0) {
+                                    count0BLPaths++;
+                                } else if (blConcepts.size() == 2) {
+                                    count2BLPaths++;
+                                } else if (blConcepts.size() >= 3) {
+                                    count3BLPaths++;
+                                }
+
+                            } else {
+                                count1BLPaths++;
+                            }
+                        }
+
+                    }
+
+                    {
+
                     }
                 }
-
             }
-//            for (List<Concept>){
-
-//            }
-//            //System.out.println("All Paths:");
-//            for (List<Concept> item : paths) {
-//                System.out.println("Path: " + item);
-//            }
-            //          for (Concept leaf : leaves) {
-//            for (Concept root : roots) {
-//
-//                DijkstraShortestPath shortestPathDijkstra =
-//                        new DijkstraShortestPath(conceptGraph, root, leaf);
-//
-////                Set<GraphPath> edgeSet = conceptGraph.getAllEdges(root, leaf);
-////                System.out.print("All paths from ");
-////                System.out.print(root);
-////                System.out.print(" to ");
-////                System.out.println(leaf + ":");
-////                for (GraphPath item : edgeSet) {
-////                    System.out.println(item.getEdgeList());
-////                }
-////                
-////                FloydWarshallShortestPaths shortestPathsFW = new FloydWarshallShortestPaths(conceptGraph);
-////                int allPaths=shortestPathsFW.getShortestPathsCount();
-////                System.out.print("Count of all paths: ");
-////                System.out.println(allPaths);
-//                // If path exists
-//                if (shortestPathDijkstra.getPathLength() !=
-//                        Double.POSITIVE_INFINITY) {
-//                    countPaths++;
-//
-////                    //List shortestPathBFList = shortestPathsBF.getPaths(leaf);
-////                    System.out.print("All paths from ");
-////                    System.out.print(root);
-////                    System.out.print(" to ");
-////                    System.out.println(leaf + ":");
-////                    for (Object pathBF : shortestPathBFList) {
-////                        System.out.println(pathBF);
-////                    }
-//                    //allShortestPaths.add(shortestPathDijkstra);
-//                    GraphPath path = shortestPathDijkstra.getPath();
-//                    List<Concept> pathGraph = Graphs.getPathVertexList(path);
-//
-//                    // Remove first vertex, to avoid connecting roots to themselves
-//                    List<Concept> blConcepts = new ArrayList<>();
-//                    boolean blFound = false;
-//                    // Get basic level concepts in the path
-//                    for (Object vertex : pathGraph) {
-//                        Concept concept = (Concept)vertex;
-//                        if (concept.getSpecificityLevel() ==
-//                                Concept.SpecificityLevel.BASIC_LEVEL ||
-//                                concept.getSpecificityLevel() ==
-//                                Concept.SpecificityLevel.BASIC_LEVEL_EXTENDED) {
-//                            blConcepts.add(concept);
-//                            blFound = true;
-//                        }
-//                    }
-//
-//                    // Start adding relations
-//                    if (blFound) {
-//                        // Reset the switch to use it in this loop
-//                        blFound = false;
-//                        // For each BL concept in the path
-//                        for (Concept blConcept : blConcepts) {
-//                            // For each concept in the path 
-//                            // starting from the root
-//                            for (Object vertex : pathGraph) {
-//                                Concept concept = (Concept)vertex;
-//                                // If the concept is not the BL concept 
-//                                // under consideration
-//                                if (!blConcept.equals(concept)) {
-//                                    // If the concept is not BL 
-//                                    // (this check is needed in case we have 
-//                                    // more than 1 BLs in the path).
-//                                    if (concept.getSpecificityLevel() ==
-//                                            Concept.SpecificityLevel.SUBORDINATE ||
-//                                            concept.getSpecificityLevel() ==
-//                                            Concept.SpecificityLevel.SUPERORDINATE ||
-//                                            concept.getSpecificityLevel() ==
-//                                            Concept.SpecificityLevel.UNKNOWN) {
-//                                        // Get relation arguments of concepts
-//                                        RelationArgument relationArgument1 =
-//                                                raDao.
-//                                                getRelationArgumentByConcept(
-//                                                        concept);
-//                                        RelationArgument relationArgument2 =
-//                                                raDao.
-//                                                getRelationArgumentByConcept(
-//                                                        blConcept);
-//
-//                                        // Create new relation
-//                                        Relation newRelation = new Relation();
-//                                        RelationType newRelationType =
-//                                                new RelationType(
-//                                                        RelationType.RelationNameForward.TYPE_TOKEN,
-//                                                        RelationType.RelationNameBackward.TOKEN_TYPE);
-//                                        newRelation.setLinguisticSupport(
-//                                                Relation.LinguisticallySupported.UNKNOWN);
-//                                        newRelation.setType(newRelationType);
-//
-//                                        if (!blFound) {
-//                                            newRelation.setLeftArgument(
-//                                                    relationArgument1);
-//                                            newRelation.setRightArgument(
-//                                                    relationArgument2);
-//                                            //System.out.println("DOWN");
-//
-//                                        } else if (blFound) {
-//                                            // if the basic level has been found in path,
-//                                            // reverse the direction of relation.
-//                                            newRelation.setLeftArgument(
-//                                                    relationArgument2);
-//                                            newRelation.setRightArgument(
-//                                                    relationArgument1);
-//                                            //System.out.println("UP");
-//                                        }
-//
-//                                        // If the two relation arguments are not related, 
-//                                        // add the relation.
-//                                        if (!rDao.areRelated(relationArgument1,
-//                                                relationArgument2)) {
-////                                            System.out.
-////                                                    print("Relation between ");
-////                                            System.out.print(relationArgument1.
-////                                                    getConcept());
-////                                            System.out.print(" and ");
-////                                            System.out.print(relationArgument2.
-////                                                    getConcept());
-////                                            System.out.println(
-////                                                    " doesn't exist and will be created.");
-//                                            //rDao.persist(newRelation);
-//                                        } else {
-////                                            System.out.
-////                                                    print("Relation between ");
-////                                            System.out.print(relationArgument1.
-////                                                    getConcept());
-////                                            System.out.print(" and ");
-////                                            System.out.print(relationArgument2.
-////                                                    getConcept());
-////                                            System.out.println(
-////                                                    " already exists.");
-//                                        }
-//                                    }
-//                                } else if (blConcept.equals(concept)) {
-//                                    blFound = true;
-//                                }
-//                            }
-//                        }
-//                    }
-//
-//                    if (blConcepts.size() != 1) {
-////                        System.out.println(
-////                                "This path has " + blConcepts.size() +
-////                                " basic level concepts.");
-//                        if (blConcepts.size() == 0) {
-//                            count0BLPaths++;
-//                        } else if (blConcepts.size() == 2) {
-//                            count2BLPaths++;
-//                        } else if (blConcepts.size() >= 3) {
-//                            count3BLPaths++;
-//                        }
-//
-//                    } else {
-//                        count1BLPaths++;
-//                    }
-//                }
-//            }
         }
 
         long endTime = System.nanoTime();
@@ -500,14 +440,14 @@ public class CreateNewBLRelations {
 
     public static List<List<Concept>> getAllPaths(DirectedGraph conceptGraph,
             Concept root, Concept leaf) {
-        List<List<Concept>> finalPathList = new ArrayList<List<Concept>>();
+        List<List<Concept>> finalPathList = new ArrayList<>();
+
         Stack<List<Concept>> pathStack = new Stack<>();
         List<Concept> path = new ArrayList<>();
         List<Concept> tmpPath = new ArrayList<>();
-        List<Concept> nodeList = new ArrayList<>();
+
         Concept tmpConcept = null;
         Concept adjConcept = null;
-        int counter = 0;
 
         // 1. Add the first node to the path
         path.add(leaf);
@@ -518,99 +458,49 @@ public class CreateNewBLRelations {
         // 3. While the stack is not empty
         while (!pathStack.isEmpty()) {
             // 4. Get the last node of the popped path in the stack
-            tmpPath = pathStack.pop();
-            System.out.println("\nTEMPORARY PATH:");
-            System.out.println(tmpPath);
+            tmpPath.addAll(pathStack.pop());
+//            System.out.println("tmpPath: " + tmpPath);
             index = tmpPath.size() - 1;
             tmpConcept = tmpPath.get(index);
             // Get the adjucent edges & the corresponding iterator
             Set<DefaultEdge> tmpEdges = conceptGraph.incomingEdgesOf(tmpConcept);
             Iterator edgeIterator = tmpEdges.iterator();
             // 5. For each adjacent node
-            System.out.println("\nadjacent nodes of " + tmpConcept);
             while (edgeIterator.hasNext()) {
                 Object tmpEdge = (DefaultEdge)edgeIterator.next();
                 adjConcept = (Concept)conceptGraph.getEdgeSource(tmpEdge);
-//                counter++;
-                System.out.println("node: " + adjConcept);
                 // 6. If the node is not in the path
                 if (!tmpPath.contains(adjConcept)) {
                     // 7. If this is the last node
                     if (adjConcept.equals(root)) {
                         // 8. Add the path to the final list of returned paths 
                         tmpPath.add(adjConcept);
-                        System.out.println("\nFound a path:");
-                        System.out.println(tmpPath);
-                        finalPathList.add(tmpPath);
-                        //path.clear();
+                        finalPathList.add(new ArrayList(tmpPath));
                     } else {
                         // If this is not the last node
                         // 9. Clear the list of nodes
                         // Add the existing path to the list of nodes
-                        nodeList = tmpPath;
+                        List<Concept> nodeList = new ArrayList(tmpPath);
 
                         // 10. Add the new node to the list of nodes
                         nodeList.add(adjConcept);
-                        System.out.println(
-                                "\nDidn't find path. Existing path is: ");
-                        System.out.println(nodeList);
                         // 11. Push the list of nodes to the path stack
                         pathStack.push(nodeList);
+                        //nodeList.clear();
+                        //System.out.println("tmpPath: " + tmpPath);
+                        //System.out.println("nodeList: " + nodeList);
                     }
                 } else {
                     // Found cycle
                     // 12. Output the cycle
-                    System.out.println("\n\n\nFound cycle!\n\n\n");
+                    System.out.println("\n\n\nFound cycle!");
+                    System.out.println(tmpPath);
+                    System.out.println(adjConcept);
+                    System.out.println("\n\n\n");
                 }
             }
-
+            tmpPath.clear();
         }
-        //tmpPath.clear();
-        System.out.println("\n\nRETURNED: " + finalPathList);
         return finalPathList;
     }
-
-
-    public static void testBug() {
-
-        List<Concept> tmpPath = new ArrayList<>();
-        List<Concept> nodeList = new ArrayList<>();
-        DirectedAcyclicGraph<Concept, DefaultEdge> conceptGraph =
-                new DirectedAcyclicGraph<>(DefaultEdge.class);
-
-        // Get all non-BL concepts
-        ConceptDao cDao = new ConceptDaoImpl();
-
-        List<Concept> concepts = cDao.findAllConcepts();
-
-        tmpPath.add(concepts.get(0));
-        tmpPath.add(concepts.get(1));
-
-        nodeList.add(concepts.get(2));
-        nodeList.add(concepts.get(3));
-
-        nodeList.clear();
-        // Add the existing path to the list of nodes
-        for (Concept item : tmpPath) {
-            System.out.println("item in tmpPath list: " + item);
-            nodeList.add(item);
-        }
-        
-        
-        // 10. Add the new node to the list of nodes
-        //nodeList.add(adjConcept);
-
-        //nodeList.clear();
-  //      for (Concept item : tmpPath) {
-//
-  //          nodeList.add(item);
-//        }
-
-    //    for (Concept item : tmpPath) {
-//
-  //          System.out.println(item);
-    //    }
-
-    }
-
 }
