@@ -32,7 +32,7 @@ public class LanguageRepresentationDaoImpl extends
      * @return A LanguageRepresentation (null if not found)
      */
     @Override
-    public LanguageRepresentation findLanguageRepresentations(
+    public LanguageRepresentation getLanguageRepresentations(
             Language language, String text, PartOfSpeech pos,
             UseStatus useStatus) {
         Query query = getEntityManager().createNamedQuery(
@@ -61,7 +61,7 @@ public class LanguageRepresentationDaoImpl extends
      * @return A LanguageRepresentation (null if not found)
      */
     @Override
-    public LanguageRepresentation findLanguageRepresentationsCaseInsensitive(
+    public LanguageRepresentation getLanguageRepresentationsCaseInsensitive(
             Language language, String text, PartOfSpeech pos,
             UseStatus useStatus) {
         Query query = getEntityManager().createNamedQuery(
@@ -88,7 +88,7 @@ public class LanguageRepresentationDaoImpl extends
      * @return A list of LanguageRepresentations
      */
     @Override
-    public List<LanguageRepresentation> findLanguageRepresentations(
+    public List<LanguageRepresentation> getLanguageRepresentations(
             String text) {
         Query query = getEntityManager().createNamedQuery(
                 "findLanguageRepresentationsByText").
@@ -136,42 +136,4 @@ public class LanguageRepresentationDaoImpl extends
                 languageRepresentation.getText());
         return query;
     }
-
-// TODO: Delete the two methods below after I make sure they are not used in other projects.
-//            /**
-//             * Finds the LanguageRepresentations of a given concept sorted by Language
-//             *
-//             * @param concept the concept
-//             * @return A list of LanguageRepresentations
-//             */
-//            @Override
-//            public List<LanguageRepresentation> getLanguageRepresentationsOfConceptSortedByLanguage(
-//                    Concept concept) {
-//
-//                Query q = getEntityManager().createQuery(
-//                        "SELECT e FROM Concept c, " +
-//                        "IN(c.LanguageRepresentations) as lr, IN(lr.entries) e " +
-//                        "where c=?1 order by e.lang"
-//                );
-//                q.setParameter(1, concept);
-//                return q.getResultList();
-//            }
-//
-//            /**
-//             * Finds the LanguageRepresentations of a given concept without sorting
-//             *
-//             * @param c the concept
-//             * @return A list of LanguageRepresentations
-//             */
-//            @Override
-//            public List<LanguageRepresentation> getLanguageRepresentationsOfConcept(
-//                    Concept concept) {
-//                Query q = getEntityManager().createQuery(
-//                        "SELECT e FROM Concept c, " +
-//                        "IN(c.LanguageRepresentations) as lr, IN(lr.entries) e " +
-//                        "where c=?1"
-//                );
-//                q.setParameter(1, concept);
-//                return q.getResultList();
-//            }
 }

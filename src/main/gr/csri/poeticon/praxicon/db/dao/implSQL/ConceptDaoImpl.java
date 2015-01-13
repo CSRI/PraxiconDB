@@ -46,7 +46,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of all concepts in the database
      */
     @Override
-    public List<Concept> findAllConcepts() {
+    public List<Concept> getAllConcepts() {
         Query query = getEntityManager().createNamedQuery("findAllConcepts");
         List<Concept> concepts = query.getResultList();
         return concepts;
@@ -58,7 +58,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of all concepts in the database
      */
     @Override
-    public List<Concept> findAllBasicLevelConcepts() {
+    public List<Concept> getAllBasicLevelConcepts() {
         Query query = getEntityManager().createNamedQuery(
                 "findAllBasicLevelConcepts");
         List<Concept> concepts = query.getResultList();
@@ -71,7 +71,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of all concepts in the database
      */
     @Override
-    public List<Concept> findAllNonBasicLevelConcepts() {
+    public List<Concept> getAllNonBasicLevelConcepts() {
         Query query = getEntityManager().createNamedQuery(
                 "findAllNonBasicLevelConcepts");
         List<Concept> concepts = query.getResultList();
@@ -85,7 +85,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts found in the database
      */
     @Override
-    public Concept findConceptByConceptId(long conceptId) {
+    public Concept getConceptByConceptId(long conceptId) {
         Query query = getEntityManager().createNamedQuery(
                 "findConceptsByConceptId").
                 setParameter("conceptId", conceptId);
@@ -100,7 +100,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts found in the database
      */
     @Override
-    public List<Concept> findConceptsByExternalSourceId(
+    public List<Concept> getConceptsByExternalSourceId(
             String conceptExternalSourceId) {
         Query query = getEntityManager().createNamedQuery(
                 "findConceptsByExternalSourceId").
@@ -116,7 +116,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts found in the database
      */
     @Override
-    public Concept findConceptByExternalSourceIdExact(
+    public Concept getConceptByExternalSourceIdExact(
             String conceptExternalSourceId) {
         Query query = getEntityManager().createNamedQuery(
                 "findConceptByExternalSourceIdExact").
@@ -133,7 +133,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts found in the database
      */
     @Override
-    public List<Concept> findConceptsByLanguageRepresentation(
+    public List<Concept> getConceptsByLanguageRepresentation(
             String languageRepresentationName) {
         Query query = getEntityManager().createNamedQuery(
                 "findConceptsByLanguageRepresentation").
@@ -150,7 +150,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts found in the database
      */
     @Override
-    public List<Concept> findConceptsByLanguageRepresentationExact(
+    public List<Concept> getConceptsByLanguageRepresentationExact(
             String languageRepresentationName) {
         Query query = getEntityManager().createNamedQuery(
                 "findConceptsByLanguageRepresentationExact").
@@ -166,7 +166,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts found in the database
      */
     @Override
-    public List<Concept> findConceptsByStatus(Status status) {
+    public List<Concept> getConceptsByStatus(Status status) {
         Query query = getEntityManager().createNamedQuery(
                 "findConceptsByStatusExact").
                 setParameter("status", status);
@@ -189,9 +189,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             //it is the name of the concept
         }
         if (id == -1) {
-            return findConceptByExternalSourceIdExact(v.trim());
+            return getConceptByExternalSourceIdExact(v.trim());
         } else {
-            return findConceptByConceptId(id);
+            return getConceptByConceptId(id);
         }
     }
 
@@ -207,7 +207,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
 
         Concept oldConcept = new Concept();
         try {
-            oldConcept = this.findConceptByExternalSourceIdExact(newConcept.
+            oldConcept = this.getConceptByExternalSourceIdExact(newConcept.
                     getExternalSourceId());
         } catch (Exception e) {
 
@@ -459,6 +459,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @param concept concept to be checked
      * @return The list of Basic Level Concepts
      */
+    @Override
     public List<Map.Entry<Concept, Direction>>
             getBasicLevelConceptsOld(Concept concept) {
         List<Concept> conceptsListUp = new ArrayList<>();
@@ -620,141 +621,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         return res;
     }
 
-//    /**
-//     * Finds all the Basic Level concepts for the given non abstract concept.
-//     *
-//     * @param concept
-//     * @return The list of BL
-//     */
-//    @Override
-//    public List<Concept> getBasicLevelOfAnEntityConcept(Concept concept) {
-//        List<Concept> offspringConcepts = new ArrayList<>();
-//        if (concept.getSpecificityLevel() !=
-//                Concept.SpecificityLevel.BASIC_LEVEL &&
-//                concept.getConceptType() != Concept.Type.ABSTRACT) {
-//            List<Concept> parents = getParentsOfConcept(concept);
-//            for (Concept parent : parents) {
-//                offspringConcepts.addAll(getBasicLevelOfAnEntityConcept(parent));
-//            }
-//
-//            if (parents.isEmpty()) {
-//                List<Concept> classes = getClassesOfInstance(concept);
-//                for (Concept classe : classes) {
-//                    offspringConcepts.addAll(getBasicLevelOfAnEntityConcept(classe));
-//                }
-//            }
-//        } else {
-//            if (concept.getSpecificityLevel() ==
-//                    Concept.SpecificityLevel.BASIC_LEVEL) {
-//                offspringConcepts.add(concept);
-//            }
-//        }
-//        return offspringConcepts;
-//    }
-//    /**
-//     * Finds all the Basic Level concepts for the given abstract concept.
-//     *
-//     * @param concept concept to be checked
-//     * @return The list of BL
-//     */
-//    @Override
-//    public List<Concept> getBasicLevelOfAnAbstractConcept(Concept concept) {
-//        List<Concept> offspringConcepts = new ArrayList<>();
-//
-//        if (concept.getSpecificityLevel() !=
-//                Concept.SpecificityLevel.BASIC_LEVEL &&
-//                concept.getConceptType() == Concept.Type.ABSTRACT) {
-//            List<Concept> children = getChildrenOfConcept(concept);
-//            for (Concept children1 : children) {
-//                offspringConcepts.addAll(getBasicLevelOfAnAbstractConcept(children1));
-//            }
-//        } else {
-//            if (concept.getSpecificityLevel() ==
-//                    Concept.SpecificityLevel.BASIC_LEVEL) {
-//                offspringConcepts.add(concept);
-//            }
-//        }
-//        return offspringConcepts;
-//    }
-//    /**
-//     * Finds all the Basic Level concepts for the given movement origin concept.
-//     *
-//     * @param concept concept to be checked
-//     * @return The list of BL
-//     */
-//    // special getting BL for movement origin concepts 
-//    // lookin up and down regardless Type
-//    private List<Concept> getBasicLevelOfMovementOriginConcept(Concept concept) {
-//        List<Concept> offspringConcepts = new ArrayList<>();
-//
-//        if (concept.getSpecificityLevel() ==
-//                Concept.SpecificityLevel.BASIC_LEVEL) {
-//            offspringConcepts.add(concept);
-//        } else {
-//            offspringConcepts.addAll(getBasicLevelOfMovementOriginConceptGoingDown(concept));
-//            offspringConcepts.addAll(getBasicLevelOfMovementOriginConceptGoingUp(concept));
-//        }
-//        return offspringConcepts;
-//    }
-//    /**
-//     * Finds all the Basic Level concepts for the given concept, moving only up
-//     * in the hierarchy.
-//     *
-//     * @param concept concept to be checked
-//     * @return The list of BL
-//     */
-//    private List<Concept> getBasicLevelOfMovementOriginConceptGoingUp(
-//            Concept concept) {
-//        List<Concept> offspringConcepts = new ArrayList<>();
-//
-//        if (concept.getSpecificityLevel() !=
-//                Concept.SpecificityLevel.BASIC_LEVEL) {
-//            List<Concept> parents = getParentsOfConcept(concept);
-//            for (Concept parent : parents) {
-//                offspringConcepts.addAll(getBasicLevelOfMovementOriginConceptGoingUp(parent));
-//            }
-//
-//            if (parents.isEmpty()) {
-//                List<Concept> classes = getClassesOfInstance(concept);
-//                for (Concept classe : classes) {
-//                    offspringConcepts.addAll(getBasicLevelOfMovementOriginConceptGoingUp(
-//                            classe));
-//                }
-//            }
-//        } else {
-//            if (concept.getSpecificityLevel() ==
-//                    Concept.SpecificityLevel.BASIC_LEVEL) {
-//                offspringConcepts.add(concept);
-//            }
-//        }
-//        return offspringConcepts;
-//    }
-//    /**
-//     * Finds all the Basic Level concepts for the given concept, moving only
-//     * down in the hierarchy.
-//     *
-//     * @param concept concept to be checked
-//     * @return The list of BL
-//     */
-//    private List<Concept> getBasicLevelOfMovementOriginConceptGoingDown(
-//            Concept concept) {
-//        List<Concept> offspringConcepts = new ArrayList<>();
-//
-//        if (concept.getSpecificityLevel() !=
-//                Concept.SpecificityLevel.BASIC_LEVEL) {
-//            List<Concept> children = getChildrenOfConcept(concept);
-//            for (Concept children1 : children) {
-//                offspringConcepts.addAll(getBasicLevelOfMovementOriginConceptGoingDown(
-//                        children1));
-//            }
-//        } else {
-//            if (concept.getSpecificityLevel() ==
-//                    Concept.SpecificityLevel.BASIC_LEVEL) {
-//                offspringConcepts.add(concept);
-//            }
-//        }
-//        return offspringConcepts;
-//    }
     /**
      * Finds all concepts that are related to a given concept using a given
      * relation Type

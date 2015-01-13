@@ -4,10 +4,12 @@
  */
 package gr.csri.poeticon.praxicon.db.dao;
 
+import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Concept.Status;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -16,23 +18,23 @@ import java.util.List;
  */
 public interface ConceptDao extends Dao<Long, Concept> {
 
-    List<Concept> findAllConcepts();
+    List<Concept> getAllConcepts();
 
-    List<Concept> findAllBasicLevelConcepts();
+    List<Concept> getAllBasicLevelConcepts();
 
-    List<Concept> findAllNonBasicLevelConcepts();
+    List<Concept> getAllNonBasicLevelConcepts();
 
-    Concept findConceptByConceptId(long conceptId);
+    Concept getConceptByConceptId(long conceptId);
 
-    List<Concept> findConceptsByExternalSourceId(String name);
+    List<Concept> getConceptsByExternalSourceId(String name);
 
-    Concept findConceptByExternalSourceIdExact(String name);
+    Concept getConceptByExternalSourceIdExact(String name);
 
-    List<Concept> findConceptsByLanguageRepresentation(String queryString);
+    List<Concept> getConceptsByLanguageRepresentation(String queryString);
 
-    List<Concept> findConceptsByLanguageRepresentationExact(String queryString);
+    List<Concept> getConceptsByLanguageRepresentationExact(String queryString);
 
-    List<Concept> findConceptsByStatus(Status status);
+    List<Concept> getConceptsByStatus(Status status);
 
     Concept getConceptWithExternalSourceIdOrId(String v);
 
@@ -55,6 +57,9 @@ public interface ConceptDao extends Dao<Long, Concept> {
     List<Concept> getInstancesOf(Concept concept);
 
     public List<Concept> getBasicLevelConcepts(Concept concept);
+
+    public List<Map.Entry<Concept, ConceptDaoImpl.Direction>>
+            getBasicLevelConceptsOld(Concept concept);
 
     public List<Concept> getConceptsRelatedWithByRelationType(
             Concept concept, RelationType relationType);

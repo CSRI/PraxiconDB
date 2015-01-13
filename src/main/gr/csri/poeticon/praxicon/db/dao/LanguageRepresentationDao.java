@@ -17,13 +17,13 @@ import java.util.List;
 public interface LanguageRepresentationDao extends
         Dao<Long, LanguageRepresentation> {
 
-    List<LanguageRepresentation> findLanguageRepresentations(String text);
+    List<LanguageRepresentation> getLanguageRepresentations(String text);
 
-    LanguageRepresentation findLanguageRepresentations(
+    LanguageRepresentation getLanguageRepresentations(
             Language language, String text, PartOfSpeech pos,
             UseStatus pragmaticStatus);
 
-    LanguageRepresentation findLanguageRepresentationsCaseInsensitive(
+    LanguageRepresentation getLanguageRepresentationsCaseInsensitive(
             Language language, String text, PartOfSpeech pos,
             UseStatus pragmaticStatus);
     

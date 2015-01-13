@@ -30,23 +30,4 @@ public class MotoricRepresentationDaoImpl
                         motoricRepresentation.getComment().toUpperCase());
         return query;
     }
-
-// TODO: Delete the two methods below after I make sure they are not used in other projects.
-//    /**
-//     * Gets the Motoric Representations of a given concept
-//     *
-//     * @param c the concept
-//     * @return a list of MotoricRepresentations
-//     */
-//    @Override
-//    public List<MotoricRepresentation> getEntries(Concept c) {
-//        Query q = getEntityManager().createQuery(
-//                "SELECT entry FROM " +
-//                "Concept c, IN(c.MotoricRepresentations) as MR, " +
-//                "IN(MR.entries) entry " +
-//                "where c=?1"
-//        );
-//        q.setParameter(1, c);
-//        return q.getResultList();
-//    }
 }
