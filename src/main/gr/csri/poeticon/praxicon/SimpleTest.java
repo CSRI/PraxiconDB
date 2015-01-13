@@ -36,14 +36,13 @@ public class SimpleTest {
         LanguageRepresentationDao lrDao = new LanguageRepresentationDaoImpl();
 
         // Get the number of all concepts
-        List<Concept> concepts = cDao.findAllConcepts();
+        List<Concept> concepts = cDao.getAllConcepts();
         System.out.println("\n\nNumber of all concepts: " + concepts.size());
 
         // Get the language representations of all concepts having "spoon" as 
         // language representation.
         String toSearch = "spoon";
-        List<Concept> conceptsSpoon = cDao.
-                findConceptsByLanguageRepresentationExact(toSearch);
+        List<Concept> conceptsSpoon = cDao.getConceptsByLanguageRepresentationExact(toSearch);
         System.out.println("\n\nLanguage Representations of spoon: ");
         System.out.println("---------------------------------");
         for (Concept concept : conceptsSpoon) {
@@ -57,9 +56,9 @@ public class SimpleTest {
         // Check whether concepts "shape" and "round_shape" are related.
         System.out.println("\n\nCheck whether two concepts are related: ");
         System.out.println("--------------------------------------- ");
-        Concept conceptRoundShape = cDao.findConceptByExternalSourceIdExact(
+        Concept conceptRoundShape = cDao.getConceptByExternalSourceIdExact(
                 "round_shape%1:25:00::");
-        Concept conceptShape = cDao.findConceptByExternalSourceIdExact(
+        Concept conceptShape = cDao.getConceptByExternalSourceIdExact(
                 "shape%1:03:00::");
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
         RelationArgument relationArgumentConceptShape = raDao.
@@ -83,7 +82,7 @@ public class SimpleTest {
 
         System.out.println("\n\nAll relations of concept substance: ");
         System.out.println("-------------------------------");
-        Concept conceptSubstance = cDao.findConceptByExternalSourceIdExact(
+        Concept conceptSubstance = cDao.getConceptByExternalSourceIdExact(
                 "substance%1:03:00::");
         List<Relation> allRelationsOfConceptSubstance = rDao.
                 getAllRelationsOfConcept(conceptSubstance);
@@ -144,13 +143,13 @@ public class SimpleTest {
         // Get all Basic Level Concepts.
         System.out.println("\n\nCount All Basic Level Concepts:");
         System.out.println("-------------------------------------------");
-        List<Concept> basicLevelConcepts = cDao.findAllBasicLevelConcepts();
+        List<Concept> basicLevelConcepts = cDao.getAllBasicLevelConcepts();
         System.out.println(basicLevelConcepts.size());
 
 //        String stringToSearch = "entity%1:03:00::";
 //        System.out.println("\n\nBasic Level of concept " + stringToSearch);
 //        System.out.println("-------------------------------------------");
-//        Concept concept = cDao.findConceptByExternalSourceIdExact(
+//        Concept concept = cDao.getConceptByExternalSourceIdExact(
 //                stringToSearch);
 //        long startTime = System.nanoTime();
         //List<Concept> basicLevelOfConceptSoupSpoon = cDao.getBasicLevelConcepts(concept);
