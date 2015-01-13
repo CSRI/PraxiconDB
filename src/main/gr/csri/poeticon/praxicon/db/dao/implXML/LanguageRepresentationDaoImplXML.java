@@ -26,7 +26,7 @@ public class LanguageRepresentationDaoImplXML extends
         implements LanguageRepresentationDao {
 
     @Override
-    public LanguageRepresentation findLanguageRepresentationsCaseInsensitive(
+    public LanguageRepresentation getLanguageRepresentationsCaseInsensitive(
             Language language, String text, PartOfSpeech pos,
             UseStatus pragmaticStatus) {
         Enumeration en = Constants.globalConcepts.elements();
@@ -47,7 +47,7 @@ public class LanguageRepresentationDaoImplXML extends
     }
 
     @Override
-    public List<LanguageRepresentation> findLanguageRepresentations(
+    public List<LanguageRepresentation> getLanguageRepresentations(
             String searchString) {
         List<LanguageRepresentation> res = new ArrayList<>();
         Enumeration en = Constants.globalConcepts.elements();
@@ -91,7 +91,7 @@ public class LanguageRepresentationDaoImplXML extends
 //        return res;
 //    }
     @Override
-    public LanguageRepresentation findLanguageRepresentations(Language language,
+    public LanguageRepresentation getLanguageRepresentations(Language language,
             String text, PartOfSpeech pos, UseStatus pragmaticStatus) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
