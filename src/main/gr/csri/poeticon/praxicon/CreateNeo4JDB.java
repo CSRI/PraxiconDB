@@ -17,6 +17,7 @@ import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.neo4j.graphdb.Direction;
@@ -28,7 +29,6 @@ import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
-import org.neo4j.helpers.collection.IteratorUtil;
 import org.neo4j.tooling.GlobalGraphOperations;
 
 /**
@@ -96,7 +96,7 @@ public class CreateNeo4JDB {
 
         // Get concepts from the database
         long startTime = System.nanoTime();
-        List<Concept> concepts = cDao.findAllConcepts();
+        List<Concept> concepts = cDao.getAllConcepts();
         long endTime = System.nanoTime();
         System.out.print("\n\n\nFinished getting concepts in ");
         System.out.print((endTime - startTime) / (1000000000));
@@ -198,8 +198,8 @@ public class CreateNeo4JDB {
             }
             endTime = System.nanoTime();
             System.out.print("\n\n\nFinished adding edges in ");
-            System.out.print((endTime - startTime) / 1000000000);
-            System.out.println(" seconds!\n\n\n");
+            System.out.print((endTime - startTime) / 60000000000L);
+            System.out.println(" Minutes!\n\n\n");
 
             tx.success();
 
@@ -209,7 +209,7 @@ public class CreateNeo4JDB {
             System.out.println(Arrays.toString(e.getStackTrace()));
         } finally {
             tx.close();
-            System.exit(1);
+//            System.exit(1);
         }
 
         // Now insert all BL relations.
@@ -235,7 +235,6 @@ public class CreateNeo4JDB {
                 new ArrayList<>();
 
         // Find all leaves.
-        
         String output = "";
 //        for (Path position : graphDb.traversalDescription().depthFirst().relationships(RelTypes.TYPE_TOKEN).traverse(node)){
 //            output += position;
@@ -243,93 +242,116 @@ public class CreateNeo4JDB {
 //        
 //            
 //        }
-        for (Node n : GlobalGraphOperations.at(graphDb).getAllNodes()) {
-            System.out.println(n.getProperty("conceptExternalSourceId")+": "+ IteratorUtil.count(n.getRelationships(Direction.INCOMING))); 
+
+        Iterator<Node> iterGraph = GlobalGraphOperations.at(graphDb).
+                getAllNodes().iterator();
+
+        // Print all nodes
+        while (iterGraph.hasNext()) {
+            System.out.println(iterGraph.next().getProperty(
+                    "conceptExternalSourceId"));
         }
 
-
-
-
-
-
-
-
-
-//        BreadthFirstIterator graphIter = new BreadthFirstIterator(conceptGraph);
-//        List<Concept> islands = new ArrayList<>();
-//        List<Concept> leaves = new ArrayList<>();
-//        List<Concept> roots = new ArrayList<>();
-//        List<Concept> internals = new ArrayList<>();
-//        int maxOutDegree = 0;
-//        Concept maxOutDegreeConcept = new Concept();
-//        Concept maxInDegreeConcept = new Concept();
-//        int maxInDegree = 0;
-//        int count0BLPaths = 0;
-//        int count1BLPaths = 0;
-//        int count2BLPaths = 0;
-//        int count3BLPaths = 0;
-//        int countPaths = 0;
-//
-//        // Get leaves and roots
-//        while (graphIter.hasNext()) {
-//            Object o = graphIter.next();
-//            Concept c = (Concept)o;
-//            int outDegree = conceptGraph.outDegreeOf(c);
-//            if (outDegree > maxOutDegree) {
-//                maxOutDegree = outDegree;
-//                maxOutDegreeConcept = c;
-//            }
-//            int inDegree = conceptGraph.inDegreeOf(c);
-//            if (inDegree > maxInDegree) {
-//                maxInDegree = inDegree;
-//                maxInDegreeConcept = c;
-//            }
-//
-//            if (outDegree == 0 && inDegree == 0) {
-//                islands.add(c);
-////                System.out.print("Island: " + c + " " + c.getSpecificityLevel());
-////                System.out.println(" InDegree: " + inDegree + " OutDegree: " +
-////                        outDegree);
-//            } else if (outDegree == 0 && inDegree > 0) {
-//                leaves.add(c);
-////                System.out.print("Leaf: " + c + " " + c.getSpecificityLevel());
-////                System.out.println(" InDegree: " + inDegree + " OutDegree: " +
-////                        outDegree);
-//            } else if (outDegree > 0 && inDegree == 0) {
-//                roots.add(c);
-////                System.out.print("Root: " + c + " " + c.getSpecificityLevel());
-////                System.out.println(" InDegree: " + inDegree + " OutDegree: " +
-////                        outDegree);
-//            } else {
-//                internals.add(c);
-////                System.out.print("Internal: " + c + " " + c.
-////                        getSpecificityLevel());
-////                System.out.println(" InDegree: " + inDegree + " OutDegree: " +
-////                        outDegree);
-//            }
-//
+//        for (Node n : GlobalGraphOperations.at(graphDb).getAllNodes()) {
+//            System.out.println(n.getProperty("conceptExternalSourceId") + ": " +
+//                    IteratorUtil.count(n.getRelationships(Direction.INCOMING)));
 //        }
-//
-//        System.out.println("Totals: ");
-//        System.out.println("Islands: " + islands.size());
-//        System.out.println("Roots: " + roots.size());
-//        System.out.println("Leaves: " + leaves.size());
-//        System.out.println("Internals: " + internals.size());
-//        System.out.println("MaxOutDegree: " + maxOutDegree + " for concept: " +
-//                maxOutDegreeConcept);
-//        System.out.println("MaxInDegree: " + maxInDegree + " for concept: " +
-//                maxInDegreeConcept);
-//
-//        long counter = 0;
-//        long rootCount = roots.size();
-//        long conceptCountPer100 = rootCount / 100;
-//        long countCounts = 1;
-//
+        List<Node> islands = new ArrayList<>();
+        List<Node> leaves = new ArrayList<>();
+        List<Node> roots = new ArrayList<>();
+        List<Node> internals = new ArrayList<>();
+        int maxOutDegree = 0;
+        Node maxOutDegreeConcept = null;
+        Node maxInDegreeConcept = null;
+        int maxInDegree = 0;
+        int count0BLPaths = 0;
+        int count1BLPaths = 0;
+        int count2BLPaths = 0;
+        int count3BLPaths = 0;
+        int countPaths = 0;
+
+        iterGraph = GlobalGraphOperations.at(graphDb).getAllNodes().iterator();
+
+        while (iterGraph.hasNext()) {
+            Node node = iterGraph.next();
+            int outDegree = node.getDegree(Direction.OUTGOING);
+            if (outDegree > maxOutDegree) {
+                maxOutDegree = outDegree;
+                maxOutDegreeConcept = node;
+            }
+            int inDegree = node.getDegree(Direction.INCOMING);
+            if (inDegree > maxInDegree) {
+                maxInDegree = inDegree;
+                maxInDegreeConcept = node;
+            }
+            if (outDegree == 0 && inDegree == 0) {
+                islands.add(node);
+            } else if (outDegree == 0 && inDegree > 0) {
+                leaves.add(node);
+            } else if (outDegree > 0 && inDegree == 0) {
+                roots.add(node);
+            } else {
+                internals.add(node);
+            }
+        }
+
+        System.out.println("Totals: ");
+        System.out.println("Islands: " + islands.size());
+        System.out.println("Roots: " + roots.size());
+        System.out.println("Leaves: " + leaves.size());
+        System.out.println("Internals: " + internals.size());
+        System.out.println("MaxOutDegree: " + maxOutDegree + " for concept: " +
+                maxOutDegreeConcept);
+        System.out.println("MaxInDegree: " + maxInDegree + " for concept: " +
+                maxInDegreeConcept);
+
+        long counter = 0;
+        long rootCount = roots.size();
+        long conceptCountPer100 = rootCount / 100;
+        long countCounts = 1;
+
 //        List<DijkstraShortestPath> allShortestPaths = new ArrayList<>();
-//
-//        // For each leaf, we find the path to each root. There will normally be
-//        // only one path for each pair.
-//        long startTime = System.nanoTime();
+        // For each leaf, we find all paths to each root.
+        long startTime = System.nanoTime();
+        for (Node rootNode : roots) {
+            counter++;
+            if (conceptCountPer100 * countCounts == counter) {
+                System.out.println(countCounts + "%");
+                countCounts += 1;
+            }
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+//            
+//            KShortestPaths shortestPathsBF = new KShortestPaths(
+//                    conceptGraph, root, 4);
+//            
+            
+        }
+
 ////        for (Concept leaf : leaves) {
 //        for (Concept root : roots) {
 //            counter += 1;
