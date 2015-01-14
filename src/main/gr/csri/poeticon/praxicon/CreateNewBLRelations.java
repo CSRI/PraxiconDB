@@ -56,7 +56,7 @@ public class CreateNewBLRelations {
         long startTime = System.nanoTime();
 
         // Get all concepts
-        List<Concept> concepts = cDao.findAllConcepts();
+        List<Concept> concepts = cDao.getAllConcepts();
         long endTime = System.nanoTime();
         System.out.print("\n\n\nFinished getting concepts in ");
         System.out.print((endTime - startTime) / 1000000000);
@@ -129,7 +129,7 @@ public class CreateNewBLRelations {
 
         // Get concepts from the database
         long startTime = System.nanoTime();
-        List<Concept> concepts = cDao.findAllConcepts();
+        List<Concept> concepts = cDao.getAllConcepts();
         long endTime = System.nanoTime();
         System.out.print("\n\n\nFinished getting concepts in ");
         System.out.print((endTime - startTime) / 1000000000);
@@ -288,7 +288,6 @@ public class CreateNewBLRelations {
                     paths = getAllPaths(conceptGraph, root, leaf);
 
                     for (List<Concept> blPath : paths) {
-
                         // Remove first vertex, to avoid connecting roots to themselves
                         List<Concept> blConcepts = new ArrayList<>();
                         boolean blFound = false;
@@ -397,8 +396,7 @@ public class CreateNewBLRelations {
                                     }
                                 }
                             }
-                            
-                            
+
                             if (blConcepts.size() != 1) {
 //                        System.out.println(
 //                                "This path has " + blConcepts.size() +
@@ -415,11 +413,6 @@ public class CreateNewBLRelations {
                                 count1BLPaths++;
                             }
                         }
-
-                    }
-
-                    {
-
                     }
                 }
             }
