@@ -9,7 +9,6 @@ import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationArgumentDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
-import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl.Direction;
 import static gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl.Direction.DOWN;
 import static gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl.Direction.UP;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationArgumentDaoImpl;
@@ -23,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Stack;
 import org.jgrapht.DirectedGraph;
@@ -40,7 +38,7 @@ public class CreateNewBLRelations {
 
     public static void main(String args[]) {
         //testAlgorithm();
-        ConceptGraph();
+        BuildGraph();
         //ConceptRecursive();
 //        ConceptNeo4j();
         //testBug();
@@ -48,6 +46,11 @@ public class CreateNewBLRelations {
 
     }
 
+    /**
+     * Tries to recursively find the basic level concepts of a given concept and
+     * add them to the database. This method takes forever* to finish.
+     * *forever=~10 days on a typical core i7 system.
+     */
     public static void ConceptRecursive() {
         // For each concept get its basic level and store it in relations
         ConceptDao cDao = new ConceptDaoImpl();
@@ -117,7 +120,10 @@ public class CreateNewBLRelations {
         System.out.println(" minutes!");
     }
 
-    public static void ConceptGraph() {
+    /***
+     * Builds a graph based on the TYPE_TOKEN relations in Praxicon.
+     */
+    public static void BuildGraph() {
 
         //DirectedAcyclicGraph conceptGraph = new  DirectedAcyclicGraph(null);
         DirectedAcyclicGraph<Concept, DefaultEdge> conceptGraph =
@@ -181,7 +187,7 @@ public class CreateNewBLRelations {
         System.out.println(" seconds!\n\n\n");
 
         // Now insert all BL relations.
-        insertBLRelations(conceptGraph, concepts, DOWN);
+        insertBLRelations(conceptGraph, concepts);
 //        insertBLRelations(reverseConceptGraph, concepts, UP);
 //        insertBLRelations(reverseConceptGraph, concepts, UP);
 
@@ -197,20 +203,20 @@ public class CreateNewBLRelations {
         }
     }
 
+    
+    /***
+     * Identifies all basic-level concepts in a path from root to leaf,  
+     * connects the non-basic-level ones to their basic-level ones and stores
+     * them to the database. This is done only once after a new database is
+     * introduced to facilitate finding the basic level concepts of a concept.
+     * @param conceptGraph
+     * @param concepts
+     */
     public static void insertBLRelations(DirectedGraph conceptGraph,
-            List<Concept> concepts, Direction direction) {
+            List<Concept> concepts) {
 
         RelationDao rDao = new RelationDaoImpl();
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
-        List<Entry<Concept, Concept>> newBasicLevelConnections =
-                new ArrayList<>();
-
-        // Get the reverse of concept graph.
-        // This is necessary so as to calculate both downward (conceptGraph)
-        // and upward (reverseConceptGraph) basic level concepts.
-//        EdgeReversedGraph reverseConceptGraph = new EdgeReversedGraph(
-//                conceptGraph);
-        ConnectivityInspector ci = new ConnectivityInspector(conceptGraph);
 
         // Find all leaves.
         DepthFirstIterator graphIter = new DepthFirstIterator(conceptGraph);
@@ -431,6 +437,14 @@ public class CreateNewBLRelations {
                 " paths with 3 or more BLs.");
     }
 
+   /**
+    * Gets all paths from a root node to a leaf node using a stack.
+    * @param conceptGraph
+    * @param root
+    * @param leaf
+    * @return a list of a list of paths.
+    */
+    
     public static List<List<Concept>> getAllPaths(DirectedGraph conceptGraph,
             Concept root, Concept leaf) {
         List<List<Concept>> finalPathList = new ArrayList<>();
