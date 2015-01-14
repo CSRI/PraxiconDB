@@ -37,11 +37,7 @@ import org.jgrapht.traverse.DepthFirstIterator;
 public class CreateNewBLRelations {
 
     public static void main(String args[]) {
-        //testAlgorithm();
         BuildGraph();
-        //ConceptRecursive();
-//        ConceptNeo4j();
-        //testBug();
         System.exit(0);
 
     }
@@ -120,12 +116,12 @@ public class CreateNewBLRelations {
         System.out.println(" minutes!");
     }
 
-    /***
+    /**
+     * *
      * Builds a graph based on the TYPE_TOKEN relations in Praxicon.
      */
     public static void BuildGraph() {
 
-        //DirectedAcyclicGraph conceptGraph = new  DirectedAcyclicGraph(null);
         DirectedAcyclicGraph<Concept, DefaultEdge> conceptGraph =
                 new DirectedAcyclicGraph<>(DefaultEdge.class);
 
@@ -143,7 +139,6 @@ public class CreateNewBLRelations {
 
         // Get relations from the database
         startTime = System.nanoTime();
-        //List<Relation> relationsTypeToken = rDao.getAllRelations();
         List<Relation> relationsTypeToken = rDao.getRelationsByRelationType(
                 RelationType.RelationNameForward.TYPE_TOKEN);
         endTime = System.nanoTime();
@@ -168,13 +163,12 @@ public class CreateNewBLRelations {
             Concept leftConcept = new Concept();
             if (relation.getLeftArgument().isConcept()) {
                 leftConcept = relation.getLeftArgument().getConcept();
-                //System.out.println(leftConcept);
             }
 
+            // Get right concept
             Concept rightConcept = new Concept();
             if (relation.getRightArgument().isConcept()) {
                 rightConcept = relation.getRightArgument().getConcept();
-                //System.out.println(rightConcept);
             }
 
             //System.out.println(relation);
@@ -188,8 +182,6 @@ public class CreateNewBLRelations {
 
         // Now insert all BL relations.
         insertBLRelations(conceptGraph, concepts);
-//        insertBLRelations(reverseConceptGraph, concepts, UP);
-//        insertBLRelations(reverseConceptGraph, concepts, UP);
 
         if (cDao.getEntityManager().isOpen()) {
             cDao.close();
@@ -203,12 +195,13 @@ public class CreateNewBLRelations {
         }
     }
 
-    
-    /***
-     * Identifies all basic-level concepts in a path from root to leaf,  
+    /**
+     * *
+     * Identifies all basic-level concepts in a path from root to leaf,
      * connects the non-basic-level ones to their basic-level ones and stores
      * them to the database. This is done only once after a new database is
      * introduced to facilitate finding the basic level concepts of a concept.
+     *
      * @param conceptGraph
      * @param concepts
      */
@@ -258,7 +251,6 @@ public class CreateNewBLRelations {
             } else {
                 internals.add(c);
             }
-
         }
 
         System.out.println("Totals: ");
@@ -294,7 +286,6 @@ public class CreateNewBLRelations {
                     paths = getAllPaths(conceptGraph, root, leaf);
 
                     for (List<Concept> blPath : paths) {
-                        // Remove first vertex, to avoid connecting roots to themselves
                         List<Concept> blConcepts = new ArrayList<>();
                         boolean blFound = false;
                         // Get basic level concepts in the path
@@ -354,8 +345,6 @@ public class CreateNewBLRelations {
                                                         relationArgument1);
                                                 newRelation.setRightArgument(
                                                         relationArgument2);
-//                                                System.out.println("DOWN");
-
                                             } else if (blFound) {
                                                 // if the basic level has been found in path,
                                                 // reverse the direction of relation.
@@ -363,7 +352,6 @@ public class CreateNewBLRelations {
                                                         relationArgument2);
                                                 newRelation.setRightArgument(
                                                         relationArgument1);
-//                                                System.out.println("UP");
                                             }
 
                                             // If the two relation arguments are not related, 
@@ -371,30 +359,7 @@ public class CreateNewBLRelations {
                                             if (!rDao.areRelated(
                                                     relationArgument1,
                                                     relationArgument2)) {
-//                                                System.out.
-//                                                        print("Relation between ");
-//                                                System.out.print(
-//                                                        relationArgument1.
-//                                                        getConcept());
-//                                                System.out.print(" and ");
-//                                                System.out.print(
-//                                                        relationArgument2.
-//                                                        getConcept());
-//                                                System.out.println(
-//                                                        " doesn't exist and will be created.");
                                                 rDao.persist(newRelation);
-                                            } else {
-//                                                System.out.
-//                                                        print("Relation between ");
-//                                                System.out.print(
-//                                                        relationArgument1.
-//                                                        getConcept());
-//                                                System.out.print(" and ");
-//                                                System.out.print(
-//                                                        relationArgument2.
-//                                                        getConcept());
-//                                                System.out.println(
-//                                                        " already exists.");
                                             }
                                         }
                                     } else if (blConcept.equals(concept)) {
@@ -437,14 +402,14 @@ public class CreateNewBLRelations {
                 " paths with 3 or more BLs.");
     }
 
-   /**
-    * Gets all paths from a root node to a leaf node using a stack.
-    * @param conceptGraph
-    * @param root
-    * @param leaf
-    * @return a list of a list of paths.
-    */
-    
+    /**
+     * Gets all paths from a root node to a leaf node using a stack.
+     *
+     * @param conceptGraph
+     * @param root
+     * @param leaf
+     * @return a list of a list of paths.
+     */
     public static List<List<Concept>> getAllPaths(DirectedGraph conceptGraph,
             Concept root, Concept leaf) {
         List<List<Concept>> finalPathList = new ArrayList<>();
@@ -466,7 +431,6 @@ public class CreateNewBLRelations {
         while (!pathStack.isEmpty()) {
             // 4. Get the last node of the popped path in the stack
             tmpPath.addAll(pathStack.pop());
-//            System.out.println("tmpPath: " + tmpPath);
             index = tmpPath.size() - 1;
             tmpConcept = tmpPath.get(index);
             // Get the adjucent edges & the corresponding iterator
@@ -488,14 +452,10 @@ public class CreateNewBLRelations {
                         // 9. Clear the list of nodes
                         // Add the existing path to the list of nodes
                         List<Concept> nodeList = new ArrayList(tmpPath);
-
                         // 10. Add the new node to the list of nodes
                         nodeList.add(adjConcept);
                         // 11. Push the list of nodes to the path stack
                         pathStack.push(nodeList);
-                        //nodeList.clear();
-                        //System.out.println("tmpPath: " + tmpPath);
-                        //System.out.println("nodeList: " + nodeList);
                     }
                 } else {
                     // Found cycle
