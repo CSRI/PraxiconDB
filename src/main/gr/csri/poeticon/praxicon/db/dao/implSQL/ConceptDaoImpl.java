@@ -346,7 +346,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts
      */
     @Override
-    public List<Concept> getChildrenOfConcept(Concept concept) {
+    public List<Concept> getChildren(Concept concept) {
         List<Concept> conceptList = new ArrayList<>();
         RelationDao rDao = new RelationDaoImpl();
         List<Relation> relations = rDao.getAllRelationsOfConcept(concept);
@@ -373,7 +373,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * @return a list of concepts
      */
     @Override
-    public List<Concept> getParentsOfConcept(Concept concept) {
+    public List<Concept> getParents(Concept concept) {
         List<Concept> conceptList = new ArrayList<>();
         RelationDao rDao = new RelationDaoImpl();
         List<Relation> relations = rDao.getAllRelationsOfConcept(concept);
@@ -403,7 +403,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     public List<Concept> getAllAncestors(Concept concept) {
         List<Concept> ancestorConcepts = new ArrayList<>();
 
-        List<Concept> parents = getParentsOfConcept(concept);
+        List<Concept> parents = getParents(concept);
         for (Concept parent : parents) {
             if (!ancestorConcepts.contains(parent)) {
                 ancestorConcepts.add(parent);
@@ -429,7 +429,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     public List<Concept> getAllOffsprings(Concept concept) {
         List<Concept> offspringConcepts = new ArrayList<>();
 
-        List<Concept> children = getChildrenOfConcept(concept);
+        List<Concept> children = getChildren(concept);
 
         for (Concept child : children) {
             if (!offspringConcepts.contains(child)) {

@@ -44,9 +44,9 @@ public interface ConceptDao extends Dao<Long, Concept> {
 
     void update(Concept oldConcept, Concept newConcept);
 
-    List<Concept> getChildrenOfConcept(Concept concept);
+    List<Concept> getChildren(Concept concept);
 
-    List<Concept> getParentsOfConcept(Concept concept);
+    List<Concept> getParents(Concept concept);
 
     public List<Concept> getAllAncestors(Concept concept);
 
