@@ -29,20 +29,116 @@ public class SimpleTest {
 
     public static void main(String args[]) {
 
+        testConcepts();
+        testLanguageRepresentations();
+        testRelations();
         // Start by checking most of the methods.
         // Concepts:
+
+
+//        for (Relation relation : hasInstanceRelations) {
+//            //System.out.println(relation);
+//            if (relation.getLeftArgument().isConcept() && relation.
+//                    getRightArgument().isConcept()) {
+//                System.out.println(
+//                        relation.getLeftArgument().getConcept() + " " +
+//                        relation.getType().getForwardNameString() + " " +
+//                        relation.getRightArgument().getConcept());
+//            } else {
+//                System.out.println("One of the arguments is not a Concept");
+//            }
+//        }
+        System.exit(0);
+    }
+
+    public static void testConcepts() {
         ConceptDao cDao = new ConceptDaoImpl();
-        RelationDao rDao = new RelationDaoImpl();
-        LanguageRepresentationDao lrDao = new LanguageRepresentationDaoImpl();
+
+        String toSearch = "spoon";
 
         // Get the number of all concepts
         List<Concept> concepts = cDao.getAllConcepts();
         System.out.println("\n\nNumber of all concepts: " + concepts.size());
 
+        // Get children concepts and specificity level of the first concept 
+        // in the list of concepts that have language representation spoon.
+        System.out.println("\n\nChildren of the first occurence of a concept" +
+                " having language representation spoon: ");
+        System.out.println("------------------------------------------------" +
+                "----------------------------------");
+        List<Concept> conceptsSpoon = cDao.
+                getConceptsByLanguageRepresentationExact(toSearch);
+        List<Concept> childrenOfSpoon = cDao.getChildren(
+                conceptsSpoon.get(0));
+        for (Concept concept : childrenOfSpoon) {
+            System.out.print(concept.getExternalSourceId());
+            System.out.print(" - ");
+            System.out.println(concept.getSpecificityLevel());
+        }
+
+        // Get parent concepts and specificity level of the first concept 
+        // in the list of concepts that have language representation spoon.
+        System.out.println("\n\nParent concepts of the first occurence of a " +
+                "concept having language representation spoon: ");
+        System.out.println("------------------------------------------------" +
+                "-----------------------------------------");
+        List<Concept> parents = new ArrayList<>();
+        HashSet<Concept> sisters = new HashSet<>();
+        parents = cDao.getParents(conceptsSpoon.get(0));
+        for (Concept parent : parents) {
+            System.out.println(parent + " - \t" + parent.getSpecificityLevel());
+            sisters.addAll(cDao.getChildren(parent));
+        }
+
+        // Get sister concepts and specificity level of the first concept 
+        // in the list of concepts that have language representation spoon.
+        System.out.println("\n\nSister concepts of the first occurence of a " +
+                "concept having language representation spoon: ");
+        System.out.println("------------------------------------------------" +
+                "-----------------------------------------");
+        for (Concept sister : sisters) {
+            System.out.println(sister + " - \t" + sister.getSpecificityLevel());
+        }
+
+        // Get all Basic Level Concepts.
+        System.out.println("\n\nCount All Basic Level Concepts:");
+        System.out.println("-------------------------------------------");
+        List<Concept> basicLevelConcepts = cDao.getAllBasicLevelConcepts();
+        System.out.println(basicLevelConcepts.size());
+        
+                String stringToSearch = "entity%1:03:00::";
+        System.out.println("\n\nBasic Level of concept " + stringToSearch);
+        System.out.println("-------------------------------------------");
+        Concept concept = cDao.getConceptByExternalSourceIdExact(
+                stringToSearch);
+        long startTime = System.nanoTime();
+        List<Concept> basicLevelOfConceptSoupSpoon = cDao.getBasicLevelConcepts(concept);
+        long endTime = System.nanoTime();
+        System.out.print(
+                "Time of getBasicLevel() for concept: " + stringToSearch + " ");
+        System.out.print((endTime - startTime) / 1000000000);
+        System.out.println(" seconds");
+//
+        if (basicLevelOfConceptSoupSpoon.isEmpty()) {
+            System.out.println("Concept " + stringToSearch +
+                    " doesn't have a Basic Level Concept");
+        } else {
+            for (Concept item : basicLevelOfConceptSoupSpoon) {
+                System.out.println(item);
+            }
+        }
+
+    }
+
+    public static void testLanguageRepresentations() {
+        ConceptDao cDao = new ConceptDaoImpl();
+        LanguageRepresentationDao lrDao = new LanguageRepresentationDaoImpl();
+
         // Get the language representations of all concepts having "spoon" as 
         // language representation.
         String toSearch = "spoon";
-        List<Concept> conceptsSpoon = cDao.getConceptsByLanguageRepresentationExact(toSearch);
+        List<Concept> conceptsSpoon = cDao.
+                getConceptsByLanguageRepresentationExact(toSearch);
         System.out.println("\n\nLanguage Representations of spoon: ");
         System.out.println("---------------------------------");
         for (Concept concept : conceptsSpoon) {
@@ -52,6 +148,21 @@ public class SimpleTest {
             System.out.print(" - ");
             System.out.println(concept.getSpecificityLevel());
         }
+
+        // Get all Language Representation texts count.
+        // Would be faster to write a NamedQuery for that, but wanted to
+        // test the getAllLanguageRepresentationText() method.
+        System.out.println("\n\nCount of all Language Representation Texts:");
+        System.out.println("-------------------------------------------");
+        List<String> languageRepresentationTexts = new ArrayList<>();
+        languageRepresentationTexts = lrDao.getAllLanguageRepresentationText();
+        System.out.println(languageRepresentationTexts.size());
+
+    }
+
+    public static void testRelations() {
+        ConceptDao cDao = new ConceptDaoImpl();
+        RelationDao rDao = new RelationDaoImpl();
 
         // Check whether concepts "shape" and "round_shape" are related.
         System.out.println("\n\nCheck whether two concepts are related: ");
@@ -92,115 +203,13 @@ public class SimpleTest {
                     relation.getType().getForwardNameString() + " " +
                     relation.getRightArgument().getConcept());
         }
-
-        // Get children concepts and specificity level of the first concept 
-        // in the list of concepts that have language representation spoon.
-        System.out.println("\n\nChildren of the first occurence of a concept" +
-                " having language representation spoon: ");
-        System.out.println("------------------------------------------------" +
-                "----------------------------------");
-        List<Concept> childrenOfSpoon = cDao.getChildrenOfConcept(
-                conceptsSpoon.get(0));
-        for (Concept concept : childrenOfSpoon) {
-            System.out.print(concept.getExternalSourceId());
-            System.out.print(" - ");
-            System.out.println(concept.getSpecificityLevel());
-        }
-
-        // Get parent concepts and specificity level of the first concept 
-        // in the list of concepts that have language representation spoon.
-        System.out.println("\n\nParent concepts of the first occurence of a " +
-                "concept having language representation spoon: ");
-        System.out.println("------------------------------------------------" +
-                "-----------------------------------------");
-        List<Concept> parents = new ArrayList<>();
-        HashSet<Concept> sisters = new HashSet<>();
-        parents = cDao.getParentsOfConcept(conceptsSpoon.get(0));
-        for (Concept parent : parents) {
-            System.out.println(parent + " - \t" + parent.getSpecificityLevel());
-            sisters.addAll(cDao.getChildrenOfConcept(parent));
-        }
-
-        // Get sister concepts and specificity level of the first concept 
-        // in the list of concepts that have language representation spoon.
-        System.out.println("\n\nSister concepts of the first occurence of a " +
-                "concept having language representation spoon: ");
-        System.out.println("------------------------------------------------" +
-                "-----------------------------------------");
-        for (Concept sister : sisters) {
-            System.out.println(sister + " - \t" + sister.getSpecificityLevel());
-        }
-
-        // Get all Language Representation texts count.
-        // Would be faster to write a NamedQuery for that, but wanted to
-        // test the getAllLanguageRepresentationText() method.
-        System.out.println("\n\nCount of all Language Representation Texts:");
-        System.out.println("-------------------------------------------");
-        List<String> languageRepresentationTexts = new ArrayList<>();
-        languageRepresentationTexts = lrDao.getAllLanguageRepresentationText();
-        System.out.println(languageRepresentationTexts.size());
-
-        // Get all Basic Level Concepts.
-        System.out.println("\n\nCount All Basic Level Concepts:");
-        System.out.println("-------------------------------------------");
-        List<Concept> basicLevelConcepts = cDao.getAllBasicLevelConcepts();
-        System.out.println(basicLevelConcepts.size());
-
-//        String stringToSearch = "entity%1:03:00::";
-//        System.out.println("\n\nBasic Level of concept " + stringToSearch);
-//        System.out.println("-------------------------------------------");
-//        Concept concept = cDao.getConceptByExternalSourceIdExact(
-//                stringToSearch);
-//        long startTime = System.nanoTime();
-        //List<Concept> basicLevelOfConceptSoupSpoon = cDao.getBasicLevelConcepts(concept);
-//        long endTime = System.nanoTime();
-//        System.out.print(
-//                "Time of getBasicLevel() for concept: " + stringToSearch + " ");
-//        System.out.print((endTime - startTime) / 1000000000);
-//        System.out.println(" seconds");
-//
-//        if (basicLevelOfConceptSoupSpoon.isEmpty()) {
-//            System.out.println("Concept " + stringToSearch +
-//                    " doesn't have a Basic Level Concept");
-//        } else {
-//            for (Concept item : basicLevelOfConceptSoupSpoon) {
-//                System.out.println(item);
-//            }
-//        }
-        System.out.println("\n\nCount of all relations with relation type: HAS_INSTANCE");
+        System.out.println(
+                "\n\nCount of all relations with relation type: HAS_INSTANCE");
         System.out.println("-----------------------------------------------");
         List<Relation> hasInstanceRelations = rDao.getRelationsByRelationType(
                 RelationType.RelationNameForward.HAS_INSTANCE);
 
         System.out.println(hasInstanceRelations.size());
-//        for (Relation relation : hasInstanceRelations) {
-//            //System.out.println(relation);
-//            if (relation.getLeftArgument().isConcept() && relation.
-//                    getRightArgument().isConcept()) {
-//                System.out.println(
-//                        relation.getLeftArgument().getConcept() + " " +
-//                        relation.getType().getForwardNameString() + " " +
-//                        relation.getRightArgument().getConcept());
-//            } else {
-//                System.out.println("One of the arguments is not a Concept");
-//            }
-//        }
-        System.exit(0);
     }
 
-//    public static List<Concept> getObjectsOfRelation(RelationType relationType) {
-//        
-//        //create the JPQL query
-//        Query q = EntityMngFactory.getEntityManager().createQuery(
-//            "SELECT DISTINCT r.object FROM Relation r, RelationType rType " +
-//            "WHERE r.Type = rType.id AND rType.forwardName = ?1");
-//        q.setParameter(1, relationType);
-//        
-//        List<Concept> concepts = new ArrayList<>();
-//        for (RelationArgument item : q.getResultList()){
-//            System.out.println(item);
-//        }
-//        //Get the results
-//        return concepts;
-//    }
 }
