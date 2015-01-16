@@ -384,7 +384,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                         relation.getRightArgument().getConcept().equals(concept)) {
                     conceptList.add(relation.getLeftArgument().getConcept());
                 } else {
-                    System.err.println("A relation set cannot have children");
+                    System.err.println("A relation set cannot have parents");
                 }
             }
         }
@@ -541,29 +541,29 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             basicLevelConceptsList.add(concept);
         } else if (specificityLevel == SUBORDINATE ||
                 specificityLevel == SUPERORDINATE) {
-            List<Relation> rightRelations = rDao.
-                    getRelationsByRightConceptRelationType(
-                            concept, RelationType.RelationNameForward.TYPE_TOKEN);
-            List<Relation> leftRelations = rDao.
-                    getRelationsByLeftConceptRelationType(
-                            concept, RelationType.RelationNameForward.TYPE_TOKEN);
-
-            for (Relation relation : leftRelations) {
-                Concept rightConcept = relation.getRightArgument().
-                        getConcept();
-                if (rightConcept.getSpecificityLevel() == BASIC_LEVEL ||
-                        rightConcept.getSpecificityLevel() ==
-                        BASIC_LEVEL_EXTENDED) {
-                    basicLevelConceptsList.add(rightConcept);
+            List<Relation> relations = rDao.getAllRelationsOfConcept(concept);
+//                    RelationType.RelationNameForward.TYPE_TOKEN);
+//                    rDao.getRelationsByConceptRelationType(
+//                    concept, RelationType.RelationNameForward.TYPE_TOKEN);
+            for (Relation relation : relations) {
+                //System.out.println(relation);
+                if (relation.getLeftArgument().isConcept()) {
+                    Concept leftConcept = relation.getLeftArgument().
+                            getConcept();
+                    if (leftConcept.getSpecificityLevel() == BASIC_LEVEL ||
+                            leftConcept.getSpecificityLevel() ==
+                            BASIC_LEVEL_EXTENDED) {
+                        basicLevelConceptsList.add(leftConcept);
+                    }
                 }
-            }
-            for (Relation relation : rightRelations) {
-                Concept leftConcept = relation.getLeftArgument().
-                        getConcept();
-                if (leftConcept.getSpecificityLevel() == BASIC_LEVEL ||
-                        leftConcept.getSpecificityLevel() ==
-                        BASIC_LEVEL_EXTENDED) {
-                    basicLevelConceptsList.add(leftConcept);
+                if (relation.getRightArgument().isConcept()) {
+                    Concept rightConcept = relation.getRightArgument().
+                            getConcept();
+                    if (rightConcept.getSpecificityLevel() == BASIC_LEVEL ||
+                            rightConcept.getSpecificityLevel() ==
+                            BASIC_LEVEL_EXTENDED) {
+                        basicLevelConceptsList.add(rightConcept);
+                    }
                 }
             }
         }

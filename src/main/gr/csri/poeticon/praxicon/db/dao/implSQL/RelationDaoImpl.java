@@ -77,41 +77,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
     public List<Relation> getRelationsByConceptRelationType(
             Concept concept, RelationType.RelationNameForward relationType) {
         RelationArgument newRelationArgument = new RelationArgument(concept);
-        return getRelationsByRelationArgumentTypeOfRelation(newRelationArgument,
-                relationType);
-    }
-
-    /**
-     * Finds the relations of a given concept at the left of a relation 
-     * that have a certain type of relation. 
-     * Checks only for the given concept as a leftArgument
-     *
-     * @param concept      the concept
-     * @param relationType the type of relation
-     * @return List of relations
-     */
-    @Override
-    public List<Relation> getRelationsByLeftConceptRelationType(
-            Concept concept, RelationType.RelationNameForward relationType) {
-        RelationArgument newRelationArgument = new RelationArgument(concept);
-        return getRelationsByLeftRelationArgumentTypeOfRelation(newRelationArgument,
-                relationType);
-    }
-
-        /**
-     * Finds the relations of a given concept at the right of a relation 
-     * that have a certain type of relation. 
-     * Checks only for the given concept as a rightArgument
-     *
-     * @param concept      the concept
-     * @param relationType the type of relation
-     * @return List of relations
-     */
-    @Override
-    public List<Relation> getRelationsByRightConceptRelationType(
-            Concept concept, RelationType.RelationNameForward relationType) {
-        RelationArgument newRelationArgument = new RelationArgument(concept);
-        return getRelationsByRightRelationArgumentTypeOfRelation(newRelationArgument,
+        return getRelationsByRelationArgumentRelationType(newRelationArgument,
                 relationType);
     }
     
@@ -206,7 +172,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      * @return A list of relations
      */
     @Override
-    public List<Relation> getRelationsByRelationArgumentTypeOfRelation(
+    public List<Relation> getRelationsByRelationArgumentRelationType(
             RelationArgument relationArgument,
             RelationType.RelationNameForward relationType) {
         Query query = getEntityManager().createNamedQuery(

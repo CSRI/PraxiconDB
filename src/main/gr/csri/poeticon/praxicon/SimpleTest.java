@@ -32,8 +32,6 @@ public class SimpleTest {
         testConcepts();
         testLanguageRepresentations();
         testRelations();
-        // Start by checking most of the methods.
-        // Concepts:
 
 
 //        for (Relation relation : hasInstanceRelations) {
@@ -105,25 +103,25 @@ public class SimpleTest {
         System.out.println("-------------------------------------------");
         List<Concept> basicLevelConcepts = cDao.getAllBasicLevelConcepts();
         System.out.println(basicLevelConcepts.size());
-        
-                String stringToSearch = "entity%1:03:00::";
+
+        String stringToSearch = "substance%1:03:00::";
         System.out.println("\n\nBasic Level of concept " + stringToSearch);
         System.out.println("-------------------------------------------");
         Concept concept = cDao.getConceptByExternalSourceIdExact(
                 stringToSearch);
         long startTime = System.nanoTime();
-        List<Concept> basicLevelOfConceptSoupSpoon = cDao.getBasicLevelConcepts(concept);
+        List<Concept> basicLevelOfConcept = cDao.getBasicLevelConcepts(concept);
         long endTime = System.nanoTime();
         System.out.print(
                 "Time of getBasicLevel() for concept: " + stringToSearch + " ");
         System.out.print((endTime - startTime) / 1000000000);
         System.out.println(" seconds");
 //
-        if (basicLevelOfConceptSoupSpoon.isEmpty()) {
+        if (basicLevelOfConcept.isEmpty()) {
             System.out.println("Concept " + stringToSearch +
                     " doesn't have a Basic Level Concept");
         } else {
-            for (Concept item : basicLevelOfConceptSoupSpoon) {
+            for (Concept item : basicLevelOfConcept) {
                 System.out.println(item);
             }
         }
