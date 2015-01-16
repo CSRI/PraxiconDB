@@ -41,7 +41,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @Index(columnList = "RelationTypeId")})
 public class RelationType implements Serializable {
 
-    //public static relation_name[] Bequethed = {RelationNameForward.HAS_PART, RelationNameBackward.PART_OF};
     public static enum RelationNameForward {
 
         ACTION_AGENT, ACTION_GOAL, ACTION_OBJECT, ACTION_RESULT, ACTION_TOOL,

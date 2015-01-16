@@ -129,7 +129,8 @@ public class RelationSet implements Serializable {
         List<RelationSet_Relation> relationSet_RelationList = new ArrayList();
         List<Relation> relationList = new ArrayList();
         relationSet_RelationList = this.relations;
-        for (RelationSet_Relation relationSetRelation : relationSet_RelationList) {
+        for (RelationSet_Relation relationSetRelation : 
+                relationSet_RelationList) {
             relationList.add(relationSetRelation.getRelation());
         }
         return relationList;
@@ -293,7 +294,6 @@ public class RelationSet implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof RelationSet)) {
             return false;
         }

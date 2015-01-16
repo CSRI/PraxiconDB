@@ -29,11 +29,4 @@ public interface LanguageRepresentationDao extends
     
     List<String> getAllLanguageRepresentationText();
 
-// TODO: Delete the two methods below after I make sure they are not used 
-//       in other projects.
-//    List<LanguageRepresentation> getLanguageRepresentationsOfConceptSortedByLanguage(
-//            Concept concept);
-//
-//    List<LanguageRepresentation> getLanguageRepresentationsOfConcept(
-//            Concept concept);
 }

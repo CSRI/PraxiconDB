@@ -79,7 +79,6 @@ public class RelationSet_Relation implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof RelationSet_Relation)) {
             return false;
         }
@@ -93,7 +92,7 @@ public class RelationSet_Relation implements Serializable {
 
     @Override
     public String toString() {
-        return "gr.csri.poeticon.praxicon.db.entities.RelationSet_Relation[ id=" +
-                id + " ]";
+        return "gr.csri.poeticon.praxicon.db.entities.RelationSet_Relation" +
+                "[ id=" + id + " ]";
     }
 }

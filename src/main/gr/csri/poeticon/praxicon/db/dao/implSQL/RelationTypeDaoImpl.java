@@ -24,7 +24,8 @@ public class RelationTypeDaoImpl extends JpaDao<Long, RelationType> implements
      */
     @Override
     public Query getEntityQuery(RelationType relationType) {
-        Query query = getEntityManager().createNamedQuery("getRelationTypeEntityQuery").
+        Query query = getEntityManager().
+                createNamedQuery("getRelationTypeEntityQuery").
                 setParameter("backwardName", relationType.getBackwardName()).
                 setParameter("forwardName", relationType.getForwardName());
         return query;

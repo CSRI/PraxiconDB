@@ -7,10 +7,14 @@ package gr.csri.poeticon.praxicon.db.dao.implSQL;
 import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationDao;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
-import static gr.csri.poeticon.praxicon.db.entities.Concept.SpecificityLevel.BASIC_LEVEL;
-import static gr.csri.poeticon.praxicon.db.entities.Concept.SpecificityLevel.BASIC_LEVEL_EXTENDED;
-import static gr.csri.poeticon.praxicon.db.entities.Concept.SpecificityLevel.SUBORDINATE;
-import static gr.csri.poeticon.praxicon.db.entities.Concept.SpecificityLevel.SUPERORDINATE;
+import static gr.csri.poeticon.praxicon.db.entities.Concept.
+        SpecificityLevel.BASIC_LEVEL;
+import static gr.csri.poeticon.praxicon.db.entities.Concept.
+        SpecificityLevel.BASIC_LEVEL_EXTENDED;
+import static gr.csri.poeticon.praxicon.db.entities.Concept.
+        SpecificityLevel.SUBORDINATE;
+import static gr.csri.poeticon.praxicon.db.entities.Concept.
+        SpecificityLevel.SUPERORDINATE;
 import gr.csri.poeticon.praxicon.db.entities.Concept.Status;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
@@ -381,7 +385,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             if (relation.getType().getForwardName() ==
                     RelationType.RelationNameForward.TYPE_TOKEN) {
                 if (relation.getLeftArgument().isConcept() &&
-                        relation.getRightArgument().getConcept().equals(concept)) {
+                        relation.getRightArgument().getConcept().
+                                equals(concept)) {
                     conceptList.add(relation.getLeftArgument().getConcept());
                 } else {
                     System.err.println("A relation set cannot have parents");

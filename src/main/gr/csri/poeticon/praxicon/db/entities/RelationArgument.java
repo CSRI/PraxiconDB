@@ -146,7 +146,8 @@ public class RelationArgument implements Serializable {
     /**
      * Gets the RelationSet of this RelationArgument.
      *
-     * @return the RelationSet connected with this RelationArgument (can be null)
+     * @return the RelationSet connected with this RelationArgument 
+     *         (can be null)
      */
     public RelationSet getRelationSet() {
         return relationSet;
@@ -172,7 +173,8 @@ public class RelationArgument implements Serializable {
      *
      * @return A list of relations
      */
-    public List<Relation> getRelationsContainingRelationArgumentAsRightArgument() {
+    public List<Relation> 
+        getRelationsContainingRelationArgumentAsRightArgument() {
         return relationsContainingRelationArgumentAsRightArgument;
     }
 
@@ -181,7 +183,8 @@ public class RelationArgument implements Serializable {
      *
      * @return A list of relations
      */
-    public List<Relation> getRelationsContainingRelationArgumentAsLeftArgument() {
+    public List<Relation> 
+        getRelationsContainingRelationArgumentAsLeftArgument() {
         return relationsContainingRelationArgumentAsLeftArgument;
     }
 
@@ -193,8 +196,10 @@ public class RelationArgument implements Serializable {
      */
     public Set<Relation> getRelationsContainingRelationArgument() {
         List<Relation> relationList = new ArrayList();
-        relationList.addAll(this.relationsContainingRelationArgumentAsRightArgument);
-        relationList.addAll(this.relationsContainingRelationArgumentAsLeftArgument);
+        relationList.addAll(
+                this.relationsContainingRelationArgumentAsRightArgument);
+        relationList.addAll(
+                this.relationsContainingRelationArgumentAsLeftArgument);
         HashSet<Relation> relationSet = new HashSet<>(relationList);
         return relationSet;
     }
@@ -243,7 +248,6 @@ public class RelationArgument implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof RelationArgument)) {
             return false;
         }

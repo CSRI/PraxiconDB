@@ -16,6 +16,4 @@ public interface MotoricRepresentationDao extends
 
     public Query getEntityQuery(MotoricRepresentation motoricRepresentation);
 
-// TODO: Delete the two methods below after I make sure they are not used in other projects.    
-    //public List<MotoricRepresentation> getEntries(Concept c);
 }

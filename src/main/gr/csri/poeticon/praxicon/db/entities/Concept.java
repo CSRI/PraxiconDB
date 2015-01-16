@@ -548,7 +548,8 @@ public class Concept implements Serializable {
     /**
      * Gets a list of Concept_LanguageRepresentation instances.
      *
-     * @return a list of Concept_LanguageRepresentation instances for the concept
+     * @return a list of Concept_LanguageRepresentation instances for the 
+     *         concept
      */
     public List<Concept_LanguageRepresentation> 
         getLanguageRepresentationsEntries() {
@@ -835,7 +836,8 @@ public class Concept implements Serializable {
 
     @Override
     public String toString() {
-        if (externalSourceId != null && !externalSourceId.equalsIgnoreCase("")) {
+        if (externalSourceId != null && 
+                !externalSourceId.equalsIgnoreCase("")) {
             return externalSourceId;
             // + " (Entity)";
         } else {
@@ -846,7 +848,8 @@ public class Concept implements Serializable {
                         tmpList.get(0).getLanguageRepresentation().getText());
                 for (int i = 1; i < tmpList.size(); i++) {
                     tmp.append("\\").append(
-                            tmpList.get(i).getLanguageRepresentation().getText());
+                            tmpList.get(i).getLanguageRepresentation().
+                                    getText());
                 }
                 return tmp.toString();
             } else {

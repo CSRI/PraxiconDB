@@ -50,22 +50,10 @@ import javax.xml.bind.annotation.XmlType;
             "WHERE (r.rightArgument = :relationArgument " +
             "OR r.leftArgument = :relationArgument)"),
     @NamedQuery(name = "findRelationsByRelationArgumentRelationType", query =
-            "SELECT r FROM Relation r, RelationType rt " +
+            "SELECT r FROM Relation r " +
+            "JOIN r.type rt " +
             "WHERE (r.leftArgument = :relationArgumentId " +
             "OR r.rightArgument = :relationArgumentId) " +
-            "AND r.type = rt " +
-            "AND rt.forwardName = :relationType"),
-    @NamedQuery(name = "findRelationsByRightRelationArgumentRelationType",
-            query =
-            "SELECT r FROM Relation r, RelationType rt " +
-            "WHERE (r.rightArgument = :relationArgumentId) " +
-            "AND r.type = rt " +
-            "AND rt.forwardName = :relationType"),
-    @NamedQuery(name = "findRelationsByLeftRelationArgumentRelationType",
-            query =
-            "SELECT r FROM Relation r, RelationType rt " +
-            "WHERE (r.leftArgument = :relationArgumentId) " +
-            "AND r.type = rt " +
             "AND rt.forwardName = :relationType"),
     @NamedQuery(name = "findRelationsByRelationType", query =
             "SELECT r FROM Relation r " +
@@ -214,10 +202,7 @@ public class Relation implements Serializable {
 
     /**
      * @return RelationArgument as leftArgument
-     * @xmlcomments.args xmltag="leftArgument" xmldescription="This attribute defines
-     * the rightArgument that the relation is related to"
      */
-    //@XmlAttribute(name="leftArgument")
     public RelationArgument getLeftArgument() {
         return leftArgument;
     }
@@ -226,10 +211,6 @@ public class Relation implements Serializable {
         this.leftArgument = leftArgument;
     }
 
-    /**
-     * @xmlcomments.args xmltag="rightArgument" xmldescription="This attribute defines
-     * the rightArgument that the relation is related to"
-     */
     public RelationArgument getRightArgument() {
         return rightArgument;
     }
@@ -248,14 +229,13 @@ public class Relation implements Serializable {
         return linguisticallySupported;
     }
 
-    public void setLinguisticSupport(LinguisticallySupported derivationSupported) {
+    public void setLinguisticSupport(
+            LinguisticallySupported derivationSupported) {
         this.linguisticallySupported = derivationSupported;
     }
 
     /**
      * @return the type of the relation.
-     * @xmlcomments.args xmltag="&lt;relation_type&gt;" xmldescription="This tag
-     * defines the type of the relation"
      */
     public RelationType getType() {
         return type;
@@ -291,16 +271,15 @@ public class Relation implements Serializable {
     }
 
     @XmlTransient
-    public List<LanguageRepresentation> getLanguageRepresentationRightArgument() {
+    public List<LanguageRepresentation> 
+        getLanguageRepresentationRightArgument() {
         return languageRepresentationRightArgument;
     }
 
     /**
-     * @return the language representation of the rightArgument side of the relation.
+     * @return the language representation of the rightArgument side of 
+     *         the relation.
      *         The rightArgument can be a Concept or a RelationSet.
-     * @xmlcomments.args xmltag="&lt;language_representation_rightArgument&gt;"
-     * xmldescription="This tag defines the LanguageRepresentation that should
-     * be used to express the RightArgument in this relation"
      */
     public String getLanguageRepresentationRightArgument_() {
         String languageΡepresentationΟbject_;
@@ -317,7 +296,8 @@ public class Relation implements Serializable {
     }
 
     @XmlTransient
-    public List<LanguageRepresentation> getLanguageRepresentationLeftArgument() {
+    public List<LanguageRepresentation> 
+        getLanguageRepresentationLeftArgument() {
         return languageRepresentationLeftArgument;
     }
 
@@ -327,11 +307,8 @@ public class Relation implements Serializable {
     }
 
     /**
-     * @return the motoric representation of the concept that is on the rightArgument
-     *         side of the relation.
-     * @xmlcomments.args xmltag="&lt;motoric_representation_rightArgument&gt;"
-     * xmldescription="This tag defines the MotoricRepresentation that should be
-     * used to express the RightArgument in this relation"
+     * @return the motoric representation of the concept that is on the 
+     *         rightArgument side of the relation.
      */
     public List<String> getMotoricRepresentationRightArgument_() {
         List<String> motoricRepresentationRightArgument_ = new ArrayList<>();
@@ -372,7 +349,8 @@ public class Relation implements Serializable {
 
     public void setVisualRepresentationLeftArgument(
             List<VisualRepresentation> visualRepresentationLeftArgument) {
-        this.visualRepresentationLeftArgument = visualRepresentationLeftArgument;
+        this.visualRepresentationLeftArgument = 
+                visualRepresentationLeftArgument;
     }
 
     @Override

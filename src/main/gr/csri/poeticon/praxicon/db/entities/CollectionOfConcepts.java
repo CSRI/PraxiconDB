@@ -35,7 +35,8 @@ public class CollectionOfConcepts {
     }
 
     /**
-     * Stores all concepts of the collection in the database updating same name entries
+     * Stores all concepts of the collection in the database updating 
+     * same name entries
      */
     public void storeConcepts() {
         for (int i = 0; i < this.concepts.size(); i++) {

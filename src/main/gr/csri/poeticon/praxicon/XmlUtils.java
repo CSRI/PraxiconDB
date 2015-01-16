@@ -27,7 +27,8 @@ public class XmlUtils {
      * should be empty (the function appends the xml content in the end of the
      * file)
      *
-     * @param objects      The entities of the gr.csri.poeticon.praxicon.db.entities
+     * @param objects      The entities of the 
+     *                     gr.csri.poeticon.praxicon.db.entities
      *                     that are going to be serialized as an XML
      * @param XML_FileName The name of the XML file (with or without a path)
      */
@@ -53,7 +54,8 @@ public class XmlUtils {
      * should be empty (the function appends the xml content in the end of the
      * file)
      *
-     * @param collection   The entities of the gr.csri.poeticon.praxicon.db.entities
+     * @param collection   The entities of the 
+     *                     gr.csri.poeticon.praxicon.db.entities
      *                     that are going to be serialized as an XML
      * @param XML_FileName The name of the XML file (with or without a path)
      */
