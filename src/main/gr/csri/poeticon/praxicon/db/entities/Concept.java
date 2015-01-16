@@ -53,9 +53,11 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name = "findAllNonBasicLevelConcepts", query =
             "FROM Concept c WHERE c.specificityLevel != 'BASIC_LEVEL'"),
     @NamedQuery(name = "findConceptsByExternalSourceId", query =
-            "FROM Concept c WHERE c.externalSourceId LIKE :conceptExternalSourceId"),
+            "FROM Concept c " +
+            "WHERE c.externalSourceId LIKE :conceptExternalSourceId"),
     @NamedQuery(name = "findConceptByExternalSourceIdExact", query =
-            "FROM Concept c WHERE c.externalSourceId = :conceptExternalSourceId"),
+            "FROM Concept c " +
+            "WHERE c.externalSourceId = :conceptExternalSourceId"),
     @NamedQuery(name = "findConceptsByLanguageRepresentation", query =
             "SELECT c FROM Concept c " +
             "JOIN c.languageRepresentations clr " +
@@ -548,7 +550,8 @@ public class Concept implements Serializable {
      *
      * @return a list of Concept_LanguageRepresentation instances for the concept
      */
-    public List<Concept_LanguageRepresentation> getLanguageRepresentationsEntries() {
+    public List<Concept_LanguageRepresentation> 
+        getLanguageRepresentationsEntries() {
         List<Concept_LanguageRepresentation> language_representation_entries =
                 new ArrayList<>();
         for (Concept_LanguageRepresentation languageRepresentation
@@ -599,7 +602,8 @@ public class Concept implements Serializable {
      * Gets text of the first Language representation of Language "en" for this
      * concept.
      *
-     * @return the externalSourceId of the first Language representation of the concept.
+     * @return the externalSourceId of the first Language Representation 
+     * of the concept.
      */
     public String getLanguageRepresentationName() {
         List<LanguageRepresentation> lrs = this.getLanguageRepresentations();
