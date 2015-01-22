@@ -23,7 +23,7 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -74,9 +74,11 @@ public class MotoricRepresentation implements Serializable {
     @Column(name = "Comment")
     private String comment;
 
+    @XmlTransient
     @ManyToOne(cascade = CascadeType.ALL)
     private Concept concept;
 
+    @XmlTransient
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "MotoricRepresentation_RelationLeftArgument",
@@ -87,6 +89,7 @@ public class MotoricRepresentation implements Serializable {
     )
     private List<Relation> relationsWithMotoricRepresentationAsLeftArgument;
 
+    @XmlTransient
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "MotoricRepresentation_RelationObject",
@@ -162,7 +165,7 @@ public class MotoricRepresentation implements Serializable {
         this.comment = comment;
     }
 
-    @XmlAttribute
+    //@XmlAttribute
     public Long getId() {
         return id;
     }

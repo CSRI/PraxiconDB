@@ -21,16 +21,17 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author dmavroeidis
  *
  */
-//@XmlAccessorType(XmlAccessType.FIELD)
-//@XmlType(name = "relation_type", namespace = "http://www.csri.gr/relation_type")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "relation_type", namespace = "http://www.csri.gr/relation_type")
 @Entity
 @NamedQueries({
     @NamedQuery(name = "getRelationTypeEntityQuery", query =
@@ -196,7 +197,7 @@ public class RelationType implements Serializable {
         return null;
     }
 
-    @XmlTransient
+    //@XmlTransient
     public List<Relation> getRelations() {
         return relations;
     }
@@ -214,7 +215,7 @@ public class RelationType implements Serializable {
      *
      * @return the id of the relation type.
      */
-    @XmlAttribute
+    //@XmlAttribute
     public Long getId() {
         return id;
     }

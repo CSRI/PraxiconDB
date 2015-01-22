@@ -30,7 +30,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
@@ -97,15 +96,18 @@ public class Relation implements Serializable {
     @Column(name = "Comment")
     private String comment;
 
+    @XmlTransient
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     //@JoinColumn(name="Id")
     private RelationType type;
 
+    @XmlTransient
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     //@JoinColumn(name = "RelationArgumentId")
     @NotNull(message = "LeftArgument of relation must be specified.")
     private RelationArgument leftArgument;
 
+    @XmlTransient
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     //@JoinColumn(name = "RelationArgumentId")
     @NotNull(message = "RightArgument of relation must be specified.")
@@ -119,6 +121,7 @@ public class Relation implements Serializable {
     @Enumerated(EnumType.STRING)
     private LinguisticallySupported linguisticallySupported;
 
+    @XmlTransient
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "LanguageRepresentation_RelationLeftArgument",
@@ -129,6 +132,7 @@ public class Relation implements Serializable {
     )
     private List<LanguageRepresentation> languageRepresentationLeftArgument;
 
+    @XmlTransient
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "LanguageRepresentation_RelationRightArgument",
@@ -139,6 +143,7 @@ public class Relation implements Serializable {
     )
     private List<LanguageRepresentation> languageRepresentationRightArgument;
 
+    @XmlTransient
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "MotoricRepresentation_RelationLeftArgument",
@@ -149,6 +154,7 @@ public class Relation implements Serializable {
     )
     private List<MotoricRepresentation> motoricRepresentationLeftArgument;
 
+    @XmlTransient
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "MotoricRepresentation_RelationRightArgument",
@@ -159,6 +165,7 @@ public class Relation implements Serializable {
     )
     private List<MotoricRepresentation> motoricRepresentationRightArgument;
 
+    @XmlTransient
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "VisualRepresentation_RelationLeftArgument",
@@ -169,6 +176,7 @@ public class Relation implements Serializable {
     )
     private List<VisualRepresentation> visualRepresentationLeftArgument;
 
+    @XmlTransient
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "VisualRepresentation_RelationRightArgument",
@@ -191,7 +199,7 @@ public class Relation implements Serializable {
         type = new RelationType();
     }
 
-    @XmlAttribute
+    //@XmlAttribute
     public Long getId() {
         return id;
     }
@@ -270,7 +278,7 @@ public class Relation implements Serializable {
         this.comment = comment;
     }
 
-    @XmlTransient
+    //@XmlTransient
     public List<LanguageRepresentation> 
         getLanguageRepresentationRightArgument() {
         return languageRepresentationRightArgument;
@@ -295,13 +303,13 @@ public class Relation implements Serializable {
                 languageRepresentationRightArgument;
     }
 
-    @XmlTransient
+    //@XmlTransient
     public List<LanguageRepresentation> 
         getLanguageRepresentationLeftArgument() {
         return languageRepresentationLeftArgument;
     }
 
-    @XmlTransient
+    //@XmlTransient
     public List<MotoricRepresentation> getMotoricRepresentationRightArgument() {
         return motoricRepresentationRightArgument;
     }
@@ -326,12 +334,12 @@ public class Relation implements Serializable {
                 motoricRepresentationRightArgument;
     }
 
-    @XmlTransient
+    //@XmlTransient
     public List<MotoricRepresentation> getMotoricRepresentationLeftArgument() {
         return motoricRepresentationLeftArgument;
     }
 
-    @XmlTransient
+    //@XmlTransient
     public List<VisualRepresentation> getVisualRepresentationRightArgument() {
         return visualRepresentationRightArgument;
     }
@@ -342,7 +350,7 @@ public class Relation implements Serializable {
                 visualRepresentationRightArgument;
     }
 
-    @XmlTransient
+    //@XmlTransient
     public List<VisualRepresentation> getVisualRepresentationLeftArgument() {
         return visualRepresentationLeftArgument;
     }

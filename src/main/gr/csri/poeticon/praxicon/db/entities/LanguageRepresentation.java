@@ -32,8 +32,6 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
@@ -185,29 +183,11 @@ public class LanguageRepresentation implements Serializable {
     @Column(name = "Comment")
     private String comment;
 
+    @XmlTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "languageRepresentation")
     private List<Concept_LanguageRepresentation> concepts;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "LanguageRepresentation_RelationLeftArgument",
-            joinColumns = {
-                @JoinColumn(name = "LanguageRepresentationId")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "RelationId")}
-    )
-    private List<Relation> relationsWithLanguageRepresentationAsleftArgument;
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "LanguageRepresentation_RelationObject",
-            joinColumns = {
-                @JoinColumn(name = "LanguageRepresentationId")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "RelationId")}
-    )
-    private List<Relation> relationsWithLanguageRepresentationAsObject;
-
+    @XmlTransient
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "LanguageRepresentation_RelationSet",
@@ -218,6 +198,28 @@ public class LanguageRepresentation implements Serializable {
     )
     private List<RelationSet> RelationSets;
 
+    @XmlTransient
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "LanguageRepresentation_RelationLeftArgument",
+            joinColumns = {
+                @JoinColumn(name = "LanguageRepresentationId")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "RelationId")}
+    )
+    private List<Relation> relationsWithLanguageRepresentationAsleftArgument;
+
+    @XmlTransient
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "LanguageRepresentation_RelationObject",
+            joinColumns = {
+                @JoinColumn(name = "LanguageRepresentationId")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "RelationId")}
+    )
+    private List<Relation> relationsWithLanguageRepresentationAsObject;
+
     public LanguageRepresentation() {
         language_representations = new ArrayList<>();
     }
@@ -227,7 +229,7 @@ public class LanguageRepresentation implements Serializable {
      * @xmlcomments.args xmltag="&lt;language&gt;" xmldescription="This tag
      * defines the language of the entry"
      */
-    @XmlElement(name = "language")
+    //@XmlElement(name = "language")
     public Language getLanguage() {
         return language;
     }
@@ -237,7 +239,7 @@ public class LanguageRepresentation implements Serializable {
      * @xmlcomments.args xmltag="&lt;part_of_speech&gt;" xmldescription="This
      * tag defines the Part Of Speech of the entry"
      */
-    @XmlElement(name = "part_of_speech")
+    //@XmlElement(name = "part_of_speech")
     public PartOfSpeech getPartOfSpeech() {
         return partOfSpeech;
     }
@@ -269,7 +271,7 @@ public class LanguageRepresentation implements Serializable {
                 toUpperCase());
     }
 
-    @XmlTransient
+    //@XmlTransient
     public List<LanguageRepresentation> getLanguageRepresentations() {
         List<LanguageRepresentation> language_representations_list =
                 new ArrayList<>();
@@ -280,7 +282,7 @@ public class LanguageRepresentation implements Serializable {
         return language_representations_list;
     }
 
-    @XmlTransient
+    //   @XmlTransient
     public List<Concept> getConcepts() {
         List<Concept> concepts = new ArrayList<>();
         for (LanguageRepresentation language_representation
@@ -331,7 +333,7 @@ public class LanguageRepresentation implements Serializable {
      * @xmlcomments.args xmltag="&lt;text&gt;" xmldescription="This tag defines
      * the text of the entry"
      */
-    @XmlElement(name = "text")
+    //@XmlElement(name = "text")
     public String getText() {
         return text;
     }
@@ -340,7 +342,7 @@ public class LanguageRepresentation implements Serializable {
         this.text = text;
     }
 
-    @XmlAttribute
+    //@XmlAttribute
     public Long getId() {
         return id;
     }

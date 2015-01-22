@@ -25,7 +25,7 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -67,12 +67,13 @@ public class VisualRepresentation implements Serializable {
     @Column(name = "Name")
     private String name;
 
+    @XmlTransient
     @ManyToOne(cascade = CascadeType.ALL)
     private Concept concept;
 
-    @Column(name= "Source")
+    @Column(name = "Source")
     private String source;
-    
+
     @Column(name = "Uri")
     @NotNull(message = "URI must be specified.")
     private URI uri;
@@ -80,6 +81,7 @@ public class VisualRepresentation implements Serializable {
     @Column(name = "Comment")
     private String comment;
 
+    @XmlTransient
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "VisualRepresentation_RelationLeftArgument",
@@ -90,6 +92,7 @@ public class VisualRepresentation implements Serializable {
     )
     private List<Relation> relationsWithVisualRepresentationAsLeftArgument;
 
+    @XmlTransient
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "VisualRepresentation_RelationRightArgument",
@@ -100,6 +103,7 @@ public class VisualRepresentation implements Serializable {
     )
     private List<Relation> relationsWithVisualRepresentationAsRelationArgument;
 
+    @XmlTransient
     @ManyToOne(cascade = CascadeType.ALL)
     private MotoricRepresentation motoricRepresentation;
 
@@ -125,9 +129,9 @@ public class VisualRepresentation implements Serializable {
     }
 
     /**
-     * @return the source of the visual representation. 
-     * This can be ImageNet, GoogleImages, etc.
-    */
+     * @return the source of the visual representation.
+     *         This can be ImageNet, GoogleImages, etc.
+     */
     public String getSource() {
         return source;
     }
@@ -135,7 +139,7 @@ public class VisualRepresentation implements Serializable {
     public void setSource(String source) {
         this.source = source;
     }
-    
+
     /**
      * @return the URI of the visual representation. Usually a URL or file path.
      * @xmlcomments.args xmltag="&lt;uri&gt;" xmldescription="This tag defines
@@ -177,7 +181,7 @@ public class VisualRepresentation implements Serializable {
         this.name = name;
     }
 
-    @XmlAttribute
+    //@XmlAttribute
     public Long getId() {
         return id;
     }

@@ -16,6 +16,7 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -33,10 +34,12 @@ public class RelationSet_Relation implements Serializable {
     @Column(name = "RelationSet_RelationId")
     private Long id;
 
+    @XmlTransient
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "RelationSetId")
     private RelationSet relationSet;
 
+    @XmlTransient
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "RelationId")
     private Relation relation;

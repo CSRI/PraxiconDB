@@ -19,7 +19,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -39,7 +39,7 @@ public class Concept_LanguageRepresentation implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @XmlElement(required = true)
+    //@XmlElement(required = true)
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "Concept_LanguageRepresentationId")
@@ -48,6 +48,7 @@ public class Concept_LanguageRepresentation implements Serializable {
     @Column(name = "RepresentativeLanguageRepresentation")
     private boolean isRepresentativeLanguageRepresentation;
 
+    @XmlTransient
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "ConceptId")
     private Concept concept;
