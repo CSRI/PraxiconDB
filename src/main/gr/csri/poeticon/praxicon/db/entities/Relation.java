@@ -7,7 +7,6 @@ package gr.csri.poeticon.praxicon.db.entities;
 import gr.csri.poeticon.praxicon.db.dao.RelationTypeDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationTypeDaoImpl;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,9 +17,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -30,7 +26,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -96,18 +91,15 @@ public class Relation implements Serializable {
     @Column(name = "Comment")
     private String comment;
 
-    @XmlTransient
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     //@JoinColumn(name="Id")
     private RelationType type;
 
-    @XmlTransient
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     //@JoinColumn(name = "RelationArgumentId")
     @NotNull(message = "LeftArgument of relation must be specified.")
     private RelationArgument leftArgument;
 
-    @XmlTransient
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     //@JoinColumn(name = "RelationArgumentId")
     @NotNull(message = "RightArgument of relation must be specified.")
@@ -121,81 +113,9 @@ public class Relation implements Serializable {
     @Enumerated(EnumType.STRING)
     private LinguisticallySupported linguisticallySupported;
 
-    @XmlTransient
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "LanguageRepresentation_RelationLeftArgument",
-            joinColumns = {
-                @JoinColumn(name = "RelationId")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "LanguageRepresentationId")}
-    )
-    private List<LanguageRepresentation> languageRepresentationLeftArgument;
-
-    @XmlTransient
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "LanguageRepresentation_RelationRightArgument",
-            joinColumns = {
-                @JoinColumn(name = "RelationId")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "LanguageRepresentationId")}
-    )
-    private List<LanguageRepresentation> languageRepresentationRightArgument;
-
-    @XmlTransient
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "MotoricRepresentation_RelationLeftArgument",
-            joinColumns = {
-                @JoinColumn(name = "RelationId")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "MotoricRepresentationId")}
-    )
-    private List<MotoricRepresentation> motoricRepresentationLeftArgument;
-
-    @XmlTransient
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "MotoricRepresentation_RelationRightArgument",
-            joinColumns = {
-                @JoinColumn(name = "RelationId")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "MotoricRepresentationId")}
-    )
-    private List<MotoricRepresentation> motoricRepresentationRightArgument;
-
-    @XmlTransient
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "VisualRepresentation_RelationLeftArgument",
-            joinColumns = {
-                @JoinColumn(name = "RelationId")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "VisualRepresentationId")}
-    )
-    private List<VisualRepresentation> visualRepresentationLeftArgument;
-
-    @XmlTransient
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "VisualRepresentation_RelationRightArgument",
-            joinColumns = {
-                @JoinColumn(name = "RelationId")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "VisualRepresentationId")}
-    )
-    private List<VisualRepresentation> visualRepresentationRightArgument;
-
     public Relation() {
         leftArgument = new RelationArgument();
         rightArgument = new RelationArgument();
-        visualRepresentationRightArgument = new ArrayList<>();
-        visualRepresentationLeftArgument = new ArrayList<>();
-        languageRepresentationRightArgument = new ArrayList<>();
-        languageRepresentationLeftArgument = new ArrayList<>();
-        motoricRepresentationRightArgument = new ArrayList<>();
-        motoricRepresentationLeftArgument = new ArrayList<>();
         type = new RelationType();
     }
 
@@ -276,89 +196,6 @@ public class Relation implements Serializable {
 
     public void setComment(String comment) {
         this.comment = comment;
-    }
-
-    //@XmlTransient
-    public List<LanguageRepresentation> 
-        getLanguageRepresentationRightArgument() {
-        return languageRepresentationRightArgument;
-    }
-
-    /**
-     * @return the language representation of the rightArgument side of 
-     *         the relation.
-     *         The rightArgument can be a Concept or a RelationSet.
-     */
-    public String getLanguageRepresentationRightArgument_() {
-        String languageΡepresentationΟbject_;
-        languageΡepresentationΟbject_ = new String();
-        languageΡepresentationΟbject_ = languageRepresentationRightArgument.
-                toString();
-        return languageΡepresentationΟbject_;
-    }
-
-    public void setLanguageRepresentationRightArgument(
-            List<LanguageRepresentation> languageRepresentationRightArgument) {
-        this.languageRepresentationRightArgument =
-                languageRepresentationRightArgument;
-    }
-
-    //@XmlTransient
-    public List<LanguageRepresentation> 
-        getLanguageRepresentationLeftArgument() {
-        return languageRepresentationLeftArgument;
-    }
-
-    //@XmlTransient
-    public List<MotoricRepresentation> getMotoricRepresentationRightArgument() {
-        return motoricRepresentationRightArgument;
-    }
-
-    /**
-     * @return the motoric representation of the concept that is on the 
-     *         rightArgument side of the relation.
-     */
-    public List<String> getMotoricRepresentationRightArgument_() {
-        List<String> motoricRepresentationRightArgument_ = new ArrayList<>();
-        for (MotoricRepresentation motoricRepresentationRightArgument1
-                : motoricRepresentationRightArgument) {
-            motoricRepresentationRightArgument_.add(
-                    motoricRepresentationRightArgument1.toString());
-        }
-        return motoricRepresentationRightArgument_;
-    }
-
-    public void setMotoricRepresentationRightArgument(
-            List<MotoricRepresentation> motoricRepresentationRightArgument) {
-        this.motoricRepresentationRightArgument =
-                motoricRepresentationRightArgument;
-    }
-
-    //@XmlTransient
-    public List<MotoricRepresentation> getMotoricRepresentationLeftArgument() {
-        return motoricRepresentationLeftArgument;
-    }
-
-    //@XmlTransient
-    public List<VisualRepresentation> getVisualRepresentationRightArgument() {
-        return visualRepresentationRightArgument;
-    }
-
-    public void setVisualRepresentationRightArgument(
-            List<VisualRepresentation> visualRepresentationRightArgument) {
-        this.visualRepresentationRightArgument =
-                visualRepresentationRightArgument;
-    }
-
-    //@XmlTransient
-    public List<VisualRepresentation> getVisualRepresentationLeftArgument() {
-        return visualRepresentationLeftArgument;
-    }
-
-    public void setVisualRepresentationLeftArgument(
-            List<VisualRepresentation> visualRepresentationLeftArgument) {
-        this.visualRepresentationLeftArgument = 
-                visualRepresentationLeftArgument;
     }
 
     @Override
