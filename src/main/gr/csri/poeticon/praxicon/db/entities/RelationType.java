@@ -23,6 +23,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -95,6 +96,7 @@ public class RelationType implements Serializable {
     @Enumerated(EnumType.STRING)
     private RelationNameBackward backwardName;
 
+    @XmlTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "type")
     private List<Relation> relations;
 

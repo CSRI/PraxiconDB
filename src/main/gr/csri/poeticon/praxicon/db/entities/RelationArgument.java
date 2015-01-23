@@ -6,10 +6,6 @@
 package gr.csri.poeticon.praxicon.db.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -59,18 +54,6 @@ public class RelationArgument implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL)
     private RelationSet relationSet;
-
-    /*
-     * Relations that have "this" RelationArgument as Object.
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "leftArgument")
-    private List<Relation> relationsContainingRelationArgumentAsRightArgument;
-
-    /*
-     * Relations that have "this" RelationArgument as leftArgument.
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rightArgument")
-    private List<Relation> relationsContainingRelationArgumentAsLeftArgument;
 
     /**
      * Constructor #1. Both concept and relationSet are set to null.
@@ -166,42 +149,6 @@ public class RelationArgument implements Serializable {
             System.err.println("Cannot set relation set of the " +
                     "relation argument as a concept is already present.");
         }
-    }
-
-    /**
-     * Gets relations that contain this relationArgument as rightArgument.
-     *
-     * @return A list of relations
-     */
-    public List<Relation> 
-        getRelationsContainingRelationArgumentAsRightArgument() {
-        return relationsContainingRelationArgumentAsRightArgument;
-    }
-
-    /**
-     * Gets relations that contain this relationArgument as leftArgument.
-     *
-     * @return A list of relations
-     */
-    public List<Relation> 
-        getRelationsContainingRelationArgumentAsLeftArgument() {
-        return relationsContainingRelationArgumentAsLeftArgument;
-    }
-
-    /**
-     * Gets relations that contain this relationArgument either as leftArgument 
-     * or rightArgument. A set is used, so that there are no duplicate entries.
-     *
-     * @return a set of relations
-     */
-    public Set<Relation> getRelationsContainingRelationArgument() {
-        List<Relation> relationList = new ArrayList();
-        relationList.addAll(
-                this.relationsContainingRelationArgumentAsRightArgument);
-        relationList.addAll(
-                this.relationsContainingRelationArgumentAsLeftArgument);
-        HashSet<Relation> relationSet = new HashSet<>(relationList);
-        return relationSet;
     }
 
     /**

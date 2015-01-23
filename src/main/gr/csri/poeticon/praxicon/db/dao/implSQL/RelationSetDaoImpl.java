@@ -4,8 +4,10 @@
  */
 package gr.csri.poeticon.praxicon.db.dao.implSQL;
 
+import gr.csri.poeticon.praxicon.db.dao.RelationArgumentDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationSetDao;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
+import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import gr.csri.poeticon.praxicon.db.entities.RelationSet;
 import java.util.List;
 import javax.persistence.Query;
@@ -18,22 +20,37 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
         implements RelationSetDao {
 
     /**
-     * Finds all RelationChain that have a relation with leftArgument or 
-     * rightArgument a given concept.
+     * Finds all RelationSets that have at least one relation with leftArgument 
+     * or rightArgument a given relationArgument.
      *
-     * @param concept the concept
-     * @return a list of RelationChains
+     * @param relationArgument the relation argument to search by
+     * @return a list of RelationSets
      */
     @Override
-    public List<RelationSet> getRelationSetsContainingConcept(
-            Concept concept) {
+    public List<RelationSet> getRelationSetsByRelationArgument(
+            RelationArgument relationArgument) {
         Query q = getEntityManager().createNamedQuery(
-                "findRelationSetsByConcept").setParameter("conceptId",
-                        concept.getId());
+                "findRelationSetsByRelationArgument").setParameter(
+                        "relationArgument", relationArgument);
         return q.getResultList();
     }
 
-    
+    /**
+     * Finds all RelationSets that have at least one relation with a concept 
+     * as LeftArgument or RightArgument.
+     *
+     * @param concept the concept to search by
+     * @return a list of RelationSets
+     */
+    @Override
+    public List<RelationSet> getRelationSetsByConcept(Concept concept) {
+        RelationArgumentDao raDao = new RelationArgumentDaoImpl();
+        RelationArgument newRelationArgument = raDao.getRelationArgumentByConcept(concept);
+        
+//        RelationArgument newRelationArgument = new RelationArgument(concept);
+        return getRelationSetsByRelationArgument(newRelationArgument);
+    }
+
     //TODO: Convert it to Named query asap.
     /**
      * Creates q query to search for a RelationSet using relations.

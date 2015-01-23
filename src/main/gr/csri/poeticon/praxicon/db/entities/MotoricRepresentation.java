@@ -77,7 +77,11 @@ public class MotoricRepresentation implements Serializable {
     @XmlTransient
     @ManyToOne(cascade = CascadeType.ALL)
     private Concept concept;
-
+    
+    @XmlTransient
+    @ManyToOne(cascade = CascadeType.ALL)
+    private RelationSet relationSet;
+    
     @XmlTransient
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(

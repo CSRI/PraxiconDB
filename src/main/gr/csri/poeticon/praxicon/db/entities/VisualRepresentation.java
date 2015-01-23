@@ -7,7 +7,6 @@ package gr.csri.poeticon.praxicon.db.entities;
 import gr.csri.poeticon.praxicon.Constants;
 import java.io.Serializable;
 import java.net.URI;
-import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,9 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -71,6 +67,10 @@ public class VisualRepresentation implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     private Concept concept;
 
+    @XmlTransient
+    @ManyToOne(cascade = CascadeType.ALL)
+    private RelationSet relationSet;
+    
     @Column(name = "Source")
     private String source;
 
@@ -80,28 +80,6 @@ public class VisualRepresentation implements Serializable {
 
     @Column(name = "Comment")
     private String comment;
-
-    @XmlTransient
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "VisualRepresentation_RelationLeftArgument",
-            joinColumns = {
-                @JoinColumn(name = "VisualRepresentationId")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "RelationId")}
-    )
-    private List<Relation> relationsWithVisualRepresentationAsLeftArgument;
-
-    @XmlTransient
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "VisualRepresentation_RelationRightArgument",
-            joinColumns = {
-                @JoinColumn(name = "VisualRepresentationId")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "RelationId")}
-    )
-    private List<Relation> relationsWithVisualRepresentationAsRelationArgument;
 
     @XmlTransient
     @ManyToOne(cascade = CascadeType.ALL)

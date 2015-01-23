@@ -39,7 +39,6 @@ public class RelationSet_Relation implements Serializable {
     @JoinColumn(name = "RelationSetId")
     private RelationSet relationSet;
 
-    @XmlTransient
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "RelationId")
     private Relation relation;

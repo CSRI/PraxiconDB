@@ -31,7 +31,7 @@ public class CollectionOfConcepts {
     }
 
     public CollectionOfConcepts() {
-        concepts = new ArrayList<Concept>();
+        concepts = new ArrayList<>();
     }
 
     /**

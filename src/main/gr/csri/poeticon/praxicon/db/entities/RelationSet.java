@@ -20,11 +20,14 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -34,6 +37,25 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "relation_set", namespace = "http://www.csri.gr/relation_set")
 @Entity
+@NamedQueries({
+    @NamedQuery(name =
+            "findRelationSetsByRelationArgument",
+            query =
+            "SELECT rs FROM RelationSet rs " +
+            "JOIN rs.relations rsr " +
+            "JOIN rsr.relation r " +
+            "WHERE (r.rightArgument = :relationArgument " +
+            "OR r.leftArgument = :relationArgument)"),
+    @NamedQuery(name =
+            "findRelationSetsByRelation",
+            query =
+            "SELECT DISTINCT rs FROM RelationSet rs " +
+            "JOIN rs.relations rsr " +
+            "WHERE rsr.relation = :relationId"),
+
+
+
+})
 @Table(name = "RelationSets", indexes = {
     @Index(columnList = "RelationSetId"),
     @Index(columnList = "Name")})
@@ -72,10 +94,12 @@ public class RelationSet implements Serializable {
     )
     List<LanguageRepresentation> languageRepresentations;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
+    @XmlTransient
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet")
     private List<VisualRepresentation> visualRepresentations;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
+    @XmlTransient
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet")
     private List<MotoricRepresentation> motoricRepresentations;
 
     /**
@@ -128,8 +152,7 @@ public class RelationSet implements Serializable {
         List<RelationSet_Relation> relationSet_RelationList = new ArrayList();
         List<Relation> relationList = new ArrayList();
         relationSet_RelationList = this.relations;
-        for (RelationSet_Relation relationSetRelation : 
-                relationSet_RelationList) {
+        for (RelationSet_Relation relationSetRelation : relationSet_RelationList) {
             relationList.add(relationSetRelation.getRelation());
         }
         return relationList;
