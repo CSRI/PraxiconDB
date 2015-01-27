@@ -69,27 +69,6 @@ public class LanguageRepresentationDaoImplXML extends
         return null;
     }
 
-// TODO: Delete the two methods below after I make sure they are not used 
-//       in other projects.
-//    @Override
-//    public List<LanguageRepresentation> getEntriesSorted(Concept c) {
-//        List<LanguageRepresentation> res = new ArrayList<>();
-//        for (LanguageRepresentation lr : c.getLanguageRepresentations()) {
-//            res.add(lr);
-//        }
-//        Comparator<LanguageRepresentation> leCom = new LexicalEntryComparator();
-//        Collections.sort(res, leCom);
-//        return res;
-//    }
-//
-//    @Override
-//    public List<LanguageRepresentation> getEntries(Concept c) {
-//        List<LanguageRepresentation> res = new ArrayList<>();
-//        for (LanguageRepresentation lr : c.getLanguageRepresentations()) {
-//            res.add(lr);
-//        }
-//        return res;
-//    }
     @Override
     public LanguageRepresentation getLanguageRepresentations(Language language,
             String text, PartOfSpeech pos, UseStatus pragmaticStatus) {

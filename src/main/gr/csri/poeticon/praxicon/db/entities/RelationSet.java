@@ -46,12 +46,12 @@ import javax.xml.bind.annotation.XmlType;
             "JOIN rsr.relation r " +
             "WHERE (r.rightArgument = :relationArgument " +
             "OR r.leftArgument = :relationArgument)"),
-    @NamedQuery(name =
-            "findRelationSetsByRelation",
-            query =
-            "SELECT DISTINCT rs FROM RelationSet rs " +
-            "JOIN rs.relations rsr " +
-            "WHERE rsr.relation = :relationId"),
+//    @NamedQuery(name =
+//            "findRelationSetsByRelation",
+//            query =
+//            "SELECT DISTINCT rs FROM RelationSet rs " +
+//            "JOIN rs.relations rsr " +
+//            "WHERE rsr.relation = :relationId"),
 
 
 
@@ -197,22 +197,6 @@ public class RelationSet implements Serializable {
         relationSetRelation.setRelation(relation);
         relationSetRelation.setRelationSet(this);
         this.relations.add(relationSetRelation);
-    }
-
-    /**
-     * Adds relations to the relation set without consideration for their order.
-     *
-     * @param relations
-     */
-    public void addRelationsWithoutOrder(List<Relation> relations) {
-        List<RelationSet_Relation> rsr = new ArrayList<>();
-        RelationSet_Relation relationSetRelation = new RelationSet_Relation();
-        for (Relation relation : relations) {
-            relationSetRelation.setRelation(relation);
-            relationSetRelation.setRelationSet(this);
-            rsr.add(relationSetRelation);
-        }
-        this.relations = rsr;
     }
 
     /**

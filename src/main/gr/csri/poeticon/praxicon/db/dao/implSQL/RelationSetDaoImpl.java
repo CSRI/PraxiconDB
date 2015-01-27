@@ -20,7 +20,7 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
         implements RelationSetDao {
 
     /**
-     * Finds all RelationSets that have at least one relation with leftArgument 
+     * Finds all RelationSets that have at least one relation with leftArgument
      * or rightArgument a given relationArgument.
      *
      * @param relationArgument the relation argument to search by
@@ -36,7 +36,7 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
     }
 
     /**
-     * Finds all RelationSets that have at least one relation with a concept 
+     * Finds all RelationSets that have at least one relation with a concept
      * as LeftArgument or RightArgument.
      *
      * @param concept the concept to search by
@@ -45,10 +45,20 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
     @Override
     public List<RelationSet> getRelationSetsByConcept(Concept concept) {
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
-        RelationArgument newRelationArgument = raDao.getRelationArgumentByConcept(concept);
-        
+        RelationArgument newRelationArgument = raDao.
+                getRelationArgumentByConcept(concept);
+
 //        RelationArgument newRelationArgument = new RelationArgument(concept);
         return getRelationSetsByRelationArgument(newRelationArgument);
+    }
+
+    @Override
+    public RelationSet updatedRelationSet(RelationSet relationSet) {
+        
+        
+        
+        return null;
+
     }
 
     //TODO: Convert it to Named query asap.

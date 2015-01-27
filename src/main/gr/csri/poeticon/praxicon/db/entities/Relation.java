@@ -26,6 +26,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -101,10 +102,10 @@ public class Relation implements Serializable {
     private RelationArgument leftArgument;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    //@JoinColumn(name = "RelationArgumentId")
     @NotNull(message = "RightArgument of relation must be specified.")
     private RelationArgument rightArgument;
 
+    @XmlTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "relation")
     private List<RelationSet_Relation> relationSet;
 
@@ -119,7 +120,6 @@ public class Relation implements Serializable {
         type = new RelationType();
     }
 
-    //@XmlAttribute
     public Long getId() {
         return id;
     }
@@ -148,11 +148,8 @@ public class Relation implements Serializable {
     }
 
     /**
-     * @return whether derivation is supported for this relation.
-     * @xmlcomments.args xmltag="derivation_supported" xmldescription="This
-     * attribute defines if the relation supports derivation or not"
+     * @return whether linguistic support exists for this relation.
      */
-    //@XmlAttribute(name = "LinguisticallySupported")
     public LinguisticallySupported isLinguisticallySupported() {
         return linguisticallySupported;
     }

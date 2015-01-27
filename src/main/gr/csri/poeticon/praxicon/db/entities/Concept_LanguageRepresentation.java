@@ -39,7 +39,6 @@ public class Concept_LanguageRepresentation implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    //@XmlElement(required = true)
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "Concept_LanguageRepresentationId")

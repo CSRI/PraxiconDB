@@ -20,16 +20,16 @@ public class RelationSetDaoImplXML extends JpaDao<Long, RelationSet>
         implements RelationSetDao {
 
     @Override
-    public List<RelationSet> getRelationSetsByConcept(Concept concept) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public List<RelationSet> getRelationSetsByRelationArgument(
             RelationArgument relationArgument) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    public List<RelationSet> getRelationSetsByConcept(Concept concept) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    
 //    @Override
 //    public List<RelationChain> getRelationChainsContainingConcept(Concept c)
 //    {
@@ -58,6 +58,12 @@ public class RelationSetDaoImplXML extends JpaDao<Long, RelationSet>
 //        }
 //        return res;
 //    }
+
+    @Override
+    public RelationSet updatedRelationSet(RelationSet relationSet) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
     /**
      *
      * @param entity

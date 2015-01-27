@@ -10,9 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -77,40 +74,18 @@ public class MotoricRepresentation implements Serializable {
     @XmlTransient
     @ManyToOne(cascade = CascadeType.ALL)
     private Concept concept;
-    
+
     @XmlTransient
     @ManyToOne(cascade = CascadeType.ALL)
     private RelationSet relationSet;
-    
-    @XmlTransient
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "MotoricRepresentation_RelationLeftArgument",
-            joinColumns = {
-                @JoinColumn(name = "MotoricRepresentationId")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "RelationId")}
-    )
-    private List<Relation> relationsWithMotoricRepresentationAsLeftArgument;
 
     @XmlTransient
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "MotoricRepresentation_RelationObject",
-            joinColumns = {
-                @JoinColumn(name = "MotoricRepresentationId")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "RelationId")}
-    )
-    private List<Relation> relationsWithMotoricRepresentationAsRightArgument;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "motoricRepresentation")
     private List<VisualRepresentation> visualRepresentations;
 
     public MotoricRepresentation() {
     }
 
-    //@XmlElement()
     public String getVisualRepresentation() {
         return null;
     }
@@ -169,7 +144,6 @@ public class MotoricRepresentation implements Serializable {
         this.comment = comment;
     }
 
-    //@XmlAttribute
     public Long getId() {
         return id;
     }

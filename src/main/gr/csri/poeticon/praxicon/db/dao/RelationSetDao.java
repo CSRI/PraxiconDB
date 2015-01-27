@@ -18,4 +18,6 @@ public interface RelationSetDao extends Dao<Long, RelationSet> {
     List<RelationSet> getRelationSetsByRelationArgument(RelationArgument relationArgument);
             
     List<RelationSet> getRelationSetsByConcept(Concept concept);
+
+    public RelationSet updatedRelationSet(RelationSet relationSet);
 }

@@ -5,6 +5,8 @@
  */
 package gr.csri.poeticon.praxicon.db.entities;
 
+import gr.csri.poeticon.praxicon.db.dao.RelationSetDao;
+import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationSetDaoImpl;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -34,4 +36,20 @@ public class RelationSets {
     public RelationSets() {
         relationSets = new ArrayList<>();
     }
+    
+        /**
+     * Stores all concepts of the collection in the database updating
+     * same name entries
+     */
+    public void storeRelationSets() {
+        for (RelationSet relationSet : relationSets) {
+            RelationSetDao rsDao = new RelationSetDaoImpl();
+            relationSet = rsDao.updatedRelationSet(relationSet);
+
+            System.out.println("Language Representations of Relation Set: " + 
+                    relationSet.getLanguageRepresentations());
+            rsDao.merge(relationSet);
+        }
+    }
+    
 }

@@ -95,8 +95,6 @@ public class VisualRepresentation implements Serializable {
 
     /**
      * @return the media type of this visual representation.
-     * @xmlcomments.args xmltag="&lt;media_type&gt;" xmldescription="This tag
-     * defines the type of the media that represents visually the entity
      */
     public MediaType getMediaType() {
         return mediaType;
@@ -120,8 +118,6 @@ public class VisualRepresentation implements Serializable {
 
     /**
      * @return the URI of the visual representation. Usually a URL or file path.
-     * @xmlcomments.args xmltag="&lt;uri&gt;" xmldescription="This tag defines
-     * the URI of the media."
      */
     public URI getURI() {
         return uri;
@@ -159,7 +155,6 @@ public class VisualRepresentation implements Serializable {
         this.name = name;
     }
 
-    //@XmlAttribute
     public Long getId() {
         return id;
     }
@@ -204,5 +199,5 @@ public class VisualRepresentation implements Serializable {
 
     public void afterUnmarshal(Unmarshaller u, Object parent) {
 //        this.owner = (VisualRepresentation)parent;
-    }
+}
 }

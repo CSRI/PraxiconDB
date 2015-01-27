@@ -162,7 +162,6 @@ public class LanguageRepresentation implements Serializable {
     private Language language;
 
     @Column(name = "UseStatus")
-    //@XmlElement(required = false)
     @NotNull(message = "Concept use status must be specified.")
     @Enumerated(EnumType.STRING)
     private UseStatus useStatus;
@@ -198,48 +197,20 @@ public class LanguageRepresentation implements Serializable {
     )
     private List<RelationSet> RelationSets;
 
-    @XmlTransient
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "LanguageRepresentation_RelationLeftArgument",
-            joinColumns = {
-                @JoinColumn(name = "LanguageRepresentationId")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "RelationId")}
-    )
-    private List<Relation> relationsWithLanguageRepresentationAsleftArgument;
-
-    @XmlTransient
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "LanguageRepresentation_RelationObject",
-            joinColumns = {
-                @JoinColumn(name = "LanguageRepresentationId")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "RelationId")}
-    )
-    private List<Relation> relationsWithLanguageRepresentationAsObject;
-
     public LanguageRepresentation() {
         language_representations = new ArrayList<>();
     }
 
     /**
      * @return the Language of the Language representation.
-     * @xmlcomments.args xmltag="&lt;language&gt;" xmldescription="This tag
-     * defines the language of the entry"
      */
-    //@XmlElement(name = "language")
     public Language getLanguage() {
         return language;
     }
 
     /**
      * @return the part of speech of the Language representation.
-     * @xmlcomments.args xmltag="&lt;part_of_speech&gt;" xmldescription="This
-     * tag defines the Part Of Speech of the entry"
      */
-    //@XmlElement(name = "part_of_speech")
     public PartOfSpeech getPartOfSpeech() {
         return partOfSpeech;
     }
@@ -255,8 +226,6 @@ public class LanguageRepresentation implements Serializable {
 
     /**
      * @return the part of speech of the Language representation.
-     * @xmlcomments.args xmltag="&lt;part_of_speech&gt;" xmldescription="This
-     * tag defines the Part Of Speech of the entry"
      */
     public Productivity getProductivity() {
         return productivity;
@@ -271,7 +240,6 @@ public class LanguageRepresentation implements Serializable {
                 toUpperCase());
     }
 
-    //@XmlTransient
     public List<LanguageRepresentation> getLanguageRepresentations() {
         List<LanguageRepresentation> language_representations_list =
                 new ArrayList<>();
@@ -282,7 +250,6 @@ public class LanguageRepresentation implements Serializable {
         return language_representations_list;
     }
 
-    //   @XmlTransient
     public List<Concept> getConcepts() {
         List<Concept> concepts = new ArrayList<>();
         for (LanguageRepresentation language_representation
@@ -330,10 +297,7 @@ public class LanguageRepresentation implements Serializable {
 
     /**
      * @return Text.
-     * @xmlcomments.args xmltag="&lt;text&gt;" xmldescription="This tag defines
-     * the text of the entry"
      */
-    //@XmlElement(name = "text")
     public String getText() {
         return text;
     }
@@ -342,7 +306,6 @@ public class LanguageRepresentation implements Serializable {
         this.text = text;
     }
 
-    //@XmlAttribute
     public Long getId() {
         return id;
     }

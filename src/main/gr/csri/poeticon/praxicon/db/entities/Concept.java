@@ -151,7 +151,6 @@ public class Concept implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    //@XmlElement(required = true)
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "ConceptId")
@@ -159,24 +158,20 @@ public class Concept implements Serializable {
 
     @Column(name = "ExternalSourceId")
     //@Size(min = 5, max = 14)
-    //@XmlElement(required = true)
     //@NotNull(message = "Concept externalSourceId must be specified.")
     private String externalSourceId;
 
     @Column(name = "Type")
-    //@XmlElement(required = true)
     @NotNull(message = "Concept type must be specified.")
     @Enumerated(EnumType.STRING)
     private Type conceptType;
 
     @Column(name = "SpecificityLevel")
-    //@XmlElement(required = true)
     @NotNull(message = "Specificity level must be specified.")
     @Enumerated(EnumType.STRING)
     private SpecificityLevel specificityLevel;
 
     @Column(name = "Status")
-    //@XmlElement(required = true)
     @NotNull(message = "Concept status must be specified.")
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -187,24 +182,19 @@ public class Concept implements Serializable {
     private PragmaticStatus pragmaticStatus;
 
     @Column(name = "UniqueInstance")
-    //@XmlElement(required = false)
     @NotNull(message = "Concept unique instance must be specified.")
     @Enumerated(EnumType.STRING)
     private UniqueInstance uniqueInstance;
 
     @Column(name = "OntologicalDomain")
-    //@XmlElement(required = false)
     private String ontologicalDomain;
 
     @Column(name = "Source")
-    //@XmlElement(required = false)
     private String source;
 
     @Column(name = "Comment")
-    //@XmlElement(required = false)
     private String comment;
 
-    //@XmlTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept") //, fetch = FetchType.EAGER)
     private List<Concept_LanguageRepresentation> languageRepresentations;
 
@@ -278,7 +268,6 @@ public class Concept implements Serializable {
      *
      * @return long
      */
-    //@XmlAttribute
     public Long getId() {
         return id;
     }

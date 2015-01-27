@@ -1,10 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gr.csri.poeticon.praxicon.db.entities;
 
+import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
+import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -25,7 +22,6 @@ public class Concepts {
     @XmlElement(name = "concept")
     List<Concept> concepts = new ArrayList<>();
 
-    
     public List<Concept> getConcepts() {
         return concepts;
     }
@@ -34,8 +30,23 @@ public class Concepts {
         this.concepts = concepts;
     }
 
-    public Concepts(){
+    public Concepts() {
         concepts = new ArrayList<>();
     }
-    
+
+    /**
+     * Stores all concepts of the collection in the database updating
+     * same name entries
+     */
+    public void storeConcepts() {
+        for (Concept concept : concepts) {
+            ConceptDao cDao = new ConceptDaoImpl();
+            concept = cDao.updatedConcept(concept);
+
+            System.out.println("External source Id: " + 
+                    concept.getExternalSourceId());
+            cDao.merge(concept);
+        }
+    }
+
 }

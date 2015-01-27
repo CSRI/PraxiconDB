@@ -146,11 +146,7 @@ public class RelationType implements Serializable {
 
     /**
      * @return the forward name.
-     * @xmlcomments.args xmltag="&lt;left-to-right_name&gt;" xmldescription="The
-     * name of the relation when the relational triplet is used from left to
-     * right"
      */
-    //@XmlAttribute(name = "left-to-right_name")
     public String getForwardNameString() {
         if (forwardName != null && !forwardName.name().equalsIgnoreCase("")) {
             return forwardName.name();
@@ -187,11 +183,7 @@ public class RelationType implements Serializable {
 
     /**
      * @return the backward name.
-     * @xmlcomments.args xmltag="&lt;left-to-right_name&gt;" xmldescription="The
-     * name of the relation when the relational triplet is used from left to
-     * right"
      */
-    //@XmlAttribute(name = "right-to-left_name")
     public String getBackwardNameString() {
         if (backwardName != null && !backwardName.name().equalsIgnoreCase("")) {
             return backwardName.name();
@@ -199,7 +191,6 @@ public class RelationType implements Serializable {
         return null;
     }
 
-    //@XmlTransient
     public List<Relation> getRelations() {
         return relations;
     }
@@ -217,7 +208,6 @@ public class RelationType implements Serializable {
      *
      * @return the id of the relation type.
      */
-    //@XmlAttribute
     public Long getId() {
         return id;
     }
