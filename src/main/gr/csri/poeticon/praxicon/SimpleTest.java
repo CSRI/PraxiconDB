@@ -8,15 +8,21 @@ import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
 import gr.csri.poeticon.praxicon.db.dao.LanguageRepresentationDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationArgumentDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationDao;
+import gr.csri.poeticon.praxicon.db.dao.RelationSetDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.LanguageRepresentationDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationArgumentDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
+import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationSetDaoImpl;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
+import gr.csri.poeticon.praxicon.db.entities.RelationSet;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -32,7 +38,6 @@ public class SimpleTest {
         testConcepts();
         testLanguageRepresentations();
         testRelations();
-
 
 //        for (Relation relation : hasInstanceRelations) {
 //            //System.out.println(relation);
@@ -80,52 +85,58 @@ public class SimpleTest {
                 "concept having language representation spoon: ");
         System.out.println("------------------------------------------------" +
                 "-----------------------------------------");
-        List<Concept> parents = new ArrayList<>();
+        List<Concept> parents = cDao.getParents(conceptsSpoon.get(0));
         HashSet<Concept> sisters = new HashSet<>();
-        parents = cDao.getParents(conceptsSpoon.get(0));
         for (Concept parent : parents) {
             System.out.println(parent + " - \t" + parent.getSpecificityLevel());
             sisters.addAll(cDao.getChildren(parent));
         }
 
-        // Get sister concepts and specificity level of the first concept 
-        // in the list of concepts that have language representation spoon.
-        System.out.println("\n\nSister concepts of the first occurence of a " +
-                "concept having language representation spoon: ");
-        System.out.println("------------------------------------------------" +
-                "-----------------------------------------");
-        for (Concept sister : sisters) {
-            System.out.println(sister + " - \t" + sister.getSpecificityLevel());
-        }
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = new Date();
 
-        // Get all Basic Level Concepts.
-        System.out.println("\n\nCount All Basic Level Concepts:");
-        System.out.println("-------------------------------------------");
-        List<Concept> basicLevelConcepts = cDao.getAllBasicLevelConcepts();
-        System.out.println(basicLevelConcepts.size());
+        XmlUtils.exportConceptsToXML(parents, "/home/dmavroeidis/Concepts" +
+                dateFormat.format(date) + ".xml");
+        //XmlUtils.exportConceptsToXML(parents, "/home/dmavroeidis/Concepts.xml");
 
-        String stringToSearch = "substance%1:03:00::";
-        System.out.println("\n\nBasic Level of concept " + stringToSearch);
-        System.out.println("-------------------------------------------");
-        Concept concept = cDao.getConceptByExternalSourceIdExact(
-                stringToSearch);
-        long startTime = System.nanoTime();
-        List<Concept> basicLevelOfConcept = cDao.getBasicLevelConcepts(concept);
-        long endTime = System.nanoTime();
-        System.out.print(
-                "Time of getBasicLevel() for concept: " + stringToSearch + " ");
-        System.out.print((endTime - startTime) / 1000000000);
-        System.out.println(" seconds");
 //
-        if (basicLevelOfConcept.isEmpty()) {
-            System.out.println("Concept " + stringToSearch +
-                    " doesn't have a Basic Level Concept");
-        } else {
-            for (Concept item : basicLevelOfConcept) {
-                System.out.println(item);
-            }
-        }
-
+//        // Get sister concepts and specificity level of the first concept 
+//        // in the list of concepts that have language representation spoon.
+//        System.out.println("\n\nSister concepts of the first occurence of a " +
+//                "concept having language representation spoon: ");
+//        System.out.println("------------------------------------------------" +
+//                "-----------------------------------------");
+//        for (Concept sister : sisters) {
+//            System.out.println(sister + " - \t" + sister.getSpecificityLevel());
+//        }
+//
+//        // Get all Basic Level Concepts.
+//        System.out.println("\n\nCount All Basic Level Concepts:");
+//        System.out.println("-------------------------------------------");
+//        List<Concept> basicLevelConcepts = cDao.getAllBasicLevelConcepts();
+//        System.out.println(basicLevelConcepts.size());
+//
+//        String stringToSearch = "substance%1:03:00::";
+//        System.out.println("\n\nBasic Level of concept " + stringToSearch);
+//        System.out.println("-------------------------------------------");
+//        Concept concept = cDao.getConceptByExternalSourceIdExact(
+//                stringToSearch);
+//        long startTime = System.nanoTime();
+//        List<Concept> basicLevelOfConcept = cDao.getBasicLevelConcepts(concept);
+//        long endTime = System.nanoTime();
+//        System.out.print(
+//                "Time of getBasicLevel() for concept: " + stringToSearch + " ");
+//        System.out.print((endTime - startTime) / 1000000000);
+//        System.out.println(" seconds");
+////
+//        if (basicLevelOfConcept.isEmpty()) {
+//            System.out.println("Concept " + stringToSearch +
+//                    " doesn't have a Basic Level Concept");
+//        } else {
+//            for (Concept item : basicLevelOfConcept) {
+//                System.out.println(item);
+//            }
+//        }
     }
 
     public static void testLanguageRepresentations() {
@@ -152,8 +163,8 @@ public class SimpleTest {
         // test the getAllLanguageRepresentationText() method.
         System.out.println("\n\nCount of all Language Representation Texts:");
         System.out.println("-------------------------------------------");
-        List<String> languageRepresentationTexts = new ArrayList<>();
-        languageRepresentationTexts = lrDao.getAllLanguageRepresentationText();
+        List<String> languageRepresentationTexts = lrDao.
+                getAllLanguageRepresentationText();
         System.out.println(languageRepresentationTexts.size());
 
     }
@@ -208,6 +219,30 @@ public class SimpleTest {
                 RelationType.RelationNameForward.HAS_INSTANCE);
 
         System.out.println(hasInstanceRelations.size());
-    }
 
+        // Create a relation set
+        // Test the XML export functionality for relation set
+        Concept conceptForRelationSet = cDao.getConceptByExternalSourceIdExact(
+                "dummy_object_brooch%2:35:00::_brooch%1:06:00::");
+        RelationSetDao rsDao = new RelationSetDaoImpl();
+        List<RelationSet> relationSets = rsDao.getRelationSetsByConcept(
+                conceptForRelationSet);
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = new Date();
+        XmlUtils.exportRelationSetsToXML(relationSets,
+                "/home/dmavroeidis/RelationSets_" + dateFormat.format(date) +
+                ".xml");
+
+        // Create a list of concepts to create XML with both concepts and 
+        // relation sets.
+        List<Concept> conceptsForXml = new ArrayList<>();
+        conceptsForXml.add(conceptShape);
+        conceptsForXml.add(conceptRoundShape);
+//        conceptsForXml.add(conceptSubstance);
+        XmlUtils.exportAllObjectsToXML(relationSets, conceptsForXml,
+                "/home/dmavroeidis/objects_" + dateFormat.format(date) +
+                        ".xml");
+    }
+    
 }
