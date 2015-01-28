@@ -5,6 +5,7 @@
 package gr.csri.poeticon.praxicon;
 
 import static gr.csri.poeticon.praxicon.EntityMngFactory.getEntityManager;
+import gr.csri.poeticon.praxicon.db.entities.CollectionOfObjects;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Concepts;
 import gr.csri.poeticon.praxicon.db.entities.RelationSet;
@@ -116,64 +117,64 @@ public class XmlUtils {
                     log(Level.SEVERE, null, ex);
         }
     }
-//
-//    /**
-//     * Exports an xml file given a list of relation sets. If the file exists,
-//     * it is overwritten.
-//     *
-//     * @param relationSetsList
-//     * @param conceptsList
-//     * @param xmlFileName
-//     */
-//    public static void exportAllObjectsToXML(List<RelationSet> relationSetsList,
-//            List<Concept> conceptsList, String xmlFileName) {
-//
-//        CollectionOfObjects collectionOfObjects = new CollectionOfObjects();
-//        RelationSets relationSets = new RelationSets();
-//        Concepts concepts = new Concepts();
-//        relationSets.setRelationSets(new ArrayList<RelationSet>());
-//        concepts.setConcepts(new ArrayList<Concept>());
-//
-//        try {
-//            /* 
-//             Get active session to update relation sets. This way, we can 
-//             update retrieved objects directly to avoid setting EAGER fetch 
-//             which would criple performance during retrieval from the database. 
-//             */
-//            EntityManager em = getEntityManager();
-//            Session session = em.unwrap(org.hibernate.Session.class);
-//
-//            JAXBContext jaxbContext = JAXBContext.
-//                    newInstance(CollectionOfObjects.class);
-//            Marshaller marshaller = jaxbContext.createMarshaller();
-//            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-//
-//            for (RelationSet item : relationSetsList) {
-//                if (!session.contains(item)) {
-//                    session.update(item);
-//                }
-//                relationSets.getRelationSets().add(item);
-//            }
-//            for (Concept item : conceptsList) {
-//                if (session.contains(item)) {
-//                } else {
-//                    session.update(item);
-//                }
-//                concepts.getConcepts().add(item);
-//            }
-//
-//            collectionOfObjects.getConcepts().add(concepts);
-//            collectionOfObjects.getRelationSets().add(relationSets);
-//
-//            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-//
-//            // Export relation sets to the xml file
-//            marshaller.marshal(collectionOfObjects, new File(xmlFileName));
-//
-//        } catch (JAXBException ex) {
-//            Logger.getLogger(XmlUtils.class.getName()).
-//                    log(Level.SEVERE, null, ex);
-//        }
-//    }
+
+    /**
+     * Exports an xml file given a list of relation sets. If the file exists,
+     * it is overwritten.
+     *
+     * @param relationSetsList
+     * @param conceptsList
+     * @param xmlFileName
+     */
+    public static void exportAllObjectsToXML(List<RelationSet> relationSetsList,
+            List<Concept> conceptsList, String xmlFileName) {
+
+        CollectionOfObjects collectionOfObjects = new CollectionOfObjects();
+        RelationSets relationSets = new RelationSets();
+        Concepts concepts = new Concepts();
+        relationSets.setRelationSets(new ArrayList<RelationSet>());
+        concepts.setConcepts(new ArrayList<Concept>());
+
+        try {
+            /* 
+             Get active session to update relation sets. This way, we can 
+             update retrieved objects directly to avoid setting EAGER fetch 
+             which would criple performance during retrieval from the database. 
+             */
+            EntityManager em = getEntityManager();
+            Session session = em.unwrap(org.hibernate.Session.class);
+
+            JAXBContext jaxbContext = JAXBContext.
+                    newInstance(CollectionOfObjects.class);
+            Marshaller marshaller = jaxbContext.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            for (RelationSet item : relationSetsList) {
+                if (!session.contains(item)) {
+                    session.update(item);
+                }
+                relationSets.getRelationSets().add(item);
+            }
+            for (Concept item : conceptsList) {
+                if (session.contains(item)) {
+                } else {
+                    session.update(item);
+                }
+                concepts.getConcepts().add(item);
+            }
+
+            collectionOfObjects.getConcepts().add(concepts);
+            collectionOfObjects.getRelationSets().add(relationSets);
+
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            // Export relation sets to the xml file
+            marshaller.marshal(collectionOfObjects, new File(xmlFileName));
+
+        } catch (JAXBException ex) {
+            Logger.getLogger(XmlUtils.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        }
+    }
 
 }
