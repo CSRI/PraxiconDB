@@ -1,12 +1,12 @@
 package gr.csri.poeticon.praxicon;
 
-import gr.csri.poeticon.praxicon.db.entities.CollectionOfConcepts;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
+import gr.csri.poeticon.praxicon.db.entities.Concepts;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Hashtable;
-import java.util.Properties; // TODO: This is obsolete
+import java.util.Properties; 
 
 /**
  * All the constants and globals of the project. All properties taken from
@@ -91,7 +91,7 @@ public class Constants {
      * from Wordnet. It is used in the Wordnet mode (where we do not have any
      * db)
      */
-    public static CollectionOfConcepts wordNetConcepts;
+    public static Concepts wordNetConcepts;
 
     public static void Constants() throws FileNotFoundException, IOException {
 

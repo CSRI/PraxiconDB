@@ -27,7 +27,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -45,16 +44,12 @@ import javax.xml.bind.annotation.XmlType;
             "JOIN rs.relations rsr " +
             "JOIN rsr.relation r " +
             "WHERE (r.rightArgument = :relationArgument " +
-            "OR r.leftArgument = :relationArgument)"),
-//    @NamedQuery(name =
+            "OR r.leftArgument = :relationArgument)"), //    @NamedQuery(name =
 //            "findRelationSetsByRelation",
 //            query =
 //            "SELECT DISTINCT rs FROM RelationSet rs " +
 //            "JOIN rs.relations rsr " +
 //            "WHERE rsr.relation = :relationId"),
-
-
-
 })
 @Table(name = "RelationSets", indexes = {
     @Index(columnList = "RelationSetId"),
@@ -94,11 +89,9 @@ public class RelationSet implements Serializable {
     )
     List<LanguageRepresentation> languageRepresentations;
 
-    @XmlTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet")
     private List<VisualRepresentation> visualRepresentations;
 
-    @XmlTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet")
     private List<MotoricRepresentation> motoricRepresentations;
 

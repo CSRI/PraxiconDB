@@ -33,7 +33,7 @@ public class VisualRepresentationDaoImpl extends
                  " UPPER(e.Representation) = ?2 AND e.Prototype = ?3"
         );
         q.setParameter(1, visualRepresentation.getMediaType());
-        q.setParameter(2, visualRepresentation.getRepresentation().
+        q.setParameter(2, visualRepresentation.getName().
                 toUpperCase());
         //q.setParameter(3, entity.isPrototype());
         return q;

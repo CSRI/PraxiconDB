@@ -30,7 +30,6 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -76,8 +75,8 @@ import javax.xml.bind.annotation.XmlType;
             "AND c.conceptType = :type " +
             "AND c.pragmaticStatus = :pragmaticStatus"),})
 @Table(name = "Concepts", indexes = {
-    //    @Index(columnList = "ExternalSourceId"),
-    @Index(columnList = "ConceptId")})
+    @Index(columnList = "ExternalSourceId"),
+})
 //@ConceptConstraint(groups=ConceptGroup.class)
 public class Concept implements Serializable {
 
@@ -198,11 +197,9 @@ public class Concept implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept") //, fetch = FetchType.EAGER)
     private List<Concept_LanguageRepresentation> languageRepresentations;
 
-    @XmlTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
     private List<VisualRepresentation> visualRepresentations;
 
-    @XmlTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
     private List<MotoricRepresentation> motoricRepresentations;
 
@@ -659,7 +656,7 @@ public class Concept implements Serializable {
      *
      * @return visual representations construct
      */
-    public List<VisualRepresentation> getVisualRepresentations() {
+        public List<VisualRepresentation> getVisualRepresentations() {
         return visualRepresentations;
     }
 

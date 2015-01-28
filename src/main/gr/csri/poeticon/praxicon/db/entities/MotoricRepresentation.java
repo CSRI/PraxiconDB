@@ -79,7 +79,6 @@ public class MotoricRepresentation implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     private RelationSet relationSet;
 
-    @XmlTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "motoricRepresentation")
     private List<VisualRepresentation> visualRepresentations;
 

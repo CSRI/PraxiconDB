@@ -18,7 +18,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
@@ -70,7 +69,7 @@ public class VisualRepresentation implements Serializable {
     @XmlTransient
     @ManyToOne(cascade = CascadeType.ALL)
     private RelationSet relationSet;
-    
+
     @Column(name = "Source")
     private String source;
 
@@ -105,6 +104,28 @@ public class VisualRepresentation implements Serializable {
     }
 
     /**
+     * @return the concept connected to the visual representation.
+     */
+    public Concept getConcept() {
+        return concept;
+    }
+
+    public void setConcept(Concept concept) {
+        this.concept = concept;
+    }
+
+    /**
+     * @return the relation set connected to the visual representation.
+     */
+    public RelationSet getRelationSet() {
+        return relationSet;
+    }
+
+    public void setRelationSet(RelationSet relationSet) {
+        this.relationSet = relationSet;
+    }
+
+    /**
      * @return the source of the visual representation.
      *         This can be ImageNet, GoogleImages, etc.
      */
@@ -133,8 +154,12 @@ public class VisualRepresentation implements Serializable {
         }
     }
 
-    public String getRepresentation() {
+    public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getRepresentationWithPath() {
@@ -149,10 +174,6 @@ public class VisualRepresentation implements Serializable {
         } else {
             return Constants.videoPath + name;
         }
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Long getId() {
@@ -197,7 +218,7 @@ public class VisualRepresentation implements Serializable {
         return "[Id=" + id + "] " + this.mediaType + ": " + this.name;
     }
 
-    public void afterUnmarshal(Unmarshaller u, Object parent) {
-//        this.owner = (VisualRepresentation)parent;
-}
+//    public void afterUnmarshal(Unmarshaller u, Object parent) {
+////        this.owner = (VisualRepresentation)parent;
+//    }
 }

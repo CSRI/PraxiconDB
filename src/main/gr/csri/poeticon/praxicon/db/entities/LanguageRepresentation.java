@@ -154,8 +154,6 @@ public class LanguageRepresentation implements Serializable {
     @Column(name = "LanguageRepresentationId")
     private Long id;
 
-    /*  The name of the column was truncated because "Language" is a 
-     reserved SQL-99 keyword. */
     @Column(name = "Language")
     @NotNull(message = "Language must be specified.")
     @Enumerated(EnumType.STRING)
@@ -206,6 +204,10 @@ public class LanguageRepresentation implements Serializable {
      */
     public Language getLanguage() {
         return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
     }
 
     /**
@@ -271,10 +273,6 @@ public class LanguageRepresentation implements Serializable {
                 languageRepresentations;
     }
 
-    public void setLanguage(Language language) {
-        this.language = language;
-    }
-
     /**
      * @return the use status of the concept.
      */
@@ -306,6 +304,20 @@ public class LanguageRepresentation implements Serializable {
         this.text = text;
     }
 
+    /**
+     * @return Comment.
+     */
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    /**
+     * @return id
+     */
     public Long getId() {
         return id;
     }
