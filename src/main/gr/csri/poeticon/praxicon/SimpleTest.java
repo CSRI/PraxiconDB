@@ -63,7 +63,7 @@ public class SimpleTest {
         List<Concept> concepts = cDao.getAllConcepts();
         System.out.println("\n\nNumber of all concepts: " + concepts.size());
 
-        // Get children concepts and specificity level of the first concept 
+        // Get children concepts and specificity level of the first concept
         // in the list of concepts that have language representation spoon.
         System.out.println("\n\nChildren of the first occurence of a concept" +
                 " having language representation spoon: ");
@@ -79,7 +79,7 @@ public class SimpleTest {
             System.out.println(concept.getSpecificityLevel());
         }
 
-        // Get parent concepts and specificity level of the first concept 
+        // Get parent concepts and specificity level of the first concept
         // in the list of concepts that have language representation spoon.
         System.out.println("\n\nParent concepts of the first occurence of a " +
                 "concept having language representation spoon: ");
@@ -95,12 +95,12 @@ public class SimpleTest {
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         Date date = new Date();
 
-        XmlUtils.exportConceptsToXML(parents, "/home/dmavroeidis/Concepts" +
-                dateFormat.format(date) + ".xml");
-        //XmlUtils.exportConceptsToXML(parents, "/home/dmavroeidis/Concepts.xml");
+        XmlUtils.exportConceptsToXML(parents, String.
+                format("/home/dmavroeidis/Concepts_%s.xml",
+                        dateFormat.format(date)));
 
 //
-//        // Get sister concepts and specificity level of the first concept 
+//        // Get sister concepts and specificity level of the first concept
 //        // in the list of concepts that have language representation spoon.
 //        System.out.println("\n\nSister concepts of the first occurence of a " +
 //                "concept having language representation spoon: ");
@@ -230,19 +230,18 @@ public class SimpleTest {
 
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         Date date = new Date();
-        XmlUtils.exportRelationSetsToXML(relationSets,
-                "/home/dmavroeidis/RelationSets_" + dateFormat.format(date) +
-                ".xml");
+        XmlUtils.exportRelationSetsToXML(relationSets, String.
+                format("/home/dmavroeidis/RelationSets_%s.xml",
+                        dateFormat.format(date)));
 
-        // Create a list of concepts to create XML with both concepts and 
+        // Create a list of concepts to create XML with both concepts and
         // relation sets.
         List<Concept> conceptsForXml = new ArrayList<>();
         conceptsForXml.add(conceptShape);
         conceptsForXml.add(conceptRoundShape);
-//        conceptsForXml.add(conceptSubstance);
-        XmlUtils.exportAllObjectsToXML(relationSets, conceptsForXml,
-                "/home/dmavroeidis/objects_" + dateFormat.format(date) +
-                        ".xml");
+        XmlUtils.exportAllObjectsToXML(relationSets, conceptsForXml, String.
+                format("/home/dmavroeidis/Objects_%s.xml",
+                        dateFormat.format(date)));
     }
-    
+
 }
