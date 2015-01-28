@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<collectionOfObjects xmlns:ns2="http://www.csri.gr/concept">
+    <concepts>
+        <concept>
+            <id>832</id>
+            <externalSourceId>shape%1:03:00::</externalSourceId>
+            <conceptType>ENTITY</conceptType>
+            <specificityLevel>SUPERORDINATE</specificityLevel>
+            <status>CONSTANT</status>
+            <pragmaticStatus>CONCRETE</pragmaticStatus>
+            <uniqueInstance>NO</uniqueInstance>
+            <source>WordNet3.0</source>
+            <comment></comment>
+            <languageRepresentations>
+                <id>1333</id>
+                <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                <languageRepresentation>
+                    <id>895</id>
+                    <language>EN</language>
+                    <useStatus>LITERAL</useStatus>
+                    <partOfSpeech>NOUN</partOfSpeech>
+                    <text>form</text>
+                </languageRepresentation>
+            </languageRepresentations>
+            <languageRepresentations>
+                <id>1334</id>
+                <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                <languageRepresentation>
+                    <id>901</id>
+                    <language>EN</language>
+                    <useStatus>LITERAL</useStatus>
+                    <partOfSpeech>NOUN</partOfSpeech>
+                    <text>shape</text>
+                </languageRepresentation>
+            </languageRepresentations>
+        </concept>
+        <concept>
+            <id>994</id>
+            <externalSourceId>round_shape%1:25:00::</externalSourceId>
+            <conceptType>FEATURE</conceptType>
+            <specificityLevel>SUPERORDINATE</specificityLevel>
+            <status>CONSTANT</status>
+            <pragmaticStatus>CONCRETE</pragmaticStatus>
+            <uniqueInstance>NO</uniqueInstance>
+            <source>WordNet3.0</source>
+            <comment></comment>
+            <languageRepresentations>
+                <id>1587</id>
+                <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                <languageRepresentation>
+                    <id>1497</id>
+                    <language>EN</language>
+                    <useStatus>LITERAL</useStatus>
+                    <partOfSpeech>NOUN</partOfSpeech>
+                    <text>round shape</text>
+                </languageRepresentation>
+            </languageRepresentations>
+        </concept>
+    </concepts>
+    <relationSets>
+        <relationSet>
+            <id>485</id>
+            <relations>
+                <id>1452</id>
+                <relation>
+                    <id>21074</id>
+                    <type>
+                        <id>9</id>
+                        <forwardName>ACTION_GOAL</forwardName>
+                        <backwardName>GOAL_ACTION</backwardName>
+                    </type>
+                    <leftArgument>
+                        <id>20272</id>
+                        <concept>
+                            <id>20286</id>
+                            <externalSourceId>brooch%2:35:00::#with#brooch%1:06:00::#the#dummy_object_brooch%2:35:00::_brooch%1:06:00::</externalSourceId>
+                            <conceptType>MOVEMENT</conceptType>
+                            <specificityLevel>SUBORDINATE</specificityLevel>
+                            <status>VARIABLE</status>
+                            <pragmaticStatus>CONCRETE</pragmaticStatus>
+                            <uniqueInstance>NO</uniqueInstance>
+                            <source>WordNet3.0</source>
+                            <comment></comment>
+                        </concept>
+                    </leftArgument>
+                    <rightArgument>
+                        <id>20268</id>
+                        <concept>
+                            <id>20282</id>
+                            <externalSourceId>brooch%2:35:00::</externalSourceId>
+                            <conceptType>MOVEMENT</conceptType>
+                            <specificityLevel>SUBORDINATE</specificityLevel>
+                            <status>CONSTANT</status>
+                            <pragmaticStatus>CONCRETE</pragmaticStatus>
+                            <uniqueInstance>NO</uniqueInstance>
+                            <source>WordNet3.0</source>
+                            <comment></comment>
+                            <languageRepresentations>
+<id>34465</id>
+<isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+<languageRepresentation>
+    <id>30861</id>
+    <language>EN</language>
+    <useStatus>UNKNOWN</useStatus>
+    <partOfSpeech>VERB</partOfSpeech>
+    <text>brooch</text>
+</languageRepresentation>
+                            </languageRepresentations>
+                            <languageRepresentations>
+<id>34466</id>
+<isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+<languageRepresentation>
+    <id>30862</id>
+    <language>EN</language>
+    <useStatus>UNKNOWN</useStatus>
+    <partOfSpeech>VERB</partOfSpeech>
+    <text>clasp</text>
+</languageRepresentation>
+                            </languageRepresentations>
+                        </concept>
+                    </rightArgument>
+                    <linguisticallySupported>NO</linguisticallySupported>
+                </relation>
+            </relations>
+            <relations>
+                <id>1453</id>
+                <relation>
+                    <id>21075</id>
+                    <type>
+                        <id>10</id>
+                        <forwardName>ACTION_TOOL</forwardName>
+                        <backwardName>TOOL_ACTION</backwardName>
+                    </type>
+                    <leftArgument>
+                        <id>20272</id>
+                        <concept>
+                            <id>20286</id>
+                            <externalSourceId>brooch%2:35:00::#with#brooch%1:06:00::#the#dummy_object_brooch%2:35:00::_brooch%1:06:00::</externalSourceId>
+                            <conceptType>MOVEMENT</conceptType>
+                            <specificityLevel>SUBORDINATE</specificityLevel>
+                            <status>VARIABLE</status>
+                            <pragmaticStatus>CONCRETE</pragmaticStatus>
+                            <uniqueInstance>NO</uniqueInstance>
+                            <source>WordNet3.0</source>
+                            <comment></comment>
+                        </concept>
+                    </leftArgument>
+                    <rightArgument>
+                        <id>20265</id>
+                        <concept>
+                            <id>20279</id>
+                            <externalSourceId>brooch%1:06:00::</externalSourceId>
+                            <conceptType>ENTITY</conceptType>
+                            <specificityLevel>SUBORDINATE</specificityLevel>
+                            <status>CONSTANT</status>
+                            <pragmaticStatus>CONCRETE</pragmaticStatus>
+                            <uniqueInstance>NO</uniqueInstance>
+                            <source>WordNet3.0</source>
+                            <comment></comment>
+                            <languageRepresentations>
+<id>34460</id>
+<isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+<languageRepresentation>
+    <id>30857</id>
+    <language>EN</language>
+    <useStatus>LITERAL</useStatus>
+    <partOfSpeech>NOUN</partOfSpeech>
+    <text>breastpin</text>
+</languageRepresentation>
+                            </languageRepresentations>
+                            <languageRepresentations>
+<id>34461</id>
+<isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+<languageRepresentation>
+    <id>30858</id>
+    <language>EN</language>
+    <useStatus>LITERAL</useStatus>
+    <partOfSpeech>NOUN</partOfSpeech>
+    <text>broach</text>
+</languageRepresentation>
+                            </languageRepresentations>
+                            <languageRepresentations>
+<id>34462</id>
+<isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+<languageRepresentation>
+    <id>30859</id>
+    <language>EN</language>
+    <useStatus>LITERAL</useStatus>
+    <partOfSpeech>NOUN</partOfSpeech>
+    <text>brooch</text>
+</languageRepresentation>
+                            </languageRepresentations>
+                        </concept>
+                    </rightArgument>
+                    <linguisticallySupported>YES</linguisticallySupported>
+                </relation>
+            </relations>
+            <relations>
+                <id>1454</id>
+                <relation>
+                    <id>21076</id>
+                    <type>
+                        <id>11</id>
+                        <forwardName>ACTION_OBJECT</forwardName>
+                        <backwardName>OBJECT_ACTION</backwardName>
+                    </type>
+                    <leftArgument>
+                        <id>20272</id>
+                        <concept>
+                            <id>20286</id>
+                            <externalSourceId>brooch%2:35:00::#with#brooch%1:06:00::#the#dummy_object_brooch%2:35:00::_brooch%1:06:00::</externalSourceId>
+                            <conceptType>MOVEMENT</conceptType>
+                            <specificityLevel>SUBORDINATE</specificityLevel>
+                            <status>VARIABLE</status>
+                            <pragmaticStatus>CONCRETE</pragmaticStatus>
+                            <uniqueInstance>NO</uniqueInstance>
+                            <source>WordNet3.0</source>
+                            <comment></comment>
+                        </concept>
+                    </leftArgument>
+                    <rightArgument>
+                        <id>20273</id>
+                        <concept>
+                            <id>20287</id>
+                            <externalSourceId>dummy_object_brooch%2:35:00::_brooch%1:06:00::</externalSourceId>
+                            <conceptType>ENTITY</conceptType>
+                            <specificityLevel>UNKNOWN</specificityLevel>
+                            <status>VARIABLE</status>
+                            <pragmaticStatus>CONCRETE</pragmaticStatus>
+                            <uniqueInstance>UNKNOWN</uniqueInstance>
+                            <source>WordNet3.0</source>
+                            <comment></comment>
+                        </concept>
+                    </rightArgument>
+                    <linguisticallySupported>UNKNOWN</linguisticallySupported>
+                </relation>
+            </relations>
+        </relationSet>
+    </relationSets>
+</collectionOfObjects>
