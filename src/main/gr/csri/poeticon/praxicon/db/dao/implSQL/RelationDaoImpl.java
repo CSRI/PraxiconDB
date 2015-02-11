@@ -23,6 +23,27 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         RelationDao {
 
     /**
+     * Finds relations that have a specific relationArgument as rightArgument,
+     * a specific relationArgument as leftArgument and a specific relationType.
+     * That way, we retrieve a unique relation from the database.
+     *
+     * @param leftArgument  the left relation argument
+     * @param rightArgument the right relation arguments
+     * @param relationType  the type of relation
+     * @return a list of relation sets
+     */
+    @Override
+    public Relation getRelation(RelationArgument leftArgument,
+            RelationArgument rightArgument, RelationType relationType) {
+        Query query = getEntityManager().createNamedQuery("findRelations").
+                setParameter("leftRelationArgumentId", leftArgument.getId()).
+                setParameter("rightRelationArgumentId", rightArgument.getId()).
+                setParameter("relationType", relationType);
+        Object relation = query.getSingleResult();
+        return (Relation)relation;
+    }
+
+    /**
      * Finds relations that have a given relationArgument as rightArgument
      *
      * @param concept the concept which we want the relation sets of
@@ -80,8 +101,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         return getRelationsByRelationArgumentRelationType(newRelationArgument,
                 relationType);
     }
-    
-    
+
     /**
      * Finds the relations of a given concept that have a certain
      * type of relation. Checks only for the given concept as a leftArgument
@@ -181,7 +201,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
                 setParameter("relationType", relationType);
         return query.getResultList();
     }
-    
+
     /**
      * Finds the relations of a given concept that have a certain
      * type of relation. Checks only for the given concept as a leftArgument
@@ -200,8 +220,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
                 setParameter("relationType", relationType);
         return query.getResultList();
     }
-    
-    
+
     /**
      * Finds the relations of a given concept that have a certain
      * type of relation. Checks only for the given concept as a leftArgument
@@ -220,4 +239,26 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
                 setParameter("relationType", relationType);
         return query.getResultList();
     }
+
+    /**
+     * Updates a relation from the database that has the same left and right
+     * argument, as well as relation type. In essence, this is checks
+     * whether a relation exists in the database. If it doesn't, it is added.
+     *
+     * @param newRelation relation to use as source
+     * @return the updated relation
+     */
+    @Override
+    public Relation updatedRelation(Relation newRelation) {
+        Relation oldRelation = new Relation();
+        try {
+            oldRelation = this.getRelation(newRelation.getLeftArgument(),
+                    newRelation.getRightArgument(), newRelation.getType());
+        } catch (Exception e) {
+            return newRelation;
+        } finally {
+            return oldRelation;
+        }
+    }
+
 }
