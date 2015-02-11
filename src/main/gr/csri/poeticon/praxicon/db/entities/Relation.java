@@ -52,19 +52,19 @@ import javax.xml.bind.annotation.XmlType;
             "OR r.leftArgument = :relationArgument)"),
     @NamedQuery(name = "findRelationsByRelationArgumentRelationType", query =
             "SELECT r FROM Relation r " +
-            "JOIN r.type rt " +
+            "JOIN r.relationType rt " +
             "WHERE (r.leftArgument = :relationArgumentId " +
             "OR r.rightArgument = :relationArgumentId) " +
             "AND rt.forwardName = :relationType"),
     @NamedQuery(name = "findRelations", query =
             "SELECT r FROM Relation r " +
-            "JOIN r.type rt " +
+            "JOIN r.relationType rt " +
             "WHERE (r.leftArgument = :leftRelationArgumentId " +
             "OR r.rightArgument = :rightRelationArgumentId) " +
             "AND rt.forwardName = :relationType"),
     @NamedQuery(name = "findRelationsByRelationType", query =
             "SELECT r FROM Relation r " +
-            "JOIN r.type rt " +
+            "JOIN r.relationType rt " +
             "WHERE rt.forwardName = :relationType"),
     @NamedQuery(name = "findRelationsByRelationArgumentRightArgument", query =
             "SELECT r FROM Relation r " +
@@ -108,7 +108,7 @@ public class Relation implements Serializable {
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     //@JoinColumn(name="Id")
-    private RelationType type;
+    private RelationType relationType;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     //@JoinColumn(name = "RelationArgumentId")
@@ -124,14 +124,14 @@ public class Relation implements Serializable {
     private List<RelationSet_Relation> relationSet;
 
     @Column(name = "LinguisticallySupported")
-    @NotNull(message = "Linguistic support must be specified.")
+    //@NotNull(message = "Linguistic support must be specified.")
     @Enumerated(EnumType.STRING)
     private LinguisticallySupported linguisticallySupported;
 
     public Relation() {
         leftArgument = new RelationArgument();
         rightArgument = new RelationArgument();
-        type = new RelationType();
+        relationType = new RelationType();
     }
 
     public Long getId() {
@@ -174,23 +174,23 @@ public class Relation implements Serializable {
     }
 
     /**
-     * @return the type of the relation.
+     * @return the relationType of the relation.
      */
-    public RelationType getType() {
-        return type;
+    public RelationType getRelationType() {
+        return relationType;
     }
 
     /**
-     * Sets the type of the Relation but it doesn't check if there is the same
-     * type twice.
+     * Sets the relationType of the Relation but it doesn't check if there is the same
+ relationType twice.
      *
-     * @param type the type of relation
+     * @param type the relationType of relation
      */
-    public void setTypeSimple(RelationType type) {
-        this.type = type;
+    public void setRelationTypeSimple(RelationType type) {
+        this.relationType = type;
     }
 
-    public void setType(RelationType type) {
+    public void setRelationType(RelationType type) {
         if (type.getId() == null) {
             RelationTypeDao tmp = new RelationTypeDaoImpl();
             RelationType res = tmp.getEntity(type);
@@ -198,7 +198,7 @@ public class Relation implements Serializable {
                 type = res;
             }
         }
-        this.type = type;
+        this.relationType = type;
     }
 
     public String getComment() {
@@ -224,12 +224,12 @@ public class Relation implements Serializable {
         }
         Relation other = (Relation)rightArgument;
         try {
-            if ((this.type != null && this.rightArgument != null &&
-                    this.leftArgument != null && this.type.equals(other.type) &&
+            if ((this.relationType != null && this.rightArgument != null &&
+                    this.leftArgument != null && this.relationType.equals(other.relationType) &&
                     this.rightArgument.equals(other.rightArgument) &&
                     this.leftArgument.equals(other.leftArgument)) ||
-                    (this.type != null && this.rightArgument != null &&
-                    this.leftArgument != null && this.type.equals(other.type) &&
+                    (this.relationType != null && this.rightArgument != null &&
+                    this.leftArgument != null && this.relationType.equals(other.relationType) &&
                     this.rightArgument.equals(other.leftArgument) &&
                     this.leftArgument.equals(other.rightArgument))) {
                 return true;
@@ -244,7 +244,7 @@ public class Relation implements Serializable {
 
     @Override
     public String toString() {
-        return this.getLeftArgument() + " " + this.getType().getForwardName() +
+        return this.getLeftArgument() + " " + this.getRelationType().getForwardName() +
                 " " + this.getRightArgument();
     }
 
@@ -252,7 +252,7 @@ public class Relation implements Serializable {
         if (Globals.ToMergeAfterUnMarshalling) {
             RelationDao rDao = new RelationDaoImpl();
             Relation tmpRelation = rDao.getRelation(this.leftArgument,
-                    this.rightArgument, this.type);
+                    this.rightArgument, this.relationType);
             if (tmpRelation == null) {
                 rDao.merge(this);
             }
