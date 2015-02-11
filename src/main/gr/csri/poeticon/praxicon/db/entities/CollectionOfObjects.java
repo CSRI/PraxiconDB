@@ -20,6 +20,9 @@ public class CollectionOfObjects {
     @XmlElement(name = "concepts")
     List<Concepts> concepts = new ArrayList<>();
 
+    @XmlElement(name = "relations")
+    List<Relations> relations = new ArrayList<>();
+
     @XmlElement(name = "relationSets")
     List<RelationSets> relationSets = new ArrayList<>();
 
@@ -31,9 +34,12 @@ public class CollectionOfObjects {
         this.concepts = concepts;
     }
 
-    public CollectionOfObjects() {
-        concepts = new ArrayList<>();
-        relationSets = new ArrayList<>();
+    public List<Relations> getRelations() {
+        return relations;
+    }
+
+    public void setRelations(List<Relations> relations) {
+        this.relations = relations;
     }
 
     public List<RelationSets> getRelationSets() {
@@ -44,6 +50,12 @@ public class CollectionOfObjects {
         this.relationSets = relationSets;
     }
 
+    public CollectionOfObjects() {
+        concepts = new ArrayList<>();
+        relations = new ArrayList<>();
+        relationSets = new ArrayList<>();
+    }
+
     /**
      * Stores all concepts of the collection in the database updating
      * same name entries
@@ -51,6 +63,9 @@ public class CollectionOfObjects {
     public void storeCollectionOfObjects() {
         for (Concepts conceptList : concepts) {
             conceptList.storeConcepts();
+        }
+        for (Relations relationList : relations) {
+            relationList.storeRelations();
         }
         for (RelationSets relationSetList : relationSets) {
             relationSetList.storeRelationSets();
