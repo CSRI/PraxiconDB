@@ -30,6 +30,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -75,8 +76,7 @@ import javax.xml.bind.annotation.XmlType;
             "AND c.conceptType = :type " +
             "AND c.pragmaticStatus = :pragmaticStatus"),})
 @Table(name = "Concepts", indexes = {
-    @Index(columnList = "ExternalSourceId"),
-})
+    @Index(columnList = "ExternalSourceId"),})
 //@ConceptConstraint(groups=ConceptGroup.class)
 public class Concept implements Serializable {
 
@@ -153,6 +153,8 @@ public class Concept implements Serializable {
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "ConceptId")
+    @XmlTransient
+//    @XmlAttribute
     private Long id;
 
     @Column(name = "ExternalSourceId")
@@ -241,21 +243,20 @@ public class Concept implements Serializable {
             }
         }
 
-        for (int i = 0; i < newConcept.getVisualRepresentationsEntries().size();
-                i++) {
-            if (!this.getVisualRepresentationsEntries().contains(newConcept.
-                    getVisualRepresentationsEntries().get(i))) {
-                this.getVisualRepresentationsEntries().add(newConcept.
-                        getVisualRepresentationsEntries().get(i));
+        for (VisualRepresentation tmpVisualRepresentation : newConcept.
+                getVisualRepresentationsEntries()) {
+            if (!this.getVisualRepresentationsEntries().contains(
+                    tmpVisualRepresentation)) {
+                this.getVisualRepresentationsEntries().add(
+                        tmpVisualRepresentation);
             }
         }
 
-        for (int i = 0; i < newConcept.getMotoricRepresentations().size();
-                i++) {
-            if (!this.getMotoricRepresentations().contains(newConcept.
-                    getMotoricRepresentations().get(i))) {
-                this.getMotoricRepresentations().add(newConcept.
-                        getMotoricRepresentations().get(i));
+        for (MotoricRepresentation tmpMotoricRepresentation : newConcept.
+                getMotoricRepresentations()) {
+            if (!this.getMotoricRepresentations().contains(
+                    tmpMotoricRepresentation)) {
+                this.getMotoricRepresentations().add(tmpMotoricRepresentation);
             }
         }
     }
@@ -656,7 +657,7 @@ public class Concept implements Serializable {
      *
      * @return visual representations construct
      */
-        public List<VisualRepresentation> getVisualRepresentations() {
+    public List<VisualRepresentation> getVisualRepresentations() {
         return visualRepresentations;
     }
 
@@ -875,7 +876,7 @@ public class Concept implements Serializable {
                 updateMotoricRepresentations(tmp);
             }
         }
-        System.err.
+        System.out.
                 println("Finish unmarshalling: " + this.getExternalSourceId());
     }
 }
