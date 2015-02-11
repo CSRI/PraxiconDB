@@ -4,7 +4,10 @@
  */
 package gr.csri.poeticon.praxicon.db.entities;
 
+import gr.csri.poeticon.praxicon.Globals;
+import gr.csri.poeticon.praxicon.db.dao.RelationDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationTypeDao;
+import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationTypeDaoImpl;
 import java.io.Serializable;
 import java.util.List;
@@ -24,8 +27,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
@@ -36,6 +41,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "relation", namespace = "http://www.csri.gr/relation")
+@XmlRootElement(name = "relation", namespace = "http://www.csri.gr/relation")
 @Entity
 @NamedQueries({
     @NamedQuery(name =
@@ -49,6 +55,12 @@ import javax.xml.bind.annotation.XmlType;
             "JOIN r.type rt " +
             "WHERE (r.leftArgument = :relationArgumentId " +
             "OR r.rightArgument = :relationArgumentId) " +
+            "AND rt.forwardName = :relationType"),
+    @NamedQuery(name = "findRelations", query =
+            "SELECT r FROM Relation r " +
+            "JOIN r.type rt " +
+            "WHERE (r.leftArgument = :leftRelationArgumentId " +
+            "OR r.rightArgument = :rightRelationArgumentId) " +
             "AND rt.forwardName = :relationType"),
     @NamedQuery(name = "findRelationsByRelationType", query =
             "SELECT r FROM Relation r " +
@@ -87,6 +99,8 @@ public class Relation implements Serializable {
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "RelationId")
+//    @XmlAttribute
+    @XmlTransient
     private Long id;
 
     @Column(name = "Comment")
@@ -234,16 +248,14 @@ public class Relation implements Serializable {
                 " " + this.getRightArgument();
     }
 
-//    public void afterUnmarshal(Unmarshaller u, Object parent) 
-//    {
-//        if (Globals.ToMergeAfterUnMarshalling)
-//        {
-//            RelationTypeDao rDao = new RelationTypeDaoImpl();
-//            this.Type = rDao.getEntity(Type);
-//            ConceptDao cDao = new ConceptDaoImpl();
-//            this.Object = cDao.getEntity(Object);
-//            Object.getRelationsContainingConceptAsObject().add(this);
-//            this.LeftArgument = cDao.getEntity(LeftArgument);
-//        }
-//    }
+    public void afterUnmarshal(Unmarshaller u, Object parent) {
+        if (Globals.ToMergeAfterUnMarshalling) {
+            RelationDao rDao = new RelationDaoImpl();
+            Relation tmpRelation = rDao.getRelation(this.leftArgument,
+                    this.rightArgument, this.type);
+            if (tmpRelation == null) {
+                rDao.merge(this);
+            }
+        }
+    }
 }
