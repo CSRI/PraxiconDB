@@ -182,7 +182,7 @@ public class Relation implements Serializable {
 
     /**
      * Sets the relationType of the Relation but it doesn't check if there is the same
- relationType twice.
+     * relationType twice.
      *
      * @param type the relationType of relation
      */
@@ -212,7 +212,11 @@ public class Relation implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        if (id != null) {
+            hash += id.hashCode();
+        } else {
+            hash = 0;
+        }
         return hash;
     }
 
@@ -225,11 +229,13 @@ public class Relation implements Serializable {
         Relation other = (Relation)rightArgument;
         try {
             if ((this.relationType != null && this.rightArgument != null &&
-                    this.leftArgument != null && this.relationType.equals(other.relationType) &&
+                    this.leftArgument != null && this.relationType.equals(
+                            other.relationType) &&
                     this.rightArgument.equals(other.rightArgument) &&
                     this.leftArgument.equals(other.leftArgument)) ||
                     (this.relationType != null && this.rightArgument != null &&
-                    this.leftArgument != null && this.relationType.equals(other.relationType) &&
+                    this.leftArgument != null && this.relationType.equals(
+                            other.relationType) &&
                     this.rightArgument.equals(other.leftArgument) &&
                     this.leftArgument.equals(other.rightArgument))) {
                 return true;
@@ -244,7 +250,8 @@ public class Relation implements Serializable {
 
     @Override
     public String toString() {
-        return this.getLeftArgument() + " " + this.getRelationType().getForwardName() +
+        return this.getLeftArgument() + " " + this.getRelationType().
+                getForwardName() +
                 " " + this.getRightArgument();
     }
 

@@ -152,6 +152,8 @@ public class LanguageRepresentation implements Serializable {
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "LanguageRepresentationId")
+//    @XmlAttribute
+    @XmlTransient
     private Long id;
 
     @Column(name = "Language")
@@ -329,7 +331,11 @@ public class LanguageRepresentation implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        if (id != null) {
+            hash += id.hashCode();
+        } else {
+            hash = 0;
+        }
         return hash;
     }
 

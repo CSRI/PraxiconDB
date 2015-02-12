@@ -5,6 +5,9 @@
  */
 package gr.csri.poeticon.praxicon.db.entities;
 
+import gr.csri.poeticon.praxicon.Globals;
+import gr.csri.poeticon.praxicon.db.dao.RelationSetDao;
+import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationSetDaoImpl;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,8 +28,10 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -71,6 +76,8 @@ public class RelationSet implements Serializable {
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "RelationSetId")
+//    @XmlAttribute
+    @XmlTransient
     private Long id;
 
     @Column(name = "Name")
@@ -287,7 +294,11 @@ public class RelationSet implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        if (id != null) {
+            hash += id.hashCode();
+        } else {
+            hash = 0;
+        }
         return hash;
     }
 
@@ -308,6 +319,14 @@ public class RelationSet implements Serializable {
     public String toString() {
         return "gr.csri.poeticon.praxicon.db.entities.RelationSet[ id=" + id +
                 " ]";
+    }
+
+    public void afterUnmarshal(Unmarshaller u, Object parent) {
+        if (Globals.ToMergeAfterUnMarshalling) {
+            RelationSetDao rsDao = new RelationSetDaoImpl();
+            rsDao.merge(this);
+        }
+
     }
 
     //@XmlRegistry

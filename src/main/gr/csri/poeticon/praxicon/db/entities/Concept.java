@@ -803,7 +803,11 @@ public class Concept implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        if (id != null) {
+            hash += id.hashCode();
+        } else {
+            hash = 0;
+        }
         return hash;
     }
 

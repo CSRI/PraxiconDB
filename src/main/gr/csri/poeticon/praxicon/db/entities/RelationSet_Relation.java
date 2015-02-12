@@ -32,6 +32,8 @@ public class RelationSet_Relation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "RelationSet_RelationId")
+//    @XmlAttribute
+    @XmlTransient
     private Long id;
 
     @XmlTransient
@@ -75,7 +77,11 @@ public class RelationSet_Relation implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        if (id != null) {
+            hash += id.hashCode();
+        } else {
+            hash = 0;
+        }
         return hash;
     }
 

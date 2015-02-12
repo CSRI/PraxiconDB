@@ -20,6 +20,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -36,8 +37,7 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name = "findRelationArgumentByConcept", query =
             "SELECT ra FROM RelationArgument ra " +
             "JOIN ra.concept rac " +
-            "WHERE rac.id = :conceptId"),
- })
+            "WHERE rac.id = :conceptId"),})
 @Table(name = "RelationArguments", indexes = {
     @Index(columnList = "RelationArgumentId")})
 public class RelationArgument implements Serializable {
@@ -47,6 +47,8 @@ public class RelationArgument implements Serializable {
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "RelationArgumentId")
+//    @XmlAttribute
+    @XmlTransient    
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -129,7 +131,7 @@ public class RelationArgument implements Serializable {
     /**
      * Gets the RelationSet of this RelationArgument.
      *
-     * @return the RelationSet connected with this RelationArgument 
+     * @return the RelationSet connected with this RelationArgument
      *         (can be null)
      */
     public RelationSet getRelationSet() {
@@ -189,7 +191,11 @@ public class RelationArgument implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        if (id != null) {
+            hash += id.hashCode();
+        } else {
+            hash = 0;
+        }
         return hash;
     }
 

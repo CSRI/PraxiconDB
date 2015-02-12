@@ -33,9 +33,8 @@ import javax.xml.bind.annotation.XmlType;
         namespace = "http://www.csri.gr/visual_representation")
 @Entity
 @Table(name = "VisualRepresentations", indexes = {
-    @Index(columnList = "Name"),
-    //@Index(columnList = "Uri"),
-    @Index(columnList = "VisualRepresentationId")})
+    @Index(columnList = "Name"), //@Index(columnList = "Uri"),
+})
 public class VisualRepresentation implements Serializable {
 
     public static enum MediaType {
@@ -53,6 +52,8 @@ public class VisualRepresentation implements Serializable {
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @Column(name = "VisualRepresentationId")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
+//    @XmlAttribute
+    @XmlTransient
     private Long id;
 
     @Column(name = "MediaType")
@@ -187,7 +188,11 @@ public class VisualRepresentation implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        if (id != null) {
+            hash += id.hashCode();
+        } else {
+            hash = 0;
+        }
         return hash;
     }
 
