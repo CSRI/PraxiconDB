@@ -121,13 +121,13 @@ public class Constants {
         System.out.println(dbPass);
         tmpPath = props.getProperty("path.tmp");
         imagePath = props.getProperty("path.images");
-        imagePathLabelMe = props.getProperty("path.LabelMe");
-        imagePathImageNet = props.getProperty("path.ImageNet");
+        imagePathLabelMe = props.getProperty("path.labelMe");
+        imagePathImageNet = props.getProperty("path.imageNet");
         videoPath = props.getProperty("path.videos");
         soundPath = props.getProperty("path.sounds");
-        LabelMeURL = props.getProperty("url.LabelMe");
-        LabelMeImagesURL = props.getProperty("url.LabelMeImages");
-        ImageNetURL = props.getProperty("url.ImageNet");
+        LabelMeURL = props.getProperty("url.labelMe");
+        LabelMeImagesURL = props.getProperty("url.labelMeImages");
+        ImageNetURL = props.getProperty("url.imageNet");
         
         weightForVariableSolver = Double.parseDouble(props.getProperty(
                 "const.variableSolverWeight"));
