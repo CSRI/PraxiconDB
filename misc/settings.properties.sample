@@ -12,6 +12,8 @@ db.password=
 
 
 # Some paths
+# A temporary path to mainly store XML files
+path.tmp=
 # Images reside here
 path.images=
 # ImageNet images reside here
