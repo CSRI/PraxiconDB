@@ -63,7 +63,7 @@ public class TestJPA {
         
         Concept concept1 = new Concept();
         concept1.setExternalSourceId("concept1");
-        concept1.setConceptType(Concept.Type.ENTITY);
+        concept1.setConceptType(Concept.ConceptType.ENTITY);
         concept1.setPragmaticStatus(Concept.PragmaticStatus.CONCRETE);
         concept1.setStatus(Concept.Status.CONSTANT);
         concept1.setUniqueInstance(Concept.UniqueInstance.YES);
@@ -75,7 +75,7 @@ public class TestJPA {
          */
         Concept concept2 = new Concept();
         concept2.setExternalSourceId("concept2");
-        concept2.setConceptType(Concept.Type.MOVEMENT);
+        concept2.setConceptType(Concept.ConceptType.MOVEMENT);
         concept1.setPragmaticStatus(Concept.PragmaticStatus.CONCRETE);
         concept2.setStatus(Concept.Status.VARIABLE);
         concept2.setUniqueInstance(Concept.UniqueInstance.NO);
@@ -162,7 +162,7 @@ public class TestJPA {
                 setForwardName(RelationType.RelationNameForward.HAS_PART);
         relationType1.setBackwardName(
                 RelationType.RelationNameBackward.PART_OF);
-        relation1.setType(relationType1);
+        relation1.setRelationType(relationType1);
         
         RelationArgument relationArgument1 = new RelationArgument(concept1);
         RelationArgument relationArgument2 = new RelationArgument(concept2);
@@ -180,7 +180,7 @@ public class TestJPA {
                 RelationType.RelationNameForward.HAS_INSTANCE);
         relationType2.setBackwardName(
                 RelationType.RelationNameBackward.INSTANCE_OF);
-        relation2.setType(relationType2);
+        relation2.setRelationType(relationType2);
         
         relation2.setLeftArgument(relationArgument2);
         relation2.setRightArgument(relationArgument1);
