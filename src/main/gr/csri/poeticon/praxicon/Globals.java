@@ -22,5 +22,5 @@ public class Globals {
      * Flag to mark if the objects that have been loaded from an xml are going
      * to be added in the database or they will be used just for browsing
      */
-    public static boolean ToMergeAfterUnMarshalling = true;
+    public static boolean ToMergeAfterUnMarshalling = false;
 }
