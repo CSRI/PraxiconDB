@@ -138,10 +138,10 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
                 r.setLeftArgument(relationArgument);
                 RelationType tmpType = new RelationType();
                 RelationType.RelationNameBackward tmp =
-                        r.getType().getBackwardName();
-                tmpType.setForwardName(r.getType().getForwardName());
+                        r.getRelationType().getBackwardName();
+                tmpType.setForwardName(r.getRelationType().getForwardName());
                 tmpType.setBackwardName(tmp);
-                r.setType(tmpType);
+                r.setRelationType(tmpType);
             }
             RelationSet rs = new RelationSet();
             rs.addRelation(r);
@@ -253,7 +253,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         Relation oldRelation = new Relation();
         try {
             oldRelation = this.getRelation(newRelation.getLeftArgument(),
-                    newRelation.getRightArgument(), newRelation.getType());
+                    newRelation.getRightArgument(), newRelation.
+                    getRelationType());
         } catch (Exception e) {
             return newRelation;
         } finally {

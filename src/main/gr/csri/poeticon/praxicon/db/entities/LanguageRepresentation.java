@@ -19,7 +19,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -73,9 +72,10 @@ import javax.xml.bind.annotation.XmlType;
             "WHERE UPPER(lr.text) = :text"),
     @NamedQuery(name = "getAllLanguageRepresentationTextByText", query =
             "SELECT DISTINCT lr.text FROM LanguageRepresentation lr"),})
-@Table(name = "LanguageRepresentations", indexes = {
-    @Index(columnList = "Text"),
-    @Index(columnList = "LanguageRepresentationId")})
+@Table(name = "LanguageRepresentations")
+//, indexes = {
+//    @Index(columnList = "Text"),
+//    @Index(columnList = "LanguageRepresentationId")})
 public class LanguageRepresentation implements Serializable {
 
     private static final long serialVersionUID = 1L;

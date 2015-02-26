@@ -12,7 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
@@ -30,9 +29,10 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "concept_languagerepresentation", namespace =
         "http://www.csri.gr/concept_languagerepresentation")
 @Entity
-@Table(name = "Concepts_LanguageRepresentations", indexes = {
-    @Index(columnList = "Concept_LanguageRepresentationId")
-})
+@Table(name = "Concepts_LanguageRepresentations")
+//, indexes = {
+//    @Index(columnList = "Concept_LanguageRepresentationId")
+//})
 
 public class Concept_LanguageRepresentation implements Serializable {
 

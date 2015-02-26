@@ -15,7 +15,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -39,8 +38,9 @@ import javax.xml.bind.annotation.XmlType;
             "SELECT e FROM RelationType e " +
             "WHERE e.forwardName = :forwardName " +
             "AND e.backwardName = :backwardName"),})
-@Table(name = "RelationTypes", indexes = {
-    @Index(columnList = "RelationTypeId")})
+@Table(name = "RelationTypes")
+//, indexes = {
+//    @Index(columnList = "RelationTypeId")})
 public class RelationType implements Serializable {
 
     public static enum RelationNameForward {

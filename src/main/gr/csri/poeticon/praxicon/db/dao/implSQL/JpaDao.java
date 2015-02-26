@@ -71,7 +71,7 @@ public abstract class JpaDao<K, E> implements Dao<K, E> {
         if (!entityManager.getTransaction().isActive()) {
             entityManager.getTransaction().begin();
         }
-        try {//entityManager.flush();
+        try {
             entityManager.merge(entity);
             entityManager.flush();
             entityManager.getTransaction().commit();
@@ -106,7 +106,7 @@ public abstract class JpaDao<K, E> implements Dao<K, E> {
         name = name.substring(name.lastIndexOf('.') + 1);
         name = name.toUpperCase();
         Query q = getEntityManager().createNativeQuery("ALTER TABLE MVCG_" +
-                 name + " AUTO_INCREMENT = 1");
+                name + " AUTO_INCREMENT = 1");
         q.executeUpdate();
     }
 
@@ -114,7 +114,7 @@ public abstract class JpaDao<K, E> implements Dao<K, E> {
     @Override
     public List<E> findAll() {
         Query q = getEntityManager().createQuery("SELECT h FROM " +
-                 entityClass.getName().substring(entityClass.getName().
+                entityClass.getName().substring(entityClass.getName().
                         lastIndexOf('.') + 1) + " h order by h.id");
         return q.getResultList();
     }
@@ -141,7 +141,7 @@ public abstract class JpaDao<K, E> implements Dao<K, E> {
     @Override
     public void removeAll() {
         Query q = getEntityManager().createQuery("DELETE FROM " +
-                 entityClass.getName().substring(entityClass.getName().
+                entityClass.getName().substring(entityClass.getName().
                         lastIndexOf('.') + 1) + " h");
         q.executeUpdate();
     }

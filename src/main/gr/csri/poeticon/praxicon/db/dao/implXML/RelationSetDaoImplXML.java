@@ -30,25 +30,25 @@ public class RelationSetDaoImplXML extends JpaDao<Long, RelationSet>
     }
     
     
-//    @Override
-//    public List<RelationChain> getRelationChainsContainingConcept(Concept c)
+////    @Override
+//    public List<RelationSet> getRelationSetsContainingConcept(Concept c)
 //    {
-//        List<RelationChain> res = new ArrayList<>();
+//        List<RelationSet> res = new ArrayList<>();
 //
 //        Enumeration en = Constants.globalConcepts.elements();
 //        while(en.hasMoreElements())
 //        {
-//            Concept con = (Concept)en.nextElement();
-//            for (int i =0; i < con.getRelations().size(); i++)
+//            Concept concept = (Concept)en.nextElement();
+//            for (int i =0; i < concept.getRelations().size(); i++)
 //            {
-//                for (int j = 0; j < con.getRelations().size(); j++)
+//                for (int j = 0; j < concept.getRelations().size(); j++)
 //                {
-//                    for (int k = 0; k < con.getRelations().size(); k++)
+//                    for (int k = 0; k < concept.getRelations().size(); k++)
 //                    {
-//                        List<Relation> rc = con.getRelations().get(k).getActualRelations();
+//                        List<Relation> rc = concept.getRelations().get(k).getActualRelations();
 //                        for (Relation rc1 : rc) {
 //                            if (rc1.getLeftArgument().getName().equalsIgnoreCase(c.getName()) || rc1.getObject().getName().equalsIgnoreCase(c.getName())) {
-//                                res.add(con.getRelations().get(i).getIntersections().get(j).getRelations().get(k));
+//                                res.add(concept.getRelations().get(i).getIntersections().get(j).getRelations().get(k));
 //                                break;
 //                            }
 //                        }

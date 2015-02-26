@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -36,8 +35,9 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name = "getMotoricRepresentationEntityQuery", query =
             "FROM MotoricRepresentation mr " +
             "WHERE UPPER(mr.comment) = :comment"),})
-@Table(name = "MotoricRepresentations", indexes = {
-    @Index(columnList = "MotoricRepresentationId")})
+@Table(name = "MotoricRepresentations")
+//, indexes = {
+//    @Index(columnList = "MotoricRepresentationId")})
 public class MotoricRepresentation implements Serializable {
 
     public static enum PerformingAgent {

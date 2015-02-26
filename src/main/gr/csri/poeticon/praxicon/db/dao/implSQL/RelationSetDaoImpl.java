@@ -53,17 +53,28 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
     }
 
     @Override
-    public RelationSet updatedRelationSet(RelationSet relationSet) {
+    public RelationSet updatedRelationSet(RelationSet newRelationSet) {
+        // We try to find if the relation set exists in the database.
+        // Will recursively try to get the members of the relation set
+        // and check if they are the same. If one fails, it will 
+        // return the new relation set, otherwise, will not merge
+        // the new relation set.
+        //EntityManager em = this.entityManager;
         
         
         
-        return null;
-
+//        this.entityManager.getTransaction().begin();
+//        this.entityManager.merge(newRelationSet);
+//        this.entityManager.getTransaction().commit();
+//        this.entityManager.flush();
+        
+        
+        //TODO: May need a RelationSet comparison method.
+        return newRelationSet;
     }
 
-    //TODO: Convert it to Named query asap.
     /**
-     * Creates q query to search for a RelationSet using relations.
+     * Creates a query to search for a RelationSet using relations.
      *
      * @param relationSet the RelationSet to be searched
      * @return a query to search for the RelationSet

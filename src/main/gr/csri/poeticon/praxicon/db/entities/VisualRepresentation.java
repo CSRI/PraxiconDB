@@ -13,7 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -32,9 +31,16 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "visual_representation",
         namespace = "http://www.csri.gr/visual_representation")
 @Entity
-@Table(name = "VisualRepresentations", indexes = {
-    @Index(columnList = "Name"), //@Index(columnList = "Uri"),
-})
+@Table(name = "VisualRepresentations")
+//, Indexes = {@Index(columnList = "Name")})
+
+
+        
+//        
+//        , indexes = {
+//    @Index(columnList = "Name")
+//})
+
 public class VisualRepresentation implements Serializable {
 
     public static enum MediaType {
@@ -60,7 +66,7 @@ public class VisualRepresentation implements Serializable {
     @NotNull(message = "Media type must be specified.")
     private MediaType mediaType;
 
-    @Column(name = "Name")
+    @Column(name = "Name")    
     private String name;
 
     @XmlTransient

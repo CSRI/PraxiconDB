@@ -39,13 +39,14 @@ public class Concepts {
      * same name entries
      */
     public void storeConcepts() {
-        for (Concept concept : concepts) {
-            ConceptDao cDao = new ConceptDaoImpl();
-            concept = cDao.updatedConcept(concept);
-
-            System.out.println("External source Id: " + 
-                    concept.getExternalSourceId());
-            cDao.merge(concept);
+        if (!concepts.isEmpty()) {
+            for (Concept concept : concepts) {
+                ConceptDao cDao = new ConceptDaoImpl();
+                concept = cDao.updatedConcept(concept);
+                System.out.println("External source Id: " +
+                        concept.getExternalSourceId());
+                cDao.merge(concept);
+            }
         }
     }
 

@@ -19,7 +19,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -75,15 +74,16 @@ import javax.xml.bind.annotation.XmlType;
             "AND c.externalSourceId = :externalSourceId " +
             "AND c.conceptType = :type " +
             "AND c.pragmaticStatus = :pragmaticStatus"),})
-@Table(name = "Concepts", indexes = {
-    @Index(columnList = "ExternalSourceId"),})
+@Table(name = "Concepts")
+//        , indexes = {
+//    @Index(columnList = "ExternalSourceId"),})
 //@ConceptConstraint(groups=ConceptGroup.class)
 public class Concept implements Serializable {
 
     /**
-     * Enumeration for the concept Type.
+     * Enumeration for the concept type of a concept.
      */
-    public static enum Type {
+    public static enum ConceptType {
 
         ENTITY, FEATURE, MOVEMENT, UNKNOWN;
 
@@ -107,7 +107,7 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Enumeration for the Type of concept Status.
+     * Enumeration for the concept type of a concept.
      *
      */
     public static enum Status {
@@ -121,7 +121,7 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Enumeration for the Type of concept Pragmatic Status.
+     * Enumeration for the pragmatic status of a concept.
      *
      */
     public static enum PragmaticStatus {
@@ -135,7 +135,7 @@ public class Concept implements Serializable {
     }
 
     /**
-     * A YES/NO/UNKNOWN enumeration for the unique instance.
+     * Enumeration for the unique instance of a concept.
      */
     public static enum UniqueInstance {
 
@@ -157,32 +157,32 @@ public class Concept implements Serializable {
 //    @XmlAttribute
     private Long id;
 
-    @Column(name = "ExternalSourceId")
+    @Column(name = "ExternalSourceId", nullable = false)
     //@Size(min = 5, max = 14)
-    //@NotNull(message = "Concept externalSourceId must be specified.")
+    @NotNull(message = "Concept externalSourceId must be specified.")
     private String externalSourceId;
 
-    @Column(name = "Type")
+    @Column(name = "Type", nullable = false)
     @NotNull(message = "Concept type must be specified.")
     @Enumerated(EnumType.STRING)
-    private Type conceptType;
+    private ConceptType conceptType;
 
-    @Column(name = "SpecificityLevel")
+    @Column(name = "SpecificityLevel", nullable = false)
     @NotNull(message = "Specificity level must be specified.")
     @Enumerated(EnumType.STRING)
     private SpecificityLevel specificityLevel;
 
-    @Column(name = "Status")
+    @Column(name = "Status", nullable = false)
     @NotNull(message = "Concept status must be specified.")
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Column(name = "PragmaticStatus")
+    @Column(name = "PragmaticStatus", nullable = false)
     @NotNull(message = "Concept pragmatic status must be specified")
     @Enumerated(EnumType.STRING)
     private PragmaticStatus pragmaticStatus;
 
-    @Column(name = "UniqueInstance")
+    @Column(name = "UniqueInstance", nullable = false)
     @NotNull(message = "Concept unique instance must be specified.")
     @Enumerated(EnumType.STRING)
     private UniqueInstance uniqueInstance;
@@ -196,7 +196,7 @@ public class Concept implements Serializable {
     @Column(name = "Comment")
     private String comment;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept") //, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
     private List<Concept_LanguageRepresentation> languageRepresentations;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
@@ -209,10 +209,13 @@ public class Concept implements Serializable {
      * Public Constructor.
      */
     public Concept() {
-        externalSourceId = null;
+        externalSourceId = "";
         comment = "";
+        conceptType = Concept.ConceptType.UNKNOWN;
         specificityLevel = Concept.SpecificityLevel.UNKNOWN;
         pragmaticStatus = Concept.PragmaticStatus.UNKNOWN;
+        status = Concept.Status.CONSTANT;
+        uniqueInstance = Concept.UniqueInstance.UNKNOWN;
         languageRepresentations = new ArrayList<>();
         visualRepresentations = new ArrayList<>();
         motoricRepresentations = new ArrayList<>();
@@ -223,12 +226,16 @@ public class Concept implements Serializable {
      *
      * @param newConcept
      */
-    private Concept(Concept newConcept) {
+    public Concept(Concept newConcept) {
+        this.comment = newConcept.getComment();
         this.externalSourceId = newConcept.externalSourceId;
         this.conceptType = newConcept.getConceptType();
+        this.ontologicalDomain = newConcept.getOntologicalDomain();
+        this.pragmaticStatus = newConcept.getPragmaticStatus();
+        this.source = newConcept.getSource();
         this.specificityLevel = newConcept.getSpecificityLevel();
         this.status = newConcept.getStatus();
-        this.pragmaticStatus = newConcept.getPragmaticStatus();
+        this.uniqueInstance = newConcept.getUniqueInstance();
         languageRepresentations = new ArrayList<>();
         visualRepresentations = new ArrayList<>();
         motoricRepresentations = new ArrayList<>();
@@ -305,9 +312,9 @@ public class Concept implements Serializable {
     /**
      * Gets the type of the concept.
      *
-     * @return Type - The Type of the concept.
+     * @return ConceptType - The ConceptType of the concept.
      */
-    public Type getConceptType() {
+    public ConceptType getConceptType() {
         return conceptType;
     }
 
@@ -315,9 +322,9 @@ public class Concept implements Serializable {
      * Sets the type of the concept. Permitted values:
      * ABSTRACT, ENTITY, FEATURE, MOVEMENT, UNKNOWN;
      *
-     * @param conceptType - Type
+     * @param conceptType - ConceptType
      */
-    public void setConceptType(Type conceptType) {
+    public void setConceptType(ConceptType conceptType) {
         this.conceptType = conceptType;
     }
 
@@ -327,7 +334,7 @@ public class Concept implements Serializable {
      * @param conceptType - String
      */
     public void setConceptType(String conceptType) {
-        this.conceptType = Type.valueOf(conceptType.trim().toUpperCase());
+        this.conceptType = ConceptType.valueOf(conceptType.trim().toUpperCase());
     }
 
     /**
@@ -770,7 +777,7 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Gets a string of concatenated full info for this concept. concept Type,
+     * Gets a string of concatenated full info for this concept. concept ConceptType,
      * Status, pragmatic Status, specificity level, description
      *
      * @return a string of information for this concept
@@ -787,7 +794,7 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Gets a string of concatenated short info for the concept. concept Type
+     * Gets a string of concatenated short info for the concept. concept ConceptType
      * and specificity level
      *
      * @return a string of short information for this concept
@@ -809,21 +816,6 @@ public class Concept implements Serializable {
             hash = 0;
         }
         return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - method won't work in case the id fields are not set
-        if (!(object instanceof Concept)) {
-            return false;
-        }
-        Concept other = (Concept)object;
-        if (this.externalSourceId != null && other.externalSourceId != null &&
-                this.externalSourceId.equalsIgnoreCase(other.externalSourceId)) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     @Override
@@ -853,23 +845,25 @@ public class Concept implements Serializable {
     public void afterUnmarshal(Unmarshaller u, Object parent) {
 
         if (Globals.ToMergeAfterUnMarshalling) {
+//            System.out.println("\n\n\nMerge after unmarshall TRUE\n\n\n");
             ConceptDao cDao = new ConceptDaoImpl();
             Concept tmp = cDao.getConceptWithExternalSourceIdOrId(this.
                     getExternalSourceId());
             if (tmp == null) {
                 if (this.conceptType == null) {
-                    this.conceptType = Type.UNKNOWN;
+                    this.conceptType = ConceptType.UNKNOWN;
                 }
                 cDao.merge(this);
             } else {
                 cDao.update(this);
             }
         } else {
+//            System.out.println("\n\n\nMerge after unmarshall FALSE\n\n\n");
             Concept tmp = (Concept)Constants.globalConcepts.get(this.
                     getExternalSourceId());
             if (tmp == null) {
                 if (this.conceptType == null) {
-                    this.conceptType = Type.UNKNOWN;
+                    this.conceptType = ConceptType.UNKNOWN;
                 }
                 tmp = new Concept(this);
                 Constants.globalConcepts.put(tmp.getExternalSourceId(), tmp);
