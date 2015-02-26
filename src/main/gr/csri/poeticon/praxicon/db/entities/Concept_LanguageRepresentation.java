@@ -30,10 +30,6 @@ import javax.xml.bind.annotation.XmlType;
         "http://www.csri.gr/concept_languagerepresentation")
 @Entity
 @Table(name = "Concepts_LanguageRepresentations")
-//, indexes = {
-//    @Index(columnList = "Concept_LanguageRepresentationId")
-//})
-
 public class Concept_LanguageRepresentation implements Serializable {
 
     private static final long serialVersionUID = 1L;

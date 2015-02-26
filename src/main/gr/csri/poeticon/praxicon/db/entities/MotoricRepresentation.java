@@ -36,8 +36,6 @@ import javax.xml.bind.annotation.XmlType;
             "FROM MotoricRepresentation mr " +
             "WHERE UPPER(mr.comment) = :comment"),})
 @Table(name = "MotoricRepresentations")
-//, indexes = {
-//    @Index(columnList = "MotoricRepresentationId")})
 public class MotoricRepresentation implements Serializable {
 
     public static enum PerformingAgent {
@@ -56,7 +54,7 @@ public class MotoricRepresentation implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "MotoricRepresentationId")
 //    @XmlAttribute
-    @XmlTransient    
+    @XmlTransient
     private Long id;
 
     @Column(name = "PerformingAgent")

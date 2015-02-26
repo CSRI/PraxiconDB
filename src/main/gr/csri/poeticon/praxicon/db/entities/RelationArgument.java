@@ -38,8 +38,6 @@ import javax.xml.bind.annotation.XmlType;
             "JOIN ra.concept rac " +
             "WHERE rac.id = :conceptId"),})
 @Table(name = "RelationArguments")
-//, indexes = {
-//    @Index(columnList = "RelationArgumentId")})
 public class RelationArgument implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,7 +46,7 @@ public class RelationArgument implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "RelationArgumentId")
 //    @XmlAttribute
-    @XmlTransient    
+    @XmlTransient
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL)

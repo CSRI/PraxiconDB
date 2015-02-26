@@ -19,6 +19,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -55,10 +56,9 @@ import javax.xml.bind.annotation.XmlType;
 //            "JOIN rs.relations rsr " +
 //            "WHERE rsr.relation = :relationId"),
 })
-@Table(name = "RelationSets")
-//, indexes = {
-//    @Index(columnList = "RelationSetId"),
-//    @Index(columnList = "Name")})
+@Table(name = "RelationSets",
+        indexes = {
+            @Index(columnList = "Name")})
 public class RelationSet implements Serializable {
 
     public static enum Inherent {

@@ -39,8 +39,6 @@ import javax.xml.bind.annotation.XmlType;
             "WHERE e.forwardName = :forwardName " +
             "AND e.backwardName = :backwardName"),})
 @Table(name = "RelationTypes")
-//, indexes = {
-//    @Index(columnList = "RelationTypeId")})
 public class RelationType implements Serializable {
 
     public static enum RelationNameForward {
