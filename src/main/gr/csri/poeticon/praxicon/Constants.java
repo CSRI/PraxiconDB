@@ -27,6 +27,11 @@ public class Constants {
 
     // Path constants
     /**
+     * The temporary path
+     */
+    public static String tmpPath;
+    
+    /**
      * The path to the image resources
      */
     public static String imagePath;
@@ -85,6 +90,8 @@ public class Constants {
      * from an xml. It is used in the XML mode (where we do not have any db)
      */
     public static Hashtable globalConcepts = new Hashtable();
+    public static Hashtable globalRelations = new Hashtable();
+    public static Hashtable globalRelationSets = new Hashtable();
 
     /**
      * A global variable that contains all the concepts that have been loaded
@@ -96,7 +103,7 @@ public class Constants {
     public static void Constants() throws FileNotFoundException, IOException {
 
         Properties props = new Properties();
-        FileInputStream fis = new FileInputStream("settings.properties");
+        FileInputStream fis = new FileInputStream("misc/settings.properties");
         props.load(fis);
 
         /**
@@ -112,6 +119,7 @@ public class Constants {
         System.out.println(dbUser);
         dbPass = props.getProperty("db.password");
         System.out.println(dbPass);
+        tmpPath = props.getProperty("path.tmp");
         imagePath = props.getProperty("path.images");
         imagePathLabelMe = props.getProperty("path.LabelMe");
         imagePathImageNet = props.getProperty("path.ImageNet");
@@ -120,6 +128,7 @@ public class Constants {
         LabelMeURL = props.getProperty("url.LabelMe");
         LabelMeImagesURL = props.getProperty("url.LabelMeImages");
         ImageNetURL = props.getProperty("url.ImageNet");
+        
         weightForVariableSolver = Double.parseDouble(props.getProperty(
                 "const.variableSolverWeight"));
         System.out.println(weightForVariableSolver);
