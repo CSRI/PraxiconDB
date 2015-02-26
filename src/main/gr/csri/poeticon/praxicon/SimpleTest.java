@@ -35,22 +35,15 @@ public class SimpleTest {
 
     public static void main(String args[]) {
 
-        testConcepts();
-        testLanguageRepresentations();
-        testRelations();
-
-//        for (Relation relation : hasInstanceRelations) {
-//            //System.out.println(relation);
-//            if (relation.getLeftArgument().isConcept() && relation.
-//                    getRightArgument().isConcept()) {
-//                System.out.println(
-//                        relation.getLeftArgument().getConcept() + " " +
-//                        relation.getType().getForwardNameString() + " " +
-//                        relation.getRightArgument().getConcept());
-//            } else {
-//                System.out.println("One of the arguments is not a Concept");
-//            }
-//        }
+        /* 
+         Currently commented-out all tests. 
+         User can uncomment accordingly.
+         */
+        
+//        testConcepts();
+//        testLanguageRepresentations();
+//        testRelations();
+//        testXmlImport();
         System.exit(0);
     }
 
@@ -99,44 +92,33 @@ public class SimpleTest {
                 format("/home/dmavroeidis/Concepts_%s.xml",
                         dateFormat.format(date)));
 
-//
-//        // Get sister concepts and specificity level of the first concept
-//        // in the list of concepts that have language representation spoon.
-//        System.out.println("\n\nSister concepts of the first occurence of a " +
-//                "concept having language representation spoon: ");
-//        System.out.println("------------------------------------------------" +
-//                "-----------------------------------------");
-//        for (Concept sister : sisters) {
-//            System.out.println(sister + " - \t" + sister.getSpecificityLevel());
-//        }
-//
-//        // Get all Basic Level Concepts.
-//        System.out.println("\n\nCount All Basic Level Concepts:");
-//        System.out.println("-------------------------------------------");
-//        List<Concept> basicLevelConcepts = cDao.getAllBasicLevelConcepts();
-//        System.out.println(basicLevelConcepts.size());
-//
-//        String stringToSearch = "substance%1:03:00::";
-//        System.out.println("\n\nBasic Level of concept " + stringToSearch);
-//        System.out.println("-------------------------------------------");
-//        Concept concept = cDao.getConceptByExternalSourceIdExact(
-//                stringToSearch);
-//        long startTime = System.nanoTime();
-//        List<Concept> basicLevelOfConcept = cDao.getBasicLevelConcepts(concept);
-//        long endTime = System.nanoTime();
-//        System.out.print(
-//                "Time of getBasicLevel() for concept: " + stringToSearch + " ");
-//        System.out.print((endTime - startTime) / 1000000000);
-//        System.out.println(" seconds");
-////
-//        if (basicLevelOfConcept.isEmpty()) {
-//            System.out.println("Concept " + stringToSearch +
-//                    " doesn't have a Basic Level Concept");
-//        } else {
-//            for (Concept item : basicLevelOfConcept) {
-//                System.out.println(item);
-//            }
-//        }
+        // Get all Basic Level Concepts.
+        System.out.println("\n\nCount All Basic Level Concepts:");
+        System.out.println("-------------------------------------------");
+        List<Concept> basicLevelConcepts = cDao.getAllBasicLevelConcepts();
+        System.out.println(basicLevelConcepts.size());
+
+        String stringToSearch = "substance%1:03:00::";
+        System.out.println("\n\nBasic Level of concept " + stringToSearch);
+        System.out.println("-------------------------------------------");
+        Concept concept = cDao.getConceptByExternalSourceIdExact(
+                stringToSearch);
+        long startTime = System.nanoTime();
+        List<Concept> basicLevelOfConcept = cDao.getBasicLevelConcepts(concept);
+        long endTime = System.nanoTime();
+        System.out.print(
+                "Time of getBasicLevel() for concept: " + stringToSearch + " ");
+        System.out.print((endTime - startTime) / 1000000000);
+        System.out.println(" seconds");
+
+        if (basicLevelOfConcept.isEmpty()) {
+            System.out.println("Concept " + stringToSearch +
+                    " doesn't have a Basic Level Concept");
+        } else {
+            for (Concept item : basicLevelOfConcept) {
+                System.out.println(item);
+            }
+        }
     }
 
     public static void testLanguageRepresentations() {
@@ -209,7 +191,7 @@ public class SimpleTest {
         for (Relation relation : allRelationsOfConceptSubstance) {
             System.out.println(
                     relation.getLeftArgument().getConcept() + " " +
-                    relation.getType().getForwardNameString() + " " +
+                    relation.getRelationType().getForwardNameString() + " " +
                     relation.getRightArgument().getConcept());
         }
         System.out.println(
@@ -230,18 +212,31 @@ public class SimpleTest {
 
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         Date date = new Date();
+
+        XmlUtils.exportRelationsToXML(allRelationsOfConceptSubstance, String.
+                format("/home/dmavroeidis/Relations_%s.xml",
+                        dateFormat.format(date)));
+
         XmlUtils.exportRelationSetsToXML(relationSets, String.
                 format("/home/dmavroeidis/RelationSets_%s.xml",
                         dateFormat.format(date)));
-
         // Create a list of concepts to create XML with both concepts and
         // relation sets.
         List<Concept> conceptsForXml = new ArrayList<>();
         conceptsForXml.add(conceptShape);
         conceptsForXml.add(conceptRoundShape);
-        XmlUtils.exportAllObjectsToXML(relationSets, conceptsForXml, String.
-                format("/home/dmavroeidis/Objects_%s.xml",
+        XmlUtils.exportAllObjectsToXML(relationSets, conceptsForXml,
+                allRelationsOfConceptSubstance,
+                String.format("/home/dmavroeidis/Objects_%s.xml",
                         dateFormat.format(date)));
     }
 
+    public static void testXmlImport() {
+        XmlUtils.importConceptsFromXml("misc/test-fixtures/Concepts.xml");
+        XmlUtils.importRelationsFromXml("misc/test-fixtures/Relations.xml");
+        XmlUtils.importRelationSetsFromXml(
+                "misc/test-fixtures/RelationSets.xml");
+        XmlUtils.importObjectsFromXml("misc/test-fixtures/Objects.xml");
+
+    }
 }
