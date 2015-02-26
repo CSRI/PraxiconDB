@@ -17,9 +17,9 @@ path.tmp=
 # Images reside here
 path.images=
 # ImageNet images reside here
-path.ImageNet=
+path.imageNet=
 # LabelMe images reside here
-path.LabelMe=
+path.labelMe=
 # Videos reside here
 path.videos=
 # Sounds reside here
@@ -27,11 +27,11 @@ path.sounds=
 
 # Some URLs
 # LabelMe URL
-url.LabelMe=
+url.labelMe=
 # LabelMe images URL
-url.LabelMeImages=
+url.labelMeImages=
 # ImageNet URL
-url.ImageNet=
+url.imageNet=
 
 # Some constants
 # Weight for variable solver
