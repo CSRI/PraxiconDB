@@ -4,10 +4,7 @@
  */
 package gr.csri.poeticon.praxicon.db.entities;
 
-import gr.csri.poeticon.praxicon.Globals;
-import gr.csri.poeticon.praxicon.db.dao.RelationDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationTypeDao;
-import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationTypeDaoImpl;
 import java.io.Serializable;
 import java.util.List;
@@ -27,7 +24,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -132,6 +128,16 @@ public class Relation implements Serializable {
         leftArgument = new RelationArgument();
         rightArgument = new RelationArgument();
         relationType = new RelationType();
+        linguisticallySupported = LinguisticallySupported.UNKNOWN;
+        comment = "";
+    }
+
+    public Relation(Relation newRelation) {
+        leftArgument = newRelation.getLeftArgument();
+        rightArgument = newRelation.getRightArgument();
+        relationType = newRelation.getRelationType();
+        linguisticallySupported = newRelation.getLinguisticallySupported();
+        comment = "";
     }
 
     public Long getId() {
@@ -164,7 +170,7 @@ public class Relation implements Serializable {
     /**
      * @return whether linguistic support exists for this relation.
      */
-    public LinguisticallySupported isLinguisticallySupported() {
+    public LinguisticallySupported getLinguisticallySupported() {
         return linguisticallySupported;
     }
 
@@ -255,14 +261,14 @@ public class Relation implements Serializable {
                 " " + this.getRightArgument();
     }
 
-    public void afterUnmarshal(Unmarshaller u, Object parent) {
-        if (Globals.ToMergeAfterUnMarshalling) {
-            RelationDao rDao = new RelationDaoImpl();
-            Relation tmpRelation = rDao.getRelation(this.leftArgument,
-                    this.rightArgument, this.relationType);
-            if (tmpRelation == null) {
-                rDao.merge(this);
-            }
-        }
-    }
+//    public void afterUnmarshal(Unmarshaller u, Object parent) {
+//        if (Globals.ToMergeAfterUnMarshalling) {
+//            RelationDao rDao = new RelationDaoImpl();
+//            Relation tmpRelation = rDao.getRelation(this.leftArgument,
+//                    this.rightArgument, this.relationType);
+//            if (tmpRelation == null) {
+//                rDao.merge(this);
+//            }
+//        }
+//    }
 }
