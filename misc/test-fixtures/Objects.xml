@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<collectionOfObjects xmlns:ns2="http://www.csri.gr/concept">
+<collectionOfObjects xmlns:ns2="http://www.csri.gr/concept" xmlns:ns3="http://www.csri.gr/relation">
     <concepts>
         <concept>
-            <id>832</id>
-            <externalSourceId>shape%1:03:00::</externalSourceId>
+            <externalSourceId>shape%1:03:07::</externalSourceId>
             <conceptType>ENTITY</conceptType>
             <specificityLevel>SUPERORDINATE</specificityLevel>
             <status>CONSTANT</status>
@@ -12,10 +11,8 @@
             <source>WordNet3.0</source>
             <comment></comment>
             <languageRepresentations>
-                <id>1333</id>
                 <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
                 <languageRepresentation>
-                    <id>895</id>
                     <language>EN</language>
                     <useStatus>LITERAL</useStatus>
                     <partOfSpeech>NOUN</partOfSpeech>
@@ -23,10 +20,8 @@
                 </languageRepresentation>
             </languageRepresentations>
             <languageRepresentations>
-                <id>1334</id>
                 <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
                 <languageRepresentation>
-                    <id>901</id>
                     <language>EN</language>
                     <useStatus>LITERAL</useStatus>
                     <partOfSpeech>NOUN</partOfSpeech>
@@ -35,7 +30,6 @@
             </languageRepresentations>
         </concept>
         <concept>
-            <id>994</id>
             <externalSourceId>round_shape%1:25:00::</externalSourceId>
             <conceptType>FEATURE</conceptType>
             <specificityLevel>SUPERORDINATE</specificityLevel>
@@ -45,10 +39,8 @@
             <source>WordNet3.0</source>
             <comment></comment>
             <languageRepresentations>
-                <id>1587</id>
                 <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
                 <languageRepresentation>
-                    <id>1497</id>
                     <language>EN</language>
                     <useStatus>LITERAL</useStatus>
                     <partOfSpeech>NOUN</partOfSpeech>
@@ -57,23 +49,964 @@
             </languageRepresentations>
         </concept>
     </concepts>
+    <relations>
+        <relation>
+            <relationType>
+                <forwardName>TYPE_TOKEN</forwardName>
+                <backwardName>TOKEN_TYPE</backwardName>
+            </relationType>
+            <leftArgument>
+                <concept>
+                    <externalSourceId>matter%1:03:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>matter</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </leftArgument>
+            <rightArgument>
+                <concept>
+                    <externalSourceId>substance%1:03:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>substance</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </rightArgument>
+            <linguisticallySupported>NO</linguisticallySupported>
+        </relation>
+        <relation>
+            <relationType>
+                <forwardName>TYPE_TOKEN</forwardName>
+                <backwardName>TOKEN_TYPE</backwardName>
+            </relationType>
+            <leftArgument>
+                <concept>
+                    <externalSourceId>component_part%1:24:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>component</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>component part</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>constituent</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>part</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>portion</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </leftArgument>
+            <rightArgument>
+                <concept>
+                    <externalSourceId>substance%1:03:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>substance</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </rightArgument>
+            <linguisticallySupported>NO</linguisticallySupported>
+        </relation>
+        <relation>
+            <relationType>
+                <forwardName>TYPE_TOKEN</forwardName>
+                <backwardName>TOKEN_TYPE</backwardName>
+            </relationType>
+            <leftArgument>
+                <concept>
+                    <externalSourceId>substance%1:03:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>substance</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </leftArgument>
+            <rightArgument>
+                <concept>
+                    <externalSourceId>body_substance%1:08:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>body substance</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </rightArgument>
+            <linguisticallySupported>NO</linguisticallySupported>
+        </relation>
+        <relation>
+            <relationType>
+                <forwardName>TYPE_TOKEN</forwardName>
+                <backwardName>TOKEN_TYPE</backwardName>
+            </relationType>
+            <leftArgument>
+                <concept>
+                    <externalSourceId>substance%1:03:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>substance</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </leftArgument>
+            <rightArgument>
+                <concept>
+                    <externalSourceId>protoplasm%1:08:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>living substance</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>protoplasm</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </rightArgument>
+            <linguisticallySupported>NO</linguisticallySupported>
+        </relation>
+        <relation>
+            <relationType>
+                <forwardName>TYPE_TOKEN</forwardName>
+                <backwardName>TOKEN_TYPE</backwardName>
+            </relationType>
+            <leftArgument>
+                <concept>
+                    <externalSourceId>substance%1:03:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>substance</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </leftArgument>
+            <rightArgument>
+                <concept>
+                    <externalSourceId>chemistry%1:27:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>ABSTRACT</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>chemistry</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </rightArgument>
+            <linguisticallySupported>NO</linguisticallySupported>
+        </relation>
+        <relation>
+            <relationType>
+                <forwardName>TYPE_TOKEN</forwardName>
+                <backwardName>TOKEN_TYPE</backwardName>
+            </relationType>
+            <leftArgument>
+                <concept>
+                    <externalSourceId>substance%1:03:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>substance</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </leftArgument>
+            <rightArgument>
+                <concept>
+                    <externalSourceId>material%1:27:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>material</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>stuff</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </rightArgument>
+            <linguisticallySupported>NO</linguisticallySupported>
+        </relation>
+        <relation>
+            <relationType>
+                <forwardName>TYPE_TOKEN</forwardName>
+                <backwardName>TOKEN_TYPE</backwardName>
+            </relationType>
+            <leftArgument>
+                <concept>
+                    <externalSourceId>substance%1:03:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>substance</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </leftArgument>
+            <rightArgument>
+                <concept>
+                    <externalSourceId>phlogiston%1:27:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>ABSTRACT</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>phlogiston</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </rightArgument>
+            <linguisticallySupported>NO</linguisticallySupported>
+        </relation>
+        <relation>
+            <relationType>
+                <forwardName>TYPE_TOKEN</forwardName>
+                <backwardName>TOKEN_TYPE</backwardName>
+            </relationType>
+            <leftArgument>
+                <concept>
+                    <externalSourceId>substance%1:03:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>substance</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </leftArgument>
+            <rightArgument>
+                <concept>
+                    <externalSourceId>mixture%1:27:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>mixture</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </rightArgument>
+            <linguisticallySupported>NO</linguisticallySupported>
+        </relation>
+        <relation>
+            <relationType>
+                <forwardName>TYPE_TOKEN</forwardName>
+                <backwardName>TOKEN_TYPE</backwardName>
+            </relationType>
+            <leftArgument>
+                <concept>
+                    <externalSourceId>substance%1:03:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>substance</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </leftArgument>
+            <rightArgument>
+                <concept>
+                    <externalSourceId>atom%1:27:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>BASIC_LEVEL</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>atom</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </rightArgument>
+            <linguisticallySupported>NO</linguisticallySupported>
+        </relation>
+        <relation>
+            <relationType>
+                <forwardName>TYPE_TOKEN</forwardName>
+                <backwardName>TOKEN_TYPE</backwardName>
+            </relationType>
+            <leftArgument>
+                <concept>
+                    <externalSourceId>substance%1:03:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>substance</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </leftArgument>
+            <rightArgument>
+                <concept>
+                    <externalSourceId>chemical_element%1:27:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>chemical element</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>element</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </rightArgument>
+            <linguisticallySupported>NO</linguisticallySupported>
+        </relation>
+        <relation>
+            <relationType>
+                <forwardName>TYPE_TOKEN</forwardName>
+                <backwardName>TOKEN_TYPE</backwardName>
+            </relationType>
+            <leftArgument>
+                <concept>
+                    <externalSourceId>substance%1:03:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>substance</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </leftArgument>
+            <rightArgument>
+                <concept>
+                    <externalSourceId>activator%1:27:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>activator</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </rightArgument>
+            <linguisticallySupported>NO</linguisticallySupported>
+        </relation>
+        <relation>
+            <relationType>
+                <forwardName>TYPE_TOKEN</forwardName>
+                <backwardName>TOKEN_TYPE</backwardName>
+            </relationType>
+            <leftArgument>
+                <concept>
+                    <externalSourceId>substance%1:03:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>substance</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </leftArgument>
+            <rightArgument>
+                <concept>
+                    <externalSourceId>substrate%1:27:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>ABSTRACT</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>substrate</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </rightArgument>
+            <linguisticallySupported>NO</linguisticallySupported>
+        </relation>
+        <relation>
+            <relationType>
+                <forwardName>TYPE_TOKEN</forwardName>
+                <backwardName>TOKEN_TYPE</backwardName>
+            </relationType>
+            <leftArgument>
+                <concept>
+                    <externalSourceId>substance%1:03:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>substance</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </leftArgument>
+            <rightArgument>
+                <concept>
+                    <externalSourceId>element%1:27:01::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>BASIC_LEVEL</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>element</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </rightArgument>
+            <linguisticallySupported>NO</linguisticallySupported>
+        </relation>
+        <relation>
+            <relationType>
+                <forwardName>TYPE_TOKEN</forwardName>
+                <backwardName>TOKEN_TYPE</backwardName>
+            </relationType>
+            <leftArgument>
+                <concept>
+                    <externalSourceId>substance%1:03:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>substance</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </leftArgument>
+            <rightArgument>
+                <concept>
+                    <externalSourceId>medium%1:27:03::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>medium</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </rightArgument>
+            <linguisticallySupported>NO</linguisticallySupported>
+        </relation>
+        <relation>
+            <relationType>
+                <forwardName>TYPE_TOKEN</forwardName>
+                <backwardName>TOKEN_TYPE</backwardName>
+            </relationType>
+            <leftArgument>
+                <concept>
+                    <externalSourceId>substance%1:03:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>substance</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </leftArgument>
+            <rightArgument>
+                <concept>
+                    <externalSourceId>medium%1:27:01::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>BASIC_LEVEL</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>medium</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </rightArgument>
+            <linguisticallySupported>NO</linguisticallySupported>
+        </relation>
+        <relation>
+            <relationType>
+                <forwardName>TYPE_TOKEN</forwardName>
+                <backwardName>TOKEN_TYPE</backwardName>
+            </relationType>
+            <leftArgument>
+                <concept>
+                    <externalSourceId>substance%1:03:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>substance</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </leftArgument>
+            <rightArgument>
+                <concept>
+                    <externalSourceId>fluid%1:27:02::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>fluid</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </rightArgument>
+            <linguisticallySupported>NO</linguisticallySupported>
+        </relation>
+        <relation>
+            <relationType>
+                <forwardName>TYPE_TOKEN</forwardName>
+                <backwardName>TOKEN_TYPE</backwardName>
+            </relationType>
+            <leftArgument>
+                <concept>
+                    <externalSourceId>substance%1:03:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>substance</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </leftArgument>
+            <rightArgument>
+                <concept>
+                    <externalSourceId>volatile%1:27:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>ABSTRACT</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>volatile</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </rightArgument>
+            <linguisticallySupported>NO</linguisticallySupported>
+        </relation>
+        <relation>
+            <relationType>
+                <forwardName>TYPE_TOKEN</forwardName>
+                <backwardName>TOKEN_TYPE</backwardName>
+            </relationType>
+            <leftArgument>
+                <concept>
+                    <externalSourceId>substance%1:03:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>CONCRETE</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>substance</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </leftArgument>
+            <rightArgument>
+                <concept>
+                    <externalSourceId>essence%1:27:00::</externalSourceId>
+                    <conceptType>ENTITY</conceptType>
+                    <specificityLevel>SUPERORDINATE</specificityLevel>
+                    <status>CONSTANT</status>
+                    <pragmaticStatus>ABSTRACT</pragmaticStatus>
+                    <uniqueInstance>NO</uniqueInstance>
+                    <source>WordNet3.0</source>
+                    <comment></comment>
+                    <languageRepresentations>
+                        <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+                        <languageRepresentation>
+                            <language>EN</language>
+                            <useStatus>LITERAL</useStatus>
+                            <partOfSpeech>NOUN</partOfSpeech>
+                            <text>essence</text>
+                        </languageRepresentation>
+                    </languageRepresentations>
+                </concept>
+            </rightArgument>
+            <linguisticallySupported>NO</linguisticallySupported>
+        </relation>
+    </relations>
     <relationSets>
         <relationSet>
-            <id>485</id>
             <relations>
-                <id>1452</id>
                 <relation>
-                    <id>21074</id>
-                    <type>
-                        <id>9</id>
+                    <relationType>
                         <forwardName>ACTION_GOAL</forwardName>
                         <backwardName>GOAL_ACTION</backwardName>
-                    </type>
+                    </relationType>
                     <leftArgument>
-                        <id>20272</id>
                         <concept>
-                            <id>20286</id>
-                            <externalSourceId>brooch%2:35:00::#with#brooch%1:06:00::#the#dummy_object_brooch%2:35:00::_brooch%1:06:00::</externalSourceId>
+                            <externalSourceId>brooch%2:35:01::#with#brooch%1:06:00::#the#dummy_object_brooch%2:35:01::_brooch%1:06:01::</externalSourceId>
                             <conceptType>MOVEMENT</conceptType>
                             <specificityLevel>SUBORDINATE</specificityLevel>
                             <status>VARIABLE</status>
@@ -84,9 +1017,7 @@
                         </concept>
                     </leftArgument>
                     <rightArgument>
-                        <id>20268</id>
                         <concept>
-                            <id>20282</id>
                             <externalSourceId>brooch%2:35:00::</externalSourceId>
                             <conceptType>MOVEMENT</conceptType>
                             <specificityLevel>SUBORDINATE</specificityLevel>
@@ -96,10 +1027,8 @@
                             <source>WordNet3.0</source>
                             <comment></comment>
                             <languageRepresentations>
-<id>34465</id>
 <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
 <languageRepresentation>
-    <id>30861</id>
     <language>EN</language>
     <useStatus>UNKNOWN</useStatus>
     <partOfSpeech>VERB</partOfSpeech>
@@ -107,10 +1036,8 @@
 </languageRepresentation>
                             </languageRepresentations>
                             <languageRepresentations>
-<id>34466</id>
 <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
 <languageRepresentation>
-    <id>30862</id>
     <language>EN</language>
     <useStatus>UNKNOWN</useStatus>
     <partOfSpeech>VERB</partOfSpeech>
@@ -123,18 +1050,13 @@
                 </relation>
             </relations>
             <relations>
-                <id>1453</id>
                 <relation>
-                    <id>21075</id>
-                    <type>
-                        <id>10</id>
+                    <relationType>
                         <forwardName>ACTION_TOOL</forwardName>
                         <backwardName>TOOL_ACTION</backwardName>
-                    </type>
+                    </relationType>
                     <leftArgument>
-                        <id>20272</id>
                         <concept>
-                            <id>20286</id>
                             <externalSourceId>brooch%2:35:00::#with#brooch%1:06:00::#the#dummy_object_brooch%2:35:00::_brooch%1:06:00::</externalSourceId>
                             <conceptType>MOVEMENT</conceptType>
                             <specificityLevel>SUBORDINATE</specificityLevel>
@@ -146,9 +1068,7 @@
                         </concept>
                     </leftArgument>
                     <rightArgument>
-                        <id>20265</id>
                         <concept>
-                            <id>20279</id>
                             <externalSourceId>brooch%1:06:00::</externalSourceId>
                             <conceptType>ENTITY</conceptType>
                             <specificityLevel>SUBORDINATE</specificityLevel>
@@ -158,10 +1078,8 @@
                             <source>WordNet3.0</source>
                             <comment></comment>
                             <languageRepresentations>
-<id>34460</id>
 <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
 <languageRepresentation>
-    <id>30857</id>
     <language>EN</language>
     <useStatus>LITERAL</useStatus>
     <partOfSpeech>NOUN</partOfSpeech>
@@ -169,10 +1087,8 @@
 </languageRepresentation>
                             </languageRepresentations>
                             <languageRepresentations>
-<id>34461</id>
 <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
 <languageRepresentation>
-    <id>30858</id>
     <language>EN</language>
     <useStatus>LITERAL</useStatus>
     <partOfSpeech>NOUN</partOfSpeech>
@@ -180,10 +1096,8 @@
 </languageRepresentation>
                             </languageRepresentations>
                             <languageRepresentations>
-<id>34462</id>
 <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
 <languageRepresentation>
-    <id>30859</id>
     <language>EN</language>
     <useStatus>LITERAL</useStatus>
     <partOfSpeech>NOUN</partOfSpeech>
@@ -196,18 +1110,13 @@
                 </relation>
             </relations>
             <relations>
-                <id>1454</id>
                 <relation>
-                    <id>21076</id>
-                    <type>
-                        <id>11</id>
+                    <relationType>
                         <forwardName>ACTION_OBJECT</forwardName>
                         <backwardName>OBJECT_ACTION</backwardName>
-                    </type>
+                    </relationType>
                     <leftArgument>
-                        <id>20272</id>
                         <concept>
-                            <id>20286</id>
                             <externalSourceId>brooch%2:35:00::#with#brooch%1:06:00::#the#dummy_object_brooch%2:35:00::_brooch%1:06:00::</externalSourceId>
                             <conceptType>MOVEMENT</conceptType>
                             <specificityLevel>SUBORDINATE</specificityLevel>
@@ -219,9 +1128,7 @@
                         </concept>
                     </leftArgument>
                     <rightArgument>
-                        <id>20273</id>
                         <concept>
-                            <id>20287</id>
                             <externalSourceId>dummy_object_brooch%2:35:00::_brooch%1:06:00::</externalSourceId>
                             <conceptType>ENTITY</conceptType>
                             <specificityLevel>UNKNOWN</specificityLevel>

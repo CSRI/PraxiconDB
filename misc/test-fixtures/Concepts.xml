@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <concepts xmlns:ns2="http://www.csri.gr/concept">
     <concept>
-        <id>17540</id>
         <externalSourceId>container%1:06:00::</externalSourceId>
         <conceptType>ENTITY</conceptType>
         <specificityLevel>SUPERORDINATE</specificityLevel>
@@ -11,10 +10,8 @@
         <source>WordNet3.0</source>
         <comment></comment>
         <languageRepresentations>
-            <id>31119</id>
             <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
             <languageRepresentation>
-                <id>28156</id>
                 <language>EN</language>
                 <useStatus>LITERAL</useStatus>
                 <partOfSpeech>NOUN</partOfSpeech>
@@ -23,7 +20,6 @@
         </languageRepresentations>
     </concept>
     <concept>
-        <id>24102</id>
         <externalSourceId>eating_utensil%1:06:00::</externalSourceId>
         <conceptType>ENTITY</conceptType>
         <specificityLevel>SUPERORDINATE</specificityLevel>
@@ -33,10 +29,8 @@
         <source>WordNet3.0</source>
         <comment></comment>
         <languageRepresentations>
-            <id>39031</id>
             <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
             <languageRepresentation>
-                <id>30123</id>
                 <language>EN</language>
                 <useStatus>LITERAL</useStatus>
                 <partOfSpeech>NOUN</partOfSpeech>
@@ -44,10 +38,8 @@
             </languageRepresentation>
         </languageRepresentations>
         <languageRepresentations>
-            <id>39032</id>
             <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
             <languageRepresentation>
-                <id>34490</id>
                 <language>EN</language>
                 <useStatus>LITERAL</useStatus>
                 <partOfSpeech>NOUN</partOfSpeech>

@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<relationSets xmlns:ns2="http://www.csri.gr/concept">
+<relationSets xmlns:ns2="http://www.csri.gr/concept" xmlns:ns3="http://www.csri.gr/relation">
     <relationSet>
-        <id>485</id>
         <relations>
-            <id>1452</id>
             <relation>
-                <id>21074</id>
-                <type>
-                    <id>9</id>
+                <relationType>
                     <forwardName>ACTION_GOAL</forwardName>
                     <backwardName>GOAL_ACTION</backwardName>
-                </type>
+                </relationType>
                 <leftArgument>
-                    <id>20272</id>
                     <concept>
-                        <id>20286</id>
                         <externalSourceId>brooch%2:35:00::#with#brooch%1:06:00::#the#dummy_object_brooch%2:35:00::_brooch%1:06:00::</externalSourceId>
                         <conceptType>MOVEMENT</conceptType>
                         <specificityLevel>SUBORDINATE</specificityLevel>
@@ -26,9 +20,7 @@
                     </concept>
                 </leftArgument>
                 <rightArgument>
-                    <id>20268</id>
                     <concept>
-                        <id>20282</id>
                         <externalSourceId>brooch%2:35:00::</externalSourceId>
                         <conceptType>MOVEMENT</conceptType>
                         <specificityLevel>SUBORDINATE</specificityLevel>
@@ -38,10 +30,8 @@
                         <source>WordNet3.0</source>
                         <comment></comment>
                         <languageRepresentations>
-                            <id>34465</id>
                             <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
                             <languageRepresentation>
-<id>30861</id>
 <language>EN</language>
 <useStatus>UNKNOWN</useStatus>
 <partOfSpeech>VERB</partOfSpeech>
@@ -49,10 +39,8 @@
                             </languageRepresentation>
                         </languageRepresentations>
                         <languageRepresentations>
-                            <id>34466</id>
                             <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
                             <languageRepresentation>
-<id>30862</id>
 <language>EN</language>
 <useStatus>UNKNOWN</useStatus>
 <partOfSpeech>VERB</partOfSpeech>
@@ -65,18 +53,13 @@
             </relation>
         </relations>
         <relations>
-            <id>1453</id>
             <relation>
-                <id>21075</id>
-                <type>
-                    <id>10</id>
+                <relationType>
                     <forwardName>ACTION_TOOL</forwardName>
                     <backwardName>TOOL_ACTION</backwardName>
-                </type>
+                </relationType>
                 <leftArgument>
-                    <id>20272</id>
                     <concept>
-                        <id>20286</id>
                         <externalSourceId>brooch%2:35:00::#with#brooch%1:06:00::#the#dummy_object_brooch%2:35:00::_brooch%1:06:00::</externalSourceId>
                         <conceptType>MOVEMENT</conceptType>
                         <specificityLevel>SUBORDINATE</specificityLevel>
@@ -88,9 +71,7 @@
                     </concept>
                 </leftArgument>
                 <rightArgument>
-                    <id>20265</id>
                     <concept>
-                        <id>20279</id>
                         <externalSourceId>brooch%1:06:00::</externalSourceId>
                         <conceptType>ENTITY</conceptType>
                         <specificityLevel>SUBORDINATE</specificityLevel>
@@ -100,10 +81,8 @@
                         <source>WordNet3.0</source>
                         <comment></comment>
                         <languageRepresentations>
-                            <id>34460</id>
                             <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
                             <languageRepresentation>
-<id>30857</id>
 <language>EN</language>
 <useStatus>LITERAL</useStatus>
 <partOfSpeech>NOUN</partOfSpeech>
@@ -111,10 +90,8 @@
                             </languageRepresentation>
                         </languageRepresentations>
                         <languageRepresentations>
-                            <id>34461</id>
                             <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
                             <languageRepresentation>
-<id>30858</id>
 <language>EN</language>
 <useStatus>LITERAL</useStatus>
 <partOfSpeech>NOUN</partOfSpeech>
@@ -122,10 +99,8 @@
                             </languageRepresentation>
                         </languageRepresentations>
                         <languageRepresentations>
-                            <id>34462</id>
                             <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
                             <languageRepresentation>
-<id>30859</id>
 <language>EN</language>
 <useStatus>LITERAL</useStatus>
 <partOfSpeech>NOUN</partOfSpeech>
@@ -138,18 +113,13 @@
             </relation>
         </relations>
         <relations>
-            <id>1454</id>
             <relation>
-                <id>21076</id>
-                <type>
-                    <id>11</id>
+                <relationType>
                     <forwardName>ACTION_OBJECT</forwardName>
                     <backwardName>OBJECT_ACTION</backwardName>
-                </type>
+                </relationType>
                 <leftArgument>
-                    <id>20272</id>
                     <concept>
-                        <id>20286</id>
                         <externalSourceId>brooch%2:35:00::#with#brooch%1:06:00::#the#dummy_object_brooch%2:35:00::_brooch%1:06:00::</externalSourceId>
                         <conceptType>MOVEMENT</conceptType>
                         <specificityLevel>SUBORDINATE</specificityLevel>
@@ -161,9 +131,7 @@
                     </concept>
                 </leftArgument>
                 <rightArgument>
-                    <id>20273</id>
                     <concept>
-                        <id>20287</id>
                         <externalSourceId>dummy_object_brooch%2:35:00::_brooch%1:06:00::</externalSourceId>
                         <conceptType>ENTITY</conceptType>
                         <specificityLevel>UNKNOWN</specificityLevel>
