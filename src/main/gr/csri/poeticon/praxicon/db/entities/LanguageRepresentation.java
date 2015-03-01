@@ -4,13 +4,9 @@
  */
 package gr.csri.poeticon.praxicon.db.entities;
 
-import gr.csri.poeticon.praxicon.Globals;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,7 +25,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
@@ -147,6 +142,26 @@ public class LanguageRepresentation implements Serializable {
             return this.name();
         }
     }
+    
+    /**
+     * Enumeration of the types of operator.
+     * NONE: Default value; when there is no operator.
+     * MORE: Denotes quantity estimation. Augmentative mechanism of language.
+     * LESS: Denotes quantity estimation. Diminutive mechanism of language.
+     * SAME: Canonical/frequent form. Frame of reference.
+     * CLOSE: Body and Now frame of reference.
+     *
+     */
+    public static enum Operator {
+
+        NONE, MORE, LESS, SAME, CLOSE;
+
+        @Override
+        public String toString() {
+            return this.name();
+        }
+    }
+    
 
     @Id
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
@@ -175,6 +190,12 @@ public class LanguageRepresentation implements Serializable {
     @Enumerated(EnumType.STRING)
     private Productivity productivity;
 
+    @Column(name = "Negation")
+    private String negation;
+
+    @Column(name = "Operator")
+    private Operator operator;
+    
     @Column(name = "Text")
     @NotNull(message = "Text must be specified.")
     private String text;
@@ -242,6 +263,29 @@ public class LanguageRepresentation implements Serializable {
     public void setProductivity(String productivity) {
         this.productivity = Productivity.valueOf(productivity.trim().
                 toUpperCase());
+    }
+    
+    /**
+     * 
+     * @return The negation of this language representation
+     */
+    public String getNegation() {
+        return negation;
+    }
+
+    public void setNegation(String negation) {
+        this.negation = negation;
+    }
+
+    /**
+     * @return the operator of this language representation
+     */
+    public Operator getOperator() {
+        return operator;
+    }
+
+    public void setOperator(Operator operator) {
+        this.operator = operator;
     }
 
     public List<LanguageRepresentation> getLanguageRepresentations() {
@@ -364,16 +408,16 @@ public class LanguageRepresentation implements Serializable {
         return text + "\\" + this.partOfSpeech + " (" + language + ")";
     }
 
-    public void afterUnmarshal(Unmarshaller u, Object parent) {
-        if (!Globals.ToMergeAfterUnMarshalling) {
-            try {
-                String tmp = new String(this.getText().getBytes(), "UTF-8");
-                this.setText(tmp);
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(LanguageRepresentation.class.getName()).log(
-                        Level.SEVERE,
-                        null, ex);
-            }
-        }
-    }
+//    public void afterUnmarshal(Unmarshaller u, Object parent) {
+//        if (!Globals.ToMergeAfterUnMarshalling) {
+//            try {
+//                String tmp = new String(this.getText().getBytes(), "UTF-8");
+//                this.setText(tmp);
+//            } catch (UnsupportedEncodingException ex) {
+//                Logger.getLogger(LanguageRepresentation.class.getName()).log(
+//                        Level.SEVERE,
+//                        null, ex);
+//            }
+//        }
+//    }
 }
