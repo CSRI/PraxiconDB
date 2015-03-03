@@ -240,9 +240,9 @@ public class XmlUtils {
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             File xmlFile = new File(fullPathFileName);
 
-            Concepts importedConcepts = (Concepts)jaxbUnmarshaller.unmarshal(
-                    xmlFile);
-            List<Concept> listOfConcepts = importedConcepts.getConcepts();
+            Concepts importedConcepts =
+                    (Concepts)jaxbUnmarshaller.unmarshal(xmlFile);
+            importedConcepts.storeConcepts();
 
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
@@ -260,8 +260,7 @@ public class XmlUtils {
 
             Relations importedRelations = (Relations)jaxbUnmarshaller.
                     unmarshal(xmlFile);
-            List<Relation> listOfRelations = importedRelations.
-                    getRelations();
+            importedRelations.storeRelations();
 
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
@@ -279,9 +278,8 @@ public class XmlUtils {
 
             RelationSets importedRelationSets = (RelationSets)jaxbUnmarshaller.
                     unmarshal(xmlFile);
-            List<RelationSet> listOfRelationSets = importedRelationSets.
-                    getRelationSets();
-
+            importedRelationSets.storeRelationSets();
+            
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
@@ -313,7 +311,7 @@ public class XmlUtils {
 
             List<RelationSets> listOfRelationSets = importedCollectionOfObjects.
                     getRelationSets();
-            
+
             for (RelationSets relationSets : listOfRelationSets) {
                 relationSets.storeRelationSets();
             }
