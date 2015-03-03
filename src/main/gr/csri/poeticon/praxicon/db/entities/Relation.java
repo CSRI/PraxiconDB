@@ -227,12 +227,12 @@ public class Relation implements Serializable {
     }
 
     @Override
-    public boolean equals(Object rightArgument) {
+    public boolean equals(Object relation) {
         // TODO: Warning - method won't work in case the id fields are not set
-        if (!(rightArgument instanceof Relation)) {
+        if (!(relation instanceof Relation)) {
             return false;
         }
-        Relation other = (Relation)rightArgument;
+        Relation other = (Relation)relation;
         try {
             if ((this.relationType != null && this.rightArgument != null &&
                     this.leftArgument != null && this.relationType.equals(
@@ -256,9 +256,22 @@ public class Relation implements Serializable {
 
     @Override
     public String toString() {
-        return this.getLeftArgument() + " " + this.getRelationType().
-                getForwardName() +
-                " " + this.getRightArgument();
+        String finalString = "";
+        if (this.getLeftArgument().isConcept()){
+            finalString += this.getLeftArgument().getConcept().toString();
+        } else {
+            finalString += this.getLeftArgument().getRelationSet().toString();
+        }       
+      
+        finalString += " " + this.getRelationType().getForwardName() + " ";
+        
+        if (this.getRightArgument().isConcept()){
+            finalString += this.getRightArgument().getConcept().toString();
+        } else {
+            finalString += this.getRightArgument().getRelationSet().toString();
+        }        
+                
+        return finalString;
     }
 
 //    public void afterUnmarshal(Unmarshaller u, Object parent) {
