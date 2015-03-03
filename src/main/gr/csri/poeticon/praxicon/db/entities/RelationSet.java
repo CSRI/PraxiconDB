@@ -5,9 +5,7 @@
  */
 package gr.csri.poeticon.praxicon.db.entities;
 
-import gr.csri.poeticon.praxicon.Globals;
-import gr.csri.poeticon.praxicon.db.dao.RelationSetDao;
-import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationSetDaoImpl;
+import static gr.csri.poeticon.praxicon.db.entities.Concept.Status.VARIABLE;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -28,9 +26,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
@@ -291,6 +289,41 @@ public class RelationSet implements Serializable {
         this.motoricRepresentations.add(motoricRepresentation);
     }
 
+    /**
+     * If any of the concepts inside the relation set has status variable,
+     * then the relation set itself is characterized as variable. It searches
+     * recursively.
+     *
+     * @return true/false
+     */
+    public boolean isVariable() {
+        for (Relation relation : this.getRelationsList()) {
+
+            if (relation.getLeftArgument().isConcept()) {
+                if (relation.getLeftArgument().getConcept().getStatus() ==
+                        VARIABLE) {
+                    return true;
+                }
+            } else if (relation.getLeftArgument().isRelationSet()) {
+                if (relation.getLeftArgument().getRelationSet().isVariable()) {
+                    return true;
+                }
+            }
+
+            if (relation.getRightArgument().isConcept()) {
+                if (relation.getRightArgument().getConcept().getStatus() ==
+                        VARIABLE) {
+                    return true;
+                }
+            } else if (relation.getRightArgument().isRelationSet()) {
+                if (relation.getRightArgument().getRelationSet().isVariable()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -308,15 +341,14 @@ public class RelationSet implements Serializable {
                 " ]";
     }
 
-    public void afterUnmarshal(Unmarshaller u, Object parent) {
-        if (Globals.ToMergeAfterUnMarshalling) {
-            RelationSetDao rsDao = new RelationSetDaoImpl();
-            rsDao.merge(this);
-            System.out.println("Finished unmarshalling RelationSet");
-        }
-    }
-
-    //@XmlRegistry
+//    public void afterUnmarshal(Unmarshaller u, Object parent) {
+//        if (Globals.ToMergeAfterUnMarshalling) {
+//            RelationSetDao rsDao = new RelationSetDaoImpl();
+//            rsDao.merge(this);
+//            System.out.println("Finished unmarshalling RelationSet");
+//        }
+//    }
+    @XmlRegistry
     class ObjectFactory {
 
         RelationSet createRelationSet() {
