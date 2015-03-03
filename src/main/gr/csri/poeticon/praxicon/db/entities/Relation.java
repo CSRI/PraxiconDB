@@ -8,6 +8,7 @@ import gr.csri.poeticon.praxicon.db.dao.RelationTypeDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationTypeDaoImpl;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -217,42 +218,71 @@ public class Relation implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        if (id != null) {
-            hash += id.hashCode();
-        } else {
-            hash = 0;
-        }
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.comment);
+        hash = 59 * hash + Objects.hashCode(this.relationType);
+        hash = 59 * hash + Objects.hashCode(this.leftArgument);
+        hash = 59 * hash + Objects.hashCode(this.rightArgument);
+        hash = 59 * hash + Objects.hashCode(this.linguisticallySupported);
         return hash;
     }
 
     @Override
-    public boolean equals(Object relation) {
-        // TODO: Warning - method won't work in case the id fields are not set
-        if (!(relation instanceof Relation)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Relation other = (Relation)relation;
-        try {
-            if ((this.relationType != null && this.rightArgument != null &&
-                    this.leftArgument != null && this.relationType.equals(
-                            other.relationType) &&
-                    this.rightArgument.equals(other.rightArgument) &&
-                    this.leftArgument.equals(other.leftArgument)) ||
-                    (this.relationType != null && this.rightArgument != null &&
-                    this.leftArgument != null && this.relationType.equals(
-                            other.relationType) &&
-                    this.rightArgument.equals(other.leftArgument) &&
-                    this.leftArgument.equals(other.rightArgument))) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (getClass() != obj.getClass()) {
+            return false;
         }
-        return false;
+        final Relation other = (Relation)obj;
+        if (!Objects.equals(this.comment, other.comment)) {
+            return false;
+        }
+        if (!Objects.equals(this.relationType, other.relationType)) {
+            return false;
+        }
+        if (!Objects.equals(this.leftArgument, other.leftArgument)) {
+            return false;
+        }
+        if (!Objects.equals(this.rightArgument, other.rightArgument)) {
+            return false;
+        }
+        if (this.linguisticallySupported != other.linguisticallySupported) {
+            return false;
+        }
+        return true;
     }
+
+
+
+//    @Override
+//    public boolean equals(Object relation) {
+//        // TODO: Warning - method won't work in case the id fields are not set
+//        if (!(relation instanceof Relation)) {
+//            return false;
+//        }
+//        Relation other = (Relation)relation;
+//        try {
+//            if ((this.relationType != null && this.rightArgument != null &&
+//                    this.leftArgument != null && this.relationType.equals(
+//                            other.relationType) &&
+//                    this.rightArgument.equals(other.rightArgument) &&
+//                    this.leftArgument.equals(other.leftArgument)) ||
+//                    (this.relationType != null && this.rightArgument != null &&
+//                    this.leftArgument != null && this.relationType.equals(
+//                            other.relationType) &&
+//                    this.rightArgument.equals(other.leftArgument) &&
+//                    this.leftArgument.equals(other.rightArgument))) {
+//                return true;
+//            } else {
+//                return false;
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return false;
+//    }
 
     @Override
     public String toString() {

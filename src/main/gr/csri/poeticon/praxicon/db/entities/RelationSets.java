@@ -46,7 +46,7 @@ public class RelationSets {
             for (RelationSet relationSet : relationSets) {
                 RelationSetDao rsDao = new RelationSetDaoImpl();
                 relationSet = rsDao.updatedRelationSet(relationSet);
-                //rsDao.merge(relationSet);
+                rsDao.merge(relationSet);
             }
         }
     }

@@ -7,6 +7,7 @@ package gr.csri.poeticon.praxicon.db.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -374,34 +375,55 @@ public class LanguageRepresentation implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        if (id != null) {
-            hash += id.hashCode();
-        } else {
-            hash = 0;
-        }
+        int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.language);
+        hash = 67 * hash + Objects.hashCode(this.useStatus);
+        hash = 67 * hash + Objects.hashCode(this.partOfSpeech);
+        hash = 67 * hash + Objects.hashCode(this.productivity);
+        hash = 67 * hash + Objects.hashCode(this.negation);
+        hash = 67 * hash + Objects.hashCode(this.operator);
+        hash = 67 * hash + Objects.hashCode(this.text);
+        hash = 67 * hash + Objects.hashCode(this.comment);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - method won't work in case the id fields are not set
-        if (!(object instanceof LanguageRepresentation)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        LanguageRepresentation other = (LanguageRepresentation)object;
-        if (this.language != null && this.text != null &&
-                this.partOfSpeech != null &&
-                this.language.name().equals(other.language.name()) &&
-                this.text.equalsIgnoreCase(other.text) &&
-                this.partOfSpeech == other.partOfSpeech &&
-                this.useStatus == other.useStatus &&
-                this.productivity == other.productivity) {
-            return true;
-        } else {
+        if (getClass() != obj.getClass()) {
             return false;
         }
+        final LanguageRepresentation other = (LanguageRepresentation)obj;
+        if (this.language != other.language) {
+            return false;
+        }
+        if (this.useStatus != other.useStatus) {
+            return false;
+        }
+        if (this.partOfSpeech != other.partOfSpeech) {
+            return false;
+        }
+        if (this.productivity != other.productivity) {
+            return false;
+        }
+        if (!Objects.equals(this.negation, other.negation)) {
+            return false;
+        }
+        if (this.operator != other.operator) {
+            return false;
+        }
+        if (!Objects.equals(this.text, other.text)) {
+            return false;
+        }
+        if (!Objects.equals(this.comment, other.comment)) {
+            return false;
+        }
+        return true;
     }
+
+    
 
     @Override
     public String toString() {

@@ -6,6 +6,7 @@
 package gr.csri.poeticon.praxicon.db.entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -188,27 +189,31 @@ public class RelationArgument implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        if (id != null) {
-            hash += id.hashCode();
-        } else {
-            hash = 0;
-        }
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.concept);
+        hash = 89 * hash + Objects.hashCode(this.relationSet);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof RelationArgument)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        RelationArgument other = (RelationArgument)object;
-        if ((this.id == null && other.id != null) ||
-                (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final RelationArgument other = (RelationArgument)obj;
+        if (!Objects.equals(this.concept, other.concept)) {
+            return false;
+        }
+        if (!Objects.equals(this.relationSet, other.relationSet)) {
             return false;
         }
         return true;
     }
+
+
 
     @Override
     public String toString() {

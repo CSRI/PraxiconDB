@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -298,7 +299,6 @@ public class RelationSet implements Serializable {
      */
     public boolean isVariable() {
         for (Relation relation : this.getRelationsList()) {
-
             if (relation.getLeftArgument().isConcept()) {
                 if (relation.getLeftArgument().getConcept().getStatus() ==
                         VARIABLE) {
@@ -326,14 +326,46 @@ public class RelationSet implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        if (id != null) {
-            hash += id.hashCode();
-        } else {
-            hash = 0;
-        }
+        int hash = 5;
+        hash = 13 * hash + Objects.hashCode(this.name);
+        hash = 13 * hash + Objects.hashCode(this.relations);
+        hash = 13 * hash + Objects.hashCode(this.languageRepresentations);
+        hash = 13 * hash + Objects.hashCode(this.visualRepresentations);
+        hash = 13 * hash + Objects.hashCode(this.motoricRepresentations);
         return hash;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final RelationSet other = (RelationSet)obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.relations, other.relations)) {
+            return false;
+        }
+        if (!Objects.equals(this.languageRepresentations,
+                other.languageRepresentations)) {
+            return false;
+        }
+        if (!Objects.equals(this.visualRepresentations,
+                other.visualRepresentations)) {
+            return false;
+        }
+        if (!Objects.equals(this.motoricRepresentations,
+                other.motoricRepresentations)) {
+            return false;
+        }
+        return true;
+    }
+
+    
 
     @Override
     public String toString() {

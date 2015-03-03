@@ -6,6 +6,7 @@
 package gr.csri.poeticon.praxicon.db.entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -98,37 +99,34 @@ public class Concept_LanguageRepresentation implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        if (id != null) {
-            hash += id.hashCode();
-        } else {
-            hash = 0;
-        }
+        int hash = 7;
+        hash = 73 * hash + (this.isRepresentativeLanguageRepresentation ? 1 : 0);
+        hash = 73 * hash + Objects.hashCode(this.languageRepresentation);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - method won't work in case the id fields are not set
-        if (!(object instanceof Concept_LanguageRepresentation)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Concept_LanguageRepresentation other =
-                (Concept_LanguageRepresentation)object;
-        if (this.languageRepresentation.equals(other.languageRepresentation)) {
-            return true;
-        }
-
-        if ((this.id == null && other.id != null) ||
-                (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
             return false;
         }
-
-        if (this.id == null && other.id == null) {
+        final Concept_LanguageRepresentation other =
+                (Concept_LanguageRepresentation)obj;
+        if (this.isRepresentativeLanguageRepresentation !=
+                other.isRepresentativeLanguageRepresentation) {
+            return false;
+        }
+        if (!Objects.equals(this.languageRepresentation,
+                other.languageRepresentation)) {
             return false;
         }
         return true;
     }
+
+
 
     @Override
     public String toString() {

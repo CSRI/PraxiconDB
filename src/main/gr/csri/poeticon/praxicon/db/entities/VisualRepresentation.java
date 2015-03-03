@@ -7,6 +7,7 @@ package gr.csri.poeticon.praxicon.db.entities;
 import gr.csri.poeticon.praxicon.Constants;
 import java.io.Serializable;
 import java.net.URI;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -187,32 +188,42 @@ public class VisualRepresentation implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        if (id != null) {
-            hash += id.hashCode();
-        } else {
-            hash = 0;
-        }
+        int hash = 5;
+        hash = 47 * hash + Objects.hashCode(this.mediaType);
+        hash = 47 * hash + Objects.hashCode(this.name);
+        hash = 47 * hash + Objects.hashCode(this.source);
+        hash = 47 * hash + Objects.hashCode(this.uri);
+        hash = 47 * hash + Objects.hashCode(this.comment);
+        hash = 47 * hash + Objects.hashCode(this.motoricRepresentation);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - method won't work in case the id fields are not set
-        if (!(object instanceof VisualRepresentation)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        VisualRepresentation other = (VisualRepresentation)object;
-        if (this.mediaType != null && this.name != null &&
-                this.mediaType.equals(other.mediaType) &&
-                this.name.equalsIgnoreCase(other.name)) {
-            return true;
-        }
-        if ((this.id == null && other.id != null) ||
-                (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
             return false;
         }
-        if (this.id == null && other.id == null) {
+        final VisualRepresentation other = (VisualRepresentation)obj;
+        if (this.mediaType != other.mediaType) {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.source, other.source)) {
+            return false;
+        }
+        if (!Objects.equals(this.uri, other.uri)) {
+            return false;
+        }
+        if (!Objects.equals(this.comment, other.comment)) {
+            return false;
+        }
+        if (!Objects.equals(this.motoricRepresentation,
+                other.motoricRepresentation)) {
             return false;
         }
         return true;
@@ -222,8 +233,5 @@ public class VisualRepresentation implements Serializable {
     public String toString() {
         return "[Id=" + id + "] " + this.mediaType + ": " + this.name;
     }
-
-//    public void afterUnmarshal(Unmarshaller u, Object parent) {
-////        this.owner = (VisualRepresentation)parent;
-//    }
+    
 }

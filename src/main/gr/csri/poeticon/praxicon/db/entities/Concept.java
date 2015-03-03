@@ -4,13 +4,10 @@
  */
 package gr.csri.poeticon.praxicon.db.entities;
 
-import gr.csri.poeticon.praxicon.Constants;
-import gr.csri.poeticon.praxicon.Globals;
-import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
-import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,7 +23,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -810,13 +806,71 @@ public class Concept implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        if (id != null) {
-            hash += id.hashCode();
-        } else {
-            hash = 0;
-        }
+        int hash = 7;
+        hash = 13 * hash + Objects.hashCode(this.externalSourceId);
+        hash = 13 * hash + Objects.hashCode(this.conceptType);
+        hash = 13 * hash + Objects.hashCode(this.specificityLevel);
+        hash = 13 * hash + Objects.hashCode(this.status);
+        hash = 13 * hash + Objects.hashCode(this.pragmaticStatus);
+        hash = 13 * hash + Objects.hashCode(this.uniqueInstance);
+        hash = 13 * hash + Objects.hashCode(this.ontologicalDomain);
+        hash = 13 * hash + Objects.hashCode(this.source);
+        hash = 13 * hash + Objects.hashCode(this.comment);
+        hash = 13 * hash + Objects.hashCode(this.languageRepresentations);
+        hash = 13 * hash + Objects.hashCode(this.visualRepresentations);
+        hash = 13 * hash + Objects.hashCode(this.motoricRepresentations);
         return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Concept other = (Concept)obj;
+        if (!Objects.equals(this.externalSourceId, other.externalSourceId)) {
+            return false;
+        }
+        if (this.conceptType != other.conceptType) {
+            return false;
+        }
+        if (this.specificityLevel != other.specificityLevel) {
+            return false;
+        }
+        if (this.status != other.status) {
+            return false;
+        }
+        if (this.pragmaticStatus != other.pragmaticStatus) {
+            return false;
+        }
+        if (this.uniqueInstance != other.uniqueInstance) {
+            return false;
+        }
+        if (!Objects.equals(this.ontologicalDomain, other.ontologicalDomain)) {
+            return false;
+        }
+        if (!Objects.equals(this.source, other.source)) {
+            return false;
+        }
+        if (!Objects.equals(this.comment, other.comment)) {
+            return false;
+        }
+        if (!Objects.equals(this.languageRepresentations,
+                other.languageRepresentations)) {
+            return false;
+        }
+        if (!Objects.equals(this.visualRepresentations,
+                other.visualRepresentations)) {
+            return false;
+        }
+        if (!Objects.equals(this.motoricRepresentations,
+                other.motoricRepresentations)) {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -843,41 +897,41 @@ public class Concept implements Serializable {
         }
     }
 
-    public void afterUnmarshal(Unmarshaller u, Object parent) {
-
-        if (Globals.ToMergeAfterUnMarshalling) {
-//            System.out.println("\n\n\nMerge after unmarshall TRUE\n\n\n");
-            ConceptDao cDao = new ConceptDaoImpl();
-            Concept tmp = cDao.getConceptWithExternalSourceIdOrId(this.
-                    getExternalSourceId());
-            if (tmp == null) {
-                if (this.conceptType == null) {
-                    this.conceptType = ConceptType.UNKNOWN;
-                }
-                cDao.merge(this);
-            } else {
-                cDao.update(this);
-            }
-        } else {
-//            System.out.println("\n\n\nMerge after unmarshall FALSE\n\n\n");
-            Concept tmp = (Concept)Constants.globalConcepts.get(this.
-                    getExternalSourceId());
-            if (tmp == null) {
-                if (this.conceptType == null) {
-                    this.conceptType = ConceptType.UNKNOWN;
-                }
-                tmp = new Concept(this);
-                Constants.globalConcepts.put(tmp.getExternalSourceId(), tmp);
-            } else {
-                tmp.conceptType = this.conceptType;
-                updateLanguageRepresentations(tmp);
-                updateVisualRepresentations(tmp);
-                updateMotoricRepresentations(tmp);
-            }
-        }
-        System.out.
-                println("Finish unmarshalling: " + this.getExternalSourceId());
-    }
+//    public void afterUnmarshal(Unmarshaller u, Object parent) {
+//
+//        if (Globals.ToMergeAfterUnMarshalling) {
+////            System.out.println("\n\n\nMerge after unmarshall TRUE\n\n\n");
+//            ConceptDao cDao = new ConceptDaoImpl();
+//            Concept tmp = cDao.getConceptWithExternalSourceIdOrId(this.
+//                    getExternalSourceId());
+//            if (tmp == null) {
+//                if (this.conceptType == null) {
+//                    this.conceptType = ConceptType.UNKNOWN;
+//                }
+//                cDao.merge(this);
+//            } else {
+//                cDao.update(this);
+//            }
+//        } else {
+////            System.out.println("\n\n\nMerge after unmarshall FALSE\n\n\n");
+//            Concept tmp = (Concept)Constants.globalConcepts.get(this.
+//                    getExternalSourceId());
+//            if (tmp == null) {
+//                if (this.conceptType == null) {
+//                    this.conceptType = ConceptType.UNKNOWN;
+//                }
+//                tmp = new Concept(this);
+//                Constants.globalConcepts.put(tmp.getExternalSourceId(), tmp);
+//            } else {
+//                tmp.conceptType = this.conceptType;
+//                updateLanguageRepresentations(tmp);
+//                updateVisualRepresentations(tmp);
+//                updateMotoricRepresentations(tmp);
+//            }
+//        }
+//        System.out.
+//                println("Finish unmarshalling: " + this.getExternalSourceId());
+//    }
 }
 
 //@XmlRegistry

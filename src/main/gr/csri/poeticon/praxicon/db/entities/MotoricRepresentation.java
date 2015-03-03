@@ -3,6 +3,7 @@ package gr.csri.poeticon.praxicon.db.entities;
 import java.io.Serializable;
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +17,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
@@ -153,43 +153,44 @@ public class MotoricRepresentation implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        if (id != null) {
-            hash += id.hashCode();
-        } else {
-            hash = 0;
-        }
+        int hash = 7;
+        hash = 17 * hash + Objects.hashCode(this.performingAgent);
+        hash = 17 * hash + Objects.hashCode(this.source);
+        hash = 17 * hash + Objects.hashCode(this.uri);
+        hash = 17 * hash + Objects.hashCode(this.comment);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - method won't work in case the id fields are not set
-        if (!(object instanceof MotoricRepresentation)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        MotoricRepresentation other = (MotoricRepresentation)object;
-        if (this.comment != null &&
-                this.comment.equalsIgnoreCase(other.comment)) {
-            return true;
-        }
-        if ((this.id == null && other.id != null) ||
-                (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
             return false;
         }
-        if (this.id == null && other.id == null) {
+        final MotoricRepresentation other = (MotoricRepresentation)obj;
+        if (this.performingAgent != other.performingAgent) {
+            return false;
+        }
+        if (!Objects.equals(this.source, other.source)) {
+            return false;
+        }
+        if (!Objects.equals(this.uri, other.uri)) {
+            return false;
+        }
+        if (!Objects.equals(this.comment, other.comment)) {
             return false;
         }
         return true;
     }
+
+
 
     @Override
     public String toString() {
         return "gr.csri.poeticon.praxicon.db.entities.MotoricRepresentation" +
                 "[id=" + id + "]";
     }
-
-    public void afterUnmarshal(Unmarshaller u, Object parent) {
-        //this.owner = (MotoricRepresentationGroup)parent;
-    }
+    
 }
