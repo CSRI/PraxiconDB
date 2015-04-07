@@ -35,11 +35,11 @@ public class SimpleTest {
 
     public static void main(String args[]) {
 
-        /* 
-         Currently commented-out all tests. 
+        /*
+         Currently commented-out all tests.
          User can uncomment accordingly.
          */
-        
+
 //        testConcepts();
 //        testLanguageRepresentations();
 //        testRelations();
@@ -125,7 +125,7 @@ public class SimpleTest {
         ConceptDao cDao = new ConceptDaoImpl();
         LanguageRepresentationDao lrDao = new LanguageRepresentationDaoImpl();
 
-        // Get the language representations of all concepts having "spoon" as 
+        // Get the language representations of all concepts having "spoon" as
         // language representation.
         String toSearch = "spoon";
         List<Concept> conceptsSpoon = cDao.
@@ -232,11 +232,15 @@ public class SimpleTest {
     }
 
     public static void testXmlImport() {
-        XmlUtils.importConceptsFromXml("misc/test-fixtures/Concepts.xml");
-        XmlUtils.importRelationsFromXml("misc/test-fixtures/Relations.xml");
-        XmlUtils.importRelationSetsFromXml(
-                "misc/test-fixtures/RelationSets.xml");
-        XmlUtils.importObjectsFromXml("misc/test-fixtures/Objects.xml");
+        /*
+         Currently commented-out all import tests.
+         User can uncomment accordingly.
+         */
+//        XmlUtils.importConceptsFromXml("misc/test-fixtures/Concepts.xml");
+//        XmlUtils.importRelationsFromXml("misc/test-fixtures/Relations.xml");
+//        XmlUtils.importRelationSetsFromXml(
+//                "misc/test-fixtures/RelationSets.xml");
+//        XmlUtils.importObjectsFromXml("misc/test-fixtures/Objects.xml");
 
     }
 }
