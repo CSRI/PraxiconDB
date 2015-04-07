@@ -250,7 +250,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      */
     @Override
     public Relation updatedRelation(Relation newRelation) {
-        Relation oldRelation = new Relation();
+        Relation oldRelation = new Relation(newRelation);
         try {
             oldRelation = this.getRelation(newRelation.getLeftArgument(),
                     newRelation.getRightArgument(), newRelation.
