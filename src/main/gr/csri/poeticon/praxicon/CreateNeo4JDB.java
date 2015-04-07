@@ -455,7 +455,7 @@ public class CreateNeo4JDB {
 //                                                        RelationType.RelationNameBackward.TOKEN_TYPE);
 //                                        newRelation.setLinguisticSupport(
 //                                                Relation.LinguisticallySupported.UNKNOWN);
-//                                        newRelation.setType(newRelationType);
+//                                        newRelation.setRelationType(newRelationType);
 //
 //                                        if (!blFound) {
 //                                            newRelation.setLeftArgument(

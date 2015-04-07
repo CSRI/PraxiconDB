@@ -46,10 +46,10 @@ public class XmlUtils {
         concepts.setConcepts(new ArrayList<Concept>());
 
         try {
-            /* 
+            /*
              Get active session to update concepts. This way, we can update
              retrieved objects directly to avoid setting EAGER fetch which
-             would criple performance during retrieval from the database. 
+             would criple performance during retrieval from the database.
              */
             EntityManager em = getEntityManager();
             Session session = em.unwrap(org.hibernate.Session.class);
@@ -90,10 +90,10 @@ public class XmlUtils {
         relations.setRelations(new ArrayList<Relation>());
 
         try {
-            /* 
+            /*
              Get active session to update concepts. This way, we can update
              retrieved objects directly to avoid setting EAGER fetch which
-             would criple performance during retrieval from the database. 
+             would criple performance during retrieval from the database.
              */
             EntityManager em = getEntityManager();
             Session session = em.unwrap(org.hibernate.Session.class);
@@ -134,10 +134,10 @@ public class XmlUtils {
         relationSets.setRelationSets(new ArrayList<RelationSet>());
 
         try {
-            /* 
-             Get active session to update relation sets. This way, we can 
-             update retrieved objects directly to avoid setting EAGER fetch 
-             which would criple performance during retrieval from the database. 
+            /*
+             Get active session to update relation sets. This way, we can
+             update retrieved objects directly to avoid setting EAGER fetch
+             which would criple performance during retrieval from the database.
              */
             EntityManager em = getEntityManager();
             Session session = em.unwrap(org.hibernate.Session.class);
@@ -187,10 +187,10 @@ public class XmlUtils {
         relations.setRelations(new ArrayList<Relation>());
 
         try {
-            /* 
-             Get active session to update relation sets. This way, we can 
-             update retrieved objects directly to avoid setting EAGER fetch 
-             which would criple performance during retrieval from the database. 
+            /*
+             Get active session to update relation sets. This way, we can
+             update retrieved objects directly to avoid setting EAGER fetch
+             which would criple performance during retrieval from the database.
              */
             EntityManager em = getEntityManager();
             Session session = em.unwrap(org.hibernate.Session.class);
@@ -279,7 +279,7 @@ public class XmlUtils {
             RelationSets importedRelationSets = (RelationSets)jaxbUnmarshaller.
                     unmarshal(xmlFile);
             importedRelationSets.storeRelationSets();
-            
+
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
@@ -320,7 +320,6 @@ public class XmlUtils {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
         }
-
     }
 
 }

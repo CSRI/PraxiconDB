@@ -9,8 +9,10 @@ import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationArgumentDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
-import static gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl.Direction.DOWN;
-import static gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl.Direction.UP;
+import static gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl.Direction
+        .DOWN;
+import static gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl.Direction
+        .UP;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationArgumentDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
@@ -39,7 +41,6 @@ public class CreateNewBLRelations {
     public static void main(String args[]) {
         BuildGraph();
         System.exit(0);
-
     }
 
     /**
@@ -88,7 +89,7 @@ public class CreateNewBLRelations {
                             RelationType.RelationNameForward.TYPE_TOKEN);
                     relationType1.setBackwardName(
                             RelationType.RelationNameBackward.TOKEN_TYPE);
-                    relation1.setType(relationType1);
+                    relation1.setRelationType(relationType1);
                     // This is the original concept
                     RelationArgument relationArgument1 = raDao.
                             getRelationArgumentByConcept(concept);
@@ -267,7 +268,6 @@ public class CreateNewBLRelations {
         long leafCount = leaves.size();
         long conceptCountPer100 = leafCount / 100;
         long countCounts = 1;
-
         long startTime = System.nanoTime();
         List<List<Concept>> allPaths = new ArrayList<>();
         // For each leaf, we find all paths to each root. 
@@ -338,7 +338,7 @@ public class CreateNewBLRelations {
                                                             RelationType.RelationNameBackward.TOKEN_TYPE);
                                             newRelation.setLinguisticSupport(
                                                     Relation.LinguisticallySupported.UNKNOWN);
-                                            newRelation.setType(newRelationType);
+                                            newRelation.setRelationType(newRelationType);
 
                                             if (!blFound) {
                                                 newRelation.setLeftArgument(
@@ -359,7 +359,7 @@ public class CreateNewBLRelations {
                                             if (!rDao.areRelated(
                                                     relationArgument1,
                                                     relationArgument2)) {
-                                                rDao.persist(newRelation);
+                                                //rDao.persist(newRelation);
                                             }
                                         }
                                     } else if (blConcept.equals(concept)) {
@@ -369,10 +369,7 @@ public class CreateNewBLRelations {
                             }
 
                             if (blConcepts.size() != 1) {
-//                        System.out.println(
-//                                "This path has " + blConcepts.size() +
-//                                " basic level concepts.");
-                                if (blConcepts.size() == 0) {
+                                if (blConcepts.isEmpty()) {
                                     count0BLPaths++;
                                 } else if (blConcepts.size() == 2) {
                                     count2BLPaths++;

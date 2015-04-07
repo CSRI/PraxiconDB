@@ -14,7 +14,7 @@ package gr.csri.poeticon.praxicon;
 public class Globals {
 
     /**
-     * The jpaPU string
+     * The JPA persistence unit name
      */
     public static String JpaPU = "PraxiconDBPU";
 
