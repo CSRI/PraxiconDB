@@ -279,7 +279,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             if (!getEntityManager().getTransaction().isActive()) {
                 getEntityManager().getTransaction().begin();
             }
-// These are not needed any more since the relation argument has replace concept 
+// These are not needed any more since the relation argument has replace concept
 // as the rightArgument of a relation
 //            updateObjOfRelations(newConcept, oldConcept);
             oldConcept = entityManager.merge(oldConcept);
@@ -287,7 +287,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             if (!getEntityManager().getTransaction().isActive()) {
                 getEntityManager().getTransaction().begin();
             }
-// These are not needed any more since the relation argument has replace concept 
+// These are not needed any more since the relation argument has replace concept
 // as the object of a relation
 //            updateRelations(newConcept, oldConcept);
             oldConcept = entityManager.merge(oldConcept);
@@ -372,16 +372,16 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         for (Relation relation : relations) {
             if (relation.getRelationType().getForwardName() ==
                     RelationType.RelationNameForward.TYPE_TOKEN) {
-                if (relation.getLeftArgument().isConcept() &&
-                        relation.getRightArgument().getConcept().
-                        equals(concept)) {
-                    conceptList.add(relation.getLeftArgument().getConcept());
+                if (relation.getLeftArgument().isConcept()) {
+                    if (relation.getRightArgument().getConcept().equals(concept)) {
+                        conceptList.add(relation.getLeftArgument().getConcept());
+                    }
                 } else {
                     System.err.println("A relation set cannot have parents");
                 }
             }
         }
-        entityManager.clear();
+        //entityManager.clear();
         return conceptList;
     }
 
@@ -610,7 +610,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
 
     /**
      * Finds all concepts that are related to a given concept using a given
- relation ConceptType
+     * relation ConceptType
      *
      * @param concept      the concept
      * @param relationType the ConceptType of relation (direction sensitive)
@@ -654,7 +654,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     // TODO: All methods below are not referenced in ConceptDao
     /**
      * Creates q query to search for a concept using name, ConceptType, Status and
- pragmatic Status
+     * pragmatic Status
      *
      * @param concept the concept to be searched
      * @return a query to search for the concept

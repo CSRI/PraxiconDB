@@ -815,10 +815,6 @@ public class Concept implements Serializable {
         hash = 13 * hash + Objects.hashCode(this.uniqueInstance);
         hash = 13 * hash + Objects.hashCode(this.ontologicalDomain);
         hash = 13 * hash + Objects.hashCode(this.source);
-        hash = 13 * hash + Objects.hashCode(this.comment);
-        hash = 13 * hash + Objects.hashCode(this.languageRepresentations);
-        hash = 13 * hash + Objects.hashCode(this.visualRepresentations);
-        hash = 13 * hash + Objects.hashCode(this.motoricRepresentations);
         return hash;
     }
 
@@ -853,21 +849,6 @@ public class Concept implements Serializable {
             return false;
         }
         if (!Objects.equals(this.source, other.source)) {
-            return false;
-        }
-        if (!Objects.equals(this.comment, other.comment)) {
-            return false;
-        }
-        if (!Objects.equals(this.languageRepresentations,
-                other.languageRepresentations)) {
-            return false;
-        }
-        if (!Objects.equals(this.visualRepresentations,
-                other.visualRepresentations)) {
-            return false;
-        }
-        if (!Objects.equals(this.motoricRepresentations,
-                other.motoricRepresentations)) {
             return false;
         }
         return true;
@@ -934,10 +915,10 @@ public class Concept implements Serializable {
 //    }
 }
 
-//@XmlRegistry
-class ObjectFactory {
-
-    Concept createConcept() {
-        return new Concept();
-    }
-}
+////@XmlRegistry
+//class ObjectFactory {
+//
+//    Concept createConcept() {
+//        return new Concept();
+//    }
+//}
