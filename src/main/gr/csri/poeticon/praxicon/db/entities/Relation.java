@@ -69,6 +69,18 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name = "findRelationsByLeftRelationArgument", query =
             "SELECT r FROM Relation r " +
             "WHERE r.leftArgument = :relationArgumentId"),
+    @NamedQuery(name = "findRelationsByLeftRelationArgumentRelationType",
+            query =
+            "SELECT r FROM Relation r " +
+            "JOIN r.relationType rt " +
+            "WHERE r.leftArgument = :relationArgumentId " +
+            "AND rt.forwardName = :relationType"),
+    @NamedQuery(name = "findRelationsByRightRelationArgumentRelationType",
+            query =
+            "SELECT r FROM Relation r " +
+            "JOIN r.relationType rt " +
+            "WHERE r.rightArgument = :relationArgumentId " +
+            "AND rt.forwardName = :relationType"),
     @NamedQuery(name = "areRelated", query =
             "SELECT r FROM Relation r " +
             "WHERE (r.leftArgument = :relationArgumentId1 " +
@@ -254,8 +266,6 @@ public class Relation implements Serializable {
         return true;
     }
 
-
-
 //    @Override
 //    public boolean equals(Object relation) {
 //        // TODO: Warning - method won't work in case the id fields are not set
@@ -283,11 +293,10 @@ public class Relation implements Serializable {
 //        }
 //        return false;
 //    }
-
     @Override
     public String toString() {
         String finalString = "";
-        if (this.getLeftArgument().isConcept()){
+        if (this.getLeftArgument().isConcept()) {
             finalString += this.getLeftArgument().getConcept().toString();
         } else {
             finalString += this.getLeftArgument().getRelationSet().toString();
@@ -295,7 +304,7 @@ public class Relation implements Serializable {
 
         finalString += " " + this.getRelationType().getForwardName() + " ";
 
-        if (this.getRightArgument().isConcept()){
+        if (this.getRightArgument().isConcept()) {
             finalString += this.getRightArgument().getConcept().toString();
         } else {
             finalString += this.getRightArgument().getRelationSet().toString();
