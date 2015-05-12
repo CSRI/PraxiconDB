@@ -63,10 +63,10 @@ import javax.xml.bind.annotation.XmlType;
             "SELECT r FROM Relation r " +
             "JOIN r.relationType rt " +
             "WHERE rt.forwardName = :relationType"),
-    @NamedQuery(name = "findRelationsByRelationArgumentRightArgument", query =
+    @NamedQuery(name = "findRelationsByRightRelationArgument", query =
             "SELECT r FROM Relation r " +
             "WHERE r.rightArgument = :relationArgumentId"),
-    @NamedQuery(name = "findRelationsByRelationArgumentLeftArgument", query =
+    @NamedQuery(name = "findRelationsByLeftRelationArgument", query =
             "SELECT r FROM Relation r " +
             "WHERE r.leftArgument = :relationArgumentId"),
     @NamedQuery(name = "areRelated", query =
@@ -291,16 +291,16 @@ public class Relation implements Serializable {
             finalString += this.getLeftArgument().getConcept().toString();
         } else {
             finalString += this.getLeftArgument().getRelationSet().toString();
-        }       
-      
+        }
+
         finalString += " " + this.getRelationType().getForwardName() + " ";
-        
+
         if (this.getRightArgument().isConcept()){
             finalString += this.getRightArgument().getConcept().toString();
         } else {
             finalString += this.getRightArgument().getRelationSet().toString();
-        }        
-                
+        }
+
         return finalString;
     }
 
