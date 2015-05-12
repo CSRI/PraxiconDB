@@ -44,7 +44,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
     }
 
     /**
-     * Finds relations that have a given relationArgument as rightArgument
+     * Finds relations sets that contain relations with a given concept as a
+     * rightArgument.
      *
      * @param concept the concept which we want the relation sets of
      * @return a list of relation sets
@@ -81,6 +82,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      */
     @Override
     public boolean areRelated(Concept concept1, Concept concept2) {
+        // TODO: This will not work. First retrieve the arguments from the DB.
         RelationArgument relationArgument1 = new RelationArgument(concept1);
         RelationArgument relationArgument2 = new RelationArgument(concept2);
         return areRelated(relationArgument1, relationArgument2);
@@ -88,7 +90,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
 
     /**
      * Finds the relations of a given concept that have a certain
-     * type of relation. Checks only for the given concept as a leftArgument
+     * type of relation.
      *
      * @param concept      the concept
      * @param relationType the type of relation
@@ -97,14 +99,15 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
     @Override
     public List<Relation> getRelationsByConceptRelationType(
             Concept concept, RelationType.RelationNameForward relationType) {
+        /* TODO: Fix this. Needs to get the relation argument that is connected
+         to this concept and search using the retrieved relation argument. */
         RelationArgument newRelationArgument = new RelationArgument(concept);
         return getRelationsByRelationArgumentRelationType(newRelationArgument,
                 relationType);
     }
 
     /**
-     * Finds the relations of a given concept that have a certain
-     * type of relation. Checks only for the given concept as a leftArgument
+     * Finds the relations that have a certain type of relation.
      *
      * @param relationType the type of relation
      * @return List of relations
@@ -150,7 +153,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
     }
 
     /**
-     * Finds all relations of a given concept
+     * Finds all relations of a given relation argument
      *
      * @param relationArgument the relation argument to be searched
      * @return A list of Relations
@@ -177,15 +180,15 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
     public boolean areRelated(RelationArgument relationArgument1,
             RelationArgument relationArgument2) {
         Query query = getEntityManager().createNamedQuery("areRelated").
-                setParameter("relationArgumentId1", relationArgument1).
-                setParameter("relationArgumentId2", relationArgument2);
+                setParameter("relationArgumentId1", relationArgument1.getId()).
+                setParameter("relationArgumentId2", relationArgument2.getId());
         List<Relation> objRels = query.getResultList();
         return objRels.size() > 0;
     }
 
     /**
-     * Finds the relations of a given concept that have a certain
-     * type of relation. Checks only for the given concept as a leftArgument
+     * Finds the relations of a given relation argument that have a certain
+     * type of relation.
      *
      * @param relationArgument the relation argument
      * @param relationType     the type of relation
@@ -203,8 +206,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
     }
 
     /**
-     * Finds the relations of a given concept that have a certain
-     * type of relation. Checks only for the given concept as a leftArgument
+     * Finds the relations of a given relation argument that have a certain
+     * type of relation. Checks only for the given relation argument as a leftArgument
      *
      * @param relationArgument the relation argument
      * @param relationType     the type of relation
@@ -222,8 +225,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
     }
 
     /**
-     * Finds the relations of a given concept that have a certain
-     * type of relation. Checks only for the given concept as a leftArgument
+     * Finds the relations of a given relation argument that have a certain
+     * type of relation. Checks only for the given relation argument as a rightArgument
      *
      * @param relationArgument the relation argument
      * @param relationType     the type of relation
