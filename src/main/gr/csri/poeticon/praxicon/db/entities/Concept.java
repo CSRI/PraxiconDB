@@ -65,6 +65,16 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name = "findConceptsByStatusExact", query =
             "SELECT c FROM Concept c " +
             "WHERE c.status = :status"),
+    @NamedQuery(name = "findConcept", query =
+            "SELECT c FROM Concept c " +
+            "WHERE c.externalSourceId = :externalSourceId " +
+            "AND c.conceptType = :type " +
+            "AND c.specificityLevel = :specificityLevel " +
+            "AND c.status = :status " +
+            "AND c.pragmaticStatus = :pragmaticStatus " +
+            "AND c.uniqueInstance = :uniqueInstance " +
+            "AND c.ontologicalDomain = :ontologicalDomain " +
+            "AND c.source = :source "),
     @NamedQuery(name = "getConceptEntityQuery", query =
             "SELECT c FROM Concept c " +
             "WHERE c.status = :status " +
@@ -207,12 +217,14 @@ public class Concept implements Serializable {
      */
     public Concept() {
         externalSourceId = "";
-        comment = "";
         conceptType = Concept.ConceptType.UNKNOWN;
         specificityLevel = Concept.SpecificityLevel.UNKNOWN;
-        pragmaticStatus = Concept.PragmaticStatus.UNKNOWN;
         status = Concept.Status.CONSTANT;
+        pragmaticStatus = Concept.PragmaticStatus.UNKNOWN;
         uniqueInstance = Concept.UniqueInstance.UNKNOWN;
+        ontologicalDomain = "";
+        source = "";
+        comment = "";
         languageRepresentations = new ArrayList<>();
         visualRepresentations = new ArrayList<>();
         motoricRepresentations = new ArrayList<>();
@@ -881,20 +893,20 @@ public class Concept implements Serializable {
 //    public void afterUnmarshal(Unmarshaller u, Object parent) {
 //
 //        if (Globals.ToMergeAfterUnMarshalling) {
-////            System.out.println("\n\n\nMerge after unmarshall TRUE\n\n\n");
+//            System.out.println("\n\n\nMerge after unmarshall TRUE\n\n\n");
 //            ConceptDao cDao = new ConceptDaoImpl();
-//            Concept tmp = cDao.getConceptWithExternalSourceIdOrId(this.
-//                    getExternalSourceId());
-//            if (tmp == null) {
+//            try {
+//                Concept tmp = cDao.getConceptByExternalSourceIdExact(this.
+//                        getExternalSourceId());
+//            } catch (NoResultException ex) {
 //                if (this.conceptType == null) {
 //                    this.conceptType = ConceptType.UNKNOWN;
 //                }
+//                System.out.println("\n\n\nConcept merged\n\n\n");
 //                cDao.merge(this);
-//            } else {
-//                cDao.update(this);
 //            }
 //        } else {
-////            System.out.println("\n\n\nMerge after unmarshall FALSE\n\n\n");
+//            System.out.println("\n\n\nMerge after unmarshall FALSE\n\n\n");
 //            Concept tmp = (Concept)Constants.globalConcepts.get(this.
 //                    getExternalSourceId());
 //            if (tmp == null) {

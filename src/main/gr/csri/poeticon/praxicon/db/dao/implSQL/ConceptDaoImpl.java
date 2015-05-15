@@ -41,7 +41,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     }
 
     /**
-     * Finds all the concepts
+     * Finds all the concepts.
      *
      * @return a list of all concepts in the database
      */
@@ -50,6 +50,28 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         Query query = getEntityManager().createNamedQuery("findAllConcepts");
         List<Concept> concepts = query.getResultList();
         return concepts;
+    }
+
+    /**
+     * Finds a unique concept according to another concept.
+     *
+     * @param concept the concept to search for.
+     * @return the first concept which has the exact characteristics as the one
+     *         in the input.
+     *
+     */
+    public Concept getConcept(Concept concept) {
+        Query query = getEntityManager().createNamedQuery("findConcept").
+                setParameter("externalSourceId", concept.getExternalSourceId()).
+                setParameter("type", concept.getConceptType()).
+                setParameter("specificityLevel", concept.getSpecificityLevel()).
+                setParameter("status", concept.getStatus()).
+                setParameter("pragmaticStatus", concept.getPragmaticStatus()).
+                setParameter("uniqueInstance", concept.getUniqueInstance()).
+                setParameter("ontologicalDomain", concept.getOntologicalDomain()).
+                setParameter("source", concept.getSource());
+        Object newConcept = query.getSingleResult();
+        return (Concept)newConcept;
     }
 
     /**
