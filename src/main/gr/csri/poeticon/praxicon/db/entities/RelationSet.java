@@ -105,7 +105,7 @@ public class RelationSet implements Serializable {
      * Constructor #1.
      */
     public RelationSet() {
-        this.name = null;
+        this.name = "";
         this.relations = new ArrayList<>();
         this.languageRepresentations = new ArrayList<>();
     }
@@ -365,7 +365,7 @@ public class RelationSet implements Serializable {
         return true;
     }
 
-    
+
 
     @Override
     public String toString() {
