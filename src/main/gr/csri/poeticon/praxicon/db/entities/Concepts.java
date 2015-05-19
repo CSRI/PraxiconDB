@@ -4,6 +4,7 @@ import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
 import java.util.ArrayList;
 import java.util.List;
+import static java.util.Objects.isNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -35,17 +36,24 @@ public class Concepts {
     }
 
     /**
-     * Stores all concepts of the collection in the database updating
-     * same name entries
+     * Stores all concepts of the collection in the database checking if
+     * they already exist in the database.
      */
     public void storeConcepts() {
         if (!concepts.isEmpty()) {
             for (Concept concept : concepts) {
                 ConceptDao cDao = new ConceptDaoImpl();
-                concept = cDao.updatedConcept(concept);
-                System.out.println("External source Id: " +
+                //concept = cDao.updatedConcept(concept);
+                System.out.println("\n\nExternal source Id: " +
                         concept.getExternalSourceId());
-                cDao.merge(concept);
+                Concept newConcept;
+                Concept oldConcept = new Concept(concept);
+                // If concept does not exist in the database, store it. Also
+                // check for the LRs - they are very important.
+                newConcept = cDao.getConcept(concept);
+                if (isNull(newConcept)) {
+                    cDao.merge(oldConcept);
+                }
             }
         }
     }

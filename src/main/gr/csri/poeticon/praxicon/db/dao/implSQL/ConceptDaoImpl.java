@@ -19,6 +19,7 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 /**
@@ -70,8 +71,16 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 setParameter("uniqueInstance", concept.getUniqueInstance()).
                 setParameter("ontologicalDomain", concept.getOntologicalDomain()).
                 setParameter("source", concept.getSource());
-        Object newConcept = query.getSingleResult();
-        return (Concept)newConcept;
+        Concept newConcept = new Concept();
+        try {
+            newConcept = (Concept)query.getSingleResult();
+            System.out.println("\n\nFROM getConcept():   \tFOUND Concept! \n\n");
+        } catch (NoResultException e) {
+            System.out.println(
+                    "\n\nFROM getConcept():   \tCOULD NOT FIND Concept! \n\n");
+            newConcept = (Concept)null;
+        }
+        return newConcept;
     }
 
     /**
