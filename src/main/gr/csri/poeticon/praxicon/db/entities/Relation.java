@@ -231,7 +231,6 @@ public class Relation implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 59 * hash + Objects.hashCode(this.comment);
         hash = 59 * hash + Objects.hashCode(this.relationType);
         hash = 59 * hash + Objects.hashCode(this.leftArgument);
         hash = 59 * hash + Objects.hashCode(this.rightArgument);
@@ -248,9 +247,6 @@ public class Relation implements Serializable {
             return false;
         }
         final Relation other = (Relation)obj;
-        if (!Objects.equals(this.comment, other.comment)) {
-            return false;
-        }
         if (!Objects.equals(this.relationType, other.relationType)) {
             return false;
         }

@@ -106,7 +106,8 @@ public class LanguageRepresentation implements Serializable {
      */
     public static enum PartOfSpeech {
 
-        ADJECTIVE, ADVERB, NOUN, PARTICIPLE, PROPER_NOUN, VERB, VERB_PHRASE, UNKNOWN;
+        ADJECTIVE, ADVERB, NOUN, PARTICIPLE, PROPER_NOUN, VERB, VERB_PHRASE,
+        UNKNOWN;
 
         @Override
         public String toString() {
@@ -163,7 +164,6 @@ public class LanguageRepresentation implements Serializable {
         }
     }
 
-
     @Id
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
@@ -219,7 +219,7 @@ public class LanguageRepresentation implements Serializable {
     )
     private List<RelationSet> RelationSets;
 
-    public LanguageRepresentation(){
+    public LanguageRepresentation() {
         language = Language.EN;
         useStatus = UseStatus.UNKNOWN;
         partOfSpeech = PartOfSpeech.UNKNOWN;
@@ -230,7 +230,8 @@ public class LanguageRepresentation implements Serializable {
         comment = "";
     }
 
-    public LanguageRepresentation(LanguageRepresentation newLanguageRepresentation){
+    public LanguageRepresentation(
+            LanguageRepresentation newLanguageRepresentation) {
         language = newLanguageRepresentation.language;
         useStatus = newLanguageRepresentation.useStatus;
         partOfSpeech = newLanguageRepresentation.partOfSpeech;
@@ -240,7 +241,6 @@ public class LanguageRepresentation implements Serializable {
         text = newLanguageRepresentation.text;
         comment = newLanguageRepresentation.comment;
     }
-
 
     /**
      * @return the Language of the Language representation.
@@ -402,7 +402,6 @@ public class LanguageRepresentation implements Serializable {
         hash = 67 * hash + Objects.hashCode(this.negation);
         hash = 67 * hash + Objects.hashCode(this.operator);
         hash = 67 * hash + Objects.hashCode(this.text);
-        hash = 67 * hash + Objects.hashCode(this.comment);
         return hash;
     }
 
@@ -436,13 +435,8 @@ public class LanguageRepresentation implements Serializable {
         if (!Objects.equals(this.text, other.text)) {
             return false;
         }
-        if (!Objects.equals(this.comment, other.comment)) {
-            return false;
-        }
         return true;
     }
-
-
 
     @Override
     public String toString() {

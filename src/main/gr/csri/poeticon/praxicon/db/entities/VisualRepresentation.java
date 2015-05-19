@@ -193,7 +193,6 @@ public class VisualRepresentation implements Serializable {
         hash = 47 * hash + Objects.hashCode(this.name);
         hash = 47 * hash + Objects.hashCode(this.source);
         hash = 47 * hash + Objects.hashCode(this.uri);
-        hash = 47 * hash + Objects.hashCode(this.comment);
         hash = 47 * hash + Objects.hashCode(this.motoricRepresentation);
         return hash;
     }
@@ -219,9 +218,6 @@ public class VisualRepresentation implements Serializable {
         if (!Objects.equals(this.uri, other.uri)) {
             return false;
         }
-        if (!Objects.equals(this.comment, other.comment)) {
-            return false;
-        }
         if (!Objects.equals(this.motoricRepresentation,
                 other.motoricRepresentation)) {
             return false;
@@ -233,5 +229,5 @@ public class VisualRepresentation implements Serializable {
     public String toString() {
         return "[Id=" + id + "] " + this.mediaType + ": " + this.name;
     }
-    
+
 }

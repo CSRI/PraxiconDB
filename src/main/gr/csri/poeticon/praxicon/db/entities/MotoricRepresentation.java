@@ -157,7 +157,6 @@ public class MotoricRepresentation implements Serializable {
         hash = 17 * hash + Objects.hashCode(this.performingAgent);
         hash = 17 * hash + Objects.hashCode(this.source);
         hash = 17 * hash + Objects.hashCode(this.uri);
-        hash = 17 * hash + Objects.hashCode(this.comment);
         return hash;
     }
 
@@ -179,9 +178,6 @@ public class MotoricRepresentation implements Serializable {
         if (!Objects.equals(this.uri, other.uri)) {
             return false;
         }
-        if (!Objects.equals(this.comment, other.comment)) {
-            return false;
-        }
         return true;
     }
 
@@ -192,5 +188,5 @@ public class MotoricRepresentation implements Serializable {
         return "gr.csri.poeticon.praxicon.db.entities.MotoricRepresentation" +
                 "[id=" + id + "]";
     }
-    
+
 }
