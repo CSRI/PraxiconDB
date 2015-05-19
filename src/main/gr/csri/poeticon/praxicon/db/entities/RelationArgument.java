@@ -60,27 +60,28 @@ public class RelationArgument implements Serializable {
      * Constructor #1. Both concept and relationSet are set to null.
      */
     public RelationArgument() {
-        this.concept = null;
-        this.relationSet = null;
+        this.concept = new Concept();
+        this.relationSet = new RelationSet();
     }
 
     /**
-     * Constructor #2. concept is given and relationSet is set to null.
+     * Constructor #2. concept is given and relationSet is set to empty
+     * RelationSet.
      *
      * @param concept
      */
     public RelationArgument(Concept concept) {
         this.concept = concept;
-        this.relationSet = null;
+        this.relationSet = new RelationSet();
     }
 
     /**
-     * Constructor #3. relationSet is given and concept is set to null.
+     * Constructor #3. relationSet is given and concept is set to empty Concept.
      *
      * @param relationSet
      */
     public RelationArgument(RelationSet relationSet) {
-        this.concept = null;
+        this.concept = new Concept();
         this.relationSet = relationSet;
     }
 
@@ -220,4 +221,14 @@ public class RelationArgument implements Serializable {
         return "gr.csri.poeticon.praxicon.db.entities.RelationArgument[ id=" +
                 id + " ]";
     }
+
+
 }
+////@XmlRegistry
+//class ObjectFactory {
+//
+//    Concept createRelationArgument() {
+//        return new Concept();
+//    }
+//
+//}
