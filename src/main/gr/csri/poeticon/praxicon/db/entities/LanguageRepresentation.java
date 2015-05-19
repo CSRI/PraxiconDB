@@ -106,7 +106,7 @@ public class LanguageRepresentation implements Serializable {
      */
     public static enum PartOfSpeech {
 
-        ADJECTIVE, ADVERB, NOUN, PARTICIPLE, PROPER_NOUN, VERB, VERB_PHRASE;
+        ADJECTIVE, ADVERB, NOUN, PARTICIPLE, PROPER_NOUN, VERB, VERB_PHRASE, UNKNOWN;
 
         @Override
         public String toString() {
@@ -143,7 +143,7 @@ public class LanguageRepresentation implements Serializable {
             return this.name();
         }
     }
-    
+
     /**
      * Enumeration of the types of operator.
      * NONE: Default value; when there is no operator.
@@ -162,7 +162,7 @@ public class LanguageRepresentation implements Serializable {
             return this.name();
         }
     }
-    
+
 
     @Id
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
@@ -196,7 +196,7 @@ public class LanguageRepresentation implements Serializable {
 
     @Column(name = "Operator")
     private Operator operator;
-    
+
     @Column(name = "Text")
     @NotNull(message = "Text must be specified.")
     private String text;
@@ -219,9 +219,28 @@ public class LanguageRepresentation implements Serializable {
     )
     private List<RelationSet> RelationSets;
 
-    public LanguageRepresentation() {
-        language_representations = new ArrayList<>();
+    public LanguageRepresentation(){
+        language = Language.EN;
+        useStatus = UseStatus.UNKNOWN;
+        partOfSpeech = PartOfSpeech.UNKNOWN;
+        productivity = Productivity.UNKNOWN;
+        negation = "";
+        operator = Operator.NONE;
+        text = "";
+        comment = "";
     }
+
+    public LanguageRepresentation(LanguageRepresentation newLanguageRepresentation){
+        language = newLanguageRepresentation.language;
+        useStatus = newLanguageRepresentation.useStatus;
+        partOfSpeech = newLanguageRepresentation.partOfSpeech;
+        productivity = newLanguageRepresentation.productivity;
+        negation = newLanguageRepresentation.negation;
+        operator = newLanguageRepresentation.operator;
+        text = newLanguageRepresentation.text;
+        comment = newLanguageRepresentation.comment;
+    }
+
 
     /**
      * @return the Language of the Language representation.
@@ -265,9 +284,9 @@ public class LanguageRepresentation implements Serializable {
         this.productivity = Productivity.valueOf(productivity.trim().
                 toUpperCase());
     }
-    
+
     /**
-     * 
+     *
      * @return The negation of this language representation
      */
     public String getNegation() {
@@ -423,7 +442,7 @@ public class LanguageRepresentation implements Serializable {
         return true;
     }
 
-    
+
 
     @Override
     public String toString() {
