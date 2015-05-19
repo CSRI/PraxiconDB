@@ -94,8 +94,6 @@ public class RelationSet_Relation implements Serializable {
         return true;
     }
 
-
-
     @Override
     public String toString() {
         return "gr.csri.poeticon.praxicon.db.entities.RelationSet_Relation" +
