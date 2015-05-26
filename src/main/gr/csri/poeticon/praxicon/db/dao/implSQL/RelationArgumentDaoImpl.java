@@ -11,6 +11,7 @@ import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 /**
@@ -58,12 +59,16 @@ public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument>
 
     @Override
     public RelationArgument getRelationArgumentByConcept(Concept concept) {
-        RelationArgument newRelationArgument;
-        newRelationArgument = new RelationArgument();
         Query query = getEntityManager().createNamedQuery(
                 "findRelationArgumentByConcept").
                 setParameter("conceptId", concept.getId());
-        newRelationArgument = (RelationArgument)query.getSingleResult();
+        RelationArgument newRelationArgument;
+        newRelationArgument = new RelationArgument();
+        try {
+            newRelationArgument = (RelationArgument)query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
         return newRelationArgument;
     }
 }
