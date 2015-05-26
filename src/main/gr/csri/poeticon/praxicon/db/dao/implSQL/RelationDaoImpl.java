@@ -13,6 +13,7 @@ import gr.csri.poeticon.praxicon.db.entities.RelationSet;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 /**
@@ -39,8 +40,14 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
                 setParameter("leftRelationArgumentId", leftArgument.getId()).
                 setParameter("rightRelationArgumentId", rightArgument.getId()).
                 setParameter("relationType", relationType);
-        Object relation = query.getSingleResult();
-        return (Relation)relation;
+
+        Relation relation = new Relation();
+        try {
+            relation = (Relation)query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+        return relation;
     }
 
     /**
@@ -118,7 +125,9 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByRelationType").
                 setParameter("relationType", relationType);
-        return query.getResultList();
+        List<Relation> relations = new ArrayList<>();
+        relations = (List<Relation>)query.getResultList();
+        return relations;
     }
 
     /**
@@ -133,7 +142,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByRelationArgumentRightArgumentOrLeftArgument").
                 setParameter("relationArgumentId", relationArgument.getId());
-        List<Relation> rightArgumentRelations = query.getResultList();
+        List<Relation> rightArgumentRelations = new ArrayList<>();
+        rightArgumentRelations = (List<Relation>)query.getResultList();
         List<RelationSet> res = new ArrayList<>();
         for (Relation r : rightArgumentRelations) {
             if (r.getRightArgument().equals(relationArgument)) {
