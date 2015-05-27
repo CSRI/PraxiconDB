@@ -74,7 +74,9 @@ import javax.xml.bind.annotation.XmlType;
             "AND c.pragmaticStatus = :pragmaticStatus " +
             "AND c.uniqueInstance = :uniqueInstance " +
             "AND c.ontologicalDomain = :ontologicalDomain " +
-            "AND c.source = :source "),
+            "AND c.source = :source "
+    //            "AND c.languageRepresentations = :languageRepresentations "
+    ),
     @NamedQuery(name = "getConceptEntityQuery", query =
             "SELECT c FROM Concept c " +
             "WHERE c.status = :status " +
@@ -248,15 +250,18 @@ public class Concept implements Serializable {
         languageRepresentations = new ArrayList<>();
         visualRepresentations = new ArrayList<>();
         motoricRepresentations = new ArrayList<>();
-
-        for (LanguageRepresentation tmpLanguageRepresentation : newConcept.
+        for (LanguageRepresentation lr : newConcept.
                 getLanguageRepresentations()) {
-            if (!this.getLanguageRepresentations().contains(
-                    tmpLanguageRepresentation)) {
-                tmpLanguageRepresentation.getConcepts().remove(newConcept);
-                this.getLanguageRepresentations().add(
-                        tmpLanguageRepresentation);
+            if (!this.getLanguageRepresentations().contains(lr)) {
+//                lr.getConcepts().remove(newConcept);
+
+                LanguageRepresentation newLr = new LanguageRepresentation(lr);
+                System.out.println("NEW LANGUAGE REPRESENTATION: " + newLr);
+                this.addLanguageRepresentation(newLr, false);
+                //getLanguageRepresentations().add(newLr);
             }
+            System.out.println("Concept's LanguageRepresenations: " + this.
+                    getLanguageRepresentations());
         }
 
         for (VisualRepresentation tmpVisualRepresentation : newConcept.
@@ -588,7 +593,7 @@ public class Concept implements Serializable {
      *                               There can be more than one representative
      *                               Language representations.
      */
-    public void addLanguageRepresentation(
+    public final void addLanguageRepresentation(
             LanguageRepresentation languageRepresentation,
             boolean isRepresentative) {
         Concept_LanguageRepresentation clr =
@@ -827,6 +832,10 @@ public class Concept implements Serializable {
         hash = 13 * hash + Objects.hashCode(this.uniqueInstance);
         hash = 13 * hash + Objects.hashCode(this.ontologicalDomain);
         hash = 13 * hash + Objects.hashCode(this.source);
+        hash = 13 * hash + Objects.hashCode(this.getLanguageRepresentations());
+        hash = 13 * hash + Objects.hashCode(this.getVisualRepresentationsEntries());
+        hash = 13 * hash + Objects.hashCode(this.
+                getMotoricRepresentationsEntries());
         return hash;
     }
 
@@ -861,6 +870,18 @@ public class Concept implements Serializable {
             return false;
         }
         if (!Objects.equals(this.source, other.source)) {
+            return false;
+        }
+        if (!Objects.equals(this.getLanguageRepresentations(), other.
+                getLanguageRepresentations())) {
+            return false;
+        }
+        if (!Objects.equals(this.getVisualRepresentationsEntries(), other.
+                getVisualRepresentationsEntries())) {
+            return false;
+        }
+        if (!Objects.equals(this.getMotoricRepresentationsEntries(), other.
+                getMotoricRepresentationsEntries())) {
             return false;
         }
         return true;
