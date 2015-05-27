@@ -833,7 +833,8 @@ public class Concept implements Serializable {
         hash = 13 * hash + Objects.hashCode(this.ontologicalDomain);
         hash = 13 * hash + Objects.hashCode(this.source);
         hash = 13 * hash + Objects.hashCode(this.getLanguageRepresentations());
-        hash = 13 * hash + Objects.hashCode(this.getVisualRepresentationsEntries());
+        hash = 13 * hash + Objects.hashCode(this.
+                getVisualRepresentationsEntries());
         hash = 13 * hash + Objects.hashCode(this.
                 getMotoricRepresentationsEntries());
         return hash;
@@ -910,42 +911,6 @@ public class Concept implements Serializable {
             }
         }
     }
-
-//    public void afterUnmarshal(Unmarshaller u, Object parent) {
-//
-//        if (Globals.ToMergeAfterUnMarshalling) {
-//            System.out.println("\n\n\nMerge after unmarshall TRUE\n\n\n");
-//            ConceptDao cDao = new ConceptDaoImpl();
-//            try {
-//                Concept tmp = cDao.getConceptByExternalSourceIdExact(this.
-//                        getExternalSourceId());
-//            } catch (NoResultException ex) {
-//                if (this.conceptType == null) {
-//                    this.conceptType = ConceptType.UNKNOWN;
-//                }
-//                System.out.println("\n\n\nConcept merged\n\n\n");
-//                cDao.merge(this);
-//            }
-//        } else {
-//            System.out.println("\n\n\nMerge after unmarshall FALSE\n\n\n");
-//            Concept tmp = (Concept)Constants.globalConcepts.get(this.
-//                    getExternalSourceId());
-//            if (tmp == null) {
-//                if (this.conceptType == null) {
-//                    this.conceptType = ConceptType.UNKNOWN;
-//                }
-//                tmp = new Concept(this);
-//                Constants.globalConcepts.put(tmp.getExternalSourceId(), tmp);
-//            } else {
-//                tmp.conceptType = this.conceptType;
-//                updateLanguageRepresentations(tmp);
-//                updateVisualRepresentations(tmp);
-//                updateMotoricRepresentations(tmp);
-//            }
-//        }
-//        System.out.
-//                println("Finish unmarshalling: " + this.getExternalSourceId());
-//    }
 }
 
 ////@XmlRegistry
