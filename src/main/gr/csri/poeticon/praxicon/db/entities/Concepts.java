@@ -43,15 +43,11 @@ public class Concepts {
         if (!concepts.isEmpty()) {
             for (Concept concept : concepts) {
                 ConceptDao cDao = new ConceptDaoImpl();
-                //concept = cDao.updatedConcept(concept);
-                System.out.println("\n\nExternal source Id: " +
-                        concept.getExternalSourceId());
-                Concept newConcept;
                 Concept oldConcept = new Concept(concept);
-                // If concept does not exist in the database, store it. Also
-                // check for the LRs - they are very important.
-                newConcept = cDao.getConcept(concept);
-                if (isNull(newConcept)) {
+
+                // If concept does not exist in the database, store it.
+                Concept retrievedConcept = cDao.getConcept(concept);
+                if (isNull(retrievedConcept)) {
                     cDao.merge(oldConcept);
                 }
             }
