@@ -13,7 +13,6 @@ import gr.csri.poeticon.praxicon.db.entities.RelationSet;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 /**
@@ -40,14 +39,11 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
                 setParameter("leftRelationArgumentId", leftArgument.getId()).
                 setParameter("rightRelationArgumentId", rightArgument.getId()).
                 setParameter("relationType", relationType);
-
-        Relation relation = new Relation();
-        try {
-            relation = (Relation)query.getSingleResult();
-        } catch (NoResultException e) {
+        List<Relation> relationsList = (List<Relation>)query.getResultList();
+        if (relationsList.isEmpty()) {
             return null;
         }
-        return relation;
+        return relationsList.get(0);
     }
 
     /**

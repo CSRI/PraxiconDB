@@ -13,16 +13,12 @@ import static gr.csri.poeticon.praxicon.db.entities.Concept.SpecificityLevel.SUB
 import static gr.csri.poeticon.praxicon.db.entities.Concept.SpecificityLevel.SUPERORDINATE;
 import gr.csri.poeticon.praxicon.db.entities.Concept.Status;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
-import gr.csri.poeticon.praxicon.db.entities.MotoricRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
-import gr.csri.poeticon.praxicon.db.entities.VisualRepresentation;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
 
 /**
@@ -65,6 +61,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      *         in the input.
      *
      */
+    @Override
     public Concept getConcept(Concept concept) {
         Query query = getEntityManager().createNamedQuery("findConcept").
                 setParameter("externalSourceId", concept.getExternalSourceId()).
@@ -76,27 +73,12 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 setParameter("ontologicalDomain", concept.getOntologicalDomain()).
                 setParameter("source", concept.getSource());
         Concept newConcept = new Concept();
-        try {
-            newConcept = (Concept)query.getSingleResult();
-        } catch (NoResultException nre) {
+        List<Concept> conceptsList = new ArrayList<>();
+        conceptsList = (List<Concept>)query.getResultList();
+        if (conceptsList.isEmpty()) {
             return null;
-        } catch (NonUniqueResultException nure) {
-            System.out.println(
-                    "There are more than one concepts with these exact " +
-                    "characteristics");
         }
-
-        // Now check the representations. If all 3 representations match,
-        // then it is the same concept.
-        List<LanguageRepresentation> languageRepresentations = concept.
-                getLanguageRepresentations();
-        List<MotoricRepresentation> motoricRepresentations = concept.
-                getMotoricRepresentations();
-        List<VisualRepresentation> visualRepresentations = concept.
-                getVisualRepresentations();
-
-
-        return newConcept;
+        return conceptsList.get(0);
     }
 
     /**
@@ -138,16 +120,12 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         Query query = getEntityManager().createNamedQuery(
                 "findConceptsByConceptId").
                 setParameter("conceptId", conceptId);
-        Concept concept = new Concept();
-        try {
-            concept = (Concept)query.getSingleResult();
-        } catch (NoResultException nre) {
+        List<Concept> conceptsList = new ArrayList<>();
+        conceptsList = (List<Concept>)query.getResultList();
+        if (conceptsList.isEmpty()) {
             return null;
-        } catch (NonUniqueResultException nure) {
-            System.out.println(
-                    "There are more than one concepts with this conceptId");
         }
-        return concept;
+        return conceptsList.get(0);
     }
 
     /**
@@ -182,16 +160,11 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 "findConceptByExternalSourceIdExact").
                 setParameter("conceptExternalSourceId", conceptExternalSourceId);
         Concept concept = new Concept();
-        try {
-            concept = (Concept)query.getSingleResult();
-        } catch (NoResultException nre) {
+        List<Concept> conceptsList = (List<Concept>)query.getResultList();
+        if (conceptsList.isEmpty()) {
             return null;
-        } catch (NonUniqueResultException nure) {
-            System.out.println(
-                    "There are more than one concepts with this " +
-                    "ExternalSourceId");
         }
-        return concept;
+        return conceptsList.get(0);
     }
 
     /**
@@ -209,7 +182,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 "findConceptsByLanguageRepresentation").
                 setParameter("languageRepresentationName", "%" +
                         languageRepresentationName + "%");
-
         List<Concept> concepts = new ArrayList<>();
         concepts = (List<Concept>)query.getResultList();
         return concepts;
@@ -229,7 +201,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 "findConceptsByLanguageRepresentationExact").
                 setParameter("languageRepresentationName",
                         languageRepresentationName);
-
         List<Concept> concepts = new ArrayList<>();
         concepts = (List<Concept>)query.getResultList();
         return concepts;
@@ -246,7 +217,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         Query query = getEntityManager().createNamedQuery(
                 "findConceptsByStatusExact").
                 setParameter("status", status);
-
         List<Concept> concepts = new ArrayList<>();
         concepts = (List<Concept>)query.getResultList();
         return concepts;
