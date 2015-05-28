@@ -70,7 +70,7 @@ public class LanguageRepresentationDaoImplXML extends
     }
 
     @Override
-    public LanguageRepresentation getLanguageRepresentations(Language language,
+    public List<LanguageRepresentation> getLanguageRepresentations(Language language,
             String text, PartOfSpeech pos, UseStatus pragmaticStatus) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
