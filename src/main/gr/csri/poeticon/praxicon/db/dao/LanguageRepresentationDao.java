@@ -28,11 +28,11 @@ public interface LanguageRepresentationDao extends
 
     List<LanguageRepresentation> getLanguageRepresentations(
             Language language, String text, PartOfSpeech pos,
-            UseStatus pragmaticStatus);
+            UseStatus useStatus);
 
     LanguageRepresentation getLanguageRepresentationsCaseInsensitive(
             Language language, String text, PartOfSpeech pos,
-            UseStatus pragmaticStatus);
+            UseStatus useStatus);
 
     List<String> getAllLanguageRepresentationText();
 
