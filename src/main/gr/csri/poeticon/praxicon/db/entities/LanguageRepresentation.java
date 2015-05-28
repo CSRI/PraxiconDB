@@ -4,10 +4,14 @@
  */
 package gr.csri.poeticon.praxicon.db.entities;
 
+import gr.csri.poeticon.praxicon.Globals;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,6 +30,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
@@ -63,7 +68,10 @@ import javax.xml.bind.annotation.XmlType;
             "WHERE UPPER(lr.text) = :text " +
             "AND UPPER(lr.language) = :language " +
             "AND UPPER(lr.partOfSpeech) = :pos " +
-            "AND UPPER(lr.useStatus) = :useStatus"),
+            "AND UPPER(lr.useStatus) = :useStatus " +
+            "AND UPPER(lr.productivity) = :productivity " +
+            "AND UPPER(lr.negation) = :negation " +
+            "AND UPPER(lr.operation) = :operation"),
     @NamedQuery(name = "findLanguageRepresentationsByText", query =
             "FROM LanguageRepresentation lr " +
             "WHERE UPPER(lr.text) = :text"),
@@ -322,11 +330,9 @@ public class LanguageRepresentation implements Serializable {
         List<Concept> concepts = new ArrayList<>();
         for (LanguageRepresentation language_representation
                 : LanguageRepresentation.language_representations) {
-            for (int j = 0; j < language_representation.getConcepts().size();
-                    j++) {
-                if (!concepts.contains(language_representation.getConcepts().
-                        get(j))) {
-                    concepts.add(language_representation.getConcepts().get(j));
+            for (Concept concept : language_representation.getConcepts()) {
+                if (!concepts.contains(concept)) {
+                    concepts.add(concept);
                 }
             }
         }
@@ -443,16 +449,15 @@ public class LanguageRepresentation implements Serializable {
         return text + "\\" + this.partOfSpeech + " (" + language + ")";
     }
 
-//    public void afterUnmarshal(Unmarshaller u, Object parent) {
-//        if (!Globals.ToMergeAfterUnMarshalling) {
-//            try {
-//                String tmp = new String(this.getText().getBytes(), "UTF-8");
-//                this.setText(tmp);
-//            } catch (UnsupportedEncodingException ex) {
-//                Logger.getLogger(LanguageRepresentation.class.getName()).log(
-//                        Level.SEVERE,
-//                        null, ex);
-//            }
-//        }
-//    }
+    public void afterUnmarshal(Unmarshaller u, Object parent) {
+        if (!Globals.ToMergeAfterUnMarshalling) {
+            try {
+                String tmp = new String(this.getText().getBytes(), "UTF-8");
+                this.setText(tmp);
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(LanguageRepresentation.class.getName()).log(
+                        Level.SEVERE, null, ex);
+            }
+        }
+    }
 }
