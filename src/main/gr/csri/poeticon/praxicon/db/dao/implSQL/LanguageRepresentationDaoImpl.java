@@ -8,10 +8,8 @@ import gr.csri.poeticon.praxicon.db.dao.LanguageRepresentationDao;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.Language;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.Operator;
-import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.
-        PartOfSpeech;
-import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.
-        Productivity;
+import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.PartOfSpeech;
+import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.Productivity;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.UseStatus;
 import java.util.List;
 import javax.persistence.Query;
@@ -39,7 +37,7 @@ public class LanguageRepresentationDaoImpl extends
      * @return A LanguageRepresentation (null if not found)
      */
     @Override
-    public List<LanguageRepresentation> getLanguageRepresentations(
+    public LanguageRepresentation getSingleLanguageRepresentation(
             Language language, String text, PartOfSpeech pos,
             UseStatus useStatus, Productivity productivity, String negation,
             Operator operator) {
@@ -54,11 +52,10 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("operator", operator);
         List<LanguageRepresentation> result =
                 (List<LanguageRepresentation>)query.getResultList();
-        if (result.size() > 0) {
-            return result;
-        } else {
+        if (result.isEmpty()) {
             return null;
         }
+        return result.get(0);
     }
 
     /**

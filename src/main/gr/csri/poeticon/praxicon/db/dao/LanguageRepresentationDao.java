@@ -19,7 +19,7 @@ import java.util.List;
 public interface LanguageRepresentationDao extends
         Dao<Long, LanguageRepresentation> {
 
-    List<LanguageRepresentation> getLanguageRepresentations(
+    LanguageRepresentation getSingleLanguageRepresentation(
             Language language, String text, PartOfSpeech pos,
             UseStatus useStatus, Productivity productivity, String negation,
             Operator operator);
