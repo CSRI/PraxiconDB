@@ -11,14 +11,11 @@ import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
 
 /**
  *
  * @author dmavroeidis
- * @author Dimitris Mavroeidis
  *
  */
 public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument>
@@ -63,17 +60,11 @@ public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument>
         Query query = getEntityManager().createNamedQuery(
                 "findRelationArgumentByConcept").
                 setParameter("conceptId", concept.getId());
-        RelationArgument newRelationArgument;
-        newRelationArgument = new RelationArgument();
-        try {
-            newRelationArgument = (RelationArgument)query.getSingleResult();
-        } catch (NoResultException nre) {
+        List<RelationArgument> relationArgumentsList =
+                (List<RelationArgument>)query.getResultList();
+        if (relationArgumentsList.isEmpty()) {
             return null;
-        } catch (NonUniqueResultException nure) {
-            System.out.println(
-                    "There are more than one relation arguments " +
-                    "with this concept as argument.");
         }
-        return newRelationArgument;
+        return relationArgumentsList.get(0);
     }
 }
