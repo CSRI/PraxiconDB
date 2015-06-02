@@ -43,9 +43,11 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name = "findConceptsByConceptId", query =
             "FROM Concept c WHERE c.id = :conceptId"),
     @NamedQuery(name = "findAllBasicLevelConcepts", query =
-            "FROM Concept c WHERE c.specificityLevel = 'BASIC_LEVEL'"),
+            "FROM Concept c WHERE c.specificityLevel = 'BASIC_LEVEL' " +
+            "OR c.specificityLevel = 'BASIC_LEVEL_EXTENDED'"),
     @NamedQuery(name = "findAllNonBasicLevelConcepts", query =
-            "FROM Concept c WHERE c.specificityLevel != 'BASIC_LEVEL'"),
+            "FROM Concept c WHERE c.specificityLevel != 'BASIC_LEVEL'  " +
+            "AND c.specificityLevel != 'BASIC_LEVEL_EXTENDED'"),
     @NamedQuery(name = "findConceptsByExternalSourceId", query =
             "FROM Concept c " +
             "WHERE c.externalSourceId LIKE :conceptExternalSourceId"),
@@ -76,6 +78,7 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name = "getConceptEntityQuery", query =
             "SELECT c FROM Concept c " +
             "WHERE c.status = :status " +
+            "AND c.specificityLevel = :specificityLevel" +
             "AND c.externalSourceId = :externalSourceId " +
             "AND c.conceptType = :type " +
             "AND c.pragmaticStatus = :pragmaticStatus"),})
@@ -233,7 +236,9 @@ public class Concept implements Serializable {
      *
      * @param newConcept
      */
-    public Concept(Concept newConcept, boolean keepLanguageRepresentation) {
+    public Concept(Concept newConcept, boolean keepLanguageRepresentation, 
+            boolean keepVisualRepresentation, 
+            boolean keepMotoricRepresentation) {
         this.comment = newConcept.getComment();
         this.externalSourceId = newConcept.externalSourceId;
         this.conceptType = newConcept.getConceptType();
@@ -257,20 +262,24 @@ public class Concept implements Serializable {
             }
         }
 
-        for (VisualRepresentation tmpVisualRepresentation : newConcept.
-                getVisualRepresentationsEntries()) {
-            if (!this.getVisualRepresentationsEntries().contains(
-                    tmpVisualRepresentation)) {
-                this.getVisualRepresentationsEntries().add(
-                        tmpVisualRepresentation);
+        if (keepVisualRepresentation) {
+            for (VisualRepresentation tmpVisualRepresentation : newConcept.
+                    getVisualRepresentationsEntries()) {
+                if (!this.getVisualRepresentationsEntries().contains(
+                        tmpVisualRepresentation)) {
+                    this.getVisualRepresentationsEntries().add(
+                            tmpVisualRepresentation);
+                }
             }
         }
 
-        for (MotoricRepresentation tmpMotoricRepresentation : newConcept.
-                getMotoricRepresentations()) {
-            if (!this.getMotoricRepresentations().contains(
-                    tmpMotoricRepresentation)) {
-                this.getMotoricRepresentations().add(tmpMotoricRepresentation);
+        if (keepMotoricRepresentation){
+            for (MotoricRepresentation tmpMotoricRepresentation : newConcept.
+                    getMotoricRepresentations()) {
+                if (!this.getMotoricRepresentations().contains(
+                        tmpMotoricRepresentation)) {
+                    this.getMotoricRepresentations().add(tmpMotoricRepresentation);
+                }
             }
         }
     }
