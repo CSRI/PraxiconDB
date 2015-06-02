@@ -64,14 +64,13 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     @Override
     public Concept getConcept(Concept concept) {
         Query query = getEntityManager().createNamedQuery("findConcept").
-                setParameter("externalSourceId", concept.getExternalSourceId()).
                 setParameter("type", concept.getConceptType()).
                 setParameter("specificityLevel", concept.getSpecificityLevel()).
                 setParameter("status", concept.getStatus()).
                 setParameter("pragmaticStatus", concept.getPragmaticStatus()).
                 setParameter("uniqueInstance", concept.getUniqueInstance()).
-                setParameter("ontologicalDomain", concept.getOntologicalDomain()).
-                setParameter("source", concept.getSource());
+                setParameter("ontologicalDomain", concept.getOntologicalDomain()
+);
         Concept newConcept = new Concept();
         List<Concept> conceptsList = new ArrayList<>();
         conceptsList = (List<Concept>)query.getResultList();
@@ -263,7 +262,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         } catch (Exception e) {
             return newConcept;
         } finally {
-            oldConcept = new Concept(newConcept);
+            oldConcept = new Concept(newConcept, true);
             return oldConcept;
         }
     }

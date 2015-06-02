@@ -67,16 +67,12 @@ import javax.xml.bind.annotation.XmlType;
             "WHERE c.status = :status"),
     @NamedQuery(name = "findConcept", query =
             "SELECT c FROM Concept c " +
-            "WHERE c.externalSourceId = :externalSourceId " +
-            "AND c.conceptType = :type " +
+            "WHERE c.conceptType = :type " +
             "AND c.specificityLevel = :specificityLevel " +
             "AND c.status = :status " +
             "AND c.pragmaticStatus = :pragmaticStatus " +
             "AND c.uniqueInstance = :uniqueInstance " +
-            "AND c.ontologicalDomain = :ontologicalDomain " +
-            "AND c.source = :source "
-    //            "AND c.languageRepresentations = :languageRepresentations "
-    ),
+            "AND c.ontologicalDomain = :ontologicalDomain "),
     @NamedQuery(name = "getConceptEntityQuery", query =
             "SELECT c FROM Concept c " +
             "WHERE c.status = :status " +
@@ -237,7 +233,7 @@ public class Concept implements Serializable {
      *
      * @param newConcept
      */
-    public Concept(Concept newConcept) {
+    public Concept(Concept newConcept, boolean keepLanguageRepresentation) {
         this.comment = newConcept.getComment();
         this.externalSourceId = newConcept.externalSourceId;
         this.conceptType = newConcept.getConceptType();
@@ -250,18 +246,15 @@ public class Concept implements Serializable {
         languageRepresentations = new ArrayList<>();
         visualRepresentations = new ArrayList<>();
         motoricRepresentations = new ArrayList<>();
-        for (LanguageRepresentation lr : newConcept.
-                getLanguageRepresentations()) {
-            if (!this.getLanguageRepresentations().contains(lr)) {
-//                lr.getConcepts().remove(newConcept);
-
-                LanguageRepresentation newLr = new LanguageRepresentation(lr);
-                System.out.println("NEW LANGUAGE REPRESENTATION: " + newLr);
-                this.addLanguageRepresentation(newLr, false);
-                //getLanguageRepresentations().add(newLr);
+        if (keepLanguageRepresentation) {
+            for (LanguageRepresentation lr : newConcept.
+                    getLanguageRepresentations()) {
+                if (!this.getLanguageRepresentations().contains(lr)) {
+                    LanguageRepresentation newLr =
+                            new LanguageRepresentation(lr);
+                    this.addLanguageRepresentation(newLr, false);
+                }
             }
-            System.out.println("Concept's LanguageRepresenations: " + this.
-                    getLanguageRepresentations());
         }
 
         for (VisualRepresentation tmpVisualRepresentation : newConcept.
@@ -833,10 +826,6 @@ public class Concept implements Serializable {
         hash = 13 * hash + Objects.hashCode(this.ontologicalDomain);
         hash = 13 * hash + Objects.hashCode(this.source);
         hash = 13 * hash + Objects.hashCode(this.getLanguageRepresentations());
-        hash = 13 * hash + Objects.hashCode(this.
-                getVisualRepresentationsEntries());
-        hash = 13 * hash + Objects.hashCode(this.
-                getMotoricRepresentationsEntries());
         return hash;
     }
 
@@ -875,14 +864,6 @@ public class Concept implements Serializable {
         }
         if (!Objects.equals(this.getLanguageRepresentations(), other.
                 getLanguageRepresentations())) {
-            return false;
-        }
-        if (!Objects.equals(this.getVisualRepresentationsEntries(), other.
-                getVisualRepresentationsEntries())) {
-            return false;
-        }
-        if (!Objects.equals(this.getMotoricRepresentationsEntries(), other.
-                getMotoricRepresentationsEntries())) {
             return false;
         }
         return true;
