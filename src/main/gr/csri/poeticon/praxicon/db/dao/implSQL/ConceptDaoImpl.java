@@ -262,7 +262,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         } catch (Exception e) {
             return newConcept;
         } finally {
-            oldConcept = new Concept(newConcept, true);
+            oldConcept = new Concept(newConcept, true, true, true);
             return oldConcept;
         }
     }
