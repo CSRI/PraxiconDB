@@ -76,7 +76,7 @@ public class LanguageRepresentationDaoImplXML extends
     }
 
     @Override
-    public List<LanguageRepresentation> getLanguageRepresentations(
+    public LanguageRepresentation getSingleLanguageRepresentation(
             Language language, String text, PartOfSpeech pos,
             UseStatus useStatus,
             LanguageRepresentation.Productivity productivity, String negation,
