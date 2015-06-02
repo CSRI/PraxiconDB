@@ -817,14 +817,12 @@ public class Concept implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 13 * hash + Objects.hashCode(this.externalSourceId);
         hash = 13 * hash + Objects.hashCode(this.conceptType);
         hash = 13 * hash + Objects.hashCode(this.specificityLevel);
         hash = 13 * hash + Objects.hashCode(this.status);
         hash = 13 * hash + Objects.hashCode(this.pragmaticStatus);
         hash = 13 * hash + Objects.hashCode(this.uniqueInstance);
         hash = 13 * hash + Objects.hashCode(this.ontologicalDomain);
-        hash = 13 * hash + Objects.hashCode(this.source);
         hash = 13 * hash + Objects.hashCode(this.getLanguageRepresentations());
         return hash;
     }
@@ -838,9 +836,6 @@ public class Concept implements Serializable {
             return false;
         }
         final Concept other = (Concept)obj;
-        if (!Objects.equals(this.externalSourceId, other.externalSourceId)) {
-            return false;
-        }
         if (this.conceptType != other.conceptType) {
             return false;
         }
@@ -857,9 +852,6 @@ public class Concept implements Serializable {
             return false;
         }
         if (!Objects.equals(this.ontologicalDomain, other.ontologicalDomain)) {
-            return false;
-        }
-        if (!Objects.equals(this.source, other.source)) {
             return false;
         }
         if (!Objects.equals(this.getLanguageRepresentations(), other.
