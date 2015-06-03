@@ -63,6 +63,16 @@ import javax.xml.bind.annotation.XmlType;
             "AND lr.language = :language " +
             "AND lr.partOfSpeech = :pos " +
             "AND lr.useStatus = :useStatus"),
+    @NamedQuery(name =
+            "findLanguageRepresentation", query =
+            "FROM LanguageRepresentation lr " +
+            "WHERE lr.text = :text " +
+            "AND lr.language = :language " +
+            "AND lr.partOfSpeech = :pos " +
+            "AND lr.useStatus = :useStatus " +
+            "AND lr.productivity = :productivity " +
+            "AND lr.negation = :negation " +
+            "AND lr.operator = :operator"),
     @NamedQuery(name = "getLanguageRepresentationEntityQuery", query =
             "FROM LanguageRepresentation lr " +
             "WHERE UPPER(lr.text) = :text " +
@@ -71,7 +81,7 @@ import javax.xml.bind.annotation.XmlType;
             "AND UPPER(lr.useStatus) = :useStatus " +
             "AND UPPER(lr.productivity) = :productivity " +
             "AND UPPER(lr.negation) = :negation " +
-            "AND UPPER(lr.operation) = :operation"),
+            "AND UPPER(lr.operator) = :operator"),
     @NamedQuery(name = "findLanguageRepresentationsByText", query =
             "FROM LanguageRepresentation lr " +
             "WHERE UPPER(lr.text) = :text"),
@@ -314,6 +324,18 @@ public class LanguageRepresentation implements Serializable {
 
     public void setOperator(Operator operator) {
         this.operator = operator;
+    }
+
+    public boolean getIsRepresentative(Concept concept) {
+        for (Concept_LanguageRepresentation tmpConceptLanguageRepresentation
+                : concepts) {
+            if (tmpConceptLanguageRepresentation.getConcept().equals(concept)) {
+                if (tmpConceptLanguageRepresentation.getIsRepresentative()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public List<LanguageRepresentation> getLanguageRepresentations() {

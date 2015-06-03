@@ -52,7 +52,7 @@ public class Concepts {
                 // If concept does not exist in the database, store it.
                 if (!isNull(retrievedConcept)) {
                     // Create a new concept without the language representation info
-                    Concept newConcept = new Concept(retrievedConcept, false, 
+                    Concept newConcept = new Concept(retrievedConcept, false,
                             false, false);
 
                     // For each language representation, find it in the DB.
@@ -79,11 +79,10 @@ public class Concepts {
                         if (!isNull(retrievedLanguageRepresentation)) {
                             System.out.print("Found Language Representation ");
                             System.out.println(languageRepresentation);
-//retrievedLanguageRepresentation.get
                             newConcept.addLanguageRepresentation(
                                     retrievedLanguageRepresentation,
                                     retrievedLanguageRepresentation.
-                                    getIsRepresentative());
+                                    getIsRepresentative(newConcept));
                         } else {
                             System.out.print(
                                     "Could not find Language Representation ");
