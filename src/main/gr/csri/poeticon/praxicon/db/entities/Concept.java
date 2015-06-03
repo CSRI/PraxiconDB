@@ -233,7 +233,10 @@ public class Concept implements Serializable {
      *
      * @param newConcept
      */
-    public Concept(Concept newConcept, boolean keepLanguageRepresentation) {
+    public Concept(Concept newConcept,
+            boolean keepLanguageRepresentation,
+            boolean keepVisualRepresentation,
+            boolean keepMotoricRepresentation) {
         this.comment = newConcept.getComment();
         this.externalSourceId = newConcept.externalSourceId;
         this.conceptType = newConcept.getConceptType();
