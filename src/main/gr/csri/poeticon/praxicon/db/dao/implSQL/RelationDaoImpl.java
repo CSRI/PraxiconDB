@@ -244,7 +244,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
             RelationType.RelationNameForward relationType) {
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByRightRelationArgumentRelationType").
-                setParameter("relationArgumentId", relationArgument.getId()).
+                setParameter("relationArgument", relationArgument).
                 setParameter("relationType", relationType);
         return query.getResultList();
     }
