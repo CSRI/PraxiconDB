@@ -40,19 +40,8 @@ public class Relations {
      */
     public void storeRelations() {
         if (!relations.isEmpty()) {
-            for (Relation relation : relations) {
+            for (Relation relation : relations) {                
                 RelationDao rDao = new RelationDaoImpl();
-
-                // Check if relation exists in the database
-                try {
-                    Relation tmpRelation = rDao.getRelation(
-                            relation.getLeftArgument(),
-                            relation.getRightArgument(),
-                            relation.getRelationType());
-                } catch (Exception e) {
-
-                }
-
                 relation = rDao.updatedRelation(relation);
                 System.out.println("Relation: " + relation);
                 rDao.merge(relation);

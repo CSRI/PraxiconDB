@@ -79,7 +79,7 @@ import javax.xml.bind.annotation.XmlType;
             query =
             "SELECT r FROM Relation r " +
             "JOIN r.relationType rt " +
-            "WHERE r.rightArgument = :relationArgument " +
+            "WHERE r.rightArgument = :relationArgumentId " +
             "AND rt.forwardName = :relationType"),
     @NamedQuery(name = "areRelated", query =
             "SELECT r FROM Relation r " +
