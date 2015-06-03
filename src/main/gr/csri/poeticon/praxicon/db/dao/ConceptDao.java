@@ -50,21 +50,21 @@ public interface ConceptDao extends Dao<Long, Concept> {
 
     List<Concept> getParents(Concept concept);
 
-    public List<Concept> getAllAncestors(Concept concept);
+    List<Concept> getAllAncestors(Concept concept);
 
-    public List<Concept> getAllOffsprings(Concept concept);
+    List<Concept> getAllOffsprings(Concept concept);
 
     List<Concept> getClassesOfInstance(Concept concept);
 
     List<Concept> getInstancesOf(Concept concept);
 
-    public List<Concept> getBasicLevelConcepts(Concept concept);
+    List<Concept> getBasicLevelConcepts(Concept concept);
 
-    public List<Map.Entry<Concept, ConceptDaoImpl.Direction>>
+    List<Map.Entry<Concept, ConceptDaoImpl.Direction>>
             getBasicLevelConceptsOld(Concept concept);
 
-    public List<Concept> getConceptsRelatedWithByRelationType(
+    List<Concept> getConceptsRelatedWithByRelationType(
             Concept concept, RelationType relationType);
 
-    public void clearManager();
+    void clearManager();
 }

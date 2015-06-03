@@ -15,9 +15,9 @@ import java.util.List;
  */
 public interface RelationArgumentDao extends Dao<Long, RelationArgument> {
 
-    public List<RelationArgument> getRelationArgumentsRelatedWithByRelationType(
+    List<RelationArgument> getRelationArgumentsRelatedWithByRelationType(
             RelationArgument relationArgument, RelationType relationType);
 
-    public RelationArgument getRelationArgumentByConcept(Concept concept);
+    RelationArgument getRelationArgumentByConcept(Concept concept);
 
 }
