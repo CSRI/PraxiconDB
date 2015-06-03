@@ -23,8 +23,8 @@ public class LanguageRepresentationDaoImpl extends
         LanguageRepresentationDao {
 
     /**
-     * Finds the LanguageRepresentation that has the given Language, Text and
-     * Part of Speech
+     * Finds the LanguageRepresentation that has the given Language, Text, Part
+     * of Speech, Use Status, Productivity, Negation and Operator.
      * Overloaded.
      *
      * @param language     the Language to search
@@ -42,7 +42,7 @@ public class LanguageRepresentationDaoImpl extends
             UseStatus useStatus, Productivity productivity, String negation,
             Operator operator) {
         Query query = getEntityManager().createNamedQuery(
-                "findLanguageRepresentationsByTextLanguagePosPStatus").
+                "findLanguageRepresentation").
                 setParameter("text", text).
                 setParameter("language", language).
                 setParameter("pos", pos).
