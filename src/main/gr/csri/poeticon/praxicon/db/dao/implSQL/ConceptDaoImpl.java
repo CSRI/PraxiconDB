@@ -256,13 +256,12 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         Concept oldConcept = new Concept();
         try {
             oldConcept = this.getConcept(newConcept);
-
 //                    this.getConceptByExternalSourceIdExact(newConcept.
 //                    getExternalSourceId());
         } catch (Exception e) {
             return newConcept;
         } finally {
-            oldConcept = new Concept(newConcept, true);
+            oldConcept = new Concept(newConcept, true, true, true);
             return oldConcept;
         }
     }
@@ -584,7 +583,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             basicLevelConceptsList.add(concept);
         } else if (specificityLevel == SUBORDINATE ||
                 specificityLevel == SUPERORDINATE) {
-            List<Relation> relations = rDao.getAllRelationsOfConcept(concept);
+            List<Relation> relations = rDao.getRelationsByConceptRelationType(
+                    concept, RelationType.RelationNameForward.TYPE_TOKEN);
             for (Relation relation : relations) {
                 if (relation.getLeftArgument().isConcept()) {
                     Concept leftConcept = relation.getLeftArgument().
