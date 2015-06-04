@@ -7,8 +7,11 @@ package gr.csri.poeticon.praxicon.db.dao.implSQL;
 import gr.csri.poeticon.praxicon.db.dao.RelationArgumentDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationSetDao;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
+import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import gr.csri.poeticon.praxicon.db.entities.RelationSet;
+import gr.csri.poeticon.praxicon.db.entities.RelationType;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
 
@@ -52,23 +55,71 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
         return getRelationSetsByRelationArgument(newRelationArgument);
     }
 
+        /**
+     * Finds relations that have a given relationArgument as rightArgument
+     *
+     * @param relationArgument the relation argument to be searched
+     * @return a list of RelationSets
+     */
+    @Override
+    public List<RelationSet> getRelationSetsWithRelationArgumentAsRightArgument(
+            RelationArgument relationArgument) {
+        Query query = getEntityManager().createNamedQuery(
+                "findRelationsByRelationArgumentRightArgumentOrLeftArgument").
+                setParameter("relationArgumentId", relationArgument.getId());
+        List<Relation> rightArgumentRelations = new ArrayList<>();
+        rightArgumentRelations = (List<Relation>)query.getResultList();
+        List<RelationSet> res = new ArrayList<>();
+        for (Relation r : rightArgumentRelations) {
+            if (r.getRightArgument().equals(relationArgument)) {
+                r.setRightArgument(r.getLeftArgument());
+                r.setLeftArgument(relationArgument);
+                RelationType tmpType = new RelationType();
+                RelationType.RelationNameBackward tmp =
+                        r.getRelationType().getBackwardName();
+                tmpType.setForwardName(r.getRelationType().getForwardName());
+                tmpType.setBackwardName(tmp);
+                r.setRelationType(tmpType);
+            }
+            RelationSet rs = new RelationSet();
+            rs.addRelation(r);
+        }
+        return res;
+    }
+
+        /**
+     * Finds relations sets that contain relations with a given concept as a
+     * rightArgument.
+     *
+     * @param concept the concept which we want the relation sets of
+     * @return a list of relation sets
+     */
+    // TODO: this needs repair. Find another way to get the related relations.
+    @Override
+    public List<RelationSet> getRelationSetsWithConceptAsRightArgument(
+            Concept concept) {
+        RelationArgument newRelationArgument = new RelationArgument(concept);
+        return getRelationSetsWithRelationArgumentAsRightArgument(
+                newRelationArgument);
+    }
+
     @Override
     public RelationSet updatedRelationSet(RelationSet newRelationSet) {
         // We try to find if the relation set exists in the database.
         // Will recursively try to get the members of the relation set
-        // and check if they are the same. If one fails, it will 
+        // and check if they are the same. If one fails, it will
         // return the new relation set, otherwise, will not merge
         // the new relation set.
         //EntityManager em = this.entityManager;
-        
-        
-        
+
+
+
 //        this.entityManager.getTransaction().begin();
 //        this.entityManager.merge(newRelationSet);
 //        this.entityManager.getTransaction().commit();
 //        this.entityManager.flush();
-        
-        
+
+
         //TODO: May need a RelationSet comparison method.
         return newRelationSet;
     }

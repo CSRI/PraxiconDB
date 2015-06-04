@@ -9,7 +9,6 @@ import gr.csri.poeticon.praxicon.db.dao.RelationDao;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
-import gr.csri.poeticon.praxicon.db.entities.RelationSet;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,22 +43,6 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
             return null;
         }
         return relationsList.get(0);
-    }
-
-    /**
-     * Finds relations sets that contain relations with a given concept as a
-     * rightArgument.
-     *
-     * @param concept the concept which we want the relation sets of
-     * @return a list of relation sets
-     */
-    // TODO: this needs repair. Find another way to get the related relations.
-    @Override
-    public List<RelationSet> getRelationSetsWithConceptAsRightArgument(
-            Concept concept) {
-        RelationArgument newRelationArgument = new RelationArgument(concept);
-        return getRelationSetsWithRelationArgumentAsRightArgument(
-                newRelationArgument);
     }
 
     /**
@@ -124,38 +107,6 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         List<Relation> relations = new ArrayList<>();
         relations = (List<Relation>)query.getResultList();
         return relations;
-    }
-
-    /**
-     * Finds relations that have a given relationArgument as rightArgument
-     *
-     * @param relationArgument the relation argument to be searched
-     * @return a list of RelationSets
-     */
-    @Override
-    public List<RelationSet> getRelationSetsWithRelationArgumentAsRightArgument(
-            RelationArgument relationArgument) {
-        Query query = getEntityManager().createNamedQuery(
-                "findRelationsByRelationArgumentRightArgumentOrLeftArgument").
-                setParameter("relationArgumentId", relationArgument.getId());
-        List<Relation> rightArgumentRelations = new ArrayList<>();
-        rightArgumentRelations = (List<Relation>)query.getResultList();
-        List<RelationSet> res = new ArrayList<>();
-        for (Relation r : rightArgumentRelations) {
-            if (r.getRightArgument().equals(relationArgument)) {
-                r.setRightArgument(r.getLeftArgument());
-                r.setLeftArgument(relationArgument);
-                RelationType tmpType = new RelationType();
-                RelationType.RelationNameBackward tmp =
-                        r.getRelationType().getBackwardName();
-                tmpType.setForwardName(r.getRelationType().getForwardName());
-                tmpType.setBackwardName(tmp);
-                r.setRelationType(tmpType);
-            }
-            RelationSet rs = new RelationSet();
-            rs.addRelation(r);
-        }
-        return res;
     }
 
     /**
@@ -225,7 +176,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
             RelationType.RelationNameForward relationType) {
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByLeftRelationArgumentRelationType").
-                setParameter("relationArgumentId", relationArgument.getId()).
+                setParameter("relationArgument", relationArgument).
                 setParameter("relationType", relationType);
         return query.getResultList();
     }

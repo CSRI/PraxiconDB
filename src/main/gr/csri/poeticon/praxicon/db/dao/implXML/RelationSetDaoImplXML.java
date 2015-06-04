@@ -28,8 +28,8 @@ public class RelationSetDaoImplXML extends JpaDao<Long, RelationSet>
     public List<RelationSet> getRelationSetsByConcept(Concept concept) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
-    
+
+
 ////    @Override
 //    public List<RelationSet> getRelationSetsContainingConcept(Concept c)
 //    {
@@ -72,6 +72,18 @@ public class RelationSetDaoImplXML extends JpaDao<Long, RelationSet>
     @Override
     public Query getEntityQuery(RelationSet entity) {
         return null;
+    }
+
+    @Override
+    public List<RelationSet> getRelationSetsWithRelationArgumentAsRightArgument(
+            RelationArgument relationArgument) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<RelationSet> getRelationSetsWithConceptAsRightArgument(
+            Concept concept) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
