@@ -5,6 +5,7 @@
 package gr.csri.poeticon.praxicon.db.dao.implSQL;
 
 import gr.csri.poeticon.praxicon.db.dao.RelationArgumentDao;
+import gr.csri.poeticon.praxicon.db.dao.RelationDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationSetDao;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
@@ -55,7 +56,7 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
         return getRelationSetsByRelationArgument(newRelationArgument);
     }
 
-        /**
+    /**
      * Finds relations that have a given relationArgument as rightArgument
      *
      * @param relationArgument the relation argument to be searched
@@ -87,20 +88,41 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
         return res;
     }
 
-        /**
+    /**
      * Finds relations sets that contain relations with a given concept as a
      * rightArgument.
      *
      * @param concept the concept which we want the relation sets of
      * @return a list of relation sets
      */
-    // TODO: this needs repair. Find another way to get the related relations.
     @Override
     public List<RelationSet> getRelationSetsWithConceptAsRightArgument(
             Concept concept) {
-        RelationArgument newRelationArgument = new RelationArgument(concept);
+        RelationArgumentDao raDao = new RelationArgumentDaoImpl();
+        RelationArgument newRelationArgument = raDao.
+                getRelationArgumentByConcept(concept);
         return getRelationSetsWithRelationArgumentAsRightArgument(
                 newRelationArgument);
+    }
+
+    /**
+     * Finds relations sets that contain a specific relation.
+     *
+     * @param relation the relation to search for
+     * @return a list of relation sets
+     */
+    public List<RelationSet> getRelationSetsByRelation(Relation relation) {
+        // First get the relation from the database
+        RelationDao rDao = new RelationDaoImpl();
+        Relation retrievedRelation = rDao.
+                getRelation(relation.getLeftArgument(), relation.
+                        getRightArgument(), relation.getRelationType());
+        Query query = getEntityManager().createNamedQuery(
+                "findRelationSetsByRelation").
+                setParameter("relation", retrievedRelation);
+        List<RelationSet> relationSets = new ArrayList<>();
+        relationSets = (List<RelationSet>)query.getResultList();
+        return relationSets;
     }
 
     @Override
@@ -112,14 +134,10 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
         // the new relation set.
         //EntityManager em = this.entityManager;
 
-
-
 //        this.entityManager.getTransaction().begin();
 //        this.entityManager.merge(newRelationSet);
 //        this.entityManager.getTransaction().commit();
 //        this.entityManager.flush();
-
-
         //TODO: May need a RelationSet comparison method.
         return newRelationSet;
     }
