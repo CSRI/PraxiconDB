@@ -85,11 +85,11 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
     @Override
     public List<Relation> getRelationsByConceptRelationType(
             Concept concept, RelationType.RelationNameForward relationType) {
-        /* TODO: Fix this. Needs to get the relation argument that is connected
-         to this concept and search using the retrieved relation argument. */
-        RelationArgument newRelationArgument = new RelationArgument(concept);
-        return getRelationsByRelationArgumentRelationType(newRelationArgument,
-                relationType);
+        RelationArgumentDao raDao = new RelationArgumentDaoImpl();
+        RelationArgument retrievedRelationArgument = raDao.
+                getRelationArgumentByConcept(concept);
+        return getRelationsByRelationArgumentRelationType(
+                retrievedRelationArgument, relationType);
     }
 
     /**
