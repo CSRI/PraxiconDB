@@ -626,7 +626,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         for (Relation relation : relations) {
             if (relation.getRightArgument().isConcept()) {
                 if (relation.getRightArgument().getConcept().equals(concept)) {
-                    res.add(relation.getLeftArgument().getConcept());
+                    res.add(relation.getRightArgument().getConcept());
                 }
             }
         }
