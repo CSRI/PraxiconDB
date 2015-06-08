@@ -48,12 +48,14 @@ import javax.xml.bind.annotation.XmlType;
             "JOIN rs.relations rsr " +
             "JOIN rsr.relation r " +
             "WHERE (r.rightArgument = :relationArgument " +
-            "OR r.leftArgument = :relationArgument)"), //    @NamedQuery(name =
-//            "findRelationSetsByRelation",
-//            query =
-//            "SELECT DISTINCT rs FROM RelationSet rs " +
-//            "JOIN rs.relations rsr " +
-//            "WHERE rsr.relation = :relationId"),
+            "OR r.leftArgument = :relationArgument)"),
+    @NamedQuery(name =
+            "findRelationSetsByRelation",
+            query =
+            "SELECT rs FROM RelationSet rs " +
+            "JOIN rs.relations rsr " +
+            "WHERE (rsr.relation = :relation"),
+
 })
 @Table(name = "RelationSets",
         indexes = {
