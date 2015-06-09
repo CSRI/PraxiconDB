@@ -392,15 +392,11 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     public List<Concept> getChildren(Concept concept) {
         List<Concept> conceptList = new ArrayList<>();
         RelationDao rDao = new RelationDaoImpl();
-        List<Relation> relations = rDao.getRelationsByConceptRelationType(
-                concept, TYPE_TOKEN);
+        List<Relation> relations
+                = rDao.getRelationsByLeftConceptTypeOfRelation(concept,TYPE_TOKEN);
         for (Relation relation : relations) {
-            if (relation.getLeftArgument().isConcept()) {
-                if (relation.getLeftArgument().getConcept().equals(concept)) {
-                    if (relation.getRightArgument().isConcept()) {
-                        conceptList.add(relation.getRightArgument().getConcept());
-                    }
-                }
+            if (relation.getRightArgument().isConcept()) {
+                conceptList.add(relation.getRightArgument().getConcept());
             }
         }
         entityManager.clear();
@@ -418,15 +414,11 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     public List<Concept> getParents(Concept concept) {
         List<Concept> conceptList = new ArrayList<>();
         RelationDao rDao = new RelationDaoImpl();
-        List<Relation> relations = rDao.getRelationsByConceptRelationType(
-                concept, TYPE_TOKEN);
+        List<Relation> relations 
+                = rDao.getRelationsByRightConceptTypeOfRelation(concept,TYPE_TOKEN);
         for (Relation relation : relations) {
-            if (relation.getRightArgument().isConcept()) {
-                if (relation.getRightArgument().getConcept().equals(concept)) {
-                    if (relation.getLeftArgument().isConcept()) {
-                        conceptList.add(relation.getLeftArgument().getConcept());
-                    }
-                }
+            if (relation.getLeftArgument().isConcept()) {
+                conceptList.add(relation.getLeftArgument().getConcept());
             }
         }
         entityManager.clear();
@@ -619,17 +611,14 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     public List<Concept> getClassesOfInstance(Concept concept) {
         List<Concept> res = new ArrayList<>();
         RelationDao rDao = new RelationDaoImpl();
-        List<Relation> relations = rDao.getRelationsByConceptRelationType(
-                concept, HAS_INSTANCE);
+        List<Relation> relations 
+                = rDao.getRelationsByRightConceptTypeOfRelation(concept,HAS_INSTANCE);
         for (Relation relation : relations) {
-            if (relation.getRightArgument().isConcept()) {
-                if (relation.getRightArgument().getConcept().equals(concept)) {
-                    if (relation.getLeftArgument().isConcept()) {
-                        res.add(relation.getLeftArgument().getConcept());
-                    }
-                }
+            if (relation.getLeftArgument().isConcept()) {
+                res.add(relation.getLeftArgument().getConcept());
             }
         }
+        entityManager.clear();
         return res;
     }
 
@@ -644,17 +633,14 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     public List<Concept> getInstancesOf(Concept concept) {
         List<Concept> res = new ArrayList<>();
         RelationDao rDao = new RelationDaoImpl();
-        List<Relation> relations = rDao.getRelationsByConceptRelationType(
-                concept, HAS_INSTANCE);
+        List<Relation> relations 
+                = rDao.getRelationsByLeftConceptTypeOfRelation(concept,HAS_INSTANCE);
         for (Relation relation : relations) {
-            if (relation.getLeftArgument().isConcept()) {
-                if (relation.getLeftArgument().getConcept().equals(concept)) {
-                    if (relation.getRightArgument().isConcept()) {
-                        res.add(relation.getRightArgument().getConcept());
-                    }
-                }
+            if (relation.getRightArgument().isConcept()) {
+                res.add(relation.getRightArgument().getConcept());
             }
         }
+        entityManager.clear();
         return res;
     }
     /**

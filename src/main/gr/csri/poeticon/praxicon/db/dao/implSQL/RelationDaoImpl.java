@@ -96,6 +96,52 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
     }
 
     /**
+     * Finds the relations of a given concept that have a certain
+     * type of relation. Checks only for the given concept as a leftArgument
+     *
+     * @param concept the relation concept
+     * @param relationType     the type of relation
+     * @return A list of relations
+     */
+    @Override
+    public List<Relation> getRelationsByLeftConceptTypeOfRelation(
+            Concept concept, RelationType.RelationNameForward relationType) {
+        RelationArgumentDao raDao = new RelationArgumentDaoImpl();
+        RelationArgument retrievedRelationArgument = raDao.
+                getRelationArgumentByConcept(concept);
+        if (retrievedRelationArgument  == null){
+            return new ArrayList<Relation>();
+        }
+        else {
+            return getRelationsByLeftRelationArgumentTypeOfRelation(
+                    retrievedRelationArgument, relationType);
+        }
+    }
+
+    /**
+     * Finds the relations of a given concept that have a certain
+     * type of relation. Checks only for the given concept as a rightArgument
+     *
+     * @param concept the relation concept
+     * @param relationType     the type of relation
+     * @return A list of relations
+     */
+    @Override
+    public List<Relation> getRelationsByRightConceptTypeOfRelation(
+            Concept concept, RelationType.RelationNameForward relationType) {
+        RelationArgumentDao raDao = new RelationArgumentDaoImpl();
+        RelationArgument retrievedRelationArgument = raDao.
+                getRelationArgumentByConcept(concept);
+        if (retrievedRelationArgument  == null){
+            return new ArrayList<Relation>();
+        }
+        else {
+            return getRelationsByRightRelationArgumentTypeOfRelation(
+                    retrievedRelationArgument, relationType);
+        }
+    }
+
+    /**
      * Finds the relations that have a certain type of relation.
      *
      * @param relationType the type of relation
