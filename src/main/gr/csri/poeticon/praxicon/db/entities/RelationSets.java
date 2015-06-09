@@ -44,11 +44,14 @@ public class RelationSets {
     public void storeRelationSets() {
         if (!relationSets.isEmpty()) {
             for (RelationSet relationSet : relationSets) {
-                RelationSetDao rsDao = new RelationSetDaoImpl();
-                relationSet = rsDao.updatedRelationSet(relationSet);
-                rsDao.merge(relationSet);
+                storeRelationSet(relationSet);
             }
         }
     }
 
+    private void storeRelationSet(RelationSet relationSet) {
+        RelationSetDao rsDao = new RelationSetDaoImpl();
+        relationSet = rsDao.updatedRelationSet(relationSet);
+        rsDao.merge(relationSet);
+    }
 }
