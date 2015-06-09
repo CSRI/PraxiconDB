@@ -44,54 +44,60 @@ public class Concepts {
     public void storeConcepts() {
         if (!concepts.isEmpty()) {
             for (Concept concept : concepts) {
-                ConceptDao cDao = new ConceptDaoImpl();
-                Concept oldConcept = new Concept(concept, false, false, false);
-
-                Concept retrievedConcept = cDao.getConcept(concept);
-                Concept newConcept = new Concept();
-                // If concept does not exist in the database, store it.
-                if (!isNull(retrievedConcept)) {
-                    // Create a new concept without the language representation info
-                    newConcept = new Concept(retrievedConcept, false,
-                            false, false);
-                } else {
-                    newConcept = oldConcept;
-                }
-
-                // For each language representation, find it in the DB.
-                // If it exists, attach it to the concept.
-                // If it doesn't exist, create it.
-                LanguageRepresentationDao lrDao =
-                        new LanguageRepresentationDaoImpl();
-                for (LanguageRepresentation languageRepresentation
-                        : concept.getLanguageRepresentations()) {
-                    LanguageRepresentation retrievedLanguageRepresentation =
-                            lrDao.getSingleLanguageRepresentation(
-                                    languageRepresentation.getLanguage(),
-                                    languageRepresentation.getText(),
-                                    languageRepresentation.getPartOfSpeech(),
-                                    languageRepresentation.getUseStatus(),
-                                    languageRepresentation.getProductivity(),
-                                    languageRepresentation.getNegation(),
-                                    languageRepresentation.getOperator());
-                    // if Language Representation exists, add the retrieved,
-                    // otherwise, add the new one.
-                    if (!isNull(retrievedLanguageRepresentation)) {
-                        newConcept.addLanguageRepresentation(
-                                retrievedLanguageRepresentation,
-                                retrievedLanguageRepresentation.
-                                getIsRepresentative(newConcept));
-                    } else {
-                        newConcept.addLanguageRepresentation(
-                                new LanguageRepresentation(
-                                        languageRepresentation), true);
-                    }
-                }
-                // If Concept doesn't exist, add it
-                if (isNull(retrievedConcept)) {
-                    cDao.merge(newConcept);
-                }
+                storeConcept(concept);
             }
+        }
+    }
+
+    /**
+     * Stores a concept in the database checking if it already exists
+     * in the database.
+     */
+    public void storeConcept(Concept concept) {
+        ConceptDao cDao = new ConceptDaoImpl();
+        Concept oldConcept = new Concept(concept, false, false, false);
+
+        Concept retrievedConcept = cDao.getConcept(concept);
+        Concept newConcept = new Concept();
+        // If concept does not exist in the database, store it.
+        if (!isNull(retrievedConcept)) {
+            // Create a new concept without the language representation info
+            newConcept = new Concept(retrievedConcept, false, false, false);
+        } else {
+            newConcept = oldConcept;
+        }
+        // For each language representation, find it in the DB.
+        // If it exists, attach it to the concept.
+        // If it doesn't exist, create it.
+        LanguageRepresentationDao lrDao =
+                new LanguageRepresentationDaoImpl();
+        for (LanguageRepresentation languageRepresentation
+                : concept.getLanguageRepresentations()) {
+            LanguageRepresentation retrievedLanguageRepresentation =
+                    lrDao.getSingleLanguageRepresentation(
+                            languageRepresentation.getLanguage(),
+                            languageRepresentation.getText(),
+                            languageRepresentation.getPartOfSpeech(),
+                            languageRepresentation.getUseStatus(),
+                            languageRepresentation.getProductivity(),
+                            languageRepresentation.getNegation(),
+                            languageRepresentation.getOperator());
+                    // if Language Representation exists, add the retrieved,
+            // otherwise, add the new one.
+            if (!isNull(retrievedLanguageRepresentation)) {
+                newConcept.addLanguageRepresentation(
+                        retrievedLanguageRepresentation,
+                        retrievedLanguageRepresentation.
+                        getIsRepresentative(newConcept));
+            } else {
+                newConcept.addLanguageRepresentation(
+                        new LanguageRepresentation(
+                                languageRepresentation), true);
+            }
+        }
+        // If Concept doesn't exist, add it
+        if (isNull(retrievedConcept)) {
+            cDao.merge(newConcept);
         }
     }
 }
