@@ -33,6 +33,7 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
     @Override
     public List<RelationSet> getRelationSetsByRelationArgument(
             RelationArgument relationArgument) {
+
         Query q = getEntityManager().createNamedQuery(
                 "findRelationSetsByRelationArgument").setParameter(
                         "relationArgument", relationArgument);
@@ -116,7 +117,8 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
         RelationDao rDao = new RelationDaoImpl();
         Relation retrievedRelation = rDao.
                 getRelation(relation.getLeftArgument(), relation.
-                        getRightArgument(), relation.getRelationType());
+                        getRightArgument(), relation.getRelationType().
+                        getForwardName());
         Query query = getEntityManager().createNamedQuery(
                 "findRelationSetsByRelation").
                 setParameter("relation", retrievedRelation);

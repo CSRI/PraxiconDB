@@ -56,8 +56,8 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name = "findRelations", query =
             "SELECT r FROM Relation r " +
             "JOIN r.relationType rt " +
-            "WHERE (r.leftArgument = :leftRelationArgumentId " +
-            "OR r.rightArgument = :rightRelationArgumentId) " +
+            "WHERE (r.leftArgument = :leftRelationArgument " +
+            "OR r.rightArgument = :rightRelationArgument) " +
             "AND rt.forwardName = :relationType"),
     @NamedQuery(name = "findRelationsByRelationType", query =
             "SELECT r FROM Relation r " +
@@ -65,10 +65,10 @@ import javax.xml.bind.annotation.XmlType;
             "WHERE rt.forwardName = :relationType"),
     @NamedQuery(name = "findRelationsByRightRelationArgument", query =
             "SELECT r FROM Relation r " +
-            "WHERE r.rightArgument = :relationArgumentId"),
+            "WHERE r.rightArgument = :relationArgument"),
     @NamedQuery(name = "findRelationsByLeftRelationArgument", query =
             "SELECT r FROM Relation r " +
-            "WHERE r.leftArgument = :relationArgumentId"),
+            "WHERE r.leftArgument = :relationArgument"),
     @NamedQuery(name = "findRelationsByLeftRelationArgumentRelationType",
             query =
             "SELECT r FROM Relation r " +

@@ -33,10 +33,11 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      */
     @Override
     public Relation getRelation(RelationArgument leftArgument,
-            RelationArgument rightArgument, RelationType relationType) {
+            RelationArgument rightArgument,
+            RelationType.RelationNameForward relationType) {
         Query query = getEntityManager().createNamedQuery("findRelations").
-                setParameter("leftRelationArgumentId", leftArgument.getId()).
-                setParameter("rightRelationArgumentId", rightArgument.getId()).
+                setParameter("leftRelationArgument", leftArgument).
+                setParameter("rightRelationArgument", rightArgument).
                 setParameter("relationType", relationType);
         List<Relation> relationsList = (List<Relation>)query.getResultList();
         if (relationsList.isEmpty()) {
@@ -216,7 +217,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         try {
             oldRelation = this.getRelation(newRelation.getLeftArgument(),
                     newRelation.getRightArgument(), newRelation.
-                    getRelationType());
+                    getRelationType().getForwardName());
         } catch (Exception e) {
             return newRelation;
         } finally {
