@@ -83,10 +83,10 @@ import javax.xml.bind.annotation.XmlType;
             "AND rt.forwardName = :relationType"),
     @NamedQuery(name = "areRelated", query =
             "SELECT r FROM Relation r " +
-            "WHERE (r.leftArgument = :relationArgumentId1 " +
-            "AND r.rightArgument = :relationArgumentId2) " +
-            "OR (r.leftArgument = :relationArgumentId2 " +
-            "AND r.rightArgument = :relationArgumentId1)")
+            "WHERE (r.leftArgument = :relationArgument1 " +
+            "AND r.rightArgument = :relationArgument2) " +
+            "OR (r.leftArgument = :relationArgument2 " +
+            "AND r.rightArgument = :relationArgument1)")
 })
 @Table(name = "Relations",
         indexes = {
