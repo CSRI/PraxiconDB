@@ -40,13 +40,16 @@ public class Relations {
      */
     public void storeRelations() {
         if (!relations.isEmpty()) {
-            for (Relation relation : relations) {                
-                RelationDao rDao = new RelationDaoImpl();
-                relation = rDao.updatedRelation(relation);
-                System.out.println("Relation: " + relation);
-                rDao.merge(relation);
+            for (Relation relation : relations) {
+                storeRelation(relation);
             }
         }
     }
 
+    public void storeRelation(Relation relation) {
+                RelationDao rDao = new RelationDaoImpl();
+                relation = rDao.updatedRelation(relation);
+                System.out.println("Relation: " + relation);
+                rDao.merge(relation);
+    }
 }
