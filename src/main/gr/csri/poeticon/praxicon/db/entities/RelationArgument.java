@@ -72,7 +72,7 @@ public class RelationArgument implements Serializable {
      */
     public RelationArgument(Concept concept) {
         this.concept = concept;
-        this.relationSet = new RelationSet();
+        this.relationSet = null;
     }
 
     /**
@@ -81,7 +81,7 @@ public class RelationArgument implements Serializable {
      * @param relationSet
      */
     public RelationArgument(RelationSet relationSet) {
-        this.concept = new Concept();
+        this.concept = null;
         this.relationSet = relationSet;
     }
 
@@ -214,21 +214,9 @@ public class RelationArgument implements Serializable {
         return true;
     }
 
-
-
     @Override
     public String toString() {
         return "gr.csri.poeticon.praxicon.db.entities.RelationArgument[ id=" +
                 id + " ]";
     }
-
-
 }
-////@XmlRegistry
-//class ObjectFactory {
-//
-//    Concept createRelationArgument() {
-//        return new Concept();
-//    }
-//
-//}
