@@ -54,8 +54,7 @@ import javax.xml.bind.annotation.XmlType;
             query =
             "SELECT rs FROM RelationSet rs " +
             "JOIN rs.relations rsr " +
-            "WHERE (rsr.relation = :relation"),
-
+            "WHERE rsr.relation = :relation"),
 })
 @Table(name = "RelationSets",
         indexes = {
