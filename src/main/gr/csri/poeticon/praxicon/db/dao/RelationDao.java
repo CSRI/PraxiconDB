@@ -27,6 +27,12 @@ public interface RelationDao extends Dao<Long, Relation> {
     List<Relation> getRelationsByConceptRelationType(
             Concept concept, RelationType.RelationNameForward relationType);
 
+    List<Relation> getRelationsByLeftConceptTypeOfRelation(
+            Concept concept, RelationType.RelationNameForward relationType);
+
+    List<Relation> getRelationsByRightConceptTypeOfRelation(
+            Concept concept, RelationType.RelationNameForward relationType);
+
     List<Relation> getRelationsByRelationType(
             RelationType.RelationNameForward relationType);
 
