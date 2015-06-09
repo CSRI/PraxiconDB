@@ -68,9 +68,11 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      */
     @Override
     public boolean areRelated(Concept concept1, Concept concept2) {
-        // TODO: This will not work. First retrieve the arguments from the DB.
-        RelationArgument relationArgument1 = new RelationArgument(concept1);
-        RelationArgument relationArgument2 = new RelationArgument(concept2);
+        RelationArgumentDao raDao = new RelationArgumentDaoImpl();
+        RelationArgument relationArgument1 = raDao.getRelationArgumentByConcept(
+                concept1);
+        RelationArgument relationArgument2 = raDao.getRelationArgumentByConcept(
+                concept2);
         return areRelated(relationArgument1, relationArgument2);
     }
 
