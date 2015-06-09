@@ -626,7 +626,9 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         for (Relation relation : relations) {
             if (relation.getRightArgument().isConcept()) {
                 if (relation.getRightArgument().getConcept().equals(concept)) {
-                    res.add(relation.getRightArgument().getConcept());
+                    if (relation.getLeftArgument().isConcept()) {
+                        res.add(relation.getLeftArgument().getConcept());
+                    }
                 }
             }
         }
@@ -649,13 +651,14 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         for (Relation relation : relations) {
             if (relation.getLeftArgument().isConcept()) {
                 if (relation.getLeftArgument().getConcept().equals(concept)) {
-                    res.add(relation.getLeftArgument().getConcept());
+                    if (relation.getRightArgument().isConcept()) {
+                        res.add(relation.getRightArgument().getConcept());
+                    }
                 }
             }
         }
         return res;
     }
-
     /**
      * Finds all concepts that are related to a given concept using a given
      * relation ConceptType
