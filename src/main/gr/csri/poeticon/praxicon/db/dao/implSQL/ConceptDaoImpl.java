@@ -16,6 +16,7 @@ import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import static gr.csri.poeticon.praxicon.db.entities.RelationType.RelationNameForward.HAS_INSTANCE;
+import static gr.csri.poeticon.praxicon.db.entities.RelationType.RelationNameForward.TYPE_TOKEN;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -391,15 +392,14 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     public List<Concept> getChildren(Concept concept) {
         List<Concept> conceptList = new ArrayList<>();
         RelationDao rDao = new RelationDaoImpl();
-        List<Relation> relations = rDao.getAllRelationsOfConcept(concept);
+        List<Relation> relations = rDao.getRelationsByConceptRelationType(
+                concept, TYPE_TOKEN);
         for (Relation relation : relations) {
-            if (relation.getRelationType().getForwardName() ==
-                    RelationType.RelationNameForward.TYPE_TOKEN &&
-                    relation.getLeftArgument().getConcept().equals(concept)) {
-                if (relation.getRightArgument().isConcept()) {
-                    conceptList.add(relation.getRightArgument().getConcept());
-                } else {
-                    System.err.println("A relation set cannot have children");
+            if (relation.getLeftArgument().isConcept()) {
+                if (relation.getLeftArgument().getConcept().equals(concept)) {
+                    if (relation.getRightArgument().isConcept()) {
+                        conceptList.add(relation.getRightArgument().getConcept());
+                    }
                 }
             }
         }
@@ -418,20 +418,18 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     public List<Concept> getParents(Concept concept) {
         List<Concept> conceptList = new ArrayList<>();
         RelationDao rDao = new RelationDaoImpl();
-        List<Relation> relations = rDao.getAllRelationsOfConcept(concept);
+        List<Relation> relations = rDao.getRelationsByConceptRelationType(
+                concept, TYPE_TOKEN);
         for (Relation relation : relations) {
-            if (relation.getRelationType().getForwardName() ==
-                    RelationType.RelationNameForward.TYPE_TOKEN) {
-                if (relation.getLeftArgument().isConcept()) {
-                    if (relation.getRightArgument().getConcept().equals(concept)) {
+            if (relation.getRightArgument().isConcept()) {
+                if (relation.getRightArgument().getConcept().equals(concept)) {
+                    if (relation.getLeftArgument().isConcept()) {
                         conceptList.add(relation.getLeftArgument().getConcept());
                     }
-                } else {
-                    System.err.println("A relation set cannot have parents");
                 }
             }
         }
-        //entityManager.clear();
+        entityManager.clear();
         return conceptList;
     }
 
