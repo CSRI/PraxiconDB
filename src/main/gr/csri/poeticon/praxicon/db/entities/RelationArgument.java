@@ -60,8 +60,8 @@ public class RelationArgument implements Serializable {
      * Constructor #1. Both concept and relationSet are set to null.
      */
     public RelationArgument() {
-        this.concept = new Concept();
-        this.relationSet = new RelationSet();
+        this.concept = null;
+        this.relationSet = null;
     }
 
     /**
