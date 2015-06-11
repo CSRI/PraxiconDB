@@ -532,7 +532,7 @@ public class Concept implements Serializable {
         List<LanguageRepresentation> lrs;
         lrs = new ArrayList();
         for (Concept_LanguageRepresentation clr : this.
-                getConceptLanguageRepresentation()) {
+                getLanguageRepresentationsEntries()) {
             lrs.add(clr.getLanguageRepresentation());
         }
         return lrs;
@@ -651,20 +651,19 @@ public class Concept implements Serializable {
      * @param oldConcept the concept to be updated
      */
     public void updateLanguageRepresentations(Concept oldConcept) {
-        for (int i = 0; i <
-                this.getLanguageRepresentationsEntries().size(); i++) {
+        for (Concept_LanguageRepresentation conceptLanguageRepresentation
+                : this.getLanguageRepresentationsEntries()) //                int i = 0; i <
+        //                this.getLanguageRepresentationsEntries().size(); i++)
+        //
+        {
             if (!oldConcept.getLanguageRepresentationsEntries().contains(
-                    this.getLanguageRepresentationsEntries().get(i))) {
-                this.getLanguageRepresentationsEntries().get(i).
-                        getLanguageRepresentation().
-                        getConcepts().
-                        remove(this);
-                this.getLanguageRepresentationsEntries().get(i).
-                        getLanguageRepresentation().
-                        getConcepts().
-                        add(this);
+                    conceptLanguageRepresentation)) {
+                conceptLanguageRepresentation.getLanguageRepresentation().
+                        getConcepts().remove(this);
+                conceptLanguageRepresentation.getLanguageRepresentation().
+                        getConcepts().add(this);
                 oldConcept.getLanguageRepresentationsEntries().add(
-                        this.getLanguageRepresentationsEntries().get(i));
+                        conceptLanguageRepresentation);
             }
         }
     }
@@ -714,18 +713,17 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Updates VisualRepresentations of a concept using this concept
+     * Updates VisualRepresentations of a concept using this concept's
      * VisualRepresentations.
      *
      * @param oldConcept the concept to be updated
      */
     public void updateVisualRepresentations(Concept oldConcept) {
-        for (int i = 0; i < this.getVisualRepresentations().size(); i++) {
+        for (VisualRepresentation visualRepresentation : this.
+                getVisualRepresentations()) {
             if (!oldConcept.getVisualRepresentations().contains(
-                    this.getVisualRepresentations().get(i))) {
-                this.getVisualRepresentations().get(i);
-                oldConcept.getVisualRepresentations().add(
-                        this.getVisualRepresentations().get(i));
+                    visualRepresentation)) {
+                oldConcept.getVisualRepresentations().add(visualRepresentation);
             }
         }
     }
@@ -776,12 +774,12 @@ public class Concept implements Serializable {
      * @param oldConcept the concept to be updated
      */
     public void updateMotoricRepresentations(Concept oldConcept) {
-        for (int i = 0; i < this.getMotoricRepresentations().size(); i++) {
+        for (MotoricRepresentation motoricRepresentation : this.
+                getMotoricRepresentations()) {
             if (!oldConcept.getMotoricRepresentations().contains(
-                    this.getMotoricRepresentations().get(i))) {
-                this.getMotoricRepresentations().get(i);
+                    motoricRepresentation)) {
                 oldConcept.getMotoricRepresentations().add(
-                        this.getMotoricRepresentations().get(i));
+                        motoricRepresentation);
             }
         }
     }
