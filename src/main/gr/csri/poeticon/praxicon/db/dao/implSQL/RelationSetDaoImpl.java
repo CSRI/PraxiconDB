@@ -34,10 +34,12 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
     public List<RelationSet> getRelationSetsByRelationArgument(
             RelationArgument relationArgument) {
 
-        Query q = getEntityManager().createNamedQuery(
+        Query query = getEntityManager().createNamedQuery(
                 "findRelationSetsByRelationArgument").setParameter(
                         "relationArgument", relationArgument);
-        return q.getResultList();
+        List<RelationSet> relationSets = new ArrayList<>();
+        relationSets = (List<RelationSet>)query.getResultList();
+        return relationSets;
     }
 
     /**
@@ -49,12 +51,15 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
      */
     @Override
     public List<RelationSet> getRelationSetsByConcept(Concept concept) {
+        List<RelationSet> relationSetsList = new ArrayList<>();
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
         RelationArgument newRelationArgument = raDao.
                 getRelationArgumentByConcept(concept);
-
-//        RelationArgument newRelationArgument = new RelationArgument(concept);
-        return getRelationSetsByRelationArgument(newRelationArgument);
+        relationSetsList = getRelationSetsByRelationArgument(newRelationArgument);
+        if (relationSetsList.isEmpty()) {
+            return null;
+        }
+        return relationSetsList;
     }
 
     /**
