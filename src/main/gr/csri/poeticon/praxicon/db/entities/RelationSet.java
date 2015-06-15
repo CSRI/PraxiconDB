@@ -44,7 +44,7 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name =
             "findRelationSetsByRelationArgument",
             query =
-            "SELECT rs FROM RelationSet rs " +
+            "SELECT DISTINCT rs FROM RelationSet rs " +
             "JOIN rs.relations rsr " +
             "JOIN rsr.relation r " +
             "WHERE (r.rightArgument = :relationArgument " +
