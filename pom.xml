@@ -65,6 +65,11 @@
                             <toFile>gr/praxicondb/xsd/concept.xsd</toFile>
                         </transformSchema>
                         <transformSchema>
+                            <uri>http://www.csri.gr/concept_languagerepresentation</uri>
+                            <toPrefix>concept_languagerepresentation</toPrefix>
+                            <toFile>gr/praxicondb/xsd/concept_languagerepresentation.xsd</toFile>
+                        </transformSchema>
+                        <transformSchema>
                             <uri>http://www.csri.gr/relation</uri>
                             <toPrefix>relation</toPrefix>
                             <toFile>gr/praxicondb/xsd/relation.xsd</toFile>
