@@ -8,13 +8,13 @@ package gr.csri.poeticon.praxicon;
 import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationArgumentDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationDao;
+import gr.csri.poeticon.praxicon.db.dao.RelationTypeDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
-import static gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl.Direction
-        .DOWN;
-import static gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl.Direction
-        .UP;
+import static gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl.Direction.DOWN;
+import static gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl.Direction.UP;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationArgumentDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
+import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationTypeDaoImpl;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
@@ -28,7 +28,7 @@ import java.util.Set;
 import java.util.Stack;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.alg.ConnectivityInspector;
-import org.jgrapht.experimental.dag.DirectedAcyclicGraph;
+import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.traverse.DepthFirstIterator;
 
@@ -123,8 +123,8 @@ public class CreateNewBLRelations {
      */
     public static void BuildGraph() {
 
-        DirectedAcyclicGraph<Concept, DefaultEdge> conceptGraph =
-                new DirectedAcyclicGraph<>(DefaultEdge.class);
+        DirectedGraph<Concept, DefaultEdge> conceptGraph =
+                new DefaultDirectedGraph<>(DefaultEdge.class);
 
         // Get all non-BL concepts
         ConceptDao cDao = new ConceptDaoImpl();
@@ -175,12 +175,40 @@ public class CreateNewBLRelations {
             //System.out.println(relation);
             // Add edges with 2 concepts
             conceptGraph.addEdge(leftConcept, rightConcept);
+//            System.out.println(leftConcept + "\t" + rightConcept);
         }
         endTime = System.nanoTime();
         System.out.print("\n\n\nFinished adding edges in ");
-        System.out.print((endTime - startTime) / 1000000000);
-        System.out.println(" seconds!\n\n\n");
+        System.out.print((endTime - startTime) / 1000000);
+        System.out.println(" miliseconds!\n\n\n");
 
+        List<List<Concept>> paths = new ArrayList<>();
+        startTime = System.nanoTime();
+        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23356));
+        System.out.println(paths);
+        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23357));
+        System.out.println(paths);
+        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23358));
+        System.out.println(paths);
+        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23359));
+        System.out.println(paths);
+        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23361));
+        System.out.println(paths);
+        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23370));
+        System.out.println(paths);
+        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23371));
+        System.out.println(paths);
+        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23372));
+        System.out.println(paths);
+        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23373));
+        System.out.println(paths);
+        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23374));
+        System.out.println(paths);
+
+        endTime = System.nanoTime();
+        System.out.print("\n\n\nFinished getting paths in ");
+        System.out.print((endTime - startTime) / 1000);
+        System.out.println(" microseconds!\n\n\n");
         // Now insert all BL relations.
         insertBLRelations(conceptGraph, concepts);
 
@@ -270,7 +298,7 @@ public class CreateNewBLRelations {
         long countCounts = 1;
         long startTime = System.nanoTime();
         List<List<Concept>> allPaths = new ArrayList<>();
-        // For each leaf, we find all paths to each root. 
+        // For each leaf, we find all paths to each root.
         for (Concept leaf : leaves) {
             counter += 1;
             if (conceptCountPer100 * countCounts == counter) {
@@ -307,11 +335,11 @@ public class CreateNewBLRelations {
                             for (Concept blConcept : blConcepts) {
                                 // For each concept in the path starting from the leaf
                                 for (Concept concept : blPath) {
-                                    // If the concept is not the BL concept 
+                                    // If the concept is not the BL concept
                                     // under consideration
                                     if (!blConcept.equals(concept)) {
-                                        // If the concept is not BL 
-                                        // (this check is needed in case we have 
+                                        // If the concept is not BL
+                                        // (this check is needed in case we have
                                         // more than 1 BLs in the path).
                                         if (concept.getSpecificityLevel() ==
                                                 Concept.SpecificityLevel.SUBORDINATE ||
@@ -332,13 +360,20 @@ public class CreateNewBLRelations {
                                             // Create new relation
                                             Relation newRelation =
                                                     new Relation();
+                                            RelationTypeDao rtDao =
+                                                    new RelationTypeDaoImpl();
                                             RelationType newRelationType =
-                                                    new RelationType(
-                                                            RelationType.RelationNameForward.TYPE_TOKEN,
-                                                            RelationType.RelationNameBackward.TOKEN_TYPE);
+                                                    rtDao.
+                                                    getRelationTypeByForwardName(
+                                                    RelationType.
+                                                    RelationNameForward.
+                                                    TYPE_TOKEN);
                                             newRelation.setLinguisticSupport(
-                                                    Relation.LinguisticallySupported.UNKNOWN);
-                                            newRelation.setRelationType(newRelationType);
+                                                    Relation.
+                                                    LinguisticallySupported.
+                                                    UNKNOWN);
+                                            newRelation.setRelationType(
+                                                    newRelationType);
 
                                             if (!blFound) {
                                                 newRelation.setLeftArgument(
@@ -354,12 +389,12 @@ public class CreateNewBLRelations {
                                                         relationArgument1);
                                             }
 
-                                            // If the two relation arguments are not related, 
+                                            // If the two relation arguments are not related,
                                             // add the relation.
                                             if (!rDao.areRelated(
                                                     relationArgument1,
                                                     relationArgument2)) {
-                                                //rDao.persist(newRelation);
+                                                rDao.persist(newRelation);
                                             }
                                         }
                                     } else if (blConcept.equals(concept)) {
@@ -441,7 +476,7 @@ public class CreateNewBLRelations {
                 if (!tmpPath.contains(adjConcept)) {
                     // 7. If this is the last node
                     if (adjConcept.equals(root)) {
-                        // 8. Add the path to the final list of returned paths 
+                        // 8. Add the path to the final list of returned paths
                         tmpPath.add(adjConcept);
                         finalPathList.add(new ArrayList(tmpPath));
                     } else {

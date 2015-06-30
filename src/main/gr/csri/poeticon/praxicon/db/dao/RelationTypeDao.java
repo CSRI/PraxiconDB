@@ -12,4 +12,7 @@ import gr.csri.poeticon.praxicon.db.entities.RelationType;
  */
 public interface RelationTypeDao extends Dao<Long, RelationType> {
 
+    RelationType getRelationTypeByForwardName(
+            RelationType.RelationNameForward forwardName);
+
 }

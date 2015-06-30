@@ -6,6 +6,7 @@ package gr.csri.poeticon.praxicon.db.dao.implSQL;
 
 import gr.csri.poeticon.praxicon.db.dao.RelationTypeDao;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
+import java.util.List;
 import javax.persistence.Query;
 
 /**
@@ -14,6 +15,20 @@ import javax.persistence.Query;
  */
 public class RelationTypeDaoImpl extends JpaDao<Long, RelationType> implements
         RelationTypeDao {
+
+    @Override
+    public RelationType getRelationTypeByForwardName(
+            RelationType.RelationNameForward forwardName) {
+        Query query = getEntityManager().createNamedQuery(
+                "getRelationTypeByForwardName").
+                setParameter("forwardName", forwardName);
+        List<RelationType> relationsTypeList = (List<RelationType>)query.
+                getResultList();
+        if (relationsTypeList.isEmpty()) {
+            return null;
+        }
+        return relationsTypeList.get(0);
+    }
 
     /**
      * Creates q query to search for a RelationType using forward

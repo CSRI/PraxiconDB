@@ -37,7 +37,11 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name = "getRelationTypeEntityQuery", query =
             "SELECT e FROM RelationType e " +
             "WHERE e.forwardName = :forwardName " +
-            "AND e.backwardName = :backwardName"),})
+            "AND e.backwardName = :backwardName"),
+    @NamedQuery(name = "getRelationTypeByForwardName", query =
+            "SELECT rt FROM RelationType rt " +
+            "WHERE rt.forwardName = :forwardName"),
+})
 @Table(name = "RelationTypes")
 public class RelationType implements Serializable {
 
