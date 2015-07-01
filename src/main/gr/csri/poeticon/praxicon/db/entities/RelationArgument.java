@@ -37,7 +37,12 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name = "findRelationArgumentByConcept", query =
             "SELECT ra FROM RelationArgument ra " +
             "JOIN ra.concept rac " +
-            "WHERE rac.id = :conceptId"),})
+            "WHERE rac = :concept"),
+    @NamedQuery(name = "findRelationArgumentByRelationSet", query =
+            "SELECT ra FROM RelationArgument ra " +
+            "JOIN ra.relationSet rars " +
+            "WHERE rars = :relationSet"),
+})
 @Table(name = "RelationArguments")
 public class RelationArgument implements Serializable {
 
@@ -83,6 +88,22 @@ public class RelationArgument implements Serializable {
     public RelationArgument(RelationSet relationSet) {
         this.concept = null;
         this.relationSet = relationSet;
+    }
+
+    /**
+     * Constructor #4. relationSet is given and concept is set to empty Concept.
+     *
+     * @param relationArgument
+     */
+    public RelationArgument(RelationArgument relationArgument) {
+        if (relationArgument.isConcept()) {
+            this.concept = relationArgument.getConcept();
+            this.relationSet = null;
+        }
+        if (relationArgument.isRelationSet()) {
+            this.relationSet = relationSet;
+            this.concept = null;
+        }
     }
 
     /**

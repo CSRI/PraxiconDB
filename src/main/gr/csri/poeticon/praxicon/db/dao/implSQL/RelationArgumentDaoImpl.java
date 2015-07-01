@@ -6,10 +6,8 @@ package gr.csri.poeticon.praxicon.db.dao.implSQL;
 
 import gr.csri.poeticon.praxicon.db.dao.RelationArgumentDao;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
-import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
-import gr.csri.poeticon.praxicon.db.entities.RelationType;
-import java.util.ArrayList;
+import gr.csri.poeticon.praxicon.db.entities.RelationSet;
 import java.util.List;
 import javax.persistence.Query;
 
@@ -19,40 +17,25 @@ import javax.persistence.Query;
  *
  */
 public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument>
-        implements
-        RelationArgumentDao {
+        implements RelationArgumentDao {
 
     /**
-     * Finds all relation arguments that are related to a given
-     * relation argument using a given relation type
+     * Finds the relation argument that is connected with the given concept.
      *
-     * @param relationArgument the relation argument
-     * @param relationType     the type of relation (direction sensitive)
-     * @return a list of relationArguments
+     * @param concept the concept connected to the relation argument
+     * @return relationArgument
      */
     @Override
-    public List<RelationArgument> getRelationArgumentsRelatedWithByRelationType(
-            RelationArgument relationArgument, RelationType relationType) {
-        List<RelationArgument> res = new ArrayList<>();
+    public RelationArgument getRelationArgument(Concept concept) {
         Query query = getEntityManager().createNamedQuery(
-                "findRelationArgumentsRelatedWithByRelationType").
-                setParameter("leftArgumentRelationArgumnet", relationArgument.
-                        getId()).
-                setParameter("rightArgumentRelationArgument", relationArgument.
-                        getId()).
-                setParameter("relationType", relationType);
-
-        List<Relation> relationsList = query.getResultList();
-        if (relationsList != null && relationsList.size() > 0) {
-            for (Relation tmpRelation : relationsList) {
-                if (tmpRelation.getLeftArgument().equals(relationArgument)) {
-                    res.add(tmpRelation.getRightArgument());
-                } else {
-                    res.add(tmpRelation.getLeftArgument());
-                }
-            }
+                "findRelationArgumentByConcept").
+                setParameter("concept", concept);
+        List<RelationArgument> relationArgumentsList =
+                (List<RelationArgument>)query.getResultList();
+        if (relationArgumentsList.isEmpty()) {
+            return null;
         }
-        return res;
+        return relationArgumentsList.get(0);
     }
 
     /**
@@ -62,10 +45,11 @@ public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument>
      * @return relationArgument
      */
     @Override
-    public RelationArgument getRelationArgumentByConcept(Concept concept) {
+    public RelationArgument getRelationArgument(
+            RelationSet relationSet) {
         Query query = getEntityManager().createNamedQuery(
-                "findRelationArgumentByConcept").
-                setParameter("conceptId", concept.getId());
+                "findRelationArgumentByRelationSet").
+                setParameter("relationSet", relationSet);
         List<RelationArgument> relationArgumentsList =
                 (List<RelationArgument>)query.getResultList();
         if (relationArgumentsList.isEmpty()) {
