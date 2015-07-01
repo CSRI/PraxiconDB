@@ -56,4 +56,6 @@ public interface RelationDao extends Dao<Long, Relation> {
 
     Relation updatedRelation(Relation newRelation);
 
+    Relation getRelation(Relation newRelation);
+
 }

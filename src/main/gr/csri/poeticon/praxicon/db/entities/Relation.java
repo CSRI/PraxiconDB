@@ -24,7 +24,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -53,7 +52,7 @@ import javax.xml.bind.annotation.XmlType;
             "WHERE (r.leftArgument = :relationArgument " +
             "OR r.rightArgument = :relationArgument) " +
             "AND rt.forwardName = :relationType"),
-    @NamedQuery(name = "findRelations", query =
+    @NamedQuery(name = "findRelation", query =
             "SELECT r FROM Relation r " +
             "JOIN r.relationType rt " +
             "WHERE (r.leftArgument = :leftRelationArgument " +
@@ -121,11 +120,11 @@ public class Relation implements Serializable {
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     //@JoinColumn(name = "RelationArgumentId")
-    @NotNull(message = "LeftArgument of relation must be specified.")
+//    @NotNull(message = "LeftArgument of relation must be specified.")
     private RelationArgument leftArgument;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    @NotNull(message = "RightArgument of relation must be specified.")
+//    @NotNull(message = "RightArgument of relation must be specified.")
     private RelationArgument rightArgument;
 
     @XmlTransient
