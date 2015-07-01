@@ -649,40 +649,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     }
 
     /**
-     * Finds all concepts that are related to a given concept using a given
-     * relation ConceptType
-     *
-     * @param concept      the concept
-     * @param relationType the ConceptType of relation (direction sensitive)
-     * @return a list of concepts
-     */
-    @Override
-    public List<Concept> getConceptsRelatedWithByRelationType(
-            Concept concept, RelationType relationType) {
-        List<Concept> res = new ArrayList<>();
-        Query query = getEntityManager().createNamedQuery(
-                "findRelationsByRelationType").
-                setParameter("leftArgumentConceptId", concept.getId()).
-                setParameter("rightArgumentConceptId", concept.getId()).
-                setParameter("relationTypeId", relationType);
-
-        List<Relation> tmpRelation = query.getResultList();
-        if (tmpRelation != null && tmpRelation.size() > 0) {
-            for (Relation tmpRelation1 : tmpRelation) {
-                if (tmpRelation1.getLeftArgument().isConcept()) {
-                    if (tmpRelation1.getLeftArgument().getConcept().equals(
-                            concept)) {
-                        res.add(tmpRelation1.getRightArgument().getConcept());
-                    } else {
-                        res.add(tmpRelation1.getLeftArgument().getConcept());
-                    }
-                }
-            }
-        }
-        return res;
-    }
-
-    /**
      * Clears the entity manager
      */
     @Override

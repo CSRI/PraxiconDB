@@ -7,7 +7,6 @@ package gr.csri.poeticon.praxicon.db.dao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Concept.Status;
-import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import java.util.List;
 import java.util.Map;
 
@@ -62,9 +61,6 @@ public interface ConceptDao extends Dao<Long, Concept> {
 
     List<Map.Entry<Concept, ConceptDaoImpl.Direction>>
             getBasicLevelConceptsOld(Concept concept);
-
-    List<Concept> getConceptsRelatedWithByRelationType(
-            Concept concept, RelationType relationType);
 
     void clearManager();
 }
