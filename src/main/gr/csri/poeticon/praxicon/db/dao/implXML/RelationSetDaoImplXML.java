@@ -29,7 +29,6 @@ public class RelationSetDaoImplXML extends JpaDao<Long, RelationSet>
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-
 ////    @Override
 //    public List<RelationSet> getRelationSetsContainingConcept(Concept c)
 //    {
@@ -58,7 +57,6 @@ public class RelationSetDaoImplXML extends JpaDao<Long, RelationSet>
 //        }
 //        return res;
 //    }
-
     @Override
     public RelationSet updatedRelationSet(RelationSet relationSet) {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -77,13 +75,24 @@ public class RelationSetDaoImplXML extends JpaDao<Long, RelationSet>
     @Override
     public List<RelationSet> getRelationSetsWithRelationArgumentAsRightArgument(
             RelationArgument relationArgument) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public List<RelationSet> getRelationSetsWithConceptAsRightArgument(
             Concept concept) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public RelationSet getRelationSet(RelationSet relationSet) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<RelationSet> getRelationSetsWithRelationArgumentAsLeftArgument(
+            RelationArgument relationArgument) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

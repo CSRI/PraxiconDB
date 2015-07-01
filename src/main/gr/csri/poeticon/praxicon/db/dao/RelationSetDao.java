@@ -15,10 +15,15 @@ import java.util.List;
  */
 public interface RelationSetDao extends Dao<Long, RelationSet> {
 
+    RelationSet getRelationSet(RelationSet relationSet);
+
     List<RelationSet> getRelationSetsByRelationArgument(
             RelationArgument relationArgument);
 
     List<RelationSet> getRelationSetsByConcept(Concept concept);
+
+    List<RelationSet> getRelationSetsWithRelationArgumentAsLeftArgument(
+            RelationArgument relationArgument);
 
     List<RelationSet> getRelationSetsWithRelationArgumentAsRightArgument(
             RelationArgument relationArgument);
