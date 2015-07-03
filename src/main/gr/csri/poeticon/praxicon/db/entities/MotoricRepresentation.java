@@ -16,6 +16,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -27,7 +28,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author dmavroeidis
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.PROPERTY)
 @XmlType(name = "motoric_representation",
         namespace = "http://www.csri.gr/motoric_representation")
 @Entity
@@ -35,7 +36,11 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name = "getMotoricRepresentationEntityQuery", query =
             "FROM MotoricRepresentation mr " +
             "WHERE UPPER(mr.comment) = :comment"),})
-@Table(name = "MotoricRepresentations")
+@Table(name = "MotoricRepresentations",
+        uniqueConstraints = {
+            @UniqueConstraint(columnNames = {"PerformingAgent", "Source", "URI"
+        }),}
+)
 public class MotoricRepresentation implements Serializable {
 
     public static enum PerformingAgent {
@@ -53,8 +58,6 @@ public class MotoricRepresentation implements Serializable {
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "MotoricRepresentationId")
-//    @XmlAttribute
-    @XmlTransient
     private Long id;
 
     @Column(name = "PerformingAgent")
@@ -71,7 +74,6 @@ public class MotoricRepresentation implements Serializable {
     @Column(name = "Comment")
     private String comment;
 
-    @XmlTransient
     @ManyToOne(cascade = CascadeType.ALL)
     private Concept concept;
 
@@ -85,12 +87,13 @@ public class MotoricRepresentation implements Serializable {
     public MotoricRepresentation() {
     }
 
-    public String getVisualRepresentation() {
-        return null;
+    @XmlTransient
+    public Long getId() {
+        return id;
     }
 
-    public String getMediaType() {
-        return "video";
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**
@@ -101,8 +104,16 @@ public class MotoricRepresentation implements Serializable {
         return performingAgent;
     }
 
-    public void setSource(PerformingAgent performingAgent) {
+    public void setPerformingAgent(PerformingAgent performingAgent) {
         this.performingAgent = performingAgent;
+    }
+
+    public String getVisualRepresentation() {
+        return null;
+    }
+
+    public String getMediaType() {
+        return "video";
     }
 
     /**
@@ -143,14 +154,6 @@ public class MotoricRepresentation implements Serializable {
         this.comment = comment;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @Override
     public int hashCode() {
         int hash = 7;
@@ -180,8 +183,6 @@ public class MotoricRepresentation implements Serializable {
         }
         return true;
     }
-
-
 
     @Override
     public String toString() {

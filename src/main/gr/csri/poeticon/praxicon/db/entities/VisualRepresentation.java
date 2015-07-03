@@ -18,6 +18,7 @@ import javax.persistence.Index;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -29,13 +30,19 @@ import javax.xml.bind.annotation.XmlType;
  * @author dmavroeidis
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.PROPERTY)
 @XmlType(name = "visual_representation",
         namespace = "http://www.csri.gr/visual_representation")
 @Entity
 @Table(name = "VisualRepresentations",
         indexes = {
-            @Index(columnList = "Name")})
+            @Index(columnList = "Name")},
+                uniqueConstraints = {
+            @UniqueConstraint(columnNames = {"MediaType", "Name", "Source" ,
+                "Uri"
+            }),}
+
+        )
 public class VisualRepresentation implements Serializable {
 
     public static enum MediaType {
@@ -53,8 +60,6 @@ public class VisualRepresentation implements Serializable {
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @Column(name = "VisualRepresentationId")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
-//    @XmlAttribute
-    @XmlTransient
     private Long id;
 
     @Column(name = "MediaType")
@@ -105,6 +110,7 @@ public class VisualRepresentation implements Serializable {
         this.mediaType = mediaType;
     }
 
+    @XmlTransient
     /**
      * @return the concept connected to the visual representation.
      */
@@ -116,6 +122,7 @@ public class VisualRepresentation implements Serializable {
         this.concept = concept;
     }
 
+    @XmlTransient
     /**
      * @return the relation set connected to the visual representation.
      */
@@ -178,6 +185,7 @@ public class VisualRepresentation implements Serializable {
         }
     }
 
+    @XmlTransient
     public Long getId() {
         return id;
     }
@@ -229,5 +237,4 @@ public class VisualRepresentation implements Serializable {
     public String toString() {
         return "[Id=" + id + "] " + this.mediaType + ": " + this.name;
     }
-
 }

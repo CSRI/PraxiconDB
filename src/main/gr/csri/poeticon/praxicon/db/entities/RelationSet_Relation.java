@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *
  * @author dmavroeidis
  */
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.PROPERTY)
 @XmlType(name = "relationset_relation", namespace = "http://www.csri.gr/relationset_relation")
 @Entity
 @Table(name = "RelationSets_Relations")
@@ -35,8 +35,6 @@ public class RelationSet_Relation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "RelationSet_RelationId")
-//    @XmlAttribute
-    @XmlTransient
     private Long id;
 
     @XmlTransient
@@ -53,6 +51,7 @@ public class RelationSet_Relation implements Serializable {
         this.relation = new Relation();
     }
 
+    @XmlTransient
     public Long getId() {
         return id;
     }
@@ -69,6 +68,7 @@ public class RelationSet_Relation implements Serializable {
         this.relation = relation;
     }
 
+    @XmlTransient
     public RelationSet getRelationSet() {
         return relationSet;
     }

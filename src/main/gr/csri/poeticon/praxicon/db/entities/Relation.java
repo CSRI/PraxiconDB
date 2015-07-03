@@ -24,6 +24,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -35,7 +36,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author dmavroeidis
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.PROPERTY)
 @XmlType(name = "relation", namespace = "http://www.csri.gr/relation")
 @XmlRootElement(name = "relation", namespace = "http://www.csri.gr/relation")
 @Entity
@@ -89,7 +90,12 @@ import javax.xml.bind.annotation.XmlType;
 })
 @Table(name = "Relations",
         indexes = {
-            @Index(columnList = "Comment"),})
+            @Index(columnList = "Comment"),},
+        uniqueConstraints = {
+            @UniqueConstraint(columnNames = {"leftArgument", "rightArgument",
+                "LinguisticallySupported"
+            }),}
+)
 public class Relation implements Serializable {
 
     public static enum LinguisticallySupported {
@@ -107,8 +113,6 @@ public class Relation implements Serializable {
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "RelationId")
-//    @XmlAttribute
-    @XmlTransient
     private Long id;
 
     @Column(name = "Comment")
@@ -152,6 +156,7 @@ public class Relation implements Serializable {
         comment = "";
     }
 
+    @XmlTransient
     public Long getId() {
         return id;
     }

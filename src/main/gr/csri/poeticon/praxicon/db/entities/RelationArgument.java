@@ -7,9 +7,11 @@ package gr.csri.poeticon.praxicon.db.entities;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -51,13 +53,13 @@ public class RelationArgument implements Serializable {
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "RelationArgumentId")
-//    @XmlAttribute
-    @XmlTransient
     private Long id;
 
+    @Basic(optional = true, fetch=FetchType.LAZY)
     @OneToOne(cascade = CascadeType.ALL)
     private Concept concept;
 
+    @Basic(optional = true, fetch=FetchType.LAZY)
     @OneToOne(cascade = CascadeType.ALL)
     private RelationSet relationSet;
 
@@ -111,6 +113,7 @@ public class RelationArgument implements Serializable {
      *
      * @return Long integer.
      */
+    @XmlTransient
     public Long getId() {
         return id;
     }
@@ -201,10 +204,12 @@ public class RelationArgument implements Serializable {
         return null;
     }
 
+    @XmlTransient
     public boolean isConcept() {
         return this.getRelationArgumentClassType() == Concept.class;
     }
 
+    @XmlTransient
     public boolean isRelationSet() {
         return this.getRelationArgumentClassType() == RelationSet.class;
     }

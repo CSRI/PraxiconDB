@@ -20,6 +20,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
@@ -30,7 +31,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author dmavroeidis
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.PROPERTY)
 @XmlType(name = "relation_type", namespace = "http://www.csri.gr/relation_type")
 @Entity
 @NamedQueries({
@@ -42,7 +43,9 @@ import javax.xml.bind.annotation.XmlType;
             "SELECT rt FROM RelationType rt " +
             "WHERE rt.forwardName = :forwardName"),
 })
-@Table(name = "RelationTypes")
+@Table(name = "RelationTypes"
+        , uniqueConstraints={   @UniqueConstraint(columnNames={"ForwardName", "BackwardName"}),}
+)
 public class RelationType implements Serializable {
 
     public static enum RelationNameForward {
@@ -88,8 +91,6 @@ public class RelationType implements Serializable {
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @Column(name = "RelationTypeId")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
-//    @XmlAttribute
-    @XmlTransient
     private Long id;
 
     @Column(name = "ForwardName")
@@ -119,6 +120,19 @@ public class RelationType implements Serializable {
         relations = new ArrayList<>();
         this.forwardName = forward_name;
         this.backwardName = backward_name;
+    }
+
+    @XmlTransient
+    /**
+     *
+     * @return the id of the relation type.
+     */
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public RelationNameForward getForwardName() {
@@ -195,6 +209,7 @@ public class RelationType implements Serializable {
         return null;
     }
 
+    @XmlTransient
     public List<Relation> getRelations() {
         return relations;
     }
@@ -206,18 +221,6 @@ public class RelationType implements Serializable {
     public void addRelation(Relation relation) {
         relation.setRelationType(this);
         this.relations.add(relation);
-    }
-
-    /**
-     *
-     * @return the id of the relation type.
-     */
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     @Override

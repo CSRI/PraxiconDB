@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  *
  * @author dmavroeidis
  */
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.PROPERTY)
 @XmlType(name = "concept_languagerepresentation", namespace =
         "http://www.csri.gr/concept_languagerepresentation")
 @Entity
@@ -39,14 +39,11 @@ public class Concept_LanguageRepresentation implements Serializable {
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "Concept_LanguageRepresentationId")
-//    @XmlAttribute
-    @XmlTransient
     private Long id;
 
     @Column(name = "RepresentativeLanguageRepresentation")
     private boolean isRepresentativeLanguageRepresentation;
 
-    @XmlTransient
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "ConceptId")
     private Concept concept;
@@ -55,6 +52,7 @@ public class Concept_LanguageRepresentation implements Serializable {
     @JoinColumn(name = "LanguageRepresentationId")
     private LanguageRepresentation languageRepresentation;
 
+    @XmlTransient
     public Long getId() {
         return id;
     }
@@ -66,6 +64,7 @@ public class Concept_LanguageRepresentation implements Serializable {
     /**
      * @return the concept.
      */
+    @XmlTransient
     public Concept getConcept() {
         return concept;
     }

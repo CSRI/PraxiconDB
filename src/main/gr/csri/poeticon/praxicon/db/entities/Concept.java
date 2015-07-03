@@ -22,6 +22,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -33,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
  *
  * @author dmavroeidis
  */
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.PROPERTY)
 @XmlType(name = "concept", namespace = "http://www.csri.gr/concept")
 @XmlRootElement(name = "concept", namespace = "http://www.csri.gr/concept")
 @Entity
@@ -81,7 +82,13 @@ import javax.xml.bind.annotation.XmlType;
             "AND c.pragmaticStatus = :pragmaticStatus"),})
 @Table(name = "Concepts",
         indexes = {
-            @Index(columnList = "ExternalSourceId"),})
+            @Index(columnList = "ExternalSourceId"),},
+        uniqueConstraints = {
+            @UniqueConstraint(columnNames = {"ExternalSourceId", "Type",
+                "SpecificityLevel", "Status", "PragmaticStatus",
+                "UniqueInstance", "OntologicalDomain", "Source"
+            }),}
+)
 //@ConceptConstraint(groups=ConceptGroup.class)
 public class Concept implements Serializable {
 
@@ -158,8 +165,6 @@ public class Concept implements Serializable {
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "ConceptId")
-    @XmlTransient
-//    @XmlAttribute
     private Long id;
 
     @Column(name = "ExternalSourceId", nullable = false)
@@ -283,6 +288,7 @@ public class Concept implements Serializable {
      *
      * @return long
      */
+    @XmlTransient
     public Long getId() {
         return id;
     }
@@ -652,10 +658,7 @@ public class Concept implements Serializable {
      */
     public void updateLanguageRepresentations(Concept oldConcept) {
         for (Concept_LanguageRepresentation conceptLanguageRepresentation
-                : this.getLanguageRepresentationsEntries()) //                int i = 0; i <
-        //                this.getLanguageRepresentationsEntries().size(); i++)
-        //
-        {
+                : this.getLanguageRepresentationsEntries()) {
             if (!oldConcept.getLanguageRepresentationsEntries().contains(
                     conceptLanguageRepresentation)) {
                 conceptLanguageRepresentation.getLanguageRepresentation().
@@ -824,7 +827,7 @@ public class Concept implements Serializable {
         hash = 13 * hash + Objects.hashCode(this.pragmaticStatus);
         hash = 13 * hash + Objects.hashCode(this.uniqueInstance);
         hash = 13 * hash + Objects.hashCode(this.ontologicalDomain);
-        hash = 13 * hash + Objects.hashCode(this.getLanguageRepresentations());
+        hash = 13 * hash + Objects.hashCode(this.languageRepresentations);
         return hash;
     }
 
@@ -855,8 +858,8 @@ public class Concept implements Serializable {
         if (!Objects.equals(this.ontologicalDomain, other.ontologicalDomain)) {
             return false;
         }
-        if (!Objects.equals(this.getLanguageRepresentations(), other.
-                getLanguageRepresentations())) {
+        if (!Objects.equals(this.languageRepresentations,
+                other.languageRepresentations)) {
             return false;
         }
         return true;
@@ -875,9 +878,8 @@ public class Concept implements Serializable {
                 StringBuilder tmp = new StringBuilder(
                         tmpList.get(0).getLanguageRepresentation().getText());
                 for (int i = 1; i < tmpList.size(); i++) {
-                    tmp.append("\\").append(
-                            tmpList.get(i).getLanguageRepresentation().
-                            getText());
+                    tmp.append("\\").append(tmpList.get(i).
+                            getLanguageRepresentation().getText());
                 }
                 return tmp.toString();
             } else {

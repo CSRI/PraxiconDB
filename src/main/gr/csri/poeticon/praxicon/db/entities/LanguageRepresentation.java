@@ -29,6 +29,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -41,7 +42,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author dmavroeidis
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.PROPERTY)
 @XmlType(name = "language_representation", namespace =
         "http://www.csri.gr/language_representation")
 @Entity
@@ -89,7 +90,12 @@ import javax.xml.bind.annotation.XmlType;
             "SELECT DISTINCT lr.text FROM LanguageRepresentation lr"),})
 @Table(name = "LanguageRepresentations",
         indexes = {
-            @Index(columnList = "Text"),})
+            @Index(columnList = "Text"),},
+        uniqueConstraints = {
+            @UniqueConstraint(columnNames = {"Language", "UseStatus",
+                "PartOfSpeech", "Productivity", "Negation", "Operator", "Text"
+            }),}
+)
 public class LanguageRepresentation implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -186,8 +192,6 @@ public class LanguageRepresentation implements Serializable {
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "LanguageRepresentationId")
-//    @XmlAttribute
-    @XmlTransient
     private Long id;
 
     @Column(name = "Language")
@@ -222,11 +226,9 @@ public class LanguageRepresentation implements Serializable {
     @Column(name = "Comment")
     private String comment;
 
-    @XmlTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "languageRepresentation")
     private List<Concept_LanguageRepresentation> concepts;
 
-    @XmlTransient
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "LanguageRepresentation_RelationSet",
@@ -258,6 +260,18 @@ public class LanguageRepresentation implements Serializable {
         operator = newLanguageRepresentation.operator;
         text = newLanguageRepresentation.text;
         comment = newLanguageRepresentation.comment;
+    }
+
+    /**
+     * @return id
+     */
+    @XmlTransient
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**
@@ -348,6 +362,13 @@ public class LanguageRepresentation implements Serializable {
         return language_representations_list;
     }
 
+    public void setLanguageRepresentations(
+            List<LanguageRepresentation> languageRepresentations) {
+        LanguageRepresentation.language_representations =
+                languageRepresentations;
+    }
+
+    @XmlTransient
     public List<Concept> getConcepts() {
         List<Concept> concepts = new ArrayList<>();
         for (LanguageRepresentation language_representation
@@ -359,12 +380,6 @@ public class LanguageRepresentation implements Serializable {
             }
         }
         return concepts;
-    }
-
-    public void setLanguageRepresentations(
-            List<LanguageRepresentation> languageRepresentations) {
-        LanguageRepresentation.language_representations =
-                languageRepresentations;
     }
 
     /**
@@ -407,17 +422,6 @@ public class LanguageRepresentation implements Serializable {
 
     public void setComment(String comment) {
         this.comment = comment;
-    }
-
-    /**
-     * @return id
-     */
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     @Override
