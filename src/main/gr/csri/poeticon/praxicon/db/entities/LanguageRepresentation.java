@@ -29,7 +29,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -90,11 +89,11 @@ import javax.xml.bind.annotation.XmlType;
             "SELECT DISTINCT lr.text FROM LanguageRepresentation lr"),})
 @Table(name = "LanguageRepresentations",
         indexes = {
-            @Index(columnList = "Text"),},
-        uniqueConstraints = {
-            @UniqueConstraint(columnNames = {"Language", "UseStatus",
-                "PartOfSpeech", "Productivity", "Negation", "Operator", "Text"
-            }),}
+            @Index(columnList = "Text"),}//,
+//        uniqueConstraints = {
+//            @UniqueConstraint(columnNames = {"Language", "UseStatus",
+//                "PartOfSpeech", "Productivity", "Negation", "Operator", "Text"
+//            }),}
 )
 public class LanguageRepresentation implements Serializable {
 
@@ -226,6 +225,7 @@ public class LanguageRepresentation implements Serializable {
     @Column(name = "Comment")
     private String comment;
 
+    @XmlTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "languageRepresentation")
     private List<Concept_LanguageRepresentation> concepts;
 
@@ -237,7 +237,7 @@ public class LanguageRepresentation implements Serializable {
             inverseJoinColumns = {
                 @JoinColumn(name = "RelationSetId")}
     )
-    private List<RelationSet> RelationSets;
+    private List<RelationSet> relationSets;
 
     public LanguageRepresentation() {
         language = Language.EN;
