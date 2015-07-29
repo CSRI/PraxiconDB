@@ -111,7 +111,7 @@ public class RelationSet implements Serializable {
             inverseJoinColumns = {
                 @JoinColumn(name = "LanguageRepresentationId")}
     )
-    List<LanguageRepresentation> languageRepresentations;
+    private List<LanguageRepresentation> languageRepresentations;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet")
     private List<VisualRepresentation> visualRepresentations;
