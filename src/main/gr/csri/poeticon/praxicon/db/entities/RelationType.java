@@ -20,7 +20,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
@@ -41,10 +40,10 @@ import javax.xml.bind.annotation.XmlType;
             "AND e.backwardName = :backwardName"),
     @NamedQuery(name = "getRelationTypeByForwardName", query =
             "SELECT rt FROM RelationType rt " +
-            "WHERE rt.forwardName = :forwardName"),
-})
-@Table(name = "RelationTypes"
-        , uniqueConstraints={   @UniqueConstraint(columnNames={"ForwardName", "BackwardName"}),}
+            "WHERE rt.forwardName = :forwardName"),})
+@Table(name = "RelationTypes"//,
+//        uniqueConstraints = {
+//            @UniqueConstraint(columnNames = {"ForwardName", "BackwardName"}),}
 )
 public class RelationType implements Serializable {
 
@@ -122,11 +121,11 @@ public class RelationType implements Serializable {
         this.backwardName = backward_name;
     }
 
-    @XmlTransient
     /**
      *
      * @return the id of the relation type.
      */
+    @XmlTransient
     public Long getId() {
         return id;
     }
@@ -200,7 +199,7 @@ public class RelationType implements Serializable {
     }
 
     /**
-     * @return the backward name.
+     * @return the backward name as a String.
      */
     public String getBackwardNameString() {
         if (backwardName != null && !backwardName.name().equalsIgnoreCase("")) {
