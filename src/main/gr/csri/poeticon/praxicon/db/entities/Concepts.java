@@ -52,7 +52,7 @@ public class Concepts {
     /**
      * Stores a concept in the database checking if it already exists.
      */
-    public void storeConcept(Concept concept) {
+    public Concept storeConcept(Concept concept) {
         ConceptDao cDao = new ConceptDaoImpl();
         Concept oldConcept = new Concept(concept, false, false, false);
 
@@ -81,7 +81,7 @@ public class Concepts {
                             languageRepresentation.getProductivity(),
                             languageRepresentation.getNegation(),
                             languageRepresentation.getOperator());
-                    // if Language Representation exists add the retrieved,
+            // if Language Representation exists add the retrieved,
             // otherwise, add the new one.
             if (!isNull(retrievedLanguageRepresentation)) {
                 newConcept.addLanguageRepresentation(
@@ -97,6 +97,8 @@ public class Concepts {
         // If Concept doesn't exist, add it
         if (isNull(retrievedConcept)) {
             cDao.merge(newConcept);
+            return newConcept;
         }
+        return retrievedConcept;
     }
 }
