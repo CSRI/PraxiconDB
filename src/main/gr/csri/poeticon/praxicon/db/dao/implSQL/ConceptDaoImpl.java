@@ -70,16 +70,26 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 setParameter("specificityLevel", concept.getSpecificityLevel()).
                 setParameter("status", concept.getStatus()).
                 setParameter("pragmaticStatus", concept.getPragmaticStatus()).
-                setParameter("uniqueInstance", concept.getUniqueInstance()).
-                setParameter("ontologicalDomain", concept.getOntologicalDomain()
-                );
-        Concept newConcept = new Concept();
+                setParameter("uniqueInstance", concept.getUniqueInstance())//.
+//                setParameter("ontologicalDomain",
+//                        concept.getOntologicalDomain())
+                ;
         List<Concept> conceptsList = new ArrayList<>();
-        conceptsList = (List<Concept>)query.getResultList();
-        if (conceptsList.isEmpty()) {
+        List<Concept> retrievedConceptsList = new ArrayList<>();
+        retrievedConceptsList = (List<Concept>)query.getResultList();
+        // Now, get language representations under the concept
+        ConceptDao cDao = new ConceptDaoImpl();
+        List<Concept> conceptsByLrList = new ArrayList<>();
+        for (LanguageRepresentation lr : concept.getLanguageRepresentations()) {
+            conceptsByLrList.addAll(cDao.getConceptsByLanguageRepresentation(lr.
+                    getText()));
+        }
+        retrievedConceptsList.retainAll(conceptsByLrList);
+//        System.out.println("Retrieved Concepts List: " + retrievedConceptsList);
+        if (retrievedConceptsList.isEmpty()) {
             return null;
         }
-        return conceptsList.get(0);
+        return retrievedConceptsList.get(0);
     }
 
     /**
@@ -393,7 +403,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         List<Concept> conceptList = new ArrayList<>();
         RelationDao rDao = new RelationDaoImpl();
         List<Relation> relations =
-                 rDao.getRelationsByLeftConceptTypeOfRelation(concept,
+                rDao.getRelationsByLeftConceptTypeOfRelation(concept,
                         TYPE_TOKEN);
         for (Relation relation : relations) {
             if (relation.getRightArgument().isConcept()) {
@@ -416,7 +426,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         List<Concept> conceptList = new ArrayList<>();
         RelationDao rDao = new RelationDaoImpl();
         List<Relation> relations =
-                 rDao.getRelationsByRightConceptTypeOfRelation(concept,
+                rDao.getRelationsByRightConceptTypeOfRelation(concept,
                         TYPE_TOKEN);
         for (Relation relation : relations) {
             if (relation.getLeftArgument().isConcept()) {
@@ -614,7 +624,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         List<Concept> res = new ArrayList<>();
         RelationDao rDao = new RelationDaoImpl();
         List<Relation> relations =
-                 rDao.getRelationsByRightConceptTypeOfRelation(concept,
+                rDao.getRelationsByRightConceptTypeOfRelation(concept,
                         HAS_INSTANCE);
         for (Relation relation : relations) {
             if (relation.getLeftArgument().isConcept()) {
@@ -637,7 +647,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         List<Concept> res = new ArrayList<>();
         RelationDao rDao = new RelationDaoImpl();
         List<Relation> relations =
-                 rDao.getRelationsByLeftConceptTypeOfRelation(concept,
+                rDao.getRelationsByLeftConceptTypeOfRelation(concept,
                         HAS_INSTANCE);
         for (Relation relation : relations) {
             if (relation.getRightArgument().isConcept()) {
