@@ -44,11 +44,12 @@ public class Concept_LanguageRepresentation implements Serializable {
     @Column(name = "RepresentativeLanguageRepresentation")
     private boolean isRepresentativeLanguageRepresentation;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @XmlTransient
+    @ManyToOne(optional = false, cascade = {CascadeType.ALL})
     @JoinColumn(name = "ConceptId")
     private Concept concept;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, cascade = {CascadeType.ALL})
     @JoinColumn(name = "LanguageRepresentationId")
     private LanguageRepresentation languageRepresentation;
 
@@ -69,6 +70,7 @@ public class Concept_LanguageRepresentation implements Serializable {
         return concept;
     }
 
+    @XmlTransient
     public void setConcept(Concept concept) {
         this.concept = concept;
     }
@@ -127,8 +129,8 @@ public class Concept_LanguageRepresentation implements Serializable {
 
     @Override
     public String toString() {
-        return "gr.csri.poeticon.praxicon.db.entities.Concept_LanguageRepre" +
-                "sentation[ id=" + id + " ]";
+        return "gr.csri.poeticon.praxicon.db.entities." +
+                "Concept_LanguageRepresentation[ id=" + id + " ]";
     }
 
 }
