@@ -189,8 +189,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByRelationArgumentRightArgumentOrLeftArgument").
                 setParameter("relationArgument", relationArgument);
-        List<Relation> res = query.getResultList();
-        return res;
+        List<Relation> relationsList = query.getResultList();
+        return relationsList;
     }
 
     /**
@@ -206,8 +206,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         Query query = getEntityManager().createNamedQuery("areRelated").
                 setParameter("relationArgument1", relationArgument1).
                 setParameter("relationArgument2", relationArgument2);
-        List<Relation> objRels = query.getResultList();
-        return objRels.size() > 0;
+        List<Relation> relationsList = query.getResultList();
+        return relationsList.size() > 0;
     }
 
     /**
