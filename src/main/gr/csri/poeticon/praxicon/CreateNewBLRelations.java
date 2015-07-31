@@ -10,8 +10,10 @@ import gr.csri.poeticon.praxicon.db.dao.RelationArgumentDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationTypeDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
-import static gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl.Direction.DOWN;
-import static gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl.Direction.UP;
+import static gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl.Direction.
+        DOWN;
+import static gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl.Direction.
+        UP;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationArgumentDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationTypeDaoImpl;
@@ -92,10 +94,10 @@ public class CreateNewBLRelations {
                     relation1.setRelationType(relationType1);
                     // This is the original concept
                     RelationArgument relationArgument1 = raDao.
-                            getRelationArgumentByConcept(concept);
+                            getRelationArgument(concept);
                     // This is the BL concept
                     RelationArgument relationArgument2 = raDao.
-                            getRelationArgumentByConcept(item.getKey());
+                            getRelationArgument(item.getKey());
                     if (item.getValue() == DOWN) {
                         relation1.setLeftArgument(relationArgument1);
                         relation1.setRightArgument(relationArgument2);
@@ -342,19 +344,20 @@ public class CreateNewBLRelations {
                                         // (this check is needed in case we have
                                         // more than 1 BLs in the path).
                                         if (concept.getSpecificityLevel() ==
-                                                Concept.SpecificityLevel.SUBORDINATE ||
+                                                Concept.SpecificityLevel.
+                                                SUBORDINATE ||
                                                 concept.getSpecificityLevel() ==
-                                                Concept.SpecificityLevel.SUPERORDINATE ||
+                                                Concept.SpecificityLevel.
+                                                SUPERORDINATE ||
                                                 concept.getSpecificityLevel() ==
-                                                Concept.SpecificityLevel.UNKNOWN) {
+                                                Concept.SpecificityLevel.
+                                                UNKNOWN) {
                                             // Get relation arguments of concepts
                                             RelationArgument relationArgument2 =
-                                                    raDao.
-                                                    getRelationArgumentByConcept(
+                                                    raDao.getRelationArgument(
                                                             concept);
                                             RelationArgument relationArgument1 =
-                                                    raDao.
-                                                    getRelationArgumentByConcept(
+                                                    raDao.getRelationArgument(
                                                             blConcept);
 
                                             // Create new relation
