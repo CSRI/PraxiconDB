@@ -16,7 +16,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -36,10 +35,10 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name = "getMotoricRepresentationEntityQuery", query =
             "FROM MotoricRepresentation mr " +
             "WHERE UPPER(mr.comment) = :comment"),})
-@Table(name = "MotoricRepresentations",
-        uniqueConstraints = {
-            @UniqueConstraint(columnNames = {"PerformingAgent", "Source", "URI"
-        }),}
+@Table(name = "MotoricRepresentations"//,
+//        uniqueConstraints = {
+//            @UniqueConstraint(columnNames = {"PerformingAgent", "Source", "URI"
+//        }),}
 )
 public class MotoricRepresentation implements Serializable {
 
@@ -74,6 +73,7 @@ public class MotoricRepresentation implements Serializable {
     @Column(name = "Comment")
     private String comment;
 
+    @XmlTransient
     @ManyToOne(cascade = CascadeType.ALL)
     private Concept concept;
 
@@ -108,12 +108,13 @@ public class MotoricRepresentation implements Serializable {
         this.performingAgent = performingAgent;
     }
 
-    public String getVisualRepresentation() {
-        return null;
+    public List<VisualRepresentation> getVisualRepresentation() {
+        return visualRepresentations;
     }
 
-    public String getMediaType() {
-        return "video";
+    public void setVisualRepresentation(
+            List<VisualRepresentation> visualRepresentations) {
+        this.visualRepresentations = visualRepresentations;
     }
 
     /**
