@@ -22,7 +22,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -72,8 +71,9 @@ import javax.xml.bind.annotation.XmlType;
             "AND c.specificityLevel = :specificityLevel " +
             "AND c.status = :status " +
             "AND c.pragmaticStatus = :pragmaticStatus " +
-            "AND c.uniqueInstance = :uniqueInstance " +
-            "AND c.ontologicalDomain = :ontologicalDomain "),
+            "AND c.uniqueInstance = :uniqueInstance " //+
+//            "AND c.ontologicalDomain = :ontologicalDomain "
+    ),
     @NamedQuery(name = "getConceptEntityQuery", query =
             "SELECT c FROM Concept c " +
             "WHERE c.status = :status " +
@@ -82,12 +82,14 @@ import javax.xml.bind.annotation.XmlType;
             "AND c.pragmaticStatus = :pragmaticStatus"),})
 @Table(name = "Concepts",
         indexes = {
-            @Index(columnList = "ExternalSourceId"),},
-        uniqueConstraints = {
-            @UniqueConstraint(columnNames = {"ExternalSourceId", "Type",
-                "SpecificityLevel", "Status", "PragmaticStatus",
-                "UniqueInstance", "OntologicalDomain", "Source"
-            }),}
+            @Index(columnList = "ExternalSourceId"),
+            @Index(columnList = "Name"),}
+//,
+//        uniqueConstraints = {
+//            @UniqueConstraint(columnNames = {"ExternalSourceId", "Type",
+//                "SpecificityLevel", "Status", "PragmaticStatus",
+//                "UniqueInstance", "OntologicalDomain", "Source"
+//            }),}
 )
 //@ConceptConstraint(groups=ConceptGroup.class)
 public class Concept implements Serializable {
@@ -162,15 +164,21 @@ public class Concept implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @XmlTransient
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "ConceptId")
     private Long id;
 
-    @Column(name = "ExternalSourceId", nullable = false)
+    @Column(name = "ExternalSourceId")
     //@Size(min = 5, max = 14)
     @NotNull(message = "Concept externalSourceId must be specified.")
     private String externalSourceId;
+
+    @Column(name = "Name", nullable = false)
+    //@Size(min = 5, max = 14)
+    //@NotNull(message = "Concept Name must be specified.")
+    private String name;
 
     @Column(name = "Type", nullable = false)
     @NotNull(message = "Concept type must be specified.")
@@ -197,22 +205,19 @@ public class Concept implements Serializable {
     @Enumerated(EnumType.STRING)
     private UniqueInstance uniqueInstance;
 
-    @Column(name = "OntologicalDomain")
-    private String ontologicalDomain;
-
     @Column(name = "Source")
     private String source;
 
     @Column(name = "Comment")
     private String comment;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "concept")
     private List<Concept_LanguageRepresentation> languageRepresentations;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "concept")
     private List<VisualRepresentation> visualRepresentations;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "concept")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "concept")
     private List<MotoricRepresentation> motoricRepresentations;
 
     /**
@@ -220,12 +225,12 @@ public class Concept implements Serializable {
      */
     public Concept() {
         externalSourceId = "";
+        name = "";
         conceptType = Concept.ConceptType.UNKNOWN;
         specificityLevel = Concept.SpecificityLevel.UNKNOWN;
         status = Concept.Status.CONSTANT;
         pragmaticStatus = Concept.PragmaticStatus.UNKNOWN;
         uniqueInstance = Concept.UniqueInstance.UNKNOWN;
-        ontologicalDomain = "";
         source = "";
         comment = "";
         languageRepresentations = new ArrayList<>();
@@ -245,7 +250,6 @@ public class Concept implements Serializable {
         this.comment = newConcept.getComment();
         this.externalSourceId = newConcept.externalSourceId;
         this.conceptType = newConcept.getConceptType();
-        this.ontologicalDomain = newConcept.getOntologicalDomain();
         this.pragmaticStatus = newConcept.getPragmaticStatus();
         this.source = newConcept.getSource();
         this.specificityLevel = newConcept.getSpecificityLevel();
@@ -469,25 +473,7 @@ public class Concept implements Serializable {
         this.uniqueInstance = uniqueInstance;
     }
 
-    /**
-     * Gets the ontological domain of the concept. It defines the domain in
-     * terms of ontology that the concept belongs to
-     * (for example: natural event, activity or physical process)
-     *
-     * @return The ontological domain of the concept
-     */
-    public String getOntologicalDomain() {
-        return ontologicalDomain;
-    }
 
-    /**
-     * Sets the ontological domain of the concept.
-     *
-     * @param ontologicalDomain
-     */
-    public void setOntologicalDomain(String ontologicalDomain) {
-        this.ontologicalDomain = ontologicalDomain;
-    }
 
     /**
      * Gets the source of the concept. Where the concept came from
@@ -556,6 +542,11 @@ public class Concept implements Serializable {
         return languageRepresentations;
     }
 
+    public void setConcept_LanguageRepresentation(
+            List<Concept_LanguageRepresentation> languageRepresentations) {
+        this.languageRepresentations = languageRepresentations;
+    }
+
     /**
      * Gets a list of Concept_LanguageRepresentation instances.
      *
@@ -605,11 +596,6 @@ public class Concept implements Serializable {
         this.languageRepresentations.add(clr);
     }
 
-    public void setLanguageRepresentations(
-            List<Concept_LanguageRepresentation> languageRepresentations) {
-        this.languageRepresentations = languageRepresentations;
-    }
-
     /**
      * Gets text of the first Language representation of Language "en" for this
      * concept.
@@ -640,8 +626,10 @@ public class Concept implements Serializable {
         List<LanguageRepresentation> lrs = this.getLanguageRepresentations();
         List<String> lrNames = new ArrayList<>();
         if (lrs.isEmpty()) {
-            lrNames.add("There are no Language Representations for Concept " +
+            System.err.println(
+                    "There are no Language Representations for Concept " +
                     this.getExternalSourceId());
+            return null;
         } else {
             for (LanguageRepresentation lr : lrs) {
                 lrNames.add(lr.getText());
@@ -826,7 +814,7 @@ public class Concept implements Serializable {
         hash = 13 * hash + Objects.hashCode(this.status);
         hash = 13 * hash + Objects.hashCode(this.pragmaticStatus);
         hash = 13 * hash + Objects.hashCode(this.uniqueInstance);
-        hash = 13 * hash + Objects.hashCode(this.ontologicalDomain);
+//        hash = 13 * hash + Objects.hashCode(this.ontologicalDomain);
         hash = 13 * hash + Objects.hashCode(this.languageRepresentations);
         return hash;
     }
@@ -855,9 +843,11 @@ public class Concept implements Serializable {
         if (this.uniqueInstance != other.uniqueInstance) {
             return false;
         }
-        if (!Objects.equals(this.ontologicalDomain, other.ontologicalDomain)) {
-            return false;
-        }
+//        if (!Objects.equals(this.ontologicalDomain, other.ontologicalDomain)) {
+//            return false;
+//        }
+
+        // TODO: Check every language representation for equality
         if (!Objects.equals(this.languageRepresentations,
                 other.languageRepresentations)) {
             return false;
