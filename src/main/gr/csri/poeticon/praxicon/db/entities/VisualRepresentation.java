@@ -18,7 +18,6 @@ import javax.persistence.Index;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -36,11 +35,11 @@ import javax.xml.bind.annotation.XmlType;
 @Entity
 @Table(name = "VisualRepresentations",
         indexes = {
-            @Index(columnList = "Name")},
-                uniqueConstraints = {
-            @UniqueConstraint(columnNames = {"MediaType", "Name", "Source" ,
-                "Uri"
-            }),}
+            @Index(columnList = "Name")}//,
+//                uniqueConstraints = {
+//            @UniqueConstraint(columnNames = {"MediaType", "Name", "Source" ,
+//                "Uri"
+//            }),}
 
         )
 public class VisualRepresentation implements Serializable {
