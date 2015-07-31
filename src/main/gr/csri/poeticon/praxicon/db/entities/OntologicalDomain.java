@@ -16,7 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
 
 /**
  *
@@ -30,12 +29,6 @@ public class OntologicalDomain implements Serializable {
     @Column(name="OntologicalDomainId")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-//
-//    @OneToOne(cascade = {CascadeType.ALL})
-//    private Concept concept;
-
-    @OneToOne(cascade = {CascadeType.ALL})
-    private Concept ontologicalDomain;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
