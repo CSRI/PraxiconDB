@@ -17,6 +17,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -72,7 +75,7 @@ import javax.xml.bind.annotation.XmlType;
             "AND c.status = :status " +
             "AND c.pragmaticStatus = :pragmaticStatus " +
             "AND c.uniqueInstance = :uniqueInstance " //+
-//            "AND c.ontologicalDomain = :ontologicalDomain "
+    //            "AND c.ontologicalDomain = :ontologicalDomain "
     ),
     @NamedQuery(name = "getConceptEntityQuery", query =
             "SELECT c FROM Concept c " +
@@ -210,6 +213,16 @@ public class Concept implements Serializable {
 
     @Column(name = "Comment")
     private String comment;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "OntologicalDomain_Concept",
+            joinColumns = {
+                @JoinColumn(name = "ConceptId")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "OntologicalDomainId")}
+    )
+    private List<OntologicalDomain> ontologicalDomains;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "concept")
     private List<Concept_LanguageRepresentation> languageRepresentations;
@@ -473,8 +486,6 @@ public class Concept implements Serializable {
         this.uniqueInstance = uniqueInstance;
     }
 
-
-
     /**
      * Gets the source of the concept. Where the concept came from
      * (e.g. WordNew).
@@ -512,6 +523,26 @@ public class Concept implements Serializable {
      */
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    /**
+     * Gets the ontological domain of the concept. It defines the domain in
+     * terms of ontology that the concept belongs to
+     * (for example: natural event, activity or physical process)
+     *
+     * @return The ontological domain of the concept
+     */
+    public List<OntologicalDomain> getOntologicalDomains() {
+        return ontologicalDomains;
+    }
+
+    /**
+     * Sets the ontological domain of the concept.
+     *
+     * @param ontologicalDomain
+     */
+    public void setOntologicalDomains(List<OntologicalDomain> ontologicalDomains) {
+        this.ontologicalDomains = ontologicalDomains;
     }
 
     /**
