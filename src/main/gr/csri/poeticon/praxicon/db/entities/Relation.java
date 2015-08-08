@@ -106,6 +106,16 @@ public class Relation implements Serializable {
         }
     }
 
+    public static enum Inferred {
+
+        YES, NO, UNKNOWN;
+
+        @Override
+        public String toString() {
+            return this.name();
+        }
+    }
+    
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
@@ -138,11 +148,16 @@ public class Relation implements Serializable {
     @Enumerated(EnumType.STRING)
     private LinguisticallySupported linguisticallySupported;
 
+    @Column(name = "Inferred")
+    @Enumerated(EnumType.STRING)
+    private Inferred inferred;
+    
     public Relation() {
         leftArgument = new RelationArgument();
         rightArgument = new RelationArgument();
         relationType = new RelationType();
         linguisticallySupported = LinguisticallySupported.UNKNOWN;
+        inferred = Inferred.UNKNOWN;
         comment = "";
     }
 
@@ -151,6 +166,7 @@ public class Relation implements Serializable {
         rightArgument = newRelation.getRightArgument();
         relationType = newRelation.getRelationType();
         linguisticallySupported = newRelation.getLinguisticallySupported();
+        inferred = newRelation.getInferred();
         comment = "";
     }
 
@@ -190,25 +206,27 @@ public class Relation implements Serializable {
     }
 
     public void setLinguisticSupport(
-            LinguisticallySupported derivationSupported) {
-        this.linguisticallySupported = derivationSupported;
+            LinguisticallySupported linguisticallySupported) {
+        this.linguisticallySupported = linguisticallySupported;
     }
 
+    
+    /**
+     * @return whether the relation is inferred.
+     */
+    public Inferred getInferred() {
+        return inferred;
+    }
+
+    public void setInferred(Inferred inferred) {
+        this.inferred = inferred;
+    }    
+    
     /**
      * @return the relationType of the relation.
      */
     public RelationType getRelationType() {
         return relationType;
-    }
-
-    /**
-     * Sets the relationType of the Relation but it doesn't check if there is the same
-     * relationType twice.
-     *
-     * @param type the relationType of relation
-     */
-    public void setRelationTypeSimple(RelationType type) {
-        this.relationType = type;
     }
 
     public void setRelationType(RelationType type) {
@@ -219,6 +237,16 @@ public class Relation implements Serializable {
                 type = res;
             }
         }
+        this.relationType = type;
+    }
+    
+    /**
+     * Sets the relationType of the Relation but it doesn't check if there is the same
+     * relationType twice.
+     *
+     * @param type the relationType of relation
+     */
+    public void setRelationTypeSimple(RelationType type) {
         this.relationType = type;
     }
 
@@ -237,6 +265,7 @@ public class Relation implements Serializable {
         hash = 59 * hash + Objects.hashCode(this.leftArgument);
         hash = 59 * hash + Objects.hashCode(this.rightArgument);
         hash = 59 * hash + Objects.hashCode(this.linguisticallySupported);
+        hash = 59 * hash + Objects.hashCode(this.inferred);
         return hash;
     }
 
@@ -259,6 +288,9 @@ public class Relation implements Serializable {
             return false;
         }
         if (this.linguisticallySupported != other.linguisticallySupported) {
+            return false;
+        }
+        if (this.inferred != other.inferred){
             return false;
         }
         return true;
