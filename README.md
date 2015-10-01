@@ -29,14 +29,11 @@ or more Unions of Intersections.
 
 Getting the Software
 --------------------
-
 You can get the PraxiconDB software from the CSRI Github repository:
-
 git clone https://github.com/CSRI/PraxiconDB.git
 
 
 Installation and Usage
 ----------------------
-
 For installation and usage instructions please refer to the documentation in the
 manuals under `docs/`.
