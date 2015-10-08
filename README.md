@@ -18,9 +18,7 @@ There are three possible ways to get the PraxiconDB:
 
 1. Get the latest stable release from https://github.com/CSRI/PraxiconDB/tags.
 
-2. Get the latest development version from https://github.com/CSRI/PraxiconDB/downloads.
-
-3. Get the latest development version by creating a local fork of the project on your Git account and clone it locally at https://github.com/CSRI/PraxiconDB.git.
+2. Get the latest development version by creating a local fork of the project on your Git account and clone it locally at https://github.com/CSRI/PraxiconDB.git.
 
 Installation and Usage
 ----------------------
