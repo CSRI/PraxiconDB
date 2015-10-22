@@ -7,6 +7,7 @@ package gr.csri.poeticon.praxicon.db.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,9 +27,12 @@ public class OntologicalDomain implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Column(name="OntologicalDomainId")
+    @Column(name = "OntologicalDomainId")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(name = "DomainName")
+    private String domainName;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -40,34 +44,111 @@ public class OntologicalDomain implements Serializable {
     )
     private List<Concept> concepts;
 
+    /**
+     * Gets the id of the OntologicalDomain.
+     *
+     * @return long
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Sets the id of the OntologicalDomain.
+     *
+     * @param id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Gets the name of the OntologicalDomain.
+     *
+     * @return String
+     */
+    public String getDomainName() {
+        return domainName;
+    }
+
+    /**
+     * Sets the name of the OntologicalDomain.
+     *
+     * @param domainName
+     */
+    public void setDomainName(String domainName) {
+        this.domainName = domainName;
+    }
+
+    /**
+     * Gets the concepts that belong to an ontological domain.
+     *
+     * @return a list containing concepts
+     *
+     */
+    public final List<Concept> getConcepts() {
+        return concepts;
+    }
+
+    /**
+     * Sets the concepts that belong to this ontological domain.
+     *
+     * @param concepts a list of concepts
+     *
+     */
+    public void setConcepts(List<Concept> concepts) {
+        this.concepts = concepts;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 5;
+        hash = 53 * hash + Objects.hashCode(this.domainName);
+        hash = 53 * hash + Objects.hashCode(this.concepts);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof OntologicalDomain)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        OntologicalDomain other = (OntologicalDomain)object;
-        if ((this.id == null && other.id != null) ||
-                (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OntologicalDomain other = (OntologicalDomain)obj;
+        if (!Objects.equals(this.domainName, other.domainName)) {
+            return false;
+        }
+        if (!Objects.equals(this.concepts, other.concepts)) {
             return false;
         }
         return true;
     }
+
+    
+
+
+//    @Override
+//    public int hashCode() {
+//        int hash = 0;
+//        hash += (id != null ? id.hashCode() : 0);
+//        return hash;
+//    }
+//
+//    @Override
+//    public boolean equals(Object object) {
+//        // TODO: Warning - this method won't work in the case the id fields are not set
+//        if (!(object instanceof OntologicalDomain)) {
+//            return false;
+//        }
+//        OntologicalDomain other = (OntologicalDomain)object;
+//        if ((this.id == null && other.id != null) ||
+//                (this.id != null && !this.id.equals(other.id))) {
+//            return false;
+//        }
+//        return true;
+//    }
 
     @Override
     public String toString() {
