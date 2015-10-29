@@ -31,6 +31,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         ConceptDao {
 
     private String String;
+    private Object cDao;
 
     public static enum Direction {
 
@@ -66,13 +67,15 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     @Override
     public Concept getConcept(Concept concept) {
         Query query = getEntityManager().createNamedQuery("findConcept").
+                setParameter("name", concept.getName()).
+                setParameter("externalSourceId", concept.getExternalSourceId()).
                 setParameter("type", concept.getConceptType()).
                 setParameter("specificityLevel", concept.getSpecificityLevel()).
                 setParameter("status", concept.getStatus()).
                 setParameter("pragmaticStatus", concept.getPragmaticStatus()).
                 setParameter("uniqueInstance", concept.getUniqueInstance())//.
-//                setParameter("ontologicalDomain",
-//                        concept.getOntologicalDomain())
+                //                setParameter("ontologicalDomain",
+                //                        concept.getOntologicalDomain())
                 ;
         List<Concept> conceptsList = new ArrayList<>();
         List<Concept> retrievedConceptsList = new ArrayList<>();
@@ -80,11 +83,13 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         // Now, get language representations under the concept
         ConceptDao cDao = new ConceptDaoImpl();
         List<Concept> conceptsByLrList = new ArrayList<>();
-        for (LanguageRepresentation lr : concept.getLanguageRepresentations()) {
-            conceptsByLrList.addAll(cDao.getConceptsByLanguageRepresentation(lr.
-                    getText()));
-        }
-        retrievedConceptsList.retainAll(conceptsByLrList);
+//        for (LanguageRepresentation lr : concept.getLanguageRepresentations()) {
+//            System.out.println("LanguageRepresentation: " + lr);
+//            conceptsByLrList.addAll(cDao.getConceptsByLanguageRepresentation(lr.
+//                    getText()));
+//        }
+//        System.out.println("Concepts by Language Representation: " + conceptsByLrList);
+//        retrievedConceptsList.retainAll(conceptsByLrList);
 //        System.out.println("Retrieved Concepts List: " + retrievedConceptsList);
         if (retrievedConceptsList.isEmpty()) {
             return null;
@@ -140,8 +145,45 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     }
 
     /**
-     * Finds all concepts that have a name or language representation containing
-     * a given string
+     * Finds all concepts that have a name containing a given string
+     *
+     * @param conceptName the external source id of the concept
+     * @return a list of concepts found in the database
+     */
+    @Override
+    public List<Concept> getConceptsByName(
+            String conceptName) {
+        Query query = getEntityManager().createNamedQuery(
+                "findConceptsByName").
+                setParameter("conceptName", "%" +
+                        conceptName + "%");
+        List<Concept> concepts = new ArrayList<>();
+        concepts = (List<Concept>)query.getResultList();
+        return concepts;
+    }
+
+    /**
+     * Finds all concepts that have a name equal to a given string
+     *
+     * @param conceptName the concept name to search for
+     * @return a unique concept found in the database
+     */
+    @Override
+    public Concept getConceptByNameExact(
+            String conceptName) {
+        Query query = getEntityManager().createNamedQuery(
+                "findConceptByNameExact").
+                setParameter("conceptName", conceptName);
+        Concept concept = new Concept();
+        List<Concept> conceptsList = (List<Concept>)query.getResultList();
+        if (conceptsList.isEmpty()) {
+            return null;
+        }
+        return conceptsList.get(0);
+    }
+
+    /**
+     * Finds all concepts that have an externalSourceId containing given string
      *
      * @param conceptExternalSourceId the external source id of the concept
      * @return a list of concepts found in the database
@@ -159,10 +201,10 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     }
 
     /**
-     * Finds all concepts that have a name equal to a given string
+     * Finds all concepts that have an ExternalSourceId equal to a given string
      *
-     * @param conceptExternalSourceId the concept name to search for
-     * @return a list of concepts found in the database
+     * @param conceptExternalSourceId the concept's external source id
+     * @return a unique concept found in the database
      */
     @Override
     public Concept getConceptByExternalSourceIdExact(
@@ -182,8 +224,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      * Finds all concepts that have a language representation containing a given
      * string
      *
-     * @param languageRepresentationName the language representation name to
-     *                                   search for
+     * @param languageRepresentationName the language representation name
      * @return a list of concepts found in the database
      */
     @Override

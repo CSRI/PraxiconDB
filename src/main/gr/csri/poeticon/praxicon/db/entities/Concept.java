@@ -49,6 +49,12 @@ import javax.xml.bind.annotation.XmlType;
             "FROM Concept c WHERE c.specificityLevel = 'BASIC_LEVEL'"),
     @NamedQuery(name = "findAllNonBasicLevelConcepts", query =
             "FROM Concept c WHERE c.specificityLevel != 'BASIC_LEVEL'"),
+    @NamedQuery(name = "findConceptsByName", query =
+            "FROM Concept c " +
+            "WHERE c.name LIKE :conceptName"),
+    @NamedQuery(name = "findConceptByNameExact", query =
+            "FROM Concept c " +
+            "WHERE c.name = :conceptName"),
     @NamedQuery(name = "findConceptsByExternalSourceId", query =
             "FROM Concept c " +
             "WHERE c.externalSourceId LIKE :conceptExternalSourceId"),
@@ -71,6 +77,8 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name = "findConcept", query =
             "SELECT c FROM Concept c " +
             "WHERE c.conceptType = :type " +
+            "AND c.name = :name " +
+            "AND c.externalSourceId = :externalSourceId " +
             "AND c.specificityLevel = :specificityLevel " +
             "AND c.status = :status " +
             "AND c.pragmaticStatus = :pragmaticStatus " +
@@ -80,6 +88,8 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name = "getConceptEntityQuery", query =
             "SELECT c FROM Concept c " +
             "WHERE c.status = :status " +
+            "AND c.name = :name " +
+            "AND c.specificityLevel = :specificityLevel " +
             "AND c.externalSourceId = :externalSourceId " +
             "AND c.conceptType = :type " +
             "AND c.pragmaticStatus = :pragmaticStatus"),})
@@ -175,7 +185,7 @@ public class Concept implements Serializable {
 
     @Column(name = "ExternalSourceId")
     //@Size(min = 5, max = 14)
-    @NotNull(message = "Concept externalSourceId must be specified.")
+//    @NotNull(message = "Concept externalSourceId must be specified.")
     private String externalSourceId;
 
     @Column(name = "Name", nullable = false)
@@ -260,6 +270,7 @@ public class Concept implements Serializable {
             boolean keepLanguageRepresentation,
             boolean keepVisualRepresentation,
             boolean keepMotoricRepresentation) {
+        this.name = newConcept.getName();
         this.comment = newConcept.getComment();
         this.externalSourceId = newConcept.externalSourceId;
         this.conceptType = newConcept.getConceptType();
@@ -340,6 +351,25 @@ public class Concept implements Serializable {
      */
     public void setExternalSourceId(String externalSourceId) {
         this.externalSourceId = externalSourceId.trim();
+    }
+
+    /**
+     * Gets the name of the concept. This is usually a human-readable string
+     * connected with the concept, usually provided by the external resource.
+     *
+     * @return String - The name of the concept.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Sets the name of the concept.
+     *
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name.trim();
     }
 
     /**
@@ -554,8 +584,12 @@ public class Concept implements Serializable {
     public final List<LanguageRepresentation> getLanguageRepresentations() {
         List<LanguageRepresentation> lrs;
         lrs = new ArrayList();
+//        System.out.println("LanguageRepresentaitonEntries: " + this.getLanguageRepresentationsEntries());
+//        System.out.println("LanguageRepresentaitonsName: " + this.getLanguageRepresentationName());
+//        System.out.println("LanguageRepresentaitons: " + this.getLanguageRepresentations());
         for (Concept_LanguageRepresentation clr : this.
                 getLanguageRepresentationsEntries()) {
+            System.out.println("ConceptLanguageRepresentation: " + clr);
             lrs.add(clr.getLanguageRepresentation());
         }
         return lrs;
@@ -588,6 +622,8 @@ public class Concept implements Serializable {
             getLanguageRepresentationsEntries() {
         List<Concept_LanguageRepresentation> language_representation_entries =
                 new ArrayList<>();
+//        System.out.println("LanguageRepresentationsFromConcept: " + this.languageRepresentations);
+//        System.out.println("ConceptLanguageRepresentationsFromConcept: " + this.getConceptLanguageRepresentation());
         for (Concept_LanguageRepresentation languageRepresentation
                 : this.languageRepresentations) {
             language_representation_entries.add(languageRepresentation);
@@ -631,7 +667,7 @@ public class Concept implements Serializable {
      * Gets text of the first Language representation of Language "en" for this
      * concept.
      *
-     * @return the externalSourceId of the first Language Representation
+     * @return the text of the first Language Representation
      *         of the concept.
      */
     public String getLanguageRepresentationName() {
@@ -659,7 +695,7 @@ public class Concept implements Serializable {
         if (lrs.isEmpty()) {
             System.err.println(
                     "There are no Language Representations for Concept " +
-                    this.getExternalSourceId());
+                    this.getName());
             return null;
         } else {
             for (LanguageRepresentation lr : lrs) {
@@ -840,6 +876,8 @@ public class Concept implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
+        hash = 13 * hash + Objects.hashCode(this.name);
+        hash = 13 * hash + Objects.hashCode(this.externalSourceId);
         hash = 13 * hash + Objects.hashCode(this.conceptType);
         hash = 13 * hash + Objects.hashCode(this.specificityLevel);
         hash = 13 * hash + Objects.hashCode(this.status);
@@ -859,6 +897,12 @@ public class Concept implements Serializable {
             return false;
         }
         final Concept other = (Concept)obj;
+        if (this.name != other.name) {
+            return false;
+        }
+        if (this.externalSourceId != other.externalSourceId) {
+            return false;
+        }
         if (this.conceptType != other.conceptType) {
             return false;
         }
@@ -874,23 +918,22 @@ public class Concept implements Serializable {
         if (this.uniqueInstance != other.uniqueInstance) {
             return false;
         }
-//        if (!Objects.equals(this.ontologicalDomain, other.ontologicalDomain)) {
+
+//        if (!Objects.equals(this.ontologicalDomains, other.ontologicalDomains)) {
 //            return false;
 //        }
-
         // TODO: Check every language representation for equality
-        if (!Objects.equals(this.languageRepresentations,
-                other.languageRepresentations)) {
-            return false;
-        }
+//        if (!Objects.equals(this.languageRepresentations,
+//                other.languageRepresentations)) {
+//            return false;
+//        }
         return true;
     }
 
     @Override
     public String toString() {
-        if (externalSourceId != null &&
-                !externalSourceId.equalsIgnoreCase("")) {
-            return externalSourceId;
+        if (name != null && !name.equalsIgnoreCase("")) {
+            return name;
             // + " (Entity)";
         } else {
             List<Concept_LanguageRepresentation> tmpList =
