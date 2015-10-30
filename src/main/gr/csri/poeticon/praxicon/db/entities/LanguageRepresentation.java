@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author dmavroeidis
  *
  */
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "language_representation", namespace =
         "http://www.csri.gr/language_representation")
 @Entity
@@ -83,6 +83,10 @@ import javax.xml.bind.annotation.XmlType;
             "AND UPPER(lr.negation) = :negation " +
             "AND UPPER(lr.operator) = :operator"),
     @NamedQuery(name = "findLanguageRepresentationsByText", query =
+            "FROM LanguageRepresentation lr " +
+            "WHERE UPPER(lr.text) = :text"),
+        // TODO: This is not finished yet
+    @NamedQuery(name = "findLanguageRepresentationsByConcept", query =
             "FROM LanguageRepresentation lr " +
             "WHERE UPPER(lr.text) = :text"),
     @NamedQuery(name = "getAllLanguageRepresentationTextByText", query =
@@ -188,6 +192,7 @@ public class LanguageRepresentation implements Serializable {
     }
 
     @Id
+    @XmlTransient
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "LanguageRepresentationId")
@@ -265,7 +270,7 @@ public class LanguageRepresentation implements Serializable {
     /**
      * @return id
      */
-    @XmlTransient
+//    @XmlTransient
     public Long getId() {
         return id;
     }
@@ -368,7 +373,7 @@ public class LanguageRepresentation implements Serializable {
                 languageRepresentations;
     }
 
-    @XmlTransient
+//    @XmlTransient
     public List<Concept> getConcepts() {
         List<Concept> concepts = new ArrayList<>();
         for (LanguageRepresentation language_representation

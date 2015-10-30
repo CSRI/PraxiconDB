@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  *
  * @author dmavroeidis
  */
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "concept_languagerepresentation", namespace =
         "http://www.csri.gr/concept_languagerepresentation")
 @Entity
@@ -36,6 +36,7 @@ public class Concept_LanguageRepresentation implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @XmlTransient
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "Concept_LanguageRepresentationId")
@@ -53,7 +54,6 @@ public class Concept_LanguageRepresentation implements Serializable {
     @JoinColumn(name = "LanguageRepresentationId")
     private LanguageRepresentation languageRepresentation;
 
-    @XmlTransient
     public Long getId() {
         return id;
     }
@@ -65,12 +65,10 @@ public class Concept_LanguageRepresentation implements Serializable {
     /**
      * @return the concept.
      */
-    @XmlTransient
     public Concept getConcept() {
         return concept;
     }
 
-    @XmlTransient
     public void setConcept(Concept concept) {
         this.concept = concept;
     }

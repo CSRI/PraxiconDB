@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author dmavroeidis
  *
  */
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "visual_representation",
         namespace = "http://www.csri.gr/visual_representation")
 @Entity
@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlType;
 //                "Uri"
 //            }),}
 
-        )
+)
 public class VisualRepresentation implements Serializable {
 
     public static enum MediaType {
@@ -56,6 +56,7 @@ public class VisualRepresentation implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @XmlTransient
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @Column(name = "VisualRepresentationId")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
@@ -98,6 +99,14 @@ public class VisualRepresentation implements Serializable {
     public VisualRepresentation() {
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     /**
      * @return the media type of this visual representation.
      */
@@ -109,7 +118,6 @@ public class VisualRepresentation implements Serializable {
         this.mediaType = mediaType;
     }
 
-    @XmlTransient
     /**
      * @return the concept connected to the visual representation.
      */
@@ -121,7 +129,6 @@ public class VisualRepresentation implements Serializable {
         this.concept = concept;
     }
 
-    @XmlTransient
     /**
      * @return the relation set connected to the visual representation.
      */
@@ -182,15 +189,6 @@ public class VisualRepresentation implements Serializable {
         } else {
             return Constants.videoPath + name;
         }
-    }
-
-    @XmlTransient
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     @Override

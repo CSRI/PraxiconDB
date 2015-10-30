@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author dmavroeidis
  *
  */
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "relation", namespace = "http://www.csri.gr/relation")
 @XmlRootElement(name = "relation", namespace = "http://www.csri.gr/relation")
 @Entity
@@ -116,7 +116,7 @@ public class Relation implements Serializable {
             return this.name();
         }
     }
-    
+
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
@@ -150,7 +150,7 @@ public class Relation implements Serializable {
     @Column(name = "Inferred")
     @Enumerated(EnumType.STRING)
     private Inferred inferred;
-    
+
     public Relation() {
         leftArgument = new RelationArgument();
         rightArgument = new RelationArgument();
@@ -169,7 +169,6 @@ public class Relation implements Serializable {
         comment = "";
     }
 
-    @XmlTransient
     public Long getId() {
         return id;
     }
@@ -209,7 +208,7 @@ public class Relation implements Serializable {
         this.linguisticallySupported = linguisticallySupported;
     }
 
-    
+
     /**
      * @return whether the relation is inferred.
      */
@@ -219,8 +218,8 @@ public class Relation implements Serializable {
 
     public void setInferred(Inferred inferred) {
         this.inferred = inferred;
-    }    
-    
+    }
+
     /**
      * @return the relationType of the relation.
      */
@@ -238,7 +237,7 @@ public class Relation implements Serializable {
         }
         this.relationType = type;
     }
-    
+
     /**
      * Sets the relationType of the Relation but it doesn't check if there is the same
      * relationType twice.

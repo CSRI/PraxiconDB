@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author dmavroeidis
  *
  */
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "motoric_representation",
         namespace = "http://www.csri.gr/motoric_representation")
 @Entity
@@ -54,6 +54,7 @@ public class MotoricRepresentation implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @XmlTransient
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "MotoricRepresentationId")
@@ -87,7 +88,6 @@ public class MotoricRepresentation implements Serializable {
     public MotoricRepresentation() {
     }
 
-    @XmlTransient
     public Long getId() {
         return id;
     }

@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlType;
  *
  * @author dmavroeidis
  */
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "concept", namespace = "http://www.csri.gr/concept")
 @XmlRootElement(name = "concept", namespace = "http://www.csri.gr/concept")
 @Entity
@@ -316,7 +316,6 @@ public class Concept implements Serializable {
      *
      * @return long
      */
-    @XmlTransient
     public Long getId() {
         return id;
     }
@@ -584,12 +583,7 @@ public class Concept implements Serializable {
     public final List<LanguageRepresentation> getLanguageRepresentations() {
         List<LanguageRepresentation> lrs;
         lrs = new ArrayList();
-//        System.out.println("LanguageRepresentaitonEntries: " + this.getLanguageRepresentationsEntries());
-//        System.out.println("LanguageRepresentaitonsName: " + this.getLanguageRepresentationName());
-//        System.out.println("LanguageRepresentaitons: " + this.getLanguageRepresentations());
-        for (Concept_LanguageRepresentation clr : this.
-                getLanguageRepresentationsEntries()) {
-            System.out.println("ConceptLanguageRepresentation: " + clr);
+        for (Concept_LanguageRepresentation clr : getConceptLanguageRepresentation()) {
             lrs.add(clr.getLanguageRepresentation());
         }
         return lrs;

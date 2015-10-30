@@ -43,23 +43,23 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name = "findRelationArgumentByRelationSet", query =
             "SELECT ra FROM RelationArgument ra " +
             "JOIN ra.relationSet rars " +
-            "WHERE rars = :relationSet"),
-})
+            "WHERE rars = :relationSet"),})
 @Table(name = "RelationArguments")
 public class RelationArgument implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @XmlTransient
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "RelationArgumentId")
     private Long id;
 
-    @Basic(optional = true, fetch=FetchType.LAZY)
+    @Basic(optional = true, fetch = FetchType.LAZY)
     @OneToOne(cascade = CascadeType.ALL)
     private Concept concept;
 
-    @Basic(optional = true, fetch=FetchType.LAZY)
+    @Basic(optional = true, fetch = FetchType.LAZY)
     @OneToOne(cascade = CascadeType.ALL)
     private RelationSet relationSet;
 
@@ -93,7 +93,8 @@ public class RelationArgument implements Serializable {
     }
 
     /**
-     * Constructor #4. relationSet is given and concept is set to empty Concept.
+     * Constructor #4. Checks whether the argument is Concept or RelationSet
+     * and stores it accordingly.
      *
      * @param relationArgument
      */
@@ -113,7 +114,6 @@ public class RelationArgument implements Serializable {
      *
      * @return Long integer.
      */
-    @XmlTransient
     public Long getId() {
         return id;
     }
@@ -204,12 +204,10 @@ public class RelationArgument implements Serializable {
         return null;
     }
 
-    @XmlTransient
     public boolean isConcept() {
         return this.getRelationArgumentClassType() == Concept.class;
     }
 
-    @XmlTransient
     public boolean isRelationSet() {
         return this.getRelationArgumentClassType() == RelationSet.class;
     }

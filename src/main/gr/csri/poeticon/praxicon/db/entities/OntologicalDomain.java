@@ -17,16 +17,27 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author dmavroeidis
  */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "ontological_domain",
+        namespace = "http://www.csri.gr/ontological_domain")
 @Entity
+@Table(name = "OntologicalDomains")
+
 public class OntologicalDomain implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @XmlTransient
     @Column(name = "OntologicalDomainId")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -34,6 +45,7 @@ public class OntologicalDomain implements Serializable {
     @Column(name = "DomainName")
     private String domainName;
 
+    @XmlTransient
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "OntologicalDomain_Concept",
@@ -126,9 +138,6 @@ public class OntologicalDomain implements Serializable {
         return true;
     }
 
-    
-
-
 //    @Override
 //    public int hashCode() {
 //        int hash = 0;
@@ -149,7 +158,6 @@ public class OntologicalDomain implements Serializable {
 //        }
 //        return true;
 //    }
-
     @Override
     public String toString() {
         return "gr.csri.poeticon.praxicon.db.entities.OntologicalDomain[ id=" +

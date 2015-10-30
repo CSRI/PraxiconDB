@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlType;
  *
  * @author dmavroeidis
  */
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "relation_set", namespace = "http://www.csri.gr/relation_set")
 @Entity
 @NamedQueries({
@@ -92,6 +92,7 @@ public class RelationSet implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @XmlTransient
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "RelationSetId")
@@ -144,7 +145,6 @@ public class RelationSet implements Serializable {
         this.languageRepresentations = languageRepresentations;
     }
 
-    @XmlTransient
     public Long getId() {
         return id;
     }
