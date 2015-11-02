@@ -65,8 +65,6 @@ public class XmlUtils {
                 concepts.getConcepts().add(item);
             }
 
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
             // Export concepts to the xml file
             marshaller.marshal(concepts, new File(xmlFileName));
 

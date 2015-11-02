@@ -270,7 +270,6 @@ public class LanguageRepresentation implements Serializable {
     /**
      * @return id
      */
-//    @XmlTransient
     public Long getId() {
         return id;
     }
@@ -373,7 +372,6 @@ public class LanguageRepresentation implements Serializable {
                 languageRepresentations;
     }
 
-//    @XmlTransient
     public List<Concept> getConcepts() {
         List<Concept> concepts = new ArrayList<>();
         for (LanguageRepresentation language_representation
