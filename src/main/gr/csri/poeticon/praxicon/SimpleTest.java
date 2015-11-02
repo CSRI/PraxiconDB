@@ -4,6 +4,7 @@
  */
 package gr.csri.poeticon.praxicon;
 
+import static gr.csri.poeticon.praxicon.EntityMngFactory.getEntityManager;
 import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
 import gr.csri.poeticon.praxicon.db.dao.LanguageRepresentationDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationArgumentDao;
@@ -19,12 +20,15 @@ import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import gr.csri.poeticon.praxicon.db.entities.RelationSet;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
+import static gr.csri.poeticon.praxicon.db.entities.RelationType.RelationNameForward.TYPE_TOKEN;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
+import static java.util.Objects.isNull;
+import javax.persistence.EntityManager;
+import org.hibernate.Session;
 
 /**
  *
@@ -48,6 +52,14 @@ public class SimpleTest {
     }
 
     public static void testConcepts() {
+        /*
+         Get active session to update concepts. This way, we can
+         update retrieved objects directly to avoid setting EAGER fetch
+         which would criple performance during retrieval from the database.
+         */
+        EntityManager em = getEntityManager();
+        Session session = em.unwrap(org.hibernate.Session.class);
+
         ConceptDao cDao = new ConceptDaoImpl();
 
         String toSearch = "spoon";
@@ -67,8 +79,17 @@ public class SimpleTest {
         List<Concept> childrenOfSpoon = cDao.getChildren(
                 conceptsSpoon.get(0));
         for (Concept concept : childrenOfSpoon) {
-            System.out.print(concept.getExternalSourceId());
-            System.out.print(" - ");
+            /* Check if concept is contained in the active session and
+             add it if it's not.
+             */
+            if (!session.contains(concept)) {
+                session.update(concept);
+            }
+            System.out.print(concept.getName());
+            System.out.print(" - \t");
+            System.out.print(concept.getLanguageRepresentationsNames().
+                    toString());
+            System.out.print(" - \t");
             System.out.println(concept.getSpecificityLevel());
         }
 
@@ -79,16 +100,35 @@ public class SimpleTest {
         System.out.println("------------------------------------------------" +
                 "-----------------------------------------");
         List<Concept> parents = cDao.getParents(conceptsSpoon.get(0));
-        HashSet<Concept> sisters = new HashSet<>();
+        List<Concept> sisters = new ArrayList<>();
         for (Concept parent : parents) {
-            System.out.println(parent + " - \t" + parent.getSpecificityLevel());
+            System.out.println("Parent: " + parent + " - \t" + parent.
+                    getSpecificityLevel());
             sisters.addAll(cDao.getChildren(parent));
+        }
+
+        System.out.println(
+                "\n\nOffspring concepts of the first occurence of a " +
+                "concept having language representation spoon: ");
+        System.out.println("------------------------------------------------" +
+                "-----------------------------------------");
+        long startTime = System.nanoTime();
+        List<Concept> offsprings = cDao.getAllOffsprings(conceptsSpoon.get(0));
+        long endTime = System.nanoTime();
+        System.out.print("getAllOffsprings() took: ");
+        System.out.print((endTime - startTime) / 1000000000);
+        System.out.println(" seconds to run");
+        for (Concept offspring : offsprings) {
+            System.out.println("Offspring: " + offspring + " - \t" + offspring.
+                    getSpecificityLevel());
         }
 
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         Date date = new Date();
 
-        XmlUtils.exportConceptsToXML(parents, String.
+
+
+        XmlUtils.exportConceptsToXML(childrenOfSpoon, String.
                 format("/home/dmavroeidis/Concepts_%s.xml",
                         dateFormat.format(date)));
 
@@ -101,11 +141,11 @@ public class SimpleTest {
         String stringToSearch = "substance%1:03:00::";
         System.out.println("\n\nBasic Level of concept " + stringToSearch);
         System.out.println("-------------------------------------------");
-        Concept concept = cDao.getConceptByExternalSourceIdExact(
+        Concept concept = cDao.getConceptByNameExact(
                 stringToSearch);
-        long startTime = System.nanoTime();
+        startTime = System.nanoTime();
         List<Concept> basicLevelOfConcept = cDao.getBasicLevelConcepts(concept);
-        long endTime = System.nanoTime();
+        endTime = System.nanoTime();
         System.out.print(
                 "Time of getBasicLevel() for concept: " + stringToSearch + " ");
         System.out.print((endTime - startTime) / 1000000000);
@@ -133,7 +173,7 @@ public class SimpleTest {
         System.out.println("\n\nLanguage Representations of spoon: ");
         System.out.println("---------------------------------");
         for (Concept concept : conceptsSpoon) {
-            System.out.print(concept.getLanguageRepresentationName());
+            System.out.print(concept.getLanguageRepresentationsNames());
             System.out.print(" - ");
             System.out.print(concept.getExternalSourceId());
             System.out.print(" - ");
@@ -158,18 +198,17 @@ public class SimpleTest {
         // Check whether concepts "shape" and "round_shape" are related.
         System.out.println("\n\nCheck whether two concepts are related: ");
         System.out.println("--------------------------------------- ");
-        Concept conceptRoundShape = cDao.getConceptByExternalSourceIdExact(
+        Concept conceptRoundShape = cDao.getConceptByNameExact(
                 "round_shape%1:25:00::");
-        Concept conceptShape = cDao.getConceptByExternalSourceIdExact(
+        Concept conceptShape = cDao.getConceptByNameExact(
                 "shape%1:03:00::");
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
         RelationArgument relationArgumentConceptShape = raDao.
-                getRelationArgumentByConcept(conceptShape);
+                getRelationArgument(conceptShape);
         RelationArgument relationArgumentConceptRoundShape = raDao.
-                getRelationArgumentByConcept(conceptRoundShape);
+                getRelationArgument(conceptRoundShape);
         boolean areRelated;
-        areRelated = rDao.areRelated(relationArgumentConceptShape,
-                relationArgumentConceptRoundShape);
+        areRelated = rDao.areRelated(conceptShape, conceptRoundShape);
         System.out.print("shape and round_shape are ");
         System.out.println((areRelated) ? "related" : "not related");
 
@@ -182,9 +221,20 @@ public class SimpleTest {
             System.out.println(relation);
         }
 
+        // Get all relations of concept spoon%1:06:00::
+        System.out.println("\n\nAll relations of concept spoon%1:06:00::: ");
+        System.out.println("-------------------------------");
+        Concept conceptspoon6 = cDao.getConceptByNameExact(
+                "spoon%1:06:00::");
+        List<Relation> allRelationsOfConceptSpoon6 = rDao.
+                getAllRelationsOfConcept(conceptspoon6);
+        for (Relation relation : allRelationsOfConceptSpoon6) {
+            System.out.println(relation);
+        }
+
         System.out.println("\n\nAll relations of concept substance: ");
         System.out.println("-------------------------------");
-        Concept conceptSubstance = cDao.getConceptByExternalSourceIdExact(
+        Concept conceptSubstance = cDao.getConceptByNameExact(
                 "substance%1:03:00::");
         List<Relation> allRelationsOfConceptSubstance = rDao.
                 getAllRelationsOfConcept(conceptSubstance);
@@ -204,11 +254,29 @@ public class SimpleTest {
 
         // Create a relation set
         // Test the XML export functionality for relation set
-        Concept conceptForRelationSet = cDao.getConceptByExternalSourceIdExact(
+        Concept conceptForRelationSet = cDao.getConceptByNameExact(
                 "dummy_object_brooch%2:35:00::_brooch%1:06:00::");
         RelationSetDao rsDao = new RelationSetDaoImpl();
         List<RelationSet> relationSets = rsDao.getRelationSetsByConcept(
                 conceptForRelationSet);
+
+        // Find a specific relation in the database
+        System.out.println("ConceptShape: " + conceptShape);
+        System.out.println("ConceptRoundShape: " + conceptRoundShape);
+        System.out.println("relationArgumentConceptShape id: " +
+                relationArgumentConceptShape);
+        System.out.println("relationArgumentConceptRoundShape id: " +
+                relationArgumentConceptRoundShape);
+        Relation relationFound = rDao.getRelation(relationArgumentConceptShape,
+                relationArgumentConceptRoundShape, TYPE_TOKEN);
+        System.out.println("\n\nCheck if the relation exists:");
+        System.out.println("-----------------------------");
+        System.out.println(relationFound);
+        if (!isNull(relationFound)) {
+            System.out.println("YES\n\n");
+        } else {
+            System.out.println("NO\n\n");
+        }
 
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         Date date = new Date();
@@ -225,10 +293,10 @@ public class SimpleTest {
         List<Concept> conceptsForXml = new ArrayList<>();
         conceptsForXml.add(conceptShape);
         conceptsForXml.add(conceptRoundShape);
-        XmlUtils.exportAllObjectsToXML(relationSets, conceptsForXml,
-                allRelationsOfConceptSubstance,
-                String.format("/home/dmavroeidis/Objects_%s.xml",
-                        dateFormat.format(date)));
+//        XmlUtils.exportAllObjectsToXML(relationSets, conceptsForXml,
+//                allRelationsOfConceptSubstance,
+//                String.format("/home/dmavroeidis/Objects_%s.xml",
+//                        dateFormat.format(date)));
     }
 
     public static void testXmlImport() {
@@ -241,6 +309,5 @@ public class SimpleTest {
 //        XmlUtils.importRelationSetsFromXml(
 //                "misc/test-fixtures/RelationSets.xml");
 //        XmlUtils.importObjectsFromXml("misc/test-fixtures/Objects.xml");
-
     }
 }
