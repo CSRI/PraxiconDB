@@ -6,7 +6,10 @@ package gr.csri.poeticon.praxicon.db.entities;
 
 import gr.csri.poeticon.praxicon.Constants;
 import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,6 +26,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import org.apache.commons.validator.UrlValidator;
 
 /**
  *
@@ -163,9 +167,17 @@ public class VisualRepresentation implements Serializable {
         this.uri = uri;
     }
 
-    public void setURI(String uri) {
-        if (this.uri.resolve(uri) != null) {
-            this.uri = this.uri.resolve(uri);
+    public void setURI(String uri) throws URISyntaxException, MalformedURLException {
+        String[] schemes = {"http", "https"}; // DEFAULT schemes = "http", "https", "ftp"
+        UrlValidator urlValidator = new UrlValidator(schemes);
+        URL url = null;
+        try {
+            url = new URL(uri);
+            this.uri = url.toURI();
+        } catch (MalformedURLException em) {
+            System.out.println("URL " + uri + " is malformed.");
+        } catch (URISyntaxException eu) {
+            System.out.println("URI syntax exception " + url);
         }
     }
 
@@ -232,6 +244,7 @@ public class VisualRepresentation implements Serializable {
 
     @Override
     public String toString() {
-        return "[Id=" + id + "] " + this.mediaType + ": " + this.name;
+        return "[Id=" + id + "] " + this.mediaType + " : " + this.name + " : " +
+                this.uri;
     }
 }
