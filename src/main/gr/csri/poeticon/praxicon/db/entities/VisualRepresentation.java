@@ -168,7 +168,7 @@ public class VisualRepresentation implements Serializable {
     }
 
     public void setURI(String uri) throws URISyntaxException, MalformedURLException {
-        String[] schemes = {"http", "https"}; // DEFAULT schemes = "http", "https", "ftp"
+        String[] schemes = {"http", "https"};
         UrlValidator urlValidator = new UrlValidator(schemes);
         URL url = null;
         try {
@@ -190,16 +190,16 @@ public class VisualRepresentation implements Serializable {
     }
 
     public String getRepresentationWithPath() {
-        if (name.startsWith("http:")) {
-            return name;
+        if (uri.toString().startsWith("http:")) {
+            return uri.toString();
         }
-        if (name.startsWith("file:")) {
-            return name;
+        if (uri.toString().startsWith("file:")) {
+            return uri.toString();
         }
         if (this.mediaType.equals(MediaType.IMAGE)) {
-            return Constants.imagePath + name;
+            return Constants.imagePath + uri.toString();
         } else {
-            return Constants.videoPath + name;
+            return Constants.videoPath + uri.toString();
         }
     }
 
