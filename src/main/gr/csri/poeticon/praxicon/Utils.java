@@ -14,14 +14,11 @@ import gr.csri.poeticon.praxicon.db.entities.VisualRepresentation;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.EOFException;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.ConnectException;
-import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.UnknownHostException;
+import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
@@ -29,8 +26,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Stream;
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
@@ -43,12 +38,14 @@ import javax.imageio.stream.ImageInputStream;
  */
 public class Utils {
 
-    public static void main(String args[]) throws IOException {
+    public static void main(String args[]) throws IOException,
+            URISyntaxException, NoSuchAlgorithmException {
         importPhotosFromImagenet();
         System.exit(0);
     }
 
-    public static void importPhotosFromImagenet() throws IOException {
+    public static void importPhotosFromImagenet() throws IOException,
+            URISyntaxException, NoSuchAlgorithmException {
         /*
          1. Read file with image URLs
          2. For each line,
@@ -77,105 +74,77 @@ public class Utils {
                 String synsetId = columnDetail[0].replace("n", "1").substring(
                         0, 9);
                 concept = cDao.getConceptByExternalSourceIdExact(synsetId);
+
                 // Only get the first 5 entries of BASIC_LEVEL and-below concepts
                 if ((concept.getVisualRepresentationsEntries().size() < 5) &&
                         (concept.getSpecificityLevel() !=
                         Concept.SpecificityLevel.SUPERORDINATE)) {
                     boolean corrupted = false;
-                    VisualRepresentation vr = new VisualRepresentation(
-                            VisualRepresentation.MediaType.IMAGE,
-                            columnDetail[0]);
                     int begin_index = columnDetail[1].lastIndexOf(".");
                     String save_path = "";
                     String image_extension = "";
 
-                    //
-                    try {
-                        image_extension = columnDetail[1].substring(
-                                begin_index, begin_index + 4);
-                        save_path = "/home/dmavroeidis/ImageNet/" +
-                                columnDetail[0] + image_extension;
-                    } catch (StringIndexOutOfBoundsException e) {
-                        continue;
-                    }
+                    image_extension = columnDetail[1].substring(
+                            begin_index, begin_index + 4);
+                    save_path = "/home/dmavroeidis/Desktop/ImageNet/" +
+                            columnDetail[0] + image_extension;
 
                     System.out.println("FILE: " + save_path + "\tURL: " +
                             columnDetail[1]);
+
                     // Check if file is an image
                     Image image = null;
+                    URL image_url = new URL(columnDetail[1]);
+                    URLConnection conn = image_url.openConnection();
+                    conn.setConnectTimeout(3000);
+                    conn.setReadTimeout(3000);
+                    InputStream in = null;  //Initialize input stream
                     try {
-                        URL url = new URL(columnDetail[1]);
-                        image = ImageIO.read(url);
-                        if (image == null) {
-                            corrupted = true;
-                            continue;
-                        }
-                    } catch (IIOException e) {
-                        corrupted = true;
+                        in = conn.getInputStream();
+                    } catch (IOException ioE) {
                         continue;
                     }
 
-                    if (!corrupted) {
-                        try (InputStream in = new URL(columnDetail[1]).
-                                openStream()) {
-                            Files.copy(in, Paths.get(save_path));
-                        } catch (IllegalArgumentException | ConnectException |
-                                UnknownHostException |
-                                FileAlreadyExistsException |
-                                FileNotFoundException ex) {
-                            corrupted = true;
-                            continue;
-                        } catch (IOException ioE) {
-                            corrupted = true;
-                            continue;
-                        }
+                    // Copy the image from the web
+                    try {
+                        Files.copy(in, Paths.get(save_path));
+                    } catch (FileAlreadyExistsException faeE) {
+                        continue;
+                    }
 
-                        try {
-                            ImageAnalysisResult iaResult = analyzeImage(
-                                    Paths.get(save_path));
-                            System.out.print("RESULT: \t");
-                            if (iaResult.truncated) {
-                                System.out.println("TRUNCATED");
-                                corrupted = true;
-                                continue;
-                            } else if (iaResult.image) {
-                                System.out.println("IMAGE");
-                                corrupted = false;
-                            }
-                        } catch (IOException eofE) {
-                            corrupted = true;
-                            continue;
-                        } catch (NoSuchAlgorithmException eee) {
-                            corrupted = true;
-                            continue;
-                        }
+                    image = ImageIO.read(in);
+                    System.out.println("IMAGE: " + image);
+                    if (image == null || image.getWidth(null) < 201 ||
+                            image.getHeight(null) < 201) {
+                        System.err.println("File not an image or small in size");
+                        corrupted = true;
+                    }
 
+                    ImageAnalysisResult iaResult = analyzeImage(
+                            Paths.get(save_path));
+                    System.out.print("RESULT: \t");
+                    if (iaResult.truncated) {
+                        System.out.println("TRUNCATED");
+                        corrupted = true;
+                    } else if (iaResult.image) {
+                        System.out.println("IMAGE");
+                        corrupted = false;
                     } else {
-                        System.err.println("File " + save_path +
-                                " is corrupt! ");
-                        corrupted = true;
-                        continue;
+                        System.out.println("[Result is not available]");
                     }
 
-                    try {
-                        if (corrupted) {
-                            Files.delete(Paths.get(save_path));
-                            continue;
-                        }
-                        vr.setURI(columnDetail[1]);
-                        vr.setConcept(concept);
-                        vr.setSource("ImageNet_fall_2011");
-                        vrDao.merge(vr);
-                        cDao.clearManager();
-                    } catch (URISyntaxException | MalformedURLException ex) {
-                        cDao.clearManager();
-                        Logger.getLogger(SimpleTest.class.getName()).
-                                log(Level.SEVERE, null, ex);
-                    } catch (IOException e) {
-                        Logger.getLogger(SimpleTest.class.getName()).
-                                log(Level.SEVERE, null, e);
-                        cDao.clearManager();
+                    if (corrupted) {
+                        Files.delete(Paths.get(save_path));
+                        continue;
                     }
+                    VisualRepresentation vr = new VisualRepresentation(
+                            VisualRepresentation.MediaType.IMAGE,
+                            columnDetail[0]);
+                    vr.setURI(columnDetail[1]);
+                    vr.setConcept(concept);
+                    vr.setSource("ImageNet_fall_2011");
+                    vrDao.merge(vr);
+                    cDao.clearManager();
                 }
             }
         }
