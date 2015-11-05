@@ -67,6 +67,7 @@ public class Utils {
 
         ConceptDao cDao = new ConceptDaoImpl();
         Concept concept = new Concept();
+        boolean corrupted = false;
         VisualRepresentationDao vrDao = new VisualRepresentationDaoImpl();
         java.nio.file.Path path = Paths.get(
                 "/home/dmavroeidis/Desktop/fall11_urls.txt");
@@ -77,12 +78,12 @@ public class Utils {
                 String synsetId = columnDetail[0].replace("n", "1").substring(
                         0, 9);
                 concept = cDao.getConceptByExternalSourceIdExact(synsetId);
-
+                corrupted = false;
                 // Only get the first 5 entries of BASIC_LEVEL and-below concepts
                 if ((concept.getVisualRepresentationsEntries().size() < 5) &&
                         (concept.getSpecificityLevel() !=
                         Concept.SpecificityLevel.SUPERORDINATE)) {
-                    boolean corrupted = false;
+
                     int begin_index = columnDetail[1].lastIndexOf(".");
                     String save_path = "";
                     String image_extension = "";
@@ -116,11 +117,7 @@ public class Utils {
                         continue;
                     }
 
-                    // Do various checks for the validity of the image.
-                    image = ImageIO.read(in);
-                    if (image == null) {
-                        corrupted = true;
-                    }
+                    // Check the validity of the image.
                     ImageAnalysisResult iaResult = new ImageAnalysisResult();
                     try {
                         iaResult = analyzeImage(Paths.get(save_path));
