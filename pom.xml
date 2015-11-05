@@ -141,8 +141,8 @@
     </repositories>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <xsd.destination.dir>${project.build.sourceDirectory}/../resources/schema/</xsd.destination.dir>
         <jaxb.api.version></jaxb.api.version>
     </properties>
@@ -186,6 +186,7 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.35</version>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>com.sun.el</groupId>
@@ -305,6 +306,18 @@
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j-kernel</artifactId>
             <version>2.1.7</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-xjc</artifactId>
+            <version>2.2.7</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>1.2.0</version>
             <type>jar</type>
         </dependency>
     </dependencies>
