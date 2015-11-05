@@ -16,12 +16,14 @@ import java.awt.image.BufferedImage;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.SocketTimeoutException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
@@ -101,14 +103,15 @@ public class Utils {
                     InputStream in = null;  //Initialize input stream
                     try {
                         in = conn.getInputStream();
-                    } catch (IOException ioE) {
+                    } catch (IOException | IllegalArgumentException ioE) {
                         continue;
                     }
 
                     // Copy the image from the web
                     try {
                         Files.copy(in, Paths.get(save_path));
-                    } catch (FileAlreadyExistsException faeE) {
+                    } catch (FileAlreadyExistsException | NoSuchFileException |
+                            SocketTimeoutException faeE) {
                         continue;
                     }
 
@@ -120,8 +123,13 @@ public class Utils {
                         corrupted = true;
                     }
 
-                    ImageAnalysisResult iaResult = analyzeImage(
-                            Paths.get(save_path));
+                    ImageAnalysisResult iaResult = new ImageAnalysisResult();
+                    try {
+                        iaResult = analyzeImage(Paths.get(save_path));
+                    } catch (IllegalArgumentException iaE) {
+                        corrupted = true;
+                    }
+
                     System.out.print("RESULT: \t");
                     if (iaResult.truncated) {
                         System.out.println("TRUNCATED");
@@ -137,6 +145,7 @@ public class Utils {
                         Files.delete(Paths.get(save_path));
                         continue;
                     }
+                    
                     VisualRepresentation vr = new VisualRepresentation(
                             VisualRepresentation.MediaType.IMAGE,
                             columnDetail[0]);
