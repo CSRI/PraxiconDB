@@ -33,6 +33,7 @@ import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -88,7 +89,7 @@ public class Utils {
 
                     image_extension = columnDetail[1].substring(
                             begin_index, begin_index + 4);
-                    save_path = "/home/dmavroeidis/Desktop/ImageNet/" +
+                    save_path = "/home/dmavroeidis/ImageNet/" +
                             columnDetail[0] + image_extension;
 
                     System.out.println("FILE: " + save_path + "\tURL: " +
@@ -107,7 +108,7 @@ public class Utils {
                         continue;
                     }
 
-                    // Copy the image from the web
+                    // Copy the image from the web.
                     try {
                         Files.copy(in, Paths.get(save_path));
                     } catch (FileAlreadyExistsException | NoSuchFileException |
@@ -115,41 +116,39 @@ public class Utils {
                         continue;
                     }
 
+                    // Do various checks for the validity of the image.
                     image = ImageIO.read(in);
-                    System.out.println("IMAGE: " + image);
-                    if (image == null || image.getWidth(null) < 201 ||
-                            image.getHeight(null) < 201) {
-                        System.err.println("File not an image or small in size");
+                    if (image == null) {
                         corrupted = true;
                     }
-
                     ImageAnalysisResult iaResult = new ImageAnalysisResult();
                     try {
                         iaResult = analyzeImage(Paths.get(save_path));
                     } catch (IllegalArgumentException iaE) {
                         corrupted = true;
                     }
-
-                    System.out.print("RESULT: \t");
                     if (iaResult.truncated) {
-                        System.out.println("TRUNCATED");
                         corrupted = true;
-                    } else if (iaResult.image) {
-                        System.out.println("IMAGE");
-                        corrupted = false;
-                    } else {
-                        System.out.println("[Result is not available]");
                     }
 
+                    // Check size of the image.
+                    ImageIcon img = new ImageIcon(save_path);
+                    int width_img = img.getIconWidth();
+                    int height_img = img.getIconHeight();
+                    if (width_img < 201 || height_img < 201) {
+                        corrupted = true;
+                    }
+
+                    // Delete the image if it does not comply with standards.
                     if (corrupted) {
                         Files.delete(Paths.get(save_path));
                         continue;
                     }
-                    
+
                     VisualRepresentation vr = new VisualRepresentation(
                             VisualRepresentation.MediaType.IMAGE,
                             columnDetail[0]);
-                    vr.setURI(columnDetail[1]);
+                    vr.setURI(columnDetail[1].toString());
                     vr.setConcept(concept);
                     vr.setSource("ImageNet_fall_2011");
                     vrDao.merge(vr);
