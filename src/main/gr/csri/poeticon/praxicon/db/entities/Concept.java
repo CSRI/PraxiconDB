@@ -613,16 +613,14 @@ public class Concept implements Serializable {
      *         concept
      */
     public List<Concept_LanguageRepresentation>
-            getLanguageRepresentationsEntries() {
-        List<Concept_LanguageRepresentation> language_representation_entries =
+            getConceptLanguageRepresentationsEntries() {
+        List<Concept_LanguageRepresentation> languageRepresentationEntries =
                 new ArrayList<>();
-//        System.out.println("LanguageRepresentationsFromConcept: " + this.languageRepresentations);
-//        System.out.println("ConceptLanguageRepresentationsFromConcept: " + this.getConceptLanguageRepresentation());
         for (Concept_LanguageRepresentation languageRepresentation
                 : this.languageRepresentations) {
-            language_representation_entries.add(languageRepresentation);
+            languageRepresentationEntries.add(languageRepresentation);
         }
-        return language_representation_entries;
+        return languageRepresentationEntries;
     }
 
     /**
@@ -664,7 +662,7 @@ public class Concept implements Serializable {
      * @return the text of the first Language Representation
      *         of the concept.
      */
-    public String getLanguageRepresentationName() {
+    public String getFirstLanguageRepresentationName() {
         List<LanguageRepresentation> lrs = this.getLanguageRepresentations();
         for (LanguageRepresentation lr : lrs) {
             if (lr.getLanguage().name().equalsIgnoreCase("en")) {
@@ -707,14 +705,14 @@ public class Concept implements Serializable {
      */
     public void updateLanguageRepresentations(Concept oldConcept) {
         for (Concept_LanguageRepresentation conceptLanguageRepresentation
-                : this.getLanguageRepresentationsEntries()) {
-            if (!oldConcept.getLanguageRepresentationsEntries().contains(
+                : this.getConceptLanguageRepresentationsEntries()) {
+            if (!oldConcept.getConceptLanguageRepresentationsEntries().contains(
                     conceptLanguageRepresentation)) {
                 conceptLanguageRepresentation.getLanguageRepresentation().
                         getConcepts().remove(this);
                 conceptLanguageRepresentation.getLanguageRepresentation().
                         getConcepts().add(this);
-                oldConcept.getLanguageRepresentationsEntries().add(
+                oldConcept.getConceptLanguageRepresentationsEntries().add(
                         conceptLanguageRepresentation);
             }
         }
@@ -795,13 +793,13 @@ public class Concept implements Serializable {
      * @return a list of motoric representations
      */
     public List<MotoricRepresentation> getMotoricRepresentationsEntries() {
-        List<MotoricRepresentation> motoric_representation_entries =
+        List<MotoricRepresentation> motoricRepresentationEntries =
                 new ArrayList<>();
         for (MotoricRepresentation MotoricRepresentation
                 : this.motoricRepresentations) {
-            motoric_representation_entries.add(MotoricRepresentation);
+            motoricRepresentationEntries.add(MotoricRepresentation);
         }
-        return motoric_representation_entries;
+        return motoricRepresentationEntries;
     }
 
     /**
@@ -931,7 +929,7 @@ public class Concept implements Serializable {
             // + " (Entity)";
         } else {
             List<Concept_LanguageRepresentation> tmpList =
-                    this.getLanguageRepresentationsEntries();
+                    this.getConceptLanguageRepresentationsEntries();
             if (tmpList.size() > 0) {
                 StringBuilder tmp = new StringBuilder(
                         tmpList.get(0).getLanguageRepresentation().getText());

@@ -167,10 +167,10 @@ public class RelationSet implements Serializable {
      * @return a list of relations
      */
     public List<Relation> getRelationsList() {
-        List<RelationSet_Relation> relationSet_RelationList = new ArrayList();
+        List<RelationSet_Relation> relationSetRelationList = new ArrayList();
         List<Relation> relationList = new ArrayList();
-        relationSet_RelationList = this.relations;
-        for (RelationSet_Relation relationSetRelation : relationSet_RelationList) {
+        relationSetRelationList = this.relations;
+        for (RelationSet_Relation relationSetRelation : relationSetRelationList) {
             relationList.add(relationSetRelation.getRelation());
         }
         return relationList;
@@ -290,13 +290,13 @@ public class RelationSet implements Serializable {
     }
 
     public List<MotoricRepresentation> getMotoricRepresentationsEntries() {
-        List<MotoricRepresentation> motoric_representation_entries =
+        List<MotoricRepresentation> motoricRepresentationEntries =
                 new ArrayList<>();
         for (MotoricRepresentation MotoricRepresentation
                 : this.motoricRepresentations) {
-            motoric_representation_entries.add(MotoricRepresentation);
+            motoricRepresentationEntries.add(MotoricRepresentation);
         }
-        return motoric_representation_entries;
+        return motoricRepresentationEntries;
     }
 
     public void setMotoricRepresentations(

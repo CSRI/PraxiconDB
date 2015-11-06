@@ -95,8 +95,8 @@ public class VisualRepresentation implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     private MotoricRepresentation motoricRepresentation;
 
-    public VisualRepresentation(MediaType media_type, String name) {
-        this.mediaType = media_type;
+    public VisualRepresentation(MediaType mediaType, String name) {
+        this.mediaType = mediaType;
         this.name = name;
     }
 

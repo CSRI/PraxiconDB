@@ -102,7 +102,7 @@ import javax.xml.bind.annotation.XmlType;
 public class LanguageRepresentation implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static List<LanguageRepresentation> language_representations;
+    private static List<LanguageRepresentation> languageRepresentations;
 
     /**
      * Enumeration of the languages.
@@ -357,26 +357,26 @@ public class LanguageRepresentation implements Serializable {
     }
 
     public List<LanguageRepresentation> getLanguageRepresentations() {
-        List<LanguageRepresentation> language_representations_list =
+        List<LanguageRepresentation> languageRepresentationsList =
                 new ArrayList<>();
-        for (LanguageRepresentation language_representation
-                : LanguageRepresentation.language_representations) {
-            language_representations_list.add(language_representation);
+        for (LanguageRepresentation languageRepresentation
+                : LanguageRepresentation.languageRepresentations) {
+            languageRepresentationsList.add(languageRepresentation);
         }
-        return language_representations_list;
+        return languageRepresentationsList;
     }
 
     public void setLanguageRepresentations(
             List<LanguageRepresentation> languageRepresentations) {
-        LanguageRepresentation.language_representations =
+        LanguageRepresentation.languageRepresentations =
                 languageRepresentations;
     }
 
     public List<Concept> getConcepts() {
         List<Concept> concepts = new ArrayList<>();
-        for (LanguageRepresentation language_representation
-                : LanguageRepresentation.language_representations) {
-            for (Concept concept : language_representation.getConcepts()) {
+        for (LanguageRepresentation languageRepresentation
+                : LanguageRepresentation.languageRepresentations) {
+            for (Concept concept : languageRepresentation.getConcepts()) {
                 if (!concepts.contains(concept)) {
                     concepts.add(concept);
                 }

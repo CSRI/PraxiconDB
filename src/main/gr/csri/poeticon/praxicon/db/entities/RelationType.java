@@ -109,17 +109,17 @@ public class RelationType implements Serializable {
         relations = new ArrayList<>();
     }
 
-    public RelationType(String forward_name, String backward_name) {
+    public RelationType(String forwardName, String backwardName) {
         relations = new ArrayList<>();
-        this.setForwardName(forward_name);
-        this.setBackwardName(backward_name);
+        this.setForwardName(forwardName);
+        this.setBackwardName(backwardName);
     }
 
-    public RelationType(RelationNameForward forward_name,
-            RelationNameBackward backward_name) {
+    public RelationType(RelationNameForward forwardName,
+            RelationNameBackward backwardName) {
         relations = new ArrayList<>();
-        this.forwardName = forward_name;
-        this.backwardName = backward_name;
+        this.forwardName = forwardName;
+        this.backwardName = backwardName;
     }
 
     /**
@@ -144,7 +144,7 @@ public class RelationType implements Serializable {
 
     /**
      * Enforces the system to use as a relation type the given string (even if
-     * it is not a relation_name). This isn't stored in the db
+     * it is not a relationName). This isn't stored in the db
      *
      * @param name The forward name of the relation
      */

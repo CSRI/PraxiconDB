@@ -52,8 +52,6 @@ public class Relations {
         if (!relations.isEmpty()) {
             for (Relation relation : relations) {
                 System.out.println("\n\n\n" + relation.toString() + "\n\n\n");
-//                System.out.println("\nLanguage Representation of Left Concept from storeRelations: " + relation.getLeftArgument().getConcept().getLanguageRepresentationName() + "\n\n\n");
-//                System.out.println("\nLanguage Representation of Right Concept from storeRelations: " + relation.getRightArgument().getConcept().getLanguageRepresentationName() + "\n\n\n");
                 storeRelation(relation);
             }
         }
