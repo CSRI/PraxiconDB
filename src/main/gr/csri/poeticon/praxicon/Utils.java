@@ -11,7 +11,6 @@ import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.VisualRepresentationDaoImpl;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.VisualRepresentation;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.EOFException;
 import java.io.IOException;
@@ -43,17 +42,17 @@ public class Utils {
 
     public enum FileExtensions {
 
-        jpeg, jpg, jpe, gif, tiff, tif
+        jpeg, tiff, jpg, jpe, gif, tif, bmp
     }
 
     public static void main(String args[]) throws IOException,
             URISyntaxException, NoSuchAlgorithmException {
-        importPhotosFromImagenet();
+        importPhotosFromImagenet("/home/dmavroeidis/Desktop/ImageNet/");
         System.exit(0);
     }
 
-    public static void importPhotosFromImagenet() throws IOException,
-            URISyntaxException, NoSuchAlgorithmException {
+    public static void importPhotosFromImagenet(String savePath) throws
+            IOException, URISyntaxException, NoSuchAlgorithmException {
         /*
          1. Read file with image URLs
          2. For each line,
@@ -80,8 +79,9 @@ public class Utils {
             for (String line : (Iterable<String>)lines::iterator) {
                 String[] columnDetail = new String[2];
                 columnDetail = line.split("\t", -1);
-                String synsetId = columnDetail[0].replace("n", "1").substring(
-                        0, 9);
+                String url = columnDetail[1];
+                String imageNetId = columnDetail[0];
+                String synsetId = imageNetId.replace("n", "1").substring(0, 9);
                 concept = cDao.getConceptByExternalSourceIdExact(synsetId);
                 corrupted = false;
                 // Only get the first 5 entries of BASIC_LEVEL and-below concepts
@@ -89,42 +89,9 @@ public class Utils {
                         (concept.getSpecificityLevel() !=
                         Concept.SpecificityLevel.SUPERORDINATE)) {
 
-                    int begin_index = columnDetail[1].lastIndexOf(".") + 1;
-                    String save_path = "";
-                    String image_extension = "";
-
-                    image_extension = columnDetail[1].substring(
-                            begin_index).toLowerCase();
-                    if (image_extension.
-                            startsWith(FileExtensions.gif.toString()) ||
-                            image_extension.startsWith(FileExtensions.jpg.
-                                    toString()) ||
-                            image_extension.startsWith(FileExtensions.tif.
-                                    toString()) ||
-                            image_extension.startsWith(FileExtensions.jpe.
-                                    toString())) {
-                        save_path = "/home/dmavroeidis/Desktop/ImageNet/" +
-                                columnDetail[0] + "." + image_extension.
-                                substring(0, 3);
-                    } else if (image_extension.startsWith(FileExtensions.jpeg.
-                            toString()) ||
-                            image_extension.startsWith(
-                                    FileExtensions.tiff.toString())) {
-                        save_path = "/home/dmavroeidis/Desktop/ImageNet/" +
-                                columnDetail[0] + "." + image_extension.
-                                substring(0, 4);
-                    } else {
-                        save_path = "/home/dmavroeidis/Desktop/ImageNet/" +
-                                columnDetail[0] + "." + "jpg";
-                    }
-
-                    System.out.println("FILE: " + save_path + "\tURL: " +
-                            columnDetail[1]);
-
                     // Check if file is an image
-                    Image image = null;
-                    URL image_url = new URL(columnDetail[1]);
-                    URLConnection conn = image_url.openConnection();
+                    URL imageUrl = new URL(url);
+                    URLConnection conn = imageUrl.openConnection();
                     conn.setConnectTimeout(3000);
                     conn.setReadTimeout(3000);
                     InputStream in = null;  //Initialize input stream
@@ -134,9 +101,39 @@ public class Utils {
                         continue;
                     }
 
+                    int beginIndex = url.lastIndexOf(".") + 1;
+                    String saveFile;
+                    String imageExtension;
+
+                    imageExtension = url.substring(beginIndex).toLowerCase();
+
+                    if (imageExtension.startsWith(FileExtensions.jpeg.
+                            toString()) ||
+                            imageExtension.startsWith(
+                                    FileExtensions.tiff.toString())) {
+                        saveFile = savePath + imageNetId + "." +
+                                imageExtension.substring(0, 4);
+                    } else if (imageExtension.
+                            startsWith(FileExtensions.gif.toString()) ||
+                            imageExtension.startsWith(FileExtensions.jpg.
+                                    toString()) ||
+                            imageExtension.startsWith(FileExtensions.tif.
+                                    toString()) ||
+                            imageExtension.startsWith(FileExtensions.jpe.
+                                    toString()) ||
+                            imageExtension.startsWith(FileExtensions.bmp.
+                                    toString())) {
+                        saveFile = savePath + imageNetId + "." +
+                                imageExtension.substring(0, 3);
+                    } else {
+                        saveFile = savePath + imageNetId + "." + "jpg";
+                    }
+
+                    System.out.println("FILE: " + saveFile + "\tURL: " + url);
+
                     // Copy the image from the web.
                     try {
-                        Files.copy(in, Paths.get(save_path));
+                        Files.copy(in, Paths.get(saveFile));
                     } catch (FileAlreadyExistsException | NoSuchFileException |
                             SocketTimeoutException faeE) {
                         continue;
@@ -145,7 +142,7 @@ public class Utils {
                     // Check the validity of the image.
                     ImageAnalysisResult iaResult = new ImageAnalysisResult();
                     try {
-                        iaResult = analyzeImage(Paths.get(save_path));
+                        iaResult = analyzeImage(Paths.get(saveFile));
                     } catch (IllegalArgumentException iaE) {
                         corrupted = true;
                     }
@@ -154,23 +151,22 @@ public class Utils {
                     }
 
                     // Check size of the image.
-                    ImageIcon img = new ImageIcon(save_path);
-                    int width_img = img.getIconWidth();
-                    int height_img = img.getIconHeight();
-                    if (width_img < 201 || height_img < 201) {
+                    ImageIcon img = new ImageIcon(saveFile);
+                    int imageWidth = img.getIconWidth();
+                    int imageHeight = img.getIconHeight();
+                    if (imageWidth < 201 || imageHeight < 201) {
                         corrupted = true;
                     }
 
                     // Delete the image if it does not comply with standards.
                     if (corrupted) {
-                        Files.delete(Paths.get(save_path));
+                        Files.delete(Paths.get(saveFile));
                         continue;
                     }
 
                     VisualRepresentation vr = new VisualRepresentation(
-                            VisualRepresentation.MediaType.IMAGE,
-                            columnDetail[0]);
-                    vr.setURI(columnDetail[1].toString());
+                            VisualRepresentation.MediaType.IMAGE, imageNetId);
+                    vr.setURI(url);
                     vr.setConcept(concept);
                     vr.setSource("ImageNet_fall_2011");
                     vrDao.merge(vr);
