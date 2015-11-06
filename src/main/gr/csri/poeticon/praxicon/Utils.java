@@ -41,6 +41,11 @@ import javax.swing.ImageIcon;
  */
 public class Utils {
 
+    public enum FileExtensions {
+
+        jpeg, jpg, jpe, gif, tiff, tif
+    }
+
     public static void main(String args[]) throws IOException,
             URISyntaxException, NoSuchAlgorithmException {
         importPhotosFromImagenet();
@@ -84,14 +89,34 @@ public class Utils {
                         (concept.getSpecificityLevel() !=
                         Concept.SpecificityLevel.SUPERORDINATE)) {
 
-                    int begin_index = columnDetail[1].lastIndexOf(".");
+                    int begin_index = columnDetail[1].lastIndexOf(".") + 1;
                     String save_path = "";
                     String image_extension = "";
 
                     image_extension = columnDetail[1].substring(
-                            begin_index, begin_index + 4);
-                    save_path = "/home/dmavroeidis/ImageNet/" +
-                            columnDetail[0] + image_extension;
+                            begin_index).toLowerCase();
+                    if (image_extension.
+                            startsWith(FileExtensions.gif.toString()) ||
+                            image_extension.startsWith(FileExtensions.jpg.
+                                    toString()) ||
+                            image_extension.startsWith(FileExtensions.tif.
+                                    toString()) ||
+                            image_extension.startsWith(FileExtensions.jpe.
+                                    toString())) {
+                        save_path = "/home/dmavroeidis/Desktop/ImageNet/" +
+                                columnDetail[0] + "." + image_extension.
+                                substring(0, 3);
+                    } else if (image_extension.startsWith(FileExtensions.jpeg.
+                            toString()) ||
+                            image_extension.startsWith(
+                                    FileExtensions.tiff.toString())) {
+                        save_path = "/home/dmavroeidis/Desktop/ImageNet/" +
+                                columnDetail[0] + "." + image_extension.
+                                substring(0, 4);
+                    } else {
+                        save_path = "/home/dmavroeidis/Desktop/ImageNet/" +
+                                columnDetail[0] + "." + "jpg";
+                    }
 
                     System.out.println("FILE: " + save_path + "\tURL: " +
                             columnDetail[1]);
