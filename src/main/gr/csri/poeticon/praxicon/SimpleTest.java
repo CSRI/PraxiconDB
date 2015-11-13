@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import static java.util.Objects.isNull;
+import java.util.Scanner;
 import javax.persistence.EntityManager;
 import org.hibernate.Session;
 
@@ -39,15 +40,77 @@ public class SimpleTest {
 
     public static void main(String args[]) {
 
-        /*
-         Currently commented-out all tests.
-         User can uncomment accordingly.
-         */
+//        // Get the OS to set the clear command.
+//        String os = System.getProperty("os.name");
+        Scanner user_input = new Scanner(System.in);
+        String test_choice = "a";
 
-//        testConcepts();
-//        testLanguageRepresentations();
-//        testRelations();
-//        testXmlImport();
+        while (test_choice != "q") {
+
+            if (test_choice != "a") {
+                System.out.println("\n\nPress Enter to continue...");
+                try {
+                    System.in.read();
+                } catch (Exception e) {
+                }
+            }
+
+            for (int i = 0; i < 50; ++i) {
+                System.out.println();
+            }
+            System.out.println(
+                    "██████╗ ██████╗  █████╗ ██╗  ██╗██╗ ██████╗ ██████╗ ███╗   ██╗");
+            System.out.println(
+                    "██╔══██╗██╔══██╗██╔══██╗╚██╗██╔╝██║██╔════╝██╔═══██╗████╗  ██║");
+            System.out.println(
+                    "██████╔╝██████╔╝███████║ ╚███╔╝ ██║██║     ██║   ██║██╔██╗ ██║");
+            System.out.println(
+                    "██╔═══╝ ██╔══██╗██╔══██║ ██╔██╗ ██║██║     ██║   ██║██║╚██╗██║");
+            System.out.println(
+                    "██║     ██║  ██║██║  ██║██╔╝ ██╗██║╚██████╗╚██████╔╝██║ ╚████║");
+            System.out.println(
+                    "╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝");
+            System.out.println("");
+            System.out.println(
+                    "       ___ ____ ____ ___    ____ _  _ _ ___ ____");
+            System.out.println(
+                    "        |  |___ [__   |     [__  |  | |  |  |___ ");
+            System.out.println(
+                    "        |  |___ ___]  |     ___] |__| |  |  |___ ");
+
+            System.out.println("");
+            System.out.println("Please, make your choice:");
+            System.out.println("-------------------------");
+            System.out.println("1. Concepts");
+            System.out.println("2. Language Representations");
+            System.out.println("3. Relations & Relation Sets");
+            System.out.println("4. Export everything to XML");
+            System.out.println("5. Import from XML");
+            System.out.println("q. To exit");
+            System.out.println();
+            System.out.println("Please enter your choice: ");
+            test_choice = user_input.next();
+            switch (test_choice) {
+                case "1":
+                    testConcepts();
+                    continue;
+                case "2":
+                    testLanguageRepresentations();
+                    continue;
+                case "3":
+                    testRelations();
+                    continue;
+                case "4":
+                    exportAllPraxicon();
+                    continue;
+                case "5":
+                    testXmlImport();
+                    continue;
+                case "q":
+                    System.exit(0);
+                    continue;
+            }
+        }
         System.exit(0);
     }
 
@@ -126,8 +189,6 @@ public class SimpleTest {
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         Date date = new Date();
 
-
-
         XmlUtils.exportConceptsToXML(childrenOfSpoon, String.
                 format("/home/dmavroeidis/Concepts_%s.xml",
                         dateFormat.format(date)));
@@ -194,6 +255,7 @@ public class SimpleTest {
     public static void testRelations() {
         ConceptDao cDao = new ConceptDaoImpl();
         RelationDao rDao = new RelationDaoImpl();
+        RelationSetDao rsDao = new RelationSetDaoImpl();
 
         // Check whether concepts "shape" and "round_shape" are related.
         System.out.println("\n\nCheck whether two concepts are related: ");
@@ -256,7 +318,7 @@ public class SimpleTest {
         // Test the XML export functionality for relation set
         Concept conceptForRelationSet = cDao.getConceptByNameExact(
                 "dummy_object_brooch%2:35:00::_brooch%1:06:00::");
-        RelationSetDao rsDao = new RelationSetDaoImpl();
+
         List<RelationSet> relationSets = rsDao.getRelationSetsByConcept(
                 conceptForRelationSet);
 
@@ -288,15 +350,28 @@ public class SimpleTest {
         XmlUtils.exportRelationSetsToXML(relationSets, String.
                 format("/home/dmavroeidis/RelationSets_%s.xml",
                         dateFormat.format(date)));
+
         // Create a list of concepts to create XML with both concepts and
         // relation sets.
-        List<Concept> conceptsForXml = new ArrayList<>();
-        conceptsForXml.add(conceptShape);
-        conceptsForXml.add(conceptRoundShape);
-//        XmlUtils.exportAllObjectsToXML(relationSets, conceptsForXml,
-//                allRelationsOfConceptSubstance,
-//                String.format("/home/dmavroeidis/Objects_%s.xml",
-//                        dateFormat.format(date)));
+        List<Concept> basicLevelConcepts = cDao.getAllBasicLevelConcepts();
+
+        XmlUtils.exportAllObjectsToXML(relationSets, basicLevelConcepts,
+                allRelationsOfConceptSubstance,
+                String.format("/home/dmavroeidis/Objects_%s.xml",
+                        dateFormat.format(date)));
+    }
+
+    public static void exportAllPraxicon() {
+        ConceptDao cDao = new ConceptDaoImpl();
+        RelationDao rDao = new RelationDaoImpl();
+        RelationSetDao rsDao = new RelationSetDaoImpl();
+
+        // Get all concepts
+        List<Concept> concepts = cDao.getAllConcepts();
+        List<Relation> relations = rDao.findAll();
+        List<RelationSet> relationSets = rsDao.findAll();
+        XmlUtils.exportAllObjectsToXML(relationSets, concepts, relations,
+                "/home/dmavroeidis/Objects_all.xml");
     }
 
     public static void testXmlImport() {
@@ -304,10 +379,57 @@ public class SimpleTest {
          Currently commented-out all import tests.
          User can uncomment accordingly.
          */
-//        XmlUtils.importConceptsFromXml("misc/test-fixtures/Concepts.xml");
-//        XmlUtils.importRelationsFromXml("misc/test-fixtures/Relations.xml");
-//        XmlUtils.importRelationSetsFromXml(
-//                "misc/test-fixtures/RelationSets.xml");
-//        XmlUtils.importObjectsFromXml("misc/test-fixtures/Objects.xml");
+
+        Scanner user_input = new Scanner(System.in);
+        String test_choice = "a";
+
+        while (test_choice != "q") {
+            if (test_choice != "a") {
+                System.out.println("\n\nPress Enter to continue...");
+                try {
+                    System.in.read();
+                } catch (Exception e) {
+                }
+            }
+
+            for (int i = 0; i < 50; ++i) {
+                System.out.println();
+            }
+            System.out.println("Please, make your choice:");
+            System.out.println("-------------------------");
+            System.out.println("1. Import Concepts from test fixture");
+            System.out.println("2. Import Relations from test fixture");
+            System.out.println("3. Import Relation Sets from test fixture");
+            System.out.println("4. Import All Objects from test fixture");
+            System.out.println("q. To return to the previous menu");
+            System.out.println();
+            System.out.println("Please enter your choice: ");
+            test_choice = user_input.next();
+
+            switch (test_choice) {
+                case "1":
+                    XmlUtils.importConceptsFromXml(
+                            "misc/test-fixtures/Concepts.xml");
+                    System.out.println("Imported from Concepts");
+                    continue;
+                case "2":
+                    XmlUtils.importRelationsFromXml(
+                            "misc/test-fixtures/Relations.xml");
+                    System.out.println("Imported from Relations");
+                    continue;
+                case "3":
+                    XmlUtils.importRelationSetsFromXml(
+                            "misc/test-fixtures/RelationSets.xml");
+                    System.out.println("Imported from Relation Sets");
+                    continue;
+                case "4":
+                    XmlUtils.importObjectsFromXml(
+                            "misc/test-fixtures/Objects.xml");
+                    System.out.println("Imported from Objects");
+                    continue;
+                case "q":
+                    break;
+            }
+        }
     }
 }
