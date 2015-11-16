@@ -6,7 +6,6 @@ import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.LanguageRepresentationDaoImpl;
 import java.util.ArrayList;
 import java.util.List;
-import static java.util.Objects.isNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -59,7 +58,7 @@ public class Concepts {
         Concept retrievedConcept = cDao.getConcept(concept);
         Concept newConcept = new Concept();
         // If concept does not exist in the database, store it.
-        if (!isNull(retrievedConcept)) {
+        if (retrievedConcept != null) {
             // Create a new concept without the language representation info
             newConcept = new Concept(retrievedConcept, false, false, false);
         } else {
@@ -83,7 +82,7 @@ public class Concepts {
                             languageRepresentation.getOperator());
             // if Language Representation exists add the retrieved,
             // otherwise, add the new one.
-            if (!isNull(retrievedLanguageRepresentation)) {
+            if (retrievedLanguageRepresentation != null) {
                 newConcept.addLanguageRepresentation(
                         retrievedLanguageRepresentation,
                         retrievedLanguageRepresentation.
@@ -95,7 +94,7 @@ public class Concepts {
             }
         }
         // If Concept doesn't exist, add it
-        if (isNull(retrievedConcept)) {
+        if (retrievedConcept == null) {
             cDao.merge(newConcept);
             return newConcept;
         }

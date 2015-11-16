@@ -12,7 +12,6 @@ import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import java.util.ArrayList;
 import java.util.List;
-import static java.util.Objects.isNull;
 import javax.persistence.Query;
 
 /**
@@ -130,7 +129,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
             Concept concept, RelationType.RelationNameForward relationType) {
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
         RelationArgument retrievedRelationArgument = raDao.getRelationArgument(concept);
-        if (isNull(retrievedRelationArgument)) {
+        if (retrievedRelationArgument == null) {
             return new ArrayList<Relation>();
         } else {
             return getRelationsByLeftRelationArgumentTypeOfRelation(

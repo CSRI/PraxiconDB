@@ -12,14 +12,16 @@ import gr.csri.poeticon.praxicon.db.dao.implSQL.VisualRepresentationDaoImpl;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.VisualRepresentation;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.EOFException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
@@ -27,7 +29,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
-import java.util.stream.Stream;
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -73,10 +74,11 @@ public class Utils {
         Concept concept = new Concept();
         boolean corrupted = false;
         VisualRepresentationDao vrDao = new VisualRepresentationDaoImpl();
-        java.nio.file.Path path = Paths.get(
-                "/home/dmavroeidis/Desktop/fall11_urls.txt");
-        try (Stream<String> lines = Files.lines(path, StandardCharsets.UTF_8)) {
-            for (String line : (Iterable<String>)lines::iterator) {
+
+        try (BufferedReader br = new BufferedReader(new FileReader(
+                "/home/dmavroeidis/Desktop/fall11_urls.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
                 String[] columnDetail = new String[2];
                 columnDetail = line.split("\t", -1);
                 String url = columnDetail[1];
@@ -135,7 +137,7 @@ public class Utils {
                     try {
                         Files.copy(in, Paths.get(saveFile));
                     } catch (FileAlreadyExistsException | NoSuchFileException |
-                            SocketTimeoutException faeE) {
+                            SocketTimeoutException | SocketException faeE) {
                         continue;
                     }
 
@@ -176,12 +178,18 @@ public class Utils {
         }
     }
 
+    /**
+     * Analyze the image, checking if it is truncated or not.
+     *
+     * @param file - The path to the image file
+     * @return whether the image is truncated or not
+     * @throws NoSuchAlgorithmException
+     * @throws IOException
+     */
     public static ImageAnalysisResult analyzeImage(final Path file)
             throws NoSuchAlgorithmException, IOException {
         final ImageAnalysisResult result = new ImageAnalysisResult();
-        final InputStream digestInputStream = Files.newInputStream(file);
-
-        try {
+        try (InputStream digestInputStream = Files.newInputStream(file)) {
             final ImageInputStream imageInputStream = ImageIO
                     .createImageInputStream(digestInputStream);
             final Iterator<ImageReader> imageReaders = ImageIO
@@ -215,8 +223,6 @@ public class Utils {
             if (e.getCause() instanceof EOFException) {
                 result.setTruncated(true);
             }
-        } finally {
-            digestInputStream.close();
         }
         return result;
     }

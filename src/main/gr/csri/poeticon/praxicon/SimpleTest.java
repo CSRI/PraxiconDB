@@ -26,7 +26,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import static java.util.Objects.isNull;
 import java.util.Scanner;
 import javax.persistence.EntityManager;
 import org.hibernate.Session;
@@ -334,7 +333,7 @@ public class SimpleTest {
         System.out.println("\n\nCheck if the relation exists:");
         System.out.println("-----------------------------");
         System.out.println(relationFound);
-        if (!isNull(relationFound)) {
+        if (relationFound != null) {
             System.out.println("YES\n\n");
         } else {
             System.out.println("NO\n\n");

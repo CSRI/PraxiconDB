@@ -88,6 +88,23 @@ public class LanguageRepresentationDaoImpl extends
     }
 
     /**
+     * Finds the LanguageRepresentations that have text field containing the
+     * given string Case insensitive search.
+     * Overloaded.
+     *
+     * @param text the Language representation text
+     * @return A list of LanguageRepresentations
+     */
+    @Override
+    public List<LanguageRepresentation> getLanguageRepresentations(
+            String text) {
+        Query query = getEntityManager().createNamedQuery(
+                "findLanguageRepresentationsByText").
+                setParameter("text", text);
+        return query.getResultList();
+    }
+
+    /**
      * Finds the LanguageRepresentation that has the given Language, text and
      * part of speech
      * Case insensitive search.
@@ -117,22 +134,6 @@ public class LanguageRepresentationDaoImpl extends
         }
     }
 
-    /**
-     * Finds the LanguageRepresentations that have text field containing the
-     * given string Case insensitive search.
-     * Overloaded.
-     *
-     * @param text the Language representation text
-     * @return A list of LanguageRepresentations
-     */
-    @Override
-    public List<LanguageRepresentation> getLanguageRepresentations(
-            String text) {
-        Query query = getEntityManager().createNamedQuery(
-                "findLanguageRepresentationsByText").
-                setParameter("text", text);
-        return query.getResultList();
-    }
 
     /**
      * Gets all LanguageRepresentation Texts.

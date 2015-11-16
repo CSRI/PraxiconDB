@@ -12,7 +12,6 @@ import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationSetDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationTypeDaoImpl;
 import java.util.ArrayList;
 import java.util.List;
-import static java.util.Objects.isNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -97,7 +96,7 @@ public class Relations {
         if (relation.getLeftArgument().isConcept()) {
             leftConcept = relation.getLeftArgument().getConcept();
             Concept retrievedLeftConcept = cDao.getConcept(leftConcept);
-            if (isNull(retrievedLeftConcept)) {
+            if (retrievedLeftConcept == null) {
                 System.out.println("Left Concept " + leftConcept + " not found");
                 cDao.persist(leftConcept);
                 newLeftRelationArgument = new RelationArgument(leftConcept);
@@ -122,7 +121,7 @@ public class Relations {
                     getConcept());
             rightConcept = relation.getRightArgument().getConcept();
             Concept retrievedRightConcept = cDao.getConcept(rightConcept);
-            if (isNull(retrievedRightConcept)) {
+            if (retrievedRightConcept == null) {
                 System.out.println("Right Concept " + rightConcept + " not found");
                 newRightRelationArgument = new RelationArgument(rightConcept);
                 raDao.persist(newRightRelationArgument);
@@ -142,7 +141,7 @@ public class Relations {
         relationType = rtDao.getRelationTypeByForwardName(
                 relation.getRelationType().getForwardName());
         // 2.1 & 2.2
-        if (isNull(relationType)) {
+        if (relationType == null) {
             System.out.println("RelationType: " + relation.getRelationType() +
                     " doesn't exist and will be created");
             relationType = relation.getRelationType();
