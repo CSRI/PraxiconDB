@@ -10,7 +10,7 @@ import javax.persistence.Query;
 
 /**
  *
-  * @author dmavroeidis
+ * @author dmavroeidis
  * @param <K>
  * @param <E>
  */
