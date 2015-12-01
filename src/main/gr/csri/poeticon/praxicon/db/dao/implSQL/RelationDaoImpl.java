@@ -10,6 +10,7 @@ import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
@@ -19,7 +20,7 @@ import javax.persistence.Query;
  * @author dmavroeidis
  */
 public class RelationDaoImpl extends JpaDao<Long, Relation> implements
-        RelationDao {
+        RelationDao, Serializable {
 
     /**
      * Finds relations that have a specific relationArgument as rightArgument,

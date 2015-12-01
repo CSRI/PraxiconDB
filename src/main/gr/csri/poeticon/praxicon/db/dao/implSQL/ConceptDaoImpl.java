@@ -17,6 +17,7 @@ import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import static gr.csri.poeticon.praxicon.db.entities.RelationType.RelationNameForward.HAS_INSTANCE;
 import static gr.csri.poeticon.praxicon.db.entities.RelationType.RelationNameForward.TYPE_TOKEN;
+import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ import javax.persistence.Query;
  * @author dmavroeidis
  */
 public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
-        ConceptDao {
+        ConceptDao, Serializable {
 
     private String String;
     private Object cDao;
