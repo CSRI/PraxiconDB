@@ -4,6 +4,7 @@
  */
 package gr.csri.poeticon.praxicon.db.entities;
 
+import static gr.csri.poeticon.praxicon.EntityMngFactory.getEntityManager;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -31,6 +33,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import org.hibernate.Session;
 
 /**
  *
@@ -581,9 +584,16 @@ public class Concept implements Serializable {
      *
      */
     public final List<LanguageRepresentation> getLanguageRepresentations() {
+        EntityManager em = getEntityManager();
+        Session session = em.unwrap(org.hibernate.Session.class);
         List<LanguageRepresentation> lrs;
         lrs = new ArrayList();
-        for (Concept_LanguageRepresentation clr : getConceptLanguageRepresentation()) {
+
+        for (Concept_LanguageRepresentation clr
+                : getConceptLanguageRepresentation()) {
+            if (!session.contains(clr)) {
+                session.update(clr);
+            }
             lrs.add(clr.getLanguageRepresentation());
         }
         return lrs;
@@ -682,6 +692,8 @@ public class Concept implements Serializable {
      *         Representations of the Concept.
      */
     public List<String> getLanguageRepresentationsNames() {
+        EntityManager em = getEntityManager();
+        Session session = em.unwrap(org.hibernate.Session.class);
         List<LanguageRepresentation> lrs = this.getLanguageRepresentations();
         List<String> lrNames = new ArrayList<>();
         if (lrs.isEmpty()) {
@@ -691,6 +703,9 @@ public class Concept implements Serializable {
             return null;
         } else {
             for (LanguageRepresentation lr : lrs) {
+                if (!session.contains(lr)) {
+                    session.update(lr);
+                }
                 lrNames.add(lr.getText());
             }
         }
