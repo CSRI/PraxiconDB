@@ -85,7 +85,7 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name = "findLanguageRepresentationsByText", query =
             "FROM LanguageRepresentation lr " +
             "WHERE UPPER(lr.text) = :text"),
-        // TODO: This is not finished yet
+    // TODO: This is not finished yet
     @NamedQuery(name = "findLanguageRepresentationsByConcept", query =
             "FROM LanguageRepresentation lr " +
             "WHERE UPPER(lr.text) = :text"),
@@ -183,7 +183,8 @@ public class LanguageRepresentation implements Serializable {
      */
     public static enum Operator {
 
-        NONE, MORE, LESS, SAME, CLOSE;
+        AGAIN, BAD, CLOSE, COLLECTIVE, DIFFERENT, DIFFICULT, EASY, FAR, FULL,
+        GOOD, LESS, MORE, NONE, ONE, PLURAL, SAME;
 
         @Override
         public String toString() {
