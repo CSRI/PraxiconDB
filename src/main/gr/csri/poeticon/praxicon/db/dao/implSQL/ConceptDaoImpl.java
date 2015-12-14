@@ -259,6 +259,30 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         return concepts;
     }
 
+    @Override
+    public List<Concept> getConceptsByLanguageRepresentationStartsWith(
+            String languageRepresentationNameStart) {
+        Query query = getEntityManager().createNamedQuery(
+                "findConceptsByLanguageRepresentationStartsWith").
+                setParameter("languageRepresentationNameStart",
+                        languageRepresentationNameStart + "%");
+        List<Concept> concepts = new ArrayList<>();
+        concepts = (List<Concept>)query.getResultList();
+        return concepts;
+    }
+
+    @Override
+    public List<Concept> getConceptsByLanguageRepresentationEndsWith(
+            String languageRepresentationNameEnd) {
+        Query query = getEntityManager().createNamedQuery(
+                "findConceptsByLanguageRepresentationEndsWith").
+                setParameter("languageRepresentationNameEnd",  "%" +
+                        languageRepresentationNameEnd);
+        List<Concept> concepts = new ArrayList<>();
+        concepts = (List<Concept>)query.getResultList();
+        return concepts;
+    }
+
     /**
      * Finds all concepts that have a Status equal to a given Status
      *

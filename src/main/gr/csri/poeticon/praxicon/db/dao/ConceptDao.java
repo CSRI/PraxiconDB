@@ -39,6 +39,12 @@ public interface ConceptDao extends Dao<Long, Concept> {
 
     List<Concept> getConceptsByLanguageRepresentationExact(String queryString);
 
+    List<Concept> getConceptsByLanguageRepresentationStartsWith(
+            String queryString);
+
+    List<Concept> getConceptsByLanguageRepresentationEndsWith(
+            String queryString);
+
     List<Concept> getConceptsByStatus(Status status);
 
     Concept getConceptWithExternalSourceIdOrId(String v);
@@ -67,4 +73,5 @@ public interface ConceptDao extends Dao<Long, Concept> {
             getBasicLevelConceptsOld(Concept concept);
 
     void clearManager();
+
 }
