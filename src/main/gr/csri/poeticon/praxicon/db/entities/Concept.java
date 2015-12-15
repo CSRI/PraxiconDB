@@ -73,17 +73,20 @@ import org.hibernate.Session;
             "SELECT c FROM Concept c " +
             "JOIN c.languageRepresentations clr " +
             "JOIN clr.languageRepresentation lr " +
-            "WHERE lr.text = :languageRepresentationName"),
+            "WHERE lr.text = :languageRepresentationName " +
+            "ORDER BY lr.productivity "),
     @NamedQuery(name = "findConceptsByLanguageRepresentationStartsWith", query =
             "SELECT c FROM Concept c " +
             "JOIN c.languageRepresentations clr " +
             "JOIN clr.languageRepresentation lr " +
-            "WHERE lr.text LIKE :languageRepresentationNameStart"),
+            "WHERE lr.text LIKE :languageRepresentationNameStart " +
+            "ORDER BY lr.productivity "),
     @NamedQuery(name = "findConceptsByLanguageRepresentationEndsWith", query =
             "SELECT c FROM Concept c " +
             "JOIN c.languageRepresentations clr " +
             "JOIN clr.languageRepresentation lr " +
-            "WHERE lr.text LIKE :languageRepresentationNameEnd"),
+            "WHERE lr.text LIKE :languageRepresentationNameEnd " +
+            "ORDER BY lr.productivity "),
     @NamedQuery(name = "findConceptsByStatusExact", query =
             "SELECT c FROM Concept c " +
             "WHERE c.status = :status"),
