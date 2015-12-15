@@ -68,25 +68,70 @@ import org.hibernate.Session;
             "SELECT c FROM Concept c " +
             "JOIN c.languageRepresentations clr " +
             "JOIN clr.languageRepresentation lr " +
-            "WHERE lr.text LIKE :languageRepresentationName"),
+            "WHERE lr.text LIKE :languageRepresentationName " +
+            "ORDER BY " +
+            "   CASE lr.useStatus " +
+            "       WHEN 'LITERAL' THEN 1 " +
+            "       WHEN 'FIGURATIVE' THEN 2 " +
+            "       WHEN 'UNKNOWN' THEN 3 " +
+            "   END " +
+            ", CASE lr.productivity" +
+            "       WHEN 'FULL' THEN 1 " +
+            "       WHEN 'PARTIAL' THEN 2 " +
+            "       WHEN 'NONE' THEN 3 " +
+            "       WHEN 'UNKNOWN' THEN 4 " +
+            "   END "),
     @NamedQuery(name = "findConceptsByLanguageRepresentationExact", query =
             "SELECT c FROM Concept c " +
             "JOIN c.languageRepresentations clr " +
             "JOIN clr.languageRepresentation lr " +
             "WHERE lr.text = :languageRepresentationName " +
-            "ORDER BY lr.productivity "),
+            "ORDER BY " +
+            "   CASE lr.useStatus " +
+            "       WHEN 'LITERAL' THEN 1 " +
+            "       WHEN 'FIGURATIVE' THEN 2 " +
+            "       WHEN 'UNKNOWN' THEN 3 " +
+            "   END " +
+            ", CASE lr.productivity" +
+            "       WHEN 'FULL' THEN 1 " +
+            "       WHEN 'PARTIAL' THEN 2 " +
+            "       WHEN 'NONE' THEN 3 " +
+            "       WHEN 'UNKNOWN' THEN 4 " +
+            "   END "),
     @NamedQuery(name = "findConceptsByLanguageRepresentationStartsWith", query =
             "SELECT c FROM Concept c " +
             "JOIN c.languageRepresentations clr " +
             "JOIN clr.languageRepresentation lr " +
             "WHERE lr.text LIKE :languageRepresentationNameStart " +
-            "ORDER BY lr.productivity "),
+            "ORDER BY " +
+            "   CASE lr.useStatus " +
+            "       WHEN 'LITERAL' THEN 1 " +
+            "       WHEN 'FIGURATIVE' THEN 2 " +
+            "       WHEN 'UNKNOWN' THEN 3 " +
+            "   END " +
+            ", CASE lr.productivity" +
+            "       WHEN 'FULL' THEN 1 " +
+            "       WHEN 'PARTIAL' THEN 2 " +
+            "       WHEN 'NONE' THEN 3 " +
+            "       WHEN 'UNKNOWN' THEN 4 " +
+            "   END "),
     @NamedQuery(name = "findConceptsByLanguageRepresentationEndsWith", query =
             "SELECT c FROM Concept c " +
             "JOIN c.languageRepresentations clr " +
             "JOIN clr.languageRepresentation lr " +
             "WHERE lr.text LIKE :languageRepresentationNameEnd " +
-            "ORDER BY lr.productivity "),
+            "ORDER BY CASE " +
+            "lr.useStatus " +
+            "WHEN 'LITERAL' THEN 1 " +
+            "WHEN 'FIGURATIVE' THEN 2 " +
+            "WHEN 'UNKNOWN' THEN 3 " +
+            "END " +
+            ", CASE lr.productivity" +
+            "       WHEN 'FULL' THEN 1 " +
+            "       WHEN 'PARTIAL' THEN 2 " +
+            "       WHEN 'NONE' THEN 3 " +
+            "       WHEN 'UNKNOWN' THEN 4 " +
+            "   END "),
     @NamedQuery(name = "findConceptsByStatusExact", query =
             "SELECT c FROM Concept c " +
             "WHERE c.status = :status"),
@@ -98,8 +143,7 @@ import org.hibernate.Session;
             "AND c.specificityLevel = :specificityLevel " +
             "AND c.status = :status " +
             "AND c.pragmaticStatus = :pragmaticStatus " +
-            "AND c.uniqueInstance = :uniqueInstance " //+
-    //            "AND c.ontologicalDomain = :ontologicalDomain "
+            "AND c.uniqueInstance = :uniqueInstance"
     ),
     @NamedQuery(name = "getConceptEntityQuery", query =
             "SELECT c FROM Concept c " +
