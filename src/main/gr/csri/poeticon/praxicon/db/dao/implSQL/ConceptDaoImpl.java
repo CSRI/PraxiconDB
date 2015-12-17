@@ -8,7 +8,6 @@ import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationDao;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import static gr.csri.poeticon.praxicon.db.entities.Concept.SpecificityLevel.BASIC_LEVEL;
-import static gr.csri.poeticon.praxicon.db.entities.Concept.SpecificityLevel.BASIC_LEVEL_EXTENDED;
 import static gr.csri.poeticon.praxicon.db.entities.Concept.SpecificityLevel.SUBORDINATE;
 import static gr.csri.poeticon.praxicon.db.entities.Concept.SpecificityLevel.SUPERORDINATE;
 import gr.csri.poeticon.praxicon.db.entities.Concept.Status;
@@ -580,8 +579,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         Concept.SpecificityLevel specificityLevel = concept.
                 getSpecificityLevel();
 
-        if (specificityLevel == BASIC_LEVEL || specificityLevel ==
-                BASIC_LEVEL_EXTENDED) {
+        if (specificityLevel == BASIC_LEVEL) {
             AbstractMap.SimpleEntry<Concept, Direction> pair =
                     new java.util.AbstractMap.SimpleEntry<>(concept,
                             Direction.NONE);
@@ -591,8 +589,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             for (Concept upConcept : conceptsListUp) {
                 Concept.SpecificityLevel specificityLevelUp = upConcept.
                         getSpecificityLevel();
-                if (specificityLevelUp == BASIC_LEVEL || specificityLevelUp ==
-                        BASIC_LEVEL_EXTENDED) {
+                if (specificityLevelUp == BASIC_LEVEL) {
                     AbstractMap.SimpleEntry<Concept, Direction> pair =
                             new java.util.AbstractMap.SimpleEntry<>(upConcept,
                                     Direction.UP);
@@ -606,8 +603,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             for (Concept downConcept : conceptsListDown) {
                 Concept.SpecificityLevel specificityLevelDown = downConcept.
                         getSpecificityLevel();
-                if (specificityLevelDown == BASIC_LEVEL ||
-                        specificityLevelDown == BASIC_LEVEL_EXTENDED) {
+                if (specificityLevelDown == BASIC_LEVEL) {
                     AbstractMap.SimpleEntry<Concept, Direction> pair =
                             new java.util.AbstractMap.SimpleEntry<>(downConcept,
                                     Direction.DOWN);
@@ -617,8 +613,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             for (Concept upConcept : conceptsListUp) {
                 Concept.SpecificityLevel specificityLevelUp = upConcept.
                         getSpecificityLevel();
-                if (specificityLevelUp == BASIC_LEVEL || specificityLevelUp ==
-                        BASIC_LEVEL_EXTENDED) {
+                if (specificityLevelUp == BASIC_LEVEL) {
                     AbstractMap.SimpleEntry<Concept, Direction> pair =
                             new java.util.AbstractMap.SimpleEntry<>(upConcept,
                                     Direction.UP);
@@ -647,8 +642,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         Concept.SpecificityLevel specificityLevel = concept.
                 getSpecificityLevel();
 
-        if (specificityLevel == BASIC_LEVEL || specificityLevel ==
-                BASIC_LEVEL_EXTENDED) {
+        if (specificityLevel == BASIC_LEVEL) {
             basicLevelConceptsList.add(concept);
         } else if (specificityLevel == SUBORDINATE ||
                 specificityLevel == SUPERORDINATE) {
@@ -658,18 +652,14 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 if (relation.getLeftArgument().isConcept()) {
                     Concept leftConcept = relation.getLeftArgument().
                             getConcept();
-                    if (leftConcept.getSpecificityLevel() == BASIC_LEVEL ||
-                            leftConcept.getSpecificityLevel() ==
-                            BASIC_LEVEL_EXTENDED) {
+                    if (leftConcept.getSpecificityLevel() == BASIC_LEVEL) {
                         basicLevelConceptsList.add(leftConcept);
                     }
                 }
                 if (relation.getRightArgument().isConcept()) {
                     Concept rightConcept = relation.getRightArgument().
                             getConcept();
-                    if (rightConcept.getSpecificityLevel() == BASIC_LEVEL ||
-                            rightConcept.getSpecificityLevel() ==
-                            BASIC_LEVEL_EXTENDED) {
+                    if (rightConcept.getSpecificityLevel() == BASIC_LEVEL) {
                         basicLevelConceptsList.add(rightConcept);
                     }
                 }

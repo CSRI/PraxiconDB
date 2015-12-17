@@ -185,7 +185,7 @@ public class Concept implements Serializable {
      */
     public static enum SpecificityLevel {
 
-        BASIC_LEVEL, BASIC_LEVEL_EXTENDED, SUPERORDINATE, SUBORDINATE, UNKNOWN;
+        BASIC_LEVEL, SUPERORDINATE, SUBORDINATE, UNKNOWN;
 
         @Override
         public String toString() {
@@ -487,9 +487,6 @@ public class Concept implements Serializable {
     public void setSpecificityLevel(String levelType) {
         if (levelType.equalsIgnoreCase("BASIC_LEVEL")) {
             this.specificityLevel = Concept.SpecificityLevel.BASIC_LEVEL;
-        } else if (levelType.equalsIgnoreCase("BASIC_LEVEL_EXTENDED")) {
-            this.specificityLevel =
-                    Concept.SpecificityLevel.BASIC_LEVEL_EXTENDED;
         } else if (levelType.equalsIgnoreCase("SUPERORDINATE")) {
             this.specificityLevel = Concept.SpecificityLevel.SUPERORDINATE;
         } else if (levelType.equalsIgnoreCase("SUBORDINATE")) {

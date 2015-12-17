@@ -321,9 +321,7 @@ public class CreateNewBLRelations {
                         // Get basic level concepts in the path
                         for (Concept concept : blPath) {
                             if (concept.getSpecificityLevel() ==
-                                    Concept.SpecificityLevel.BASIC_LEVEL ||
-                                    concept.getSpecificityLevel() ==
-                                    Concept.SpecificityLevel.BASIC_LEVEL_EXTENDED) {
+                                    Concept.SpecificityLevel.BASIC_LEVEL) {
                                 blConcepts.add(concept);
                                 blFound = true;
                             }
