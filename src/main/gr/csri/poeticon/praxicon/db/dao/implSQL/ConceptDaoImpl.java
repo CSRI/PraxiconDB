@@ -128,7 +128,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     /**
      * Finds all concepts that have a specific conceptId
      *
-     * @param conceptId the concept id to search for
+     * @param conceptId the concept id to find
      * @return a list of concepts found in the database
      */
     @Override
@@ -147,7 +147,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     /**
      * Finds all concepts that have a name containing a given string
      *
-     * @param conceptName the external source id of the concept
+     * @param conceptName the external source id of the concept to find
      * @return a list of concepts found in the database
      */
     @Override
@@ -165,7 +165,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     /**
      * Finds all concepts that have a name equal to a given string
      *
-     * @param conceptName the concept name to search for
+     * @param conceptName the concept name to find
      * @return a unique concept found in the database
      */
     @Override
@@ -180,6 +180,25 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
             return null;
         }
         return conceptsList.get(0);
+    }
+
+    /**
+     * Finds all concepts that have a name containing a given string
+     *
+     * @param conceptName the external source id of the concept to find
+     * @param status      the status of the concept to find
+     * @return a list of concepts found in the database
+     */
+    @Override
+    public List<Concept> getConceptsByNameAndStatus(
+            String conceptName, Status status) {
+        Query query = getEntityManager().createNamedQuery(
+                "findConceptsByNameAndStatus").
+                setParameter("conceptName", "%" + conceptName + "%").
+                setParameter("conceptStatus", status);
+        List<Concept> concepts = new ArrayList<>();
+        concepts = (List<Concept>)query.getResultList();
+        return concepts;
     }
 
     /**
@@ -240,10 +259,10 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     }
 
     /**
-     * Finds all concepts that have a language representation equal to a given
-     * string
+     * Finds all concepts that have a language representation as an exact match
+     * to the provided string
      *
-     * @param queryString the string to search for
+     * @param languageRepresentationName the string to search for
      * @return a list of concepts found in the database
      */
     @Override
@@ -258,6 +277,13 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         return concepts;
     }
 
+    /**
+     * Finds all concepts that have a language representation starting with the
+     * provided string
+     *
+     * @param languageRepresentationNameStart the string to search for
+     * @return a list of concepts found in the database
+     */
     @Override
     public List<Concept> getConceptsByLanguageRepresentationStartsWith(
             String languageRepresentationNameStart) {
@@ -270,12 +296,19 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         return concepts;
     }
 
+    /**
+     * Finds all concepts that have a language representation ending with the
+     * provided string
+     *
+     * @param languageRepresentationNameEnd the string to search for
+     * @return a list of concepts found in the database
+     */
     @Override
     public List<Concept> getConceptsByLanguageRepresentationEndsWith(
             String languageRepresentationNameEnd) {
         Query query = getEntityManager().createNamedQuery(
                 "findConceptsByLanguageRepresentationEndsWith").
-                setParameter("languageRepresentationNameEnd",  "%" +
+                setParameter("languageRepresentationNameEnd", "%" +
                         languageRepresentationNameEnd);
         List<Concept> concepts = new ArrayList<>();
         concepts = (List<Concept>)query.getResultList();

@@ -58,6 +58,10 @@ import org.hibernate.Session;
     @NamedQuery(name = "findConceptByNameExact", query =
             "FROM Concept c " +
             "WHERE c.name = :conceptName"),
+    @NamedQuery(name = "findConceptsByNameAndStatus", query =
+            "FROM Concept c " +
+            "WHERE c.name LIKE :conceptName " +
+            "AND c.status = :conceptStatus"),
     @NamedQuery(name = "findConceptsByExternalSourceId", query =
             "FROM Concept c " +
             "WHERE c.externalSourceId LIKE :conceptExternalSourceId"),
@@ -185,7 +189,7 @@ public class Concept implements Serializable {
      */
     public static enum SpecificityLevel {
 
-        BASIC_LEVEL, SUPERORDINATE, SUBORDINATE, UNKNOWN;
+        BASIC_LEVEL, BASIC_LEVEL_EXTENDED, SUPERORDINATE, SUBORDINATE, UNKNOWN;
 
         @Override
         public String toString() {

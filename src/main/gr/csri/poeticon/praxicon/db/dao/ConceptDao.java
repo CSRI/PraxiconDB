@@ -31,6 +31,8 @@ public interface ConceptDao extends Dao<Long, Concept> {
 
     Concept getConceptByNameExact(String name);
 
+    List<Concept> getConceptsByNameAndStatus(String Name, Status status);
+
     List<Concept> getConceptsByExternalSourceId(String externalSourceId);
 
     Concept getConceptByExternalSourceIdExact(String externalSourceId);
