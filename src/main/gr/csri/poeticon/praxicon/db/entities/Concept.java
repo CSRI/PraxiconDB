@@ -189,7 +189,7 @@ public class Concept implements Serializable {
      */
     public static enum SpecificityLevel {
 
-        BASIC_LEVEL, BASIC_LEVEL_EXTENDED, SUPERORDINATE, SUBORDINATE, UNKNOWN;
+        BASIC_LEVEL, SUPERORDINATE, SUBORDINATE, UNKNOWN;
 
         @Override
         public String toString() {
