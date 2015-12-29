@@ -4,9 +4,11 @@
  */
 package gr.csri.poeticon.praxicon.db.dao;
 
+import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Concept.Status;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -68,6 +70,9 @@ public interface ConceptDao extends Dao<Long, Concept> {
     List<Concept> getInstancesOf(Concept concept);
 
     List<Concept> getBasicLevelConcepts(Concept concept);
+
+    List<Map.Entry<Concept, ConceptDaoImpl.Direction>>
+            getBasicLevelConceptsOld(Concept concept);
 
     void clearManager();
 
