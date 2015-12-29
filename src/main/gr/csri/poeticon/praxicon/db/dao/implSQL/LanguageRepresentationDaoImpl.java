@@ -50,12 +50,12 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("productivity", productivity).
                 setParameter("negation", negation).
                 setParameter("operator", operator);
-        List<LanguageRepresentation> result =
+        List<LanguageRepresentation> languageRepresentationList =
                 (List<LanguageRepresentation>)query.getResultList();
-        if (result.isEmpty()) {
+        if (languageRepresentationList.isEmpty()) {
             return null;
         }
-        return result.get(0);
+        return languageRepresentationList.get(0);
     }
 
     /**
@@ -79,9 +79,10 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("language", language).
                 setParameter("pos", pos).
                 setParameter("useStatus", useStatus);
-        List result = query.getResultList();
-        if (result.size() > 0) {
-            return (List<LanguageRepresentation>)result;
+        List<LanguageRepresentation> languageRepresentationList = query.
+                getResultList();
+        if (languageRepresentationList.size() > 0) {
+            return languageRepresentationList;
         } else {
             return null;
         }
@@ -126,14 +127,14 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("language", language).
                 setParameter("pos", pos).
                 setParameter("useStatus", useStatus);
-        List result = query.getResultList();
-        if (result.size() > 0) {
-            return (LanguageRepresentation)result.get(0);
+        List<LanguageRepresentation> languageRepresentationList = query.
+                getResultList();
+        if (languageRepresentationList.size() > 0) {
+            return languageRepresentationList.get(0);
         } else {
             return null;
         }
     }
-
 
     /**
      * Gets all LanguageRepresentation Texts.
