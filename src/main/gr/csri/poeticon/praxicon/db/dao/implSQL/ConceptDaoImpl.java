@@ -19,8 +19,10 @@ import static gr.csri.poeticon.praxicon.db.entities.RelationType.RelationNameFor
 import static gr.csri.poeticon.praxicon.db.entities.RelationType.RelationNameForward.TYPE_TOKEN;
 import gr.csri.poeticon.praxicon.db.entities.VisualRepresentation;
 import java.io.Serializable;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.Query;
 
 /**
@@ -597,6 +599,75 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                     if (rightConcept.getSpecificityLevel() == BASIC_LEVEL) {
                         basicLevelConceptsList.add(rightConcept);
                     }
+                }
+            }
+        }
+        return basicLevelConceptsList;
+    }
+
+    /**
+     * This is the old implementation of finding the basic levels of a concept.
+     * Algorithm:
+     * If the concept is subordinate, then:
+     * - Store all ancestors of concept in concept list
+     * Else if the concept is superordinate then:
+     * - Store both offsprings and ancestors of concept in concept list
+     * For each concept in concept list:
+     * - If the concept is basic level, add it to the list of BL concepts
+     * Return the list of BL concepts
+     *
+     * @param concept concept to be checked
+     * @return The list of Basic Level Concepts
+     */
+    @Override
+    public List<Map.Entry<Concept, Direction>>
+            getBasicLevelConceptsOld(Concept concept) {
+        List<Concept> conceptsListUp = new ArrayList<>();
+        List<Concept> conceptsListDown = new ArrayList<>();
+        List<Map.Entry<Concept, Direction>> basicLevelConceptsList;
+        basicLevelConceptsList = new ArrayList<>();
+        Concept.SpecificityLevel specificityLevel = concept.
+                getSpecificityLevel();
+
+        if (specificityLevel == BASIC_LEVEL) {
+            AbstractMap.SimpleEntry<Concept, Direction> pair =
+                    new java.util.AbstractMap.SimpleEntry<>(concept,
+                            Direction.NONE);
+            basicLevelConceptsList.add(pair);
+        } else if (specificityLevel == SUBORDINATE) {
+            conceptsListUp.addAll(getAllAncestors(concept));
+            for (Concept upConcept : conceptsListUp) {
+                Concept.SpecificityLevel specificityLevelUp = upConcept.
+                        getSpecificityLevel();
+                if (specificityLevelUp == BASIC_LEVEL) {
+                    AbstractMap.SimpleEntry<Concept, Direction> pair =
+                            new java.util.AbstractMap.SimpleEntry<>(upConcept,
+                                    Direction.UP);
+                    basicLevelConceptsList.add(pair);
+                }
+            }
+        } else if (specificityLevel == SUPERORDINATE) {
+            conceptsListDown.addAll(getAllOffsprings(concept));
+            conceptsListUp.addAll(getAllAncestors(concept));
+
+            for (Concept downConcept : conceptsListDown) {
+                Concept.SpecificityLevel specificityLevelDown = downConcept.
+                        getSpecificityLevel();
+                if (specificityLevelDown == BASIC_LEVEL) {
+                    AbstractMap.SimpleEntry<Concept, Direction> pair =
+                            new java.util.AbstractMap.SimpleEntry<>(downConcept,
+                                    Direction.DOWN);
+                    basicLevelConceptsList.add(pair);
+                }
+            }
+            for (Concept upConcept : conceptsListUp) {
+                Concept.SpecificityLevel specificityLevelUp = upConcept.
+                        getSpecificityLevel();
+                if (specificityLevelUp == BASIC_LEVEL) {
+                    AbstractMap.SimpleEntry<Concept, Direction> pair =
+                            new java.util.AbstractMap.SimpleEntry<>(upConcept,
+                                    Direction.UP);
+                    basicLevelConceptsList.add(pair);
                 }
             }
         }
