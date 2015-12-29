@@ -11,7 +11,6 @@ import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import gr.csri.poeticon.praxicon.db.entities.RelationSet;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
 
@@ -54,8 +53,8 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
         Query query = getEntityManager().createNamedQuery(
                 "findRelationSetsByRelationArgument").setParameter(
                         "relationArgument", relationArgument);
-        List<RelationSet> relationSets = new ArrayList<>();
-        relationSets = (List<RelationSet>)query.getResultList();
+        List<RelationSet> relationSets = (List<RelationSet>)query.
+                getResultList();
         return relationSets;
     }
 
@@ -68,12 +67,11 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
      */
     @Override
     public List<RelationSet> getRelationSetsByConcept(Concept concept) {
-        List<RelationSet> relationSetsList = new ArrayList<>();
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
         RelationArgument newRelationArgument = raDao.
                 getRelationArgument(concept);
-        relationSetsList =
-                getRelationSetsByRelationArgument(newRelationArgument);
+        List<RelationSet> relationSetsList = getRelationSetsByRelationArgument(
+                newRelationArgument);
         if (relationSetsList.isEmpty()) {
             return null;
         }
@@ -92,8 +90,8 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
         Query query = getEntityManager().createNamedQuery(
                 "findRelationSetsByLeftRelationArgument").
                 setParameter("relationArgument", relationArgument);
-        List<RelationSet> relationSetsList = new ArrayList<>();
-        relationSetsList = (List<RelationSet>)query.getResultList();
+        List<RelationSet> relationSetsList = (List<RelationSet>)query.
+                getResultList();
         return relationSetsList;
     }
 
@@ -147,8 +145,8 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
         Query query = getEntityManager().createNamedQuery(
                 "findRelationSetsByRelation").
                 setParameter("relation", retrievedRelation);
-        List<RelationSet> relationSets = new ArrayList<>();
-        relationSets = (List<RelationSet>)query.getResultList();
+        List<RelationSet> relationSets = (List<RelationSet>)query.
+                getResultList();
         return relationSets;
     }
 
