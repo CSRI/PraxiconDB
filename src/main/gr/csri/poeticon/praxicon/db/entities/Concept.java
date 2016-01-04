@@ -74,7 +74,13 @@ import org.hibernate.Session;
             "JOIN clr.languageRepresentation lr " +
             "WHERE lr.text LIKE :languageRepresentationName " +
             "ORDER BY " +
-            "   CASE lr.useStatus " +
+            "  CASE c.specificityLevel " +
+            "       WHEN 'BASIC_LEVEL' THEN 1 " +
+            "       WHEN 'SUPERORDINATE' THEN 2 " +
+            "       WHEN 'SUBORDINATE' THEN 3 " +
+            "       WHEN 'UNKNOWN' THEN 4 " +
+            "   END " +
+            ", CASE lr.useStatus " +
             "       WHEN 'LITERAL' THEN 1 " +
             "       WHEN 'FIGURATIVE' THEN 2 " +
             "       WHEN 'UNKNOWN' THEN 3 " +
@@ -91,51 +97,69 @@ import org.hibernate.Session;
             "JOIN clr.languageRepresentation lr " +
             "WHERE lr.text = :languageRepresentationName " +
             "ORDER BY " +
-            "   CASE lr.useStatus " +
+            "  CASE c.specificityLevel " +
+            "       WHEN 'BASIC_LEVEL' THEN 1 " +
+            "       WHEN 'SUPERORDINATE' THEN 2 " +
+            "       WHEN 'SUBORDINATE' THEN 3 " +
+            "       WHEN 'UNKNOWN' THEN 4 " +
+            "  END " +
+            ", CASE lr.useStatus " +
             "       WHEN 'LITERAL' THEN 1 " +
             "       WHEN 'FIGURATIVE' THEN 2 " +
             "       WHEN 'UNKNOWN' THEN 3 " +
-            "   END " +
+            "  END " +
             ", CASE lr.productivity" +
             "       WHEN 'FULL' THEN 1 " +
             "       WHEN 'PARTIAL' THEN 2 " +
             "       WHEN 'NONE' THEN 3 " +
             "       WHEN 'UNKNOWN' THEN 4 " +
-            "   END "),
+            "  END "),
     @NamedQuery(name = "findConceptsByLanguageRepresentationStartsWith", query =
             "SELECT c FROM Concept c " +
             "JOIN c.languageRepresentations clr " +
             "JOIN clr.languageRepresentation lr " +
             "WHERE lr.text LIKE :languageRepresentationNameStart " +
             "ORDER BY " +
-            "   CASE lr.useStatus " +
+            " CASE c.specificityLevel " +
+            "       WHEN 'BASIC_LEVEL' THEN 1 " +
+            "       WHEN 'SUPERORDINATE' THEN 2 " +
+            "       WHEN 'SUBORDINATE' THEN 3 " +
+            "       WHEN 'UNKNOWN' THEN 4 " +
+            " END " +
+            ", CASE lr.useStatus " +
             "       WHEN 'LITERAL' THEN 1 " +
             "       WHEN 'FIGURATIVE' THEN 2 " +
             "       WHEN 'UNKNOWN' THEN 3 " +
-            "   END " +
+            "  END " +
             ", CASE lr.productivity" +
             "       WHEN 'FULL' THEN 1 " +
             "       WHEN 'PARTIAL' THEN 2 " +
             "       WHEN 'NONE' THEN 3 " +
             "       WHEN 'UNKNOWN' THEN 4 " +
-            "   END "),
+            "  END "),
     @NamedQuery(name = "findConceptsByLanguageRepresentationEndsWith", query =
             "SELECT c FROM Concept c " +
             "JOIN c.languageRepresentations clr " +
             "JOIN clr.languageRepresentation lr " +
             "WHERE lr.text LIKE :languageRepresentationNameEnd " +
-            "ORDER BY CASE " +
-            "lr.useStatus " +
-            "WHEN 'LITERAL' THEN 1 " +
-            "WHEN 'FIGURATIVE' THEN 2 " +
-            "WHEN 'UNKNOWN' THEN 3 " +
-            "END " +
+            "ORDER BY " +
+            " CASE c.specificityLevel " +
+            "       WHEN 'BASIC_LEVEL' THEN 1 " +
+            "       WHEN 'SUPERORDINATE' THEN 2 " +
+            "       WHEN 'SUBORDINATE' THEN 3 " +
+            "       WHEN 'UNKNOWN' THEN 4 " +
+            " END " +
+            ", CASE lr.useStatus " +
+            "       WHEN 'LITERAL' THEN 1 " +
+            "       WHEN 'FIGURATIVE' THEN 2 " +
+            "       WHEN 'UNKNOWN' THEN 3 " +
+            "  END " +
             ", CASE lr.productivity" +
             "       WHEN 'FULL' THEN 1 " +
             "       WHEN 'PARTIAL' THEN 2 " +
             "       WHEN 'NONE' THEN 3 " +
             "       WHEN 'UNKNOWN' THEN 4 " +
-            "   END "),
+            "  END "),
     @NamedQuery(name = "findConceptsByStatusExact", query =
             "SELECT c FROM Concept c " +
             "WHERE c.status = :status"),
@@ -754,12 +778,7 @@ public class Concept implements Serializable {
         Session session = em.unwrap(org.hibernate.Session.class);
         List<LanguageRepresentation> lrs = this.getLanguageRepresentations();
         List<String> lrNames = new ArrayList<>();
-        if (lrs.isEmpty()) {
-            System.err.println(
-                    "There are no Language Representations for Concept " +
-                    this.getName());
-            return null;
-        } else {
+        if (!lrs.isEmpty()) {
             for (LanguageRepresentation lr : lrs) {
                 if (!session.contains(lr)) {
                     session.update(lr);
