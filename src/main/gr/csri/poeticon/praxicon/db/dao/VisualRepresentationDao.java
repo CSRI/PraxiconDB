@@ -4,9 +4,7 @@
  */
 package gr.csri.poeticon.praxicon.db.dao;
 
-import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.VisualRepresentation;
-import java.util.List;
 
 /**
  *
@@ -14,5 +12,4 @@ import java.util.List;
  */
 public interface VisualRepresentationDao extends Dao<Long, VisualRepresentation> {
 
-    List<VisualRepresentation> getEntries(Concept concept);
 }
