@@ -45,15 +45,13 @@ public class SimpleTest {
         String test_choice = "a";
 
         while (test_choice != "q") {
-
-            if (test_choice != "a") {
+            if ((test_choice != "5" && test_choice != "a") || (test_choice != "q")) {
                 System.out.println("\n\nPress Enter to continue...");
                 try {
                     System.in.read();
                 } catch (Exception e) {
                 }
             }
-
             for (int i = 0; i < 50; ++i) {
                 System.out.println();
             }
@@ -85,7 +83,7 @@ public class SimpleTest {
             System.out.println("3. Relations & Relation Sets");
             System.out.println("4. Export everything to XML");
             System.out.println("5. Import from XML");
-            System.out.println("q. To exit");
+            System.out.println("q. Exit");
             System.out.println();
             System.out.println("Please enter your choice: ");
             test_choice = user_input.next();
@@ -107,7 +105,6 @@ public class SimpleTest {
                     continue;
                 case "q":
                     System.exit(0);
-                    continue;
             }
         }
         System.exit(0);
@@ -383,14 +380,6 @@ public class SimpleTest {
         String test_choice = "a";
 
         while (test_choice != "q") {
-            if (test_choice != "a") {
-                System.out.println("\n\nPress Enter to continue...");
-                try {
-                    System.in.read();
-                } catch (Exception e) {
-                }
-            }
-
             for (int i = 0; i < 50; ++i) {
                 System.out.println();
             }
@@ -400,7 +389,7 @@ public class SimpleTest {
             System.out.println("2. Import Relations from test fixture");
             System.out.println("3. Import Relation Sets from test fixture");
             System.out.println("4. Import All Objects from test fixture");
-            System.out.println("q. To return to the previous menu");
+            System.out.println("q. Return to the previous menu");
             System.out.println();
             System.out.println("Please enter your choice: ");
             test_choice = user_input.next();
@@ -427,7 +416,7 @@ public class SimpleTest {
                     System.out.println("Imported from Objects");
                     continue;
                 case "q":
-                    break;
+                    return;
             }
         }
     }
