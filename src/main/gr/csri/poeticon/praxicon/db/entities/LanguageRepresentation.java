@@ -10,6 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import static java.util.Objects.isNull;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.CascadeType;
@@ -346,11 +347,15 @@ public class LanguageRepresentation implements Serializable {
     }
 
     public boolean getIsRepresentative(Concept concept) {
-        for (Concept_LanguageRepresentation tmpConceptLanguageRepresentation
-                : concepts) {
-            if (tmpConceptLanguageRepresentation.getConcept().equals(concept)) {
-                if (tmpConceptLanguageRepresentation.getIsRepresentative()) {
-                    return true;
+        System.out.println("\nConcepts_LanguageRepresentations: " + concepts);
+        if (!isNull(concepts)) {
+            for (Concept_LanguageRepresentation tmpConceptLanguageRepresentation
+                    : concepts) {
+                if (tmpConceptLanguageRepresentation.getConcept().
+                        equals(concept)) {
+                    if (tmpConceptLanguageRepresentation.getIsRepresentative()) {
+                        return true;
+                    }
                 }
             }
         }
