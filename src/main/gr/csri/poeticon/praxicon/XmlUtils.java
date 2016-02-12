@@ -232,7 +232,7 @@ public class XmlUtils {
         }
     }
 
-    public static void importConceptsFromXml(String fullPathFileName) {
+    public static int importConceptsFromXml(String fullPathFileName) {
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(Concepts.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
@@ -245,11 +245,14 @@ public class XmlUtils {
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return 1;
         }
-
+        return 0;
     }
 
-    static void importRelationsFromXml(String fullPathFileName) {
+    public static int importRelationsFromXml(String fullPathFileName) {
         try {
             JAXBContext jaxbContext = JAXBContext.
                     newInstance(Relations.class);
@@ -263,11 +266,14 @@ public class XmlUtils {
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return 1;
         }
-
+        return 0;
     }
 
-    static void importRelationSetsFromXml(String fullPathFileName) {
+    public static int importRelationSetsFromXml(String fullPathFileName) {
         try {
             JAXBContext jaxbContext = JAXBContext.
                     newInstance(RelationSets.class);
@@ -281,17 +287,19 @@ public class XmlUtils {
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return 1;
         }
-
+        return 0;
     }
 
-    static void importObjectsFromXml(String fullPathFileName) {
+    public static int importObjectsFromXml(String fullPathFileName) {
         try {
             JAXBContext jaxbContext = JAXBContext.
                     newInstance(CollectionOfObjects.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             File xmlFile = new File(fullPathFileName);
-
             CollectionOfObjects importedCollectionOfObjects =
                     (CollectionOfObjects)jaxbUnmarshaller.unmarshal(xmlFile);
 
@@ -318,6 +326,12 @@ public class XmlUtils {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
         }
+//        catch (Exception e) {
+//            System.err.println(e.getMessage());
+//            System.err.println(e);
+//            return 1;
+//        }
+        return 0;
     }
 
 }

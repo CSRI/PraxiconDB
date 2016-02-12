@@ -45,13 +45,13 @@ public class SimpleTest {
         String test_choice = "a";
 
         while (test_choice != "q") {
-            if ((test_choice != "5" && test_choice != "a") || (test_choice != "q")) {
-                System.out.println("\n\nPress Enter to continue...");
-                try {
-                    System.in.read();
-                } catch (Exception e) {
-                }
-            }
+//            if (test_choice != "a") {
+//                System.out.println("\n\nPress Enter to continue...");
+//                try {
+//                    System.in.read();
+//                } catch (Exception e) {
+//                }
+//            }
             for (int i = 0; i < 50; ++i) {
                 System.out.println();
             }
@@ -76,7 +76,7 @@ public class SimpleTest {
                     "        |  |___ ___]  |     ___] |__| |  |  |___ ");
 
             System.out.println("");
-            System.out.println("Please, make your choice:");
+            System.out.println("Please, select make your choice:");
             System.out.println("-------------------------");
             System.out.println("1. Concepts");
             System.out.println("2. Language Representations");
@@ -215,6 +215,11 @@ public class SimpleTest {
             for (Concept item : basicLevelOfConcept) {
                 System.out.println(item);
             }
+        }
+        System.out.println("\n\nPress Enter to continue...");
+        try {
+            System.in.read();
+        } catch (Exception e) {
         }
     }
 
@@ -376,25 +381,60 @@ public class SimpleTest {
          User can uncomment accordingly.
          */
 
-        Scanner user_input = new Scanner(System.in);
-        String test_choice = "a";
+        Scanner userInput = new Scanner(System.in);
+        String testChoice = "a";
 
-        while (test_choice != "q") {
+        while (testChoice != "q") {
             for (int i = 0; i < 50; ++i) {
                 System.out.println();
             }
             System.out.println("Please, make your choice:");
             System.out.println("-------------------------");
-            System.out.println("1. Import Concepts from test fixture");
-            System.out.println("2. Import Relations from test fixture");
-            System.out.println("3. Import Relation Sets from test fixture");
-            System.out.println("4. Import All Objects from test fixture");
+            System.out.println("1. Import from test fixtures");
+            System.out.println("2. Import from file");
             System.out.println("q. Return to the previous menu");
             System.out.println();
             System.out.println("Please enter your choice: ");
-            test_choice = user_input.next();
+            testChoice = userInput.next();
 
-            switch (test_choice) {
+            switch (testChoice) {
+                case "1":
+                    ImportXmlFromFixtures();
+                    continue;
+                case "2":
+                    ImportXmlFromFile();
+                    continue;
+                case "q":
+                    return;
+            }
+        }
+    }
+
+    public static void ImportXmlFromFixtures() {
+        /*
+         Currently commented-out all import tests.
+         User can uncomment accordingly.
+         */
+
+        Scanner userInput = new Scanner(System.in);
+        String testChoice = "a";
+
+        while (testChoice != "q") {
+            for (int i = 0; i < 50; ++i) {
+                System.out.println();
+            }
+            System.out.println("Select fixture to import from:");
+            System.out.println("-------------------------");
+            System.out.println("1. Import Concepts");
+            System.out.println("2. Import Relations");
+            System.out.println("3. Import Relation Sets");
+            System.out.println("4. Import Objects");
+            System.out.println("q. Return to the previous menu");
+            System.out.println();
+            System.out.println("Please enter your choice: ");
+            testChoice = userInput.next();
+
+            switch (testChoice) {
                 case "1":
                     XmlUtils.importConceptsFromXml(
                             "misc/test-fixtures/Concepts.xml");
@@ -420,4 +460,92 @@ public class SimpleTest {
             }
         }
     }
+
+    public static void ImportXmlFromFile() {
+        /*
+         Currently commented-out all import tests.
+         User can uncomment accordingly.
+         */
+
+        Scanner userInput = new Scanner(System.in);
+        Scanner fileInput = new Scanner(System.in);
+        String testChoice = "a";
+        String fileName = "";
+
+        while (testChoice != "q") {
+            for (int i = 0; i < 50; ++i) {
+                System.out.println();
+            }
+            System.out.println("What do you want to import?");
+            System.out.println("-------------------------");
+            System.out.println("1. Import Concepts");
+            System.out.println("2. Import Relations");
+            System.out.println("3. Import Relation Sets");
+            System.out.println("4. Import Objects (all or some of the above" +
+                    " in a single file)");
+            System.out.println("q. Return to the previous menu");
+            System.out.println();
+            System.out.println("Please enter your choice: ");
+            testChoice = userInput.next();
+            int result = 0;
+
+            switch (testChoice) {
+                case "1":
+                    System.out.println("Please, provide the path to the " +
+                            "Concepts XML file:");
+                    fileName = fileInput.next();
+                    result = XmlUtils.importConceptsFromXml(fileName);
+                    if (result == 0) {
+                        System.out.println("Imported from Concepts XML file");
+                    } else if (result == 1) {
+                        System.err.println(
+                                "Could not import from provided file.");
+                    }
+                    continue;
+                case "2":
+                    System.out.println("Please, provide the path to the " +
+                            "Concepts XML file:");
+                    fileInput = new Scanner(System.in);
+                    fileName = fileInput.next();
+                    result = XmlUtils.importRelationsFromXml(fileName);
+                    if (result == 0) {
+                        System.out.println("Imported from Relations XML file");
+                    } else if (result == 1) {
+                        System.err.println(
+                                "Could not import from provided file.");
+                    }
+                    continue;
+                case "3":
+                    System.out.println("Please, provide the path to the " +
+                            "Concepts XML file:");
+                    fileInput = new Scanner(System.in);
+                    fileName = fileInput.next();
+                    result = XmlUtils.importRelationSetsFromXml(fileName);
+                    if (result == 0) {
+                        System.out.
+                                println("Imported from RelationSets XML file");
+                    } else if (result == 1) {
+                        System.err.println(
+                                "Could not import from provided file.");
+                    }
+                    continue;
+                case "4":
+                    System.out.println("Please, provide the path to the " +
+                            "Objects XML file:");
+                    fileInput = new Scanner(System.in);
+                    fileName = fileInput.next();
+                    result = XmlUtils.importObjectsFromXml(fileName);
+                    if (result == 0) {
+                        System.out.println("Imported from ObjectsXML file");
+                    } else if (result == 1) {
+                        System.err.println(
+                                "Could not import from provided file.");
+                    }
+                    continue;
+                case "q":
+                    return;
+            }
+        }
+    }
+
 }
