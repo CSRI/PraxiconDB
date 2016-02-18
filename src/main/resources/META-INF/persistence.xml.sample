@@ -14,7 +14,7 @@
         <class>gr.csri.poeticon.praxicon.db.entities.RelationType</class>
         <class>gr.csri.poeticon.praxicon.db.entities.VisualRepresentation</class>
         <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/praxicon_db?zeroDateTimeBehavior=convertToNull&amp;characterEncoding=UTF-8"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/praxicon_db?zeroDateTimeBehavior=convertToNull&amp;useUnicode=yes&amp;characterEncoding=UTF-8"/>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.user" value=""/>
             <property name="javax.persistence.jdbc.password" value=""/>
