@@ -382,20 +382,25 @@ public class Concept implements Serializable {
             }
         }
 
-        for (VisualRepresentation tmpVisualRepresentation : newConcept.
-                getVisualRepresentationsEntries()) {
-            if (!this.getVisualRepresentationsEntries().contains(
-                    tmpVisualRepresentation)) {
-                this.getVisualRepresentationsEntries().add(
-                        tmpVisualRepresentation);
+        if (keepVisualRepresentation) {
+            for (VisualRepresentation tmpVisualRepresentation : newConcept.
+                    getVisualRepresentationsEntries()) {
+                if (!this.getVisualRepresentationsEntries().contains(
+                        tmpVisualRepresentation)) {
+                    this.getVisualRepresentationsEntries().add(
+                            tmpVisualRepresentation);
+                }
             }
         }
 
-        for (MotoricRepresentation tmpMotoricRepresentation : newConcept.
-                getMotoricRepresentations()) {
-            if (!this.getMotoricRepresentations().contains(
-                    tmpMotoricRepresentation)) {
-                this.getMotoricRepresentations().add(tmpMotoricRepresentation);
+        if (keepMotoricRepresentation) {
+            for (MotoricRepresentation tmpMotoricRepresentation : newConcept.
+                    getMotoricRepresentations()) {
+                if (!this.getMotoricRepresentations().contains(
+                        tmpMotoricRepresentation)) {
+                    this.getMotoricRepresentations().add(
+                            tmpMotoricRepresentation);
+                }
             }
         }
     }
