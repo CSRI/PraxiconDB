@@ -98,11 +98,9 @@ public class Concepts {
         // If Concept doesn't exist, add it
         if (retrievedConcept == null) {
             cDao.persist(newConcept);
-            System.out.println("\n\nNew Concept! \n\n");
             return newConcept;
         }
         cDao.merge(retrievedConcept);
-        System.out.println("\n\nRetrieved Concept! \n\n");
         return retrievedConcept;
     }
 }

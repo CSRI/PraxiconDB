@@ -342,7 +342,6 @@ public class LanguageRepresentation implements Serializable {
     }
 
     public boolean getIsRepresentative(Concept concept) {
-        System.out.println("\nConcepts_LanguageRepresentations: " + concepts);
         if (!isNull(concepts)) {
             for (Concept_LanguageRepresentation tmpConceptLanguageRepresentation
                     : concepts) {

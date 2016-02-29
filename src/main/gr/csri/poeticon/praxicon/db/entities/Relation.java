@@ -296,7 +296,6 @@ public class Relation implements Serializable {
 
 //    @Override
 //    public boolean equals(Object relation) {
-//        // TODO: Warning - method won't work in case the id fields are not set
 //        if (!(relation instanceof Relation)) {
 //            return false;
 //        }

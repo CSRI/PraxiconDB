@@ -26,7 +26,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
-import org.apache.commons.validator.UrlValidator;
 
 /**
  *
@@ -169,15 +168,14 @@ public class VisualRepresentation implements Serializable {
 
     public void setURI(String uri) throws URISyntaxException, MalformedURLException {
         String[] schemes = {"http", "https"};
-        UrlValidator urlValidator = new UrlValidator(schemes);
         URL url = null;
         try {
             url = new URL(uri);
             this.uri = url.toURI();
         } catch (MalformedURLException em) {
-            System.out.println("URL " + uri + " is malformed.");
+            System.err.println("URL " + uri + " is malformed.");
         } catch (URISyntaxException eu) {
-            System.out.println("URI syntax exception " + url);
+            System.err.println("URI syntax exception " + url);
         }
     }
 

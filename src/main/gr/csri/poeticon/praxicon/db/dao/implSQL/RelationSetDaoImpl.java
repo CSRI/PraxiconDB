@@ -52,9 +52,6 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
         RelationDao rDao = new RelationDaoImpl();
         List<Relation> retrievedRelations = relationSet.getRelationsList();
         for (Relation relation : retrievedRelations) {
-            System.out.println("Relation in Dao: " + relation);
-//            Relation newRelation = rDao.updatedRelation(relation);
-//            System.out.println("New Relation in Dao: " + newRelation);
             // Check if relation arguments exist in database.
             // Check left argument
             RelationArgument leftArgument = relation.getLeftArgument();
@@ -66,10 +63,6 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
                 Concept retrievedLeftConcept = cDao.getConcept(leftArgument.
                         getConcept());
                 newLeftConcept = newConcepts.storeConcept(retrievedLeftConcept);
-                System.out.println("\n\nLeft Concept from getRelationSet: " +
-                        newLeftConcept + " with ID: " + newLeftConcept.getId() +
-                        "\n\n");
-
                 RelationArgument retrievedLeftArgument = raDao.
                         getRelationArgument(newLeftConcept);
                 if (!isNull(retrievedLeftArgument)) {
@@ -82,7 +75,6 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
             } else if (leftArgument.isRelationSet()) {
 
             }
-//            raDao.merge(newLeftArgument);
 
             RelationArgument rightArgument = relation.getRightArgument();
             RelationArgument newRightArgument = new RelationArgument();
@@ -91,10 +83,6 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
                         getConcept());
                 newRightConcept = newConcepts.
                         storeConcept(retrievedRightConcept);
-                System.out.println("\n\nRight Concept from getRelationSet: " +
-                        newRightConcept + " with ID: " + newRightConcept.getId() +
-                        "\n\n");
-
                 RelationArgument retrievedRightArgument = raDao.
                         getRelationArgument(newRightConcept);
                 if (!isNull(retrievedRightArgument)) {
@@ -107,13 +95,6 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
             } else if (rightArgument.isRelationSet()) {
 
             }
-//            raDao.merge(newRightArgument);
-            System.out.println("\n\nNew Left Concept: " + newLeftConcept);
-            System.out.println("\n\nNew Left Argument: " + newLeftArgument.
-                    getConcept());
-            System.out.println("\n\nNew Right Concept: " + newRightConcept);
-            System.out.println("\n\nNew Right Argument: " + newRightArgument.
-                    getConcept());
 
             Relation myRelation = new Relation();
             myRelation.setLeftArgument(newLeftArgument);
@@ -129,14 +110,8 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
 
         Query query = getEntityManager().createNamedQuery("findRelationSet").
                 setParameter("relationSet", relationSet);
-        System.out.println("\n\nRelation Set: ");
-        relationSet.getRelationsList().stream().forEach((relation) -> {
-            System.out.println("\n\nRelation: " + relation);
-        });
-
         List<RelationSet> relationSetsList = query.getResultList();
         if (relationSetsList.isEmpty()) {
-            System.out.println("\n\nRelationSetList Empty!\n");
             return null;
         }
         return relationSetsList.get(0);

@@ -72,13 +72,7 @@ public class RelationSets {
 
         // First, store relations and add them to new relation set
         for (Relation relation : relationSet.getRelationsList()) {
-            System.out.println(
-                    "Printing existing relation from store RElationSet: " +
-                    relation);
             Relation newRelation = newRelationsObject.storeRelation(relation);
-            System.out.println(
-                    "Printing retrieved new relation from store RElationSet: " +
-                    newRelation);
             newRelationSet.addRelation(newRelation);
         }
         newRelationSet.setName(relationSet.getName());
@@ -107,29 +101,7 @@ public class RelationSets {
         // If the relation set is exactly the same, then I will merge, otherwise
         // persist.
 
-
         rsDao.persist(newRelationSet);
-
-        RelationSet retrievedRelationSet = rsDao.getRelationSet(newRelationSet);
-//        if (!isNull(retrievedRelationSet)) {
-//            newRelationSet = retrievedRelationSet;
-//            rsDao.merge(newRelationSet);
-//        } else {
-//            for (Relation relation : relationSet.getRelationsList()) {
-//                Relation newRelation = newRelationsObject.
-//                        storeRelation(relation);
-//                newRelationSet.addRelation(newRelation);
-//            }
-//            newRelationSet.setLanguageRepresentations(relationSet.
-//                    getLanguageRepresentations());
-//            newRelationSet.setMotoricRepresentations(relationSet.
-//                    getMotoricRepresentations());
-//            newRelationSet.setVisualRepresentation(relationSet.
-//                    getVisualRepresentations());
-//            newRelationSet.setName(relationSet.getName());
-//
-//            rsDao.persist(newRelationSet);
-//        }
         return newRelationSet;
     }
 }
