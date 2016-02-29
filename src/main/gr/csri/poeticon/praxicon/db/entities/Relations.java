@@ -162,6 +162,7 @@ public class Relations {
         RelationType relationType = new RelationType();
         relationType = rtDao.getRelationTypeByForwardName(
                 relation.getRelationType().getForwardName());
+
         // 2.1 & 2.2
         if (relationType == null) {
             relationType = relation.getRelationType();
@@ -180,8 +181,11 @@ public class Relations {
         if (!areRelated) {
             rDao.persist(newRelation);
         } else {
-            rDao.merge(newRelation);
-            return newRelation;
+            Relation retrievedRelation = rDao.getRelation(
+                    newLeftRelationArgument, newRightRelationArgument,
+                    relationType.getForwardName());
+            rDao.merge(retrievedRelation);
+            return retrievedRelation;
         }
         return newRelation;
 
