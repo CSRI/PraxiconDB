@@ -28,18 +28,18 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 @XmlSeeAlso(Concept.class)
 
 public class Relations {
-    
+
     @XmlElement(name = "relation")
     List<Relation> relations = new ArrayList<>();
-    
+
     public List<Relation> getRelations() {
         return relations;
     }
-    
+
     public void setRelations(List<Relation> relations) {
         this.relations = relations;
     }
-    
+
     public Relations() {
         relations = new ArrayList<>();
     }
@@ -57,8 +57,8 @@ public class Relations {
             }
         }
     }
-    
-    public void storeRelation(Relation relation) {
+
+    public Relation storeRelation(Relation relation) {
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
         ConceptDao cDao = new ConceptDaoImpl();
         RelationSetDao rsDao = new RelationSetDaoImpl();
@@ -72,10 +72,10 @@ public class Relations {
          1.1.1. If the concept exists
          1.1.1.1. Get the concept from the DB.
          1.1.1.2. Get the relation argument from the DB. If it doesn't exist,
-                  create it
+         create it
          1.1.2. If the concept doesn't exist, store the concept in the DB,
-                create a relation argument with this concept and store that in
-                the DB also.
+         create a relation argument with this concept and store that in
+         the DB also.
          1.2. If it is a relation set, find it and store it using
          RelationSets.storeRelationSet
          2. Get relation type and check if it exists
@@ -96,7 +96,7 @@ public class Relations {
         RelationSet retrievedRightRelationSet = new RelationSet();
         RelationSet newLeftRelationSet = new RelationSet();
         RelationSet newRightRelationSet = new RelationSet();
-        
+
         Concept leftConcept = new Concept();
         Concept rightConcept = new Concept();
 //        Concepts concepts = new Concepts();
@@ -108,6 +108,8 @@ public class Relations {
         if (relation.getLeftArgument().isConcept()) {
             leftConcept = relation.getLeftArgument().getConcept();
             Concept retrievedLeftConcept = cDao.getConcept(leftConcept);
+            System.out.println("\nRetrieved Left Concept: " +
+                    retrievedLeftConcept + "\n\n");
             if (!isNull(retrievedLeftConcept)) {
                 // 1.1.1. If the concept exists
                 System.out.println("Left Concept Found!");
@@ -120,11 +122,15 @@ public class Relations {
                     newLeftRelationArgument = retrievedLeftRelationArgument;
                     raDao.merge(newLeftRelationArgument);
                 } else {
-                    newLeftRelationArgument = leftArgument;
+//                    cDao.persist(leftConcept);
+                    newLeftRelationArgument = new RelationArgument(
+                            retrievedLeftConcept);
+                    System.out.println("New Left Relation Argument: " +
+                            newLeftRelationArgument.getConcept().getId());
                     raDao.persist(newLeftRelationArgument);
                 }
             } else {
-                System.out.println("Left Concept " + leftConcept + " not found");
+//                System.out.println("Left Concept " + leftConcept + " not found");
                 cDao.persist(leftConcept);
                 newLeftRelationArgument = new RelationArgument(leftConcept);
                 raDao.persist(newLeftRelationArgument);
@@ -132,17 +138,20 @@ public class Relations {
         } else {
             RelationSet leftRelationSet = relation.getLeftArgument().
                     getRelationSet();
-            retrievedLeftRelationSet = rsDao.getRelationSet(leftRelationSet);
-            if (!isNull(retrievedLeftRelationSet)) {
-                System.out.println("Left Relation Set Found!");
-                newLeftRelationSet = retrievedLeftRelationSet;
-                rsDao.merge(newLeftRelationSet);
-            } else {
-                newLeftRelationSet = leftRelationSet;
-                rsDao.persist(newLeftRelationSet);
-            }
+            RelationSets newRelationSetsObject = new RelationSets();
+            newRelationSetsObject.storeRelationSet(leftRelationSet);
+
+//            retrievedLeftRelationSet = rsDao.getRelationSet(leftRelationSet);
+//            if (!isNull(retrievedLeftRelationSet)) {
+//                System.out.println("Left Relation Set Found!");
+//                newLeftRelationSet = retrievedLeftRelationSet;
+//                rsDao.merge(newLeftRelationSet);
+//            } else {
+//                newLeftRelationSet = leftRelationSet;
+//                rsDao.persist(newLeftRelationSet);
+//            }
         }
-        
+
         if (relation.getRightArgument().isConcept()) {
             rightConcept = relation.getRightArgument().getConcept();
             Concept retrievedRightConcept = cDao.getConcept(rightConcept);
@@ -158,7 +167,8 @@ public class Relations {
                     newRightRelationArgument = retrievedRightRelationArgument;
                     raDao.merge(newRightRelationArgument);
                 } else {
-                    newRightRelationArgument = rightArgument;
+                    newRightRelationArgument =
+                            new RelationArgument(retrievedRightConcept);
                     raDao.persist(newRightRelationArgument);
                 }
             } else {
@@ -169,19 +179,24 @@ public class Relations {
                 raDao.persist(newRightRelationArgument);
             }
         } else if (relation.getRightArgument().isRelationSet()) {
-            // TODO: Do the same for relations sets
             RelationSet rightRelationSet = relation.getRightArgument().
                     getRelationSet();
-            retrievedRightRelationSet = rsDao.getRelationSet(rightRelationSet);
-            if (!isNull(retrievedRightRelationSet)) {
-                System.out.println("Right Relation Set Found!");
-                newRightRelationSet = retrievedRightRelationSet;
-                rsDao.merge(newRightRelationSet);
-            } else {
-                newRightRelationSet = rightRelationSet;
-                rsDao.persist(newRightRelationSet);
-            }
-            
+            RelationSets newRelationSetsObject = new RelationSets();
+            newRelationSetsObject.storeRelationSet(rightRelationSet);
+
+//            // TODO: Do the same for relations sets
+//            RelationSet rightRelationSet = relation.getRightArgument().
+//                    getRelationSet();
+//            retrievedRightRelationSet = rsDao.getRelationSet(rightRelationSet);
+//            if (!isNull(retrievedRightRelationSet)) {
+//                System.out.println("Right Relation Set Found!");
+//                newRightRelationSet = retrievedRightRelationSet;
+//                rsDao.merge(newRightRelationSet);
+//            } else {
+//                newRightRelationSet = rightRelationSet;
+//                rsDao.persist(newRightRelationSet);
+//            }
+//
         }
 
         // 2. Get relation type
@@ -197,24 +212,37 @@ public class Relations {
         } else {
             rtDao.merge(relationType);
         }
-
+        Relation newRelation = new Relation();
         // 3. Check if related
+        System.out.println("New Left Relation Argument in areRelated: " +
+                newLeftRelationArgument.getId());
+        System.out.println("New Right Relation Argument in areRelated: " +
+                newRightRelationArgument.getId());
         boolean areRelated = rDao.areRelated(newLeftRelationArgument,
                 newRightRelationArgument);
+        // Create a new relation with new components
+        System.out.println("Relation: " + relation +
+                " doesn't exist and will be created");
+        System.out.println("New Left Argument from Relations: " +
+                newLeftRelationArgument.getConcept());
+        newRelation.setLeftArgument(newLeftRelationArgument);
+        newRelation.setRightArgument(newRightRelationArgument);
+        System.out.println(relationType);
+        newRelation.setRelationType(relationType);
+        System.out.println("New Relation from Relations: " + newRelation);
         if (!areRelated) {
-            // Create a new relation with new components
-            System.out.println("Relation: " + relation +
-                    " doesn't exist and will be created");
-            Relation newRelation = new Relation();
-            newRelation.setLeftArgument(newLeftRelationArgument);
-            newRelation.setRightArgument(newRightRelationArgument);
-            System.out.println(relationType);
-            newRelation.setRelationType(relationType);
-//            System.out.println("New Relation: " + newRelation);
             rDao.persist(newRelation);
         } else {
-            System.out.println("Relation " + relation + " exists.");
+//            System.out.println("Relation " + newRelation + " exists.");
+//            Relation retrievedRelation = rDao.getRelation(newRelation);
+//            System.out.println("Retrieved relation from StoreRelation: " +
+//                    retrievedRelation);
+            rDao.merge(newRelation);
+            return newRelation;
         }
+        System.out.println("NEW RELATION from StoreRelation --> " + newRelation);
+        return newRelation;
+
     }
-    
+
 }

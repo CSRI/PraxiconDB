@@ -368,9 +368,10 @@ public class Concept implements Serializable {
         this.specificityLevel = newConcept.getSpecificityLevel();
         this.status = newConcept.getStatus();
         this.uniqueInstance = newConcept.getUniqueInstance();
-        languageRepresentations = new ArrayList<>();
-        visualRepresentations = new ArrayList<>();
-        motoricRepresentations = new ArrayList<>();
+        this.languageRepresentations = new ArrayList<>();
+        this.visualRepresentations = new ArrayList<>();
+        this.motoricRepresentations = new ArrayList<>();
+
         if (keepLanguageRepresentation) {
             for (LanguageRepresentation lr : newConcept.
                     getLanguageRepresentations()) {

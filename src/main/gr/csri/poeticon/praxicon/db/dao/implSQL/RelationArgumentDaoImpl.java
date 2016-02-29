@@ -35,6 +35,7 @@ public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument>
         if (relationArgumentsList.isEmpty()) {
             return null;
         }
+        System.out.println("relationArgumentList --> " + relationArgumentsList.get(0));
         return relationArgumentsList.get(0);
     }
 

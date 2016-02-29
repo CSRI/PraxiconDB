@@ -287,10 +287,14 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
                     newRelation.getRightArgument(), newRelation.
                     getRelationType().getForwardName());
         } catch (Exception e) {
+            System.out.println("New Relation!");
             return newRelation;
         } finally {
-            return oldRelation;
+
+
         }
+        System.out.println("Old Relation!");
+        return oldRelation;
     }
 
 }

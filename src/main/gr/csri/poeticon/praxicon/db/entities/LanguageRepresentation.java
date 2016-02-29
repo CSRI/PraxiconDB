@@ -4,15 +4,11 @@
  */
 package gr.csri.poeticon.praxicon.db.entities;
 
-import gr.csri.poeticon.praxicon.Globals;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import static java.util.Objects.isNull;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,7 +27,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
@@ -484,15 +479,15 @@ public class LanguageRepresentation implements Serializable {
         return text + "\\" + this.partOfSpeech + " (" + language + ")";
     }
 
-    public void afterUnmarshal(Unmarshaller u, Object parent) {
-        if (!Globals.ToMergeAfterUnMarshalling) {
-            try {
-                String tmp = new String(this.getText().getBytes(), "UTF-8");
-                this.setText(tmp);
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(LanguageRepresentation.class.getName()).log(
-                        Level.SEVERE, null, ex);
-            }
-        }
-    }
+//    public void afterUnmarshal(Unmarshaller u, Object parent) {
+//        if (!Globals.ToMergeAfterUnMarshalling) {
+//            try {
+//                String tmp = new String(this.getText().getBytes(), "UTF-8");
+//                this.setText(tmp);
+//            } catch (UnsupportedEncodingException ex) {
+//                Logger.getLogger(LanguageRepresentation.class.getName()).log(
+//                        Level.SEVERE, null, ex);
+//            }
+//        }
+//    }
 }

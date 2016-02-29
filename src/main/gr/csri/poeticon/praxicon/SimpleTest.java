@@ -28,7 +28,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import javax.persistence.EntityManager;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import org.hibernate.Session;
+import org.junit.BeforeClass;
 
 /**
  *
@@ -36,6 +40,14 @@ import org.hibernate.Session;
  *
  */
 public class SimpleTest {
+
+    private static Validator validator;
+
+    @BeforeClass
+    public static void setUp() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
+    }
 
     public static void main(String args[]) {
 

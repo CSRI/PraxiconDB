@@ -73,22 +73,11 @@ import javax.xml.bind.annotation.XmlType;
             query =
             "SELECT rs FROM RelationSet rs " +
             "JOIN rs.relations rsr " +
-            "WHERE rsr.relation = :relation"),
-})
+            "WHERE rsr.relation = :relation"),})
 @Table(name = "RelationSets",
         indexes = {
             @Index(columnList = "Name")})
 public class RelationSet implements Serializable {
-
-    public static enum Inherent {
-
-        YES, NO, UNKNOWN;
-
-        @Override
-        public String toString() {
-            return this.name();
-        }
-    }
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -134,7 +123,6 @@ public class RelationSet implements Serializable {
      *
      * @param name
      * @param relationSetRelationsList
-     * @param isInherent
      * @param languageRepresentations
      */
     public RelationSet(String name,
@@ -143,6 +131,12 @@ public class RelationSet implements Serializable {
         this.name = name;
         this.relations = relationSetRelationsList;
         this.languageRepresentations = languageRepresentations;
+    }
+
+    public RelationSet(RelationSet newRelationSet) {
+        this.name = newRelationSet.getName();
+        
+
     }
 
     public Long getId() {
@@ -383,8 +377,6 @@ public class RelationSet implements Serializable {
         }
         return true;
     }
-
-
 
     @Override
     public String toString() {

@@ -4,14 +4,18 @@
  */
 package gr.csri.poeticon.praxicon.db.dao.implSQL;
 
+import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationArgumentDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationSetDao;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
+import gr.csri.poeticon.praxicon.db.entities.Concepts;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import gr.csri.poeticon.praxicon.db.entities.RelationSet;
+import gr.csri.poeticon.praxicon.db.entities.Relations;
 import java.util.List;
+import static java.util.Objects.isNull;
 import javax.persistence.Query;
 
 /**
@@ -29,11 +33,110 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
      */
     @Override
     public RelationSet getRelationSet(RelationSet relationSet) {
+        /* Need to follow different strategy, since there could be numerous
+         Relations in a Relation Set:
+         1. Retrieve relations from provided relation set
+         2. Check if relations exist in DB.
+         2.1. If all of them exist, continue to step 3.
+         3. Check if they belong to a relation set.
+         3.1. If they do, check the rest of the relation set's characteristics
+         3.1.1. If they are the same, return the relation set
+         4. Return null
+         */
+        ConceptDao cDao = new ConceptDaoImpl();
+        RelationArgumentDao raDao = new RelationArgumentDaoImpl();
+        Concepts newConcepts = new Concepts();
+        Relations newRelations = new Relations();
+        RelationSet newRelationSet = new RelationSet();
+
+        RelationDao rDao = new RelationDaoImpl();
+        List<Relation> retrievedRelations = relationSet.getRelationsList();
+        for (Relation relation : retrievedRelations) {
+            System.out.println("Relation in Dao: " + relation);
+//            Relation newRelation = rDao.updatedRelation(relation);
+//            System.out.println("New Relation in Dao: " + newRelation);
+            // Check if relation arguments exist in database.
+            // Check left argument
+            RelationArgument leftArgument = relation.getLeftArgument();
+            RelationArgument newLeftArgument = new RelationArgument();
+            Concept newLeftConcept = new Concept();
+            Concept newRightConcept = new Concept();
+
+            if (leftArgument.isConcept()) {
+                Concept retrievedLeftConcept = cDao.getConcept(leftArgument.
+                        getConcept());
+                newLeftConcept = newConcepts.storeConcept(retrievedLeftConcept);
+                System.out.println("\n\nLeft Concept from getRelationSet: " +
+                        newLeftConcept + " with ID: " + newLeftConcept.getId() +
+                        "\n\n");
+
+                RelationArgument retrievedLeftArgument = raDao.
+                        getRelationArgument(newLeftConcept);
+                if (!isNull(retrievedLeftArgument)) {
+                    raDao.merge(retrievedLeftArgument);
+                    newLeftArgument = retrievedLeftArgument;
+                } else {
+                    raDao.persist(new RelationArgument(newLeftConcept));
+                    newLeftArgument = new RelationArgument(newLeftConcept);
+                }
+            } else if (leftArgument.isRelationSet()) {
+
+            }
+//            raDao.merge(newLeftArgument);
+
+            RelationArgument rightArgument = relation.getRightArgument();
+            RelationArgument newRightArgument = new RelationArgument();
+            if (rightArgument.isConcept()) {
+                Concept retrievedRightConcept = cDao.getConcept(rightArgument.
+                        getConcept());
+                newRightConcept = newConcepts.
+                        storeConcept(retrievedRightConcept);
+                System.out.println("\n\nRight Concept from getRelationSet: " +
+                        newRightConcept + " with ID: " + newRightConcept.getId() +
+                        "\n\n");
+
+                RelationArgument retrievedRightArgument = raDao.
+                        getRelationArgument(newRightConcept);
+                if (!isNull(retrievedRightArgument)) {
+                    raDao.merge(retrievedRightArgument);
+                    newRightArgument = retrievedRightArgument;
+                } else {
+                    raDao.persist(new RelationArgument(newRightConcept));
+                    newRightArgument = new RelationArgument(newRightConcept);
+                }
+            } else if (rightArgument.isRelationSet()) {
+
+            }
+//            raDao.merge(newRightArgument);
+            System.out.println("\n\nNew Left Concept: " + newLeftConcept);
+            System.out.println("\n\nNew Left Argument: " + newLeftArgument.
+                    getConcept());
+            System.out.println("\n\nNew Right Concept: " + newRightConcept);
+            System.out.println("\n\nNew Right Argument: " + newRightArgument.
+                    getConcept());
+
+            Relation myRelation = new Relation();
+            myRelation.setLeftArgument(newLeftArgument);
+            myRelation.setRightArgument(newRightArgument);
+            myRelation.setRelationType(relation.getRelationType());
+            myRelation.setLinguisticSupport(relation.
+                    getLinguisticallySupported());
+            myRelation.setInferred(relation.getInferred());
+
+            Relation newRelation = newRelations.storeRelation(myRelation);
+            newRelationSet.addRelation(newRelation);
+        }
+
         Query query = getEntityManager().createNamedQuery("findRelationSet").
                 setParameter("relationSet", relationSet);
-        List<RelationSet> relationSetsList = (List<RelationSet>)query.
-                getResultList();
+        System.out.println("\n\nRelation Set: ");
+        relationSet.getRelationsList().stream().forEach((relation) -> {
+            System.out.println("\n\nRelation: " + relation);
+        });
+
+        List<RelationSet> relationSetsList = query.getResultList();
         if (relationSetsList.isEmpty()) {
+            System.out.println("\n\nRelationSetList Empty!\n");
             return null;
         }
         return relationSetsList.get(0);
@@ -49,7 +152,6 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
     @Override
     public List<RelationSet> getRelationSetsByRelationArgument(
             RelationArgument relationArgument) {
-
         Query query = getEntityManager().createNamedQuery(
                 "findRelationSetsByRelationArgument").setParameter(
                         "relationArgument", relationArgument);

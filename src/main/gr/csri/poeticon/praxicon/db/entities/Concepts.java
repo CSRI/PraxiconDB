@@ -50,6 +50,8 @@ public class Concepts {
 
     /**
      * Stores a concept in the database checking if it already exists.
+     * @param concept
+     * @return a concept
      */
     public Concept storeConcept(Concept concept) {
         ConceptDao cDao = new ConceptDaoImpl();
@@ -95,9 +97,12 @@ public class Concepts {
         }
         // If Concept doesn't exist, add it
         if (retrievedConcept == null) {
-            cDao.merge(newConcept);
+            cDao.persist(newConcept);
+            System.out.println("\n\nNew Concept! \n\n");
             return newConcept;
         }
+        cDao.merge(retrievedConcept);
+        System.out.println("\n\nRetrieved Concept! \n\n");
         return retrievedConcept;
     }
 }

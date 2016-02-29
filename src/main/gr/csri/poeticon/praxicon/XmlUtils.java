@@ -287,10 +287,12 @@ public class XmlUtils {
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return 1;
         }
+//        catch (Exception e) {
+//            System.err.println(e.getMessage());
+//            System.err.println(e.getStackTrace()[1]);
+//            return 1;
+//        }
         return 0;
     }
 
