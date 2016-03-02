@@ -95,12 +95,6 @@ public class RelationSets {
                 newRelationSet.addVisualRepresentation(vr);
             }
         }
-
-        // I don't need to look for the Relation Set itself. I will look for
-        // the relations one by one and if they are part of some relation set.
-        // If the relation set is exactly the same, then I will merge, otherwise
-        // persist.
-
         rsDao.persist(newRelationSet);
         return newRelationSet;
     }

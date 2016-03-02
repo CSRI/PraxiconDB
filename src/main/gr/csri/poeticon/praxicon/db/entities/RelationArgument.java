@@ -72,8 +72,7 @@ public class RelationArgument implements Serializable {
     }
 
     /**
-     * Constructor #2. concept is given and relationSet is set to empty
-     * RelationSet.
+     * Constructor #2. concept is given and relationSet is set to null.
      *
      * @param concept
      */
@@ -83,7 +82,7 @@ public class RelationArgument implements Serializable {
     }
 
     /**
-     * Constructor #3. relationSet is given and concept is set to empty Concept.
+     * Constructor #3. relationSet is given and concept is set to null.
      *
      * @param relationSet
      */
@@ -104,7 +103,7 @@ public class RelationArgument implements Serializable {
             this.relationSet = null;
         }
         if (relationArgument.isRelationSet()) {
-            this.relationSet = relationSet;
+            this.relationSet = relationArgument.getRelationSet();
             this.concept = null;
         }
     }

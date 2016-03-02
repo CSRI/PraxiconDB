@@ -7,6 +7,7 @@ package gr.csri.poeticon.praxicon.db.entities;
 import gr.csri.poeticon.praxicon.db.dao.RelationTypeDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationTypeDaoImpl;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -208,7 +209,6 @@ public class Relation implements Serializable {
         this.linguisticallySupported = linguisticallySupported;
     }
 
-
     /**
      * @return whether the relation is inferred.
      */
@@ -256,6 +256,16 @@ public class Relation implements Serializable {
         this.comment = comment;
     }
 
+    public List<RelationSet> getRelationSets() {
+        List<RelationSet> relationSets = new ArrayList<>();
+        if (!relationSets.isEmpty()) {
+            for (RelationSet_Relation item : relationSet) {
+                relationSets.add(item.getRelationSet());
+            }
+        }
+        return relationSets;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -288,7 +298,7 @@ public class Relation implements Serializable {
         if (this.linguisticallySupported != other.linguisticallySupported) {
             return false;
         }
-        if (this.inferred != other.inferred){
+        if (this.inferred != other.inferred) {
             return false;
         }
         return true;

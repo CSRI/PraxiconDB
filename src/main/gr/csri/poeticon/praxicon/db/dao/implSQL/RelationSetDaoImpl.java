@@ -10,10 +10,14 @@ import gr.csri.poeticon.praxicon.db.dao.RelationDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationSetDao;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Concepts;
+import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
+import gr.csri.poeticon.praxicon.db.entities.MotoricRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import gr.csri.poeticon.praxicon.db.entities.RelationSet;
+import gr.csri.poeticon.praxicon.db.entities.RelationSets;
 import gr.csri.poeticon.praxicon.db.entities.Relations;
+import gr.csri.poeticon.praxicon.db.entities.VisualRepresentation;
 import java.util.List;
 import static java.util.Objects.isNull;
 import javax.persistence.Query;
@@ -44,13 +48,18 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
          4. Return null
          */
         ConceptDao cDao = new ConceptDaoImpl();
+        RelationDao rDao = new RelationDaoImpl();
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
+        RelationSetDao rsDao = new RelationSetDaoImpl();
         Concepts newConcepts = new Concepts();
         Relations newRelations = new Relations();
+        RelationSets newRelationSets = new RelationSets();
         RelationSet newRelationSet = new RelationSet();
 
-        RelationDao rDao = new RelationDaoImpl();
+        // 1. Retrieve relations from provided relation set
         List<Relation> retrievedRelations = relationSet.getRelationsList();
+
+        // 2. Check if relations exist in DB.
         for (Relation relation : retrievedRelations) {
             // Check if relation arguments exist in database.
             // Check left argument
@@ -58,6 +67,8 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
             RelationArgument newLeftArgument = new RelationArgument();
             Concept newLeftConcept = new Concept();
             Concept newRightConcept = new Concept();
+            RelationSet newLeftRelationSet = new RelationSet();
+            RelationSet newRightRelationSet = new RelationSet();
 
             if (leftArgument.isConcept()) {
                 Concept retrievedLeftConcept = cDao.getConcept(leftArgument.
@@ -69,13 +80,31 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
                     raDao.merge(retrievedLeftArgument);
                     newLeftArgument = retrievedLeftArgument;
                 } else {
-                    raDao.persist(new RelationArgument(newLeftConcept));
-                    newLeftArgument = new RelationArgument(newLeftConcept);
+
+                    RelationArgument newLeftRelationArgument =
+                            new RelationArgument(newLeftConcept);
+                    raDao.persist(newLeftRelationArgument);
+                    newLeftArgument = newLeftRelationArgument;
                 }
             } else if (leftArgument.isRelationSet()) {
-
+                RelationSet retrievedLeftRelationSet = rsDao.getRelationSet(
+                        leftArgument.getRelationSet());
+                newLeftRelationSet = newRelationSets.storeRelationSet(
+                        retrievedLeftRelationSet);
+                RelationArgument retrievedLeftArgument = raDao.
+                        getRelationArgument(retrievedLeftRelationSet);
+                if (!isNull(retrievedLeftArgument)) {
+                    raDao.merge(retrievedLeftArgument);
+                    newLeftArgument = retrievedLeftArgument;
+                } else {
+                    RelationArgument newLeftRelationArgument =
+                            new RelationArgument(newLeftRelationSet);
+                    raDao.persist(newLeftRelationArgument);
+                    newLeftArgument = newLeftRelationArgument;
+                }
             }
 
+            // Check right argument
             RelationArgument rightArgument = relation.getRightArgument();
             RelationArgument newRightArgument = new RelationArgument();
             if (rightArgument.isConcept()) {
@@ -89,11 +118,27 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
                     raDao.merge(retrievedRightArgument);
                     newRightArgument = retrievedRightArgument;
                 } else {
-                    raDao.persist(new RelationArgument(newRightConcept));
-                    newRightArgument = new RelationArgument(newRightConcept);
+                    RelationArgument newRightRelationArgument =
+                            new RelationArgument(newRightConcept);
+                    raDao.persist(newRightRelationArgument);
+                    newRightArgument = newRightRelationArgument;
                 }
             } else if (rightArgument.isRelationSet()) {
-
+                RelationSet retrievedRightRelationSet = rsDao.getRelationSet(
+                        rightArgument.getRelationSet());
+                newRightRelationSet = newRelationSets.storeRelationSet(
+                        retrievedRightRelationSet);
+                RelationArgument retrievedRightArgument = raDao.
+                        getRelationArgument(retrievedRightRelationSet);
+                if (!isNull(retrievedRightArgument)) {
+                    raDao.merge(retrievedRightArgument);
+                    newRightArgument = retrievedRightArgument;
+                } else {
+                    RelationArgument newRightRelationArgument =
+                            new RelationArgument(newRightRelationSet);
+                    raDao.persist(newRightRelationArgument);
+                    newRightArgument = newRightRelationArgument;
+                }
             }
 
             Relation myRelation = new Relation();
@@ -104,12 +149,44 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
                     getLinguisticallySupported());
             myRelation.setInferred(relation.getInferred());
 
-            Relation newRelation = newRelations.storeRelation(myRelation);
+            Relation newRelation;
+
+            // Check relation's existence in the database
+            Relation retrievedRelation = rDao.getRelation(newLeftArgument,
+                    newRightArgument, relation.getRelationType().
+                    getForwardName());
+            if (!isNull(retrievedRelation)) {
+                newRelation = newRelations.storeRelation(retrievedRelation);
+            } else {
+                newRelation = newRelations.storeRelation(myRelation);
+            }
             newRelationSet.addRelation(newRelation);
         }
 
+        newRelationSet.setName(relationSet.getName());
+        if (!isNull(relationSet.getLanguageRepresentations())) {
+            for (LanguageRepresentation lr : relationSet.
+                    getLanguageRepresentations()) {
+                newRelationSet.addLanguageRepresentation(lr);
+            }
+        }
+        if (!isNull(relationSet.getMotoricRepresentations())) {
+
+            for (MotoricRepresentation mr : relationSet.
+                    getMotoricRepresentations()) {
+                newRelationSet.addMotoricRepresentation(mr);
+            }
+        }
+        if (!isNull(relationSet.getVisualRepresentations())) {
+            for (VisualRepresentation vr : relationSet.
+                    getVisualRepresentations()) {
+                newRelationSet.addVisualRepresentation(vr);
+            }
+        }
+
+        rsDao.persist(newRelationSet);
         Query query = getEntityManager().createNamedQuery("findRelationSet").
-                setParameter("relationSet", relationSet);
+                setParameter("relationSet", newRelationSet);
         List<RelationSet> relationSetsList = query.getResultList();
         if (relationSetsList.isEmpty()) {
             return null;
