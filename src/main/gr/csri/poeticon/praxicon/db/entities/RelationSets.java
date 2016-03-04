@@ -45,8 +45,10 @@ public class RelationSets {
      */
     public void storeRelationSets() {
         if (!relationSets.isEmpty()) {
+            RelationSet newRelationSet = new RelationSet();
             for (RelationSet relationSet : relationSets) {
-                storeRelationSet(relationSet);
+                newRelationSet = storeRelationSet(relationSet);
+                System.out.println("Storing Relation Set: " + newRelationSet.toString());
             }
         }
     }
@@ -95,7 +97,15 @@ public class RelationSets {
                 newRelationSet.addVisualRepresentation(vr);
             }
         }
-        rsDao.persist(newRelationSet);
-        return newRelationSet;
+
+        RelationSet retrievedRelationSet = rsDao.getRelationSet(
+                newRelationSet);
+        if (!isNull(retrievedRelationSet)) {
+            rsDao.merge(retrievedRelationSet);
+            return retrievedRelationSet;
+        } else {
+            rsDao.persist(newRelationSet);
+            return newRelationSet;
+        }
     }
 }
