@@ -311,19 +311,17 @@ public class XmlUtils {
                 concepts.storeConcepts();
             }
 
+            List<RelationSets> listOfRelationSets = importedCollectionOfObjects.
+                    getRelationSets();
+            for (RelationSets relationSets : listOfRelationSets) {
+                relationSets.storeRelationSets();
+            }
+
             List<Relations> listOfRelations = importedCollectionOfObjects.
                     getRelations();
             for (Relations relations : listOfRelations) {
                 relations.storeRelations();
             }
-
-            List<RelationSets> listOfRelationSets = importedCollectionOfObjects.
-                    getRelationSets();
-
-            for (RelationSets relationSets : listOfRelationSets) {
-                relationSets.storeRelationSets();
-            }
-
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
