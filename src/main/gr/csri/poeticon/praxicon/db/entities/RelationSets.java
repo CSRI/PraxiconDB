@@ -45,8 +45,13 @@ public class RelationSets {
      */
     public void storeRelationSets() {
         if (!relationSets.isEmpty()) {
+            RelationSetDao rsDao = new RelationSetDaoImpl();
+            long rsetCount = relationSets.size();
+            long counter = 0;
             for (RelationSet relationSet : relationSets) {
                 storeRelationSet(relationSet);
+                rsDao.getEntityManager().clear();
+                System.out.println(++counter + " relset of " + rsetCount);
             }
         }
     }

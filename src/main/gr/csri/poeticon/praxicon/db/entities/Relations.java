@@ -50,10 +50,15 @@ public class Relations {
      */
     public void storeRelations() {
         if (!relations.isEmpty()) {
+            RelationDao rDao = new RelationDaoImpl();
+            long relCount = relations.size();
+            long counter = 0;            
             for (Relation relation : relations) {
                 System.out.println("\n\n\nStoring: " + relation.toString() +
                         "\n\n\n");
                 storeRelation(relation);
+                rDao.getEntityManager().clear();
+                System.out.println(++counter + " relation of " + relCount);
             }
         }
     }

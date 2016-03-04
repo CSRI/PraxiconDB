@@ -42,8 +42,10 @@ public class Concepts {
      */
     public void storeConcepts() {
         if (!concepts.isEmpty()) {
+            ConceptDao cDao = new ConceptDaoImpl();
             for (Concept concept : concepts) {
                 storeConcept(concept);
+                cDao.getEntityManager().clear();
             }
         }
     }
