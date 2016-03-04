@@ -50,10 +50,13 @@ public class Relations {
      */
     public void storeRelations() {
         if (!relations.isEmpty()) {
+            Relation newRelation = new Relation();
             for (Relation relation : relations) {
-                System.out.println("\n\n\nStoring: " + relation.toString() +
-                        "\n\n\n");
-                storeRelation(relation);
+                newRelation = storeRelation(relation);
+                if (!isNull(newRelation)) {
+                    System.out.println("Storing Relation: " + newRelation.
+                            toString());
+                }
             }
         }
     }
@@ -199,16 +202,26 @@ public class Relations {
         }
 
         // 2. Get relation type
-        RelationType relationType = new RelationType();
-        relationType = rtDao.getRelationTypeByForwardName(
+        RelationType retrievedRelationType = rtDao.getRelationTypeByForwardName(
                 relation.getRelationType().getForwardName());
-
+        RelationType relationType = new RelationType();
         // 2.1 & 2.2
-        if (relationType == null) {
-            relationType = relation.getRelationType();
-            rtDao.persist(relationType);
+        if (!isNull(retrievedRelationType)) {
+            rtDao.merge(retrievedRelationType);
+            relationType = retrievedRelationType;
         } else {
-            rtDao.merge(relationType);
+            RelationType newRelationType = relation.getRelationType();
+            for (RelationType.RelationNameForward rt
+                    : RelationType.RelationNameForward.values()) {
+                if (rt.equals(newRelationType.getForwardName())) {
+                    rtDao.persist(newRelationType);
+                    relationType = newRelationType;
+                } else {
+//                    System.err.println("Relation type " +
+//                            relation.getRelationType().getForwardNameString() +
+//                            " does not exist.");
+                }
+            }
         }
         Relation newRelation = new Relation();
         // 3. Check if related
@@ -224,8 +237,13 @@ public class Relations {
             Relation retrievedRelation = rDao.getRelation(
                     newLeftRelationArgument, newRightRelationArgument,
                     relationType.getForwardName());
-            rDao.merge(retrievedRelation);
-            return retrievedRelation;
+            // Check for existence
+            if (!isNull(retrievedRelation)) {
+                rDao.merge(retrievedRelation);
+                return retrievedRelation;
+            } else {
+                rDao.persist(newRelation);
+            }
         }
         return newRelation;
     }
