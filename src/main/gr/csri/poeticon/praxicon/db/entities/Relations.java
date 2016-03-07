@@ -157,6 +157,8 @@ public class Relations {
         newRelation.setLeftArgument(newLeftRelationArgument);
         newRelation.setRightArgument(newRightRelationArgument);
         newRelation.setRelationType(relationType);
+        newRelation.setInferred(relation.getInferred());
+        newRelation.setLinguisticSupport(relation.getLinguisticallySupported());
         if (!areRelated) {
             rDao.persist(newRelation);
             return newRelation;
