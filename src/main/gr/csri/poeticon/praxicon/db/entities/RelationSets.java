@@ -46,7 +46,7 @@ public class RelationSets {
     public void storeRelationSets() {
         if (!relationSets.isEmpty()) {
             RelationSetDao rsDao = new RelationSetDaoImpl();
-            RelationSet newRelationSet = new RelationSet();
+            RelationSet newRelationSet;
             for (RelationSet relationSet : relationSets) {
                 newRelationSet = storeRelationSet(relationSet);
                 rsDao.getEntityManager().clear();

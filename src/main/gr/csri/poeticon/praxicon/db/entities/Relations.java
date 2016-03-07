@@ -1,14 +1,8 @@
 package gr.csri.poeticon.praxicon.db.entities;
 
-import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
-import gr.csri.poeticon.praxicon.db.dao.RelationArgumentDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationDao;
-import gr.csri.poeticon.praxicon.db.dao.RelationSetDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationTypeDao;
-import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
-import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationArgumentDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
-import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationSetDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationTypeDaoImpl;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +45,7 @@ public class Relations {
     public void storeRelations() {
         if (!relations.isEmpty()) {
             RelationDao rDao = new RelationDaoImpl();
-            Relation newRelation = new Relation();
+            Relation newRelation;
             for (Relation relation : relations) {
                 newRelation = storeRelation(relation);
                 rDao.getEntityManager().clear();
@@ -84,30 +78,21 @@ public class Relations {
          3.1. If they are, don't do anything
          3.2. If they aren't, persist the relation
          */
-        RelationArgumentDao raDao = new RelationArgumentDaoImpl();
-        ConceptDao cDao = new ConceptDaoImpl();
-        RelationSetDao rsDao = new RelationSetDaoImpl();
         RelationTypeDao rtDao = new RelationTypeDaoImpl();
         RelationDao rDao = new RelationDaoImpl();
-        RelationArgument leftArgument = new RelationArgument();
-        RelationArgument rightArgument = new RelationArgument();
-        RelationArgument retrievedLeftRelationArgument = new RelationArgument();
-        RelationArgument retrievedRightRelationArgument = new RelationArgument();
-        RelationArgument newLeftRelationArgument = new RelationArgument();
-        RelationArgument newRightRelationArgument = new RelationArgument();
+        RelationArgument newLeftRelationArgument;
+        RelationArgument newRightRelationArgument;
         RelationSet leftRelationSet;
         RelationSet rightRelationSet;
-        RelationSet retrievedLeftRelationSet = new RelationSet();
-        RelationSet retrievedRightRelationSet = new RelationSet();
-        RelationSet newLeftRelationSet = new RelationSet();
-        RelationSet newRightRelationSet = new RelationSet();
+        RelationSet retrievedLeftRelationSet;
+        RelationSet retrievedRightRelationSet;
         Concepts newConceptsObject = new Concepts();
         RelationArguments newRelationArgumentsObject = new RelationArguments();
         RelationSets newRelationSetsObject = new RelationSets();
-        Concept newLeftConcept = new Concept();
-        Concept newRightConcept = new Concept();
-        Concept leftConcept = new Concept();
-        Concept rightConcept = new Concept();
+        Concept newLeftConcept;
+        Concept newRightConcept;
+        Concept leftConcept;
+        Concept rightConcept;
         boolean isConcept;
 
         // 1.1. If it is a concept, find it.
@@ -118,7 +103,6 @@ public class Relations {
             newLeftRelationArgument = newRelationArgumentsObject.
                     storeRelationArgument(new RelationArgument(newLeftConcept));
         } else {
-
             leftRelationSet = relation.getLeftArgument().
                     getRelationSet();
             retrievedLeftRelationSet = newRelationSetsObject.storeRelationSet(
@@ -132,26 +116,11 @@ public class Relations {
         isConcept = relation.getRightArgument().isConcept();
         if (isConcept) {
             rightConcept = relation.getRightArgument().getConcept();
-            Concept retrievedRightConcept = cDao.getConcept(rightConcept);
-            if (!isNull(retrievedRightConcept)) {
-                // 1.1.1. If the concept exists
-                cDao.merge(retrievedRightConcept);
-                retrievedRightRelationArgument = raDao.getRelationArgument(
-                        retrievedRightConcept);
-                if (!isNull(retrievedRightRelationArgument)) {
-                    newRightRelationArgument = retrievedRightRelationArgument;
-                    raDao.merge(newRightRelationArgument);
-                } else {
-                    newRightRelationArgument =
-                            new RelationArgument(retrievedRightConcept);
-                    raDao.persist(newRightRelationArgument);
-                }
-            } else {
-                cDao.persist(rightConcept);
-                newRightRelationArgument = new RelationArgument(rightConcept);
-                raDao.persist(newRightRelationArgument);
-            }
-        } else if (relation.getRightArgument().isRelationSet()) {
+            newRightConcept = newConceptsObject.storeConcept(rightConcept);
+            newRightRelationArgument = newRelationArgumentsObject.
+                    storeRelationArgument(
+                            new RelationArgument(newRightConcept));
+        } else {
             rightRelationSet = relation.getRightArgument().
                     getRelationSet();
             retrievedRightRelationSet = newRelationSetsObject.storeRelationSet(

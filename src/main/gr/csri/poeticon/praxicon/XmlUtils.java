@@ -41,9 +41,8 @@ public class XmlUtils {
      */
     public static void exportConceptsToXML(List<Concept> conceptsList,
             String xmlFileName) {
-
         Concepts concepts = new Concepts();
-        concepts.setConcepts(new ArrayList<Concept>());
+        concepts.setConcepts(new ArrayList<>());
 
         try {
             /*
@@ -53,11 +52,9 @@ public class XmlUtils {
              */
             EntityManager em = getEntityManager();
             Session session = em.unwrap(org.hibernate.Session.class);
-
             JAXBContext jaxbContext = JAXBContext.newInstance(Concepts.class);
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
             for (Concept item : conceptsList) {
                 if (!session.contains(item)) {
                     session.update(item);
@@ -67,7 +64,6 @@ public class XmlUtils {
 
             // Export concepts to the xml file
             marshaller.marshal(concepts, new File(xmlFileName));
-
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
@@ -95,7 +91,6 @@ public class XmlUtils {
              */
             EntityManager em = getEntityManager();
             Session session = em.unwrap(org.hibernate.Session.class);
-
             JAXBContext jaxbContext = JAXBContext.newInstance(Relations.class);
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -106,12 +101,10 @@ public class XmlUtils {
                 }
                 relations.getRelations().add(item);
             }
-
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
             // Export concepts to the xml file
             marshaller.marshal(relations, new File(xmlFileName));
-
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
@@ -129,7 +122,7 @@ public class XmlUtils {
             List<RelationSet> relationSetsList, String xmlFileName) {
 
         RelationSets relationSets = new RelationSets();
-        relationSets.setRelationSets(new ArrayList<RelationSet>());
+        relationSets.setRelationSets(new ArrayList<>());
 
         try {
             /*
@@ -139,7 +132,6 @@ public class XmlUtils {
              */
             EntityManager em = getEntityManager();
             Session session = em.unwrap(org.hibernate.Session.class);
-
             JAXBContext jaxbContext = JAXBContext.
                     newInstance(RelationSets.class);
             Marshaller marshaller = jaxbContext.createMarshaller();
@@ -151,12 +143,10 @@ public class XmlUtils {
                 }
                 relationSets.getRelationSets().add(item);
             }
-
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
             // Export relation sets to the xml file
             marshaller.marshal(relationSets, new File(xmlFileName));
-
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
@@ -175,14 +165,13 @@ public class XmlUtils {
     public static void exportAllObjectsToXML(List<RelationSet> relationSetsList,
             List<Concept> conceptsList, List<Relation> relationsList,
             String xmlFileName) {
-
         CollectionOfObjects collectionOfObjects = new CollectionOfObjects();
         RelationSets relationSets = new RelationSets();
         Concepts concepts = new Concepts();
         Relations relations = new Relations();
-        relationSets.setRelationSets(new ArrayList<RelationSet>());
-        concepts.setConcepts(new ArrayList<Concept>());
-        relations.setRelations(new ArrayList<Relation>());
+        relationSets.setRelationSets(new ArrayList<>());
+        concepts.setConcepts(new ArrayList<>());
+        relations.setRelations(new ArrayList<>());
 
         try {
             /*
@@ -192,7 +181,6 @@ public class XmlUtils {
              */
             EntityManager em = getEntityManager();
             Session session = em.unwrap(org.hibernate.Session.class);
-
             JAXBContext jaxbContext = JAXBContext.
                     newInstance(CollectionOfObjects.class);
             Marshaller marshaller = jaxbContext.createMarshaller();
@@ -237,11 +225,9 @@ public class XmlUtils {
             JAXBContext jaxbContext = JAXBContext.newInstance(Concepts.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             File xmlFile = new File(fullPathFileName);
-
             Concepts importedConcepts =
                     (Concepts)jaxbUnmarshaller.unmarshal(xmlFile);
             importedConcepts.storeConcepts();
-
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
@@ -258,11 +244,9 @@ public class XmlUtils {
                     newInstance(Relations.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             File xmlFile = new File(fullPathFileName);
-
-            Relations importedRelations = (Relations)jaxbUnmarshaller.
+            Relations importedRelations = (Relations) jaxbUnmarshaller.
                     unmarshal(xmlFile);
             importedRelations.storeRelations();
-
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
@@ -279,20 +263,16 @@ public class XmlUtils {
                     newInstance(RelationSets.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             File xmlFile = new File(fullPathFileName);
-
-            RelationSets importedRelationSets = (RelationSets)jaxbUnmarshaller.
+            RelationSets importedRelationSets = (RelationSets) jaxbUnmarshaller.
                     unmarshal(xmlFile);
             importedRelationSets.storeRelationSets();
-
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return 1;
         }
-//        catch (Exception e) {
-//            System.err.println(e.getMessage());
-//            System.err.println(e.getStackTrace()[1]);
-//            return 1;
-//        }
         return 0;
     }
 
@@ -303,8 +283,7 @@ public class XmlUtils {
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             File xmlFile = new File(fullPathFileName);
             CollectionOfObjects importedCollectionOfObjects =
-                    (CollectionOfObjects)jaxbUnmarshaller.unmarshal(xmlFile);
-
+                    (CollectionOfObjects) jaxbUnmarshaller.unmarshal(xmlFile);
             List<Concepts> listOfConcepts = importedCollectionOfObjects.
                     getConcepts();
             for (Concepts concepts : listOfConcepts) {
@@ -325,12 +304,10 @@ public class XmlUtils {
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return 1;
         }
-//        catch (Exception e) {
-//            System.err.println(e.getMessage());
-//            System.err.println(e);
-//            return 1;
-//        }
         return 0;
     }
 

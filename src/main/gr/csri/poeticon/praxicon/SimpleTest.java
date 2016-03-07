@@ -51,19 +51,10 @@ public class SimpleTest {
 
     public static void main(String args[]) {
 
-//        // Get the OS to set the clear command.
-//        String os = System.getProperty("os.name");
         Scanner user_input = new Scanner(System.in);
         String test_choice = "a";
 
         while (test_choice != "q") {
-//            if (test_choice != "a") {
-//                System.out.println("\n\nPress Enter to continue...");
-//                try {
-//                    System.in.read();
-//                } catch (Exception e) {
-//                }
-//            }
             for (int i = 0; i < 50; ++i) {
                 System.out.println();
             }
@@ -423,11 +414,6 @@ public class SimpleTest {
     }
 
     public static void ImportXmlFromFixtures() {
-        /*
-         Currently commented-out all import tests.
-         User can uncomment accordingly.
-         */
-
         Scanner userInput = new Scanner(System.in);
         String testChoice = "a";
 
@@ -474,11 +460,6 @@ public class SimpleTest {
     }
 
     public static void ImportXmlFromFile() {
-        /*
-         Currently commented-out all import tests.
-         User can uncomment accordingly.
-         */
-
         Scanner userInput = new Scanner(System.in);
         Scanner fileInput = new Scanner(System.in);
         String testChoice = "a";

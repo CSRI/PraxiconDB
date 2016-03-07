@@ -50,12 +50,12 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("productivity", productivity).
                 setParameter("negation", negation).
                 setParameter("operator", operator);
-        List<LanguageRepresentation> languageRepresentationList =
+        List<LanguageRepresentation> retrievedLanguageRepresentationList =
                 (List<LanguageRepresentation>)query.getResultList();
-        if (languageRepresentationList.isEmpty()) {
+        if (retrievedLanguageRepresentationList.isEmpty()) {
             return null;
         }
-        return languageRepresentationList.get(0);
+        return retrievedLanguageRepresentationList.get(0);
     }
 
     /**
@@ -79,10 +79,10 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("language", language).
                 setParameter("pos", pos).
                 setParameter("useStatus", useStatus);
-        List<LanguageRepresentation> languageRepresentationList = query.
+        List<LanguageRepresentation> retrievedLanguageRepresentationList = query.
                 getResultList();
-        if (languageRepresentationList.size() > 0) {
-            return languageRepresentationList;
+        if (retrievedLanguageRepresentationList.size() > 0) {
+            return retrievedLanguageRepresentationList;
         } else {
             return null;
         }
@@ -127,10 +127,10 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("language", language).
                 setParameter("pos", pos).
                 setParameter("useStatus", useStatus);
-        List<LanguageRepresentation> languageRepresentationList = query.
+        List<LanguageRepresentation> retrievedLanguageRepresentationList = query.
                 getResultList();
-        if (languageRepresentationList.size() > 0) {
-            return languageRepresentationList.get(0);
+        if (retrievedLanguageRepresentationList.size() > 0) {
+            return retrievedLanguageRepresentationList.get(0);
         } else {
             return null;
         }

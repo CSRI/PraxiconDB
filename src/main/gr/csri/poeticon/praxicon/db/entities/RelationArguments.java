@@ -46,7 +46,7 @@ public class RelationArguments {
     public void storeRelationArguments() {
         if (!relationArguments.isEmpty()) {
             RelationArgumentDao rsDao = new RelationArgumentDaoImpl();
-            RelationArgument newRelationArgument = new RelationArgument();
+            RelationArgument newRelationArgument;
             for (RelationArgument relationArgument : relationArguments) {
                 newRelationArgument = storeRelationArgument(relationArgument);
                 rsDao.getEntityManager().clear();

@@ -30,13 +30,13 @@ public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument>
         Query query = getEntityManager().createNamedQuery(
                 "findRelationArgumentByConcept").
                 setParameter("concept", concept);
-        List<RelationArgument> relationArgumentsList =
+        List<RelationArgument> retrievedRelationArgumentsList =
                 (List<RelationArgument>)query.getResultList();
-        if (relationArgumentsList.isEmpty()) {
+        if (retrievedRelationArgumentsList.isEmpty()) {
             return null;
         }
-//        System.out.println("relationArgumentList --> " + relationArgumentsList.get(0));
-        return relationArgumentsList.get(0);
+//        System.out.println("relationArgumentList --> " + retrievedRelationArgumentsList.get(0));
+        return retrievedRelationArgumentsList.get(0);
     }
 
     /**
@@ -51,11 +51,11 @@ public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument>
         Query query = getEntityManager().createNamedQuery(
                 "findRelationArgumentByRelationSet").
                 setParameter("relationSet", relationSet);
-        List<RelationArgument> relationArgumentsList =
+        List<RelationArgument> retrievedRelationArgumentsList =
                 (List<RelationArgument>)query.getResultList();
-        if (relationArgumentsList.isEmpty()) {
+        if (retrievedRelationArgumentsList.isEmpty()) {
             return null;
         }
-        return relationArgumentsList.get(0);
+        return retrievedRelationArgumentsList.get(0);
     }
 }

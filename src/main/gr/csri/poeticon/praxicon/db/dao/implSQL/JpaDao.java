@@ -155,7 +155,6 @@ public abstract class JpaDao<K, E> implements Dao<K, E> {
     public void close() {
         if (entityManager != null) {
             entityManager.close();
-
         }
     }
 

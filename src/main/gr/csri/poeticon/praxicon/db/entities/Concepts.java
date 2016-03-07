@@ -104,7 +104,6 @@ public class Concepts {
             return newConcept;
         }
         cDao.merge(retrievedConcept);
-//        cDao.getEntityManager().clear();
         return retrievedConcept;
     }
 }

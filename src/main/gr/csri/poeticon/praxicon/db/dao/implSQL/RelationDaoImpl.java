@@ -40,11 +40,12 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
                 setParameter("leftRelationArgument", leftArgument).
                 setParameter("rightRelationArgument", rightArgument).
                 setParameter("relationType", relationType);
-        List<Relation> relationsList = (List<Relation>)query.getResultList();
-        if (relationsList.isEmpty()) {
+        List<Relation> retrievedRelationsList = (List<Relation>)query.
+                getResultList();
+        if (retrievedRelationsList.isEmpty()) {
             return null;
         }
-        return relationsList.get(0);
+        return retrievedRelationsList.get(0);
     }
 
     /**
@@ -63,11 +64,12 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
                         getRightArgument()).
                 setParameter("relationType", relation.getRelationType().
                         getForwardName());
-        List<Relation> relationsList = (List<Relation>)query.getResultList();
-        if (relationsList.isEmpty()) {
+        List<Relation> retrievedRelationsList = (List<Relation>)query.
+                getResultList();
+        if (retrievedRelationsList.isEmpty()) {
             return null;
         }
-        return relationsList.get(0);
+        return retrievedRelationsList.get(0);
     }
 
     /**
@@ -175,9 +177,9 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByRelationType").
                 setParameter("relationType", relationType);
-        List<Relation> relations = new ArrayList<>();
-        relations = (List<Relation>)query.getResultList();
-        return relations;
+        List<Relation> retrievedRelationsList = new ArrayList<>();
+        retrievedRelationsList = (List<Relation>)query.getResultList();
+        return retrievedRelationsList;
     }
 
     /**
@@ -193,8 +195,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByRelationArgumentRightArgumentOrLeftArgument").
                 setParameter("relationArgument", relationArgument);
-        List<Relation> relationsList = query.getResultList();
-        return relationsList;
+        List<Relation> retrievedRelationsList = query.getResultList();
+        return retrievedRelationsList;
     }
 
     /**
@@ -210,8 +212,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         Query query = getEntityManager().createNamedQuery("areRelated").
                 setParameter("relationArgument1", relationArgument1).
                 setParameter("relationArgument2", relationArgument2);
-        List<Relation> relationsList = query.getResultList();
-        return relationsList.size() > 0;
+        List<Relation> retrievedRelationsList = query.getResultList();
+        return retrievedRelationsList.size() > 0;
     }
 
     /**
