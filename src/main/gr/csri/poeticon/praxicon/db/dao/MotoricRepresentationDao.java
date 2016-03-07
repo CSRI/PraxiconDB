@@ -14,6 +14,7 @@ import javax.persistence.Query;
 public interface MotoricRepresentationDao extends
         Dao<Long, MotoricRepresentation> {
 
+    @Override
     Query getEntityQuery(MotoricRepresentation motoricRepresentation);
 
 }
