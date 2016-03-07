@@ -348,6 +348,7 @@ public class Concept implements Serializable {
         languageRepresentations = new ArrayList<>();
         visualRepresentations = new ArrayList<>();
         motoricRepresentations = new ArrayList<>();
+        ontologicalDomains = new ArrayList<>();
     }
 
     /**
@@ -371,6 +372,7 @@ public class Concept implements Serializable {
         this.languageRepresentations = new ArrayList<>();
         this.visualRepresentations = new ArrayList<>();
         this.motoricRepresentations = new ArrayList<>();
+        this.ontologicalDomains = new ArrayList<>();
 
         if (keepLanguageRepresentation) {
             for (LanguageRepresentation lr : newConcept.
@@ -401,6 +403,14 @@ public class Concept implements Serializable {
                         tmpMotoricRepresentation)) {
                     this.getMotoricRepresentations().add(
                             tmpMotoricRepresentation);
+                }
+            }
+        }
+
+        if (!newConcept.getOntologicalDomains().isEmpty()) {
+            for (OntologicalDomain od : newConcept.getOntologicalDomains()) {
+                if (!this.getOntologicalDomains().contains(od)) {
+                    this.getOntologicalDomains().add(od);
                 }
             }
         }
@@ -664,6 +674,14 @@ public class Concept implements Serializable {
      */
     public void setOntologicalDomains(List<OntologicalDomain> ontologicalDomains) {
         this.ontologicalDomains = ontologicalDomains;
+    }
+
+    /**
+     * Adds an ontological domain to the concept.
+     * 
+     */
+    void addOntologicalDomain(OntologicalDomain ontologicalDomain) {
+        this.ontologicalDomains.add(ontologicalDomain);
     }
 
     /**
