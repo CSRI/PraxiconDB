@@ -64,12 +64,6 @@ public class Relations {
     }
 
     public Relation storeRelation(Relation relation) {
-        RelationArgumentDao raDao = new RelationArgumentDaoImpl();
-        ConceptDao cDao = new ConceptDaoImpl();
-        RelationSetDao rsDao = new RelationSetDaoImpl();
-        RelationTypeDao rtDao = new RelationTypeDaoImpl();
-        RelationDao rDao = new RelationDaoImpl();
-
         /*
          Analyze relation:
          1. Get left and right argument and check if they exist in the DB.
@@ -90,7 +84,11 @@ public class Relations {
          3.1. If they are, don't do anything
          3.2. If they aren't, persist the relation
          */
-        // 1. Get left & right argument
+        RelationArgumentDao raDao = new RelationArgumentDaoImpl();
+        ConceptDao cDao = new ConceptDaoImpl();
+        RelationSetDao rsDao = new RelationSetDaoImpl();
+        RelationTypeDao rtDao = new RelationTypeDaoImpl();
+        RelationDao rDao = new RelationDaoImpl();
         RelationArgument leftArgument = new RelationArgument();
         RelationArgument rightArgument = new RelationArgument();
         RelationArgument retrievedLeftRelationArgument = new RelationArgument();
@@ -119,27 +117,6 @@ public class Relations {
             newLeftConcept = newConceptsObject.storeConcept(leftConcept);
             newLeftRelationArgument = newRelationArgumentsObject.
                     storeRelationArgument(new RelationArgument(newLeftConcept));
-
-//            Concept retrievedLeftConcept = cDao.getConcept(leftConcept);
-//            if (!isNull(retrievedLeftConcept)) {
-//                // 1.1.1. If the concept exists
-//                cDao.merge(retrievedLeftConcept);
-//                retrievedLeftRelationArgument = raDao.getRelationArgument(
-//                        retrievedLeftConcept);
-//                if (!isNull(retrievedLeftRelationArgument)) {
-//                    newLeftRelationArgument = retrievedLeftRelationArgument;
-//                    raDao.merge(newLeftRelationArgument);
-//                } else {
-////                    cDao.persist(leftConcept);
-//                    newLeftRelationArgument = new RelationArgument(
-//                            retrievedLeftConcept);
-//                    raDao.persist(newLeftRelationArgument);
-//                }
-//            } else {
-//                cDao.persist(leftConcept);
-//                newLeftRelationArgument = new RelationArgument(leftConcept);
-//                raDao.persist(newLeftRelationArgument);
-//            }
         } else {
 
             leftRelationSet = relation.getLeftArgument().
@@ -150,39 +127,6 @@ public class Relations {
                     retrievedLeftRelationSet);
             newLeftRelationArgument = newRelationArgumentsObject.
                     storeRelationArgument(leftRelationArgument);
-
-
-//            leftRelationSet = relation.getLeftArgument().getRelationSet();
-//            newLeftRelationSet = newRelationSetsObject.storeRelationSet(
-//                    leftRelationSet);
-//            newLeftRelationArgument = newRelationArgumentsObject.
-//                    storeRelationArgument(new RelationArgument(
-//                                    newLeftRelationSet));
-
-//            retrievedLeftRelationSet = rsDao.getRelationSet(
-            //                    leftRelationSet);
-            //            if (!isNull(retrievedLeftRelationSet)) {
-            //                rsDao.merge(retrievedLeftRelationSet);
-            //                retrievedLeftRelationArgument = raDao.getRelationArgument(
-            //                        retrievedLeftRelationSet);
-            //                if (!isNull(retrievedLeftRelationArgument)) {
-            //                    newLeftRelationArgument = retrievedLeftRelationArgument;
-            //                    raDao.merge(newLeftRelationArgument);
-            //                } else {
-            //                    newLeftRelationArgument = new RelationArgument(
-            //                            retrievedLeftRelationSet);
-            //                    raDao.persist(newLeftRelationArgument);
-            //                }
-            //            } else {
-            //                rsDao.persist(leftRelationSet);
-            //                newLeftRelationArgument =
-            //                        new RelationArgument(leftRelationSet);
-            //                raDao.persist(newLeftRelationArgument);
-            //            }
-//            RelationSets newRelationSetsObject = new RelationSets();
-//            RelationSet newRelationSet = newRelationSetsObject.storeRelationSet(
-//                    leftRelationSet);
-//            newLeftRelationArgument = new RelationArgument(newRelationSet);
         }
 
         isConcept = relation.getRightArgument().isConcept();
@@ -216,27 +160,6 @@ public class Relations {
                     retrievedRightRelationSet);
             newRightRelationArgument = newRelationArgumentsObject.
                     storeRelationArgument(rightRelationArgument);
-
-            //            retrievedRightRelationSet = rsDao.getRelationSet(
-            //                    rightRelationSet);
-            //            if (!isNull(retrievedRightRelationSet)) {
-            //                rsDao.merge(retrievedRightRelationSet);
-            //                retrievedRightRelationArgument = raDao.getRelationArgument(
-            //                        retrievedRightRelationSet);
-            //                if (!isNull(retrievedRightRelationArgument)) {
-            //                    newRightRelationArgument = retrievedRightRelationArgument;
-            //                    raDao.merge(newRightRelationArgument);
-            //                } else {
-            //                    newRightRelationArgument = new RelationArgument(
-            //                            retrievedRightRelationSet);
-            //                    raDao.persist(newRightRelationArgument);
-            //                }
-            //            } else {
-            //                rsDao.persist(rightRelationSet);
-            //                newRightRelationArgument =
-            //                        new RelationArgument(rightRelationSet);
-            //                raDao.persist(newRightRelationArgument);
-            //            }
         }
 
         // 2. Get relation type
@@ -255,11 +178,6 @@ public class Relations {
                     rtDao.persist(newRelationType);
                     relationType = newRelationType;
                 }
-//                else {
-//                    System.err.println("Relation type " +
-//                            relation.getRelationType().getForwardNameString() +
-//                            " does not exist.");
-//                }
             }
         }
         Relation newRelation = new Relation();
@@ -286,8 +204,6 @@ public class Relations {
                 return newRelation;
             }
         }
-//        rDao.getEntityManager().clear();
-
     }
 
 }

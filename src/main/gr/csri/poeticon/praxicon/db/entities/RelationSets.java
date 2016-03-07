@@ -104,11 +104,9 @@ public class RelationSets {
                 newRelationSet);
         if (!isNull(retrievedRelationSet)) {
             rsDao.merge(retrievedRelationSet);
-//            rsDao.getEntityManager().clear();
             return retrievedRelationSet;
         } else {
             rsDao.persist(newRelationSet);
-//            rsDao.getEntityManager().clear();
             return newRelationSet;
         }
     }
