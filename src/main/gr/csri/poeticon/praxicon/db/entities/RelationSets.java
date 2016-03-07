@@ -45,9 +45,11 @@ public class RelationSets {
      */
     public void storeRelationSets() {
         if (!relationSets.isEmpty()) {
+            RelationSetDao rsDao = new RelationSetDaoImpl();
             RelationSet newRelationSet = new RelationSet();
             for (RelationSet relationSet : relationSets) {
                 newRelationSet = storeRelationSet(relationSet);
+                rsDao.getEntityManager().clear();
                 System.out.println("Storing Relation Set: " + newRelationSet.toString());
             }
         }
@@ -102,9 +104,11 @@ public class RelationSets {
                 newRelationSet);
         if (!isNull(retrievedRelationSet)) {
             rsDao.merge(retrievedRelationSet);
+//            rsDao.getEntityManager().clear();
             return retrievedRelationSet;
         } else {
             rsDao.persist(newRelationSet);
+//            rsDao.getEntityManager().clear();
             return newRelationSet;
         }
     }

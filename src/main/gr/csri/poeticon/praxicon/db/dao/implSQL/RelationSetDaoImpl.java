@@ -65,6 +65,8 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
             // Check left argument
             RelationArgument leftArgument = relation.getLeftArgument();
             RelationArgument newLeftArgument = new RelationArgument();
+            RelationArgument rightArgument = relation.getRightArgument();
+            RelationArgument newRightArgument = new RelationArgument();
             Concept newLeftConcept = new Concept();
             Concept newRightConcept = new Concept();
             RelationSet newLeftRelationSet = new RelationSet();
@@ -105,8 +107,6 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
             }
 
             // Check right argument
-            RelationArgument rightArgument = relation.getRightArgument();
-            RelationArgument newRightArgument = new RelationArgument();
             if (rightArgument.isConcept()) {
                 Concept retrievedRightConcept = cDao.getConcept(rightArgument.
                         getConcept());

@@ -42,8 +42,11 @@ public class Concepts {
      */
     public void storeConcepts() {
         if (!concepts.isEmpty()) {
+            ConceptDao cDao = new ConceptDaoImpl();
             for (Concept concept : concepts) {
                 storeConcept(concept);
+                cDao.getEntityManager().clear();
+                System.out.println("Storing Concept: " + concept.toString());
             }
         }
     }
@@ -101,6 +104,7 @@ public class Concepts {
             return newConcept;
         }
         cDao.merge(retrievedConcept);
+//        cDao.getEntityManager().clear();
         return retrievedConcept;
     }
 }
