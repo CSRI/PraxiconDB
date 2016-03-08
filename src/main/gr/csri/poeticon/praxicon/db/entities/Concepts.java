@@ -53,6 +53,7 @@ public class Concepts {
 
     /**
      * Stores a concept in the database checking if it already exists.
+     *
      * @param concept
      * @return a concept
      */
@@ -61,7 +62,7 @@ public class Concepts {
         Concept oldConcept = new Concept(concept, false, false, false);
 
         Concept retrievedConcept = cDao.getConcept(concept);
-        Concept newConcept = new Concept();
+        Concept newConcept;
         // If concept does not exist in the database, store it.
         if (retrievedConcept != null) {
             // Create a new concept without the language representation info
@@ -69,35 +70,60 @@ public class Concepts {
         } else {
             newConcept = oldConcept;
         }
+
         // For each language representation, find it in the DB.
         // If it exists, attach it to the concept.
         // If it doesn't exist, create it.
         LanguageRepresentationDao lrDao =
                 new LanguageRepresentationDaoImpl();
-        for (LanguageRepresentation languageRepresentation
-                : concept.getLanguageRepresentations()) {
-            LanguageRepresentation retrievedLanguageRepresentation =
-                    lrDao.getSingleLanguageRepresentation(
-                            languageRepresentation.getLanguage(),
-                            languageRepresentation.getText(),
-                            languageRepresentation.getPartOfSpeech(),
-                            languageRepresentation.getUseStatus(),
-                            languageRepresentation.getProductivity(),
-                            languageRepresentation.getNegation(),
-                            languageRepresentation.getOperator());
-            // if Language Representation exists add the retrieved,
-            // otherwise, add the new one.
-            if (retrievedLanguageRepresentation != null) {
-                newConcept.addLanguageRepresentation(
-                        retrievedLanguageRepresentation,
-                        retrievedLanguageRepresentation.
-                        getIsRepresentative(newConcept));
-            } else {
-                newConcept.addLanguageRepresentation(
-                        new LanguageRepresentation(
-                                languageRepresentation), true);
+
+        if (!concept.getLanguageRepresentations().isEmpty()) {
+            for (LanguageRepresentation languageRepresentation
+                    : concept.getLanguageRepresentations()) {
+                LanguageRepresentation retrievedLanguageRepresentation =
+                        lrDao.getSingleLanguageRepresentation(
+                                languageRepresentation.getLanguage(),
+                                languageRepresentation.getText(),
+                                languageRepresentation.getPartOfSpeech(),
+                                languageRepresentation.getUseStatus(),
+                                languageRepresentation.getProductivity(),
+                                languageRepresentation.getNegation(),
+                                languageRepresentation.getOperator());
+                // if Language Representation exists add the retrieved,
+                // otherwise, add the new one.
+                if (retrievedLanguageRepresentation != null) {
+                    newConcept.addLanguageRepresentation(
+                            retrievedLanguageRepresentation,
+                            retrievedLanguageRepresentation.
+                            getIsRepresentative(newConcept));
+                } else {
+                    newConcept.addLanguageRepresentation(
+                            new LanguageRepresentation(
+                                    languageRepresentation), true);
+                }
             }
         }
+
+        // If Motoric representations exist, add them to new concept
+        if (!concept.getMotoricRepresentations().isEmpty()) {
+            for (MotoricRepresentation mr : concept.getMotoricRepresentations()) {
+                newConcept.addMotoricRepresentation(mr);
+            }
+        }
+
+        // If Visual representations exist, add them to new concept
+        if (!concept.getVisualRepresentations().isEmpty()) {
+            for (VisualRepresentation vr : concept.getVisualRepresentations()) {
+                newConcept.addVisualRepresentation(vr);
+            }
+        }
+
+        if (!concept.getOntologicalDomains().isEmpty()) {
+            for (OntologicalDomain od : concept.getOntologicalDomains()) {
+                newConcept.addOntologicalDomain(od);
+            }
+        }
+        
         // If Concept doesn't exist, add it
         if (retrievedConcept == null) {
             cDao.persist(newConcept);
