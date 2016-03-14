@@ -135,7 +135,7 @@ public class RelationSet implements Serializable {
 
     public RelationSet(RelationSet newRelationSet) {
         this.name = newRelationSet.getName();
-        
+
 
     }
 
@@ -225,7 +225,7 @@ public class RelationSet implements Serializable {
      *
      * @return a list strings containing the names of language representation
      */
-    public List<String> getLanguageRepresentationNames() {
+    public List<String> getLanguageRepresentationsNames() {
         List<String> languageRepresentationNames = new ArrayList<>();
         for (LanguageRepresentation languageRepresentation
                 : languageRepresentations) {
