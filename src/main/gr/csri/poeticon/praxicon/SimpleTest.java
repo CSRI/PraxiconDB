@@ -492,7 +492,7 @@ public class SimpleTest {
                         System.out.println("Imported from Concepts XML file");
                     } else if (result == 1) {
                         System.err.println(
-                                "Could not import from provided file.");
+                                "Could not import all Concepts from provided file.");
                     }
                     continue;
                 case "2":
@@ -505,7 +505,7 @@ public class SimpleTest {
                         System.out.println("Imported from Relations XML file");
                     } else if (result == 1) {
                         System.err.println(
-                                "Could not import from provided file.");
+                                "Could not import all Relations from provided file.");
                     }
                     continue;
                 case "3":
@@ -516,10 +516,10 @@ public class SimpleTest {
                     result = XmlUtils.importRelationSetsFromXml(fileName);
                     if (result == 0) {
                         System.out.
-                                println("Imported from RelationSets XML file");
+                                println("Imported from Relation Sets XML file");
                     } else if (result == 1) {
                         System.err.println(
-                                "Could not import from provided file.");
+                                "Could not import Relation Sets from provided file.");
                     }
                     continue;
                 case "4":
@@ -529,10 +529,10 @@ public class SimpleTest {
                     fileName = fileInput.next();
                     result = XmlUtils.importObjectsFromXml(fileName);
                     if (result == 0) {
-                        System.out.println("Imported from ObjectsXML file");
+                        System.out.println("Imported from Objects XML file");
                     } else if (result == 1) {
                         System.err.println(
-                                "Could not import from provided file.");
+                                "Could not import Objects from provided file.");
                     }
                     continue;
                 case "q":

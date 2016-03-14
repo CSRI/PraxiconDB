@@ -58,7 +58,7 @@ public class CollectionOfObjects {
 
     /**
      * Stores all concepts of the collection in the database updating
-     * same name entries
+     * same-name entries
      */
     public void storeCollectionOfObjects() {
         for (Concepts conceptList : concepts) {

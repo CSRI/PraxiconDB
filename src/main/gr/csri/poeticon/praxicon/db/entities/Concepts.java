@@ -104,26 +104,27 @@ public class Concepts {
             }
         }
 
-        // If Motoric representations exist, add them to new concept
+        // If Motoric Representations exist, add them to new concept
         if (!concept.getMotoricRepresentations().isEmpty()) {
             for (MotoricRepresentation mr : concept.getMotoricRepresentations()) {
                 newConcept.addMotoricRepresentation(mr);
             }
         }
 
-        // If Visual representations exist, add them to new concept
+        // If Visual Representations exist, add them to new concept
         if (!concept.getVisualRepresentations().isEmpty()) {
             for (VisualRepresentation vr : concept.getVisualRepresentations()) {
                 newConcept.addVisualRepresentation(vr);
             }
         }
 
+        // If Ontological Domains exist, add them to new concept
         if (!concept.getOntologicalDomains().isEmpty()) {
             for (OntologicalDomain od : concept.getOntologicalDomains()) {
                 newConcept.addOntologicalDomain(od);
             }
         }
-        
+
         // If Concept doesn't exist, add it
         if (retrievedConcept == null) {
             cDao.persist(newConcept);
