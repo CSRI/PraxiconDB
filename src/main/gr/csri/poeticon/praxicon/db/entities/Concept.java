@@ -16,6 +16,7 @@ import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,6 +35,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 
 /**
@@ -313,7 +315,7 @@ public class Concept implements Serializable {
     @Column(name = "Comment")
     private String comment;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "OntologicalDomain_Concept",
             joinColumns = {
@@ -323,13 +325,16 @@ public class Concept implements Serializable {
     )
     private List<OntologicalDomain> ontologicalDomains;
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "concept")
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy =
+            "concept")
     private List<Concept_LanguageRepresentation> languageRepresentations;
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "concept")
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy =
+            "concept")
     private List<VisualRepresentation> visualRepresentations;
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "concept")
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy =
+            "concept")
     private List<MotoricRepresentation> motoricRepresentations;
 
     /**
@@ -678,7 +683,7 @@ public class Concept implements Serializable {
 
     /**
      * Adds an ontological domain to the concept.
-     * 
+     *
      */
     void addOntologicalDomain(OntologicalDomain ontologicalDomain) {
         this.ontologicalDomains.add(ontologicalDomain);
@@ -690,14 +695,14 @@ public class Concept implements Serializable {
      * @return a list containing the concept's language representations
      *
      */
+//    @Transactional
     public final List<LanguageRepresentation> getLanguageRepresentations() {
         EntityManager em = getEntityManager();
         Session session = em.unwrap(org.hibernate.Session.class);
-        List<LanguageRepresentation> lrs;
-        lrs = new ArrayList();
-
+        List<LanguageRepresentation> lrs = new ArrayList<>();
+//        Hibernate.initialize(getConceptLanguageRepresentationsEntries());
         for (Concept_LanguageRepresentation clr
-                : getConceptLanguageRepresentation()) {
+                : getConceptLanguageRepresentationsEntries()) {
             if (!isNull(clr.getId())) {
                 if (!session.contains(clr)) {
                     session.update(clr);
@@ -705,7 +710,7 @@ public class Concept implements Serializable {
             }
             lrs.add(clr.getLanguageRepresentation());
         }
-        return lrs;
+        return new ArrayList<>(lrs);
     }
 
     /**
@@ -715,9 +720,22 @@ public class Concept implements Serializable {
      * @return the Concept_LanguageRepresentation instance of the concept
      *
      */
+//    @Transactional
     public final List<Concept_LanguageRepresentation>
             getConceptLanguageRepresentation() {
-        return languageRepresentations;
+        Hibernate.initialize(languageRepresentations);
+        return new ArrayList<>(languageRepresentations);
+
+//
+//        if (!isNull(languageRepresentations) && !languageRepresentations.
+//                isEmpty()) {
+//            return new ArrayList<>(languageRepresentations);
+//        } else {
+//            return null;
+//        }
+//        System.out.println("\nLANGUAGE_REPRESENTATIONS_ITEM: \n\n" +
+//                languageRepresentations.get(0).getLanguageRepresentation());
+//        return new ArrayList<>(languageRepresentations);
     }
 
     public void setConcept_LanguageRepresentation(
@@ -731,15 +749,24 @@ public class Concept implements Serializable {
      * @return a list of Concept_LanguageRepresentation instances for the
      *         concept
      */
+//    @Transactional
     public List<Concept_LanguageRepresentation>
             getConceptLanguageRepresentationsEntries() {
         List<Concept_LanguageRepresentation> languageRepresentationEntries =
                 new ArrayList<>();
-        for (Concept_LanguageRepresentation languageRepresentation
-                : this.languageRepresentations) {
-            languageRepresentationEntries.add(languageRepresentation);
+        EntityManager em = getEntityManager();
+        Session session = em.unwrap(org.hibernate.Session.class);
+//        Hibernate.initialize(this.getConceptLanguageRepresentation());
+        if (!isNull(this.getConceptLanguageRepresentation()) && !this.
+                getConceptLanguageRepresentation().isEmpty()) {
+            for (Concept_LanguageRepresentation languageRepresentation
+                    : this.getConceptLanguageRepresentation()) {
+                languageRepresentationEntries.add(languageRepresentation);
+            }
+            return new ArrayList<>(languageRepresentationEntries);
+        } else {
+            return new ArrayList<>();
         }
-        return languageRepresentationEntries;
     }
 
     /**
@@ -813,7 +840,7 @@ public class Concept implements Serializable {
                 lrNames.add(lr.getText());
             }
         }
-        return lrNames;
+        return new ArrayList<>(lrNames);
     }
 
     /**
@@ -1047,18 +1074,23 @@ public class Concept implements Serializable {
             return name;
             // + " (Entity)";
         } else {
-            List<Concept_LanguageRepresentation> tmpList =
-                    this.getConceptLanguageRepresentationsEntries();
-            if (tmpList.size() > 0) {
-                StringBuilder tmp = new StringBuilder(
-                        tmpList.get(0).getLanguageRepresentation().getText());
-                for (int i = 1; i < tmpList.size(); i++) {
-                    tmp.append("\\").append(tmpList.get(i).
-                            getLanguageRepresentation().getText());
+            if (!isNull(this.getConceptLanguageRepresentationsEntries()) &&
+                    !this.getConceptLanguageRepresentationsEntries().isEmpty()) {
+                List<Concept_LanguageRepresentation> tmpList =
+                        this.getConceptLanguageRepresentationsEntries();
+                if (tmpList.size() > 0) {
+                    StringBuilder tmp = new StringBuilder(
+                            tmpList.get(0).getLanguageRepresentation().getText());
+                    for (int i = 1; i < tmpList.size(); i++) {
+                        tmp.append("\\").append(tmpList.get(i).
+                                getLanguageRepresentation().getText());
+                    }
+                    return tmp.toString();
+                } else {
+                    return id + "";
                 }
-                return tmp.toString();
             } else {
-                return id + "";
+                return "";
             }
         }
     }

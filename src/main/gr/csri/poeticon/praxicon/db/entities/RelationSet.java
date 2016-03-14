@@ -15,6 +15,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -93,7 +94,7 @@ public class RelationSet implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet")
     private List<RelationSet_Relation> relations;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "LanguageRepresentation_RelationSet",
             joinColumns = {
@@ -103,10 +104,12 @@ public class RelationSet implements Serializable {
     )
     private List<LanguageRepresentation> languageRepresentations;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet", fetch =
+            FetchType.EAGER)
     private List<VisualRepresentation> visualRepresentations;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet", fetch =
+            FetchType.EAGER)
     private List<MotoricRepresentation> motoricRepresentations;
 
     /**
@@ -135,8 +138,6 @@ public class RelationSet implements Serializable {
 
     public RelationSet(RelationSet newRelationSet) {
         this.name = newRelationSet.getName();
-
-
     }
 
     public Long getId() {
