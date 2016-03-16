@@ -83,7 +83,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
         RelationArgument conceptRelationArgument = raDao.getRelationArgument(
                 concept);
-        return getAllRelationsOfRelationArgument(conceptRelationArgument);
+        return new ArrayList<>(getAllRelationsOfRelationArgument(
+                conceptRelationArgument));
     }
 
     /**
@@ -237,7 +238,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
 
     /**
      * Finds the relations of a given relation argument that have a certain
-     * type of relation. Checks only for the given relation argument as a leftArgument
+     * type of relation. Checks only for the given relation argument
+     * as a leftArgument
      *
      * @param relationArgument the relation argument
      * @param relationType     the type of relation
@@ -256,7 +258,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
 
     /**
      * Finds the relations of a given relation argument that have a certain
-     * type of relation. Checks only for the given relation argument as a rightArgument
+     * type of relation. Checks only for the given relation argument
+     * as a rightArgument
      *
      * @param relationArgument the relation argument
      * @param relationType     the type of relation
@@ -290,7 +293,6 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
                     getRelationType().getForwardName());
         } catch (Exception e) {
             return newRelation;
-        } finally {
         }
         return oldRelation;
     }
