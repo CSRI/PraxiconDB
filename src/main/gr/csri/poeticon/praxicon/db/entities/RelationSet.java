@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -165,8 +166,11 @@ public class RelationSet implements Serializable {
         List<RelationSet_Relation> relationSetRelationList = new ArrayList();
         List<Relation> relationList = new ArrayList();
         relationSetRelationList = this.relations;
-        for (RelationSet_Relation relationSetRelation : relationSetRelationList) {
-            relationList.add(relationSetRelation.getRelation());
+        if (!relationSetRelationList.isEmpty()) {
+            for (RelationSet_Relation relationSetRelation
+                    : relationSetRelationList) {
+                relationList.add(relationSetRelation.getRelation());
+            }
         }
         return relationList;
     }
@@ -381,8 +385,17 @@ public class RelationSet implements Serializable {
 
     @Override
     public String toString() {
-        return "gr.csri.poeticon.praxicon.db.entities.RelationSet[ id=" + id +
-                " ]";
+        List<Relation> relationsList = this.getRelationsList();
+        List<String> relationsStringsList = new ArrayList<>();
+        String relationsString = "";
+        for (Relation relation : relationsList) {
+            relationsStringsList.add(relation.toString());
+        }
+
+        return StringUtils.join(relationsStringsList, "##");
+
+//        return "gr.csri.poeticon.praxicon.db.entities.RelationSet[ id=" + id +
+//                " ]";
     }
 
 //    public void afterUnmarshal(Unmarshaller u, Object parent) {
