@@ -114,12 +114,11 @@ public class Concept_LanguageRepresentation implements Serializable {
         }
         final Concept_LanguageRepresentation other =
                 (Concept_LanguageRepresentation)obj;
-        if (this.isRepresentativeLanguageRepresentation !=
-                other.isRepresentativeLanguageRepresentation) {
+        if (this.getIsRepresentative() != other.getIsRepresentative()) {
             return false;
         }
-        if (!Objects.equals(this.languageRepresentation,
-                other.languageRepresentation)) {
+        if (!this.getLanguageRepresentation().equals(other.
+                getLanguageRepresentation())) {
             return false;
         }
         return true;

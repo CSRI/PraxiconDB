@@ -1021,8 +1021,10 @@ public class Concept implements Serializable {
         hash = 13 * hash + Objects.hashCode(this.status);
         hash = 13 * hash + Objects.hashCode(this.pragmaticStatus);
         hash = 13 * hash + Objects.hashCode(this.uniqueInstance);
-//        hash = 13 * hash + Objects.hashCode(this.ontologicalDomain);
-        hash = 13 * hash + Objects.hashCode(this.languageRepresentations);
+//        hash = 13 * hash + Objects.hashCode(this.getOntologicalDomains());
+        hash = 13 * hash + Objects.hashCode(this.getLanguageRepresentations());
+        hash = 13 * hash + Objects.hashCode(this.
+                getConceptLanguageRepresentation());
         return hash;
     }
 
@@ -1035,36 +1037,40 @@ public class Concept implements Serializable {
             return false;
         }
         final Concept other = (Concept)obj;
-        if (this.name != other.name) {
+//        if (!this.name.equals(other.name)) {
+        if (!this.name.equals(other.name)) {
             return false;
         }
-        if (this.externalSourceId != other.externalSourceId) {
+        if (!this.externalSourceId.equals(other.externalSourceId)) {
             return false;
         }
-        if (this.conceptType != other.conceptType) {
+        if (!this.conceptType.equals(other.conceptType)) {
             return false;
         }
-        if (this.specificityLevel != other.specificityLevel) {
+        if (!this.specificityLevel.equals(other.specificityLevel)) {
             return false;
         }
-        if (this.status != other.status) {
+        if (!this.status.equals(other.status)) {
             return false;
         }
-        if (this.pragmaticStatus != other.pragmaticStatus) {
+        if (!this.pragmaticStatus.equals(other.pragmaticStatus)) {
             return false;
         }
-        if (this.uniqueInstance != other.uniqueInstance) {
+        if (!this.uniqueInstance.equals(other.uniqueInstance)) {
+            return false;
+        }
+        if (!this.getLanguageRepresentations().equals(other.
+                getLanguageRepresentations())) {
+            return false;
+        }
+        if (!this.ontologicalDomains.equals(other.ontologicalDomains)) {
+            return false;
+        }
+        if (!this.getConceptLanguageRepresentation().equals(other.
+                getConceptLanguageRepresentation())) {
             return false;
         }
 
-//        if (!Objects.equals(this.ontologicalDomains, other.ontologicalDomains)) {
-//            return false;
-//        }
-        // TODO: Check every language representation for equality
-//        if (!Objects.equals(this.languageRepresentations,
-//                other.languageRepresentations)) {
-//            return false;
-//        }
         return true;
     }
 
@@ -1073,25 +1079,23 @@ public class Concept implements Serializable {
         if (name != null && !name.equalsIgnoreCase("")) {
             return name;
             // + " (Entity)";
-        } else {
-            if (!isNull(this.getConceptLanguageRepresentationsEntries()) &&
-                    !this.getConceptLanguageRepresentationsEntries().isEmpty()) {
-                List<Concept_LanguageRepresentation> tmpList =
-                        this.getConceptLanguageRepresentationsEntries();
-                if (tmpList.size() > 0) {
-                    StringBuilder tmp = new StringBuilder(
-                            tmpList.get(0).getLanguageRepresentation().getText());
-                    for (int i = 1; i < tmpList.size(); i++) {
-                        tmp.append("\\").append(tmpList.get(i).
-                                getLanguageRepresentation().getText());
-                    }
-                    return tmp.toString();
-                } else {
-                    return id + "";
+        } else if (!isNull(this.getConceptLanguageRepresentationsEntries()) &&
+                !this.getConceptLanguageRepresentationsEntries().isEmpty()) {
+            List<Concept_LanguageRepresentation> tmpList =
+                    this.getConceptLanguageRepresentationsEntries();
+            if (tmpList.size() > 0) {
+                StringBuilder tmp = new StringBuilder(
+                        tmpList.get(0).getLanguageRepresentation().getText());
+                for (int i = 1; i < tmpList.size(); i++) {
+                    tmp.append("\\").append(tmpList.get(i).
+                            getLanguageRepresentation().getText());
                 }
+                return tmp.toString();
             } else {
-                return "";
+                return id + "";
             }
+        } else {
+            return "";
         }
     }
 }
