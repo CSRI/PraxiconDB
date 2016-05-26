@@ -277,6 +277,7 @@ public class XmlUtils {
     }
 
     public static int importObjectsFromXml(String fullPathFileName) {
+        long startTime = System.nanoTime();
         try {
             JAXBContext jaxbContext = JAXBContext.
                     newInstance(CollectionOfObjects.class);
@@ -304,10 +305,17 @@ public class XmlUtils {
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return 1;
         }
+//        catch (Exception e) {
+//            System.err.println(e.getMessage());
+//            return 1;
+//        }
+        long endTime = System.nanoTime();
+        long elapsedTime = endTime - startTime;
+        double minutes = (double)((elapsedTime / 1000000000.0)/60);
+        System.out.print("XML import took: ");
+        System.out.print(minutes);
+        System.out.println(" minutes to run");
         return 0;
     }
 
