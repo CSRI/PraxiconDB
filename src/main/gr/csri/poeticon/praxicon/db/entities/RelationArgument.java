@@ -214,8 +214,11 @@ public class RelationArgument implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 89 * hash + Objects.hashCode(this.concept);
-        hash = 89 * hash + Objects.hashCode(this.relationSet);
+        if (this.isConcept()) {
+            hash = 89 * hash + Objects.hashCode(this.getConcept());
+        } else {
+            hash = 89 * hash + Objects.hashCode(this.getRelationSet());
+        }
         return hash;
     }
 
@@ -228,12 +231,23 @@ public class RelationArgument implements Serializable {
             return false;
         }
         final RelationArgument other = (RelationArgument)obj;
-        if (!Objects.equals(this.concept, other.concept)) {
-            return false;
+        if (this.isConcept()) {
+            if (other.isRelationSet()) {
+                return false;
+            } else if (!this.getConcept().equals(other.getConcept())) {
+                return false;
+            }
+        } else if (this.isRelationSet()) {
+            if (other.isConcept()) {
+                return false;
+            } else if (!this.getRelationSet().equals(other.getRelationSet())) {
+                return false;
+            }
         }
-        if (!Objects.equals(this.relationSet, other.relationSet)) {
-            return false;
-        }
+
+//        if (!Objects.equals(this.relationSet, other.relationSet)) {
+//            return false;
+//        }
         return true;
     }
 
