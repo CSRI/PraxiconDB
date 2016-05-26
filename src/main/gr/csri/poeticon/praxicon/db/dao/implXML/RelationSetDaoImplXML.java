@@ -95,4 +95,9 @@ public class RelationSetDaoImplXML extends JpaDao<Long, RelationSet>
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public RelationSet getRelationSetByName(String relationSetName) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
