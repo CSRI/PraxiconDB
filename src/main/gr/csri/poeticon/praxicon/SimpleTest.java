@@ -16,21 +16,29 @@ import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationArgumentDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationSetDaoImpl;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
+import gr.csri.poeticon.praxicon.db.entities.Concepts;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import gr.csri.poeticon.praxicon.db.entities.RelationSet;
+import gr.csri.poeticon.praxicon.db.entities.RelationSets;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import static gr.csri.poeticon.praxicon.db.entities.RelationType.RelationNameForward.TYPE_TOKEN;
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import org.hibernate.Session;
 import org.junit.BeforeClass;
 
@@ -86,6 +94,8 @@ public class SimpleTest {
             System.out.println("3. Relations & Relation Sets");
             System.out.println("4. Export everything to XML");
             System.out.println("5. Import from XML");
+            System.out.println("6. Test concepts equality method");
+            System.out.println("7. Test relation sets equality method");
             System.out.println("q. Exit");
             System.out.println();
             System.out.println("Please enter your choice: ");
@@ -106,6 +116,10 @@ public class SimpleTest {
                 case "5":
                     testXmlImport();
                     continue;
+                case "6":
+                    testConceptEquals();
+                case "7":
+                    testRelationSetEquals();
                 case "q":
                     System.exit(0);
             }
@@ -537,6 +551,89 @@ public class SimpleTest {
                     continue;
                 case "q":
                     return;
+            }
+        }
+    }
+
+    private static void testConceptEquals() {
+        System.out.println("\nTesting the validity of equals method in Concept");
+        // Import single concept from file.
+        int result = 0;
+        Concepts importedConcepts = new Concepts();
+
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(Concepts.class);
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            String fileName = "/home/dmavroeidis/Concepts_20160329.xml";
+            File xmlFile = new File(fileName);
+            importedConcepts =
+                    (Concepts)jaxbUnmarshaller.unmarshal(xmlFile);
+        } catch (JAXBException ex) {
+            Logger.getLogger(XmlUtils.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        ConceptDao cDao = new ConceptDaoImpl();
+        Concept dbConcept = cDao.getConceptByExternalSourceIdExact(
+                "colour#abstract");
+        if (!importedConcepts.getConcepts().isEmpty()) {
+            for (Concept item : importedConcepts.getConcepts()) {
+                System.out.println("Concept's " + item + " hash code is  " +
+                        item.hashCode());
+                System.out.println("DBConcept's " + item + " hash code is  " +
+                        dbConcept.hashCode());
+                if (item.equals(dbConcept)) {
+                    System.out.println("Concept " + item + " is equal to " +
+                            dbConcept);
+                } else {
+                    System.out.println("Concept " + item + " NOT equal to " +
+                            dbConcept);
+                }
+            }
+        }
+    }
+
+    private static void testRelationSetEquals() {
+        System.out.println("\nTesting the validity of equals method in RelationSet\n\n");
+
+        int result = 0;
+        RelationSets importedRelationSets = new RelationSets();
+
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(RelationSets.class);
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            String fileName = "/home/dmavroeidis/Desktop/RelationSet_352.xml";
+            File xmlFile = new File(fileName);
+            importedRelationSets =
+                    (RelationSets)jaxbUnmarshaller.unmarshal(xmlFile);
+            System.out.println("RelationSets: " + importedRelationSets);
+        } catch (JAXBException ex) {
+            System.out.println(ex.getMessage());
+            Logger.getLogger(XmlUtils.class.getName()).
+                    log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        RelationSetDao rsDao = new RelationSetDaoImpl();
+
+        RelationSet dbRelationSet = rsDao.getRelationSetByName("RelSet#352");
+
+        if (!importedRelationSets.getRelationSets().isEmpty()) {
+            for (RelationSet item : importedRelationSets.getRelationSets()) {
+                System.out.println("RelationSet's " + item + item.getName() + " hash code is  " +
+                        item.hashCode());
+                System.out.println("DBRelationSet's " + dbRelationSet  + dbRelationSet.getName() + " hash code is  " +
+                        dbRelationSet.hashCode());
+                if (item.equals(dbRelationSet)) {
+                    System.out.println("DBRelationSet's " + item + item.getName() + " is equal to " +
+                            dbRelationSet);
+                } else {
+                    System.out.println("DBRelationSet's " + item  + item.getName() + " NOT equal to " +
+                            dbRelationSet);
+                }
             }
         }
     }
