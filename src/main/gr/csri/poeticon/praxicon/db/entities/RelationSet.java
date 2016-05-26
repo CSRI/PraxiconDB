@@ -352,7 +352,7 @@ public class RelationSet implements Serializable {
     public int hashCode() {
         int hash = 5;
         hash = 13 * hash + Objects.hashCode(this.name);
-        hash = 13 * hash + Objects.hashCode(this.relations);
+        hash = 13 * hash + Objects.hashCode(this.getRelationsList());
         hash = 13 * hash + Objects.hashCode(this.getLanguageRepresentations());
         hash = 13 * hash + Objects.hashCode(this.getVisualRepresentations());
         hash = 13 * hash + Objects.hashCode(this.getMotoricRepresentations());
