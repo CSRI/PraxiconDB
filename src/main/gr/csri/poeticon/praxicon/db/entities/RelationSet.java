@@ -40,9 +40,15 @@ import org.apache.commons.lang3.StringUtils;
  * @author dmavroeidis
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "relation_set", namespace = "http://www.csri.gr/relation_set")
+@XmlType(name = "relationSet", namespace = "http://www.csri.gr/relation_set")
+//@XmlRootElement(name = "relationSet", namespace = "http://www.csri.gr/relation_set")
 @Entity
 @NamedQueries({
+    @NamedQuery(name =
+            "findRelationSetByName",
+            query =
+            "SELECT rs FROM RelationSet rs " +
+            "WHERE rs.name = :relationSetName"),
     @NamedQuery(name =
             "findRelationSet",
             query =
@@ -95,7 +101,7 @@ public class RelationSet implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet")
     private List<RelationSet_Relation> relations;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "LanguageRepresentation_RelationSet",
             joinColumns = {
@@ -106,11 +112,11 @@ public class RelationSet implements Serializable {
     private List<LanguageRepresentation> languageRepresentations;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet", fetch =
-            FetchType.EAGER)
+            FetchType.LAZY)
     private List<VisualRepresentation> visualRepresentations;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet", fetch =
-            FetchType.EAGER)
+            FetchType.LAZY)
     private List<MotoricRepresentation> motoricRepresentations;
 
     /**
@@ -347,9 +353,9 @@ public class RelationSet implements Serializable {
         int hash = 5;
         hash = 13 * hash + Objects.hashCode(this.name);
         hash = 13 * hash + Objects.hashCode(this.relations);
-        hash = 13 * hash + Objects.hashCode(this.languageRepresentations);
-        hash = 13 * hash + Objects.hashCode(this.visualRepresentations);
-        hash = 13 * hash + Objects.hashCode(this.motoricRepresentations);
+        hash = 13 * hash + Objects.hashCode(this.getLanguageRepresentations());
+        hash = 13 * hash + Objects.hashCode(this.getVisualRepresentations());
+        hash = 13 * hash + Objects.hashCode(this.getMotoricRepresentations());
         return hash;
     }
 
@@ -362,22 +368,22 @@ public class RelationSet implements Serializable {
             return false;
         }
         final RelationSet other = (RelationSet)obj;
-        if (!Objects.equals(this.name, other.name)) {
+        if (!this.name.equals(other.name)) {
             return false;
         }
-        if (!Objects.equals(this.relations, other.relations)) {
+        if (!this.getRelationsList().equals(other.getRelationsList())) {
             return false;
         }
-        if (!Objects.equals(this.languageRepresentations,
-                other.languageRepresentations)) {
+        if (!this.getLanguageRepresentations().
+                equals(other.getLanguageRepresentations())) {
             return false;
         }
-        if (!Objects.equals(this.visualRepresentations,
-                other.visualRepresentations)) {
+        if (!this.getVisualRepresentations().
+                equals(other.getVisualRepresentations())) {
             return false;
         }
-        if (!Objects.equals(this.motoricRepresentations,
-                other.motoricRepresentations)) {
+        if (!this.getMotoricRepresentations().
+                equals(other.getMotoricRepresentations())) {
             return false;
         }
         return true;
@@ -391,11 +397,10 @@ public class RelationSet implements Serializable {
         for (Relation relation : relationsList) {
             relationsStringsList.add(relation.toString());
         }
+        relationsString = "{" + StringUtils.join(relationsStringsList, "##") +
+                "}";
 
-        return StringUtils.join(relationsStringsList, "##");
-
-//        return "gr.csri.poeticon.praxicon.db.entities.RelationSet[ id=" + id +
-//                " ]";
+        return relationsString;
     }
 
 //    public void afterUnmarshal(Unmarshaller u, Object parent) {
