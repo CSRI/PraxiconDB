@@ -43,24 +43,24 @@ import org.junit.BeforeClass;
  * parts are obsolete
  */
 public class TestJPA {
-    
+
     private static Validator validator;
-    
+
     @BeforeClass
     public static void setUp() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
     }
-    
+
     private static final String PERSISTENCE_UNIT_NAME = "PraxiconDBPU";
     private EntityManagerFactory factory;
-    
+
     @SuppressWarnings("empty-statement")
     public static void main(String args[]) {
         /*
          * Create Concept1
          */
-        
+
         Concept concept1 = new Concept();
         concept1.setExternalSourceId("concept1");
         concept1.setConceptType(Concept.ConceptType.ENTITY);
@@ -87,7 +87,7 @@ public class TestJPA {
          */
         List<LanguageRepresentation> languageRepresentations1;
         languageRepresentations1 = new ArrayList<>();
-        
+
         LanguageRepresentation languageRepresentation1 =
                 new LanguageRepresentation();
         languageRepresentation1.setLanguage(LanguageRepresentation.Language.EN);
@@ -96,7 +96,7 @@ public class TestJPA {
                 LanguageRepresentation.PartOfSpeech.NOUN);
         languageRepresentation1.setUseStatus(
                 LanguageRepresentation.UseStatus.FIGURATIVE);
-        
+
         LanguageRepresentation languageRepresentation2 =
                 new LanguageRepresentation();
         languageRepresentation2.setLanguage(LanguageRepresentation.Language.EN);
@@ -105,7 +105,7 @@ public class TestJPA {
                 LanguageRepresentation.PartOfSpeech.VERB);
         languageRepresentation2.setUseStatus(
                 LanguageRepresentation.UseStatus.FIGURATIVE);
-        
+
         LanguageRepresentation languageRepresentation3 =
                 new LanguageRepresentation();
         languageRepresentation3.setLanguage(LanguageRepresentation.Language.EL);
@@ -114,12 +114,12 @@ public class TestJPA {
                 LanguageRepresentation.PartOfSpeech.ADVERB);
         languageRepresentation3.setUseStatus(
                 LanguageRepresentation.UseStatus.LITERAL);
-        
+
         concept1.addLanguageRepresentation(languageRepresentation1, false);
         concept1.addLanguageRepresentation(languageRepresentation2, true);
         concept2.addLanguageRepresentation(languageRepresentation3, true);
 
-        /* 
+        /*
          * Add Visual Representations to the concepts
          */
         VisualRepresentation visualRepresentation1 = new VisualRepresentation();
@@ -136,7 +136,7 @@ public class TestJPA {
         };
         visualRepresentation1.setURI(new_uri);
         concept1.addVisualRepresentation(visualRepresentation1);
-        
+
         VisualRepresentation visualRepresentation2 = new VisualRepresentation();
         visualRepresentation2.setName("VR2");
         visualRepresentation2.
@@ -152,8 +152,8 @@ public class TestJPA {
         visualRepresentation2.setURI(new_uri);
         concept2.addVisualRepresentation(visualRepresentation2);
 
-        /* 
-         * Create a relation with concept1 as leftArgument and concept2 as 
+        /*
+         * Create a relation with concept1 as leftArgument and concept2 as
          * rightArgument.
          */
         Relation relation1 = new Relation();
@@ -163,15 +163,15 @@ public class TestJPA {
         relationType1.setBackwardName(
                 RelationType.RelationNameBackward.PART_OF);
         relation1.setRelationType(relationType1);
-        
+
         RelationArgument relationArgument1 = new RelationArgument(concept1);
         RelationArgument relationArgument2 = new RelationArgument(concept2);
         relation1.setLeftArgument(relationArgument1);
         relation1.setRightArgument(relationArgument2);
         relation1.setLinguisticSupport(Relation.LinguisticallySupported.YES);
 
-        /* 
-         * Create a relation with concept2 as leftArgument and concept1 as 
+        /*
+         * Create a relation with concept2 as leftArgument and concept1 as
          * rightArgument.
          */
         Relation relation2 = new Relation();
@@ -181,27 +181,27 @@ public class TestJPA {
         relationType2.setBackwardName(
                 RelationType.RelationNameBackward.INSTANCE_OF);
         relation2.setRelationType(relationType2);
-        
+
         relation2.setLeftArgument(relationArgument2);
         relation2.setRightArgument(relationArgument1);
         relation2.setLinguisticSupport(Relation.LinguisticallySupported.NO);
-        
+
         System.out.println("RELATION1 ID (pre-persist): " + relation1.getId());
         System.out.println("RELATION2 ID (pre-persist):" + relation2.getId());
 
-        /* 
-         * Create an unordered RelationSet 
+        /*
+         * Create an unordered RelationSet
          */
         RelationSet relationSet1 = new RelationSet();
         relationSet1.addLanguageRepresentation(languageRepresentation3);
         relationSet1.addLanguageRepresentation(languageRepresentation1);
-        
+
         relationSet1.setName("NewRelationSet1");
         relationSet1.addRelation(relation1);
         relationSet1.addRelation(relation2);
 
-        /* 
-         * Create an ordered RelationSet 
+        /*
+         * Create an ordered RelationSet
          */
         RelationSet relationSet2 = new RelationSet();
         List<LanguageRepresentation> languageRepresentations2 =
@@ -211,7 +211,7 @@ public class TestJPA {
         relationSet2.setName("NewRelationSet2");
         relationSet2.addRelation(relation2);
         relationSet2.addRelation(relation1);
-        
+
         ConceptDao newConceptDao = new ConceptDaoImpl();
         RelationArgumentDao newRelationArgumentDao =
                 new RelationArgumentDaoImpl();
@@ -222,7 +222,7 @@ public class TestJPA {
                 new VisualRepresentationDaoImpl();
         RelationSetDao newRelationSetDao = new RelationSetDaoImpl();
         RelationDao newRelationDao = new RelationDaoImpl();
-        
+
         try {
             newRelationSetDao.persist(relationSet1);
             newRelationSetDao.persist(relationSet2);
@@ -237,14 +237,14 @@ public class TestJPA {
                 concept1);
         Set<ConstraintViolation<Concept>> violation = validator.validate(
                 concept2);
-        
+
         System.out.println(concept2.getExternalSourceId());
 //        constraintViolations = validator.validate( concept1 );
 //        assertEquals( 1, constraintViolations.size() );
 //        assertEquals( "may not be null", constraintViolations.iterator().next().getMessage() );
         System.exit(0);
     }
-    
+
     public void persist(Object object) {
         EntityManagerFactory emf = javax.persistence.Persistence.
                 createEntityManagerFactory("PraxiconDBPU");
