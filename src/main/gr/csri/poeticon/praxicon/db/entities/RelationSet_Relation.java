@@ -26,7 +26,8 @@ import javax.xml.bind.annotation.XmlType;
  * @author dmavroeidis
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "relationset_relation", namespace = "http://www.csri.gr/relationset_relation")
+@XmlType(name = "relationset_relation", namespace =
+        "http://www.csri.gr/relationset_relation")
 @Entity
 @Table(name = "RelationSets_Relations")
 public class RelationSet_Relation implements Serializable {

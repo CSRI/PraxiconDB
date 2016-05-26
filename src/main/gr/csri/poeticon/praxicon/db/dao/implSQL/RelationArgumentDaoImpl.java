@@ -26,6 +26,26 @@ public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument>
      * @return relationArgument
      */
     @Override
+    public List<RelationArgument> getAllRelationArguments() {
+        Query query = getEntityManager().createNamedQuery(
+                "findAllRelationArguments");
+        List<RelationArgument> retrievedRelationArgumentsList =
+                (List<RelationArgument>)query.getResultList();
+        if (retrievedRelationArgumentsList.isEmpty()) {
+            return null;
+        }
+//        System.out.println("relationArgumentList --> " + retrievedRelationArgumentsList.get(0));
+        return retrievedRelationArgumentsList;
+    }
+
+
+    /**
+     * Finds the relation argument that is connected with the given concept.
+     *
+     * @param concept the concept connected to the relation argument
+     * @return relationArgument
+     */
+    @Override
     public RelationArgument getRelationArgument(Concept concept) {
         Query query = getEntityManager().createNamedQuery(
                 "findRelationArgumentByConcept").

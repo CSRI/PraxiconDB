@@ -15,6 +15,8 @@ import java.util.List;
  */
 public interface RelationSetDao extends Dao<Long, RelationSet> {
 
+    RelationSet getRelationSetByName(String relationSetName);
+
     RelationSet getRelationSet(RelationSet relationSet);
 
     List<RelationSet> getRelationSetsByRelationArgument(

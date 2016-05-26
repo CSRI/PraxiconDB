@@ -18,6 +18,7 @@ import gr.csri.poeticon.praxicon.db.entities.RelationSet;
 import gr.csri.poeticon.praxicon.db.entities.RelationSets;
 import gr.csri.poeticon.praxicon.db.entities.Relations;
 import gr.csri.poeticon.praxicon.db.entities.VisualRepresentation;
+import java.util.ArrayList;
 import java.util.List;
 import static java.util.Objects.isNull;
 import javax.persistence.Query;
@@ -28,6 +29,26 @@ import javax.persistence.Query;
  */
 public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
         implements RelationSetDao {
+
+    /**
+     * Finds a RelationSet according to its name.
+     *
+     * @param relationSetName
+     * @return a relation set
+     */
+    @Override
+    public RelationSet getRelationSetByName(String relationSetName) {
+        Query query = getEntityManager().createNamedQuery(
+                "findRelationSetByName").
+                setParameter("relationSetName", relationSetName);
+        List<RelationSet> retrievedRelationSetsList = (List<RelationSet>)query.
+                getResultList();
+        if (!retrievedRelationSetsList.isEmpty()) {
+            return retrievedRelationSetsList.get(0);
+        } else {
+            return null;
+        }
+    }
 
     /**
      * Finds a RelationSet.
@@ -228,7 +249,7 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
                 getRelationSetsByRelationArgument(
                         newRelationArgument);
         if (retrievedRelationSetsList.isEmpty()) {
-            return null;
+            return new ArrayList<>();
         }
         return retrievedRelationSetsList;
     }

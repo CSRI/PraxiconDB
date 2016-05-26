@@ -244,10 +244,6 @@ public class RelationArgument implements Serializable {
                 return false;
             }
         }
-
-//        if (!Objects.equals(this.relationSet, other.relationSet)) {
-//            return false;
-//        }
         return true;
     }
 
