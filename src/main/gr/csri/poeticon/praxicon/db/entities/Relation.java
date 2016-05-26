@@ -28,7 +28,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
@@ -39,7 +38,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "relation", namespace = "http://www.csri.gr/relation")
-@XmlRootElement(name = "relation", namespace = "http://www.csri.gr/relation")
+//@XmlRootElement(name = "relation", namespace = "http://www.csri.gr/relation")
 @Entity
 @NamedQueries({
     @NamedQuery(name =
@@ -286,19 +285,20 @@ public class Relation implements Serializable {
             return false;
         }
         final Relation other = (Relation)obj;
-        if (!Objects.equals(this.relationType, other.relationType)) {
+        if (!this.relationType.equals(other.relationType)) {
             return false;
         }
-        if (!Objects.equals(this.leftArgument, other.leftArgument)) {
+        if (!this.getLeftArgument().equals(other.getLeftArgument())) {
             return false;
         }
-        if (!Objects.equals(this.rightArgument, other.rightArgument)) {
+        if (!this.getRightArgument().equals(other.getRightArgument())) {
             return false;
         }
-        if (this.linguisticallySupported != other.linguisticallySupported) {
+        if (!this.linguisticallySupported.
+                equals(other.linguisticallySupported)) {
             return false;
         }
-        if (this.inferred != other.inferred) {
+        if (!this.inferred.equals(other.inferred)) {
             return false;
         }
         return true;
@@ -346,6 +346,7 @@ public class Relation implements Serializable {
         } else {
             finalString += this.getRightArgument().getRelationSet().toString();
         }
+        finalString = "[" + finalString + "]";
 
         return finalString;
     }
