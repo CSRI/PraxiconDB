@@ -133,24 +133,53 @@ public class CreateNewBLRelations {
 
         // Get concepts from the database
         long startTime = System.nanoTime();
+        System.out.println("\n\n\nGetting concepts...");
         List<Concept> concepts = cDao.getAllConcepts();
         long endTime = System.nanoTime();
         System.out.print("\n\n\nFinished getting concepts in ");
         System.out.print((endTime - startTime) / 1000000000);
         System.out.println(" seconds!");
 
-
         // Get relation arguments from the database
         startTime = System.nanoTime();
-        List<RelationArgument> relationArguments =
-                raDao.getAllRelationArguments();
+        System.out.println("\n\n\nGetting relation arguments...");
+        List<RelationArgument> relationArguments = new ArrayList<>();
+        relationArguments = raDao.getAllRelationArguments();
         endTime = System.nanoTime();
-        System.out.print("\n\n\nFinished getting concepts in ");
+        System.out.print("\n\n\nFinished getting relation arguments in ");
+        System.out.print((endTime - startTime) / 1000000000);
+        System.out.println(" seconds!");
+
+        // Create a copy of the existing array list to avoid
+        // java.util.ConcurrentModificationException
+        List<RelationArgument> relationArgumentsNew = new ArrayList<>(relationArguments);
+
+        // Add unrelated concepts as relation arguments
+        startTime = System.nanoTime();
+        System.out.println("\n\n\nAdding unrelated concepts...");
+        for (Concept concept : concepts) {
+            for (RelationArgument relationArgument : relationArguments) {
+                if (relationArgument.isConcept()) {
+                    if (!relationArgument.getConcept().equals(concept)) {
+                        relationArgumentsNew.add(new RelationArgument(concept));
+                    }
+                }
+            }
+        }
+
+        /* TODO: There is something wrong when adding the new relation arguments.
+            Need to check if concepts are added twice. */
+
+
+
+        endTime = System.nanoTime();
+        System.out.print("\nFinished adding unrelated concepts in ");
         System.out.print((endTime - startTime) / 1000000000);
         System.out.println(" seconds!");
 
         // Get relations from the database
         startTime = System.nanoTime();
+        System.out.print("\n\n\nGetting relations...");
         List<Relation> relationsTypeToken = rDao.getRelationsByRelationType(
                 RelationType.RelationNameForward.TYPE_TOKEN);
         endTime = System.nanoTime();
@@ -160,26 +189,18 @@ public class CreateNewBLRelations {
 
         // Add concepts (vertices) to the graph
         startTime = System.nanoTime();
-        for (RelationArgument relationArgument : relationArguments) {
-            if (relationArgument.isConcept()){
-                if (concepts.contains(relationArgument.getConcept())){
-                    
-                }
-
-            }
+        System.out.println("\n\n\nAdding vertices...");
+        for (RelationArgument relationArgument : relationArgumentsNew) {
             conceptGraph.addVertex(relationArgument);
         }
-        // Also, add concepts that are not represented by a relation argument
-
         endTime = System.nanoTime();
-        System.out.print("\n\n\nFinished adding concepts in ");
+        System.out.print("\n\n\nFinished adding vertices in ");
         System.out.print((endTime - startTime) / 1000000000);
         System.out.println(" seconds!");
 
-
-
         // Add relations (edges) to the graph
         startTime = System.nanoTime();
+        System.out.println("\n\n\nAdding edges...");
         for (Relation relation : relationsTypeToken) {
             // Get left relation argument
             RelationArgument leftRelationArgument = new RelationArgument();
@@ -219,16 +240,12 @@ public class CreateNewBLRelations {
 //        System.out.println(paths);
 //        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23374));
 //        System.out.println(paths);
-
 //        endTime = System.nanoTime();
 //        System.out.print("\n\n\nFinished getting paths in ");
 //        System.out.print((endTime - startTime) / 1000);
 //        System.out.println(" microseconds!\n\n\n");
-
-
         // Now insert all BL relations.
 //        insertBLRelations(conceptGraph, concepts);
-
         if (cDao.getEntityManager().isOpen()) {
             cDao.close();
         }
@@ -357,14 +374,11 @@ public class CreateNewBLRelations {
                                         // (this check is needed in case we have
                                         // more than 1 BLs in the path).
                                         if (concept.getSpecificityLevel() ==
-                                                Concept.SpecificityLevel.
-                                                SUBORDINATE ||
+                                                Concept.SpecificityLevel.SUBORDINATE ||
                                                 concept.getSpecificityLevel() ==
-                                                Concept.SpecificityLevel.
-                                                SUPERORDINATE ||
+                                                Concept.SpecificityLevel.SUPERORDINATE ||
                                                 concept.getSpecificityLevel() ==
-                                                Concept.SpecificityLevel.
-                                                UNKNOWN) {
+                                                Concept.SpecificityLevel.UNKNOWN) {
                                             // Get relation arguments of concepts
                                             RelationArgument relationArgument2 =
                                                     raDao.getRelationArgument(
@@ -381,13 +395,9 @@ public class CreateNewBLRelations {
                                             RelationType newRelationType =
                                                     rtDao.
                                                     getRelationTypeByForwardName(
-                                                    RelationType.
-                                                    RelationNameForward.
-                                                    TYPE_TOKEN);
+                                                            RelationType.RelationNameForward.TYPE_TOKEN);
                                             newRelation.setLinguisticSupport(
-                                                    Relation.
-                                                    LinguisticallySupported.
-                                                    UNKNOWN);
+                                                    Relation.LinguisticallySupported.UNKNOWN);
                                             newRelation.setRelationType(
                                                     newRelationType);
 
