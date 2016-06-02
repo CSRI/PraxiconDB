@@ -16,7 +16,6 @@ import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -315,7 +314,7 @@ public class Concept implements Serializable {
     @Column(name = "Comment")
     private String comment;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "OntologicalDomain_Concept",
             joinColumns = {
@@ -325,16 +324,13 @@ public class Concept implements Serializable {
     )
     private List<OntologicalDomain> ontologicalDomains;
 
-    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy =
-            "concept")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "concept")
     private List<Concept_LanguageRepresentation> languageRepresentations;
 
-    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy =
-            "concept")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "concept")
     private List<VisualRepresentation> visualRepresentations;
 
-    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy =
-            "concept")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "concept")
     private List<MotoricRepresentation> motoricRepresentations;
 
     /**
