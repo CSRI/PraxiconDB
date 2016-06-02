@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import static java.util.Objects.isNull;
 import java.util.Set;
 import java.util.Stack;
 import org.jgrapht.DirectedGraph;
@@ -152,26 +153,31 @@ public class CreateNewBLRelations {
 
         // Create a copy of the existing array list to avoid
         // java.util.ConcurrentModificationException
-        List<RelationArgument> relationArgumentsNew = new ArrayList<>(relationArguments);
+        List<RelationArgument> relationArgumentsNew = new ArrayList<>(
+                relationArguments);
 
         // Add unrelated concepts as relation arguments
         startTime = System.nanoTime();
         System.out.println("\n\n\nAdding unrelated concepts...");
+//        int countConceptsWithRelationArgument = 0;
+//        int countConceptsWithoutRelationArgument = 0;
         for (Concept concept : concepts) {
-            for (RelationArgument relationArgument : relationArguments) {
-                if (relationArgument.isConcept()) {
-                    if (!relationArgument.getConcept().equals(concept)) {
-                        relationArgumentsNew.add(new RelationArgument(concept));
-                    }
-                }
+            if (isNull(raDao.getRelationArgument(concept))) {
+//                System.out.println("Found orphan concept: " + concept);
+                relationArgumentsNew.add(new RelationArgument(concept));
+//                countConceptsWithoutRelationArgument += 1;
             }
+//            else {
+////                countConceptsWithRelationArgument += 1;
+//            }
         }
+//        System.out.println("\n\n\nConcepts with Relation Argument: " +
+//                countConceptsWithRelationArgument);
+//        System.out.println("\nConcepts without Relation Argument: " +
+//                countConceptsWithoutRelationArgument);
 
         /* TODO: There is something wrong when adding the new relation arguments.
-            Need to check if concepts are added twice. */
-
-
-
+         Need to check if concepts are added twice. */
         endTime = System.nanoTime();
         System.out.print("\nFinished adding unrelated concepts in ");
         System.out.print((endTime - startTime) / 1000000000);
@@ -180,6 +186,7 @@ public class CreateNewBLRelations {
         // Get relations from the database
         startTime = System.nanoTime();
         System.out.print("\n\n\nGetting relations...");
+//        List<Relation> relationsTypeToken = rDao.findAll();
         List<Relation> relationsTypeToken = rDao.getRelationsByRelationType(
                 RelationType.RelationNameForward.TYPE_TOKEN);
         endTime = System.nanoTime();
