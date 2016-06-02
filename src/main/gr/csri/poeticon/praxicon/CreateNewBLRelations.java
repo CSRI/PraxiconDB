@@ -155,13 +155,6 @@ public class CreateNewBLRelations {
         List<RelationArgument> relationArgumentsNew = new ArrayList<>(
                 relationArguments);
 
-        /* TODO: There is something wrong when adding the new relation arguments.
-         Need to check if concepts are added twice. */
-        endTime = System.nanoTime();
-        System.out.print("\nFinished adding unrelated concepts in ");
-        System.out.print((endTime - startTime) / 1000000000);
-        System.out.println(" seconds!");
-
         // Get relations from the database
         startTime = System.nanoTime();
         System.out.print("\n\n\nGetting relations...");
