@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import static java.util.Objects.isNull;
 import java.util.Set;
 import java.util.Stack;
 import org.jgrapht.DirectedGraph;
@@ -127,7 +126,7 @@ public class CreateNewBLRelations {
         DirectedGraph<RelationArgument, DefaultEdge> conceptGraph =
                 new DefaultDirectedGraph<>(DefaultEdge.class);
 
-        // Get all non-BL concepts
+        long startTimeTotal = System.nanoTime();
         ConceptDao cDao = new ConceptDaoImpl();
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
         RelationDao rDao = new RelationDaoImpl();
@@ -155,26 +154,6 @@ public class CreateNewBLRelations {
         // java.util.ConcurrentModificationException
         List<RelationArgument> relationArgumentsNew = new ArrayList<>(
                 relationArguments);
-
-        // Add unrelated concepts as relation arguments
-        startTime = System.nanoTime();
-        System.out.println("\n\n\nAdding unrelated concepts...");
-//        int countConceptsWithRelationArgument = 0;
-//        int countConceptsWithoutRelationArgument = 0;
-        for (Concept concept : concepts) {
-            if (isNull(raDao.getRelationArgument(concept))) {
-//                System.out.println("Found orphan concept: " + concept);
-                relationArgumentsNew.add(new RelationArgument(concept));
-//                countConceptsWithoutRelationArgument += 1;
-            }
-//            else {
-////                countConceptsWithRelationArgument += 1;
-//            }
-        }
-//        System.out.println("\n\n\nConcepts with Relation Argument: " +
-//                countConceptsWithRelationArgument);
-//        System.out.println("\nConcepts without Relation Argument: " +
-//                countConceptsWithoutRelationArgument);
 
         /* TODO: There is something wrong when adding the new relation arguments.
          Need to check if concepts are added twice. */
@@ -225,6 +204,11 @@ public class CreateNewBLRelations {
         System.out.print((endTime - startTime) / 1000000);
         System.out.println(" miliseconds!\n\n\n");
 
+        long endTimeTotal = System.nanoTime();
+        System.out.print("\n\n\nTotal Time: ");
+        System.out.print((endTimeTotal - startTimeTotal) / 1000000000);
+        System.out.println(" seconds!");
+
 //        List<List<Concept>> paths = new ArrayList<>();
 //        startTime = System.nanoTime();
 //        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23356));
@@ -251,6 +235,9 @@ public class CreateNewBLRelations {
 //        System.out.print("\n\n\nFinished getting paths in ");
 //        System.out.print((endTime - startTime) / 1000);
 //        System.out.println(" microseconds!\n\n\n");
+
+
+
         // Now insert all BL relations.
 //        insertBLRelations(conceptGraph, concepts);
         if (cDao.getEntityManager().isOpen()) {
