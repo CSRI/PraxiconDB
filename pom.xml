@@ -155,22 +155,22 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>4.3.11.Final</version>
+            <version>5.1.0.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>5.2.2.Final</version>
+            <version>5.2.4.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-envers</artifactId>
-            <version>4.3.11.Final</version>
+            <version>5.1.0.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jpamodelgen</artifactId>
-            <version>5.0.4.Final</version>
+            <version>5.1.0.Final</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -185,7 +185,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.37</version>
+            <version>6.0.2</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -236,19 +236,19 @@
         <dependency>
             <groupId>org.dbunit</groupId>
             <artifactId>dbunit</artifactId>
-            <version>2.5.1</version>
+            <version>2.5.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jgrapht</groupId>
             <artifactId>jgrapht</artifactId>
-            <version>0.9.1</version>
+            <version>0.9.2</version>
             <type>pom</type>
         </dependency>
         <dependency>
             <groupId>org.jgrapht</groupId>
             <artifactId>jgrapht-core</artifactId>
-            <version>0.9.1</version>
+            <version>0.9.2</version>
         </dependency>
         <dependency>
             <groupId>org.jgrapht</groupId>
@@ -258,7 +258,7 @@
         <dependency>
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j</artifactId>
-            <version>2.3.1</version>
+            <version>3.0.2</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.neo4j</groupId>
@@ -289,18 +289,18 @@
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
-            <version>1.4.8</version>
+            <version>1.4.9</version>
             <type>pom</type>
         </dependency>
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream-hibernate</artifactId>
-            <version>1.4.8</version>
+            <version>1.4.9</version>
         </dependency>
         <dependency>
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j-kernel</artifactId>
-            <version>2.3.1</version>
+            <version>3.0.2</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -312,7 +312,7 @@
         <dependency>
             <groupId>commons-validator</groupId>
             <artifactId>commons-validator</artifactId>
-            <version>1.2.0</version>
+            <version>1.5.1</version>
             <type>jar</type>
         </dependency>
         <dependency>
