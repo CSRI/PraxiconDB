@@ -26,10 +26,10 @@ import static gr.csri.poeticon.praxicon.db.entities.RelationType.RelationNameFor
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -88,7 +88,7 @@ public class SimpleTest {
 
             System.out.println("");
             System.out.println("Please, select make your choice:");
-            System.out.println("-------------------------");
+            System.out.println("--------------------------------");
             System.out.println("1. Concepts");
             System.out.println("2. Language Representations");
             System.out.println("3. Relations & Relation Sets");
@@ -96,6 +96,7 @@ public class SimpleTest {
             System.out.println("5. Import from XML");
             System.out.println("6. Test concepts equality method");
             System.out.println("7. Test relation sets equality method");
+            System.out.println("8. Test concept XML export");
             System.out.println("q. Exit");
             System.out.println();
             System.out.println("Please enter your choice: ");
@@ -118,8 +119,13 @@ public class SimpleTest {
                     continue;
                 case "6":
                     testConceptEquals();
+                    continue;
                 case "7":
                     testRelationSetEquals();
+                    continue;
+                case "8":
+                    exportConcept();
+                    continue;
                 case "q":
                     System.exit(0);
             }
@@ -141,7 +147,7 @@ public class SimpleTest {
         String toSearch = "spoon";
 
         // Get the number of all concepts
-        List<Concept> concepts = cDao.getAllConcepts();
+        Set<Concept> concepts = cDao.getAllConcepts();
         System.out.println("\n\nNumber of all concepts: " + concepts.size());
 
         // Get children concepts and specificity level of the first concept
@@ -150,10 +156,10 @@ public class SimpleTest {
                 " having language representation spoon: ");
         System.out.println("------------------------------------------------" +
                 "----------------------------------");
-        List<Concept> conceptsSpoon = cDao.
+        Set<Concept> conceptsSpoon = cDao.
                 getConceptsByLanguageRepresentationExact(toSearch);
-        List<Concept> childrenOfSpoon = cDao.getChildren(
-                conceptsSpoon.get(0));
+        Set<Concept> childrenOfSpoon = cDao.getChildren(
+                conceptsSpoon.iterator().next());
         for (Concept concept : childrenOfSpoon) {
             /* Check if concept is contained in the active session and
              add it if it's not.
@@ -175,8 +181,8 @@ public class SimpleTest {
                 "concept having language representation spoon: ");
         System.out.println("------------------------------------------------" +
                 "-----------------------------------------");
-        List<Concept> parents = cDao.getParents(conceptsSpoon.get(0));
-        List<Concept> sisters = new ArrayList<>();
+        Set<Concept> parents = cDao.getParents(conceptsSpoon.iterator().next());
+        Set<Concept> sisters = new LinkedHashSet<>();
         for (Concept parent : parents) {
             System.out.println("Parent: " + parent + " - \t" + parent.
                     getSpecificityLevel());
@@ -189,7 +195,8 @@ public class SimpleTest {
         System.out.println("------------------------------------------------" +
                 "-----------------------------------------");
         long startTime = System.nanoTime();
-        List<Concept> offsprings = cDao.getAllOffsprings(conceptsSpoon.get(0));
+        Set<Concept> offsprings = cDao.getAllOffsprings(
+                conceptsSpoon.iterator().next());
         long endTime = System.nanoTime();
         System.out.print("getAllOffsprings() took: ");
         System.out.print((endTime - startTime) / 1000000000);
@@ -209,7 +216,7 @@ public class SimpleTest {
         // Get all Basic Level Concepts.
         System.out.println("\n\nCount All Basic Level Concepts:");
         System.out.println("-------------------------------------------");
-        List<Concept> basicLevelConcepts = cDao.getAllBasicLevelConcepts();
+        Set<Concept> basicLevelConcepts = cDao.getAllBasicLevelConcepts();
         System.out.println(basicLevelConcepts.size());
 
         String stringToSearch = "substance%1:03:00::";
@@ -218,7 +225,7 @@ public class SimpleTest {
         Concept concept = cDao.getConceptByNameExact(
                 stringToSearch);
         startTime = System.nanoTime();
-        List<Concept> basicLevelOfConcept = cDao.getBasicLevelConcepts(concept);
+        Set<Concept> basicLevelOfConcept = cDao.getBasicLevelConcepts(concept);
         endTime = System.nanoTime();
         System.out.print(
                 "Time of getBasicLevel() for concept: " + stringToSearch + " ");
@@ -247,7 +254,7 @@ public class SimpleTest {
         // Get the language representations of all concepts having "spoon" as
         // language representation.
         String toSearch = "spoon";
-        List<Concept> conceptsSpoon = cDao.
+        Set<Concept> conceptsSpoon = cDao.
                 getConceptsByLanguageRepresentationExact(toSearch);
         System.out.println("\n\nLanguage Representations of spoon: ");
         System.out.println("---------------------------------");
@@ -264,7 +271,7 @@ public class SimpleTest {
         // test the getAllLanguageRepresentationText() method.
         System.out.println("\n\nCount of all Language Representation Texts:");
         System.out.println("-------------------------------------------");
-        List<String> languageRepresentationTexts = lrDao.
+        Set<String> languageRepresentationTexts = lrDao.
                 getAllLanguageRepresentationText();
         System.out.println(languageRepresentationTexts.size());
 
@@ -295,7 +302,7 @@ public class SimpleTest {
         // Get all relations of a Concept
         System.out.println("\n\nAll relations of concept shape: ");
         System.out.println("-------------------------------");
-        List<Relation> allRelationsOfConceptShape = rDao.
+        Set<Relation> allRelationsOfConceptShape = rDao.
                 getAllRelationsOfConcept(conceptShape);
         for (Relation relation : allRelationsOfConceptShape) {
             System.out.println(relation);
@@ -306,7 +313,7 @@ public class SimpleTest {
         System.out.println("-------------------------------");
         Concept conceptspoon6 = cDao.getConceptByNameExact(
                 "spoon%1:06:00::");
-        List<Relation> allRelationsOfConceptSpoon6 = rDao.
+        Set<Relation> allRelationsOfConceptSpoon6 = rDao.
                 getAllRelationsOfConcept(conceptspoon6);
         for (Relation relation : allRelationsOfConceptSpoon6) {
             System.out.println(relation);
@@ -316,7 +323,7 @@ public class SimpleTest {
         System.out.println("-------------------------------");
         Concept conceptSubstance = cDao.getConceptByNameExact(
                 "substance%1:03:00::");
-        List<Relation> allRelationsOfConceptSubstance = rDao.
+        Set<Relation> allRelationsOfConceptSubstance = rDao.
                 getAllRelationsOfConcept(conceptSubstance);
         for (Relation relation : allRelationsOfConceptSubstance) {
             System.out.println(
@@ -327,7 +334,7 @@ public class SimpleTest {
         System.out.println(
                 "\n\nCount of all relations with relation type: HAS_INSTANCE");
         System.out.println("-----------------------------------------------");
-        List<Relation> hasInstanceRelations = rDao.getRelationsByRelationType(
+        Set<Relation> hasInstanceRelations = rDao.getRelationsByRelationType(
                 RelationType.RelationNameForward.HAS_INSTANCE);
 
         System.out.println(hasInstanceRelations.size());
@@ -337,7 +344,7 @@ public class SimpleTest {
         Concept conceptForRelationSet = cDao.getConceptByNameExact(
                 "dummy_object_brooch%2:35:00::_brooch%1:06:00::");
 
-        List<RelationSet> relationSets = rsDao.getRelationSetsByConcept(
+        Set<RelationSet> relationSets = rsDao.getRelationSetsByConcept(
                 conceptForRelationSet);
 
         // Find a specific relation in the database
@@ -371,7 +378,7 @@ public class SimpleTest {
 
         // Create a list of concepts to create XML with both concepts and
         // relation sets.
-        List<Concept> basicLevelConcepts = cDao.getAllBasicLevelConcepts();
+        Set<Concept> basicLevelConcepts = cDao.getAllBasicLevelConcepts();
 
         XmlUtils.exportAllObjectsToXML(relationSets, basicLevelConcepts,
                 allRelationsOfConceptSubstance,
@@ -385,9 +392,9 @@ public class SimpleTest {
         RelationSetDao rsDao = new RelationSetDaoImpl();
 
         // Get all concepts
-        List<Concept> concepts = cDao.getAllConcepts();
-        List<Relation> relations = rDao.findAll();
-        List<RelationSet> relationSets = rsDao.findAll();
+        Set<Concept> concepts = cDao.getAllConcepts();
+        Set<Relation> relations = rDao.findAll();
+        Set<RelationSet> relationSets = rsDao.findAll();
         XmlUtils.exportAllObjectsToXML(relationSets, concepts, relations,
                 "/home/dmavroeidis/Objects_all.xml");
     }
@@ -564,7 +571,8 @@ public class SimpleTest {
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(Concepts.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            String fileName = "/home/dmavroeidis/Concepts_20160329.xml";
+            String fileName =
+                    "/home/dmavroeidis/Concepts_colour_abstract_20160712172921.xml";
             File xmlFile = new File(fileName);
             importedConcepts =
                     (Concepts)jaxbUnmarshaller.unmarshal(xmlFile);
@@ -576,19 +584,26 @@ public class SimpleTest {
         }
 
         ConceptDao cDao = new ConceptDaoImpl();
-        Concept dbConcept = cDao.getConceptByExternalSourceIdExact(
-                "colour#abstract");
+        Concept dbConcept = cDao.getConceptByNameExact("color%1:07:01::");
         if (!importedConcepts.getConcepts().isEmpty()) {
             for (Concept item : importedConcepts.getConcepts()) {
-                System.out.println("Concept's " + item + " hash code is  " +
+                System.out.println("\nConcept's " + item + " hash code is  " +
                         item.hashCode());
-                System.out.println("DBConcept's " + item + " hash code is  " +
+                System.out.println("\nLanguageRepresentation's " + item.
+                        getLanguageRepresentations() + " hash code is  " +
+                        item.getLanguageRepresentations().hashCode());
+
+                System.out.println("\nDBConcept's " + item + " hash code is  " +
                         dbConcept.hashCode());
+                System.out.println("\nDBLanguageRepresentation's " + item.
+                        getLanguageRepresentations() + " hash code is  " +
+                        dbConcept.getLanguageRepresentations().hashCode());
+
                 if (item.equals(dbConcept)) {
-                    System.out.println("Concept " + item + " is equal to " +
+                    System.out.println("\nConcept " + item + " is equal to " +
                             dbConcept);
                 } else {
-                    System.out.println("Concept " + item + " NOT equal to " +
+                    System.out.println("\nConcept " + item + " NOT equal to " +
                             dbConcept);
                 }
             }
@@ -596,13 +611,15 @@ public class SimpleTest {
     }
 
     private static void testRelationSetEquals() {
-        System.out.println("\nTesting the validity of equals method in RelationSet\n\n");
+        System.out.println(
+                "\nTesting the validity of equals method in RelationSet\n\n");
 
         int result = 0;
         RelationSets importedRelationSets = new RelationSets();
 
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(RelationSets.class);
+            JAXBContext jaxbContext = JAXBContext.
+                    newInstance(RelationSets.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             String fileName = "/home/dmavroeidis/Desktop/RelationSet_352.xml";
             File xmlFile = new File(fileName);
@@ -623,19 +640,38 @@ public class SimpleTest {
 
         if (!importedRelationSets.getRelationSets().isEmpty()) {
             for (RelationSet item : importedRelationSets.getRelationSets()) {
-                System.out.println("RelationSet's " + item + item.getName() + " hash code is  " +
-                        item.hashCode());
-                System.out.println("DBRelationSet's " + dbRelationSet  + dbRelationSet.getName() + " hash code is  " +
+                System.out.println("\nRelationSet's " + item + item.getName() +
+                        " hash code is  " + item.hashCode());
+                System.out.println("\nDBRelationSet's " + dbRelationSet +
+                        dbRelationSet.getName() + " hash code is  " +
                         dbRelationSet.hashCode());
                 if (item.equals(dbRelationSet)) {
-                    System.out.println("DBRelationSet's " + item + item.getName() + " is equal to " +
-                            dbRelationSet);
+                    System.out.println("\nDBRelationSet's " + item + item.
+                            getName() + " is equal to " + dbRelationSet);
                 } else {
-                    System.out.println("DBRelationSet's " + item  + item.getName() + " NOT equal to " +
-                            dbRelationSet);
+                    System.out.println("\nDBRelationSet's " + item + item.
+                            getName() + " NOT equal to " + dbRelationSet);
                 }
             }
         }
+    }
+
+    public static void exportConcept() {
+
+        ConceptDao cDao = new ConceptDaoImpl();
+
+        Set<Concept> retrievedConcepts = cDao.
+                getConceptsByName("color%1:07:01::");
+        System.out.println("\n\nRetrieved Concept: " + retrievedConcepts);
+        System.out.println("\n\nLanguage Representations: " + retrievedConcepts.
+                iterator().next().getLanguageRepresentationsNames());
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = new Date();
+
+        XmlUtils.exportConceptsToXML(retrievedConcepts, String.
+                format("/home/dmavroeidis/Concepts_colour_abstract_%s.xml",
+                        dateFormat.format(date)));
     }
 
 }

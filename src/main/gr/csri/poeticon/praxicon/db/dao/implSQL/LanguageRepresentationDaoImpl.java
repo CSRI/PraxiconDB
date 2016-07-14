@@ -11,7 +11,8 @@ import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.Operator;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.PartOfSpeech;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.Productivity;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.UseStatus;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import javax.persistence.Query;
 
 /**
@@ -50,12 +51,12 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("productivity", productivity).
                 setParameter("negation", negation).
                 setParameter("operator", operator);
-        List<LanguageRepresentation> retrievedLanguageRepresentationList =
-                (List<LanguageRepresentation>)query.getResultList();
+        Set<LanguageRepresentation> retrievedLanguageRepresentationList =
+                (LinkedHashSet<LanguageRepresentation>)query.getResultList();
         if (retrievedLanguageRepresentationList.isEmpty()) {
             return null;
         }
-        return retrievedLanguageRepresentationList.get(0);
+        return retrievedLanguageRepresentationList.iterator().next();
     }
 
     /**
@@ -70,7 +71,7 @@ public class LanguageRepresentationDaoImpl extends
      * @return A LanguageRepresentation (null if not found)
      */
     @Override
-    public List<LanguageRepresentation> getLanguageRepresentations(
+    public Set<LanguageRepresentation> getLanguageRepresentations(
             Language language, String text, PartOfSpeech pos,
             UseStatus useStatus) {
         Query query = getEntityManager().createNamedQuery(
@@ -79,8 +80,8 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("language", language).
                 setParameter("pos", pos).
                 setParameter("useStatus", useStatus);
-        List<LanguageRepresentation> retrievedLanguageRepresentationList = query.
-                getResultList();
+        Set<LanguageRepresentation> retrievedLanguageRepresentationList =
+                (LinkedHashSet<LanguageRepresentation>)query.getResultList();
         if (retrievedLanguageRepresentationList.size() > 0) {
             return retrievedLanguageRepresentationList;
         } else {
@@ -97,12 +98,12 @@ public class LanguageRepresentationDaoImpl extends
      * @return A list of LanguageRepresentations
      */
     @Override
-    public List<LanguageRepresentation> getLanguageRepresentations(
+    public Set<LanguageRepresentation> getLanguageRepresentations(
             String text) {
         Query query = getEntityManager().createNamedQuery(
                 "findLanguageRepresentationsByText").
                 setParameter("text", text);
-        return query.getResultList();
+        return (LinkedHashSet<LanguageRepresentation>)query.getResultList();
     }
 
     /**
@@ -127,10 +128,10 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("language", language).
                 setParameter("pos", pos).
                 setParameter("useStatus", useStatus);
-        List<LanguageRepresentation> retrievedLanguageRepresentationList = query.
-                getResultList();
+        Set<LanguageRepresentation> retrievedLanguageRepresentationList =
+                (LinkedHashSet<LanguageRepresentation>)query.getResultList();
         if (retrievedLanguageRepresentationList.size() > 0) {
-            return retrievedLanguageRepresentationList.get(0);
+            return retrievedLanguageRepresentationList.iterator().next();
         } else {
             return null;
         }
@@ -143,10 +144,10 @@ public class LanguageRepresentationDaoImpl extends
      * @return A list of LanguageRepresentation Texts
      */
     @Override
-    public List<String> getAllLanguageRepresentationText() {
+    public Set<String> getAllLanguageRepresentationText() {
         Query query = getEntityManager().createNamedQuery(
                 "getAllLanguageRepresentationTextByText");
-        return query.getResultList();
+        return (LinkedHashSet<String>)query.getResultList();
     }
 
     /**

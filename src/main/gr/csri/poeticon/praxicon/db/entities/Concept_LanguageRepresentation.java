@@ -15,6 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -47,10 +49,12 @@ public class Concept_LanguageRepresentation implements Serializable {
 
     @XmlTransient
     @ManyToOne(optional = false, cascade = {CascadeType.ALL})
+    @PersistenceContext(type = PersistenceContextType.EXTENDED)
     @JoinColumn(name = "ConceptId")
     private Concept concept;
 
     @ManyToOne(optional = false, cascade = {CascadeType.ALL})
+    @PersistenceContext(type = PersistenceContextType.EXTENDED)
     @JoinColumn(name = "LanguageRepresentationId")
     private LanguageRepresentation languageRepresentation;
 
@@ -114,11 +118,11 @@ public class Concept_LanguageRepresentation implements Serializable {
         }
         final Concept_LanguageRepresentation other =
                 (Concept_LanguageRepresentation)obj;
-        if (this.getIsRepresentative() != other.getIsRepresentative()) {
+        if (this.isRepresentativeLanguageRepresentation !=
+                other.isRepresentativeLanguageRepresentation) {
             return false;
         }
-        if (!this.getLanguageRepresentation().equals(other.
-                getLanguageRepresentation())) {
+        if (!this.languageRepresentation.equals(other.languageRepresentation)) {
             return false;
         }
         return true;

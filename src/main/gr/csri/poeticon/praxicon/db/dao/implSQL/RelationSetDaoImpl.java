@@ -18,9 +18,9 @@ import gr.csri.poeticon.praxicon.db.entities.RelationSet;
 import gr.csri.poeticon.praxicon.db.entities.RelationSets;
 import gr.csri.poeticon.praxicon.db.entities.Relations;
 import gr.csri.poeticon.praxicon.db.entities.VisualRepresentation;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
 import static java.util.Objects.isNull;
+import java.util.Set;
 import javax.persistence.Query;
 
 /**
@@ -41,10 +41,10 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
         Query query = getEntityManager().createNamedQuery(
                 "findRelationSetByName").
                 setParameter("relationSetName", relationSetName);
-        List<RelationSet> retrievedRelationSetsList = (List<RelationSet>)query.
+        Set<RelationSet> retrievedRelationSetsList = (Set<RelationSet>)query.
                 getResultList();
         if (!retrievedRelationSetsList.isEmpty()) {
-            return retrievedRelationSetsList.get(0);
+            return retrievedRelationSetsList.iterator().next();
         } else {
             return null;
         }
@@ -78,7 +78,7 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
         RelationSet newRelationSet = new RelationSet();
 
         // 1. Retrieve relations from provided relation set
-        List<Relation> retrievedRelations = relationSet.getRelationsList();
+        Set<Relation> retrievedRelations = relationSet.getRelationsList();
 
         // 2. Check if relations exist in DB.
         for (Relation relation : retrievedRelations) {
@@ -208,11 +208,12 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
         rsDao.persist(newRelationSet);
         Query query = getEntityManager().createNamedQuery("findRelationSet").
                 setParameter("relationSet", newRelationSet);
-        List<RelationSet> retrievedRelationSetsList = query.getResultList();
+        Set<RelationSet> retrievedRelationSetsList =
+                (LinkedHashSet<RelationSet>)query.getResultList();
         if (retrievedRelationSetsList.isEmpty()) {
             return null;
         }
-        return retrievedRelationSetsList.get(0);
+        return retrievedRelationSetsList.iterator().next();
     }
 
     /**
@@ -223,12 +224,12 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
      * @return a list of RelationSets
      */
     @Override
-    public List<RelationSet> getRelationSetsByRelationArgument(
+    public Set<RelationSet> getRelationSetsByRelationArgument(
             RelationArgument relationArgument) {
         Query query = getEntityManager().createNamedQuery(
                 "findRelationSetsByRelationArgument").setParameter(
                         "relationArgument", relationArgument);
-        List<RelationSet> relationSets = (List<RelationSet>)query.
+        Set<RelationSet> relationSets = (LinkedHashSet<RelationSet>)query.
                 getResultList();
         return relationSets;
     }
@@ -241,15 +242,15 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
      * @return a list of RelationSets
      */
     @Override
-    public List<RelationSet> getRelationSetsByConcept(Concept concept) {
+    public Set<RelationSet> getRelationSetsByConcept(Concept concept) {
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
         RelationArgument newRelationArgument = raDao.
                 getRelationArgument(concept);
-        List<RelationSet> retrievedRelationSetsList =
+        Set<RelationSet> retrievedRelationSetsList =
                 getRelationSetsByRelationArgument(
                         newRelationArgument);
         if (retrievedRelationSetsList.isEmpty()) {
-            return new ArrayList<>();
+            return new LinkedHashSet<>();
         }
         return retrievedRelationSetsList;
     }
@@ -261,12 +262,12 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
      * @return a list of RelationSets
      */
     @Override
-    public List<RelationSet> getRelationSetsWithRelationArgumentAsLeftArgument(
+    public Set<RelationSet> getRelationSetsWithRelationArgumentAsLeftArgument(
             RelationArgument relationArgument) {
         Query query = getEntityManager().createNamedQuery(
                 "findRelationSetsByLeftRelationArgument").
                 setParameter("relationArgument", relationArgument);
-        List<RelationSet> retrievedRelationSetsList = (List<RelationSet>)query.
+        Set<RelationSet> retrievedRelationSetsList = (Set<RelationSet>)query.
                 getResultList();
         return retrievedRelationSetsList;
     }
@@ -278,13 +279,13 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
      * @return a list of RelationSets
      */
     @Override
-    public List<RelationSet> getRelationSetsWithRelationArgumentAsRightArgument(
+    public Set<RelationSet> getRelationSetsWithRelationArgumentAsRightArgument(
             RelationArgument relationArgument) {
         Query query = getEntityManager().createNamedQuery(
                 "findRelationSetsByRightRelationArgument").
                 setParameter("relationArgument", relationArgument);
-        List<RelationSet> retrievedRelationSetsList =
-                (List<RelationSet>)query.getResultList();
+        Set<RelationSet> retrievedRelationSetsList =
+                (LinkedHashSet<RelationSet>)query.getResultList();
         return retrievedRelationSetsList;
     }
 
@@ -296,7 +297,7 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
      * @return a list of relation sets
      */
     @Override
-    public List<RelationSet> getRelationSetsWithConceptAsRightArgument(
+    public Set<RelationSet> getRelationSetsWithConceptAsRightArgument(
             Concept concept) {
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
         RelationArgument newRelationArgument = raDao.
@@ -311,7 +312,7 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
      * @param relation the relation to search by
      * @return a list of relation sets
      */
-    public List<RelationSet> getRelationSetsByRelation(Relation relation) {
+    public Set<RelationSet> getRelationSetsByRelation(Relation relation) {
         // First get the relation from the database
         RelationDao rDao = new RelationDaoImpl();
         Relation retrievedRelation = rDao.
@@ -321,7 +322,7 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
         Query query = getEntityManager().createNamedQuery(
                 "findRelationSetsByRelation").
                 setParameter("relation", retrievedRelation);
-        List<RelationSet> relationSets = (List<RelationSet>)query.
+        Set<RelationSet> relationSets = (LinkedHashSet<RelationSet>)query.
                 getResultList();
         return relationSets;
     }
@@ -361,8 +362,10 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
         }
         Query q = getEntityManager().createQuery(sb.toString());
         q.setParameter(1, relationSet.getName().toUpperCase());
-        for (int i = 0; i < relationSet.getRelations().size(); i++) {
-            q.setParameter(i + 2, relationSet.getRelations().get(i));
+        int i = 0;
+        while (relationSet.getRelations().iterator().hasNext()) {
+            i = i++;
+            q.setParameter(i + 2, relationSet.getRelations().iterator().next());
         }
         return q;
     }

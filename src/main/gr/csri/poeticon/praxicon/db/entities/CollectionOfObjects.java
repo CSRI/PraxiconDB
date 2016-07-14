@@ -1,7 +1,7 @@
 package gr.csri.poeticon.praxicon.db.entities;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -18,42 +18,42 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class CollectionOfObjects {
 
     @XmlElement(name = "concepts")
-    List<Concepts> concepts = new ArrayList<>();
+    Set<Concepts> concepts = new LinkedHashSet<>();
 
     @XmlElement(name = "relations")
-    List<Relations> relations = new ArrayList<>();
+    Set<Relations> relations = new LinkedHashSet<>();
 
     @XmlElement(name = "relationSets")
-    List<RelationSets> relationSets = new ArrayList<>();
+    Set<RelationSets> relationSets = new LinkedHashSet<>();
 
-    public List<Concepts> getConcepts() {
+    public Set<Concepts> getConcepts() {
         return concepts;
     }
 
-    public void setConcepts(List<Concepts> concepts) {
+    public void setConcepts(Set<Concepts> concepts) {
         this.concepts = concepts;
     }
 
-    public List<Relations> getRelations() {
+    public Set<Relations> getRelations() {
         return relations;
     }
 
-    public void setRelations(List<Relations> relations) {
+    public void setRelations(Set<Relations> relations) {
         this.relations = relations;
     }
 
-    public List<RelationSets> getRelationSets() {
+    public Set<RelationSets> getRelationSets() {
         return relationSets;
     }
 
-    public void setRelationSets(List<RelationSets> relationSets) {
+    public void setRelationSets(Set<RelationSets> relationSets) {
         this.relationSets = relationSets;
     }
 
     public CollectionOfObjects() {
-        concepts = new ArrayList<>();
-        relations = new ArrayList<>();
-        relationSets = new ArrayList<>();
+        concepts = new LinkedHashSet<>();
+        relations = new LinkedHashSet<>();
+        relationSets = new LinkedHashSet<>();
     }
 
     /**

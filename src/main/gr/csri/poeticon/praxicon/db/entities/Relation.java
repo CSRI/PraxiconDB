@@ -7,9 +7,9 @@ package gr.csri.poeticon.praxicon.db.entities;
 import gr.csri.poeticon.praxicon.db.dao.RelationTypeDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationTypeDaoImpl;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -140,7 +140,7 @@ public class Relation implements Serializable {
 
     @XmlTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "relation")
-    private List<RelationSet_Relation> relationSet;
+    private Set<RelationSet_Relation> relationSet;
 
     @Column(name = "LinguisticallySupported")
     //@NotNull(message = "Linguistic support must be specified.")
@@ -255,8 +255,8 @@ public class Relation implements Serializable {
         this.comment = comment;
     }
 
-    public List<RelationSet> getRelationSets() {
-        List<RelationSet> relationSets = new ArrayList<>();
+    public Set<RelationSet> getRelationSets() {
+        Set<RelationSet> relationSets = new LinkedHashSet<>();
         if (!relationSets.isEmpty()) {
             for (RelationSet_Relation item : relationSet) {
                 relationSets.add(item.getRelationSet());

@@ -48,7 +48,7 @@ public class OntologicalDomain implements Serializable {
     @XmlTransient
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "OntologicalDomain_Concept",
+//            name = "OntologicalDomains_Concepts",
             joinColumns = {
                 @JoinColumn(name = "OntologicalDomainId")},
             inverseJoinColumns = {

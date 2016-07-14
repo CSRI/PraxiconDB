@@ -22,6 +22,7 @@ import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -56,7 +57,7 @@ public class CreateNewBLRelations {
         long startTime = System.nanoTime();
 
         // Get all concepts
-        List<Concept> concepts = cDao.getAllConcepts();
+        Set<Concept> concepts = cDao.getAllConcepts();
         long endTime = System.nanoTime();
         System.out.print("\n\n\nFinished getting concepts in ");
         System.out.print((endTime - startTime) / 1000000000);
@@ -71,7 +72,7 @@ public class CreateNewBLRelations {
         startTime = System.nanoTime();
         // For each concept, get its basic level
         for (Concept concept : concepts) {
-            List<Map.Entry<Concept, ConceptDaoImpl.Direction>> basicLevelConcepts =
+            Set<Map.Entry<Concept, ConceptDaoImpl.Direction>> basicLevelConcepts =
                     cDao.getBasicLevelConceptsOld(concept);
 
             counter += 1;
@@ -134,7 +135,7 @@ public class CreateNewBLRelations {
         // Get concepts from the database
         long startTime = System.nanoTime();
         System.out.println("\n\n\nGetting concepts...");
-        List<Concept> concepts = cDao.getAllConcepts();
+        Set<Concept> concepts = cDao.getAllConcepts();
         long endTime = System.nanoTime();
         System.out.print("\n\n\nFinished getting concepts in ");
         System.out.print((endTime - startTime) / 1000000000);
@@ -143,7 +144,7 @@ public class CreateNewBLRelations {
         // Get relation arguments from the database
         startTime = System.nanoTime();
         System.out.println("\n\n\nGetting relation arguments...");
-        List<RelationArgument> relationArguments = new ArrayList<>();
+        Set<RelationArgument> relationArguments = new LinkedHashSet<>();
         relationArguments = raDao.getAllRelationArguments();
         endTime = System.nanoTime();
         System.out.print("\n\n\nFinished getting relation arguments in ");
@@ -152,14 +153,14 @@ public class CreateNewBLRelations {
 
         // Create a copy of the existing array list to avoid
         // java.util.ConcurrentModificationException
-        List<RelationArgument> relationArgumentsNew = new ArrayList<>(
+        Set<RelationArgument> relationArgumentsNew = new LinkedHashSet<>(
                 relationArguments);
 
         // Get relations from the database
         startTime = System.nanoTime();
         System.out.print("\n\n\nGetting relations...");
 //        List<Relation> relationsTypeToken = rDao.findAll();
-        List<Relation> relationsTypeToken = rDao.getRelationsByRelationType(
+        Set<Relation> relationsTypeToken = rDao.getRelationsByRelationType(
                 RelationType.RelationNameForward.TYPE_TOKEN);
         endTime = System.nanoTime();
         System.out.print("\n\n\nFinished getting relations in ");
@@ -256,17 +257,17 @@ public class CreateNewBLRelations {
      * @param concepts
      */
     public static void insertBLRelations(DirectedGraph conceptGraph,
-            List<Concept> concepts) {
+            Set<Concept> concepts) {
 
         RelationDao rDao = new RelationDaoImpl();
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
 
         // Find all leaves.
         DepthFirstIterator graphIter = new DepthFirstIterator(conceptGraph);
-        List<Concept> islands = new ArrayList<>();
-        List<Concept> leaves = new ArrayList<>();
-        List<Concept> roots = new ArrayList<>();
-        List<Concept> internals = new ArrayList<>();
+        Set<Concept> islands = new LinkedHashSet<>();
+        Set<Concept> leaves = new LinkedHashSet<>();
+        Set<Concept> roots = new LinkedHashSet<>();
+        Set<Concept> internals = new LinkedHashSet<>();
         int maxOutDegree = 0;
         Concept maxOutDegreeConcept = new Concept();
         Concept maxInDegreeConcept = new Concept();
@@ -318,7 +319,7 @@ public class CreateNewBLRelations {
         long conceptCountPer100 = leafCount / 100;
         long countCounts = 1;
         long startTime = System.nanoTime();
-        List<List<Concept>> allPaths = new ArrayList<>();
+        Set<Set<Concept>> allPaths = new LinkedHashSet<>();
         // For each leaf, we find all paths to each root.
         for (Concept leaf : leaves) {
             counter += 1;
@@ -327,15 +328,15 @@ public class CreateNewBLRelations {
                 countCounts += 1;
             }
 
-            List<List<Concept>> paths = new ArrayList<>();
+            Set<Set<Concept>> paths = new LinkedHashSet<>();
             int count = 0;
             ConnectivityInspector conI = new ConnectivityInspector(conceptGraph);
             for (Concept root : roots) {
                 if (conI.pathExists(root, leaf)) {
                     paths = getAllPaths(conceptGraph, root, leaf);
 
-                    for (List<Concept> blPath : paths) {
-                        List<Concept> blConcepts = new ArrayList<>();
+                    for (Set<Concept> blPath : paths) {
+                        Set<Concept> blConcepts = new LinkedHashSet<>();
                         boolean blFound = false;
                         // Get basic level concepts in the path
                         for (Concept concept : blPath) {
@@ -455,12 +456,12 @@ public class CreateNewBLRelations {
      * @param leaf
      * @return a list of a list of paths.
      */
-    public static List<List<Concept>> getAllPaths(DirectedGraph conceptGraph,
+    public static Set<Set<Concept>> getAllPaths(DirectedGraph conceptGraph,
             Concept root, Concept leaf) {
-        List<List<Concept>> finalPathList = new ArrayList<>();
+        Set<Set<Concept>> finalPathList = new LinkedHashSet<>();
 
-        Stack<List<Concept>> pathStack = new Stack<>();
-        List<Concept> path = new ArrayList<>();
+        Stack<Set<Concept>> pathStack = new Stack<>();
+        Set<Concept> path = new LinkedHashSet<>();
         List<Concept> tmpPath = new ArrayList<>();
 
         Concept tmpConcept = null;
@@ -491,12 +492,12 @@ public class CreateNewBLRelations {
                     if (adjConcept.equals(root)) {
                         // 8. Add the path to the final list of returned paths
                         tmpPath.add(adjConcept);
-                        finalPathList.add(new ArrayList(tmpPath));
+                        finalPathList.add(new LinkedHashSet(tmpPath));
                     } else {
                         // If this is not the last node
                         // 9. Clear the list of nodes
                         // Add the existing path to the list of nodes
-                        List<Concept> nodeList = new ArrayList(tmpPath);
+                        Set<Concept> nodeList = new LinkedHashSet(tmpPath);
                         // 10. Add the new node to the list of nodes
                         nodeList.add(adjConcept);
                         // 11. Push the list of nodes to the path stack

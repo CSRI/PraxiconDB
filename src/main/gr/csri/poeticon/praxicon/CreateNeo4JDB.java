@@ -15,11 +15,12 @@ import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import java.awt.Frame;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.DynamicLabel;
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -96,7 +97,7 @@ public class CreateNeo4JDB {
 
         // Get concepts from the database
         long startTime = System.nanoTime();
-        List<Concept> concepts = cDao.getAllConcepts();
+        Set<Concept> concepts = cDao.getAllConcepts();
         long endTime = System.nanoTime();
         System.out.print("\n\n\nFinished getting concepts in ");
         System.out.print((endTime - startTime) / (1000000000));
@@ -105,7 +106,7 @@ public class CreateNeo4JDB {
         // Get relations from the database
         startTime = System.nanoTime();
         //List<Relation> relationsTypeToken = rDao.getAllRelations();
-        List<Relation> relationsTypeToken = rDao.getRelationsByRelationType(
+        Set<Relation> relationsTypeToken = rDao.getRelationsByRelationType(
                 RelationType.RelationNameForward.TYPE_TOKEN);
         endTime = System.nanoTime();
         System.out.print("\n\n\nFinished getting relations in ");
@@ -217,12 +218,12 @@ public class CreateNeo4JDB {
     }
 
     public static void findBLRelations(GraphDatabaseService graphDb,
-            List<Concept> concepts) {
+            Set<Concept> concepts) {
 
         RelationDao rDao = new RelationDaoImpl();
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
-        List<Map.Entry<Concept, Concept>> newBasicLevelConnections =
-                new ArrayList<>();
+        Set<Map.Entry<Concept, Concept>> newBasicLevelConnections =
+                new LinkedHashSet<>();
 
         // Find all leaves.
         String output = "";
@@ -246,10 +247,10 @@ public class CreateNeo4JDB {
 //            System.out.println(n.getProperty("conceptExternalSourceId") + ": " +
 //                    IteratorUtil.count(n.getRelationships(Direction.INCOMING)));
 //        }
-        List<Node> islands = new ArrayList<>();
-        List<Node> leaves = new ArrayList<>();
-        List<Node> roots = new ArrayList<>();
-        List<Node> internals = new ArrayList<>();
+        Set<Node> islands = new LinkedHashSet<>();
+        Set<Node> leaves = new LinkedHashSet<>();
+        Set<Node> roots = new LinkedHashSet<>();
+        Set<Node> internals = new LinkedHashSet<>();
         int maxOutDegree = 0;
         Node maxOutDegreeConcept = null;
         Node maxInDegreeConcept = null;

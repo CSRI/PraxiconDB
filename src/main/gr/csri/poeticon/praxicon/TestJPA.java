@@ -23,9 +23,8 @@ import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import gr.csri.poeticon.praxicon.db.entities.VisualRepresentation;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -85,8 +84,8 @@ public class TestJPA {
         /*
          * Add Language Representations to the concepts
          */
-        List<LanguageRepresentation> languageRepresentations1;
-        languageRepresentations1 = new ArrayList<>();
+        Set<LanguageRepresentation> languageRepresentations1;
+        languageRepresentations1 = new LinkedHashSet<>();
 
         LanguageRepresentation languageRepresentation1 =
                 new LanguageRepresentation();
@@ -204,8 +203,8 @@ public class TestJPA {
          * Create an ordered RelationSet
          */
         RelationSet relationSet2 = new RelationSet();
-        List<LanguageRepresentation> languageRepresentations2 =
-                new ArrayList<>();
+        Set<LanguageRepresentation> languageRepresentations2 =
+                new LinkedHashSet<>();
         languageRepresentations2.add(languageRepresentation3);
         relationSet2.setLanguageRepresentations(languageRepresentations2);
         relationSet2.setName("NewRelationSet2");

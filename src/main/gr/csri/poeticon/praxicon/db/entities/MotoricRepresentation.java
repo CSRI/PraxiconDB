@@ -2,8 +2,8 @@ package gr.csri.poeticon.praxicon.db.entities;
 
 import java.io.Serializable;
 import java.net.URI;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -83,7 +83,7 @@ public class MotoricRepresentation implements Serializable {
     private RelationSet relationSet;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "motoricRepresentation")
-    private List<VisualRepresentation> visualRepresentations;
+    private Set<VisualRepresentation> visualRepresentations;
 
     public MotoricRepresentation() {
     }
@@ -108,12 +108,12 @@ public class MotoricRepresentation implements Serializable {
         this.performingAgent = performingAgent;
     }
 
-    public List<VisualRepresentation> getVisualRepresentation() {
+    public Set<VisualRepresentation> getVisualRepresentation() {
         return visualRepresentations;
     }
 
     public void setVisualRepresentation(
-            List<VisualRepresentation> visualRepresentations) {
+            Set<VisualRepresentation> visualRepresentations) {
         this.visualRepresentations = visualRepresentations;
     }
 
