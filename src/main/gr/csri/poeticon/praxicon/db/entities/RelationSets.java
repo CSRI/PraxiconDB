@@ -75,7 +75,7 @@ public class RelationSets {
         RelationSetDao rsDao = new RelationSetDaoImpl();
 
         // First, store relations and add them to new relation set
-        for (Relation relation : relationSet.getRelationsList()) {
+        for (Relation relation : relationSet.getRelationsSet()) {
             Relation newRelation = newRelationsObject.storeRelation(relation);
             newRelationSet.addRelation(newRelation);
         }

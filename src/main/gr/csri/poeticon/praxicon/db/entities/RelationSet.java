@@ -7,7 +7,6 @@ package gr.csri.poeticon.praxicon.db.entities;
 
 import static gr.csri.poeticon.praxicon.db.entities.Concept.Status.VARIABLE;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -128,14 +127,14 @@ public class RelationSet implements Serializable {
      * Constructor #2.
      *
      * @param name
-     * @param relationSetRelationsList
+     * @param relationSetRelationsSet
      * @param languageRepresentations
      */
     public RelationSet(String name,
-            Set<RelationSet_Relation> relationSetRelationsList,
+            Set<RelationSet_Relation> relationSetRelationsSet,
             Set<LanguageRepresentation> languageRepresentations) {
         this.name = name;
-        this.relations = relationSetRelationsList;
+        this.relations = relationSetRelationsSet;
         this.languageRepresentations = languageRepresentations;
     }
 
@@ -164,34 +163,34 @@ public class RelationSet implements Serializable {
      *
      * @return a list of relations
      */
-    public Set<Relation> getRelationsList() {
-        Set<RelationSet_Relation> relationSetRelationList = new LinkedHashSet();
-        Set<Relation> relationList = new LinkedHashSet();
-        relationSetRelationList = this.relations;
-        if (!relationSetRelationList.isEmpty()) {
+    public Set<Relation> getRelationsSet() {
+        Set<RelationSet_Relation> relationSetRelationSet = new LinkedHashSet();
+        Set<Relation> relationSet = new LinkedHashSet();
+        relationSetRelationSet = this.relations;
+        if (!relationSetRelationSet.isEmpty()) {
             for (RelationSet_Relation relationSetRelation
-                    : relationSetRelationList) {
-                relationList.add(relationSetRelation.getRelation());
+                    : relationSetRelationSet) {
+                relationSet.add(relationSetRelation.getRelation());
             }
         }
-        return relationList;
-    }
-
-    /**
-     * Gets all Relations contained in this RelationSet in the form of Set,
-     * which means that there are no duplicate entries.
-     *
-     * @return a set of relations
-     */
-    public Set<Relation> getRelationsSet() {
-        HashSet<Relation> relationSet = new HashSet<>(this.getRelationsList());
         return relationSet;
     }
+
+//    /**
+//     * Gets all Relations contained in this RelationSet in the form of Set,
+//     * which means that there are no duplicate entries.
+//     *
+//     * @return a set of relations
+//     */
+//    public Set<Relation> getRelationsSet() {
+//        HashSet<Relation> relationSet = new HashSet<>(this.getRelationsSet());
+//        return relationSet;
+//    }
 
     /**
      * Gets a list of all relations contained in this relation set.
      *
-     * @return a List of Relation
+     * @return a Set of Relation
      */
     public Set<RelationSet_Relation> getRelations() {
         return relations;
@@ -318,7 +317,7 @@ public class RelationSet implements Serializable {
      * @return true/false
      */
     public boolean isVariable() {
-        for (Relation relation : this.getRelationsList()) {
+        for (Relation relation : this.getRelationsSet()) {
             if (relation.getLeftArgument().isConcept()) {
                 if (relation.getLeftArgument().getConcept().getStatus() ==
                         VARIABLE) {
@@ -348,7 +347,7 @@ public class RelationSet implements Serializable {
     public int hashCode() {
         int hash = 5;
         hash = 13 * hash + Objects.hashCode(this.name);
-        hash = 13 * hash + Objects.hashCode(this.getRelationsList());
+        hash = 13 * hash + Objects.hashCode(this.getRelationsSet());
         hash = 13 * hash + Objects.hashCode(this.getLanguageRepresentations());
         hash = 13 * hash + Objects.hashCode(this.getVisualRepresentations());
         hash = 13 * hash + Objects.hashCode(this.getMotoricRepresentations());
@@ -367,7 +366,7 @@ public class RelationSet implements Serializable {
         if (!this.name.equals(other.name)) {
             return false;
         }
-        if (!this.getRelationsList().equals(other.getRelationsList())) {
+        if (!this.getRelationsSet().equals(other.getRelationsSet())) {
             return false;
         }
         if (!this.getLanguageRepresentations().
@@ -387,13 +386,13 @@ public class RelationSet implements Serializable {
 
     @Override
     public String toString() {
-        Set<Relation> relationsList = this.getRelationsList();
-        Set<String> relationsStringsList = new LinkedHashSet<>();
+        Set<Relation> relationsSet = this.getRelationsSet();
+        Set<String> relationsStringsSet = new LinkedHashSet<>();
         String relationsString = "";
-        for (Relation relation : relationsList) {
-            relationsStringsList.add(relation.toString());
+        for (Relation relation : relationsSet) {
+            relationsStringsSet.add(relation.toString());
         }
-        relationsString = "{" + StringUtils.join(relationsStringsList, "##") +
+        relationsString = "{" + StringUtils.join(relationsStringsSet, "##") +
                 "}";
 
         return relationsString;

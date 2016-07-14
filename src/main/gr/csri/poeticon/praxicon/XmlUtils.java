@@ -36,10 +36,10 @@ public class XmlUtils {
      * Exports an XML file given a list of concepts. If the file exists, it is
      * overwritten.
      *
-     * @param conceptsList
+     * @param conceptsSet
      * @param xmlFileName
      */
-    public static void exportConceptsToXML(Set<Concept> conceptsList,
+    public static void exportConceptsToXML(Set<Concept> conceptsSet,
             String xmlFileName) {
         Concepts concepts = new Concepts();
         concepts.setConcepts(new LinkedHashSet<>());
@@ -55,7 +55,7 @@ public class XmlUtils {
             JAXBContext jaxbContext = JAXBContext.newInstance(Concepts.class);
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            for (Concept item : conceptsList) {
+            for (Concept item : conceptsSet) {
                 if (!session.contains(item)) {
                     session.update(item);
                 }
@@ -74,10 +74,10 @@ public class XmlUtils {
      * Exports an XML file given a list of relations. If the file exists, it is
      * overwritten.
      *
-     * @param relationsList
+     * @param relationsSet
      * @param xmlFileName
      */
-    public static void exportRelationsToXML(Set<Relation> relationsList,
+    public static void exportRelationsToXML(Set<Relation> relationsSet,
             String xmlFileName) {
 
         Relations relations = new Relations();
@@ -95,7 +95,7 @@ public class XmlUtils {
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-            for (Relation item : relationsList) {
+            for (Relation item : relationsSet) {
                 if (!session.contains(item)) {
                     session.update(item);
                 }
@@ -115,11 +115,11 @@ public class XmlUtils {
      * Exports an xml file given a list of relation sets. If the file exists,
      * it is overwritten.
      *
-     * @param relationSetsList
+     * @param relationSetsSet
      * @param xmlFileName
      */
     public static void exportRelationSetsToXML(
-            Set<RelationSet> relationSetsList, String xmlFileName) {
+            Set<RelationSet> relationSetsSet, String xmlFileName) {
 
         RelationSets relationSets = new RelationSets();
         relationSets.setRelationSets(new LinkedHashSet<>());
@@ -137,7 +137,7 @@ public class XmlUtils {
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-            for (RelationSet item : relationSetsList) {
+            for (RelationSet item : relationSetsSet) {
                 if (!session.contains(item)) {
                     session.update(item);
                 }
@@ -157,13 +157,13 @@ public class XmlUtils {
      * Exports an xml file given a list of relation sets, a list of Concepts
      * and a list of relations. If the file exists, it is overwritten.
      *
-     * @param relationSetsList
-     * @param conceptsList
-     * @param relationsList
+     * @param relationSetsSet
+     * @param conceptsSet
+     * @param relationsSet
      * @param xmlFileName
      */
-    public static void exportAllObjectsToXML(Set<RelationSet> relationSetsList,
-            Set<Concept> conceptsList, Set<Relation> relationsList,
+    public static void exportAllObjectsToXML(Set<RelationSet> relationSetsSet,
+            Set<Concept> conceptsSet, Set<Relation> relationsSet,
             String xmlFileName) {
         CollectionOfObjects collectionOfObjects = new CollectionOfObjects();
         RelationSets relationSets = new RelationSets();
@@ -186,19 +186,19 @@ public class XmlUtils {
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-            for (RelationSet item : relationSetsList) {
+            for (RelationSet item : relationSetsSet) {
                 if (!session.contains(item)) {
                     session.update(item);
                 }
                 relationSets.getRelationSets().add(item);
             }
-            for (Concept item : conceptsList) {
+            for (Concept item : conceptsSet) {
                 if (!session.contains(item)) {
                     session.update(item);
                 }
                 concepts.getConcepts().add(item);
             }
-            for (Relation item : relationsList) {
+            for (Relation item : relationsSet) {
                 if (!session.contains(item)) {
                     session.update(item);
                 }

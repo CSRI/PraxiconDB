@@ -1112,13 +1112,13 @@ public class Concept implements Serializable {
             // + " (Entity)";
         } else if (!isNull(this.getConceptLanguageRepresentationsEntries()) &&
                 !this.getConceptLanguageRepresentationsEntries().isEmpty()) {
-            Set<Concept_LanguageRepresentation> tmpList =
+            Set<Concept_LanguageRepresentation> tmpSet =
                     this.getConceptLanguageRepresentationsEntries();
-            if (tmpList.size() > 0) {
+            if (tmpSet.size() > 0) {
                 StringBuilder tmp = new StringBuilder(
-                        tmpList.iterator().next().getLanguageRepresentation().
+                        tmpSet.iterator().next().getLanguageRepresentation().
                         getText());
-                for (Concept_LanguageRepresentation item : tmpList) {
+                for (Concept_LanguageRepresentation item : tmpSet) {
                     tmp.append("\\").append(item.getLanguageRepresentation().
                             getText());
                 }

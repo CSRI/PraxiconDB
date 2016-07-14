@@ -6,7 +6,8 @@ package gr.csri.poeticon.praxicon.db.dao.implSQL;
 
 import gr.csri.poeticon.praxicon.db.dao.RelationTypeDao;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import javax.persistence.Query;
 
 /**
@@ -22,12 +23,12 @@ public class RelationTypeDaoImpl extends JpaDao<Long, RelationType> implements
         Query query = getEntityManager().createNamedQuery(
                 "getRelationTypeByForwardName").
                 setParameter("forwardName", forwardName);
-        List<RelationType> relationsTypeList = (List<RelationType>)query.
+        Set<RelationType> relationsTypeSet = (LinkedHashSet<RelationType>)query.
                 getResultList();
-        if (relationsTypeList.isEmpty()) {
+        if (relationsTypeSet.isEmpty()) {
             return null;
         }
-        return relationsTypeList.get(0);
+        return relationsTypeSet.iterator().next();
     }
 
     /**

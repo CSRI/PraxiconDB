@@ -51,12 +51,12 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("productivity", productivity).
                 setParameter("negation", negation).
                 setParameter("operator", operator);
-        Set<LanguageRepresentation> retrievedLanguageRepresentationList =
+        Set<LanguageRepresentation> retrievedLanguageRepresentationSet =
                 (LinkedHashSet<LanguageRepresentation>)query.getResultList();
-        if (retrievedLanguageRepresentationList.isEmpty()) {
+        if (retrievedLanguageRepresentationSet.isEmpty()) {
             return null;
         }
-        return retrievedLanguageRepresentationList.iterator().next();
+        return retrievedLanguageRepresentationSet.iterator().next();
     }
 
     /**
@@ -80,10 +80,10 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("language", language).
                 setParameter("pos", pos).
                 setParameter("useStatus", useStatus);
-        Set<LanguageRepresentation> retrievedLanguageRepresentationList =
+        Set<LanguageRepresentation> retrievedLanguageRepresentationSet =
                 (LinkedHashSet<LanguageRepresentation>)query.getResultList();
-        if (retrievedLanguageRepresentationList.size() > 0) {
-            return retrievedLanguageRepresentationList;
+        if (retrievedLanguageRepresentationSet.size() > 0) {
+            return retrievedLanguageRepresentationSet;
         } else {
             return null;
         }
@@ -128,10 +128,10 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("language", language).
                 setParameter("pos", pos).
                 setParameter("useStatus", useStatus);
-        Set<LanguageRepresentation> retrievedLanguageRepresentationList =
+        Set<LanguageRepresentation> retrievedLanguageRepresentationSet =
                 (LinkedHashSet<LanguageRepresentation>)query.getResultList();
-        if (retrievedLanguageRepresentationList.size() > 0) {
-            return retrievedLanguageRepresentationList.iterator().next();
+        if (retrievedLanguageRepresentationSet.size() > 0) {
+            return retrievedLanguageRepresentationSet.iterator().next();
         } else {
             return null;
         }

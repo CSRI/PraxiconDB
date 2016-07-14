@@ -30,13 +30,13 @@ public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument>
     public Set<RelationArgument> getAllRelationArguments() {
         Query query = getEntityManager().createNamedQuery(
                 "findAllRelationArguments");
-        Set<RelationArgument> retrievedRelationArgumentsList =
+        Set<RelationArgument> retrievedRelationArgumentsSet =
                 (LinkedHashSet<RelationArgument>)query.getResultList();
-        if (retrievedRelationArgumentsList.isEmpty()) {
+        if (retrievedRelationArgumentsSet.isEmpty()) {
             return null;
         }
-//        System.out.println("relationArgumentList --> " + retrievedRelationArgumentsList.get(0));
-        return retrievedRelationArgumentsList;
+//        System.out.println("relationArgumentSet --> " + retrievedRelationArgumentsSet.get(0));
+        return retrievedRelationArgumentsSet;
     }
 
 
@@ -51,13 +51,13 @@ public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument>
         Query query = getEntityManager().createNamedQuery(
                 "findRelationArgumentByConcept").
                 setParameter("concept", concept);
-        Set<RelationArgument> retrievedRelationArgumentsList =
+        Set<RelationArgument> retrievedRelationArgumentsSet =
                 (LinkedHashSet<RelationArgument>)query.getResultList();
-        if (retrievedRelationArgumentsList.isEmpty()) {
+        if (retrievedRelationArgumentsSet.isEmpty()) {
             return null;
         }
-//        System.out.println("relationArgumentList --> " + retrievedRelationArgumentsList.get(0));
-        return retrievedRelationArgumentsList.iterator().next();
+//        System.out.println("relationArgumentSet --> " + retrievedRelationArgumentsSet.get(0));
+        return retrievedRelationArgumentsSet.iterator().next();
     }
 
     /**
@@ -72,11 +72,11 @@ public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument>
         Query query = getEntityManager().createNamedQuery(
                 "findRelationArgumentByRelationSet").
                 setParameter("relationSet", relationSet);
-        Set<RelationArgument> retrievedRelationArgumentsList =
+        Set<RelationArgument> retrievedRelationArgumentsSet =
                 (Set<RelationArgument>)query.getResultList();
-        if (retrievedRelationArgumentsList.isEmpty()) {
+        if (retrievedRelationArgumentsSet.isEmpty()) {
             return null;
         }
-        return retrievedRelationArgumentsList.iterator().next();
+        return retrievedRelationArgumentsSet.iterator().next();
     }
 }

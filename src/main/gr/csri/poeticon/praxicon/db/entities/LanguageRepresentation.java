@@ -357,13 +357,13 @@ public class LanguageRepresentation implements Serializable {
     }
 
     public LinkedHashSet<LanguageRepresentation> getLanguageRepresentations() {
-        LinkedHashSet<LanguageRepresentation> languageRepresentationsList =
+        LinkedHashSet<LanguageRepresentation> languageRepresentationsSet =
                 new LinkedHashSet<>();
         for (LanguageRepresentation languageRepresentation
                 : LanguageRepresentation.languageRepresentations) {
-            languageRepresentationsList.add(languageRepresentation);
+            languageRepresentationsSet.add(languageRepresentation);
         }
-        return languageRepresentationsList;
+        return languageRepresentationsSet;
     }
 
     public void setLanguageRepresentations(
