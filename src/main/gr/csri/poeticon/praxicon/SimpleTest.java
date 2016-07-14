@@ -564,7 +564,8 @@ public class SimpleTest {
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(Concepts.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            String fileName = "/home/dmavroeidis/Concepts_20160329.xml";
+            String fileName =
+                    "/home/dmavroeidis/Concepts_colour_abstract_20160712172921.xml";
             File xmlFile = new File(fileName);
             importedConcepts =
                     (Concepts)jaxbUnmarshaller.unmarshal(xmlFile);
@@ -576,19 +577,26 @@ public class SimpleTest {
         }
 
         ConceptDao cDao = new ConceptDaoImpl();
-        Concept dbConcept = cDao.getConceptByExternalSourceIdExact(
-                "colour#abstract");
+        Concept dbConcept = cDao.getConceptByNameExact("color%1:07:01::");
         if (!importedConcepts.getConcepts().isEmpty()) {
             for (Concept item : importedConcepts.getConcepts()) {
-                System.out.println("Concept's " + item + " hash code is  " +
+                System.out.println("\nConcept's " + item + " hash code is  " +
                         item.hashCode());
-                System.out.println("DBConcept's " + item + " hash code is  " +
+                System.out.println("\nLanguageRepresentation's " + item.
+                        getLanguageRepresentations() + " hash code is  " +
+                        item.getLanguageRepresentations().hashCode());
+
+                System.out.println("\nDBConcept's " + item + " hash code is  " +
                         dbConcept.hashCode());
+                System.out.println("\nDBLanguageRepresentation's " + item.
+                        getLanguageRepresentations() + " hash code is  " +
+                        dbConcept.getLanguageRepresentations().hashCode());
+
                 if (item.equals(dbConcept)) {
-                    System.out.println("Concept " + item + " is equal to " +
+                    System.out.println("\nConcept " + item + " is equal to " +
                             dbConcept);
                 } else {
-                    System.out.println("Concept " + item + " NOT equal to " +
+                    System.out.println("\nConcept " + item + " NOT equal to " +
                             dbConcept);
                 }
             }
