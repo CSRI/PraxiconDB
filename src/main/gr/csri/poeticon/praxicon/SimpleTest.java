@@ -118,8 +118,10 @@ public class SimpleTest {
                     continue;
                 case "6":
                     testConceptEquals();
+                    continue;
                 case "7":
                     testRelationSetEquals();
+                    continue;
                 case "q":
                     System.exit(0);
             }
