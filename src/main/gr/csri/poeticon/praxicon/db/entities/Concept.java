@@ -6,9 +6,7 @@ package gr.csri.poeticon.praxicon.db.entities;
 
 import static gr.csri.poeticon.praxicon.EntityMngFactory.getEntityManager;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Objects;
 import static java.util.Objects.isNull;
 import java.util.Set;
@@ -699,10 +697,10 @@ public class Concept implements Serializable {
      * @return a list containing the concept's language representations
      *
      */
-    public final List<LanguageRepresentation> getLanguageRepresentations() {
+    public final Set<LanguageRepresentation> getLanguageRepresentations() {
         EntityManager em = getEntityManager();
         Session session = em.unwrap(org.hibernate.Session.class);
-        List<LanguageRepresentation> lrs = new ArrayList<>();
+        Set<LanguageRepresentation> lrs = new LinkedHashSet<>();
 //        Hibernate.initialize(getConceptLanguageRepresentationsEntries());
         for (Concept_LanguageRepresentation clr
                 : getConceptLanguageRepresentationsEntries()) {
@@ -713,7 +711,7 @@ public class Concept implements Serializable {
 //            }
             lrs.add(clr.getLanguageRepresentation());
         }
-        return new ArrayList<>(lrs);
+        return new LinkedHashSet<>(lrs);
     }
 
     /**
@@ -723,12 +721,12 @@ public class Concept implements Serializable {
      * @return the Concept_LanguageRepresentation instance of the concept
      *
      */
-    public final List<Concept_LanguageRepresentation>
+    public final Set<Concept_LanguageRepresentation>
             getConceptLanguageRepresentation() {
 //        Hibernate.initialize(languageRepresentations);
         EntityManager em = getEntityManager();
         Session session = em.unwrap(org.hibernate.Session.class);
-        List<Concept_LanguageRepresentation> clrs = new ArrayList<>();
+        Set<Concept_LanguageRepresentation> clrs = new LinkedHashSet<>();
 //        return new ArrayList<>(languageRepresentations);
 //        if (!session.contains(languageRepresentations)) {
 //            System.out.println("DOES NOT CONTAIN!");
@@ -761,7 +759,7 @@ public class Concept implements Serializable {
 //                clrs.add(clr);
 //            }
 //        }
-        return new ArrayList<>(languageRepresentations);
+        return new LinkedHashSet<>(languageRepresentations);
 //
 //        if (!isNull(languageRepresentations) && !languageRepresentations.
 //                isEmpty()) {
@@ -785,10 +783,10 @@ public class Concept implements Serializable {
      * @return a list of Concept_LanguageRepresentation instances for the
      *         concept
      */
-    public List<Concept_LanguageRepresentation>
+    public Set<Concept_LanguageRepresentation>
             getConceptLanguageRepresentationsEntries() {
-        List<Concept_LanguageRepresentation> languageRepresentationEntries =
-                new ArrayList<>();
+        Set<Concept_LanguageRepresentation> languageRepresentationEntries =
+                new LinkedHashSet<>();
         EntityManager em = getEntityManager();
         Session session = em.unwrap(org.hibernate.Session.class);
 //        Hibernate.initialize(this.getConceptLanguageRepresentation());
@@ -798,9 +796,9 @@ public class Concept implements Serializable {
                     : this.getConceptLanguageRepresentation()) {
                 languageRepresentationEntries.add(languageRepresentation);
             }
-            return new ArrayList<>(languageRepresentationEntries);
+            return new LinkedHashSet<>(languageRepresentationEntries);
         } else {
-            return new ArrayList<>();
+            return new LinkedHashSet<>();
         }
     }
 
@@ -844,14 +842,14 @@ public class Concept implements Serializable {
      *         of the concept.
      */
     public String getFirstLanguageRepresentationName() {
-        List<LanguageRepresentation> lrs = this.getLanguageRepresentations();
+        Set<LanguageRepresentation> lrs = this.getLanguageRepresentations();
         for (LanguageRepresentation lr : lrs) {
             if (lr.getLanguage().name().equalsIgnoreCase("en")) {
                 return lr.getText();
             }
         }
         if (lrs.size() > 0) {
-            return lrs.get(0).getText();
+            return lrs.iterator().next().getText();
         }
         return "noname";
     }
@@ -862,11 +860,11 @@ public class Concept implements Serializable {
      * @return list of strings with all the texts of the Language
      *         Representations of the Concept.
      */
-    public List<String> getLanguageRepresentationsNames() {
+    public Set<String> getLanguageRepresentationsNames() {
         EntityManager em = getEntityManager();
         Session session = em.unwrap(org.hibernate.Session.class);
-        List<LanguageRepresentation> lrs = this.getLanguageRepresentations();
-        List<String> lrNames = new ArrayList<>();
+        Set<LanguageRepresentation> lrs = this.getLanguageRepresentations();
+        Set<String> lrNames = new LinkedHashSet<>();
         if (!lrs.isEmpty()) {
             for (LanguageRepresentation lr : lrs) {
                 if (!session.contains(lr)) {
@@ -875,7 +873,7 @@ public class Concept implements Serializable {
                 lrNames.add(lr.getText());
             }
         }
-        return new ArrayList<>(lrNames);
+        return new LinkedHashSet<>(lrNames);
     }
 
     /**
@@ -933,9 +931,9 @@ public class Concept implements Serializable {
      *
      * @return a list of visual representations
      */
-    public final List<VisualRepresentation> getVisualRepresentationsEntries() {
-        List<VisualRepresentation> visualRepresentationEntries =
-                new ArrayList<>();
+    public final Set<VisualRepresentation> getVisualRepresentationsEntries() {
+        Set<VisualRepresentation> visualRepresentationEntries =
+                new LinkedHashSet<>();
         for (VisualRepresentation VisualRepresentation
                 : this.visualRepresentations) {
             visualRepresentationEntries.add(VisualRepresentation);
@@ -973,9 +971,9 @@ public class Concept implements Serializable {
      *
      * @return a list of motoric representations
      */
-    public List<MotoricRepresentation> getMotoricRepresentationsEntries() {
-        List<MotoricRepresentation> motoricRepresentationEntries =
-                new ArrayList<>();
+    public Set<MotoricRepresentation> getMotoricRepresentationsEntries() {
+        Set<MotoricRepresentation> motoricRepresentationEntries =
+                new LinkedHashSet<>();
         for (MotoricRepresentation MotoricRepresentation
                 : this.motoricRepresentations) {
             motoricRepresentationEntries.add(MotoricRepresentation);
@@ -1114,14 +1112,15 @@ public class Concept implements Serializable {
             // + " (Entity)";
         } else if (!isNull(this.getConceptLanguageRepresentationsEntries()) &&
                 !this.getConceptLanguageRepresentationsEntries().isEmpty()) {
-            List<Concept_LanguageRepresentation> tmpList =
+            Set<Concept_LanguageRepresentation> tmpList =
                     this.getConceptLanguageRepresentationsEntries();
             if (tmpList.size() > 0) {
                 StringBuilder tmp = new StringBuilder(
-                        tmpList.get(0).getLanguageRepresentation().getText());
-                for (int i = 1; i < tmpList.size(); i++) {
-                    tmp.append("\\").append(tmpList.get(i).
-                            getLanguageRepresentation().getText());
+                        tmpList.iterator().next().getLanguageRepresentation().
+                        getText());
+                for (Concept_LanguageRepresentation item : tmpList) {
+                    tmp.append("\\").append(item.getLanguageRepresentation().
+                            getText());
                 }
                 return tmp.toString();
             } else {
