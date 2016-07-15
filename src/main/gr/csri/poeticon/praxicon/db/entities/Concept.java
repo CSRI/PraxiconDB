@@ -1018,9 +1018,9 @@ public class Concept implements Serializable {
         hash = 13 * hash + Objects.hashCode(this.pragmaticStatus);
         hash = 13 * hash + Objects.hashCode(this.uniqueInstance);
 //        hash = 13 * hash + Objects.hashCode(this.getOntologicalDomains());
-        hash = 13 * hash + Objects.hashCode(this.getLanguageRepresentations());
-        hash = 13 * hash + Objects.hashCode(this.
-                getConceptLanguageRepresentation());
+//        hash = 13 * hash + Objects.hashCode(this.getLanguageRepresentations());
+//        hash = 13 * hash + Objects.hashCode(this.
+//                getConceptLanguageRepresentation());
         return hash;
     }
 
@@ -1055,17 +1055,17 @@ public class Concept implements Serializable {
         if (!this.uniqueInstance.equals(other.uniqueInstance)) {
             return false;
         }
-        if (!this.getLanguageRepresentations().equals(other.
-                getLanguageRepresentations())) {
-            return false;
-        }
-        if (!this.ontologicalDomains.equals(other.ontologicalDomains)) {
-            return false;
-        }
-        if (!this.getConceptLanguageRepresentation().equals(other.
-                getConceptLanguageRepresentation())) {
-            return false;
-        }
+//        if (!this.getLanguageRepresentations().equals(other.
+//                getLanguageRepresentations())) {
+//            return false;
+//        }
+//        if (!this.ontologicalDomains.equals(other.ontologicalDomains)) {
+//            return false;
+//        }
+//        if (!this.getConceptLanguageRepresentation().equals(other.
+//                getConceptLanguageRepresentation())) {
+//            return false;
+//        }
 
         return true;
     }
