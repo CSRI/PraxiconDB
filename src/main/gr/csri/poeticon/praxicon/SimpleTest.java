@@ -648,4 +648,23 @@ public class SimpleTest {
         }
     }
 
+
+    public static void exportConcept() {
+
+        ConceptDao cDao = new ConceptDaoImpl();
+
+        List<Concept> retrievedConcepts = cDao.
+                getConceptsByName("color%1:07:01::");
+        System.out.println("\n\nRetrieved Concept: " + retrievedConcepts);
+        System.out.println("\n\nLanguage Representations: " + retrievedConcepts.
+                iterator().next().getLanguageRepresentationsNames());
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = new Date();
+
+        XmlUtils.exportConceptsToXML(retrievedConcepts, String.
+                format("/home/dmavroeidis/Concepts_colour_abstract_%s.xml",
+                        dateFormat.format(date)));
+    }
+
 }
