@@ -31,14 +31,13 @@ public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument>
         Query query = getEntityManager().createNamedQuery(
                 "findAllRelationArguments");
         Set<RelationArgument> retrievedRelationArgumentsSet =
-                (LinkedHashSet<RelationArgument>)query.getResultList();
+                new LinkedHashSet<RelationArgument>(query.getResultList());
         if (retrievedRelationArgumentsSet.isEmpty()) {
             return null;
         }
 //        System.out.println("relationArgumentSet --> " + retrievedRelationArgumentsSet.get(0));
         return retrievedRelationArgumentsSet;
     }
-
 
     /**
      * Finds the relation argument that is connected with the given concept.

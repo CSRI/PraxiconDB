@@ -53,8 +53,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
     @Override
     public Set<Concept> getAllConcepts() {
         Query query = getEntityManager().createNamedQuery("findAllConcepts");
-        Set<Concept> retrievedConceptsSet = (LinkedHashSet)query.
-                getResultList();
+        Set<Concept> retrievedConceptsSet = new LinkedHashSet<Concept>(query.
+                getResultList());
         return retrievedConceptsSet;
     }
 
@@ -79,8 +79,8 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 //                setParameter("ontologicalDomain",
                 //                        concept.getOntologicalDomain())
                 ;
-        Set<Concept> retrievedConceptsSet = (LinkedHashSet<Concept>)query.
-                getResultList();
+        Set<Concept> retrievedConceptsSet = new LinkedHashSet<>(query.
+                getResultList());
         if (retrievedConceptsSet.isEmpty()) {
             return null;
         }
@@ -97,8 +97,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         Query query = getEntityManager().createNamedQuery(
                 "findAllBasicLevelConcepts");
         Set<Concept> retrievedConceptsSet =
-                (LinkedHashSet<Concept>)query.
-                getResultList();
+                new LinkedHashSet<>(query.getResultList());
         return retrievedConceptsSet;
     }
 
@@ -112,8 +111,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         Query query = getEntityManager().createNamedQuery(
                 "findAllNonBasicLevelConcepts");
         Set<Concept> retrievedConceptsSet =
-                (LinkedHashSet<Concept>)query.
-                getResultList();
+                new LinkedHashSet<>(query.getResultList());
         return retrievedConceptsSet;
     }
 
@@ -129,8 +127,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 "findConceptsByConceptId").
                 setParameter("conceptId", conceptId);
         Set<Concept> retrievedConceptsSet =
-                (LinkedHashSet<Concept>)query.
-                getResultList();
+                new LinkedHashSet<>(query.getResultList());
         if (retrievedConceptsSet.isEmpty()) {
             return null;
         }
@@ -151,8 +148,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 setParameter("conceptName", "%" +
                         conceptName + "%");
         Set<Concept> retrievedConceptsSet =
-                (LinkedHashSet<Concept>)query.
-                getResultList();
+                new LinkedHashSet<>(query.getResultList());
         return retrievedConceptsSet;
     }
 
@@ -168,7 +164,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         Query query = getEntityManager().createNamedQuery(
                 "findConceptByNameExact").
                 setParameter("conceptName", conceptName);
-        Set<Concept> retrievedConceptsSet = new LinkedHashSet<Concept>(query.
+        Set<Concept> retrievedConceptsSet = new LinkedHashSet<>(query.
                 getResultList());
         if (retrievedConceptsSet.isEmpty()) {
             return null;
@@ -191,8 +187,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 setParameter("conceptName", "%" + conceptName + "%").
                 setParameter("conceptStatus", status);
         LinkedHashSet<Concept> retrievedConceptsSet =
-                (LinkedHashSet<Concept>)query.
-                getResultList();
+                new LinkedHashSet<>(query.getResultList());
         return retrievedConceptsSet;
     }
 
@@ -210,8 +205,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 setParameter("conceptExternalSourceId", "%" +
                         conceptExternalSourceId + "%");
         LinkedHashSet<Concept> retrievedConceptsSet =
-                (LinkedHashSet<Concept>)query.
-                getResultList();
+                new LinkedHashSet<>(query.getResultList());
         return retrievedConceptsSet;
     }
 
@@ -228,8 +222,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 "findConceptByExternalSourceIdExact").
                 setParameter("conceptExternalSourceId", conceptExternalSourceId);
         LinkedHashSet<Concept> retrievedConceptsSet =
-                (LinkedHashSet<Concept>)query.
-                getResultList();
+                new LinkedHashSet<>(query.getResultList());
         if (retrievedConceptsSet.isEmpty()) {
             return null;
         }
@@ -251,8 +244,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 setParameter("languageRepresentationName", "%" +
                         languageRepresentationName + "%");
         LinkedHashSet<Concept> retrievedConceptsSet =
-                (LinkedHashSet<Concept>)query.
-                getResultList();
+                new LinkedHashSet<>(query.getResultList());
         return retrievedConceptsSet;
     }
 
@@ -271,8 +263,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 setParameter("languageRepresentationName",
                         languageRepresentationName);
         LinkedHashSet<Concept> retrievedConceptsSet =
-                (LinkedHashSet<Concept>)query.
-                getResultList();
+                new LinkedHashSet<>(query.getResultList());
         return retrievedConceptsSet;
     }
 
@@ -291,8 +282,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 setParameter("languageRepresentationNameStart",
                         languageRepresentationNameStart + "%");
         LinkedHashSet<Concept> retrievedConceptsSet =
-                (LinkedHashSet<Concept>)query.
-                getResultList();
+                new LinkedHashSet<>(query.getResultList());
         return retrievedConceptsSet;
     }
 
@@ -311,8 +301,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 setParameter("languageRepresentationNameEnd", "%" +
                         languageRepresentationNameEnd);
         LinkedHashSet<Concept> retrievedConceptsSet =
-                (LinkedHashSet<Concept>)query.
-                getResultList();
+                new LinkedHashSet<>(query.getResultList());
         return retrievedConceptsSet;
     }
 
@@ -328,8 +317,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 "findConceptsByStatusExact").
                 setParameter("status", status);
         LinkedHashSet<Concept> retrievedConceptsSet =
-                (LinkedHashSet<Concept>)query.
-                getResultList();
+                new LinkedHashSet<>(query.getResultList());
         return retrievedConceptsSet;
     }
 

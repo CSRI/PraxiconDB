@@ -52,7 +52,7 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("negation", negation).
                 setParameter("operator", operator);
         Set<LanguageRepresentation> retrievedLanguageRepresentationSet =
-                (LinkedHashSet<LanguageRepresentation>)query.getResultList();
+                new LinkedHashSet<>(query.getResultList());
         if (retrievedLanguageRepresentationSet.isEmpty()) {
             return null;
         }
@@ -81,7 +81,7 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("pos", pos).
                 setParameter("useStatus", useStatus);
         Set<LanguageRepresentation> retrievedLanguageRepresentationSet =
-                (LinkedHashSet<LanguageRepresentation>)query.getResultList();
+                new LinkedHashSet<>(query.getResultList());
         if (retrievedLanguageRepresentationSet.size() > 0) {
             return retrievedLanguageRepresentationSet;
         } else {
@@ -103,7 +103,7 @@ public class LanguageRepresentationDaoImpl extends
         Query query = getEntityManager().createNamedQuery(
                 "findLanguageRepresentationsByText").
                 setParameter("text", text);
-        return (LinkedHashSet<LanguageRepresentation>)query.getResultList();
+        return new LinkedHashSet<>(query.getResultList());
     }
 
     /**
@@ -129,7 +129,7 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("pos", pos).
                 setParameter("useStatus", useStatus);
         Set<LanguageRepresentation> retrievedLanguageRepresentationSet =
-                (LinkedHashSet<LanguageRepresentation>)query.getResultList();
+                new LinkedHashSet<>(query.getResultList());
         if (retrievedLanguageRepresentationSet.size() > 0) {
             return retrievedLanguageRepresentationSet.iterator().next();
         } else {
@@ -147,7 +147,7 @@ public class LanguageRepresentationDaoImpl extends
     public Set<String> getAllLanguageRepresentationText() {
         Query query = getEntityManager().createNamedQuery(
                 "getAllLanguageRepresentationTextByText");
-        return (LinkedHashSet<String>)query.getResultList();
+        return new LinkedHashSet<>(query.getResultList());
     }
 
     /**

@@ -23,8 +23,8 @@ public class RelationTypeDaoImpl extends JpaDao<Long, RelationType> implements
         Query query = getEntityManager().createNamedQuery(
                 "getRelationTypeByForwardName").
                 setParameter("forwardName", forwardName);
-        Set<RelationType> relationsTypeSet = (LinkedHashSet<RelationType>)query.
-                getResultList();
+        Set<RelationType> relationsTypeSet = new LinkedHashSet<>(query.
+                getResultList());
         if (relationsTypeSet.isEmpty()) {
             return null;
         }
