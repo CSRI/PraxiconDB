@@ -100,7 +100,8 @@ public class Concept_LanguageRepresentation implements Serializable {
     public int hashCode() {
         int hash = 7;
         hash = 73 * hash + (this.isRepresentativeLanguageRepresentation ? 1 : 0);
-        hash = 73 * hash + Objects.hashCode(this.languageRepresentation);
+        hash = 73 * hash + Objects.hashCode(this.getLanguageRepresentation().
+                getLanguageRepresentations());
         return hash;
     }
 
@@ -114,11 +115,13 @@ public class Concept_LanguageRepresentation implements Serializable {
         }
         final Concept_LanguageRepresentation other =
                 (Concept_LanguageRepresentation)obj;
-        if (this.getIsRepresentative() != other.getIsRepresentative()) {
+        if (this.isRepresentativeLanguageRepresentation != other.
+                getIsRepresentative()) {
             return false;
         }
-        if (!this.getLanguageRepresentation().equals(other.
-                getLanguageRepresentation())) {
+        if (!this.languageRepresentation.getLanguageRepresentations().equals(
+                other.
+                getLanguageRepresentation().getLanguageRepresentations())) {
             return false;
         }
         return true;

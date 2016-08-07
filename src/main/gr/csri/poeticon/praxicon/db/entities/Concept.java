@@ -7,6 +7,7 @@ package gr.csri.poeticon.praxicon.db.entities;
 import static gr.csri.poeticon.praxicon.EntityMngFactory.getEntityManager;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import static java.util.Objects.isNull;
@@ -831,12 +832,14 @@ public class Concept implements Serializable {
         if (!lrs.isEmpty()) {
             for (LanguageRepresentation lr : lrs) {
                 if (!session.contains(lr)) {
-                    session.update(lr);
+                    session.save(lr);
                 }
                 lrNames.add(lr.getText());
             }
+            return new ArrayList<>(lrNames);
+        } else {
+            return new ArrayList<>();
         }
-        return new ArrayList<>(lrNames);
     }
 
     /**
@@ -1017,10 +1020,10 @@ public class Concept implements Serializable {
         hash = 13 * hash + Objects.hashCode(this.status);
         hash = 13 * hash + Objects.hashCode(this.pragmaticStatus);
         hash = 13 * hash + Objects.hashCode(this.uniqueInstance);
-//        hash = 13 * hash + Objects.hashCode(this.getOntologicalDomains());
-//        hash = 13 * hash + Objects.hashCode(this.getLanguageRepresentations());
-//        hash = 13 * hash + Objects.hashCode(this.
-//                getConceptLanguageRepresentation());
+        hash = 13 * hash + Objects.hashCode(this.getOntologicalDomains().
+                toString());
+        hash = 13 * hash + Objects.hashCode(this.getLanguageRepresentations().
+                toString());
         return hash;
     }
 
@@ -1034,39 +1037,49 @@ public class Concept implements Serializable {
         }
         final Concept other = (Concept)obj;
 //        if (!this.name.equals(other.name)) {
-        if (!this.name.equals(other.name)) {
+        if (!this.name.equals(other.getName())) {
             return false;
         }
-        if (!this.externalSourceId.equals(other.externalSourceId)) {
+        if (!this.externalSourceId.equals(other.getExternalSourceId())) {
             return false;
         }
-        if (!this.conceptType.equals(other.conceptType)) {
+        if (!this.conceptType.equals(other.getConceptType())) {
             return false;
         }
-        if (!this.specificityLevel.equals(other.specificityLevel)) {
+        if (!this.specificityLevel.equals(other.getSpecificityLevel())) {
             return false;
         }
-        if (!this.status.equals(other.status)) {
+        if (!this.status.equals(other.getStatus())) {
             return false;
         }
-        if (!this.pragmaticStatus.equals(other.pragmaticStatus)) {
+        if (!this.pragmaticStatus.equals(other.getPragmaticStatus())) {
             return false;
         }
-        if (!this.uniqueInstance.equals(other.uniqueInstance)) {
+        if (!this.uniqueInstance.equals(other.getUniqueInstance())) {
             return false;
         }
-//        if (!this.getLanguageRepresentations().equals(other.
-//                getLanguageRepresentations())) {
-//            return false;
-//        }
-//        if (!this.ontologicalDomains.equals(other.ontologicalDomains)) {
-//            return false;
-//        }
-//        if (!this.getConceptLanguageRepresentation().equals(other.
-//                getConceptLanguageRepresentation())) {
-//            return false;
-//        }
-
+        /* TODO: Remember to sort this list before comparing. Maybe in
+         "getLanguageRepresentations()".
+          Should implement the Comparable interface for LanguageRepresentation
+          to be cleaner. */
+        List<String> thisStringLanguageRepresentations = new ArrayList();
+        for (LanguageRepresentation lr : this.getLanguageRepresentations()) {
+            thisStringLanguageRepresentations.add(lr.toString());
+        }
+        List<String> otherStringLanguageRepresentations = new ArrayList();
+        for (LanguageRepresentation lr : other.getLanguageRepresentations()) {
+            otherStringLanguageRepresentations.add(lr.toString());
+        }
+        Collections.sort(thisStringLanguageRepresentations);
+        Collections.sort(otherStringLanguageRepresentations);
+        if (!thisStringLanguageRepresentations.toString().equals(
+                otherStringLanguageRepresentations.toString())) {
+            return false;
+        }
+        if (!this.ontologicalDomains.toString().equals(other.
+                getOntologicalDomains().toString())) {
+            return false;
+        }
         return true;
     }
 
