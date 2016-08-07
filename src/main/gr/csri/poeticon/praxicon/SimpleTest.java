@@ -205,7 +205,7 @@ public class SimpleTest {
         Date date = new Date();
 
         XmlUtils.exportConceptsToXML(childrenOfSpoon, String.
-                format("/home/dmavroeidis/Concepts_%s.xml",
+                format("misc/test-fixtures/Concepts_%s.xml",
                         dateFormat.format(date)));
 
         // Get all Basic Level Concepts.
@@ -364,11 +364,11 @@ public class SimpleTest {
         Date date = new Date();
 
         XmlUtils.exportRelationsToXML(allRelationsOfConceptSubstance, String.
-                format("/home/dmavroeidis/Relations_%s.xml",
+                format("misc/test-fixtures/Relations_%s.xml",
                         dateFormat.format(date)));
 
         XmlUtils.exportRelationSetsToXML(relationSets, String.
-                format("/home/dmavroeidis/RelationSets_%s.xml",
+                format("misc/test-fixtures/RelationSets_%s.xml",
                         dateFormat.format(date)));
 
         // Create a list of concepts to create XML with both concepts and
@@ -377,7 +377,7 @@ public class SimpleTest {
 
         XmlUtils.exportAllObjectsToXML(relationSets, basicLevelConcepts,
                 allRelationsOfConceptSubstance,
-                String.format("/home/dmavroeidis/Objects_%s.xml",
+                String.format("misc/test-fixtures/Objects_%s.xml",
                         dateFormat.format(date)));
     }
 
@@ -391,7 +391,7 @@ public class SimpleTest {
         List<Relation> relations = rDao.findAll();
         List<RelationSet> relationSets = rsDao.findAll();
         XmlUtils.exportAllObjectsToXML(relationSets, concepts, relations,
-                "/home/dmavroeidis/Objects_all.xml");
+                "misc/test-fixtures/Objects_all.xml");
     }
 
     public static void testXmlImport() {
@@ -567,7 +567,7 @@ public class SimpleTest {
             JAXBContext jaxbContext = JAXBContext.newInstance(Concepts.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             String fileName =
-                    "/home/dmavroeidis/Concepts_colour_abstract_20160712172921.xml";
+                    "misc/test-fixtures/Concepts_colour_abstract_20160712172921.xml";
             File xmlFile = new File(fileName);
             importedConcepts =
                     (Concepts)jaxbUnmarshaller.unmarshal(xmlFile);
@@ -585,14 +585,18 @@ public class SimpleTest {
                 System.out.println("\nConcept's " + item + " hash code is  " +
                         item.hashCode());
                 System.out.println("\nLanguageRepresentation's " + item.
-                        getLanguageRepresentations() + " hash code is  " +
-                        item.getLanguageRepresentations().hashCode());
+                        getLanguageRepresentations().toString() +
+                        " hash code is  " +
+                        item.getConceptLanguageRepresentationsEntries().
+                        toString().hashCode());
 
                 System.out.println("\nDBConcept's " + item + " hash code is  " +
                         dbConcept.hashCode());
                 System.out.println("\nDBLanguageRepresentation's " + item.
-                        getLanguageRepresentations() + " hash code is  " +
-                        dbConcept.getLanguageRepresentations().hashCode());
+                        getConceptLanguageRepresentationsEntries().toString() +
+                        " hash code is  " +
+                        dbConcept.getConceptLanguageRepresentationsEntries().
+                        toString().hashCode());
 
                 if (item.equals(dbConcept)) {
                     System.out.println("\nConcept " + item + " is equal to " +
@@ -601,20 +605,37 @@ public class SimpleTest {
                     System.out.println("\nConcept " + item + " NOT equal to " +
                             dbConcept);
                 }
+                if (item.getConceptLanguageRepresentation().toString().equals(
+                        dbConcept.getConceptLanguageRepresentation().toString())) {
+                    System.out.println("\nLR " + item.
+                            getConceptLanguageRepresentation().toString() +
+                            " is equal to " +
+                            dbConcept.getConceptLanguageRepresentation().
+                            toString());
+                } else {
+                    System.out.println("\nLR " + item.
+                            getConceptLanguageRepresentation().toString() +
+                            " NOT equal to " +
+                            dbConcept.getConceptLanguageRepresentation().
+                            toString());
+                }
+
             }
         }
     }
 
     private static void testRelationSetEquals() {
-        System.out.println("\nTesting the validity of equals method in RelationSet\n\n");
+        System.out.println(
+                "\nTesting the validity of equals method in RelationSet\n\n");
 
         int result = 0;
         RelationSets importedRelationSets = new RelationSets();
 
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(RelationSets.class);
+            JAXBContext jaxbContext = JAXBContext.
+                    newInstance(RelationSets.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            String fileName = "/home/dmavroeidis/Desktop/RelationSet_352.xml";
+            String fileName = "misc/test-fixtures/RelationSet_352.xml";
             File xmlFile = new File(fileName);
             importedRelationSets =
                     (RelationSets)jaxbUnmarshaller.unmarshal(xmlFile);
@@ -633,21 +654,24 @@ public class SimpleTest {
 
         if (!importedRelationSets.getRelationSets().isEmpty()) {
             for (RelationSet item : importedRelationSets.getRelationSets()) {
-                System.out.println("RelationSet's " + item + item.getName() + " hash code is  " +
+                System.out.println("RelationSet's " + item + item.getName() +
+                        " hash code is  " +
                         item.hashCode());
-                System.out.println("DBRelationSet's " + dbRelationSet  + dbRelationSet.getName() + " hash code is  " +
+                System.out.println("DBRelationSet's " + dbRelationSet +
+                        dbRelationSet.getName() + " hash code is  " +
                         dbRelationSet.hashCode());
                 if (item.equals(dbRelationSet)) {
-                    System.out.println("DBRelationSet's " + item + item.getName() + " is equal to " +
+                    System.out.println("DBRelationSet's " + item + item.
+                            getName() + " is equal to " +
                             dbRelationSet);
                 } else {
-                    System.out.println("DBRelationSet's " + item  + item.getName() + " NOT equal to " +
+                    System.out.println("DBRelationSet's " + item + item.
+                            getName() + " NOT equal to " +
                             dbRelationSet);
                 }
             }
         }
     }
-
 
     public static void exportConcept() {
 
@@ -663,7 +687,7 @@ public class SimpleTest {
         Date date = new Date();
 
         XmlUtils.exportConceptsToXML(retrievedConcepts, String.
-                format("/home/dmavroeidis/Concepts_colour_abstract_%s.xml",
+                format("misc/test-fixtures/Concepts_colour_abstract_%s.xml",
                         dateFormat.format(date)));
     }
 
