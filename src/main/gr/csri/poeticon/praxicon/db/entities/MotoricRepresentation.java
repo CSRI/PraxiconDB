@@ -165,6 +165,7 @@ public class MotoricRepresentation implements Serializable {
     }
 
     @Override
+    /* TODO: Create a realistic equals() method */
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
