@@ -1091,21 +1091,6 @@ public class Concept implements Serializable {
          "getLanguageRepresentations()".
           Also, implement the Comparable interface for LanguageRepresentation
           to make implementation cleaner. */
-//        List<String> thisStringLanguageRepresentations = new ArrayList();
-//        for (LanguageRepresentation lr : this.getLanguageRepresentations()) {
-//            thisStringLanguageRepresentations.add(lr.toString());
-//        }
-//        List<String> otherStringLanguageRepresentations = new ArrayList();
-//        for (LanguageRepresentation lr : other.getLanguageRepresentations()) {
-//            otherStringLanguageRepresentations.add(lr.toString());
-//        }
-//        Collections.sort(thisStringLanguageRepresentations);
-//        Collections.sort(otherStringLanguageRepresentations);
-//        if (!thisStringLanguageRepresentations.toString().equals(
-//                otherStringLanguageRepresentations.toString())) {
-//            return false;
-//        }
-
         if (!this.getLanguageRepresentationsAndRepresentative().equals(other.
                 getLanguageRepresentationsAndRepresentative())) {
             return false;
