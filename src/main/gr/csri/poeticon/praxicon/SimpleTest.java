@@ -585,17 +585,17 @@ public class SimpleTest {
                 System.out.println("\nConcept's " + item + " hash code is  " +
                         item.hashCode());
                 System.out.println("\nLanguageRepresentation's " + item.
-                        getLanguageRepresentations().toString() +
+                        getConceptLanguageRepresentation().toString() +
                         " hash code is  " +
-                        item.getConceptLanguageRepresentationsEntries().
+                        item.getConceptLanguageRepresentation().
                         toString().hashCode());
 
                 System.out.println("\nDBConcept's " + item + " hash code is  " +
                         dbConcept.hashCode());
                 System.out.println("\nDBLanguageRepresentation's " + item.
-                        getConceptLanguageRepresentationsEntries().toString() +
+                        getConceptLanguageRepresentation().toString() +
                         " hash code is  " +
-                        dbConcept.getConceptLanguageRepresentationsEntries().
+                        dbConcept.getConceptLanguageRepresentation().
                         toString().hashCode());
 
                 if (item.equals(dbConcept)) {

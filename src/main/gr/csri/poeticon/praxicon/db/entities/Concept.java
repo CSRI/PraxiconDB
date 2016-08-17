@@ -836,7 +836,36 @@ public class Concept implements Serializable {
                 }
                 lrNames.add(lr.getText());
             }
+            Collections.sort(lrNames);
             return new ArrayList<>(lrNames);
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Gets a list of Language representation texts for this concept.
+     *
+     * @return list of strings with all the texts of the Language
+     *         Representations of the Concept.
+     */
+    public List<String> getLanguageRepresentationsAndRepresentative() {
+        EntityManager em = getEntityManager();
+        Session session = em.unwrap(org.hibernate.Session.class);
+        List<Concept_LanguageRepresentation> clrs = this.
+                getConceptLanguageRepresentationsEntries();
+        List<String> lrNamesAndRepresentative = new ArrayList<>();
+        if (!clrs.isEmpty()) {
+            for (Concept_LanguageRepresentation clr : clrs) {
+                if (!session.contains(clr)) {
+                    session.save(clr);
+                }
+                lrNamesAndRepresentative.add(clr.toString());
+            }
+            System.out.println("Unrdered CLRS: " + lrNamesAndRepresentative);
+            Collections.sort(lrNamesAndRepresentative);
+            System.out.println("Ordered CLRS: " + lrNamesAndRepresentative);
+            return new ArrayList<>(lrNamesAndRepresentative);
         } else {
             return new ArrayList<>();
         }
@@ -1062,20 +1091,26 @@ public class Concept implements Serializable {
          "getLanguageRepresentations()".
           Also, implement the Comparable interface for LanguageRepresentation
           to make implementation cleaner. */
-        List<String> thisStringLanguageRepresentations = new ArrayList();
-        for (LanguageRepresentation lr : this.getLanguageRepresentations()) {
-            thisStringLanguageRepresentations.add(lr.toString());
-        }
-        List<String> otherStringLanguageRepresentations = new ArrayList();
-        for (LanguageRepresentation lr : other.getLanguageRepresentations()) {
-            otherStringLanguageRepresentations.add(lr.toString());
-        }
-        Collections.sort(thisStringLanguageRepresentations);
-        Collections.sort(otherStringLanguageRepresentations);
-        if (!thisStringLanguageRepresentations.toString().equals(
-                otherStringLanguageRepresentations.toString())) {
+//        List<String> thisStringLanguageRepresentations = new ArrayList();
+//        for (LanguageRepresentation lr : this.getLanguageRepresentations()) {
+//            thisStringLanguageRepresentations.add(lr.toString());
+//        }
+//        List<String> otherStringLanguageRepresentations = new ArrayList();
+//        for (LanguageRepresentation lr : other.getLanguageRepresentations()) {
+//            otherStringLanguageRepresentations.add(lr.toString());
+//        }
+//        Collections.sort(thisStringLanguageRepresentations);
+//        Collections.sort(otherStringLanguageRepresentations);
+//        if (!thisStringLanguageRepresentations.toString().equals(
+//                otherStringLanguageRepresentations.toString())) {
+//            return false;
+//        }
+
+        if (!this.getLanguageRepresentationsAndRepresentative().equals(other.
+                getLanguageRepresentationsAndRepresentative())) {
             return false;
         }
+
         if (!this.ontologicalDomains.toString().equals(other.
                 getOntologicalDomains().toString())) {
             return false;

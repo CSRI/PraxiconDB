@@ -129,8 +129,14 @@ public class Concept_LanguageRepresentation implements Serializable {
 
     @Override
     public String toString() {
-        return "gr.csri.poeticon.praxicon.db.entities." +
-                "Concept_LanguageRepresentation[ id=" + id + " ]";
+        String conceptLanguageRepresentationString = "";
+        conceptLanguageRepresentationString += "[" +
+                this.getLanguageRepresentation().toString() + ", ";
+        conceptLanguageRepresentationString += "representative: " +
+                this.getIsRepresentative() + "]";
+        return conceptLanguageRepresentationString;
+//        return "gr.csri.poeticon.praxicon.db.entities." +
+//                "Concept_LanguageRepresentation[ id=" + id + " ]";
     }
 
 }
