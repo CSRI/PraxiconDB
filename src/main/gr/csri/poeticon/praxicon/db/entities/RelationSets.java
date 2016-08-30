@@ -40,8 +40,8 @@ public class RelationSets {
     }
 
     /**
-     * Stores all concepts of the collection in the database updating
-     * same name entries
+     * Stores all concepts of the collection in the database updating same name
+     * entries
      */
     public void storeRelationSets() {
         if (!relationSets.isEmpty()) {
@@ -50,7 +50,8 @@ public class RelationSets {
             for (RelationSet relationSet : relationSets) {
                 newRelationSet = storeRelationSet(relationSet);
                 rsDao.getEntityManager().clear();
-                System.out.println("Storing Relation Set: " + newRelationSet.toString());
+                System.out.println("Storing Relation Set: " + newRelationSet.
+                        toString());
             }
         }
     }
@@ -68,7 +69,12 @@ public class RelationSets {
          2.1.a. If it exists, merge and add it to the new relation set.
          2.1.b. If it doesn't exist, store it and add it to the new
          relation set.
-         3. Store new relation set in the database and return it.
+         3. Get Realtionset Candidates that have first relation of new 
+         RelationSet.
+         4. Compare each candidate to new RelationSet using contained Relations.
+         4.1 If found same RelationSet, set new Relation Set to retrieved 
+         candidate.
+         5. Check LRs/VRs/MRs to update new RelationSet
          */
         Relations newRelationsObject = new Relations();
         RelationSet newRelationSet = new RelationSet();
@@ -80,34 +86,80 @@ public class RelationSets {
             newRelationSet.addRelation(newRelation);
         }
         newRelationSet.setName(relationSet.getName());
+
+        //RelationSet retrievedRelationSet = rsDao.getRelationSet(
+        //        newRelationSet);
+        List<RelationSet> relationSetCandidates
+                = rsDao.getRelationSetsByRelation(
+                        newRelationSet.getRelationsList().get(0));
+        RelationSet retrievedRelationSet = null;
+        for (RelationSet rsc : relationSetCandidates) {
+            boolean foundMatch = false;
+            //only check if they have same number of relations
+            if (rsc.getRelationsList().size() == newRelationSet.
+                    getRelationsList().size()) {
+                foundMatch = true;
+                //check if each relation of rscand also belongs to 
+                //newRelationSet
+                for (Relation relation : rsc.getRelationsList()) {
+                    boolean foundRelation = false;
+                    for (Relation newRelation :
+                            newRelationSet.getRelationsList()) {
+                        if (relation.equals(newRelation)) {
+                            foundRelation = true;
+                            break;
+                        }
+                    }
+                    if (!foundRelation) {
+                        foundMatch = false;
+                    }
+                }
+            }
+            if (foundMatch) {
+                retrievedRelationSet = rsc;
+                break;
+            }
+        }
+
+        if (!isNull(retrievedRelationSet)) {
+            newRelationSet = retrievedRelationSet;
+        }
+
         if (!isNull(relationSet.getLanguageRepresentations())) {
             for (LanguageRepresentation lr : relationSet.
                     getLanguageRepresentations()) {
-                newRelationSet.addLanguageRepresentation(lr);
+                //check if already assigned to relationset
+                if (!newRelationSet.getLanguageRepresentations().contains(lr)) {
+                    newRelationSet.addLanguageRepresentation(lr);
+                }
             }
         }
         if (!isNull(relationSet.getMotoricRepresentations())) {
 
             for (MotoricRepresentation mr : relationSet.
                     getMotoricRepresentations()) {
-                newRelationSet.addMotoricRepresentation(mr);
+                //check if already assigned to relationset
+                if (!newRelationSet.getMotoricRepresentations().contains(mr)) {
+                    newRelationSet.addMotoricRepresentation(mr);
+                }
             }
         }
         if (!isNull(relationSet.getVisualRepresentations())) {
             for (VisualRepresentation vr : relationSet.
                     getVisualRepresentations()) {
-                newRelationSet.addVisualRepresentation(vr);
+                //check if already assigned to relationset
+                if (!newRelationSet.getVisualRepresentations().contains(vr)) {
+                    newRelationSet.addVisualRepresentation(vr);
+                }
             }
         }
 
-        RelationSet retrievedRelationSet = rsDao.getRelationSet(
-                newRelationSet);
-        if (!isNull(retrievedRelationSet)) {
-            rsDao.merge(retrievedRelationSet);
-            return retrievedRelationSet;
-        } else {
+        if (retrievedRelationSet == null) {
             rsDao.persist(newRelationSet);
             return newRelationSet;
+        } else {
+            rsDao.merge(retrievedRelationSet);
+            return retrievedRelationSet;
         }
     }
 }

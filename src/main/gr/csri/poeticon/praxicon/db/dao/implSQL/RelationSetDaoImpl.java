@@ -311,6 +311,7 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
      * @param relation the relation to search by
      * @return a list of relation sets
      */
+    @Override
     public List<RelationSet> getRelationSetsByRelation(Relation relation) {
         // First get the relation from the database
         RelationDao rDao = new RelationDaoImpl();

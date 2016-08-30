@@ -37,8 +37,8 @@ public class Concepts {
     }
 
     /**
-     * Stores all concepts of the collection in the database checking if
-     * they already exist in the database.
+     * Stores all concepts of the collection in the database checking if they
+     * already exist in the database.
      */
     public void storeConcepts() {
         if (!concepts.isEmpty()) {
@@ -65,8 +65,8 @@ public class Concepts {
         Concept newConcept;
         // If concept does not exist in the database, store it.
         if (retrievedConcept != null) {
-            // Create a new concept without the language representation info
-            newConcept = new Concept(retrievedConcept, false, false, false);
+            // Set new concept to retrieved one so as to update it
+            newConcept = retrievedConcept;
         } else {
             newConcept = oldConcept;
         }
@@ -74,14 +74,14 @@ public class Concepts {
         // For each language representation, find it in the DB.
         // If it exists, attach it to the concept.
         // If it doesn't exist, create it.
-        LanguageRepresentationDao lrDao =
-                new LanguageRepresentationDaoImpl();
+        LanguageRepresentationDao lrDao
+                = new LanguageRepresentationDaoImpl();
 
         if (!concept.getLanguageRepresentations().isEmpty()) {
             for (LanguageRepresentation languageRepresentation
                     : concept.getLanguageRepresentations()) {
-                LanguageRepresentation retrievedLanguageRepresentation =
-                        lrDao.getSingleLanguageRepresentation(
+                LanguageRepresentation retrievedLanguageRepresentation
+                        = lrDao.getSingleLanguageRepresentation(
                                 languageRepresentation.getLanguage(),
                                 languageRepresentation.getText(),
                                 languageRepresentation.getPartOfSpeech(),
@@ -92,36 +92,57 @@ public class Concepts {
                 // if Language Representation exists add the retrieved,
                 // otherwise, add the new one.
                 if (retrievedLanguageRepresentation != null) {
-                    newConcept.addLanguageRepresentation(
-                            retrievedLanguageRepresentation,
-                            retrievedLanguageRepresentation.
-                            getIsRepresentative(newConcept));
+                    //check if already assigned to concept
+                    if (!newConcept.getLanguageRepresentations().contains(
+                            retrievedLanguageRepresentation)) {
+                        newConcept.addLanguageRepresentation(
+                                retrievedLanguageRepresentation,
+                                retrievedLanguageRepresentation.
+                                getIsRepresentative(newConcept));
+                    }
                 } else {
-                    newConcept.addLanguageRepresentation(
-                            new LanguageRepresentation(
-                                    languageRepresentation), true);
+                    LanguageRepresentation newLanguageRepresentation = 
+                            new LanguageRepresentation(languageRepresentation);
+                    //check if already assigned to concept
+                    if (!newConcept.getLanguageRepresentations().
+                            contains(newLanguageRepresentation)) {
+                        newConcept.addLanguageRepresentation(
+                                newLanguageRepresentation,
+                                languageRepresentation.getIsRepresentative(
+                                        concept));
+                    }
                 }
             }
         }
 
         // If Motoric Representations exist, add them to new concept
         if (!concept.getMotoricRepresentations().isEmpty()) {
-            for (MotoricRepresentation mr : concept.getMotoricRepresentations()) {
-                newConcept.addMotoricRepresentation(mr);
+            for (MotoricRepresentation mr : 
+                    concept.getMotoricRepresentations()) {
+                //check if already assigned to concept
+                if (!newConcept.getMotoricRepresentations().contains(mr)) {
+                    newConcept.addMotoricRepresentation(mr);
+                }
             }
         }
 
         // If Visual Representations exist, add them to new concept
         if (!concept.getVisualRepresentations().isEmpty()) {
             for (VisualRepresentation vr : concept.getVisualRepresentations()) {
-                newConcept.addVisualRepresentation(vr);
+                //check if already assigned to concept
+                if (!newConcept.getVisualRepresentations().contains(vr)) {
+                    newConcept.addVisualRepresentation(vr);
+                }
             }
         }
 
         // If Ontological Domains exist, add them to new concept
         if (!concept.getOntologicalDomains().isEmpty()) {
             for (OntologicalDomain od : concept.getOntologicalDomains()) {
-                newConcept.addOntologicalDomain(od);
+                //check if already assigned to concept
+                if (!newConcept.getOntologicalDomains().contains(od)) {
+                    newConcept.addOntologicalDomain(od);
+                }
             }
         }
 
