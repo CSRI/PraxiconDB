@@ -49,141 +49,141 @@ import org.hibernate.Session;
 //@EntityListeners(ConceptListener.class)
 @NamedQueries({
     @NamedQuery(name = "findAllConcepts", query = "FROM Concept c"),
-    @NamedQuery(name = "findConceptsByConceptId", query =
-            "FROM Concept c WHERE c.id = :conceptId"),
-    @NamedQuery(name = "findAllBasicLevelConcepts", query =
-            "FROM Concept c WHERE c.specificityLevel = 'BASIC_LEVEL'"),
-    @NamedQuery(name = "findAllNonBasicLevelConcepts", query =
-            "FROM Concept c WHERE c.specificityLevel != 'BASIC_LEVEL'"),
-    @NamedQuery(name = "findConceptsByName", query =
-            "FROM Concept c " +
-            "WHERE c.name LIKE :conceptName"),
-    @NamedQuery(name = "findConceptByNameExact", query =
-            "FROM Concept c " +
-            "WHERE c.name = :conceptName"),
-    @NamedQuery(name = "findConceptsByNameAndStatus", query =
-            "FROM Concept c " +
-            "WHERE c.name LIKE :conceptName " +
-            "AND c.status = :conceptStatus"),
-    @NamedQuery(name = "findConceptsByExternalSourceId", query =
-            "FROM Concept c " +
-            "WHERE c.externalSourceId LIKE :conceptExternalSourceId"),
-    @NamedQuery(name = "findConceptByExternalSourceIdExact", query =
-            "FROM Concept c " +
-            "WHERE c.externalSourceId = :conceptExternalSourceId"),
-    @NamedQuery(name = "findConceptsByLanguageRepresentation", query =
-            "SELECT c FROM Concept c " +
-            "JOIN c.languageRepresentations clr " +
-            "JOIN clr.languageRepresentation lr " +
-            "WHERE lr.text LIKE :languageRepresentationName " +
-            "ORDER BY " +
-            "  CASE c.specificityLevel " +
-            "       WHEN 'BASIC_LEVEL' THEN 1 " +
-            "       WHEN 'SUPERORDINATE' THEN 2 " +
-            "       WHEN 'SUBORDINATE' THEN 3 " +
-            "       WHEN 'UNKNOWN' THEN 4 " +
-            "   END " +
-            ", CASE lr.useStatus " +
-            "       WHEN 'LITERAL' THEN 1 " +
-            "       WHEN 'FIGURATIVE' THEN 2 " +
-            "       WHEN 'UNKNOWN' THEN 3 " +
-            "   END " +
-            ", CASE lr.productivity" +
-            "       WHEN 'FULL' THEN 1 " +
-            "       WHEN 'PARTIAL' THEN 2 " +
-            "       WHEN 'NONE' THEN 3 " +
-            "       WHEN 'UNKNOWN' THEN 4 " +
-            "   END "),
-    @NamedQuery(name = "findConceptsByLanguageRepresentationExact", query =
-            "SELECT c FROM Concept c " +
-            "JOIN c.languageRepresentations clr " +
-            "JOIN clr.languageRepresentation lr " +
-            "WHERE lr.text = :languageRepresentationName " +
-            "ORDER BY " +
-            "  CASE c.specificityLevel " +
-            "       WHEN 'BASIC_LEVEL' THEN 1 " +
-            "       WHEN 'SUPERORDINATE' THEN 2 " +
-            "       WHEN 'SUBORDINATE' THEN 3 " +
-            "       WHEN 'UNKNOWN' THEN 4 " +
-            "  END " +
-            ", CASE lr.useStatus " +
-            "       WHEN 'LITERAL' THEN 1 " +
-            "       WHEN 'FIGURATIVE' THEN 2 " +
-            "       WHEN 'UNKNOWN' THEN 3 " +
-            "  END " +
-            ", CASE lr.productivity" +
-            "       WHEN 'FULL' THEN 1 " +
-            "       WHEN 'PARTIAL' THEN 2 " +
-            "       WHEN 'NONE' THEN 3 " +
-            "       WHEN 'UNKNOWN' THEN 4 " +
-            "  END "),
-    @NamedQuery(name = "findConceptsByLanguageRepresentationStartsWith", query =
-            "SELECT c FROM Concept c " +
-            "JOIN c.languageRepresentations clr " +
-            "JOIN clr.languageRepresentation lr " +
-            "WHERE lr.text LIKE :languageRepresentationNameStart " +
-            "ORDER BY " +
-            " CASE c.specificityLevel " +
-            "       WHEN 'BASIC_LEVEL' THEN 1 " +
-            "       WHEN 'SUPERORDINATE' THEN 2 " +
-            "       WHEN 'SUBORDINATE' THEN 3 " +
-            "       WHEN 'UNKNOWN' THEN 4 " +
-            " END " +
-            ", CASE lr.useStatus " +
-            "       WHEN 'LITERAL' THEN 1 " +
-            "       WHEN 'FIGURATIVE' THEN 2 " +
-            "       WHEN 'UNKNOWN' THEN 3 " +
-            "  END " +
-            ", CASE lr.productivity" +
-            "       WHEN 'FULL' THEN 1 " +
-            "       WHEN 'PARTIAL' THEN 2 " +
-            "       WHEN 'NONE' THEN 3 " +
-            "       WHEN 'UNKNOWN' THEN 4 " +
-            "  END "),
-    @NamedQuery(name = "findConceptsByLanguageRepresentationEndsWith", query =
-            "SELECT c FROM Concept c " +
-            "JOIN c.languageRepresentations clr " +
-            "JOIN clr.languageRepresentation lr " +
-            "WHERE lr.text LIKE :languageRepresentationNameEnd " +
-            "ORDER BY " +
-            " CASE c.specificityLevel " +
-            "       WHEN 'BASIC_LEVEL' THEN 1 " +
-            "       WHEN 'SUPERORDINATE' THEN 2 " +
-            "       WHEN 'SUBORDINATE' THEN 3 " +
-            "       WHEN 'UNKNOWN' THEN 4 " +
-            " END " +
-            ", CASE lr.useStatus " +
-            "       WHEN 'LITERAL' THEN 1 " +
-            "       WHEN 'FIGURATIVE' THEN 2 " +
-            "       WHEN 'UNKNOWN' THEN 3 " +
-            "  END " +
-            ", CASE lr.productivity" +
-            "       WHEN 'FULL' THEN 1 " +
-            "       WHEN 'PARTIAL' THEN 2 " +
-            "       WHEN 'NONE' THEN 3 " +
-            "       WHEN 'UNKNOWN' THEN 4 " +
-            "  END "),
-    @NamedQuery(name = "findConceptsByStatusExact", query =
-            "SELECT c FROM Concept c " +
-            "WHERE c.status = :status"),
-    @NamedQuery(name = "findConcept", query =
-            "SELECT c FROM Concept c " +
-            "WHERE c.conceptType = :type " +
-            "AND c.name = :name " +
-            "AND c.externalSourceId = :externalSourceId " +
-            "AND c.specificityLevel = :specificityLevel " +
-            "AND c.status = :status " +
-            "AND c.pragmaticStatus = :pragmaticStatus " +
-            "AND c.uniqueInstance = :uniqueInstance"
+    @NamedQuery(name = "findConceptsByConceptId", query
+            = "FROM Concept c WHERE c.id = :conceptId"),
+    @NamedQuery(name = "findAllBasicLevelConcepts", query
+            = "FROM Concept c WHERE c.specificityLevel = 'BASIC_LEVEL'"),
+    @NamedQuery(name = "findAllNonBasicLevelConcepts", query
+            = "FROM Concept c WHERE c.specificityLevel != 'BASIC_LEVEL'"),
+    @NamedQuery(name = "findConceptsByName", query
+            = "FROM Concept c "
+            + "WHERE c.name LIKE :conceptName"),
+    @NamedQuery(name = "findConceptByNameExact", query
+            = "FROM Concept c "
+            + "WHERE c.name = :conceptName"),
+    @NamedQuery(name = "findConceptsByNameAndStatus", query
+            = "FROM Concept c "
+            + "WHERE c.name LIKE :conceptName "
+            + "AND c.status = :conceptStatus"),
+    @NamedQuery(name = "findConceptsByExternalSourceId", query
+            = "FROM Concept c "
+            + "WHERE c.externalSourceId LIKE :conceptExternalSourceId"),
+    @NamedQuery(name = "findConceptByExternalSourceIdExact", query
+            = "FROM Concept c "
+            + "WHERE c.externalSourceId = :conceptExternalSourceId"),
+    @NamedQuery(name = "findConceptsByLanguageRepresentation", query
+            = "SELECT c FROM Concept c "
+            + "JOIN c.languageRepresentations clr "
+            + "JOIN clr.languageRepresentation lr "
+            + "WHERE lr.text LIKE :languageRepresentationName "
+            + "ORDER BY "
+            + "  CASE c.specificityLevel "
+            + "       WHEN 'BASIC_LEVEL' THEN 1 "
+            + "       WHEN 'SUPERORDINATE' THEN 2 "
+            + "       WHEN 'SUBORDINATE' THEN 3 "
+            + "       WHEN 'UNKNOWN' THEN 4 "
+            + "   END "
+            + ", CASE lr.useStatus "
+            + "       WHEN 'LITERAL' THEN 1 "
+            + "       WHEN 'FIGURATIVE' THEN 2 "
+            + "       WHEN 'UNKNOWN' THEN 3 "
+            + "   END "
+            + ", CASE lr.productivity"
+            + "       WHEN 'FULL' THEN 1 "
+            + "       WHEN 'PARTIAL' THEN 2 "
+            + "       WHEN 'NONE' THEN 3 "
+            + "       WHEN 'UNKNOWN' THEN 4 "
+            + "   END "),
+    @NamedQuery(name = "findConceptsByLanguageRepresentationExact", query
+            = "SELECT c FROM Concept c "
+            + "JOIN c.languageRepresentations clr "
+            + "JOIN clr.languageRepresentation lr "
+            + "WHERE lr.text = :languageRepresentationName "
+            + "ORDER BY "
+            + "  CASE c.specificityLevel "
+            + "       WHEN 'BASIC_LEVEL' THEN 1 "
+            + "       WHEN 'SUPERORDINATE' THEN 2 "
+            + "       WHEN 'SUBORDINATE' THEN 3 "
+            + "       WHEN 'UNKNOWN' THEN 4 "
+            + "  END "
+            + ", CASE lr.useStatus "
+            + "       WHEN 'LITERAL' THEN 1 "
+            + "       WHEN 'FIGURATIVE' THEN 2 "
+            + "       WHEN 'UNKNOWN' THEN 3 "
+            + "  END "
+            + ", CASE lr.productivity"
+            + "       WHEN 'FULL' THEN 1 "
+            + "       WHEN 'PARTIAL' THEN 2 "
+            + "       WHEN 'NONE' THEN 3 "
+            + "       WHEN 'UNKNOWN' THEN 4 "
+            + "  END "),
+    @NamedQuery(name = "findConceptsByLanguageRepresentationStartsWith", query
+            = "SELECT c FROM Concept c "
+            + "JOIN c.languageRepresentations clr "
+            + "JOIN clr.languageRepresentation lr "
+            + "WHERE lr.text LIKE :languageRepresentationNameStart "
+            + "ORDER BY "
+            + " CASE c.specificityLevel "
+            + "       WHEN 'BASIC_LEVEL' THEN 1 "
+            + "       WHEN 'SUPERORDINATE' THEN 2 "
+            + "       WHEN 'SUBORDINATE' THEN 3 "
+            + "       WHEN 'UNKNOWN' THEN 4 "
+            + " END "
+            + ", CASE lr.useStatus "
+            + "       WHEN 'LITERAL' THEN 1 "
+            + "       WHEN 'FIGURATIVE' THEN 2 "
+            + "       WHEN 'UNKNOWN' THEN 3 "
+            + "  END "
+            + ", CASE lr.productivity"
+            + "       WHEN 'FULL' THEN 1 "
+            + "       WHEN 'PARTIAL' THEN 2 "
+            + "       WHEN 'NONE' THEN 3 "
+            + "       WHEN 'UNKNOWN' THEN 4 "
+            + "  END "),
+    @NamedQuery(name = "findConceptsByLanguageRepresentationEndsWith", query
+            = "SELECT c FROM Concept c "
+            + "JOIN c.languageRepresentations clr "
+            + "JOIN clr.languageRepresentation lr "
+            + "WHERE lr.text LIKE :languageRepresentationNameEnd "
+            + "ORDER BY "
+            + " CASE c.specificityLevel "
+            + "       WHEN 'BASIC_LEVEL' THEN 1 "
+            + "       WHEN 'SUPERORDINATE' THEN 2 "
+            + "       WHEN 'SUBORDINATE' THEN 3 "
+            + "       WHEN 'UNKNOWN' THEN 4 "
+            + " END "
+            + ", CASE lr.useStatus "
+            + "       WHEN 'LITERAL' THEN 1 "
+            + "       WHEN 'FIGURATIVE' THEN 2 "
+            + "       WHEN 'UNKNOWN' THEN 3 "
+            + "  END "
+            + ", CASE lr.productivity"
+            + "       WHEN 'FULL' THEN 1 "
+            + "       WHEN 'PARTIAL' THEN 2 "
+            + "       WHEN 'NONE' THEN 3 "
+            + "       WHEN 'UNKNOWN' THEN 4 "
+            + "  END "),
+    @NamedQuery(name = "findConceptsByStatusExact", query
+            = "SELECT c FROM Concept c "
+            + "WHERE c.status = :status"),
+    @NamedQuery(name = "findConcept", query
+            = "SELECT c FROM Concept c "
+            + "WHERE c.conceptType = :type "
+            + "AND c.name = :name "
+            + "AND c.externalSourceId = :externalSourceId "
+            + "AND c.specificityLevel = :specificityLevel "
+            + "AND c.status = :status "
+            + "AND c.pragmaticStatus = :pragmaticStatus "
+            + "AND c.uniqueInstance = :uniqueInstance"
     ),
-    @NamedQuery(name = "getConceptEntityQuery", query =
-            "SELECT c FROM Concept c " +
-            "WHERE c.status = :status " +
-            "AND c.name = :name " +
-            "AND c.specificityLevel = :specificityLevel " +
-            "AND c.externalSourceId = :externalSourceId " +
-            "AND c.conceptType = :type " +
-            "AND c.pragmaticStatus = :pragmaticStatus"),})
+    @NamedQuery(name = "getConceptEntityQuery", query
+            = "SELECT c FROM Concept c "
+            + "WHERE c.status = :status "
+            + "AND c.name = :name "
+            + "AND c.specificityLevel = :specificityLevel "
+            + "AND c.externalSourceId = :externalSourceId "
+            + "AND c.conceptType = :type "
+            + "AND c.pragmaticStatus = :pragmaticStatus"),})
 @Table(name = "Concepts",
         indexes = {
             @Index(columnList = "ExternalSourceId"),
@@ -380,8 +380,8 @@ public class Concept implements Serializable {
             for (LanguageRepresentation lr : newConcept.
                     getLanguageRepresentations()) {
                 if (!this.getLanguageRepresentations().contains(lr)) {
-                    LanguageRepresentation newLr =
-                            new LanguageRepresentation(lr);
+                    LanguageRepresentation newLr
+                            = new LanguageRepresentation(lr);
                     this.addLanguageRepresentation(newLr, false);
                 }
             }
@@ -437,8 +437,8 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Gets the external source id of the concept. This is usually the id
-     * of the resource that was used to populate the Praxicon.
+     * Gets the external source id of the concept. This is usually the id of the
+     * resource that was used to populate the Praxicon.
      *
      * @return String - The externalSourceId of the concept.
      */
@@ -488,8 +488,8 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Sets the type of the concept. Permitted values:
-     * ABSTRACT, ENTITY, FEATURE, MOVEMENT, UNKNOWN;
+     * Sets the type of the concept. Permitted values: ABSTRACT, ENTITY,
+     * FEATURE, MOVEMENT, UNKNOWN;
      *
      * @param conceptType - ConceptType
      */
@@ -517,8 +517,8 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Sets the specificity level of the concept. Permitted values:
-     * SUBORDINATE, BASIC_LEVEL, BASIC_LEVEL_EXTENDED, SUPERORDINATE, UNKNOWN
+     * Sets the specificity level of the concept. Permitted values: SUBORDINATE,
+     * BASIC_LEVEL, BASIC_LEVEL_EXTENDED, SUPERORDINATE, UNKNOWN
      *
      * @param levelType
      */
@@ -553,8 +553,7 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Sets the status of the concept. Permitted values:
-     * CONSTANT, VARIABLE
+     * Sets the status of the concept. Permitted values: CONSTANT, VARIABLE
      *
      * @param varType - Status
      */
@@ -581,8 +580,8 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Sets the pragmatic status of the concept. Permitted values:
-     * CONCRETE, ABSTRACT, UNKNOWN
+     * Sets the pragmatic status of the concept. Permitted values: CONCRETE,
+     * ABSTRACT, UNKNOWN
      *
      * @param pragmaticStatus - PragmaticStatus
      */
@@ -610,8 +609,8 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Sets the unique instance of the concept. Permitted values:
-     * YES, NO, UNKNOWN
+     * Sets the unique instance of the concept. Permitted values: YES, NO,
+     * UNKNOWN
      *
      * @param uniqueInstance
      */
@@ -620,8 +619,8 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Gets the source of the concept. Where the concept came from
-     * (e.g. WordNew).
+     * Gets the source of the concept. Where the concept came from (e.g.
+     * WordNew).
      *
      * @return the source of the concept
      *
@@ -660,8 +659,8 @@ public class Concept implements Serializable {
 
     /**
      * Gets the ontological domain of the concept. It defines the domain in
-     * terms of ontology that the concept belongs to
-     * (for example: natural event, activity or physical process)
+     * terms of ontology that the concept belongs to (for example: natural
+     * event, activity or physical process)
      *
      * @return The ontological domain of the concept
      */
@@ -711,8 +710,8 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Gets the Concept_LanguageRepresentation construct which helps get
-     * the language representations.
+     * Gets the Concept_LanguageRepresentation construct which helps get the
+     * language representations.
      *
      * @return the Concept_LanguageRepresentation instance of the concept
      *
@@ -744,13 +743,13 @@ public class Concept implements Serializable {
      * Gets a list of Concept_LanguageRepresentation instances.
      *
      * @return a list of Concept_LanguageRepresentation instances for the
-     *         concept
+     * concept
      */
 //    @Transactional
     public List<Concept_LanguageRepresentation>
             getConceptLanguageRepresentationsEntries() {
-        List<Concept_LanguageRepresentation> languageRepresentationEntries =
-                new ArrayList<>();
+        List<Concept_LanguageRepresentation> languageRepresentationEntries
+                = new ArrayList<>();
         EntityManager em = getEntityManager();
         Session session = em.unwrap(org.hibernate.Session.class);
 //        Hibernate.initialize(this.getConceptLanguageRepresentation());
@@ -770,9 +769,7 @@ public class Concept implements Serializable {
      * Adds a Concept_LanguageRepresentation instance to the concept.
      *
      * @param conceptLanguageRepresentation A structure that contains the
-     *                                      Language representation with
-     *                                      information about its
-     *                                      representativeness.
+     * Language representation with information about its representativeness.
      */
     public void addConceptLanguageRepresentation(
             Concept_LanguageRepresentation conceptLanguageRepresentation) {
@@ -783,16 +780,15 @@ public class Concept implements Serializable {
      * Adds a LanguageRepresentation instance to the concept.
      *
      * @param languageRepresentation a Language representation.
-     * @param isRepresentative       whether the Language representation is
-     *                               representative of the concept or not.
-     *                               There can be more than one representative
-     *                               Language representations.
+     * @param isRepresentative whether the Language representation is
+     * representative of the concept or not. There can be more than one
+     * representative Language representations.
      */
     public final void addLanguageRepresentation(
             LanguageRepresentation languageRepresentation,
             boolean isRepresentative) {
-        Concept_LanguageRepresentation clr =
-                new Concept_LanguageRepresentation();
+        Concept_LanguageRepresentation clr
+                = new Concept_LanguageRepresentation();
         clr.setConcept(this);
         clr.setLanguageRepresentation(languageRepresentation);
         this.languageRepresentations.add(clr);
@@ -802,8 +798,7 @@ public class Concept implements Serializable {
      * Gets text of the first Language representation of Language "en" for this
      * concept.
      *
-     * @return the text of the first Language Representation
-     *         of the concept.
+     * @return the text of the first Language Representation of the concept.
      */
     public String getFirstLanguageRepresentationName() {
         List<LanguageRepresentation> lrs = this.getLanguageRepresentations();
@@ -822,7 +817,7 @@ public class Concept implements Serializable {
      * Gets a list of Language representation texts for this concept.
      *
      * @return list of strings with all the texts of the Language
-     *         Representations of the Concept.
+     * Representations of the Concept.
      */
     public List<String> getLanguageRepresentationsNames() {
         EntityManager em = getEntityManager();
@@ -847,7 +842,7 @@ public class Concept implements Serializable {
      * Gets a list of Language representation texts for this concept.
      *
      * @return list of strings with all the texts of the Language
-     *         Representations of the Concept.
+     * Representations of the Concept.
      */
     public List<String> getLanguageRepresentationsAndRepresentative() {
         EntityManager em = getEntityManager();
@@ -857,10 +852,12 @@ public class Concept implements Serializable {
         List<String> lrNamesAndRepresentative = new ArrayList<>();
         if (!clrs.isEmpty()) {
             for (Concept_LanguageRepresentation clr : clrs) {
-                if (!session.contains(clr)) {
-                    session.save(clr);
-                }
+                if (!isNull(clr)) {
+//                    if (!session.contains(clr)) {
+//                        session.update(clr);
+//                    }
                 lrNamesAndRepresentative.add(clr.toString());
+                }
             }
             System.out.println("Unrdered CLRS: " + lrNamesAndRepresentative);
             Collections.sort(lrNamesAndRepresentative);
@@ -927,8 +924,8 @@ public class Concept implements Serializable {
      * @return a list of visual representations
      */
     public final List<VisualRepresentation> getVisualRepresentationsEntries() {
-        List<VisualRepresentation> visualRepresentationEntries =
-                new ArrayList<>();
+        List<VisualRepresentation> visualRepresentationEntries
+                = new ArrayList<>();
         for (VisualRepresentation VisualRepresentation
                 : this.visualRepresentations) {
             visualRepresentationEntries.add(VisualRepresentation);
@@ -967,8 +964,8 @@ public class Concept implements Serializable {
      * @return a list of motoric representations
      */
     public List<MotoricRepresentation> getMotoricRepresentationsEntries() {
-        List<MotoricRepresentation> motoricRepresentationEntries =
-                new ArrayList<>();
+        List<MotoricRepresentation> motoricRepresentationEntries
+                = new ArrayList<>();
         for (MotoricRepresentation MotoricRepresentation
                 : this.motoricRepresentations) {
             motoricRepresentationEntries.add(MotoricRepresentation);
@@ -1009,8 +1006,8 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Gets a string of concatenated full info for this concept. concept ConceptType,
-     * Status, pragmatic Status, specificity level, description
+     * Gets a string of concatenated full info for this concept. concept
+     * ConceptType, Status, pragmatic Status, specificity level, description
      *
      * @return a string of information for this concept
      */
@@ -1026,8 +1023,8 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Gets a string of concatenated short info for the concept. concept ConceptType
-     * and specificity level
+     * Gets a string of concatenated short info for the concept. concept
+     * ConceptType and specificity level
      *
      * @return a string of short information for this concept
      */
@@ -1064,7 +1061,7 @@ public class Concept implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Concept other = (Concept)obj;
+        final Concept other = (Concept) obj;
 //        if (!this.name.equals(other.name)) {
         if (!this.name.equals(other.getName())) {
             return false;
@@ -1108,10 +1105,10 @@ public class Concept implements Serializable {
         if (name != null && !name.equalsIgnoreCase("")) {
             return name;
             // + " (Entity)";
-        } else if (!isNull(this.getConceptLanguageRepresentationsEntries()) &&
-                !this.getConceptLanguageRepresentationsEntries().isEmpty()) {
-            List<Concept_LanguageRepresentation> tmpList =
-                    this.getConceptLanguageRepresentationsEntries();
+        } else if (!isNull(this.getConceptLanguageRepresentationsEntries())
+                && !this.getConceptLanguageRepresentationsEntries().isEmpty()) {
+            List<Concept_LanguageRepresentation> tmpList
+                    = this.getConceptLanguageRepresentationsEntries();
             if (tmpList.size() > 0) {
                 StringBuilder tmp = new StringBuilder(
                         tmpList.get(0).getLanguageRepresentation().getText());
