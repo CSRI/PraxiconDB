@@ -101,11 +101,13 @@ public class Concepts {
                                 getIsRepresentative(newConcept));
                     }
                 } else {
-                    LanguageRepresentation newLr = new LanguageRepresentation(
-                            languageRepresentation);
+                    LanguageRepresentation newLanguageRepresentation = 
+                            new LanguageRepresentation(languageRepresentation);
                     //check if already assigned to concept
-                    if (!newConcept.getLanguageRepresentations().contains(newLr)) {
-                        newConcept.addLanguageRepresentation(newLr,
+                    if (!newConcept.getLanguageRepresentations().
+                            contains(newLanguageRepresentation)) {
+                        newConcept.addLanguageRepresentation(
+                                newLanguageRepresentation,
                                 languageRepresentation.getIsRepresentative(
                                         concept));
                     }
@@ -115,7 +117,8 @@ public class Concepts {
 
         // If Motoric Representations exist, add them to new concept
         if (!concept.getMotoricRepresentations().isEmpty()) {
-            for (MotoricRepresentation mr : concept.getMotoricRepresentations()) {
+            for (MotoricRepresentation mr : 
+                    concept.getMotoricRepresentations()) {
                 //check if already assigned to concept
                 if (!newConcept.getMotoricRepresentations().contains(mr)) {
                     newConcept.addMotoricRepresentation(mr);

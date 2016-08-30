@@ -74,12 +74,11 @@ public class RelationSets {
          4. Compare each candidate to new RelationSet using contained Relations.
          4.1 If found same RelationSet, set new Relation Set to retrieved 
          candidate.
-         5. Check Lrs/Vrs/Mrs to update new RelationSet
+         5. Check LRs/VRs/MRs to update new RelationSet
          */
         Relations newRelationsObject = new Relations();
         RelationSet newRelationSet = new RelationSet();
-        //RelationSetDao rsDao = new RelationSetDaoImpl();
-        RelationSetDaoImpl rsDao = new RelationSetDaoImpl();
+        RelationSetDao rsDao = new RelationSetDaoImpl();
 
         // First, store relations and add them to new relation set
         for (Relation relation : relationSet.getRelationsList()) {
@@ -90,34 +89,34 @@ public class RelationSets {
 
         //RelationSet retrievedRelationSet = rsDao.getRelationSet(
         //        newRelationSet);
-        List<RelationSet> rsCands = rsDao.getRelationSetsByRelation(
-                newRelationSet.getRelationsList().get(0));
+        List<RelationSet> relationSetCandidates
+                = rsDao.getRelationSetsByRelation(
+                        newRelationSet.getRelationsList().get(0));
         RelationSet retrievedRelationSet = null;
-        for (RelationSet rsCand : rsCands) {
+        for (RelationSet rsc : relationSetCandidates) {
             boolean foundMatch = false;
             //only check if they have same number of relations
-            if (rsCand.getRelationsList().size() == newRelationSet.
+            if (rsc.getRelationsList().size() == newRelationSet.
                     getRelationsList().size()) {
                 foundMatch = true;
                 //check if each relation of rscand also belongs to 
                 //newRelationSet
-                for (int i = 0; i < rsCand.getRelationsList().size(); i++) {
-                    boolean foundRel = false;
-                    for (int j = 0; j < newRelationSet.getRelationsList().size();
-                            j++) {
-                        if (rsCand.getRelationsList().get(i).equals(
-                                newRelationSet.getRelationsList().get(j))) {
-                            foundRel = true;
+                for (Relation relation : rsc.getRelationsList()) {
+                    boolean foundRelation = false;
+                    for (Relation newRelation :
+                            newRelationSet.getRelationsList()) {
+                        if (relation.equals(newRelation)) {
+                            foundRelation = true;
                             break;
                         }
                     }
-                    if (!foundRel) {
+                    if (!foundRelation) {
                         foundMatch = false;
                     }
                 }
             }
             if (foundMatch) {
-                retrievedRelationSet = rsCand;
+                retrievedRelationSet = rsc;
                 break;
             }
         }

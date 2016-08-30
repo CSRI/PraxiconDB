@@ -7,6 +7,7 @@ package gr.csri.poeticon.praxicon.db.dao.implXML;
 import gr.csri.poeticon.praxicon.db.dao.RelationSetDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.JpaDao;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
+import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import gr.csri.poeticon.praxicon.db.entities.RelationSet;
 import java.util.List;
@@ -26,6 +27,10 @@ public class RelationSetDaoImplXML extends JpaDao<Long, RelationSet>
     }
 
     public List<RelationSet> getRelationSetsByConcept(Concept concept) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public List<RelationSet> getRelationSetsByRelation(Relation relation) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
