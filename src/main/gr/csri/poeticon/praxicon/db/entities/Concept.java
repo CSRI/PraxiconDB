@@ -1051,8 +1051,8 @@ public class Concept implements Serializable {
         hash = 13 * hash + Objects.hashCode(this.uniqueInstance);
         hash = 13 * hash + Objects.hashCode(this.getOntologicalDomains().
                 toString());
-        hash = 13 * hash + Objects.hashCode(this.getLanguageRepresentations().
-                toString());
+        hash = 13 * hash + Objects.hashCode(this.
+                getLanguageRepresentationsAndRepresentative().toString());
         return hash;
     }
 
