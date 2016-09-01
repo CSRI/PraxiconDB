@@ -859,9 +859,9 @@ public class Concept implements Serializable {
                 lrNamesAndRepresentative.add(clr.toString());
                 }
             }
-            System.out.println("Unrdered CLRS: " + lrNamesAndRepresentative);
+            //System.out.println("Unrdered CLRS: " + lrNamesAndRepresentative);
             Collections.sort(lrNamesAndRepresentative);
-            System.out.println("Ordered CLRS: " + lrNamesAndRepresentative);
+            //System.out.println("Ordered CLRS: " + lrNamesAndRepresentative);
             return new ArrayList<>(lrNamesAndRepresentative);
         } else {
             return new ArrayList<>();
