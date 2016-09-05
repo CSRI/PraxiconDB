@@ -205,7 +205,7 @@ public class SimpleTest {
         Date date = new Date();
 
         XmlUtils.exportConceptsToXML(childrenOfSpoon, String.
-                format("misc/test-fixtures/Concepts_%s.xml",
+                format("misc/export/Concepts_%s.xml",
                         dateFormat.format(date)));
 
         // Get all Basic Level Concepts.
@@ -691,7 +691,7 @@ public class SimpleTest {
         Date date = new Date();
 
         XmlUtils.exportConceptsToXML(retrievedConcepts, String.
-                format("misc/test-fixtures/Concepts_colour_abstract_%s.xml",
+                format("misc/export/Concepts_colour_abstract_%s.xml",
                         dateFormat.format(date)));
     }
 
