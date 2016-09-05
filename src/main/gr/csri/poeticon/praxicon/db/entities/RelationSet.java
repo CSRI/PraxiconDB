@@ -138,6 +138,8 @@ public class RelationSet implements Serializable {
         this.name = name;
         this.relations = relationSetRelationsList;
         this.languageRepresentations = languageRepresentations;
+        this.visualRepresentations = new ArrayList<>();
+        this.motoricRepresentations = new ArrayList<>();
     }
 
     public RelationSet(RelationSet newRelationSet) {
