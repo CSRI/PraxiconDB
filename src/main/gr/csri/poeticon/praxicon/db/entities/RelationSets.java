@@ -6,7 +6,9 @@
  */
 package gr.csri.poeticon.praxicon.db.entities;
 
+import gr.csri.poeticon.praxicon.db.dao.LanguageRepresentationDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationSetDao;
+import gr.csri.poeticon.praxicon.db.dao.implSQL.LanguageRepresentationDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationSetDaoImpl;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,8 +91,8 @@ public class RelationSets {
 
         //RelationSet retrievedRelationSet = rsDao.getRelationSet(
         //        newRelationSet);
-        List<RelationSet> relationSetCandidates
-                = rsDao.getRelationSetsByRelation(
+        List<RelationSet> relationSetCandidates =
+                rsDao.getRelationSetsByRelation(
                         newRelationSet.getRelationsList().get(0));
         RelationSet retrievedRelationSet = null;
         for (RelationSet rsc : relationSetCandidates) {
@@ -103,8 +105,8 @@ public class RelationSets {
                 //newRelationSet
                 for (Relation relation : rsc.getRelationsList()) {
                     boolean foundRelation = false;
-                    for (Relation newRelation :
-                            newRelationSet.getRelationsList()) {
+                    for (Relation newRelation : newRelationSet.
+                            getRelationsList()) {
                         if (relation.equals(newRelation)) {
                             foundRelation = true;
                             break;
@@ -125,15 +127,46 @@ public class RelationSets {
             newRelationSet = retrievedRelationSet;
         }
 
-        if (!isNull(relationSet.getLanguageRepresentations())) {
-            for (LanguageRepresentation lr : relationSet.
-                    getLanguageRepresentations()) {
-                //check if already assigned to relationset
-                if (!newRelationSet.getLanguageRepresentations().contains(lr)) {
-                    newRelationSet.addLanguageRepresentation(lr);
+        // For each language representation, find it in the DB.
+        // If it exists, attach it to the RelationSet.
+        // If it doesn't exist, create it.
+        LanguageRepresentationDao lrDao =
+                new LanguageRepresentationDaoImpl();
+
+        if (!relationSet.getLanguageRepresentations().isEmpty()) {
+            for (LanguageRepresentation languageRepresentation
+                    : relationSet.getLanguageRepresentations()) {
+                LanguageRepresentation retrievedLanguageRepresentation =
+                        lrDao.getSingleLanguageRepresentation(
+                                languageRepresentation.getLanguage(),
+                                languageRepresentation.getText(),
+                                languageRepresentation.getPartOfSpeech(),
+                                languageRepresentation.getUseStatus(),
+                                languageRepresentation.getProductivity(),
+                                languageRepresentation.getNegation(),
+                                languageRepresentation.getOperator());
+                // if Language Representation exists add the retrieved,
+                // otherwise, add the new one.
+                if (retrievedLanguageRepresentation != null) {
+                    //check if already assigned to relationSet
+                    if (!newRelationSet.getLanguageRepresentations().contains(
+                            retrievedLanguageRepresentation)) {
+                        newRelationSet.addLanguageRepresentation(
+                                retrievedLanguageRepresentation);
+                    }
+                } else {
+                    LanguageRepresentation newLanguageRepresentation =
+                            new LanguageRepresentation(languageRepresentation);
+                    //check if already assigned to relationSet
+                    if (!newRelationSet.getLanguageRepresentations().
+                            contains(newLanguageRepresentation)) {
+                        newRelationSet.addLanguageRepresentation(
+                                newLanguageRepresentation);
+                    }
                 }
             }
         }
+
         if (!isNull(relationSet.getMotoricRepresentations())) {
 
             for (MotoricRepresentation mr : relationSet.
