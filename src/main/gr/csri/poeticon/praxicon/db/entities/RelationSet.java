@@ -30,6 +30,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRegistry;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import org.apache.commons.lang3.StringUtils;
@@ -40,7 +41,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "relationSet", namespace = "http://www.csri.gr/relation_set")
-//@XmlRootElement(name = "relationSet", namespace = "http://www.csri.gr/relation_set")
+@XmlRootElement(name = "relationSet", namespace = "http://www.csri.gr/relation_set")
 @Entity
 @NamedQueries({
     @NamedQuery(name =
@@ -123,6 +124,8 @@ public class RelationSet implements Serializable {
         this.name = "";
         this.relations = new ArrayList<>();
         this.languageRepresentations = new ArrayList<>();
+        this.visualRepresentations = new ArrayList<>();
+        this.motoricRepresentations = new ArrayList<>();
     }
 
     /**
@@ -131,19 +134,27 @@ public class RelationSet implements Serializable {
      * @param name
      * @param relationSetRelationsList
      * @param languageRepresentations
+     * @param visualRepresentations
+     * @param motoricRepresentations
      */
     public RelationSet(String name,
             List<RelationSet_Relation> relationSetRelationsList,
-            List<LanguageRepresentation> languageRepresentations) {
+            List<LanguageRepresentation> languageRepresentations,
+            List<VisualRepresentation> visualRepresentations,
+            List<MotoricRepresentation> motoricRepresentations) {
         this.name = name;
         this.relations = relationSetRelationsList;
         this.languageRepresentations = languageRepresentations;
-        this.visualRepresentations = new ArrayList<>();
-        this.motoricRepresentations = new ArrayList<>();
+        this.visualRepresentations = visualRepresentations;
+        this.motoricRepresentations = motoricRepresentations;
     }
 
     public RelationSet(RelationSet newRelationSet) {
         this.name = newRelationSet.getName();
+        this.relations = newRelationSet.getRelations();
+        this.languageRepresentations = newRelationSet.getLanguageRepresentations();
+        this.visualRepresentations = newRelationSet.getVisualRepresentations();
+        this.motoricRepresentations = newRelationSet.getMotoricRepresentations();        
     }
 
     public Long getId() {
