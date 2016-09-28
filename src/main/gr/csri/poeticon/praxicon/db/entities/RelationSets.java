@@ -42,8 +42,7 @@ public class RelationSets {
     }
 
     /**
-     * Stores all concepts of the collection in the database updating same name
-     * entries
+     * Stores all relation sets of the collection in the database.
      */
     public void storeRelationSets() {
         if (!relationSets.isEmpty()) {
@@ -58,6 +57,10 @@ public class RelationSets {
         }
     }
 
+    /**
+     * Stores a single relation set checking for the existence of equal items in
+     * the database.
+     */
     public RelationSet storeRelationSet(RelationSet relationSet) {
 
         /*
@@ -88,38 +91,41 @@ public class RelationSets {
             newRelationSet.addRelation(newRelation);
         }
         newRelationSet.setName(relationSet.getName());
-
-        //RelationSet retrievedRelationSet = rsDao.getRelationSet(
-        //        newRelationSet);
-        List<RelationSet> relationSetCandidates =
-                rsDao.getRelationSetsByRelation(
-                        newRelationSet.getRelationsList().get(0));
         RelationSet retrievedRelationSet = null;
-        for (RelationSet rsc : relationSetCandidates) {
-            boolean foundMatch = false;
-            //only check if they have same number of relations
-            if (rsc.getRelationsList().size() == newRelationSet.
-                    getRelationsList().size()) {
-                foundMatch = true;
-                //check if each relation of rscand also belongs to 
-                //newRelationSet
-                for (Relation relation : rsc.getRelationsList()) {
-                    boolean foundRelation = false;
-                    for (Relation newRelation : newRelationSet.
-                            getRelationsList()) {
-                        if (relation.equals(newRelation)) {
-                            foundRelation = true;
-                            break;
+        
+        if (!newRelationSet.getRelations().isEmpty()) {
+            //RelationSet retrievedRelationSet = rsDao.getRelationSet(
+            //        newRelationSet);
+            List<RelationSet> relationSetCandidates
+                    = rsDao.getRelationSetsByRelation(
+                            newRelationSet.getRelationsList().get(0));
+
+            for (RelationSet rsc : relationSetCandidates) {
+                boolean foundMatch = false;
+                //only check if they have same number of relations
+                if (rsc.getRelationsList().size() == newRelationSet.
+                        getRelationsList().size()) {
+                    foundMatch = true;
+                    //check if each relation of rscand also belongs to 
+                    //newRelationSet
+                    for (Relation relation : rsc.getRelationsList()) {
+                        boolean foundRelation = false;
+                        for (Relation newRelation : newRelationSet.
+                                getRelationsList()) {
+                            if (relation.equals(newRelation)) {
+                                foundRelation = true;
+                                break;
+                            }
+                        }
+                        if (!foundRelation) {
+                            foundMatch = false;
                         }
                     }
-                    if (!foundRelation) {
-                        foundMatch = false;
-                    }
                 }
-            }
-            if (foundMatch) {
-                retrievedRelationSet = rsc;
-                break;
+                if (foundMatch) {
+                    retrievedRelationSet = rsc;
+                    break;
+                }
             }
         }
 
@@ -130,14 +136,14 @@ public class RelationSets {
         // For each language representation, find it in the DB.
         // If it exists, attach it to the RelationSet.
         // If it doesn't exist, create it.
-        LanguageRepresentationDao lrDao =
-                new LanguageRepresentationDaoImpl();
+        LanguageRepresentationDao lrDao
+                = new LanguageRepresentationDaoImpl();
 
         if (!relationSet.getLanguageRepresentations().isEmpty()) {
             for (LanguageRepresentation languageRepresentation
                     : relationSet.getLanguageRepresentations()) {
-                LanguageRepresentation retrievedLanguageRepresentation =
-                        lrDao.getSingleLanguageRepresentation(
+                LanguageRepresentation retrievedLanguageRepresentation
+                        = lrDao.getSingleLanguageRepresentation(
                                 languageRepresentation.getLanguage(),
                                 languageRepresentation.getText(),
                                 languageRepresentation.getPartOfSpeech(),
@@ -155,8 +161,8 @@ public class RelationSets {
                                 retrievedLanguageRepresentation);
                     }
                 } else {
-                    LanguageRepresentation newLanguageRepresentation =
-                            new LanguageRepresentation(languageRepresentation);
+                    LanguageRepresentation newLanguageRepresentation
+                            = new LanguageRepresentation(languageRepresentation);
                     //check if already assigned to relationSet
                     if (!newRelationSet.getLanguageRepresentations().
                             contains(newLanguageRepresentation)) {
