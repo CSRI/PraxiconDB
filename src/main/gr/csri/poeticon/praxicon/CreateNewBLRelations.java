@@ -453,6 +453,7 @@ public class CreateNewBLRelations {
      * @param conceptGraph
      * @param root
      * @param leaf
+     *
      * @return a list of a list of paths.
      */
     public static List<List<Concept>> getAllPaths(DirectedGraph conceptGraph,

@@ -46,9 +46,9 @@ public class XmlUtils {
 
         try {
             /*
-             Get active session to update concepts. This way, we can update
-             retrieved objects directly to avoid setting EAGER fetch which
-             would criple performance during retrieval from the database.
+             * Get active session to update concepts. This way, we can update
+             * retrieved objects directly to avoid setting EAGER fetch which
+             * would criple performance during retrieval from the database.
              */
             EntityManager em = getEntityManager();
             Session session = em.unwrap(org.hibernate.Session.class);
@@ -85,9 +85,9 @@ public class XmlUtils {
 
         try {
             /*
-             Get active session to update concepts. This way, we can update
-             retrieved objects directly to avoid setting EAGER fetch which
-             would criple performance during retrieval from the database.
+             * Get active session to update concepts. This way, we can update
+             * retrieved objects directly to avoid setting EAGER fetch which
+             * would criple performance during retrieval from the database.
              */
             EntityManager em = getEntityManager();
             Session session = em.unwrap(org.hibernate.Session.class);
@@ -126,9 +126,9 @@ public class XmlUtils {
 
         try {
             /*
-             Get active session to update relation sets. This way, we can
-             update retrieved objects directly to avoid setting EAGER fetch
-             which would criple performance during retrieval from the database.
+             * Get active session to update relation sets. This way, we can
+             * update retrieved objects directly to avoid setting EAGER fetch
+             * which would criple performance during retrieval from the database.
              */
             EntityManager em = getEntityManager();
             Session session = em.unwrap(org.hibernate.Session.class);
@@ -175,9 +175,9 @@ public class XmlUtils {
 
         try {
             /*
-             Get active session to update relation sets. This way, we can
-             update retrieved objects directly to avoid setting EAGER fetch
-             which would criple performance during retrieval from the database.
+             * Get active session to update relation sets. This way, we can
+             * update retrieved objects directly to avoid setting EAGER fetch
+             * which would criple performance during retrieval from the database.
              */
             EntityManager em = getEntityManager();
             Session session = em.unwrap(org.hibernate.Session.class);
@@ -244,7 +244,7 @@ public class XmlUtils {
                     newInstance(Relations.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             File xmlFile = new File(fullPathFileName);
-            Relations importedRelations = (Relations) jaxbUnmarshaller.
+            Relations importedRelations = (Relations)jaxbUnmarshaller.
                     unmarshal(xmlFile);
             importedRelations.storeRelations();
         } catch (JAXBException ex) {
@@ -263,7 +263,7 @@ public class XmlUtils {
                     newInstance(RelationSets.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             File xmlFile = new File(fullPathFileName);
-            RelationSets importedRelationSets = (RelationSets) jaxbUnmarshaller.
+            RelationSets importedRelationSets = (RelationSets)jaxbUnmarshaller.
                     unmarshal(xmlFile);
             importedRelationSets.storeRelationSets();
         } catch (JAXBException ex) {
@@ -284,7 +284,7 @@ public class XmlUtils {
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             File xmlFile = new File(fullPathFileName);
             CollectionOfObjects importedCollectionOfObjects =
-                    (CollectionOfObjects) jaxbUnmarshaller.unmarshal(xmlFile);
+                    (CollectionOfObjects)jaxbUnmarshaller.unmarshal(xmlFile);
             List<Concepts> listOfConcepts = importedCollectionOfObjects.
                     getConcepts();
             for (Concepts concepts : listOfConcepts) {
@@ -312,7 +312,7 @@ public class XmlUtils {
 //        }
         long endTime = System.nanoTime();
         long elapsedTime = endTime - startTime;
-        double minutes = (double)((elapsedTime / 1000000000.0)/60);
+        double minutes = (double)((elapsedTime / 1000000000.0) / 60);
         System.out.print("XML import took: ");
         System.out.print(minutes);
         System.out.println(" minutes to run");

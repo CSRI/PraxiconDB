@@ -55,19 +55,19 @@ public class Utils {
     public static void importPhotosFromImagenet(String savePath) throws
             IOException, URISyntaxException, NoSuchAlgorithmException {
         /*
-         1. Read file with image URLs
-         2. For each line,
-         2.1. Get the first column as the sysnset
-         2.1.1. Replace the first digit from n to 1.
-         2.1.2. Cut all the part from the last underscore.
-         2.1.3. Save this as the sysnset ID.
-         2.2. Get the second column as the URL
-         2.3. Find the Concept according to the sysnset ID (externalSourceId)
-         2.4. Add the Visual Representation with the following fields:
-         2.4.1. MediaType = IMAGE
-         2.4.2. Source = ImageNet_fall_2011
-         2.4.3. Uri = URL
-         2.4.4. Name = first column
+         * 1. Read file with image URLs
+         * 2. For each line,
+         * 2.1. Get the first column as the sysnset
+         * 2.1.1. Replace the first digit from n to 1.
+         * 2.1.2. Cut all the part from the last underscore.
+         * 2.1.3. Save this as the sysnset ID.
+         * 2.2. Get the second column as the URL
+         * 2.3. Find the Concept according to the sysnset ID (externalSourceId)
+         * 2.4. Add the Visual Representation with the following fields:
+         * 2.4.1. MediaType = IMAGE
+         * 2.4.2. Source = ImageNet_fall_2011
+         * 2.4.3. Uri = URL
+         * 2.4.4. Name = first column
          */
 
         ConceptDao cDao = new ConceptDaoImpl();
@@ -182,7 +182,9 @@ public class Utils {
      * Analyze the image, checking if it is truncated or not.
      *
      * @param file - The path to the image file
+     *
      * @return whether the image is truncated or not
+     *
      * @throws NoSuchAlgorithmException
      * @throws IOException
      */
