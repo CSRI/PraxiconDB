@@ -305,32 +305,6 @@ public class Relation implements Serializable {
         return true;
     }
 
-//    @Override
-//    public boolean equals(Object relation) {
-//        if (!(relation instanceof Relation)) {
-//            return false;
-//        }
-//        Relation other = (Relation)relation;
-//        try {
-//            if ((this.relationType != null && this.rightArgument != null &&
-//                    this.leftArgument != null && this.relationType.equals(
-//                            other.relationType) &&
-//                    this.rightArgument.equals(other.rightArgument) &&
-//                    this.leftArgument.equals(other.leftArgument)) ||
-//                    (this.relationType != null && this.rightArgument != null &&
-//                    this.leftArgument != null && this.relationType.equals(
-//                            other.relationType) &&
-//                    this.rightArgument.equals(other.leftArgument) &&
-//                    this.leftArgument.equals(other.rightArgument))) {
-//                return true;
-//            } else {
-//                return false;
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return false;
-//    }
     @Override
     public String toString() {
         String finalString = "";
@@ -351,15 +325,5 @@ public class Relation implements Serializable {
 
         return finalString;
     }
-
-//    public void afterUnmarshal(Unmarshaller u, Object parent) {
-//        if (Globals.ToMergeAfterUnMarshalling) {
-//            RelationDao rDao = new RelationDaoImpl();
-//            Relation tmpRelation = rDao.getRelation(this.leftArgument,
-//                    this.rightArgument, this.relationType);
-//            if (tmpRelation == null) {
-//                rDao.merge(this);
-//            }
-//        }
-//    }
+    
 }
