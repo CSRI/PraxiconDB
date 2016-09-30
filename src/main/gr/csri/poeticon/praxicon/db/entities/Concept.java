@@ -720,15 +720,6 @@ public class Concept implements Serializable {
     public final List<Concept_LanguageRepresentation>
             getConceptLanguageRepresentation() {
         Hibernate.initialize(languageRepresentations);
-        EntityManager em = getEntityManager();
-        Session session = em.unwrap(org.hibernate.Session.class);
-
-        for (Concept_LanguageRepresentation clr : languageRepresentations) {
-            if (!session.contains(clr)) {
-                session.update(clr);
-            }
-        }
-
         return new ArrayList<>(languageRepresentations);
     }
 
