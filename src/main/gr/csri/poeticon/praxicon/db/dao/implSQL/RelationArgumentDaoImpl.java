@@ -23,6 +23,7 @@ public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument>
      * Finds the relation argument that is connected with the given concept.
      *
      * @param concept the concept connected to the relation argument
+     *
      * @return relationArgument
      */
     @Override
@@ -38,11 +39,11 @@ public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument>
         return retrievedRelationArgumentsList;
     }
 
-
     /**
      * Finds the relation argument that is connected with the given concept.
      *
      * @param concept the concept connected to the relation argument
+     *
      * @return relationArgument
      */
     @Override
@@ -63,6 +64,7 @@ public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument>
      * Finds the relation argument that is connected with the given concept.
      *
      * @param concept the concept connected to the relation argument
+     *
      * @return relationArgument
      */
     @Override

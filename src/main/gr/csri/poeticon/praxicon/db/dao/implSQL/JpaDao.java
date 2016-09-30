@@ -5,10 +5,12 @@
 package gr.csri.poeticon.praxicon.db.dao.implSQL;
 
 import gr.csri.poeticon.praxicon.EntityMngFactory;
+import gr.csri.poeticon.praxicon.Globals;
 import gr.csri.poeticon.praxicon.db.dao.Dao;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 
 /**

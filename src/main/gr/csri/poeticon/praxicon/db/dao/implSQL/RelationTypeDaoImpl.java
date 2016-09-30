@@ -35,6 +35,7 @@ public class RelationTypeDaoImpl extends JpaDao<Long, RelationType> implements
      * and backward name
      *
      * @param relationType the RelationType to be searched
+     *
      * @return a query to search for the RelationType
      */
     @Override

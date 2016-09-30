@@ -240,8 +240,8 @@ public class Relation implements Serializable {
     }
 
     /**
-     * Sets the relationType of the Relation but it doesn't check if there is the same
-     * relationType twice.
+     * Sets the relationType of the Relation but it doesn't check if there is
+     * the same relationType twice.
      *
      * @param type the relationType of relation
      */

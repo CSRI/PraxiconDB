@@ -29,7 +29,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
@@ -41,7 +40,8 @@ import org.apache.commons.lang3.StringUtils;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "relationSet", namespace = "http://www.csri.gr/relation_set")
-@XmlRootElement(name = "relationSet", namespace = "http://www.csri.gr/relation_set")
+@XmlRootElement(name = "relationSet", namespace =
+        "http://www.csri.gr/relation_set")
 @Entity
 @NamedQueries({
     @NamedQuery(name =
@@ -152,9 +152,10 @@ public class RelationSet implements Serializable {
     public RelationSet(RelationSet newRelationSet) {
         this.name = newRelationSet.getName();
         this.relations = newRelationSet.getRelations();
-        this.languageRepresentations = newRelationSet.getLanguageRepresentations();
+        this.languageRepresentations = newRelationSet.
+                getLanguageRepresentations();
         this.visualRepresentations = newRelationSet.getVisualRepresentations();
-        this.motoricRepresentations = newRelationSet.getMotoricRepresentations();        
+        this.motoricRepresentations = newRelationSet.getMotoricRepresentations();
     }
 
     public Long getId() {

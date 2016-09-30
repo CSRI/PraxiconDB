@@ -55,6 +55,7 @@ public class Concepts {
      * Stores a concept in the database checking if it already exists.
      *
      * @param concept
+     *
      * @return a concept
      */
     public Concept storeConcept(Concept concept) {
@@ -74,14 +75,14 @@ public class Concepts {
         // For each language representation, find it in the DB.
         // If it exists, attach it to the concept.
         // If it doesn't exist, create it.
-        LanguageRepresentationDao lrDao
-                = new LanguageRepresentationDaoImpl();
+        LanguageRepresentationDao lrDao =
+                new LanguageRepresentationDaoImpl();
 
         if (!concept.getLanguageRepresentations().isEmpty()) {
             for (LanguageRepresentation languageRepresentation
                     : concept.getLanguageRepresentations()) {
-                LanguageRepresentation retrievedLanguageRepresentation
-                        = lrDao.getSingleLanguageRepresentation(
+                LanguageRepresentation retrievedLanguageRepresentation =
+                        lrDao.getSingleLanguageRepresentation(
                                 languageRepresentation.getLanguage(),
                                 languageRepresentation.getText(),
                                 languageRepresentation.getPartOfSpeech(),
@@ -101,7 +102,7 @@ public class Concepts {
                                 getIsRepresentative(newConcept));
                     }
                 } else {
-                    LanguageRepresentation newLanguageRepresentation = 
+                    LanguageRepresentation newLanguageRepresentation =
                             new LanguageRepresentation(languageRepresentation);
                     //check if already assigned to concept
                     if (!newConcept.getLanguageRepresentations().
@@ -114,11 +115,10 @@ public class Concepts {
                 }
             }
         }
-        
+
         // If Motoric Representations exist, add them to new concept
         if (!concept.getMotoricRepresentations().isEmpty()) {
-            for (MotoricRepresentation mr : 
-                    concept.getMotoricRepresentations()) {
+            for (MotoricRepresentation mr : concept.getMotoricRepresentations()) {
                 //check if already assigned to concept
                 if (!newConcept.getMotoricRepresentations().contains(mr)) {
                     newConcept.addMotoricRepresentation(mr);

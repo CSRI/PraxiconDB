@@ -59,24 +59,24 @@ public class Relations {
 
     public Relation storeRelation(Relation relation) {
         /*
-         Analyze relation:
-         1. Get left and right argument and check if they exist in the DB.
-         1.1. If it is a concept, find it.
-         1.1.1. If the concept exists
-         1.1.1.1. Get the concept from the DB.
-         1.1.1.2. Get the relation argument from the DB. If it doesn't exist,
-         create it
-         1.1.2. If the concept doesn't exist, store the concept in the DB,
-         create a relation argument with this concept and store that in
-         the DB also.
-         1.2. If it is a relation set, find it and store it using
-         RelationSets.storeRelationSet
-         2. Get relation type and check if it exists
-         2.1. If it exists, merge it
-         2.2. If it doesn't exist, persist it
-         3. Now, check if the relation arguments are related
-         3.1. If they are, don't do anything
-         3.2. If they aren't, persist the relation
+         * Analyze relation:
+         * 1. Get left and right argument and check if they exist in the DB.
+         * 1.1. If it is a concept, find it.
+         * 1.1.1. If the concept exists
+         * 1.1.1.1. Get the concept from the DB.
+         * 1.1.1.2. Get the relation argument from the DB. If it doesn't exist,
+         * create it
+         * 1.1.2. If the concept doesn't exist, store the concept in the DB,
+         * create a relation argument with this concept and store that in
+         * the DB also.
+         * 1.2. If it is a relation set, find it and store it using
+         * RelationSets.storeRelationSet
+         * 2. Get relation type and check if it exists
+         * 2.1. If it exists, merge it
+         * 2.2. If it doesn't exist, persist it
+         * 3. Now, check if the relation arguments are related
+         * 3.1. If they are, don't do anything
+         * 3.2. If they aren't, persist the relation
          */
         RelationTypeDao rtDao = new RelationTypeDaoImpl();
         RelationDao rDao = new RelationDaoImpl();

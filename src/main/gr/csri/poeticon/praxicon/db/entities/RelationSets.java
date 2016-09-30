@@ -64,22 +64,22 @@ public class RelationSets {
     public RelationSet storeRelationSet(RelationSet relationSet) {
 
         /*
-         Analyze relation set:
-         0. Create a new Relation Set.
-         1. Check if the Relation Set exists in the database.
-         1.a. If it exists, merge it and return it.
-         1.b. If it doesn't, go to step 2.
-         2. For each relation in the relation set:
-         2.1. Try to retrieve it from the database.
-         2.1.a. If it exists, merge and add it to the new relation set.
-         2.1.b. If it doesn't exist, store it and add it to the new
-         relation set.
-         3. Get Realtionset Candidates that have first relation of new 
-         RelationSet.
-         4. Compare each candidate to new RelationSet using contained Relations.
-         4.1 If found same RelationSet, set new Relation Set to retrieved 
-         candidate.
-         5. Check LRs/VRs/MRs to update new RelationSet
+         * Analyze relation set:
+         * 0. Create a new Relation Set.
+         * 1. Check if the Relation Set exists in the database.
+         * 1.a. If it exists, merge it and return it.
+         * 1.b. If it doesn't, go to step 2.
+         * 2. For each relation in the relation set:
+         * 2.1. Try to retrieve it from the database.
+         * 2.1.a. If it exists, merge and add it to the new relation set.
+         * 2.1.b. If it doesn't exist, store it and add it to the new
+         * relation set.
+         * 3. Get Realtionset Candidates that have first relation of new
+         * RelationSet.
+         * 4. Compare each candidate to new RelationSet using contained Relations.
+         * 4.1 If found same RelationSet, set new Relation Set to retrieved
+         * candidate.
+         * 5. Check LRs/VRs/MRs to update new RelationSet
          */
         Relations newRelationsObject = new Relations();
         RelationSet newRelationSet = new RelationSet();
@@ -92,12 +92,12 @@ public class RelationSets {
         }
         newRelationSet.setName(relationSet.getName());
         RelationSet retrievedRelationSet = null;
-        
+
         if (!newRelationSet.getRelations().isEmpty()) {
             //RelationSet retrievedRelationSet = rsDao.getRelationSet(
             //        newRelationSet);
-            List<RelationSet> relationSetCandidates
-                    = rsDao.getRelationSetsByRelation(
+            List<RelationSet> relationSetCandidates =
+                    rsDao.getRelationSetsByRelation(
                             newRelationSet.getRelationsList().get(0));
 
             for (RelationSet rsc : relationSetCandidates) {
@@ -136,14 +136,14 @@ public class RelationSets {
         // For each language representation, find it in the DB.
         // If it exists, attach it to the RelationSet.
         // If it doesn't exist, create it.
-        LanguageRepresentationDao lrDao
-                = new LanguageRepresentationDaoImpl();
+        LanguageRepresentationDao lrDao =
+                new LanguageRepresentationDaoImpl();
 
         if (!relationSet.getLanguageRepresentations().isEmpty()) {
             for (LanguageRepresentation languageRepresentation
                     : relationSet.getLanguageRepresentations()) {
-                LanguageRepresentation retrievedLanguageRepresentation
-                        = lrDao.getSingleLanguageRepresentation(
+                LanguageRepresentation retrievedLanguageRepresentation =
+                        lrDao.getSingleLanguageRepresentation(
                                 languageRepresentation.getLanguage(),
                                 languageRepresentation.getText(),
                                 languageRepresentation.getPartOfSpeech(),
@@ -161,8 +161,8 @@ public class RelationSets {
                                 retrievedLanguageRepresentation);
                     }
                 } else {
-                    LanguageRepresentation newLanguageRepresentation
-                            = new LanguageRepresentation(languageRepresentation);
+                    LanguageRepresentation newLanguageRepresentation =
+                            new LanguageRepresentation(languageRepresentation);
                     //check if already assigned to relationSet
                     if (!newRelationSet.getLanguageRepresentations().
                             contains(newLanguageRepresentation)) {

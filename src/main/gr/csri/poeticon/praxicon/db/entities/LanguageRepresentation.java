@@ -230,7 +230,7 @@ public class LanguageRepresentation implements Serializable {
     @XmlTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "languageRepresentation")
     private List<Concept_LanguageRepresentation> concepts;
-    
+
     @XmlTransient
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(

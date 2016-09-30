@@ -34,6 +34,7 @@ public class LanguageRepresentationDaoImpl extends
      * @param productivity the productivity to search
      * @param negation     the negation to search
      * @param operator     the operator to search
+     *
      * @return A LanguageRepresentation (null if not found)
      */
     @Override
@@ -60,13 +61,14 @@ public class LanguageRepresentationDaoImpl extends
 
     /**
      * Finds the LanguageRepresentation that has the given Language, Text and
-     * Part of Speech
+     * Part of Speech.
      * Overloaded.
      *
      * @param language  the Language to search
      * @param text      the text to search
      * @param pos       the part of speech to search
      * @param useStatus the use status to search
+     *
      * @return A LanguageRepresentation (null if not found)
      */
     @Override
@@ -79,8 +81,8 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("language", language).
                 setParameter("pos", pos).
                 setParameter("useStatus", useStatus);
-        List<LanguageRepresentation> retrievedLanguageRepresentationList = query.
-                getResultList();
+        List<LanguageRepresentation> retrievedLanguageRepresentationList =
+                query.getResultList();
         if (retrievedLanguageRepresentationList.size() > 0) {
             return retrievedLanguageRepresentationList;
         } else {
@@ -94,6 +96,7 @@ public class LanguageRepresentationDaoImpl extends
      * Overloaded.
      *
      * @param text the Language representation text
+     *
      * @return A list of LanguageRepresentations
      */
     @Override
@@ -114,6 +117,7 @@ public class LanguageRepresentationDaoImpl extends
      * @param text      the text to search
      * @param pos       the pos to search
      * @param useStatus
+     *
      * @return A LanguageRepresentation (null if not found)
      */
     @Override
@@ -127,7 +131,8 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("language", language).
                 setParameter("pos", pos).
                 setParameter("useStatus", useStatus);
-        List<LanguageRepresentation> retrievedLanguageRepresentationList = query.
+        List<LanguageRepresentation> retrievedLanguageRepresentationList =
+                query.
                 getResultList();
         if (retrievedLanguageRepresentationList.size() > 0) {
             return retrievedLanguageRepresentationList.get(0);
@@ -154,6 +159,7 @@ public class LanguageRepresentationDaoImpl extends
      * and pos
      *
      * @param lr the LanguageRepresentation
+     *
      * @return a query to search for the LanguageRepresentation
      */
     @Override

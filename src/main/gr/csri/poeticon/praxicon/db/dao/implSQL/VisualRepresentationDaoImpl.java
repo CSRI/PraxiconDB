@@ -21,7 +21,8 @@ public class VisualRepresentationDaoImpl extends
      * type, representation ant prototype
      *
      * @param visualRepresentation
-     * @param entity the VisualRepresentation to be searched
+     * @param entity               the VisualRepresentation to be searched
+     *
      * @return a query to search for the VisualRepresentation
      */
     @Override

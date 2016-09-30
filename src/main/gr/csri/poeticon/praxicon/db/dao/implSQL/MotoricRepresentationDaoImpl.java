@@ -16,12 +16,12 @@ public class MotoricRepresentationDaoImpl
         extends JpaDao<Long, MotoricRepresentation>
         implements MotoricRepresentationDao {
 
-
     /**
      * Creates q query to search for a MotoricRepresentation using
      * representation
      *
      * @param motoricRepresentation the MotoricRepresentation to be searched
+     *
      * @return a query to search for the MotoricRepresentation
      */
     @Override

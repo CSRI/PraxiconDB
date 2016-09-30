@@ -30,6 +30,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      * @param leftArgument  the left relation argument
      * @param rightArgument the right relation arguments
      * @param relationType  the type of relation
+     *
      * @return a list of relations
      */
     @Override
@@ -54,6 +55,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      * That way, we retrieve a unique relation from the database.
      *
      * @param relation the relation to search for
+     *
      * @return a list of relations
      */
     @Override
@@ -76,6 +78,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      * Finds all relations of a given concept
      *
      * @param concept the concept
+     *
      * @return a list of relations
      */
     @Override
@@ -92,6 +95,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      *
      * @param concept1 the first concept
      * @param concept2 the second concept
+     *
      * @return true/false
      */
     @Override
@@ -110,6 +114,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      *
      * @param concept      the concept
      * @param relationType the type of relation
+     *
      * @return a list of relations
      */
     @Override
@@ -128,6 +133,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      *
      * @param concept      the relation concept
      * @param relationType the type of relation
+     *
      * @return a list of relations
      */
     @Override
@@ -150,6 +156,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      *
      * @param concept      the relation concept
      * @param relationType the type of relation
+     *
      * @return a list of relations
      */
     @Override
@@ -170,6 +177,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      * Finds the relations that have a certain type of relation.
      *
      * @param relationType the type of relation
+     *
      * @return a list of relations
      */
     @Override
@@ -187,6 +195,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      * Finds all relations of a given relation argument
      *
      * @param relationArgument the relation argument to be searched
+     *
      * @return a list of relations
      */
     @Override
@@ -205,6 +214,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      *
      * @param relationArgument1 the first relationArgument
      * @param relationArgument2 the second relationArgument
+     *
      * @return true/false
      */
     @Override
@@ -223,6 +233,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      *
      * @param relationArgument the relation argument
      * @param relationType     the type of relation
+     *
      * @return a list of relations
      */
     @Override
@@ -243,6 +254,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      *
      * @param relationArgument the relation argument
      * @param relationType     the type of relation
+     *
      * @return a list of relations
      */
     @Override
@@ -263,6 +275,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      *
      * @param relationArgument the relation argument
      * @param relationType     the type of relation
+     *
      * @return a list of relations
      */
     @Override
@@ -282,6 +295,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      * whether a relation exists in the database. If it doesn't, it is added.
      *
      * @param newRelation relation to use as source
+     *
      * @return the updated relation
      */
     @Override

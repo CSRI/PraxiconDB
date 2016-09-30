@@ -22,7 +22,7 @@ public interface RelationSetDao extends Dao<Long, RelationSet> {
 
     List<RelationSet> getRelationSetsByRelationArgument(
             RelationArgument relationArgument);
-    
+
     List<RelationSet> getRelationSetsByRelation(Relation relation);
 
     List<RelationSet> getRelationSetsByConcept(Concept concept);

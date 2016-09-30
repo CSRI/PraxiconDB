@@ -34,6 +34,7 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
      * Finds a RelationSet according to its name.
      *
      * @param relationSetName
+     *
      * @return a relation set
      */
     @Override
@@ -54,19 +55,21 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
      * Finds a RelationSet.
      *
      * @param relationSet
+     *
      * @return a relation set
      */
     @Override
     public RelationSet getRelationSet(RelationSet relationSet) {
-        /* Need to follow different strategy, since there could be numerous
-         Relations in a Relation Set:
-         1. Retrieve relations from provided relation set
-         2. Check if relations exist in DB.
-         2.1. If all of them exist, continue to step 3.
-         3. Check if they belong to a relation set.
-         3.1. If they do, check the rest of the relation set's characteristics
-         3.1.1. If they are the same, return the relation set
-         4. Return null
+        /*
+         * Need to follow different strategy, since there could be numerous
+         * Relations in a Relation Set:
+         * 1. Retrieve relations from provided relation set
+         * 2. Check if relations exist in DB.
+         * 2.1. If all of them exist, continue to step 3.
+         * 3. Check if they belong to a relation set.
+         * 3.1. If they do, check the rest of the relation set's characteristics
+         * 3.1.1. If they are the same, return the relation set
+         * 4. Return null
          */
         ConceptDao cDao = new ConceptDaoImpl();
         RelationDao rDao = new RelationDaoImpl();
@@ -220,6 +223,7 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
      * or rightArgument.
      *
      * @param relationArgument the relation argument to search by
+     *
      * @return a list of RelationSets
      */
     @Override
@@ -238,6 +242,7 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
      * as LeftArgument or RightArgument.
      *
      * @param concept the concept to search by
+     *
      * @return a list of RelationSets
      */
     @Override
@@ -258,6 +263,7 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
      * Finds relations that have a given relationArgument as leftArgument
      *
      * @param relationArgument the relation argument to search by
+     *
      * @return a list of RelationSets
      */
     @Override
@@ -275,6 +281,7 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
      * Finds relations that have a given relationArgument as rightArgument
      *
      * @param relationArgument the relation argument to search by
+     *
      * @return a list of RelationSets
      */
     @Override
@@ -293,6 +300,7 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
      * rightArgument.
      *
      * @param concept the concept to search by
+     *
      * @return a list of relation sets
      */
     @Override
@@ -309,6 +317,7 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
      * Finds relations sets that contain a specific relation.
      *
      * @param relation the relation to search by
+     *
      * @return a list of relation sets
      */
     @Override
@@ -348,6 +357,7 @@ public class RelationSetDaoImpl extends JpaDao<Long, RelationSet>
      * Creates a query to search for a RelationSet using relations.
      *
      * @param relationSet the RelationSet to be searched
+     *
      * @return a query to search for the RelationSet
      */
     @Override

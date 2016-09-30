@@ -166,7 +166,8 @@ public class VisualRepresentation implements Serializable {
         this.uri = uri;
     }
 
-    public void setURI(String uri) throws URISyntaxException, MalformedURLException {
+    public void setURI(String uri) throws URISyntaxException,
+            MalformedURLException {
         String[] schemes = {"http", "https"};
         URL url = null;
         try {
@@ -213,7 +214,9 @@ public class VisualRepresentation implements Serializable {
     }
 
     @Override
-    /* TODO: Create a realistic equals() method */
+    /*
+     * TODO: Create a realistic equals() method
+     */
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;

@@ -60,21 +60,21 @@ public class RelationArguments {
             RelationArgument relationArgument) {
 
         /*
-         Analyze relation argument:
-         0. Create a new Relation Argument.
-         1. Check if the Relation Argument is a Concept or a RelationSet.
-         1.a. If Concept then:
-         1.a.1. Store Concept
-         1.a.2. Check if the Relation Argument with this Concept
-         exists in the database.
-         1.a.3. Add the Concept to the Relation Argument
-         1.b. If Relation Set then:
-         1.b.1. Store Relation Set
-         1.a.2. Check if the Relation Argument with this Relation Set
-         exists in the database.
-         1.b.1. Add the Relation Set to the Relation Argument
-         2. Store the Relation Argument in the database.
-         3. Return it.
+         * Analyze relation argument:
+         * 0. Create a new Relation Argument.
+         * 1. Check if the Relation Argument is a Concept or a RelationSet.
+         * 1.a. If Concept then:
+         * 1.a.1. Store Concept
+         * 1.a.2. Check if the Relation Argument with this Concept
+         * exists in the database.
+         * 1.a.3. Add the Concept to the Relation Argument
+         * 1.b. If Relation Set then:
+         * 1.b.1. Store Relation Set
+         * 1.a.2. Check if the Relation Argument with this Relation Set
+         * exists in the database.
+         * 1.b.1. Add the Relation Set to the Relation Argument
+         * 2. Store the Relation Argument in the database.
+         * 3. Return it.
          */
         Concepts newConceptsObject = new Concepts();
         RelationSets newRelationSetObject = new RelationSets();
