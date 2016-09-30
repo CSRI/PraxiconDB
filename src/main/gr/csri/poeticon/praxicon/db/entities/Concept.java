@@ -1085,7 +1085,7 @@ public class Concept implements Serializable {
         }
 
         /* TODO: Do the same for Motoric and Visual Representations */
-        if (!this.ontologicalDomains.toString().equals(other.
+        if (!this.getOntologicalDomains().toString().equals(other.
                 getOntologicalDomains().toString())) {
             return false;
         }
