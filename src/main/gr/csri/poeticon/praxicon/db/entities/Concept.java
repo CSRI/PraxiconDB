@@ -354,7 +354,7 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Public Constructor with argument.
+     * Public Constructor with arguments.
      *
      * @param newConcept
      */
@@ -691,12 +691,10 @@ public class Concept implements Serializable {
      * @return a list containing the concept's language representations
      *
      */
-//    @Transactional
     public final List<LanguageRepresentation> getLanguageRepresentations() {
         EntityManager em = getEntityManager();
         Session session = em.unwrap(org.hibernate.Session.class);
         List<LanguageRepresentation> lrs = new ArrayList<>();
-//        Hibernate.initialize(getConceptLanguageRepresentationsEntries());
         for (Concept_LanguageRepresentation clr
                 : getConceptLanguageRepresentationsEntries()) {
             if (!isNull(clr.getId())) {
@@ -720,18 +718,16 @@ public class Concept implements Serializable {
     public final List<Concept_LanguageRepresentation>
             getConceptLanguageRepresentation() {
         Hibernate.initialize(languageRepresentations);
-        return new ArrayList<>(languageRepresentations);
+        EntityManager em = getEntityManager();
+        Session session = em.unwrap(org.hibernate.Session.class);
 
-//
-//        if (!isNull(languageRepresentations) && !languageRepresentations.
-//                isEmpty()) {
-//            return new ArrayList<>(languageRepresentations);
-//        } else {
-//            return null;
-//        }
-//        System.out.println("\nLANGUAGE_REPRESENTATIONS_ITEM: \n\n" +
-//                languageRepresentations.get(0).getLanguageRepresentation());
-//        return new ArrayList<>(languageRepresentations);
+        for (Concept_LanguageRepresentation clr : languageRepresentations) {
+            if (!session.contains(clr)) {
+                session.update(clr);
+            }
+        }
+
+        return new ArrayList<>(languageRepresentations);
     }
 
     public void setConcept_LanguageRepresentation(
@@ -745,14 +741,10 @@ public class Concept implements Serializable {
      * @return a list of Concept_LanguageRepresentation instances for the
      * concept
      */
-//    @Transactional
     public List<Concept_LanguageRepresentation>
             getConceptLanguageRepresentationsEntries() {
         List<Concept_LanguageRepresentation> languageRepresentationEntries
                 = new ArrayList<>();
-        EntityManager em = getEntityManager();
-        Session session = em.unwrap(org.hibernate.Session.class);
-//        Hibernate.initialize(this.getConceptLanguageRepresentation());
         if (!isNull(this.getConceptLanguageRepresentation()) && !this.
                 getConceptLanguageRepresentation().isEmpty()) {
             for (Concept_LanguageRepresentation languageRepresentation
@@ -827,7 +819,7 @@ public class Concept implements Serializable {
         if (!lrs.isEmpty()) {
             for (LanguageRepresentation lr : lrs) {
                 if (!session.contains(lr)) {
-                    session.save(lr);
+                    session.saveOrUpdate(lr);
                 }
                 lrNames.add(lr.getText());
             }
@@ -853,10 +845,7 @@ public class Concept implements Serializable {
         if (!clrs.isEmpty()) {
             for (Concept_LanguageRepresentation clr : clrs) {
                 if (!isNull(clr)) {
-//                    if (!session.contains(clr)) {
-//                        session.update(clr);
-//                    }
-                lrNamesAndRepresentative.add(clr.toString());
+                    lrNamesAndRepresentative.add(clr.toString());
                 }
             }
             Collections.sort(lrNamesAndRepresentative);
@@ -1086,10 +1075,15 @@ public class Concept implements Serializable {
          "getLanguageRepresentations()".
           Also, implement the Comparable interface for LanguageRepresentation
           to make implementation cleaner. */
-        if (!this.getLanguageRepresentationsAndRepresentative().equals(other.
-                getLanguageRepresentationsAndRepresentative())) {
-            return false;
+        if (!(this.getConceptLanguageRepresentation().isEmpty()) || (other.
+                getLanguageRepresentationsAndRepresentative().isEmpty())) {
+            if (!this.getLanguageRepresentationsAndRepresentative().toString().
+                    equals(other.getLanguageRepresentationsAndRepresentative().
+                            toString())) {
+                return false;
+            }
         }
+
         /* TODO: Do the same for Motoric and Visual Representations */
         if (!this.ontologicalDomains.toString().equals(other.
                 getOntologicalDomains().toString())) {
