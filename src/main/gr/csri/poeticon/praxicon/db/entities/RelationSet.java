@@ -412,19 +412,12 @@ public class RelationSet implements Serializable {
 
         return relationsString;
     }
-
-//    public void afterUnmarshal(Unmarshaller u, Object parent) {
-//        if (Globals.ToMergeAfterUnMarshalling) {
-//            RelationSetDao rsDao = new RelationSetDaoImpl();
-//            rsDao.merge(this);
-//            System.out.println("Finished unmarshalling RelationSet");
+//
+//    @XmlRegistry
+//    class ObjectFactory {
+//
+//        RelationSet createRelationSet() {
+//            return new RelationSet();
 //        }
 //    }
-    @XmlRegistry
-    class ObjectFactory {
-
-        RelationSet createRelationSet() {
-            return new RelationSet();
-        }
-    }
 }
