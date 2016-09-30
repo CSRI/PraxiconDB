@@ -120,6 +120,7 @@ public class Relation implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @XmlTransient
     @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
     @Column(name = "RelationId")
@@ -325,5 +326,5 @@ public class Relation implements Serializable {
 
         return finalString;
     }
-    
+
 }
