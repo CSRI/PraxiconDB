@@ -155,7 +155,8 @@ public class RelationSet implements Serializable {
         this.languageRepresentations = newRelationSet.
                 getLanguageRepresentations();
         this.visualRepresentations = newRelationSet.getVisualRepresentations();
-        this.motoricRepresentations = newRelationSet.getMotoricRepresentations();
+        this.motoricRepresentations = newRelationSet.
+                getMotoricRepresentations();
     }
 
     public Long getId() {

@@ -99,7 +99,8 @@ public class Concept_LanguageRepresentation implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 73 * hash + (this.isRepresentativeLanguageRepresentation ? 1 : 0);
+        hash = 73 * hash + (this.isRepresentativeLanguageRepresentation ? 1 :
+                0);
         hash = 73 * hash + Objects.hashCode(this.getLanguageRepresentation().
                 getLanguageRepresentations());
         return hash;

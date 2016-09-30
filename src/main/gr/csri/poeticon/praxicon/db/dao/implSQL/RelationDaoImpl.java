@@ -61,7 +61,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
     @Override
     public Relation getRelation(Relation relation) {
         Query query = getEntityManager().createNamedQuery("findRelation").
-                setParameter("leftRelationArgument", relation.getLeftArgument()).
+                setParameter("leftRelationArgument", relation.
+                        getLeftArgument()).
                 setParameter("rightRelationArgument", relation.
                         getRightArgument()).
                 setParameter("relationType", relation.getRelationType().
@@ -121,8 +122,9 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
     public List<Relation> getRelationsByConceptRelationType(
             Concept concept, RelationType.RelationNameForward relationType) {
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
-        RelationArgument retrievedRelationArgument = raDao.getRelationArgument(
-                concept);
+        RelationArgument retrievedRelationArgument = raDao.
+                getRelationArgument(
+                        concept);
         return getRelationsByRelationArgumentRelationType(
                 retrievedRelationArgument, relationType);
     }
@@ -140,8 +142,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
     public List<Relation> getRelationsByLeftConceptTypeOfRelation(
             Concept concept, RelationType.RelationNameForward relationType) {
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
-        RelationArgument retrievedRelationArgument = raDao.getRelationArgument(
-                concept);
+        RelationArgument retrievedRelationArgument = raDao.
+                getRelationArgument(concept);
         if (retrievedRelationArgument == null) {
             return new ArrayList<>();
         } else {
@@ -163,8 +165,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
     public List<Relation> getRelationsByRightConceptTypeOfRelation(
             Concept concept, RelationType.RelationNameForward relationType) {
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
-        RelationArgument retrievedRelationArgument = raDao.getRelationArgument(
-                concept);
+        RelationArgument retrievedRelationArgument = raDao.
+                getRelationArgument(concept);
         if (retrievedRelationArgument == null) {
             return new ArrayList<>();
         } else {

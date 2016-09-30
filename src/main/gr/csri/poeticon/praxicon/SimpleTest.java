@@ -148,10 +148,12 @@ public class SimpleTest {
 
         // Get children concepts and specificity level of the first concept
         // in the list of concepts that have language representation spoon.
-        System.out.println("\n\nChildren of the first occurence of a concept" +
-                 " having language representation spoon: ");
-        System.out.println("------------------------------------------------" +
-                 "----------------------------------");
+        System.out.println(
+                "\n\nChildren of the first occurence of a concept" +
+                " having language representation spoon: ");
+        System.out.println(
+                "------------------------------------------------" +
+                "----------------------------------");
         List<Concept> conceptsSpoon = cDao.
                 getConceptsByLanguageRepresentationExact(toSearch);
         List<Concept> childrenOfSpoon = cDao.getChildren(
@@ -174,10 +176,12 @@ public class SimpleTest {
 
         // Get parent concepts and specificity level of the first concept
         // in the list of concepts that have language representation spoon.
-        System.out.println("\n\nParent concepts of the first occurence of a " +
-                 "concept having language representation spoon: ");
-        System.out.println("------------------------------------------------" +
-                 "-----------------------------------------");
+        System.out.println(
+                "\n\nParent concepts of the first occurence of a " +
+                "concept having language representation spoon: ");
+        System.out.println(
+                "------------------------------------------------" +
+                "-----------------------------------------");
         List<Concept> parents = cDao.getParents(conceptsSpoon.get(0));
         List<Concept> sisters = new ArrayList<>();
         for (Concept parent : parents) {
@@ -188,9 +192,10 @@ public class SimpleTest {
 
         System.out.println(
                 "\n\nOffspring concepts of the first occurence of a " +
-                 "concept having language representation spoon: ");
-        System.out.println("------------------------------------------------" +
-                 "-----------------------------------------");
+                "concept having language representation spoon: ");
+        System.out.println(
+                "------------------------------------------------" +
+                "-----------------------------------------");
         long startTime = System.nanoTime();
         List<Concept> offsprings = cDao.getAllOffsprings(conceptsSpoon.get(0));
         long endTime = System.nanoTime();
@@ -198,7 +203,8 @@ public class SimpleTest {
         System.out.print((endTime - startTime) / 1000000000);
         System.out.println(" seconds to run");
         for (Concept offspring : offsprings) {
-            System.out.println("Offspring: " + offspring + " - \t" + offspring.
+            System.out.println("Offspring: " + offspring + " - \t" +
+                    offspring.
                     getSpecificityLevel());
         }
 
@@ -221,7 +227,8 @@ public class SimpleTest {
         Concept concept = cDao.getConceptByNameExact(
                 stringToSearch);
         startTime = System.nanoTime();
-        List<Concept> basicLevelOfConcept = cDao.getBasicLevelConcepts(concept);
+        List<Concept> basicLevelOfConcept = cDao.
+                getBasicLevelConcepts(concept);
         endTime = System.nanoTime();
         System.out.print(
                 "Time of getBasicLevel() for concept: " + stringToSearch + " ");
@@ -230,7 +237,7 @@ public class SimpleTest {
 
         if (basicLevelOfConcept.isEmpty()) {
             System.out.println("Concept " + stringToSearch +
-                     " doesn't have a Basic Level Concept");
+                    " doesn't have a Basic Level Concept");
         } else {
             for (Concept item : basicLevelOfConcept) {
                 System.out.println(item);
@@ -324,8 +331,8 @@ public class SimpleTest {
         for (Relation relation : allRelationsOfConceptSubstance) {
             System.out.println(
                     relation.getLeftArgument().getConcept() + " " +
-                     relation.getRelationType().getForwardNameString() + " " +
-                     relation.getRightArgument().getConcept());
+                    relation.getRelationType().getForwardNameString() + " " +
+                    relation.getRightArgument().getConcept());
         }
         System.out.println(
                 "\n\nCount of all relations with relation type: HAS_INSTANCE");
@@ -347,11 +354,12 @@ public class SimpleTest {
         System.out.println("ConceptShape: " + conceptShape);
         System.out.println("ConceptRoundShape: " + conceptRoundShape);
         System.out.println("relationArgumentConceptShape id: " +
-                 relationArgumentConceptShape);
+                relationArgumentConceptShape);
         System.out.println("relationArgumentConceptRoundShape id: " +
-                 relationArgumentConceptRoundShape);
-        Relation relationFound = rDao.getRelation(relationArgumentConceptShape,
-                relationArgumentConceptRoundShape, TYPE_TOKEN);
+                relationArgumentConceptRoundShape);
+        Relation relationFound = rDao.
+                getRelation(relationArgumentConceptShape,
+                        relationArgumentConceptRoundShape, TYPE_TOKEN);
         System.out.println("\n\nCheck if the relation exists:");
         System.out.println("-----------------------------");
         System.out.println(relationFound);
@@ -496,7 +504,7 @@ public class SimpleTest {
             System.out.println("2. Import Relations");
             System.out.println("3. Import Relation Sets");
             System.out.println("4. Import Objects (all or some of the above" +
-                     " in a single file)");
+                    " in a single file)");
             System.out.println("q. Return to the previous menu");
             System.out.println();
             System.out.println("Please enter your choice: ");
@@ -506,7 +514,7 @@ public class SimpleTest {
             switch (testChoice) {
                 case "1":
                     System.out.println("Please, provide the path to the " +
-                             "Concepts XML file:");
+                            "Concepts XML file:");
                     fileName = fileInput.next();
                     result = XmlUtils.importConceptsFromXml(fileName);
                     if (result == 0) {
@@ -518,7 +526,7 @@ public class SimpleTest {
                     continue;
                 case "2":
                     System.out.println("Please, provide the path to the " +
-                             "Concepts XML file:");
+                            "Concepts XML file:");
                     fileInput = new Scanner(System.in);
                     fileName = fileInput.next();
                     result = XmlUtils.importRelationsFromXml(fileName);
@@ -531,7 +539,7 @@ public class SimpleTest {
                     continue;
                 case "3":
                     System.out.println("Please, provide the path to the " +
-                             "Concepts XML file:");
+                            "Concepts XML file:");
                     fileInput = new Scanner(System.in);
                     fileName = fileInput.next();
                     result = XmlUtils.importRelationSetsFromXml(fileName);
@@ -545,7 +553,7 @@ public class SimpleTest {
                     continue;
                 case "4":
                     System.out.println("Please, provide the path to the " +
-                             "Objects XML file:");
+                            "Objects XML file:");
                     fileInput = new Scanner(System.in);
                     fileName = fileInput.next();
                     result = XmlUtils.importObjectsFromXml(fileName);
@@ -563,7 +571,8 @@ public class SimpleTest {
     }
 
     private static void testConceptEquals() {
-        System.out.println("\nTesting the validity of equals method in Concept");
+        System.out.println(
+                "\nTesting the validity of equals method in Concept");
         // Import single concept from file.
         int result = 0;
         Concepts importedConcepts = new Concepts();
@@ -572,11 +581,11 @@ public class SimpleTest {
             JAXBContext jaxbContext = JAXBContext.newInstance(Concepts.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             String fileName =
-                    
-                    "misc/test-fixtures/Concepts_colour_abstract_20160712172921.xml";
+                    "misc/test-fixtures/" +
+                    "Concepts_colour_abstract_20160712172921.xml";
             File xmlFile = new File(fileName);
             importedConcepts =
-                     (Concepts)jaxbUnmarshaller.unmarshal(xmlFile);
+                    (Concepts)jaxbUnmarshaller.unmarshal(xmlFile);
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
@@ -589,40 +598,42 @@ public class SimpleTest {
         if (!importedConcepts.getConcepts().isEmpty()) {
             for (Concept item : importedConcepts.getConcepts()) {
                 System.out.println("\nConcept's " + item + " hash code is  " +
-                         item.hashCode());
+                        item.hashCode());
                 System.out.println("\nLanguageRepresentation's " + item.
                         getConceptLanguageRepresentation().toString() +
-                         " hash code is  " +
-                         item.getConceptLanguageRepresentation().
+                        " hash code is  " +
+                        item.getConceptLanguageRepresentation().
                         toString().hashCode());
 
-                System.out.println("\nDBConcept's " + item + " hash code is  " +
-                         dbConcept.hashCode());
+                System.out.println(
+                        "\nDBConcept's " + item + " hash code is  " +
+                        dbConcept.hashCode());
                 System.out.println("\nDBLanguageRepresentation's " + item.
                         getConceptLanguageRepresentation().toString() +
-                         " hash code is  " +
-                         dbConcept.getConceptLanguageRepresentation().
+                        " hash code is  " +
+                        dbConcept.getConceptLanguageRepresentation().
                         toString().hashCode());
 
                 if (item.equals(dbConcept)) {
                     System.out.println("\nConcept " + item + " is equal to " +
-                             dbConcept);
+                            dbConcept);
                 } else {
-                    System.out.println("\nConcept " + item + " NOT equal to " +
-                             dbConcept);
+                    System.out.println("\nConcept " + item +
+                            " NOT equal to " + dbConcept);
                 }
                 if (item.getConceptLanguageRepresentation().toString().equals(
-                        dbConcept.getConceptLanguageRepresentation().toString())) {
+                        dbConcept.getConceptLanguageRepresentation().
+                        toString())) {
                     System.out.println("\nLR " + item.
                             getConceptLanguageRepresentation().toString() +
-                             " is equal to " +
-                             dbConcept.getConceptLanguageRepresentation().
+                            " is equal to " +
+                            dbConcept.getConceptLanguageRepresentation().
                             toString());
                 } else {
                     System.out.println("\nLR " + item.
                             getConceptLanguageRepresentation().toString() +
-                             " NOT equal to " +
-                             dbConcept.getConceptLanguageRepresentation().
+                            " NOT equal to " +
+                            dbConcept.getConceptLanguageRepresentation().
                             toString());
                 }
 
@@ -644,7 +655,7 @@ public class SimpleTest {
             String fileName = "misc/test-fixtures/RelationSet_352.xml";
             File xmlFile = new File(fileName);
             importedRelationSets =
-                     (RelationSets)jaxbUnmarshaller.unmarshal(xmlFile);
+                    (RelationSets)jaxbUnmarshaller.unmarshal(xmlFile);
             System.out.println("RelationSets: " + importedRelationSets);
         } catch (JAXBException ex) {
             System.out.println(ex.getMessage());
@@ -661,19 +672,19 @@ public class SimpleTest {
         if (!importedRelationSets.getRelationSets().isEmpty()) {
             for (RelationSet item : importedRelationSets.getRelationSets()) {
                 System.out.println("RelationSet's " + item + item.getName() +
-                         " hash code is  " +
-                         item.hashCode());
+                        " hash code is  " +
+                        item.hashCode());
                 System.out.println("DBRelationSet's " + dbRelationSet +
-                         dbRelationSet.getName() + " hash code is  " +
-                         dbRelationSet.hashCode());
+                        dbRelationSet.getName() + " hash code is  " +
+                        dbRelationSet.hashCode());
                 if (item.equals(dbRelationSet)) {
                     System.out.println("DBRelationSet's " + item + item.
                             getName() + " is equal to " +
-                             dbRelationSet);
+                            dbRelationSet);
                 } else {
                     System.out.println("DBRelationSet's " + item + item.
                             getName() + " NOT equal to " +
-                             dbRelationSet);
+                            dbRelationSet);
                 }
             }
         }
@@ -686,7 +697,8 @@ public class SimpleTest {
         List<Concept> retrievedConcepts = cDao.
                 getConceptsByName("color%1:07:01::");
         System.out.println("\n\nRetrieved Concept: " + retrievedConcepts);
-        System.out.println("\n\nLanguage Representations: " + retrievedConcepts.
+        System.out.println("\n\nLanguage Representations: " +
+                retrievedConcepts.
                 iterator().next().getLanguageRepresentationsNames());
 
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");

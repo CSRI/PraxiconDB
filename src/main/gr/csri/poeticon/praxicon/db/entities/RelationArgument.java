@@ -145,7 +145,8 @@ public class RelationArgument implements Serializable {
         if (this.relationSet == null) {
             this.concept = concept;
         } else {
-            System.err.println("Cannot set concept of the relation argument " +
+            System.err.println(
+                    "Cannot set concept of the relation argument " +
                     "as a relation set is already present.");
         }
     }

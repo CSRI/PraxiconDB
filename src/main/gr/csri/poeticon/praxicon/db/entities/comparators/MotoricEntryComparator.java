@@ -11,7 +11,8 @@ import java.util.Comparator;
  *
  * @author Erevodifwntas
  */
-public class MotoricEntryComparator implements Comparator<MotoricRepresentation> {
+public class MotoricEntryComparator implements
+        Comparator<MotoricRepresentation> {
 
     /**
      * NOT IMPLEMENTED YET

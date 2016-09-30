@@ -94,8 +94,8 @@ public class RelationArguments {
                 raDao.persist(newRelationArgument);
             }
         } else {
-            RelationSet newRelationSet = newRelationSetObject.storeRelationSet(
-                    relationArgument.getRelationSet());
+            RelationSet newRelationSet = newRelationSetObject.
+                    storeRelationSet(relationArgument.getRelationSet());
             retrievedRelationArgument = raDao.
                     getRelationArgument(newRelationSet);
             if (!isNull(retrievedRelationArgument)) {

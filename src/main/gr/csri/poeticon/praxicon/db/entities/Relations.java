@@ -123,8 +123,8 @@ public class Relations {
         } else {
             rightRelationSet = relation.getRightArgument().
                     getRelationSet();
-            retrievedRightRelationSet = newRelationSetsObject.storeRelationSet(
-                    rightRelationSet);
+            retrievedRightRelationSet = newRelationSetsObject.
+                    storeRelationSet(rightRelationSet);
             RelationArgument rightRelationArgument = new RelationArgument(
                     retrievedRightRelationSet);
             newRightRelationArgument = newRelationArgumentsObject.
@@ -132,8 +132,9 @@ public class Relations {
         }
 
         // 2. Get relation type
-        RelationType retrievedRelationType = rtDao.getRelationTypeByForwardName(
-                relation.getRelationType().getForwardName());
+        RelationType retrievedRelationType = rtDao.
+                getRelationTypeByForwardName(
+                        relation.getRelationType().getForwardName());
         RelationType relationType = new RelationType();
         // 2.1 & 2.2
         if (!isNull(retrievedRelationType)) {
@@ -158,7 +159,8 @@ public class Relations {
         newRelation.setRightArgument(newRightRelationArgument);
         newRelation.setRelationType(relationType);
         newRelation.setInferred(relation.getInferred());
-        newRelation.setLinguisticSupport(relation.getLinguisticallySupported());
+        newRelation.setLinguisticSupport(
+                relation.getLinguisticallySupported());
         if (!areRelated) {
             rDao.persist(newRelation);
             return newRelation;

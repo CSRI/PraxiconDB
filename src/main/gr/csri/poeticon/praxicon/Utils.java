@@ -208,7 +208,8 @@ public class Utils {
             }
             image.flush();
             if (imageReader.getFormatName().equals("JPEG")) {
-                imageInputStream.seek(imageInputStream.getStreamPosition() - 2);
+                imageInputStream.
+                        seek(imageInputStream.getStreamPosition() - 2);
                 final byte[] lastTwoBytes = new byte[2];
                 imageInputStream.read(lastTwoBytes);
                 if (lastTwoBytes[0] != (byte)0xff || lastTwoBytes[1] !=

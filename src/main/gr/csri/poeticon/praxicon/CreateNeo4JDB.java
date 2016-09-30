@@ -119,14 +119,14 @@ public class CreateNeo4JDB {
             for (Concept concept : concepts) {
 
                 conceptNode = graphDb.createNode();
-                conceptNode.setProperty("conceptType", concept.getConceptType().
-                        toString());
+                conceptNode.setProperty("conceptType", concept.
+                        getConceptType().toString());
                 conceptNode.setProperty("conceptExternalSourceId", concept.
                         getExternalSourceId());
                 conceptNode.setProperty("conceptId", concept.getId());
                 if (concept.getOntologicalDomains() != null) {
-                    conceptNode.setProperty("conceptOntologicalDomain", concept.
-                            getOntologicalDomains());
+                    conceptNode.setProperty("conceptOntologicalDomain",
+                            concept.getOntologicalDomains());
                 }
                 conceptNode.setProperty("conceptPragmaticStatus", concept.
                         getPragmaticStatus().toString());
@@ -290,8 +290,8 @@ public class CreateNeo4JDB {
         System.out.println("Roots: " + roots.size());
         System.out.println("Leaves: " + leaves.size());
         System.out.println("Internals: " + internals.size());
-        System.out.println("MaxOutDegree: " + maxOutDegree + " for concept: " +
-                maxOutDegreeConcept);
+        System.out.println("MaxOutDegree: " + maxOutDegree + 
+                " for concept: " + maxOutDegreeConcept);
         System.out.println("MaxInDegree: " + maxInDegree + " for concept: " +
                 maxInDegreeConcept);
 

@@ -16,7 +16,6 @@ import javax.validation.Payload;
  *
  * @author dmavroeidis
  */
-
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD})
 @Constraint(validatedBy = ConceptValidator.class)

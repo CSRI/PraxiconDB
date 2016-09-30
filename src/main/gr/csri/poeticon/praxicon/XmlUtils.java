@@ -162,7 +162,8 @@ public class XmlUtils {
      * @param relationsList
      * @param xmlFileName
      */
-    public static void exportAllObjectsToXML(List<RelationSet> relationSetsList,
+    public static void exportAllObjectsToXML(
+            List<RelationSet> relationSetsList,
             List<Concept> conceptsList, List<Relation> relationsList,
             String xmlFileName) {
         CollectionOfObjects collectionOfObjects = new CollectionOfObjects();
@@ -263,7 +264,8 @@ public class XmlUtils {
                     newInstance(RelationSets.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             File xmlFile = new File(fullPathFileName);
-            RelationSets importedRelationSets = (RelationSets)jaxbUnmarshaller.
+            RelationSets importedRelationSets =
+                    (RelationSets)jaxbUnmarshaller.
                     unmarshal(xmlFile);
             importedRelationSets.storeRelationSets();
         } catch (JAXBException ex) {
@@ -291,7 +293,8 @@ public class XmlUtils {
                 concepts.storeConcepts();
             }
 
-            List<RelationSets> listOfRelationSets = importedCollectionOfObjects.
+            List<RelationSets> listOfRelationSets =
+                    importedCollectionOfObjects.
                     getRelationSets();
             for (RelationSets relationSets : listOfRelationSets) {
                 relationSets.storeRelationSets();

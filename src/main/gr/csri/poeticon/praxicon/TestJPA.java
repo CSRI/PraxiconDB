@@ -90,7 +90,8 @@ public class TestJPA {
 
         LanguageRepresentation languageRepresentation1 =
                 new LanguageRepresentation();
-        languageRepresentation1.setLanguage(LanguageRepresentation.Language.EN);
+        languageRepresentation1.
+                setLanguage(LanguageRepresentation.Language.EN);
         languageRepresentation1.setText("LR1");
         languageRepresentation1.setPartOfSpeech(
                 LanguageRepresentation.PartOfSpeech.NOUN);
@@ -99,7 +100,8 @@ public class TestJPA {
 
         LanguageRepresentation languageRepresentation2 =
                 new LanguageRepresentation();
-        languageRepresentation2.setLanguage(LanguageRepresentation.Language.EN);
+        languageRepresentation2.
+                setLanguage(LanguageRepresentation.Language.EN);
         languageRepresentation2.setText("LR2");
         languageRepresentation2.setPartOfSpeech(
                 LanguageRepresentation.PartOfSpeech.VERB);
@@ -108,7 +110,8 @@ public class TestJPA {
 
         LanguageRepresentation languageRepresentation3 =
                 new LanguageRepresentation();
-        languageRepresentation3.setLanguage(LanguageRepresentation.Language.EL);
+        languageRepresentation3.
+                setLanguage(LanguageRepresentation.Language.EL);
         languageRepresentation3.setText("LR3");
         languageRepresentation3.setPartOfSpeech(
                 LanguageRepresentation.PartOfSpeech.ADVERB);
@@ -122,7 +125,8 @@ public class TestJPA {
         /*
          * Add Visual Representations to the concepts
          */
-        VisualRepresentation visualRepresentation1 = new VisualRepresentation();
+        VisualRepresentation visualRepresentation1 =
+                new VisualRepresentation();
         visualRepresentation1.setName("VR1");
         visualRepresentation1.
                 setMediaType(VisualRepresentation.MediaType.IMAGE);
@@ -137,7 +141,8 @@ public class TestJPA {
         visualRepresentation1.setURI(new_uri);
         concept1.addVisualRepresentation(visualRepresentation1);
 
-        VisualRepresentation visualRepresentation2 = new VisualRepresentation();
+        VisualRepresentation visualRepresentation2 =
+                new VisualRepresentation();
         visualRepresentation2.setName("VR2");
         visualRepresentation2.
                 setMediaType(VisualRepresentation.MediaType.IMAGE);
@@ -247,7 +252,7 @@ public class TestJPA {
 
     public void persist(Object object) {
         EntityManagerFactory emf = javax.persistence.Persistence.
-                createEntityManagerFactory("PraxiconDBPU");
+                createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         try {

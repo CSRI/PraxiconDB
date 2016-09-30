@@ -27,7 +27,8 @@ public class MotoricRepresentationDaoImpl
     @Override
     public Query getEntityQuery(MotoricRepresentation motoricRepresentation) {
         Query query = getEntityManager().createNamedQuery(
-                "getLanguageRepresentationEntityQuery").setParameter("comment",
+                "getLanguageRepresentationEntityQuery").
+                setParameter("comment", 
                         motoricRepresentation.getComment().toUpperCase());
         return query;
     }

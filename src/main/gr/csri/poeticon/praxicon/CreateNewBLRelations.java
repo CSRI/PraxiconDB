@@ -71,7 +71,8 @@ public class CreateNewBLRelations {
         startTime = System.nanoTime();
         // For each concept, get its basic level
         for (Concept concept : concepts) {
-            List<Map.Entry<Concept, ConceptDaoImpl.Direction>> basicLevelConcepts =
+            List<Map.Entry<Concept, ConceptDaoImpl.Direction>> 
+                    basicLevelConcepts =
                     cDao.getBasicLevelConceptsOld(concept);
 
             counter += 1;
@@ -228,9 +229,6 @@ public class CreateNewBLRelations {
 //        System.out.print("\n\n\nFinished getting paths in ");
 //        System.out.print((endTime - startTime) / 1000);
 //        System.out.println(" microseconds!\n\n\n");
-
-
-
         // Now insert all BL relations.
 //        insertBLRelations(conceptGraph, concepts);
         if (cDao.getEntityManager().isOpen()) {
@@ -308,7 +306,8 @@ public class CreateNewBLRelations {
         System.out.println("Roots: " + roots.size());
         System.out.println("Leaves: " + leaves.size());
         System.out.println("Internals: " + internals.size());
-        System.out.println("MaxOutDegree: " + maxOutDegree + " for concept: " +
+        System.out.println(
+                "MaxOutDegree: " + maxOutDegree + " for concept: " +
                 maxOutDegreeConcept);
         System.out.println("MaxInDegree: " + maxInDegree + " for concept: " +
                 maxInDegreeConcept);
@@ -329,7 +328,8 @@ public class CreateNewBLRelations {
 
             List<List<Concept>> paths = new ArrayList<>();
             int count = 0;
-            ConnectivityInspector conI = new ConnectivityInspector(conceptGraph);
+            ConnectivityInspector conI = new ConnectivityInspector(
+                    conceptGraph);
             for (Concept root : roots) {
                 if (conI.pathExists(root, leaf)) {
                     paths = getAllPaths(conceptGraph, root, leaf);
@@ -435,12 +435,14 @@ public class CreateNewBLRelations {
         }
 
         long endTime = System.nanoTime();
-        System.out.print("\n\n\nFinished adding relations to the database in ");
+        System.out.
+                print("\n\n\nFinished adding relations to the database in ");
         System.out.print((endTime - startTime) / (60000000000D));
         System.out.println(" minutes!\n\n\n");
         System.out.println("\n\n\n\n\nFinished execution!\n\n\n");
         System.out.println("There are " + countPaths + " paths.");
-        System.out.println("We found " + count0BLPaths + " paths with no BLs.");
+        System.out.
+                println("We found " + count0BLPaths + " paths with no BLs.");
         System.out.println("We found " + count1BLPaths + " paths with 1 BL.");
         System.out.println("We found " + count2BLPaths + " paths with 2 BLs.");
         System.out.println("We found " + count3BLPaths +
@@ -480,7 +482,8 @@ public class CreateNewBLRelations {
             index = tmpPath.size() - 1;
             tmpConcept = tmpPath.get(index);
             // Get the adjucent edges & the corresponding iterator
-            Set<DefaultEdge> tmpEdges = conceptGraph.incomingEdgesOf(tmpConcept);
+            Set<DefaultEdge> tmpEdges = conceptGraph.incomingEdgesOf(
+                    tmpConcept);
             Iterator edgeIterator = tmpEdges.iterator();
             // 5. For each adjacent node
             while (edgeIterator.hasNext()) {

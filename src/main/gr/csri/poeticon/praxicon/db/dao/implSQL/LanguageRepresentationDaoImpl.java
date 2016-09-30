@@ -172,8 +172,7 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("language", languageRepresentation.
                         getLanguage().name().toUpperCase()).
                 setParameter("pos", languageRepresentation.
-                        getPartOfSpeech().toString().
-                        toUpperCase()).
+                        getPartOfSpeech().toString().toUpperCase()).
                 setParameter("useStatus",
                         languageRepresentation.getUseStatus().toString().
                         toUpperCase()).
