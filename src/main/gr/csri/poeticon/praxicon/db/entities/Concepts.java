@@ -114,7 +114,7 @@ public class Concepts {
                 }
             }
         }
-
+        
         // If Motoric Representations exist, add them to new concept
         if (!concept.getMotoricRepresentations().isEmpty()) {
             for (MotoricRepresentation mr : 

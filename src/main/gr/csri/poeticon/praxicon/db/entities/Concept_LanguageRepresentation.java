@@ -135,8 +135,6 @@ public class Concept_LanguageRepresentation implements Serializable {
         conceptLanguageRepresentationString += "representative: " +
                 this.getIsRepresentative() + "]";
         return conceptLanguageRepresentationString;
-//        return "gr.csri.poeticon.praxicon.db.entities." +
-//                "Concept_LanguageRepresentation[ id=" + id + " ]";
     }
 
 }

@@ -714,7 +714,6 @@ public class Concept implements Serializable {
      * @return the Concept_LanguageRepresentation instance of the concept
      *
      */
-//    @Transactional
     public final List<Concept_LanguageRepresentation>
             getConceptLanguageRepresentation() {
         Hibernate.initialize(languageRepresentations);
