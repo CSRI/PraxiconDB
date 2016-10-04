@@ -29,9 +29,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -39,7 +39,6 @@ import org.apache.commons.lang3.StringUtils;
  * @author dmavroeidis
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "relationSet", namespace = "http://www.csri.gr/relation_set")
 @XmlRootElement(name = "relationSet", namespace =
         "http://www.csri.gr/relation_set")
 @Entity
@@ -101,6 +100,7 @@ public class RelationSet implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet")
     private List<RelationSet_Relation> relations;
 
+    @XmlElement(name = "languageRepresentation")
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "LanguageRepresentation_RelationSet",
