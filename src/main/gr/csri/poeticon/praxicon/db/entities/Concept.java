@@ -34,7 +34,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 
@@ -43,10 +42,8 @@ import org.hibernate.Session;
  * @author dmavroeidis
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "concept", namespace = "http://www.csri.gr/concept")
 @XmlRootElement(name = "concept", namespace = "http://www.csri.gr/concept")
 @Entity
-//@EntityListeners(ConceptListener.class)
 @NamedQueries({
     @NamedQuery(name = "findAllConcepts", query = "FROM Concept c"),
     @NamedQuery(name = "findConceptsByConceptId", query =

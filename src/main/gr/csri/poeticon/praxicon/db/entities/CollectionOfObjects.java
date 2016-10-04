@@ -11,9 +11,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author dmavroeidis
  */
-@XmlRootElement(name = "collectionOfObjects")
+@XmlRootElement(name = "collectionOfObjects", namespace =
+        "http://www.csri.gr/collectionOfObjects")
 @XmlAccessorType(XmlAccessType.FIELD)
-//@XmlSeeAlso(Concept.class)
 
 public class CollectionOfObjects {
 

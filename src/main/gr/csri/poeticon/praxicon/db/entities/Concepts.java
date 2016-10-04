@@ -17,7 +17,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "concepts")
 @XmlAccessorType(XmlAccessType.FIELD)
-//@XmlSeeAlso(Concept.class)
 
 public class Concepts {
 
