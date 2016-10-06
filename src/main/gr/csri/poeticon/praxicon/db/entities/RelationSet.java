@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import static java.util.Objects.isNull;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -380,8 +381,10 @@ public class RelationSet implements Serializable {
             return false;
         }
         final RelationSet other = (RelationSet)obj;
-        if (!this.name.equals(other.name)) {
-            return false;
+        if (!(isNull(this.name) && !isNull(other.getName()))) {
+            if (!this.name.equals(other.name)) {
+                return false;
+            }
         }
         if (!this.getRelationsList().equals(other.getRelationsList())) {
             return false;
