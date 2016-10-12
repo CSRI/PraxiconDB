@@ -658,12 +658,13 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
 
     /**
      * This is the old implementation of finding the basic levels of a concept.
-     * Algorithm: If the concept is subordinate, then: - Store all ancestors of
-     * concept in concept list Else if the concept is superordinate then: -
-     * Store both offsprings and ancestors of concept in concept list For each
-     * concept in concept list: - If the concept is basic level, add it to the
-     * list of BL retrievedConceptsList Return the list of BL
-     * retrievedConceptsList
+     * Algorithm: If the concept is subordinate, then:
+     * - Store all ancestors of concept in concept list
+     * Else if the concept is superordinate then:
+     * - Store both offsprings and ancestors of concept in concept list
+     * For each concept in concept list:
+     * - If the concept is basic level, add it to the list of BL
+     * retrievedConceptsList Return the list of BL retrievedConceptsList
      *
      * @param concept concept to be checked
      *
@@ -676,50 +677,54 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         List<Concept> conceptsListDown = new ArrayList<>();
         List<Map.Entry<Concept, Direction>> basicLevelConceptsList;
         basicLevelConceptsList = new ArrayList<>();
+        AbstractMap.SimpleEntry<Concept, Direction> pair =
+                new java.util.AbstractMap.SimpleEntry<>(concept,
+                        Direction.NONE);
         Concept.SpecificityLevel specificityLevel = concept.
                 getSpecificityLevel();
 
-        if (specificityLevel == BASIC_LEVEL) {
-            AbstractMap.SimpleEntry<Concept, Direction> pair =
-                    new java.util.AbstractMap.SimpleEntry<>(concept,
-                            Direction.NONE);
-            basicLevelConceptsList.add(pair);
-        } else if (specificityLevel == SUBORDINATE) {
-            conceptsListUp.addAll(getAllAncestors(concept));
-            for (Concept upConcept : conceptsListUp) {
-                Concept.SpecificityLevel specificityLevelUp = upConcept.
-                        getSpecificityLevel();
-                if (specificityLevelUp == BASIC_LEVEL) {
-                    AbstractMap.SimpleEntry<Concept, Direction> pair =
-                            new java.util.AbstractMap.SimpleEntry<>(upConcept,
-                                    Direction.UP);
-                    basicLevelConceptsList.add(pair);
+        switch (specificityLevel) {
+            case BASIC_LEVEL:
+                pair = new java.util.AbstractMap.SimpleEntry<>(concept,
+                        Direction.NONE);
+                basicLevelConceptsList.add(pair);
+                break;
+            case SUBORDINATE:
+                conceptsListUp.addAll(getAllAncestors(concept));
+                for (Concept upConcept : conceptsListUp) {
+                    Concept.SpecificityLevel specificityLevelUp = upConcept.
+                            getSpecificityLevel();
+                    if (specificityLevelUp == BASIC_LEVEL) {
+                        pair = new java.util.AbstractMap.SimpleEntry<>(
+                                upConcept, Direction.UP);
+                        basicLevelConceptsList.add(pair);
+                    }
                 }
-            }
-        } else if (specificityLevel == SUPERORDINATE) {
-            conceptsListDown.addAll(getAllOffsprings(concept));
-            conceptsListUp.addAll(getAllAncestors(concept));
-
-            for (Concept downConcept : conceptsListDown) {
-                Concept.SpecificityLevel specificityLevelDown = downConcept.
-                        getSpecificityLevel();
-                if (specificityLevelDown == BASIC_LEVEL) {
-                    AbstractMap.SimpleEntry<Concept, Direction> pair =
-                            new java.util.AbstractMap.SimpleEntry<>(
-                                    downConcept, Direction.DOWN);
-                    basicLevelConceptsList.add(pair);
+                break;
+            case SUPERORDINATE:
+                conceptsListDown.addAll(getAllOffsprings(concept));
+                conceptsListUp.addAll(getAllAncestors(concept));
+                for (Concept downConcept : conceptsListDown) {
+                    Concept.SpecificityLevel specificityLevelDown =
+                            downConcept.getSpecificityLevel();
+                    if (specificityLevelDown == BASIC_LEVEL) {
+                        pair = new java.util.AbstractMap.SimpleEntry<>(
+                                downConcept, Direction.DOWN);
+                        basicLevelConceptsList.add(pair);
+                    }
                 }
-            }
-            for (Concept upConcept : conceptsListUp) {
-                Concept.SpecificityLevel specificityLevelUp = upConcept.
-                        getSpecificityLevel();
-                if (specificityLevelUp == BASIC_LEVEL) {
-                    AbstractMap.SimpleEntry<Concept, Direction> pair =
-                            new java.util.AbstractMap.SimpleEntry<>(upConcept,
-                                    Direction.UP);
-                    basicLevelConceptsList.add(pair);
+                for (Concept upConcept : conceptsListUp) {
+                    Concept.SpecificityLevel specificityLevelUp = upConcept.
+                            getSpecificityLevel();
+                    if (specificityLevelUp == BASIC_LEVEL) {
+                        pair = new java.util.AbstractMap.SimpleEntry<>(
+                                upConcept, Direction.UP);
+                        basicLevelConceptsList.add(pair);
+                    }
                 }
-            }
+                break;
+            default:
+                break;
         }
         return basicLevelConceptsList;
     }
