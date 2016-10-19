@@ -11,13 +11,13 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -73,11 +73,11 @@ public class VisualRepresentation implements Serializable {
     private String name;
 
     @XmlTransient
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Concept concept;
 
     @XmlTransient
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private RelationSet relationSet;
 
     @Column(name = "Source")
@@ -91,7 +91,8 @@ public class VisualRepresentation implements Serializable {
     private String comment;
 
     @XmlTransient
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(name = "MotoricRepresentation_motoricRepresentationId")
     private MotoricRepresentation motoricRepresentation;
 
     public VisualRepresentation(MediaType mediaType, String name) {

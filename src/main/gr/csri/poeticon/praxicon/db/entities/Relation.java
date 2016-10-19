@@ -129,15 +129,17 @@ public class Relation implements Serializable {
     @Column(name = "Comment")
     private String comment;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false)
     private RelationType relationType;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false)
     @NotNull(message = "LeftArgument of relation must be specified.")
+//    @JoinColumn(name = "RelationArgumentId")
     private RelationArgument leftArgument;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false)
     @NotNull(message = "RightArgument of relation must be specified.")
+//    @JoinColumn(name = "RelationArgumentId")
     private RelationArgument rightArgument;
 
     @XmlTransient

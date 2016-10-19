@@ -7,7 +7,6 @@ package gr.csri.poeticon.praxicon.db.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -104,7 +103,7 @@ public class RelationType implements Serializable {
     private RelationNameBackward backwardName;
 
     @XmlTransient
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationType")
+    @OneToMany(mappedBy = "relationType")
     private List<Relation> relations;
 
     public RelationType() {

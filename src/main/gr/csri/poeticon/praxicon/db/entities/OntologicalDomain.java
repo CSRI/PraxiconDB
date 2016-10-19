@@ -8,7 +8,6 @@ package gr.csri.poeticon.praxicon.db.entities;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,7 +45,7 @@ public class OntologicalDomain implements Serializable {
     private String domainName;
 
     @XmlTransient
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "OntologicalDomain_Concept",
             joinColumns = {

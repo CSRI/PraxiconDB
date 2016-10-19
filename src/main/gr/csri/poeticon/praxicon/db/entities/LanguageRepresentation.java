@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import static java.util.Objects.isNull;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -228,11 +227,11 @@ public class LanguageRepresentation implements Serializable {
     private String comment;
 
     @XmlTransient
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "languageRepresentation")
+    @OneToMany(mappedBy = "languageRepresentation")
     private List<Concept_LanguageRepresentation> concepts;
 
     @XmlTransient
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany()
     @JoinTable(
             name = "LanguageRepresentation_RelationSet",
             joinColumns = {

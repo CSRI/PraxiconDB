@@ -46,7 +46,7 @@ public class Concept_LanguageRepresentation implements Serializable {
     private boolean isRepresentativeLanguageRepresentation;
 
     @XmlTransient
-    @ManyToOne(optional = false, cascade = {CascadeType.ALL})
+    @ManyToOne(optional = false)
     @JoinColumn(name = "ConceptId")
     private Concept concept;
 

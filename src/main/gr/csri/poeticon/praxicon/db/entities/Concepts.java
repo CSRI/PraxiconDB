@@ -149,9 +149,11 @@ public class Concepts {
         // If Concept doesn't exist, add it
         if (retrievedConcept == null) {
             cDao.persist(newConcept);
+            cDao.close();
             return newConcept;
         }
         cDao.merge(retrievedConcept);
-        return retrievedConcept;
+        cDao.close();
+        return retrievedConcept;        
     }
 }

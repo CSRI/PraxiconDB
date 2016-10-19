@@ -51,8 +51,15 @@ public class RelationSets {
             for (RelationSet relationSet : relationSets) {
                 newRelationSet = storeRelationSet(relationSet);
                 rsDao.getEntityManager().clear();
-                System.out.println("Storing Relation Set: " + newRelationSet.
-                        toString());
+                if (!isNull(newRelationSet)) {
+                    System.out.println("Storing Relation Set: " +
+                            newRelationSet.toString());
+                } else {
+                    System.out.println(
+                            newRelationSet.toString() + " neither " +
+                            "has relations or language representations, " +
+                            "so is not stored");
+                }
             }
         }
     }
@@ -81,6 +88,8 @@ public class RelationSets {
          * candidate.
          * 5. Check LRs/VRs/MRs to update new RelationSet
          */
+        boolean foundRelations = true;
+        boolean foundLanguageRepresentations = true;
         Relations newRelationsObject = new Relations();
         RelationSet newRelationSet = new RelationSet();
         RelationSetDao rsDao = new RelationSetDaoImpl();
@@ -94,6 +103,7 @@ public class RelationSets {
         RelationSet retrievedRelationSet = null;
 
         if (!newRelationSet.getRelations().isEmpty()) {
+            foundRelations = true;
             //RelationSet retrievedRelationSet = rsDao.getRelationSet(
             //        newRelationSet);
             List<RelationSet> relationSetCandidates =
@@ -127,6 +137,8 @@ public class RelationSets {
                     break;
                 }
             }
+        } else {
+            foundRelations = false;
         }
 
         if (!isNull(retrievedRelationSet)) {
@@ -140,6 +152,7 @@ public class RelationSets {
                 new LanguageRepresentationDaoImpl();
 
         if (!relationSet.getLanguageRepresentations().isEmpty()) {
+            foundLanguageRepresentations = true;
             for (LanguageRepresentation languageRepresentation
                     : relationSet.getLanguageRepresentations()) {
                 LanguageRepresentation retrievedLanguageRepresentation =
@@ -153,7 +166,7 @@ public class RelationSets {
                                 languageRepresentation.getOperator());
                 // if Language Representation exists add the retrieved,
                 // otherwise, add the new one.
-                if (retrievedLanguageRepresentation != null) {
+                if (!isNull(retrievedLanguageRepresentation)) {
                     //check if already assigned to relationSet
                     if (!newRelationSet.getLanguageRepresentations().contains(
                             retrievedLanguageRepresentation)) {
@@ -171,10 +184,15 @@ public class RelationSets {
                     }
                 }
             }
+        } else // If relationSet doesn't have LanguageRepresentations
+        {
+            foundLanguageRepresentations = false;
+            if (!foundRelations) {
+                return null;
+            }
         }
 
         if (!isNull(relationSet.getMotoricRepresentations())) {
-
             for (MotoricRepresentation mr : relationSet.
                     getMotoricRepresentations()) {
                 //check if already assigned to relationset
@@ -183,6 +201,7 @@ public class RelationSets {
                 }
             }
         }
+
         if (!isNull(relationSet.getVisualRepresentations())) {
             for (VisualRepresentation vr : relationSet.
                     getVisualRepresentations()) {
@@ -193,7 +212,12 @@ public class RelationSets {
             }
         }
 
+        if (foundLanguageRepresentations && !foundRelations) {
+            rsDao.merge(newRelationSet);
+            return newRelationSet;
+        }
         if (retrievedRelationSet == null) {
+
             rsDao.persist(newRelationSet);
             return newRelationSet;
         } else {
