@@ -677,9 +677,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         List<Concept> conceptsListDown = new ArrayList<>();
         List<Map.Entry<Concept, Direction>> basicLevelConceptsList;
         basicLevelConceptsList = new ArrayList<>();
-        AbstractMap.SimpleEntry<Concept, Direction> pair =
-                new java.util.AbstractMap.SimpleEntry<>(concept,
-                        Direction.NONE);
+        AbstractMap.SimpleEntry<Concept, Direction> pair;
         Concept.SpecificityLevel specificityLevel = concept.
                 getSpecificityLevel();
 

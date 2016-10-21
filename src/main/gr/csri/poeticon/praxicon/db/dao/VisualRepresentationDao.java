@@ -10,6 +10,7 @@ import gr.csri.poeticon.praxicon.db.entities.VisualRepresentation;
  *
  * @author dmavroeidis
  */
-public interface VisualRepresentationDao extends Dao<Long, VisualRepresentation> {
+public interface VisualRepresentationDao extends
+        Dao<Long, VisualRepresentation> {
 
 }
