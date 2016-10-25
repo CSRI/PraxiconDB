@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<collectionOfObjects xmlns:ns2="http://www.csri.gr/relation" xmlns:ns3="http://www.csri.gr/concept">
+<ns5:collectionOfObjects xmlns:ns2="http://www.csri.gr/concept" xmlns:ns3="http://www.csri.gr/relation_set" xmlns:ns4="http://www.csri.gr/relation" xmlns:ns5="http://www.csri.gr/collectionOfObjects">
     <concepts>
         <concept>
             <externalSourceId>101549430</externalSourceId>
@@ -29005,4 +29005,4 @@
             </relations>
         </relationSet>
     </relationSets>
-</collectionOfObjects>
+</ns5:collectionOfObjects>
