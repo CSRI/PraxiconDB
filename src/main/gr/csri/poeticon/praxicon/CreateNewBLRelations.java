@@ -71,8 +71,7 @@ public class CreateNewBLRelations {
         startTime = System.nanoTime();
         // For each concept, get its basic level
         for (Concept concept : concepts) {
-            List<Map.Entry<Concept, ConceptDaoImpl.Direction>> 
-                    basicLevelConcepts =
+            List<Map.Entry<Concept, ConceptDaoImpl.Direction>> basicLevelConcepts =
                     cDao.getBasicLevelConceptsOld(concept);
 
             counter += 1;
@@ -106,6 +105,7 @@ public class CreateNewBLRelations {
                     }
                     relation1.setLinguisticSupport(
                             Relation.LinguisticallySupported.UNKNOWN);
+                    relation1.setInferred(Relation.Inferred.YES);
                     if (!rDao.areRelated(relationArgument1, relationArgument2)) {
                         rDao.persist(relation1);
                     }
@@ -159,7 +159,6 @@ public class CreateNewBLRelations {
         // Get relations from the database
         startTime = System.nanoTime();
         System.out.print("\n\n\nGetting relations...");
-//        List<Relation> relationsTypeToken = rDao.findAll();
         List<Relation> relationsTypeToken = rDao.getRelationsByRelationType(
                 RelationType.RelationNameForward.TYPE_TOKEN);
         endTime = System.nanoTime();
@@ -203,32 +202,6 @@ public class CreateNewBLRelations {
         System.out.print((endTimeTotal - startTimeTotal) / 1000000000);
         System.out.println(" seconds!");
 
-//        List<List<Concept>> paths = new ArrayList<>();
-//        startTime = System.nanoTime();
-//        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23356));
-//        System.out.println(paths);
-//        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23357));
-//        System.out.println(paths);
-//        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23358));
-//        System.out.println(paths);
-//        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23359));
-//        System.out.println(paths);
-//        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23361));
-//        System.out.println(paths);
-//        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23370));
-//        System.out.println(paths);
-//        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23371));
-//        System.out.println(paths);
-//        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23372));
-//        System.out.println(paths);
-//        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23373));
-//        System.out.println(paths);
-//        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23374));
-//        System.out.println(paths);
-//        endTime = System.nanoTime();
-//        System.out.print("\n\n\nFinished getting paths in ");
-//        System.out.print((endTime - startTime) / 1000);
-//        System.out.println(" microseconds!\n\n\n");
         // Now insert all BL relations.
 //        insertBLRelations(conceptGraph, concepts);
         if (cDao.getEntityManager().isOpen()) {
@@ -306,9 +279,8 @@ public class CreateNewBLRelations {
         System.out.println("Roots: " + roots.size());
         System.out.println("Leaves: " + leaves.size());
         System.out.println("Internals: " + internals.size());
-        System.out.println(
-                "MaxOutDegree: " + maxOutDegree + " for concept: " +
-                maxOutDegreeConcept);
+        System.out.println("MaxOutDegree: " + maxOutDegree +
+                " for concept: " + maxOutDegreeConcept);
         System.out.println("MaxInDegree: " + maxInDegree + " for concept: " +
                 maxInDegreeConcept);
 
@@ -385,6 +357,8 @@ public class CreateNewBLRelations {
                                                             RelationType.RelationNameForward.TYPE_TOKEN);
                                             newRelation.setLinguisticSupport(
                                                     Relation.LinguisticallySupported.UNKNOWN);
+                                            newRelation.setInferred(
+                                                    Relation.Inferred.YES);
                                             newRelation.setRelationType(
                                                     newRelationType);
 
