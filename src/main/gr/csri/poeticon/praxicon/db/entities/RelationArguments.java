@@ -40,8 +40,7 @@ public class RelationArguments {
     }
 
     /**
-     * Stores all concepts of the collection in the database updating
-     * same name entries
+     * Stores all relation arguments of the collection in the database
      */
     public void storeRelationArguments() {
         if (!relationArguments.isEmpty()) {
