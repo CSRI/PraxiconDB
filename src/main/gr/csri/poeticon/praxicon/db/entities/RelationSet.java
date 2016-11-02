@@ -182,9 +182,8 @@ public class RelationSet implements Serializable {
      * @return a list of relations
      */
     public List<Relation> getRelationsList() {
-        List<RelationSet_Relation> relationSetRelationList = new ArrayList();
+        List<RelationSet_Relation> relationSetRelationList = this.relations;
         List<Relation> relationList = new ArrayList();
-        relationSetRelationList = this.relations;
         if (!relationSetRelationList.isEmpty()) {
             for (RelationSet_Relation relationSetRelation
                     : relationSetRelationList) {
@@ -408,7 +407,7 @@ public class RelationSet implements Serializable {
     public String toString() {
         List<Relation> relationsList = this.getRelationsList();
         List<String> relationsStringsList = new ArrayList<>();
-        String relationsString = "";
+        String relationsString;
         for (Relation relation : relationsList) {
             relationsStringsList.add(relation.toString());
         }
