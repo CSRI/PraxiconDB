@@ -90,7 +90,6 @@ public abstract class JpaDao<K, E> implements Dao<K, E> {
             entityManager.getTransaction().begin();
         }
         entityManager.remove(entity);
-        System.out.println(entity);
         entityManager.flush();
         entityManager.getTransaction().commit();
 
