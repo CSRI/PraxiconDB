@@ -373,16 +373,16 @@ public class LanguageRepresentation implements Serializable {
     }
 
     public List<Concept> getConcepts() {
-        List<Concept> concepts = new ArrayList<>();
+        List<Concept> languageRepresentationConcepts = new ArrayList<>();
         for (LanguageRepresentation languageRepresentation
                 : LanguageRepresentation.languageRepresentations) {
             for (Concept concept : languageRepresentation.getConcepts()) {
-                if (!concepts.contains(concept)) {
-                    concepts.add(concept);
+                if (!languageRepresentationConcepts.contains(concept)) {
+                    languageRepresentationConcepts.add(concept);
                 }
             }
         }
-        return concepts;
+        return languageRepresentationConcepts;
     }
 
     /**
