@@ -83,7 +83,7 @@ public class VisualRepresentation implements Serializable {
     @Column(name = "Source")
     private String source;
 
-    @Column(name = "Uri")
+    @Column(name = "Uri", columnDefinition = "BLOB")
     @NotNull(message = "URI must be specified.")
     private URI uri;
 
