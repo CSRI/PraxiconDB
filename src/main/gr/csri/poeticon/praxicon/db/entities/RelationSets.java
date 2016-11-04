@@ -116,7 +116,7 @@ public class RelationSets {
         boolean foundLanguageRepresentations = false;
         Relations newRelationsObject = new Relations();
         RelationSet newRelationSet = new RelationSet();
-        RelationSet retrievedRelationSet = new RelationSet();
+        RelationSet retrievedRelationSet = null;
         LanguageRepresentation retrievedLanguageRepresentation =
                 new LanguageRepresentation();
         RelationSetDao rsDao = new RelationSetDaoImpl();
@@ -236,7 +236,7 @@ public class RelationSets {
         }
 
         if (foundRelations) {
-            if (!isNull(retrievedRelationSet)) {
+            if (isNull(retrievedRelationSet)) {
                 rsDao.persist(newRelationSet);
                 return newRelationSet;
             } else {
