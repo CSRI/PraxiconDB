@@ -386,6 +386,15 @@ public class LanguageRepresentation implements Serializable {
         return languageRepresentationConcepts;
     }
 
+    public List<RelationSet> getRelationSets() {
+        List<RelationSet> languageRepresentationRelationSets =
+                new ArrayList<>();
+        if (!isNull(relationSets)) {
+            languageRepresentationRelationSets.addAll(relationSets);
+        }
+        return languageRepresentationRelationSets;
+    }
+
     /**
      * @return the use status of the concept.
      */
