@@ -27,7 +27,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -267,8 +266,7 @@ public class Concept implements Serializable {
 
     @Id
     @XmlTransient
-    @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ConceptId")
     private Long id;
 

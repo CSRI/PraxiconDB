@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.csri.gr/relation_type" version="1.0">
+
+  <xs:import schemaLocation="schema13.xsd"/>
+
+  <xs:complexType name="relation_type">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="forwardName" type="relationNameForward"/>
+      <xs:element minOccurs="0" name="backwardName" type="relationNameBackward"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

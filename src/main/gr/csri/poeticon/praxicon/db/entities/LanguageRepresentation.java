@@ -23,7 +23,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -189,8 +188,7 @@ public class LanguageRepresentation implements Serializable {
 
     @Id
     @XmlTransient
-    @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "LanguageRepresentationId")
     private Long id;
 
@@ -384,6 +382,15 @@ public class LanguageRepresentation implements Serializable {
             }
         }
         return languageRepresentationConcepts;
+    }
+
+    public List<RelationSet> getRelationSets() {
+        List<RelationSet> languageRepresentationRelationSets =
+                new ArrayList<>();
+        if (!isNull(relationSets)) {
+            languageRepresentationRelationSets.addAll(relationSets);
+        }
+        return languageRepresentationRelationSets;
     }
 
     /**

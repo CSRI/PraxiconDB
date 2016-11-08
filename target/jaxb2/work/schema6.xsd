@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://www.csri.gr/relation" xmlns:tns="http://www.csri.gr/relation" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://www.csri.gr/concept" xmlns:ns1="http://www.csri.gr/relation_type" xmlns:ns4="http://www.csri.gr/relation_argument" xmlns:ns3="http://www.csri.gr/relation_set">
+
+  <xs:import schemaLocation="schema13.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/relation_type" schemaLocation="schema3.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/concept" schemaLocation="schema11.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/relation_set" schemaLocation="schema4.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/relation_argument" schemaLocation="schema5.xsd"/>
+
+  <xs:element name="relation" type="tns:relation"/>
+
+  <xs:complexType name="relation">
+    <xs:sequence>
+      <xs:element name="comment" type="xs:string" minOccurs="0"/>
+      <xs:element name="relationType" type="ns1:relation_type" minOccurs="0"/>
+      <xs:element name="leftArgument" type="ns4:relation_argument" minOccurs="0"/>
+      <xs:element name="rightArgument" type="ns4:relation_argument" minOccurs="0"/>
+      <xs:element name="linguisticallySupported" type="linguisticallySupported" minOccurs="0"/>
+      <xs:element name="inferred" type="inferred" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

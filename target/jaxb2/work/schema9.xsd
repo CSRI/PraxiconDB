@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://www.csri.gr/language_representation" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:import schemaLocation="schema13.xsd"/>
+
+  <xs:complexType name="language_representation">
+    <xs:sequence>
+      <xs:element name="language" type="language" minOccurs="0"/>
+      <xs:element name="useStatus" type="useStatus" minOccurs="0"/>
+      <xs:element name="partOfSpeech" type="partOfSpeech" minOccurs="0"/>
+      <xs:element name="productivity" type="productivity" minOccurs="0"/>
+      <xs:element name="negation" type="xs:string" minOccurs="0"/>
+      <xs:element name="operator" type="operator" minOccurs="0"/>
+      <xs:element name="text" type="xs:string" minOccurs="0"/>
+      <xs:element name="comment" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

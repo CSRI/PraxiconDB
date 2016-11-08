@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:language_representation="http://www.csri.gr/language_representation" targetNamespace="http://www.csri.gr/concept_languagerepresentation" version="1.0">
+
+  <xs:import schemaLocation="schema13.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/language_representation" schemaLocation="gr/praxicondb/xsd/language_representation.xsd"/>
+
+  <xs:complexType name="concept_languagerepresentation">
+    <xs:sequence>
+      <xs:element name="isRepresentativeLanguageRepresentation" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="languageRepresentation" type="language_representation:language_representation"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

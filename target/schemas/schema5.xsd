@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:concept="http://www.csri.gr/concept" xmlns:concept_languagerepresentation="http://www.csri.gr/concept_languagerepresentation" xmlns:language_representation="http://www.csri.gr/language_representation" xmlns:motoric_representation="http://www.csri.gr/motoric_representation" xmlns:ns1="http://www.csri.gr/ontological_domain" xmlns:relation_set="http://www.csri.gr/relation_set" xmlns:relationset_relation="http://www.csri.gr/relationset_relation" xmlns:visual_representation="http://www.csri.gr/visual_representation" targetNamespace="http://www.csri.gr/relation_argument" version="1.0">
+
+  <xs:import schemaLocation="schema13.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/ontological_domain" schemaLocation="schema7.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/concept_languagerepresentation" schemaLocation="gr/praxicondb/xsd/concept_languagerepresentation.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/visual_representation" schemaLocation="gr/praxicondb/xsd/visual_representation.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/motoric_representation" schemaLocation="gr/praxicondb/xsd/motoric_representation.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/concept" schemaLocation="gr/praxicondb/xsd/concept.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/relationset_relation" schemaLocation="gr/praxicondb/xsd/relationset_relation.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/language_representation" schemaLocation="gr/praxicondb/xsd/language_representation.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/relation_set" schemaLocation="gr/praxicondb/xsd/relation_set.xsd"/>
+
+  <xs:complexType name="relation_argument">
+    <xs:sequence>
+      <xs:element minOccurs="0" ref="concept:concept"/>
+      <xs:element minOccurs="0" ref="relation_set:relationSet"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

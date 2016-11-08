@@ -23,7 +23,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -121,8 +120,7 @@ public class Relation implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @XmlTransient
-    @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "RelationId")
     private Long id;
 

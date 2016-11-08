@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:visual_representation="http://www.csri.gr/visual_representation" targetNamespace="http://www.csri.gr/motoric_representation" version="1.0">
+
+  <xs:import schemaLocation="schema13.xsd"/>
+
+  <xs:import namespace="http://www.csri.gr/visual_representation" schemaLocation="gr/praxicondb/xsd/visual_representation.xsd"/>
+
+  <xs:complexType name="motoric_representation">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="performingAgent" type="performingAgent"/>
+      <xs:element minOccurs="0" name="source" type="xs:string"/>
+      <xs:element minOccurs="0" name="uri" type="xs:string"/>
+      <xs:element minOccurs="0" name="comment" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="visualRepresentations" nillable="true" type="visual_representation:visual_representation"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

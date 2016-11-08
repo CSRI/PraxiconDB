@@ -49,6 +49,7 @@ public class RelationSets {
             RelationSetDao rsDao = new RelationSetDaoImpl();
             RelationSet newRelationSet;
             for (RelationSet relationSet : relationSets) {
+                System.out.println("ready for " + relationSet.getName());
                 newRelationSet = storeRelationSet(relationSet);
                 rsDao.getEntityManager().clear();
                 if (!isNull(newRelationSet)) {
@@ -73,52 +74,48 @@ public class RelationSets {
         /*
          * Algorithm for storing relation sets:
          * ------------------------------------
-         * 0. Set both hasRelations and hasLanguageRepresentations flags 
+         * 0. Set both hasRelations and hasLanguageRepresentations flags
          *    to FALSE.
-         * 1. Check if relation set contains relations. If yes, 
+         * 1. Check if relation set contains relations. If yes,
          *    set hasRelations flag to TRUE.
-         * 2. Check if relation set contains language representations. 
+         * 2. Check if relation set contains language representations.
          *    If yes, set hasLanguageRepresentations flag to TRUE.
-         * 3. If hasRelations==TRUE:
-         *     3.1. Create a new Relation Set.
-         *     3.2. Check if the Relation Set exists in the database.
-         *         3.2.1. If it exists, merge it and return it.
-         *         3.2.2. If it doesn't:
-         *             3.2.2.1. For each relation in the relation set:
-         *                 3.2.2.1.1. Try to retrieve it from the database.
-         *                 3.2.2.1.2. If it exists, merge and add it to the 
+         * 3. Check LRs/VRs/MRs to update new RelationSet.
+         *     3.1. For LRs, keep a list of existing Lrs in the db (used for
+         *         the relationset with no relations.
+         * 4. If hasRelations==TRUE:
+         *     4.1. Create a new Relation Set.
+         *     4.2. Check if the Relation Set exists in the database.
+         *         4.2.1. If it exists, merge it and return it.
+         *         4.2.2. If it doesn't:
+         *             4.2.2.1. For each relation in the relation set:
+         *                 4.2.2.1.1. Try to retrieve it from the database.
+         *                 4.2.2.1.2. If it exists, merge and add it to the
          *                            new relation set.
-         *                 3.2.2.1.3. If it doesn't exist, store it and 
+         *                 4.2.2.1.3. If it doesn't exist, store it and
          *                            add it to the new relation set.
-         *             3.2.2.2. Get Relation Set Candidates that have 
+         *             4.2.2.2. Get Relation Set Candidates that have
          *                      first relation of new RelationSet.
-         *             3.2.2.3. Compare each candidate to new RelationSet 
+         *             4.2.2.3. Compare each candidate to new RelationSet
          *                      using contained Relations.
-         *             3.2.2.4. If found same RelationSet, 
+         *             4.2.2.4. If found same RelationSet,
          *                      set new Relation Set to retrieved candidate.
-         * 4. Check LRs/VRs/MRs to update new RelationSet.
          * 5. If hasRelations==FALSE:
-         *     5.1. If hasLanguageRepresentations==TRUE:
-         *         5.1.1. Find them in the DB.
-         *         5.1.2. Check if all of them belong to an existing 
-         *                relation set.
-         *             5.1.2.1. If they belong, then the relation set 
-         *                      already exists. Exit.
-         *             5.1.2.2. If they don't belong, just connect them 
-         *                      to the relation set.
-         *     5.2. If hasLanguageRepresentations==FALSE:
-         *         5.2.1. Check for name.
-         *             5.2.1.1. If name exists, save it.
-         *             5.2.1.2. Otherwise, don't save it.
+         *     5.1. If some of the Lrs existed in the database:
+         *         5.1.1. Get Relation Set Candidates that have as Lr one of
+         *                the existing Lrs.
+         *         5.1.2. Check if any of them is a relationSet whithout
+         *                relations.
+         *         5.1.3. If found empty RelationSet,
+         *                set new Relation Set to retrieved candidate.
+         * 6. If RelationSet was retrieved, update it, else save the new
+         *    RelationSet.
          */
-        
         boolean foundRelations = false;
         boolean foundLanguageRepresentations = false;
         Relations newRelationsObject = new Relations();
         RelationSet newRelationSet = new RelationSet();
         RelationSet retrievedRelationSet = null;
-        LanguageRepresentation retrievedLanguageRepresentation =
-                new LanguageRepresentation();
         RelationSetDao rsDao = new RelationSetDaoImpl();
 
         if (!relationSet.getRelationsList().isEmpty()) {
@@ -128,6 +125,51 @@ public class RelationSets {
             foundLanguageRepresentations = true;
         }
 
+        List<LanguageRepresentation> retrievedLanguageRepresentations =
+                new ArrayList<>();
+        List<LanguageRepresentation> existingLanguageRepresentations =
+                new ArrayList<>();
+        LanguageRepresentationDao lrDao =
+                new LanguageRepresentationDaoImpl();
+        if (foundLanguageRepresentations) {
+            for (LanguageRepresentation languageRepresentation
+                    : relationSet.getLanguageRepresentations()) {
+                LanguageRepresentation retrievedLanguageRepresentation =
+                        lrDao.getSingleLanguageRepresentation(
+                                languageRepresentation.getLanguage(),
+                                languageRepresentation.getText(),
+                                languageRepresentation.getPartOfSpeech(),
+                                languageRepresentation.getUseStatus(),
+                                languageRepresentation.getProductivity(),
+                                languageRepresentation.getNegation(),
+                                languageRepresentation.getOperator());
+
+                // If Language Representation exists add the retrieved and 
+                // remember that this existed,
+                // otherwise, add the new one.
+                if (!isNull(retrievedLanguageRepresentation)) {
+                    existingLanguageRepresentations.add(
+                            retrievedLanguageRepresentation);
+                    //check if already in list
+                    if (!retrievedLanguageRepresentations.
+                            contains(retrievedLanguageRepresentation)) {
+                        retrievedLanguageRepresentations.add(
+                                retrievedLanguageRepresentation);
+                    }
+                } else {
+                    LanguageRepresentation newLanguageRepresentation =
+                            new LanguageRepresentation(languageRepresentation);
+                    //check if already in list
+                    if (!retrievedLanguageRepresentations.
+                            contains(newLanguageRepresentation)) {
+                        retrievedLanguageRepresentations.add(
+                                newLanguageRepresentation);
+                    }
+                }
+            }
+        }
+
+        newRelationSet.setName(relationSet.getName());
         if (foundRelations) {
             // First, store relations and add them to new relation set
             for (Relation relation : relationSet.getRelationsList()) {
@@ -135,7 +177,6 @@ public class RelationSets {
                         relation);
                 newRelationSet.addRelation(newRelation);
             }
-            newRelationSet.setName(relationSet.getName());
 
             List<RelationSet> relationSetCandidates =
                     rsDao.getRelationSetsByRelation(
@@ -172,43 +213,31 @@ public class RelationSets {
             if (!isNull(retrievedRelationSet)) {
                 newRelationSet = retrievedRelationSet;
             }
+        } else {
+            for (LanguageRepresentation existingLanguageRepresentation
+                    : existingLanguageRepresentations) {
+                List<RelationSet> relationSetCandidates =
+                        existingLanguageRepresentation.getRelationSets();
+                for (RelationSet relationSetCandidate : relationSetCandidates) {
+                    if (relationSetCandidate.getRelationsList().isEmpty()) {
+                        retrievedRelationSet = relationSetCandidate;
+                        break;
+                    }
+                }
+            }
+            if (!isNull(retrievedRelationSet)) {
+                newRelationSet = retrievedRelationSet;
+            }
         }
 
         if (foundLanguageRepresentations) {
-            // For each language representation, find it in the DB.
-            // If it exists, attach it to the RelationSet.
-            // If it doesn't exist, create it.
-            LanguageRepresentationDao lrDao =
-                    new LanguageRepresentationDaoImpl();
-            for (LanguageRepresentation languageRepresentation
-                    : relationSet.getLanguageRepresentations()) {
-                retrievedLanguageRepresentation =
-                        lrDao.getSingleLanguageRepresentation(
-                                languageRepresentation.getLanguage(),
-                                languageRepresentation.getText(),
-                                languageRepresentation.getPartOfSpeech(),
-                                languageRepresentation.getUseStatus(),
-                                languageRepresentation.getProductivity(),
-                                languageRepresentation.getNegation(),
-                                languageRepresentation.getOperator());
-                // if Language Representation exists add the retrieved,
-                // otherwise, add the new one.
-                if (!isNull(retrievedLanguageRepresentation)) {
-                    //check if already assigned to relationSet
-                    if (!newRelationSet.getLanguageRepresentations().
-                            contains(retrievedLanguageRepresentation)) {
-                        newRelationSet.addLanguageRepresentation(
-                                retrievedLanguageRepresentation);
-                    }
-                } else {
-                    LanguageRepresentation newLanguageRepresentation =
-                            new LanguageRepresentation(languageRepresentation);
-                    //check if already assigned to relationSet
-                    if (!newRelationSet.getLanguageRepresentations().
-                            contains(newLanguageRepresentation)) {
-                        newRelationSet.addLanguageRepresentation(
-                                newLanguageRepresentation);
-                    }
+            for (LanguageRepresentation retrievedLanguageRepresentation
+                    : retrievedLanguageRepresentations) {
+                //check if already assigned to relationset
+                if (!newRelationSet.getLanguageRepresentations().
+                        contains(retrievedLanguageRepresentation)) {
+                    newRelationSet.addLanguageRepresentation(
+                            retrievedLanguageRepresentation);
                 }
             }
         }
@@ -235,20 +264,12 @@ public class RelationSets {
             }
         }
 
-        if (foundRelations) {
-            if (isNull(retrievedRelationSet)) {
-                rsDao.persist(newRelationSet);
-                return newRelationSet;
-            } else {
-                rsDao.merge(retrievedRelationSet);
-                return retrievedRelationSet;
-            }
-        } else if (!foundRelations && foundLanguageRepresentations) {
-            if (isNull(retrievedLanguageRepresentation)) {
-                rsDao.merge(newRelationSet);
-                return newRelationSet;
-            }
+        if (isNull(retrievedRelationSet)) {
+            rsDao.persist(newRelationSet);
+            return newRelationSet;
+        } else {
+            rsDao.merge(retrievedRelationSet);
+            return retrievedRelationSet;
         }
-        return new RelationSet();
     }
 }

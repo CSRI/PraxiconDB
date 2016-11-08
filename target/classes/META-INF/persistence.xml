@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="PraxiconDBPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <class>gr.csri.poeticon.praxicon.db.entities.Concept</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.Concept_LanguageRepresentation</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.MotoricRepresentation</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.OntologicalDomain</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.Relation</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.RelationArgument</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.RelationSet</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.RelationSet_Relation</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.RelationType</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.VisualRepresentation</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/praxicon_db_new_no_partial_instance?zeroDateTimeBehavior=convertToNull&amp;useUnicode=yes&amp;characterEncoding=UTF-8"/>
+      <property name="javax.persistence.jdbc.password" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+    </properties>
+  </persistence-unit>
+  <persistence-unit name="PraxiconDBPUPREVIOUS" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <class>gr.csri.poeticon.praxicon.db.entities.Concept</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.Concept_LanguageRepresentation</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.MotoricRepresentation</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.OntologicalDomain</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.Relation</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.RelationArgument</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.RelationSet</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.RelationSet_Relation</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.RelationType</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.VisualRepresentation</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/praxicon_db_new?zeroDateTimeBehavior=convertToNull&amp;useUnicode=yes&amp;characterEncoding=UTF-8"/>
+      <property name="javax.persistence.jdbc.password" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+    </properties>
+  </persistence-unit>  
+  <persistence-unit name="PraxiconDBPUTest" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <class>gr.csri.poeticon.praxicon.db.entities.Concept</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.Concept_LanguageRepresentation</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.MotoricRepresentation</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.OntologicalDomain</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.Relation</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.RelationArgument</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.RelationSet</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.RelationSet_Relation</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.RelationType</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.VisualRepresentation</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/praxicon_db_test?zeroDateTimeBehavior=convertToNull&amp;useUnicode=yes&amp;characterEncoding=UTF-8"/>
+      <property name="javax.persistence.jdbc.password" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+    </properties>
+  </persistence-unit>
+  <persistence-unit name="PraxiconDBPUServerLan" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <class>gr.csri.poeticon.praxicon.db.entities.Concept</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.Concept_LanguageRepresentation</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.MotoricRepresentation</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.OntologicalDomain</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.Relation</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.RelationArgument</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.RelationSet</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.RelationSet_Relation</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.RelationType</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.VisualRepresentation</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://192.168.1.200:3306/praxicon_test?zeroDateTimeBehavior=convertToNull&amp;useUnicode=yes&amp;characterEncoding=UTF-8"/>
+      <property name="javax.persistence.jdbc.password" value="l!k@j#h$"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.user" value="praxicon_user"/>
+    </properties>
+  </persistence-unit>
+  <persistence-unit name="PraxiconDBPUServerLocal" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <class>gr.csri.poeticon.praxicon.db.entities.Concept</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.Concept_LanguageRepresentation</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.MotoricRepresentation</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.OntologicalDomain</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.Relation</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.RelationArgument</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.RelationSet</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.RelationSet_Relation</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.RelationType</class>
+    <class>gr.csri.poeticon.praxicon.db.entities.VisualRepresentation</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/praxicon_test?zeroDateTimeBehavior=convertToNull&amp;useUnicode=yes&amp;characterEncoding=UTF-8"/>
+      <property name="javax.persistence.jdbc.password" value="l!k@j#h$"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.user" value="praxicon_user"/>
+    </properties>
+  </persistence-unit>
+</persistence>
