@@ -38,7 +38,7 @@ public class OntologicalDomain implements Serializable {
     @Id
     @XmlTransient
     @Column(name = "OntologicalDomainId")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "DomainName")

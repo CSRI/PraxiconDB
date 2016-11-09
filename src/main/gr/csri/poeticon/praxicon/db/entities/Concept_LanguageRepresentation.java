@@ -36,7 +36,7 @@ public class Concept_LanguageRepresentation implements Serializable {
 
     @Id
     @XmlTransient
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Concept_LanguageRepresentationId")
     private Long id;
 

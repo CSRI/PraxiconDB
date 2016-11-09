@@ -188,7 +188,7 @@ public class LanguageRepresentation implements Serializable {
 
     @Id
     @XmlTransient
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "LanguageRepresentationId")
     private Long id;
 
