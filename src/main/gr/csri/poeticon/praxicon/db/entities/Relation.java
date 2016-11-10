@@ -120,7 +120,7 @@ public class Relation implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @XmlTransient
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "RelationId")
     private Long id;
 

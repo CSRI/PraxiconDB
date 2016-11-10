@@ -60,7 +60,7 @@ public class VisualRepresentation implements Serializable {
     @Id
     @XmlTransient
     @Column(name = "VisualRepresentationId")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "MediaType")
