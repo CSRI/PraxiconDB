@@ -378,7 +378,7 @@ public class RelationSet implements Serializable {
             return false;
         }
         final RelationSet other = (RelationSet)obj;
-        if (!(isNull(this.name) && !isNull(other.getName()))) {
+        if (!isNull(this.name) && !isNull(other.getName())) {
             if (!this.name.equals(other.name)) {
                 return false;
             }
