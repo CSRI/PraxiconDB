@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<concepts xmlns:ns2="http://www.csri.gr/concept">
+    <concept>
+        <externalSourceId>104674968</externalSourceId>
+        <name>color%1:07:01::</name>
+        <conceptType>UNKNOWN</conceptType>
+        <specificityLevel>SUPERORDINATE</specificityLevel>
+        <status>CONSTANT</status>
+        <pragmaticStatus>ABSTRACT</pragmaticStatus>
+        <uniqueInstance>NO</uniqueInstance>
+        <source>WordNet3.0</source>
+        <comment></comment>
+        <languageRepresentations>
+            <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+            <languageRepresentation>
+                <language>EN</language>
+                <useStatus>LITERAL</useStatus>
+                <partOfSpeech>NOUN</partOfSpeech>
+                <text>color</text>
+            </languageRepresentation>
+        </languageRepresentations>
+        <languageRepresentations>
+            <isRepresentativeLanguageRepresentation>false</isRepresentativeLanguageRepresentation>
+            <languageRepresentation>
+                <language>EN</language>
+                <useStatus>LITERAL</useStatus>
+                <partOfSpeech>NOUN</partOfSpeech>
+                <text>colour</text>
+            </languageRepresentation>
+        </languageRepresentations>
+    </concept>
+</concepts>

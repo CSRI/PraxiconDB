@@ -7,6 +7,7 @@ package gr.csri.poeticon.praxicon.db.entities;
 import gr.csri.poeticon.praxicon.db.dao.RelationTypeDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationTypeDaoImpl;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -22,8 +23,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -35,7 +36,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author dmavroeidis
  *
  */
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "relation", namespace = "http://www.csri.gr/relation")
 @XmlRootElement(name = "relation", namespace = "http://www.csri.gr/relation")
 @Entity
@@ -56,7 +57,7 @@ import javax.xml.bind.annotation.XmlType;
             "SELECT r FROM Relation r " +
             "JOIN r.relationType rt " +
             "WHERE (r.leftArgument = :leftRelationArgument " +
-            "OR r.rightArgument = :rightRelationArgument) " +
+            "AND r.rightArgument = :rightRelationArgument) " +
             "AND rt.forwardName = :relationType"),
     @NamedQuery(name = "findRelationsByRelationType", query =
             "SELECT r FROM Relation r " +
@@ -115,28 +116,28 @@ public class Relation implements Serializable {
             return this.name();
         }
     }
-    
+
     private static final long serialVersionUID = 1L;
     @Id
-    @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
+    @XmlTransient
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "RelationId")
     private Long id;
 
     @Column(name = "Comment")
     private String comment;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    //@JoinColumn(name="Id")
+    @ManyToOne(optional = false)
     private RelationType relationType;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    //@JoinColumn(name = "RelationArgumentId")
-//    @NotNull(message = "LeftArgument of relation must be specified.")
+    @ManyToOne(optional = false)
+    @NotNull(message = "LeftArgument of relation must be specified.")
+//    @JoinColumn(name = "RelationArgumentId")
     private RelationArgument leftArgument;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
-//    @NotNull(message = "RightArgument of relation must be specified.")
+    @ManyToOne(optional = false)
+    @NotNull(message = "RightArgument of relation must be specified.")
+//    @JoinColumn(name = "RelationArgumentId")
     private RelationArgument rightArgument;
 
     @XmlTransient
@@ -151,7 +152,7 @@ public class Relation implements Serializable {
     @Column(name = "Inferred")
     @Enumerated(EnumType.STRING)
     private Inferred inferred;
-    
+
     public Relation() {
         leftArgument = new RelationArgument();
         rightArgument = new RelationArgument();
@@ -170,7 +171,6 @@ public class Relation implements Serializable {
         comment = "";
     }
 
-    @XmlTransient
     public Long getId() {
         return id;
     }
@@ -210,7 +210,6 @@ public class Relation implements Serializable {
         this.linguisticallySupported = linguisticallySupported;
     }
 
-    
     /**
      * @return whether the relation is inferred.
      */
@@ -220,8 +219,8 @@ public class Relation implements Serializable {
 
     public void setInferred(Inferred inferred) {
         this.inferred = inferred;
-    }    
-    
+    }
+
     /**
      * @return the relationType of the relation.
      */
@@ -239,10 +238,10 @@ public class Relation implements Serializable {
         }
         this.relationType = type;
     }
-    
+
     /**
-     * Sets the relationType of the Relation but it doesn't check if there is the same
-     * relationType twice.
+     * Sets the relationType of the Relation but it doesn't check if there is
+     * the same relationType twice.
      *
      * @param type the relationType of relation
      */
@@ -256,6 +255,16 @@ public class Relation implements Serializable {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public List<RelationSet> getRelationSets() {
+        List<RelationSet> relationSets = new ArrayList<>();
+        if (!relationSets.isEmpty()) {
+            for (RelationSet_Relation item : relationSet) {
+                relationSets.add(item.getRelationSet());
+            }
+        }
+        return relationSets;
     }
 
     @Override
@@ -278,51 +287,25 @@ public class Relation implements Serializable {
             return false;
         }
         final Relation other = (Relation)obj;
-        if (!Objects.equals(this.relationType, other.relationType)) {
+        if (!this.relationType.equals(other.relationType)) {
             return false;
         }
-        if (!Objects.equals(this.leftArgument, other.leftArgument)) {
+        if (!this.getLeftArgument().equals(other.getLeftArgument())) {
             return false;
         }
-        if (!Objects.equals(this.rightArgument, other.rightArgument)) {
+        if (!this.getRightArgument().equals(other.getRightArgument())) {
             return false;
         }
-        if (this.linguisticallySupported != other.linguisticallySupported) {
+        if (!this.linguisticallySupported.
+                equals(other.linguisticallySupported)) {
             return false;
         }
-        if (this.inferred != other.inferred){
+        if (!this.inferred.equals(other.inferred)) {
             return false;
         }
         return true;
     }
 
-//    @Override
-//    public boolean equals(Object relation) {
-//        // TODO: Warning - method won't work in case the id fields are not set
-//        if (!(relation instanceof Relation)) {
-//            return false;
-//        }
-//        Relation other = (Relation)relation;
-//        try {
-//            if ((this.relationType != null && this.rightArgument != null &&
-//                    this.leftArgument != null && this.relationType.equals(
-//                            other.relationType) &&
-//                    this.rightArgument.equals(other.rightArgument) &&
-//                    this.leftArgument.equals(other.leftArgument)) ||
-//                    (this.relationType != null && this.rightArgument != null &&
-//                    this.leftArgument != null && this.relationType.equals(
-//                            other.relationType) &&
-//                    this.rightArgument.equals(other.leftArgument) &&
-//                    this.leftArgument.equals(other.rightArgument))) {
-//                return true;
-//            } else {
-//                return false;
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return false;
-//    }
     @Override
     public String toString() {
         String finalString = "";
@@ -339,18 +322,9 @@ public class Relation implements Serializable {
         } else {
             finalString += this.getRightArgument().getRelationSet().toString();
         }
+        finalString = "[" + finalString + "]";
 
         return finalString;
     }
 
-//    public void afterUnmarshal(Unmarshaller u, Object parent) {
-//        if (Globals.ToMergeAfterUnMarshalling) {
-//            RelationDao rDao = new RelationDaoImpl();
-//            Relation tmpRelation = rDao.getRelation(this.leftArgument,
-//                    this.rightArgument, this.relationType);
-//            if (tmpRelation == null) {
-//                rDao.merge(this);
-//            }
-//        }
-//    }
 }

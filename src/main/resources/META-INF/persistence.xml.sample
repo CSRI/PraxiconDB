@@ -6,6 +6,7 @@
         <class>gr.csri.poeticon.praxicon.db.entities.Concept_LanguageRepresentation</class>
         <class>gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation</class>
         <class>gr.csri.poeticon.praxicon.db.entities.MotoricRepresentation</class>
+        <class>gr.csri.poeticon.praxicon.db.entities.OntologicalDomain</class>
         <class>gr.csri.poeticon.praxicon.db.entities.Relation</class>
         <class>gr.csri.poeticon.praxicon.db.entities.RelationArgument</class>
         <class>gr.csri.poeticon.praxicon.db.entities.RelationSet</class>
@@ -13,11 +14,10 @@
         <class>gr.csri.poeticon.praxicon.db.entities.RelationType</class>
         <class>gr.csri.poeticon.praxicon.db.entities.VisualRepresentation</class>
         <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/praxicon_db?zeroDateTimeBehavior=convertToNull"/>
-            <property name="javax.persistence.jdbc.password" value=""/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/praxicon_db?zeroDateTimeBehavior=convertToNull&amp;useUnicode=yes&amp;characterEncoding=UTF-8"/>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.user" value=""/>
-
+            <property name="javax.persistence.jdbc.password" value=""/>
         </properties>
     </persistence-unit>
 </persistence>

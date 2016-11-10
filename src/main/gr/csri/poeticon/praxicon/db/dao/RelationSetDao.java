@@ -5,6 +5,7 @@
 package gr.csri.poeticon.praxicon.db.dao;
 
 import gr.csri.poeticon.praxicon.db.entities.Concept;
+import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import gr.csri.poeticon.praxicon.db.entities.RelationSet;
 import java.util.List;
@@ -15,10 +16,14 @@ import java.util.List;
  */
 public interface RelationSetDao extends Dao<Long, RelationSet> {
 
+    RelationSet getRelationSetByName(String relationSetName);
+
     RelationSet getRelationSet(RelationSet relationSet);
 
     List<RelationSet> getRelationSetsByRelationArgument(
             RelationArgument relationArgument);
+
+    List<RelationSet> getRelationSetsByRelation(Relation relation);
 
     List<RelationSet> getRelationSetsByConcept(Concept concept);
 

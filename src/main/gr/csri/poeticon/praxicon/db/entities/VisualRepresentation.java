@@ -6,17 +6,19 @@ package gr.csri.poeticon.praxicon.db.entities;
 
 import gr.csri.poeticon.praxicon.Constants;
 import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -29,7 +31,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author dmavroeidis
  *
  */
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "visual_representation",
         namespace = "http://www.csri.gr/visual_representation")
 @Entity
@@ -41,7 +43,7 @@ import javax.xml.bind.annotation.XmlType;
 //                "Uri"
 //            }),}
 
-        )
+)
 public class VisualRepresentation implements Serializable {
 
     public static enum MediaType {
@@ -56,9 +58,9 @@ public class VisualRepresentation implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
+    @XmlTransient
     @Column(name = "VisualRepresentationId")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "MediaType")
@@ -69,17 +71,17 @@ public class VisualRepresentation implements Serializable {
     private String name;
 
     @XmlTransient
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Concept concept;
 
     @XmlTransient
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private RelationSet relationSet;
 
     @Column(name = "Source")
     private String source;
 
-    @Column(name = "Uri")
+    @Column(name = "Uri", columnDefinition = "BLOB")
     @NotNull(message = "URI must be specified.")
     private URI uri;
 
@@ -87,15 +89,24 @@ public class VisualRepresentation implements Serializable {
     private String comment;
 
     @XmlTransient
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(name = "MotoricRepresentation_motoricRepresentationId")
     private MotoricRepresentation motoricRepresentation;
 
-    public VisualRepresentation(MediaType media_type, String name) {
-        this.mediaType = media_type;
+    public VisualRepresentation(MediaType mediaType, String name) {
+        this.mediaType = mediaType;
         this.name = name;
     }
 
     public VisualRepresentation() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**
@@ -109,7 +120,6 @@ public class VisualRepresentation implements Serializable {
         this.mediaType = mediaType;
     }
 
-    @XmlTransient
     /**
      * @return the concept connected to the visual representation.
      */
@@ -121,7 +131,6 @@ public class VisualRepresentation implements Serializable {
         this.concept = concept;
     }
 
-    @XmlTransient
     /**
      * @return the relation set connected to the visual representation.
      */
@@ -156,9 +165,17 @@ public class VisualRepresentation implements Serializable {
         this.uri = uri;
     }
 
-    public void setURI(String uri) {
-        if (this.uri.resolve(uri) != null) {
-            this.uri = this.uri.resolve(uri);
+    public void setURI(String uri) throws URISyntaxException,
+            MalformedURLException {
+        String[] schemes = {"http", "https"};
+        URL url = null;
+        try {
+            url = new URL(uri);
+            this.uri = url.toURI();
+        } catch (MalformedURLException em) {
+            System.err.println("URL " + uri + " is malformed.");
+        } catch (URISyntaxException eu) {
+            System.err.println("URI syntax exception " + url);
         }
     }
 
@@ -171,26 +188,17 @@ public class VisualRepresentation implements Serializable {
     }
 
     public String getRepresentationWithPath() {
-        if (name.startsWith("http:")) {
-            return name;
+        if (uri.toString().startsWith("http:")) {
+            return uri.toString();
         }
-        if (name.startsWith("file:")) {
-            return name;
+        if (uri.toString().startsWith("file:")) {
+            return uri.toString();
         }
         if (this.mediaType.equals(MediaType.IMAGE)) {
-            return Constants.imagePath + name;
+            return Constants.imagePath + uri.toString();
         } else {
-            return Constants.videoPath + name;
+            return Constants.videoPath + uri.toString();
         }
-    }
-
-    @XmlTransient
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     @Override
@@ -205,6 +213,9 @@ public class VisualRepresentation implements Serializable {
     }
 
     @Override
+    /*
+     * TODO: Create a realistic equals() method
+     */
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
@@ -234,6 +245,7 @@ public class VisualRepresentation implements Serializable {
 
     @Override
     public String toString() {
-        return "[Id=" + id + "] " + this.mediaType + ": " + this.name;
+        return "[Id=" + id + "] " + this.mediaType + " : " + this.name + " : " +
+                this.uri;
     }
 }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import static java.util.Objects.isNull;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,22 +26,28 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRegistry;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
  * @author dmavroeidis
  */
-@XmlAccessorType(XmlAccessType.PROPERTY)
-@XmlType(name = "relation_set", namespace = "http://www.csri.gr/relation_set")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "relationSet", namespace =
+        "http://www.csri.gr/relation_set")
 @Entity
 @NamedQueries({
+    @NamedQuery(name =
+            "findRelationSetByName",
+            query =
+            "SELECT rs FROM RelationSet rs " +
+            "WHERE rs.name = :relationSetName"),
     @NamedQuery(name =
             "findRelationSet",
             query =
@@ -73,27 +80,16 @@ import javax.xml.bind.annotation.XmlType;
             query =
             "SELECT rs FROM RelationSet rs " +
             "JOIN rs.relations rsr " +
-            "WHERE rsr.relation = :relation"),
-})
+            "WHERE rsr.relation = :relation"),})
 @Table(name = "RelationSets",
         indexes = {
             @Index(columnList = "Name")})
 public class RelationSet implements Serializable {
 
-    public static enum Inherent {
-
-        YES, NO, UNKNOWN;
-
-        @Override
-        public String toString() {
-            return this.name();
-        }
-    }
-
     private static final long serialVersionUID = 1L;
     @Id
-    @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
+    @XmlTransient
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "RelationSetId")
     private Long id;
 
@@ -103,6 +99,7 @@ public class RelationSet implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet")
     private List<RelationSet_Relation> relations;
 
+    @XmlElement(name = "languageRepresentation")
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "LanguageRepresentation_RelationSet",
@@ -126,6 +123,8 @@ public class RelationSet implements Serializable {
         this.name = "";
         this.relations = new ArrayList<>();
         this.languageRepresentations = new ArrayList<>();
+        this.visualRepresentations = new ArrayList<>();
+        this.motoricRepresentations = new ArrayList<>();
     }
 
     /**
@@ -133,18 +132,32 @@ public class RelationSet implements Serializable {
      *
      * @param name
      * @param relationSetRelationsList
-     * @param isInherent
      * @param languageRepresentations
+     * @param visualRepresentations
+     * @param motoricRepresentations
      */
     public RelationSet(String name,
             List<RelationSet_Relation> relationSetRelationsList,
-            List<LanguageRepresentation> languageRepresentations) {
+            List<LanguageRepresentation> languageRepresentations,
+            List<VisualRepresentation> visualRepresentations,
+            List<MotoricRepresentation> motoricRepresentations) {
         this.name = name;
         this.relations = relationSetRelationsList;
         this.languageRepresentations = languageRepresentations;
+        this.visualRepresentations = visualRepresentations;
+        this.motoricRepresentations = motoricRepresentations;
     }
 
-    @XmlTransient
+    public RelationSet(RelationSet newRelationSet) {
+        this.name = newRelationSet.getName();
+        this.relations = newRelationSet.getRelations();
+        this.languageRepresentations = newRelationSet.
+                getLanguageRepresentations();
+        this.visualRepresentations = newRelationSet.getVisualRepresentations();
+        this.motoricRepresentations = newRelationSet.
+                getMotoricRepresentations();
+    }
+
     public Long getId() {
         return id;
     }
@@ -167,11 +180,13 @@ public class RelationSet implements Serializable {
      * @return a list of relations
      */
     public List<Relation> getRelationsList() {
-        List<RelationSet_Relation> relationSet_RelationList = new ArrayList();
+        List<RelationSet_Relation> relationSetRelationList = this.relations;
         List<Relation> relationList = new ArrayList();
-        relationSet_RelationList = this.relations;
-        for (RelationSet_Relation relationSetRelation : relationSet_RelationList) {
-            relationList.add(relationSetRelation.getRelation());
+        if (!relationSetRelationList.isEmpty()) {
+            for (RelationSet_Relation relationSetRelation
+                    : relationSetRelationList) {
+                relationList.add(relationSetRelation.getRelation());
+            }
         }
         return relationList;
     }
@@ -231,7 +246,7 @@ public class RelationSet implements Serializable {
      *
      * @return a list strings containing the names of language representation
      */
-    public List<String> getLanguageRepresentationNames() {
+    public List<String> getLanguageRepresentationsNames() {
         List<String> languageRepresentationNames = new ArrayList<>();
         for (LanguageRepresentation languageRepresentation
                 : languageRepresentations) {
@@ -290,13 +305,13 @@ public class RelationSet implements Serializable {
     }
 
     public List<MotoricRepresentation> getMotoricRepresentationsEntries() {
-        List<MotoricRepresentation> motoric_representation_entries =
+        List<MotoricRepresentation> motoricRepresentationEntries =
                 new ArrayList<>();
         for (MotoricRepresentation MotoricRepresentation
                 : this.motoricRepresentations) {
-            motoric_representation_entries.add(MotoricRepresentation);
+            motoricRepresentationEntries.add(MotoricRepresentation);
         }
-        return motoric_representation_entries;
+        return motoricRepresentationEntries;
     }
 
     public void setMotoricRepresentations(
@@ -347,10 +362,10 @@ public class RelationSet implements Serializable {
     public int hashCode() {
         int hash = 5;
         hash = 13 * hash + Objects.hashCode(this.name);
-        hash = 13 * hash + Objects.hashCode(this.relations);
-        hash = 13 * hash + Objects.hashCode(this.languageRepresentations);
-        hash = 13 * hash + Objects.hashCode(this.visualRepresentations);
-        hash = 13 * hash + Objects.hashCode(this.motoricRepresentations);
+        hash = 13 * hash + Objects.hashCode(this.getRelationsList());
+        hash = 13 * hash + Objects.hashCode(this.getLanguageRepresentations());
+        hash = 13 * hash + Objects.hashCode(this.getVisualRepresentations());
+        hash = 13 * hash + Objects.hashCode(this.getMotoricRepresentations());
         return hash;
     }
 
@@ -363,47 +378,48 @@ public class RelationSet implements Serializable {
             return false;
         }
         final RelationSet other = (RelationSet)obj;
-        if (!Objects.equals(this.name, other.name)) {
+        if (!isNull(this.name) && !isNull(other.getName())) {
+            if (!this.name.equals(other.name)) {
+                return false;
+            }
+        }
+        if (!this.getRelationsList().equals(other.getRelationsList())) {
             return false;
         }
-        if (!Objects.equals(this.relations, other.relations)) {
+        if (!this.getLanguageRepresentations().
+                equals(other.getLanguageRepresentations())) {
             return false;
         }
-        if (!Objects.equals(this.languageRepresentations,
-                other.languageRepresentations)) {
+        if (!this.getVisualRepresentations().
+                equals(other.getVisualRepresentations())) {
             return false;
         }
-        if (!Objects.equals(this.visualRepresentations,
-                other.visualRepresentations)) {
-            return false;
-        }
-        if (!Objects.equals(this.motoricRepresentations,
-                other.motoricRepresentations)) {
+        if (!this.getMotoricRepresentations().
+                equals(other.getMotoricRepresentations())) {
             return false;
         }
         return true;
     }
 
-
-
     @Override
     public String toString() {
-        return "gr.csri.poeticon.praxicon.db.entities.RelationSet[ id=" + id +
-                " ]";
-    }
+        List<Relation> relationsList = this.getRelationsList();
+        List<String> relationsStringsList = new ArrayList<>();
+        String relationsString;
+        for (Relation relation : relationsList) {
+            relationsStringsList.add(relation.toString());
+        }
+        relationsString = "{" + StringUtils.join(relationsStringsList, "##") +
+                "}";
 
-//    public void afterUnmarshal(Unmarshaller u, Object parent) {
-//        if (Globals.ToMergeAfterUnMarshalling) {
-//            RelationSetDao rsDao = new RelationSetDaoImpl();
-//            rsDao.merge(this);
-//            System.out.println("Finished unmarshalling RelationSet");
+        return relationsString;
+    }
+//
+//    @XmlRegistry
+//    class ObjectFactory {
+//
+//        RelationSet createRelationSet() {
+//            return new RelationSet();
 //        }
 //    }
-    @XmlRegistry
-    class ObjectFactory {
-
-        RelationSet createRelationSet() {
-            return new RelationSet();
-        }
-    }
 }

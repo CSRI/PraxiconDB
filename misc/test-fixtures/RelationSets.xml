@@ -3,17 +3,18 @@
     <relationSet>
         <relations>
             <relation>
+                <id>21074</id>
                 <relationType>
                     <forwardName>ACTION_GOAL</forwardName>
                     <backwardName>GOAL_ACTION</backwardName>
                 </relationType>
                 <leftArgument>
                     <concept>
-                        <externalSourceId>brooch%2:35:00::#with#brooch%1:06:00::#the#dummy_object_brooch%2:35:00::_brooch%1:06:00::</externalSourceId>
+                        <name>brooch%2:35:00::#with#brooch%1:06:00::#the#dummy_object_brooch%2:35:00::_brooch%1:06:00::</name>
                         <conceptType>MOVEMENT</conceptType>
                         <specificityLevel>SUBORDINATE</specificityLevel>
                         <status>VARIABLE</status>
-                        <pragmaticStatus>CONCRETE</pragmaticStatus>
+                        <pragmaticStatus>UNKNOWN</pragmaticStatus>
                         <uniqueInstance>NO</uniqueInstance>
                         <source>WordNet3.0</source>
                         <comment></comment>
@@ -21,11 +22,12 @@
                 </leftArgument>
                 <rightArgument>
                     <concept>
-                        <externalSourceId>brooch%2:35:00::</externalSourceId>
+                        <externalSourceId>201548576</externalSourceId>
+                        <name>brooch%2:35:00::</name>
                         <conceptType>MOVEMENT</conceptType>
                         <specificityLevel>SUBORDINATE</specificityLevel>
                         <status>CONSTANT</status>
-                        <pragmaticStatus>CONCRETE</pragmaticStatus>
+                        <pragmaticStatus>UNKNOWN</pragmaticStatus>
                         <uniqueInstance>NO</uniqueInstance>
                         <source>WordNet3.0</source>
                         <comment></comment>
@@ -54,17 +56,18 @@
         </relations>
         <relations>
             <relation>
+                <id>21075</id>
                 <relationType>
                     <forwardName>ACTION_TOOL</forwardName>
                     <backwardName>TOOL_ACTION</backwardName>
                 </relationType>
                 <leftArgument>
                     <concept>
-                        <externalSourceId>brooch%2:35:00::#with#brooch%1:06:00::#the#dummy_object_brooch%2:35:00::_brooch%1:06:00::</externalSourceId>
+                        <name>brooch%2:35:00::#with#brooch%1:06:00::#the#dummy_object_brooch%2:35:00::_brooch%1:06:00::</name>
                         <conceptType>MOVEMENT</conceptType>
                         <specificityLevel>SUBORDINATE</specificityLevel>
                         <status>VARIABLE</status>
-                        <pragmaticStatus>CONCRETE</pragmaticStatus>
+                        <pragmaticStatus>UNKNOWN</pragmaticStatus>
                         <uniqueInstance>NO</uniqueInstance>
                         <source>WordNet3.0</source>
                         <comment></comment>
@@ -72,11 +75,12 @@
                 </leftArgument>
                 <rightArgument>
                     <concept>
-                        <externalSourceId>brooch%1:06:00::</externalSourceId>
+                        <externalSourceId>102906438</externalSourceId>
+                        <name>brooch%1:06:00::</name>
                         <conceptType>ENTITY</conceptType>
                         <specificityLevel>SUBORDINATE</specificityLevel>
                         <status>CONSTANT</status>
-                        <pragmaticStatus>CONCRETE</pragmaticStatus>
+                        <pragmaticStatus>UNKNOWN</pragmaticStatus>
                         <uniqueInstance>NO</uniqueInstance>
                         <source>WordNet3.0</source>
                         <comment></comment>
@@ -114,17 +118,18 @@
         </relations>
         <relations>
             <relation>
+                <id>21076</id>
                 <relationType>
                     <forwardName>ACTION_OBJECT</forwardName>
                     <backwardName>OBJECT_ACTION</backwardName>
                 </relationType>
                 <leftArgument>
                     <concept>
-                        <externalSourceId>brooch%2:35:00::#with#brooch%1:06:00::#the#dummy_object_brooch%2:35:00::_brooch%1:06:00::</externalSourceId>
+                        <name>brooch%2:35:00::#with#brooch%1:06:00::#the#dummy_object_brooch%2:35:00::_brooch%1:06:00::</name>
                         <conceptType>MOVEMENT</conceptType>
                         <specificityLevel>SUBORDINATE</specificityLevel>
                         <status>VARIABLE</status>
-                        <pragmaticStatus>CONCRETE</pragmaticStatus>
+                        <pragmaticStatus>UNKNOWN</pragmaticStatus>
                         <uniqueInstance>NO</uniqueInstance>
                         <source>WordNet3.0</source>
                         <comment></comment>
@@ -132,11 +137,11 @@
                 </leftArgument>
                 <rightArgument>
                     <concept>
-                        <externalSourceId>dummy_object_brooch%2:35:00::_brooch%1:06:00::</externalSourceId>
+                        <name>dummy_object_brooch%2:35:00::_brooch%1:06:00::</name>
                         <conceptType>ENTITY</conceptType>
                         <specificityLevel>UNKNOWN</specificityLevel>
                         <status>VARIABLE</status>
-                        <pragmaticStatus>CONCRETE</pragmaticStatus>
+                        <pragmaticStatus>UNKNOWN</pragmaticStatus>
                         <uniqueInstance>UNKNOWN</uniqueInstance>
                         <source>WordNet3.0</source>
                         <comment></comment>

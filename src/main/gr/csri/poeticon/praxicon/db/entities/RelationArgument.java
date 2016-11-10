@@ -11,14 +11,12 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -43,23 +41,22 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name = "findRelationArgumentByRelationSet", query =
             "SELECT ra FROM RelationArgument ra " +
             "JOIN ra.relationSet rars " +
-            "WHERE rars = :relationSet"),
-})
+            "WHERE rars = :relationSet"),})
 @Table(name = "RelationArguments")
 public class RelationArgument implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
+    @XmlTransient
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "RelationArgumentId")
     private Long id;
 
-    @Basic(optional = true, fetch=FetchType.LAZY)
+    @Basic(optional = true)
     @OneToOne(cascade = CascadeType.ALL)
     private Concept concept;
 
-    @Basic(optional = true, fetch=FetchType.LAZY)
+    @Basic(optional = true)
     @OneToOne(cascade = CascadeType.ALL)
     private RelationSet relationSet;
 
@@ -72,8 +69,7 @@ public class RelationArgument implements Serializable {
     }
 
     /**
-     * Constructor #2. concept is given and relationSet is set to empty
-     * RelationSet.
+     * Constructor #2. concept is given and relationSet is set to null.
      *
      * @param concept
      */
@@ -83,7 +79,7 @@ public class RelationArgument implements Serializable {
     }
 
     /**
-     * Constructor #3. relationSet is given and concept is set to empty Concept.
+     * Constructor #3. relationSet is given and concept is set to null.
      *
      * @param relationSet
      */
@@ -93,7 +89,8 @@ public class RelationArgument implements Serializable {
     }
 
     /**
-     * Constructor #4. relationSet is given and concept is set to empty Concept.
+     * Constructor #4. Checks whether the argument is Concept or RelationSet
+     * and stores it accordingly.
      *
      * @param relationArgument
      */
@@ -103,7 +100,7 @@ public class RelationArgument implements Serializable {
             this.relationSet = null;
         }
         if (relationArgument.isRelationSet()) {
-            this.relationSet = relationSet;
+            this.relationSet = relationArgument.getRelationSet();
             this.concept = null;
         }
     }
@@ -113,7 +110,6 @@ public class RelationArgument implements Serializable {
      *
      * @return Long integer.
      */
-    @XmlTransient
     public Long getId() {
         return id;
     }
@@ -147,7 +143,8 @@ public class RelationArgument implements Serializable {
         if (this.relationSet == null) {
             this.concept = concept;
         } else {
-            System.err.println("Cannot set concept of the relation argument " +
+            System.err.println(
+                    "Cannot set concept of the relation argument " +
                     "as a relation set is already present.");
         }
     }
@@ -204,12 +201,10 @@ public class RelationArgument implements Serializable {
         return null;
     }
 
-    @XmlTransient
     public boolean isConcept() {
         return this.getRelationArgumentClassType() == Concept.class;
     }
 
-    @XmlTransient
     public boolean isRelationSet() {
         return this.getRelationArgumentClassType() == RelationSet.class;
     }
@@ -217,8 +212,11 @@ public class RelationArgument implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 89 * hash + Objects.hashCode(this.concept);
-        hash = 89 * hash + Objects.hashCode(this.relationSet);
+        if (this.isConcept()) {
+            hash = 89 * hash + Objects.hashCode(this.getConcept());
+        } else {
+            hash = 89 * hash + Objects.hashCode(this.getRelationSet());
+        }
         return hash;
     }
 
@@ -231,11 +229,18 @@ public class RelationArgument implements Serializable {
             return false;
         }
         final RelationArgument other = (RelationArgument)obj;
-        if (!Objects.equals(this.concept, other.concept)) {
-            return false;
-        }
-        if (!Objects.equals(this.relationSet, other.relationSet)) {
-            return false;
+        if (this.isConcept()) {
+            if (other.isRelationSet()) {
+                return false;
+            } else if (!this.getConcept().equals(other.getConcept())) {
+                return false;
+            }
+        } else if (this.isRelationSet()) {
+            if (other.isConcept()) {
+                return false;
+            } else if (!this.getRelationSet().equals(other.getRelationSet())) {
+                return false;
+            }
         }
         return true;
     }

@@ -119,14 +119,14 @@ public class CreateNeo4JDB {
             for (Concept concept : concepts) {
 
                 conceptNode = graphDb.createNode();
-                conceptNode.setProperty("conceptType", concept.getConceptType().
-                        toString());
+                conceptNode.setProperty("conceptType", concept.
+                        getConceptType().toString());
                 conceptNode.setProperty("conceptExternalSourceId", concept.
                         getExternalSourceId());
                 conceptNode.setProperty("conceptId", concept.getId());
-                if (concept.getOntologicalDomain() != null) {
-                    conceptNode.setProperty("conceptOntologicalDomain", concept.
-                            getOntologicalDomain());
+                if (concept.getOntologicalDomains() != null) {
+                    conceptNode.setProperty("conceptOntologicalDomain",
+                            concept.getOntologicalDomains());
                 }
                 conceptNode.setProperty("conceptPragmaticStatus", concept.
                         getPragmaticStatus().toString());
@@ -137,23 +137,13 @@ public class CreateNeo4JDB {
                 conceptNode.setProperty("conceptSource", concept.getSource());
                 conceptNode.setProperty("conceptStatus", concept.getStatus().
                         toString());
-
                 conceptNode.addLabel(conceptLabel);
-
-//                conceptNodes.add(conceptNode);
-//                conceptIds.add(conceptNode.getId());
             }
             endTime = System.nanoTime();
             System.out.print("\n\n\nFinished adding concepts in ");
             System.out.print((endTime - startTime) / 1000000000);
             System.out.println(" seconds!");
 
-//            System.out.println(graphDb.getNodeById(0).getLabels());
-//            System.out.println(graphDb.getNodeById(0).getProperty(
-//                    "conceptExternalSourceId"));
-//            System.out.println(graphDb.getNodeById(1).getLabels());
-//            System.out.println(graphDb.getNodeById(1).getProperty(
-//                    "conceptExternalSourceId"));
             // Add relations (edges) to the graph database
             startTime = System.nanoTime();
             for (Relation relation : relationsTypeToken) {
@@ -239,8 +229,8 @@ public class CreateNeo4JDB {
 //        for (Path position : graphDb.traversalDescription().depthFirst().relationships(RelTypes.TYPE_TOKEN).traverse(node)){
 //            output += position;
 //            System.out.println(output);
-//        
-//            
+//
+//
 //        }
 
         Iterator<Node> iterGraph = GlobalGraphOperations.at(graphDb).
@@ -300,8 +290,8 @@ public class CreateNeo4JDB {
         System.out.println("Roots: " + roots.size());
         System.out.println("Leaves: " + leaves.size());
         System.out.println("Internals: " + internals.size());
-        System.out.println("MaxOutDegree: " + maxOutDegree + " for concept: " +
-                maxOutDegreeConcept);
+        System.out.println("MaxOutDegree: " + maxOutDegree + 
+                " for concept: " + maxOutDegreeConcept);
         System.out.println("MaxInDegree: " + maxInDegree + " for concept: " +
                 maxInDegreeConcept);
 
@@ -319,37 +309,6 @@ public class CreateNeo4JDB {
                 System.out.println(countCounts + "%");
                 countCounts += 1;
             }
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-//            
-//            KShortestPaths shortestPathsBF = new KShortestPaths(
-//                    conceptGraph, root, 4);
-//            
-            
         }
 
 ////        for (Concept leaf : leaves) {
@@ -376,7 +335,7 @@ public class CreateNeo4JDB {
 ////                for (GraphPath item : edgeSet) {
 ////                    System.out.println(item.getEdgeList());
 ////                }
-////                
+////
 ////                FloydWarshallShortestPaths shortestPathsFW = new FloydWarshallShortestPaths(conceptGraph);
 ////                int allPaths=shortestPathsFW.getShortestPathsCount();
 ////                System.out.print("Count of all paths: ");
@@ -421,15 +380,15 @@ public class CreateNeo4JDB {
 //                        blFound = false;
 //                        // For each BL concept in the path
 //                        for (Concept blConcept : blConcepts) {
-//                            // For each concept in the path 
+//                            // For each concept in the path
 //                            // starting from the root
 //                            for (Object vertex : pathGraph) {
 //                                Concept concept = (Concept)vertex;
-//                                // If the concept is not the BL concept 
+//                                // If the concept is not the BL concept
 //                                // under consideration
 //                                if (!blConcept.equals(concept)) {
-//                                    // If the concept is not BL 
-//                                    // (this check is needed in case we have 
+//                                    // If the concept is not BL
+//                                    // (this check is needed in case we have
 //                                    // more than 1 BLs in the path).
 //                                    if (concept.getSpecificityLevel() ==
 //                                            Concept.SpecificityLevel.SUBORDINATE ||
@@ -440,11 +399,11 @@ public class CreateNeo4JDB {
 //                                        // Get relation arguments of concepts
 //                                        RelationArgument relationArgument1 =
 //                                                raDao.
-//                                                getRelationArgumentByConcept(
+//                                                getRelationArgument(
 //                                                        concept);
 //                                        RelationArgument relationArgument2 =
 //                                                raDao.
-//                                                getRelationArgumentByConcept(
+//                                                getRelationArgument(
 //                                                        blConcept);
 //
 //                                        // Create new relation
@@ -474,7 +433,7 @@ public class CreateNeo4JDB {
 //                                            //System.out.println("UP");
 //                                        }
 //
-//                                        // If the two relation arguments are not related, 
+//                                        // If the two relation arguments are not related,
 //                                        // add the relation.
 //                                        if (!rDao.areRelated(relationArgument1,
 //                                                relationArgument2)) {

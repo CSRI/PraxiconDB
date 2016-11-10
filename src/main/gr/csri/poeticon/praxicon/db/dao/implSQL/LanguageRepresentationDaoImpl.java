@@ -34,6 +34,7 @@ public class LanguageRepresentationDaoImpl extends
      * @param productivity the productivity to search
      * @param negation     the negation to search
      * @param operator     the operator to search
+     *
      * @return A LanguageRepresentation (null if not found)
      */
     @Override
@@ -50,23 +51,24 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("productivity", productivity).
                 setParameter("negation", negation).
                 setParameter("operator", operator);
-        List<LanguageRepresentation> result =
+        List<LanguageRepresentation> retrievedLanguageRepresentationList =
                 (List<LanguageRepresentation>)query.getResultList();
-        if (result.isEmpty()) {
+        if (retrievedLanguageRepresentationList.isEmpty()) {
             return null;
         }
-        return result.get(0);
+        return retrievedLanguageRepresentationList.get(0);
     }
 
     /**
      * Finds the LanguageRepresentation that has the given Language, Text and
-     * Part of Speech
+     * Part of Speech.
      * Overloaded.
      *
      * @param language  the Language to search
      * @param text      the text to search
      * @param pos       the part of speech to search
      * @param useStatus the use status to search
+     *
      * @return A LanguageRepresentation (null if not found)
      */
     @Override
@@ -79,12 +81,31 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("language", language).
                 setParameter("pos", pos).
                 setParameter("useStatus", useStatus);
-        List result = query.getResultList();
-        if (result.size() > 0) {
-            return (List<LanguageRepresentation>)result;
+        List<LanguageRepresentation> retrievedLanguageRepresentationList =
+                query.getResultList();
+        if (retrievedLanguageRepresentationList.size() > 0) {
+            return retrievedLanguageRepresentationList;
         } else {
             return null;
         }
+    }
+
+    /**
+     * Finds the LanguageRepresentations that have text field containing the
+     * given string Case insensitive search.
+     * Overloaded.
+     *
+     * @param text the Language representation text
+     *
+     * @return A list of LanguageRepresentations
+     */
+    @Override
+    public List<LanguageRepresentation> getLanguageRepresentations(
+            String text) {
+        Query query = getEntityManager().createNamedQuery(
+                "findLanguageRepresentationsByText").
+                setParameter("text", text);
+        return query.getResultList();
     }
 
     /**
@@ -96,6 +117,7 @@ public class LanguageRepresentationDaoImpl extends
      * @param text      the text to search
      * @param pos       the pos to search
      * @param useStatus
+     *
      * @return A LanguageRepresentation (null if not found)
      */
     @Override
@@ -109,29 +131,14 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("language", language).
                 setParameter("pos", pos).
                 setParameter("useStatus", useStatus);
-        List result = query.getResultList();
-        if (result.size() > 0) {
-            return (LanguageRepresentation)result.get(0);
+        List<LanguageRepresentation> retrievedLanguageRepresentationList =
+                query.
+                getResultList();
+        if (retrievedLanguageRepresentationList.size() > 0) {
+            return retrievedLanguageRepresentationList.get(0);
         } else {
             return null;
         }
-    }
-
-    /**
-     * Finds the LanguageRepresentations that have text field containing the
-     * given string Case insensitive search.
-     * Overloaded.
-     *
-     * @param text the Language representation text
-     * @return A list of LanguageRepresentations
-     */
-    @Override
-    public List<LanguageRepresentation> getLanguageRepresentations(
-            String text) {
-        Query query = getEntityManager().createNamedQuery(
-                "findLanguageRepresentationsByText").
-                setParameter("text", text);
-        return query.getResultList();
     }
 
     /**
@@ -152,6 +159,7 @@ public class LanguageRepresentationDaoImpl extends
      * and pos
      *
      * @param lr the LanguageRepresentation
+     *
      * @return a query to search for the LanguageRepresentation
      */
     @Override
@@ -164,8 +172,7 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("language", languageRepresentation.
                         getLanguage().name().toUpperCase()).
                 setParameter("pos", languageRepresentation.
-                        getPartOfSpeech().toString().
-                        toUpperCase()).
+                        getPartOfSpeech().toString().toUpperCase()).
                 setParameter("useStatus",
                         languageRepresentation.getUseStatus().toString().
                         toUpperCase()).

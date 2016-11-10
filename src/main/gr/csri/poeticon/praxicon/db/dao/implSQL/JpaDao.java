@@ -8,6 +8,7 @@ import gr.csri.poeticon.praxicon.EntityMngFactory;
 import gr.csri.poeticon.praxicon.db.dao.Dao;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
+import static java.util.Objects.isNull;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -85,7 +86,13 @@ public abstract class JpaDao<K, E> implements Dao<K, E> {
 
     @Override
     public void remove(E entity) {
+        if (!entityManager.getTransaction().isActive()) {
+            entityManager.getTransaction().begin();
+        }
         entityManager.remove(entity);
+        entityManager.flush();
+        entityManager.getTransaction().commit();
+
     }
 
     @Override
@@ -122,7 +129,7 @@ public abstract class JpaDao<K, E> implements Dao<K, E> {
     @Override
     public E getEntity(E entity) {
         Query q = getEntityQuery(entity);
-        if (q != null) {
+        if (!isNull(q)) {
             List res = q.getResultList();
             if (res.isEmpty()) {
                 return entity;
@@ -153,9 +160,8 @@ public abstract class JpaDao<K, E> implements Dao<K, E> {
 
     @Override
     public void close() {
-        if (entityManager != null) {
+        if (!isNull(entityManager)) {
             entityManager.close();
-
         }
     }
 

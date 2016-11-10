@@ -10,10 +10,8 @@ import gr.csri.poeticon.praxicon.db.dao.RelationArgumentDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationTypeDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
-import static gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl.Direction.
-        DOWN;
-import static gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl.Direction.
-        UP;
+import static gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl.Direction.DOWN;
+import static gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl.Direction.UP;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationArgumentDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationTypeDaoImpl;
@@ -107,6 +105,7 @@ public class CreateNewBLRelations {
                     }
                     relation1.setLinguisticSupport(
                             Relation.LinguisticallySupported.UNKNOWN);
+                    relation1.setInferred(Relation.Inferred.YES);
                     if (!rDao.areRelated(relationArgument1, relationArgument2)) {
                         rDao.persist(relation1);
                     }
@@ -125,23 +124,41 @@ public class CreateNewBLRelations {
      */
     public static void BuildGraph() {
 
-        DirectedGraph<Concept, DefaultEdge> conceptGraph =
+        DirectedGraph<RelationArgument, DefaultEdge> conceptGraph =
                 new DefaultDirectedGraph<>(DefaultEdge.class);
 
-        // Get all non-BL concepts
+        long startTimeTotal = System.nanoTime();
         ConceptDao cDao = new ConceptDaoImpl();
+        RelationArgumentDao raDao = new RelationArgumentDaoImpl();
         RelationDao rDao = new RelationDaoImpl();
 
         // Get concepts from the database
         long startTime = System.nanoTime();
+        System.out.println("\n\n\nGetting concepts...");
         List<Concept> concepts = cDao.getAllConcepts();
         long endTime = System.nanoTime();
         System.out.print("\n\n\nFinished getting concepts in ");
         System.out.print((endTime - startTime) / 1000000000);
         System.out.println(" seconds!");
 
+        // Get relation arguments from the database
+        startTime = System.nanoTime();
+        System.out.println("\n\n\nGetting relation arguments...");
+        List<RelationArgument> relationArguments = new ArrayList<>();
+        relationArguments = raDao.getAllRelationArguments();
+        endTime = System.nanoTime();
+        System.out.print("\n\n\nFinished getting relation arguments in ");
+        System.out.print((endTime - startTime) / 1000000000);
+        System.out.println(" seconds!");
+
+        // Create a copy of the existing array list to avoid
+        // java.util.ConcurrentModificationException
+        List<RelationArgument> relationArgumentsNew = new ArrayList<>(
+                relationArguments);
+
         // Get relations from the database
         startTime = System.nanoTime();
+        System.out.print("\n\n\nGetting relations...");
         List<Relation> relationsTypeToken = rDao.getRelationsByRelationType(
                 RelationType.RelationNameForward.TYPE_TOKEN);
         endTime = System.nanoTime();
@@ -151,69 +168,42 @@ public class CreateNewBLRelations {
 
         // Add concepts (vertices) to the graph
         startTime = System.nanoTime();
-        for (Concept concept : concepts) {
-            conceptGraph.addVertex(concept);
+        System.out.println("\n\n\nAdding vertices...");
+        for (RelationArgument relationArgument : relationArgumentsNew) {
+            conceptGraph.addVertex(relationArgument);
         }
         endTime = System.nanoTime();
-        System.out.print("\n\n\nFinished adding concepts in ");
+        System.out.print("\n\n\nFinished adding vertices in ");
         System.out.print((endTime - startTime) / 1000000000);
         System.out.println(" seconds!");
 
         // Add relations (edges) to the graph
         startTime = System.nanoTime();
+        System.out.println("\n\n\nAdding edges...");
         for (Relation relation : relationsTypeToken) {
-            // Get left concept
-            Concept leftConcept = new Concept();
-            if (relation.getLeftArgument().isConcept()) {
-                leftConcept = relation.getLeftArgument().getConcept();
-            }
+            // Get left relation argument
+            RelationArgument leftRelationArgument = new RelationArgument();
+            leftRelationArgument = relation.getLeftArgument();
 
-            // Get right concept
-            Concept rightConcept = new Concept();
-            if (relation.getRightArgument().isConcept()) {
-                rightConcept = relation.getRightArgument().getConcept();
-            }
+            // Get right relation argument
+            RelationArgument rightRelationArgument = new RelationArgument();
+            rightRelationArgument = relation.getRightArgument();
 
-            //System.out.println(relation);
-            // Add edges with 2 concepts
-            conceptGraph.addEdge(leftConcept, rightConcept);
-//            System.out.println(leftConcept + "\t" + rightConcept);
+            // Add edges with 2 relation arguments
+            conceptGraph.addEdge(leftRelationArgument, rightRelationArgument);
         }
         endTime = System.nanoTime();
         System.out.print("\n\n\nFinished adding edges in ");
         System.out.print((endTime - startTime) / 1000000);
         System.out.println(" miliseconds!\n\n\n");
 
-        List<List<Concept>> paths = new ArrayList<>();
-        startTime = System.nanoTime();
-        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23356));
-        System.out.println(paths);
-        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23357));
-        System.out.println(paths);
-        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23358));
-        System.out.println(paths);
-        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23359));
-        System.out.println(paths);
-        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23361));
-        System.out.println(paths);
-        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23370));
-        System.out.println(paths);
-        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23371));
-        System.out.println(paths);
-        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23372));
-        System.out.println(paths);
-        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23373));
-        System.out.println(paths);
-        paths = getAllPaths(conceptGraph, concepts.get(0), concepts.get(23374));
-        System.out.println(paths);
+        long endTimeTotal = System.nanoTime();
+        System.out.print("\n\n\nTotal Time: ");
+        System.out.print((endTimeTotal - startTimeTotal) / 1000000000);
+        System.out.println(" seconds!");
 
-        endTime = System.nanoTime();
-        System.out.print("\n\n\nFinished getting paths in ");
-        System.out.print((endTime - startTime) / 1000);
-        System.out.println(" microseconds!\n\n\n");
         // Now insert all BL relations.
-        insertBLRelations(conceptGraph, concepts);
-
+//        insertBLRelations(conceptGraph, concepts);
         if (cDao.getEntityManager().isOpen()) {
             cDao.close();
         }
@@ -289,8 +279,8 @@ public class CreateNewBLRelations {
         System.out.println("Roots: " + roots.size());
         System.out.println("Leaves: " + leaves.size());
         System.out.println("Internals: " + internals.size());
-        System.out.println("MaxOutDegree: " + maxOutDegree + " for concept: " +
-                maxOutDegreeConcept);
+        System.out.println("MaxOutDegree: " + maxOutDegree +
+                " for concept: " + maxOutDegreeConcept);
         System.out.println("MaxInDegree: " + maxInDegree + " for concept: " +
                 maxInDegreeConcept);
 
@@ -310,7 +300,8 @@ public class CreateNewBLRelations {
 
             List<List<Concept>> paths = new ArrayList<>();
             int count = 0;
-            ConnectivityInspector conI = new ConnectivityInspector(conceptGraph);
+            ConnectivityInspector conI = new ConnectivityInspector(
+                    conceptGraph);
             for (Concept root : roots) {
                 if (conI.pathExists(root, leaf)) {
                     paths = getAllPaths(conceptGraph, root, leaf);
@@ -321,9 +312,7 @@ public class CreateNewBLRelations {
                         // Get basic level concepts in the path
                         for (Concept concept : blPath) {
                             if (concept.getSpecificityLevel() ==
-                                    Concept.SpecificityLevel.BASIC_LEVEL ||
-                                    concept.getSpecificityLevel() ==
-                                    Concept.SpecificityLevel.BASIC_LEVEL_EXTENDED) {
+                                    Concept.SpecificityLevel.BASIC_LEVEL) {
                                 blConcepts.add(concept);
                                 blFound = true;
                             }
@@ -344,14 +333,11 @@ public class CreateNewBLRelations {
                                         // (this check is needed in case we have
                                         // more than 1 BLs in the path).
                                         if (concept.getSpecificityLevel() ==
-                                                Concept.SpecificityLevel.
-                                                SUBORDINATE ||
+                                                Concept.SpecificityLevel.SUBORDINATE ||
                                                 concept.getSpecificityLevel() ==
-                                                Concept.SpecificityLevel.
-                                                SUPERORDINATE ||
+                                                Concept.SpecificityLevel.SUPERORDINATE ||
                                                 concept.getSpecificityLevel() ==
-                                                Concept.SpecificityLevel.
-                                                UNKNOWN) {
+                                                Concept.SpecificityLevel.UNKNOWN) {
                                             // Get relation arguments of concepts
                                             RelationArgument relationArgument2 =
                                                     raDao.getRelationArgument(
@@ -368,13 +354,11 @@ public class CreateNewBLRelations {
                                             RelationType newRelationType =
                                                     rtDao.
                                                     getRelationTypeByForwardName(
-                                                    RelationType.
-                                                    RelationNameForward.
-                                                    TYPE_TOKEN);
+                                                            RelationType.RelationNameForward.TYPE_TOKEN);
                                             newRelation.setLinguisticSupport(
-                                                    Relation.
-                                                    LinguisticallySupported.
-                                                    UNKNOWN);
+                                                    Relation.LinguisticallySupported.UNKNOWN);
+                                            newRelation.setInferred(
+                                                    Relation.Inferred.YES);
                                             newRelation.setRelationType(
                                                     newRelationType);
 
@@ -425,12 +409,14 @@ public class CreateNewBLRelations {
         }
 
         long endTime = System.nanoTime();
-        System.out.print("\n\n\nFinished adding relations to the database in ");
+        System.out.
+                print("\n\n\nFinished adding relations to the database in ");
         System.out.print((endTime - startTime) / (60000000000D));
         System.out.println(" minutes!\n\n\n");
         System.out.println("\n\n\n\n\nFinished execution!\n\n\n");
         System.out.println("There are " + countPaths + " paths.");
-        System.out.println("We found " + count0BLPaths + " paths with no BLs.");
+        System.out.
+                println("We found " + count0BLPaths + " paths with no BLs.");
         System.out.println("We found " + count1BLPaths + " paths with 1 BL.");
         System.out.println("We found " + count2BLPaths + " paths with 2 BLs.");
         System.out.println("We found " + count3BLPaths +
@@ -443,6 +429,7 @@ public class CreateNewBLRelations {
      * @param conceptGraph
      * @param root
      * @param leaf
+     *
      * @return a list of a list of paths.
      */
     public static List<List<Concept>> getAllPaths(DirectedGraph conceptGraph,
@@ -469,7 +456,8 @@ public class CreateNewBLRelations {
             index = tmpPath.size() - 1;
             tmpConcept = tmpPath.get(index);
             // Get the adjucent edges & the corresponding iterator
-            Set<DefaultEdge> tmpEdges = conceptGraph.incomingEdgesOf(tmpConcept);
+            Set<DefaultEdge> tmpEdges = conceptGraph.incomingEdgesOf(
+                    tmpConcept);
             Iterator edgeIterator = tmpEdges.iterator();
             // 5. For each adjacent node
             while (edgeIterator.hasNext()) {

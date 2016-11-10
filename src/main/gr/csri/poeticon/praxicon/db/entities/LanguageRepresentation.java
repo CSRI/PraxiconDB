@@ -4,15 +4,11 @@
  */
 package gr.csri.poeticon.praxicon.db.entities;
 
-import gr.csri.poeticon.praxicon.Globals;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.persistence.CascadeType;
+import static java.util.Objects.isNull;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -27,10 +23,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
@@ -41,7 +35,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author dmavroeidis
  *
  */
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "language_representation", namespace =
         "http://www.csri.gr/language_representation")
 @Entity
@@ -85,6 +79,10 @@ import javax.xml.bind.annotation.XmlType;
     @NamedQuery(name = "findLanguageRepresentationsByText", query =
             "FROM LanguageRepresentation lr " +
             "WHERE UPPER(lr.text) = :text"),
+    // TODO: This is not finished yet
+    @NamedQuery(name = "findLanguageRepresentationsByConcept", query =
+            "FROM LanguageRepresentation lr " +
+            "WHERE UPPER(lr.text) = :text"),
     @NamedQuery(name = "getAllLanguageRepresentationTextByText", query =
             "SELECT DISTINCT lr.text FROM LanguageRepresentation lr"),})
 @Table(name = "LanguageRepresentations",
@@ -98,7 +96,7 @@ import javax.xml.bind.annotation.XmlType;
 public class LanguageRepresentation implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static List<LanguageRepresentation> language_representations;
+    private static List<LanguageRepresentation> languageRepresentations;
 
     /**
      * Enumeration of the languages.
@@ -179,7 +177,8 @@ public class LanguageRepresentation implements Serializable {
      */
     public static enum Operator {
 
-        NONE, MORE, LESS, SAME, CLOSE;
+        AGAIN, BAD, CLOSE, COLLECTIVE, DIFFERENT, DIFFICULT, EASY, FAR, FULL,
+        GOOD, LESS, MORE, NONE, ONE, PLURAL, SAME;
 
         @Override
         public String toString() {
@@ -188,8 +187,8 @@ public class LanguageRepresentation implements Serializable {
     }
 
     @Id
-    @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
+    @XmlTransient
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "LanguageRepresentationId")
     private Long id;
 
@@ -216,6 +215,7 @@ public class LanguageRepresentation implements Serializable {
     private String negation;
 
     @Column(name = "Operator")
+    //@Enumerated(EnumType.STRING)
     private Operator operator;
 
     @Column(name = "Text")
@@ -226,10 +226,11 @@ public class LanguageRepresentation implements Serializable {
     private String comment;
 
     @XmlTransient
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "languageRepresentation")
+    @OneToMany(mappedBy = "languageRepresentation")
     private List<Concept_LanguageRepresentation> concepts;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @XmlTransient
+    @ManyToMany()
     @JoinTable(
             name = "LanguageRepresentation_RelationSet",
             joinColumns = {
@@ -265,7 +266,6 @@ public class LanguageRepresentation implements Serializable {
     /**
      * @return id
      */
-    @XmlTransient
     public Long getId() {
         return id;
     }
@@ -341,11 +341,14 @@ public class LanguageRepresentation implements Serializable {
     }
 
     public boolean getIsRepresentative(Concept concept) {
-        for (Concept_LanguageRepresentation tmpConceptLanguageRepresentation
-                : concepts) {
-            if (tmpConceptLanguageRepresentation.getConcept().equals(concept)) {
-                if (tmpConceptLanguageRepresentation.getIsRepresentative()) {
-                    return true;
+        if (!isNull(concepts)) {
+            for (Concept_LanguageRepresentation tmpConceptLanguageRepresentation
+                    : concepts) {
+                if (tmpConceptLanguageRepresentation.getConcept().
+                        equals(concept)) {
+                    if (tmpConceptLanguageRepresentation.getIsRepresentative()) {
+                        return true;
+                    }
                 }
             }
         }
@@ -353,33 +356,41 @@ public class LanguageRepresentation implements Serializable {
     }
 
     public List<LanguageRepresentation> getLanguageRepresentations() {
-        List<LanguageRepresentation> language_representations_list =
+        List<LanguageRepresentation> languageRepresentationsList =
                 new ArrayList<>();
-        for (LanguageRepresentation language_representation
-                : LanguageRepresentation.language_representations) {
-            language_representations_list.add(language_representation);
+        for (LanguageRepresentation languageRepresentation
+                : LanguageRepresentation.languageRepresentations) {
+            languageRepresentationsList.add(languageRepresentation);
         }
-        return language_representations_list;
+        return languageRepresentationsList;
     }
 
     public void setLanguageRepresentations(
             List<LanguageRepresentation> languageRepresentations) {
-        LanguageRepresentation.language_representations =
+        LanguageRepresentation.languageRepresentations =
                 languageRepresentations;
     }
 
-    @XmlTransient
     public List<Concept> getConcepts() {
-        List<Concept> concepts = new ArrayList<>();
-        for (LanguageRepresentation language_representation
-                : LanguageRepresentation.language_representations) {
-            for (Concept concept : language_representation.getConcepts()) {
-                if (!concepts.contains(concept)) {
-                    concepts.add(concept);
+        List<Concept> languageRepresentationConcepts = new ArrayList<>();
+        for (LanguageRepresentation languageRepresentation
+                : LanguageRepresentation.languageRepresentations) {
+            for (Concept concept : languageRepresentation.getConcepts()) {
+                if (!languageRepresentationConcepts.contains(concept)) {
+                    languageRepresentationConcepts.add(concept);
                 }
             }
         }
-        return concepts;
+        return languageRepresentationConcepts;
+    }
+
+    public List<RelationSet> getRelationSets() {
+        List<RelationSet> languageRepresentationRelationSets =
+                new ArrayList<>();
+        if (!isNull(relationSets)) {
+            languageRepresentationRelationSets.addAll(relationSets);
+        }
+        return languageRepresentationRelationSets;
     }
 
     /**
@@ -446,25 +457,25 @@ public class LanguageRepresentation implements Serializable {
             return false;
         }
         final LanguageRepresentation other = (LanguageRepresentation)obj;
-        if (this.language != other.language) {
+        if (this.language != other.getLanguage()) {
             return false;
         }
-        if (this.useStatus != other.useStatus) {
+        if (this.useStatus != other.getUseStatus()) {
             return false;
         }
-        if (this.partOfSpeech != other.partOfSpeech) {
+        if (this.partOfSpeech != other.getPartOfSpeech()) {
             return false;
         }
-        if (this.productivity != other.productivity) {
+        if (this.productivity != other.getProductivity()) {
             return false;
         }
-        if (!Objects.equals(this.negation, other.negation)) {
+        if (!Objects.equals(this.negation, other.getNegation())) {
             return false;
         }
-        if (this.operator != other.operator) {
+        if (this.operator != other.getOperator()) {
             return false;
         }
-        if (!Objects.equals(this.text, other.text)) {
+        if (!Objects.equals(this.text, other.getText())) {
             return false;
         }
         return true;
@@ -475,15 +486,15 @@ public class LanguageRepresentation implements Serializable {
         return text + "\\" + this.partOfSpeech + " (" + language + ")";
     }
 
-    public void afterUnmarshal(Unmarshaller u, Object parent) {
-        if (!Globals.ToMergeAfterUnMarshalling) {
-            try {
-                String tmp = new String(this.getText().getBytes(), "UTF-8");
-                this.setText(tmp);
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(LanguageRepresentation.class.getName()).log(
-                        Level.SEVERE, null, ex);
-            }
-        }
-    }
+//    public void afterUnmarshal(Unmarshaller u, Object parent) {
+//        if (!Globals.ToMergeAfterUnMarshalling) {
+//            try {
+//                String tmp = new String(this.getText().getBytes(), "UTF-8");
+//                this.setText(tmp);
+//            } catch (UnsupportedEncodingException ex) {
+//                Logger.getLogger(LanguageRepresentation.class.getName()).log(
+//                        Level.SEVERE, null, ex);
+//            }
+//        }
+//    }
 }

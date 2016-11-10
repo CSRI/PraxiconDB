@@ -41,23 +41,20 @@ public class XmlUtils {
      */
     public static void exportConceptsToXML(List<Concept> conceptsList,
             String xmlFileName) {
-
         Concepts concepts = new Concepts();
-        concepts.setConcepts(new ArrayList<Concept>());
+        concepts.setConcepts(new ArrayList<>());
 
         try {
             /*
-             Get active session to update concepts. This way, we can update
-             retrieved objects directly to avoid setting EAGER fetch which
-             would criple performance during retrieval from the database.
+             * Get active session to update concepts. This way, we can update
+             * retrieved objects directly to avoid setting EAGER fetch which
+             * would criple performance during retrieval from the database.
              */
             EntityManager em = getEntityManager();
             Session session = em.unwrap(org.hibernate.Session.class);
-
             JAXBContext jaxbContext = JAXBContext.newInstance(Concepts.class);
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
             for (Concept item : conceptsList) {
                 if (!session.contains(item)) {
                     session.update(item);
@@ -65,11 +62,8 @@ public class XmlUtils {
                 concepts.getConcepts().add(item);
             }
 
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
             // Export concepts to the xml file
             marshaller.marshal(concepts, new File(xmlFileName));
-
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
@@ -91,13 +85,12 @@ public class XmlUtils {
 
         try {
             /*
-             Get active session to update concepts. This way, we can update
-             retrieved objects directly to avoid setting EAGER fetch which
-             would criple performance during retrieval from the database.
+             * Get active session to update concepts. This way, we can update
+             * retrieved objects directly to avoid setting EAGER fetch which
+             * would criple performance during retrieval from the database.
              */
             EntityManager em = getEntityManager();
             Session session = em.unwrap(org.hibernate.Session.class);
-
             JAXBContext jaxbContext = JAXBContext.newInstance(Relations.class);
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -108,12 +101,10 @@ public class XmlUtils {
                 }
                 relations.getRelations().add(item);
             }
-
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
             // Export concepts to the xml file
             marshaller.marshal(relations, new File(xmlFileName));
-
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
@@ -131,17 +122,16 @@ public class XmlUtils {
             List<RelationSet> relationSetsList, String xmlFileName) {
 
         RelationSets relationSets = new RelationSets();
-        relationSets.setRelationSets(new ArrayList<RelationSet>());
+        relationSets.setRelationSets(new ArrayList<>());
 
         try {
             /*
-             Get active session to update relation sets. This way, we can
-             update retrieved objects directly to avoid setting EAGER fetch
-             which would criple performance during retrieval from the database.
+             * Get active session to update relation sets. This way, we can
+             * update retrieved objects directly to avoid setting EAGER fetch
+             * which would criple performance during retrieval from the database.
              */
             EntityManager em = getEntityManager();
             Session session = em.unwrap(org.hibernate.Session.class);
-
             JAXBContext jaxbContext = JAXBContext.
                     newInstance(RelationSets.class);
             Marshaller marshaller = jaxbContext.createMarshaller();
@@ -153,12 +143,10 @@ public class XmlUtils {
                 }
                 relationSets.getRelationSets().add(item);
             }
-
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
             // Export relation sets to the xml file
             marshaller.marshal(relationSets, new File(xmlFileName));
-
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
@@ -174,27 +162,26 @@ public class XmlUtils {
      * @param relationsList
      * @param xmlFileName
      */
-    public static void exportAllObjectsToXML(List<RelationSet> relationSetsList,
+    public static void exportAllObjectsToXML(
+            List<RelationSet> relationSetsList,
             List<Concept> conceptsList, List<Relation> relationsList,
             String xmlFileName) {
-
         CollectionOfObjects collectionOfObjects = new CollectionOfObjects();
         RelationSets relationSets = new RelationSets();
         Concepts concepts = new Concepts();
         Relations relations = new Relations();
-        relationSets.setRelationSets(new ArrayList<RelationSet>());
-        concepts.setConcepts(new ArrayList<Concept>());
-        relations.setRelations(new ArrayList<Relation>());
+        relationSets.setRelationSets(new ArrayList<>());
+        concepts.setConcepts(new ArrayList<>());
+        relations.setRelations(new ArrayList<>());
 
         try {
             /*
-             Get active session to update relation sets. This way, we can
-             update retrieved objects directly to avoid setting EAGER fetch
-             which would criple performance during retrieval from the database.
+             * Get active session to update relation sets. This way, we can
+             * update retrieved objects directly to avoid setting EAGER fetch
+             * which would criple performance during retrieval from the database.
              */
             EntityManager em = getEntityManager();
             Session session = em.unwrap(org.hibernate.Session.class);
-
             JAXBContext jaxbContext = JAXBContext.
                     newInstance(CollectionOfObjects.class);
             Marshaller marshaller = jaxbContext.createMarshaller();
@@ -234,73 +221,83 @@ public class XmlUtils {
         }
     }
 
-    public static void importConceptsFromXml(String fullPathFileName) {
+    public static int importConceptsFromXml(String fullPathFileName) {
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(Concepts.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             File xmlFile = new File(fullPathFileName);
-
             Concepts importedConcepts =
                     (Concepts)jaxbUnmarshaller.unmarshal(xmlFile);
             importedConcepts.storeConcepts();
-
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return 1;
         }
-
+        return 0;
     }
 
-    static void importRelationsFromXml(String fullPathFileName) {
+    public static int importRelationsFromXml(String fullPathFileName) {
         try {
             JAXBContext jaxbContext = JAXBContext.
                     newInstance(Relations.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             File xmlFile = new File(fullPathFileName);
-
             Relations importedRelations = (Relations)jaxbUnmarshaller.
                     unmarshal(xmlFile);
             importedRelations.storeRelations();
-
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return 1;
         }
-
+        return 0;
     }
 
-    static void importRelationSetsFromXml(String fullPathFileName) {
+    public static int importRelationSetsFromXml(String fullPathFileName) {
         try {
             JAXBContext jaxbContext = JAXBContext.
                     newInstance(RelationSets.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             File xmlFile = new File(fullPathFileName);
-
-            RelationSets importedRelationSets = (RelationSets)jaxbUnmarshaller.
+            RelationSets importedRelationSets =
+                    (RelationSets)jaxbUnmarshaller.
                     unmarshal(xmlFile);
             importedRelationSets.storeRelationSets();
-
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return 1;
         }
-
+        return 0;
     }
 
-    static void importObjectsFromXml(String fullPathFileName) {
+    public static int importObjectsFromXml(String fullPathFileName) {
+        long startTime = System.nanoTime();
         try {
             JAXBContext jaxbContext = JAXBContext.
                     newInstance(CollectionOfObjects.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             File xmlFile = new File(fullPathFileName);
-
             CollectionOfObjects importedCollectionOfObjects =
                     (CollectionOfObjects)jaxbUnmarshaller.unmarshal(xmlFile);
-
             List<Concepts> listOfConcepts = importedCollectionOfObjects.
                     getConcepts();
             for (Concepts concepts : listOfConcepts) {
                 concepts.storeConcepts();
+            }
+
+            List<RelationSets> listOfRelationSets =
+                    importedCollectionOfObjects.
+                    getRelationSets();
+            for (RelationSets relationSets : listOfRelationSets) {
+                relationSets.storeRelationSets();
             }
 
             List<Relations> listOfRelations = importedCollectionOfObjects.
@@ -308,18 +305,21 @@ public class XmlUtils {
             for (Relations relations : listOfRelations) {
                 relations.storeRelations();
             }
-
-            List<RelationSets> listOfRelationSets = importedCollectionOfObjects.
-                    getRelationSets();
-
-            for (RelationSets relationSets : listOfRelationSets) {
-                relationSets.storeRelationSets();
-            }
-
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
         }
+//        catch (Exception e) {
+//            System.err.println(e.getMessage());
+//            return 1;
+//        }
+        long endTime = System.nanoTime();
+        long elapsedTime = endTime - startTime;
+        double minutes = (double)((elapsedTime / 1000000000.0) / 60);
+        System.out.print("XML import took: ");
+        System.out.print(minutes);
+        System.out.println(" minutes to run");
+        return 0;
     }
 
 }

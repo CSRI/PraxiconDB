@@ -20,13 +20,15 @@ public class MotoricRepresentationDaoImpl
      * Creates q query to search for a MotoricRepresentation using
      * representation
      *
-     * @param entity the MotoricRepresentation to be searched
+     * @param motoricRepresentation the MotoricRepresentation to be searched
+     *
      * @return a query to search for the MotoricRepresentation
      */
     @Override
     public Query getEntityQuery(MotoricRepresentation motoricRepresentation) {
         Query query = getEntityManager().createNamedQuery(
-                "getLanguageRepresentationEntityQuery").setParameter("comment",
+                "getLanguageRepresentationEntityQuery").
+                setParameter("comment", 
                         motoricRepresentation.getComment().toUpperCase());
         return query;
     }

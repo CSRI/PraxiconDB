@@ -13,7 +13,7 @@ import javax.persistence.Query;
  *
  * @author dmavroeidis
  */
-public class MotoricRepresentationDaoImplXML 
+public class MotoricRepresentationDaoImplXML
         extends JpaDao<Long, MotoricRepresentation>
         implements MotoricRepresentationDao {
 

@@ -15,7 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -26,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *
  * @author dmavroeidis
  */
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "concept_languagerepresentation", namespace =
         "http://www.csri.gr/concept_languagerepresentation")
 @Entity
@@ -36,8 +35,8 @@ public class Concept_LanguageRepresentation implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
+    @XmlTransient
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Concept_LanguageRepresentationId")
     private Long id;
 
@@ -45,7 +44,7 @@ public class Concept_LanguageRepresentation implements Serializable {
     private boolean isRepresentativeLanguageRepresentation;
 
     @XmlTransient
-    @ManyToOne(optional = false, cascade = {CascadeType.ALL})
+    @ManyToOne(optional = false)
     @JoinColumn(name = "ConceptId")
     private Concept concept;
 
@@ -53,7 +52,6 @@ public class Concept_LanguageRepresentation implements Serializable {
     @JoinColumn(name = "LanguageRepresentationId")
     private LanguageRepresentation languageRepresentation;
 
-    @XmlTransient
     public Long getId() {
         return id;
     }
@@ -65,12 +63,10 @@ public class Concept_LanguageRepresentation implements Serializable {
     /**
      * @return the concept.
      */
-    @XmlTransient
     public Concept getConcept() {
         return concept;
     }
 
-    @XmlTransient
     public void setConcept(Concept concept) {
         this.concept = concept;
     }
@@ -101,8 +97,10 @@ public class Concept_LanguageRepresentation implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 73 * hash + (this.isRepresentativeLanguageRepresentation ? 1 : 0);
-        hash = 73 * hash + Objects.hashCode(this.languageRepresentation);
+        hash = 73 * hash + (this.isRepresentativeLanguageRepresentation ? 1 :
+                0);
+        hash = 73 * hash + Objects.hashCode(this.getLanguageRepresentation().
+                getLanguageRepresentations());
         return hash;
     }
 
@@ -116,12 +114,13 @@ public class Concept_LanguageRepresentation implements Serializable {
         }
         final Concept_LanguageRepresentation other =
                 (Concept_LanguageRepresentation)obj;
-        if (this.isRepresentativeLanguageRepresentation !=
-                other.isRepresentativeLanguageRepresentation) {
+        if (this.isRepresentativeLanguageRepresentation != other.
+                getIsRepresentative()) {
             return false;
         }
-        if (!Objects.equals(this.languageRepresentation,
-                other.languageRepresentation)) {
+        if (!this.languageRepresentation.getLanguageRepresentations().equals(
+                other.
+                getLanguageRepresentation().getLanguageRepresentations())) {
             return false;
         }
         return true;
@@ -129,8 +128,12 @@ public class Concept_LanguageRepresentation implements Serializable {
 
     @Override
     public String toString() {
-        return "gr.csri.poeticon.praxicon.db.entities." +
-                "Concept_LanguageRepresentation[ id=" + id + " ]";
+        String conceptLanguageRepresentationString = "";
+        conceptLanguageRepresentationString += "[" +
+                this.getLanguageRepresentation().toString() + ", ";
+        conceptLanguageRepresentationString += "representative: " +
+                this.getIsRepresentative() + "]";
+        return conceptLanguageRepresentationString;
     }
 
 }

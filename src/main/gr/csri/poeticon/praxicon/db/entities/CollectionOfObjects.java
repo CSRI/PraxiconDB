@@ -11,9 +11,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author dmavroeidis
  */
-@XmlRootElement(name = "collectionOfObjects")
+@XmlRootElement(name = "collectionOfObjects", namespace =
+        "http://www.csri.gr/collectionOfObjects")
 @XmlAccessorType(XmlAccessType.FIELD)
-//@XmlSeeAlso(Concept.class)
 
 public class CollectionOfObjects {
 
@@ -58,7 +58,7 @@ public class CollectionOfObjects {
 
     /**
      * Stores all concepts of the collection in the database updating
-     * same name entries
+     * same-name entries
      */
     public void storeCollectionOfObjects() {
         for (Concepts conceptList : concepts) {

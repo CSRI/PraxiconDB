@@ -10,11 +10,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author dmavroeidis
  *
  */
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "motoric_representation",
         namespace = "http://www.csri.gr/motoric_representation")
 @Entity
@@ -54,8 +54,8 @@ public class MotoricRepresentation implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @SequenceGenerator(name = "CUST_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "CUST_SEQ")
+    @XmlTransient
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MotoricRepresentationId")
     private Long id;
 
@@ -74,11 +74,13 @@ public class MotoricRepresentation implements Serializable {
     private String comment;
 
     @XmlTransient
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(name = "concept_ConceptId")
     private Concept concept;
 
     @XmlTransient
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(name = "relationSet_RelationSetId")
     private RelationSet relationSet;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "motoricRepresentation")
@@ -87,7 +89,6 @@ public class MotoricRepresentation implements Serializable {
     public MotoricRepresentation() {
     }
 
-    @XmlTransient
     public Long getId() {
         return id;
     }
@@ -106,6 +107,28 @@ public class MotoricRepresentation implements Serializable {
 
     public void setPerformingAgent(PerformingAgent performingAgent) {
         this.performingAgent = performingAgent;
+    }
+
+    /**
+     * @return the concept related to this Motoric Representation
+     */
+    public Concept getConcept() {
+        return concept;
+    }
+
+    public void setConcept(Concept concept) {
+        this.concept = concept;
+    }
+
+    /**
+     * @return the relation set related to this Motoric Representation
+     */
+    public RelationSet getRelationSet() {
+        return relationSet;
+    }
+
+    public void setRelationSet(RelationSet relationSet) {
+        this.relationSet = relationSet;
     }
 
     public List<VisualRepresentation> getVisualRepresentation() {
@@ -165,6 +188,9 @@ public class MotoricRepresentation implements Serializable {
     }
 
     @Override
+    /*
+     * TODO: Create a realistic equals() method
+     */
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
