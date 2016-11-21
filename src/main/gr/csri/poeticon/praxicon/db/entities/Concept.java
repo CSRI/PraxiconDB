@@ -1038,13 +1038,13 @@ public class Concept implements Serializable {
             return false;
         }
         final Concept other = (Concept)obj;
-        if (!(isNull(this.name) && !isNull(other.getName()))) {
+        if (!isNull(this.name) && !isNull(other.getName())) {
             if (!this.name.equals(other.getName())) {
                 return false;
             }
         }
-        if (!(isNull(this.externalSourceId) && !isNull(other.
-                getExternalSourceId()))) {
+        if (!isNull(this.externalSourceId) && !isNull(other.
+                getExternalSourceId())) {
             if (!this.externalSourceId.equals(other.getExternalSourceId())) {
                 return false;
             }
