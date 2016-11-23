@@ -215,7 +215,7 @@ public class LanguageRepresentation implements Serializable {
     private String negation;
 
     @Column(name = "Operator")
-    //@Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private Operator operator;
 
     @Column(name = "Text")

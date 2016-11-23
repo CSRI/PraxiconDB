@@ -13,6 +13,8 @@ import java.net.URL;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -65,6 +67,7 @@ public class VisualRepresentation implements Serializable {
 
     @Column(name = "MediaType")
     @NotNull(message = "Media type must be specified.")
+    @Enumerated(EnumType.STRING)
     private MediaType mediaType;
 
     @Column(name = "Name")
