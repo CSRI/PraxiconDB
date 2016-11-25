@@ -11,6 +11,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Objects;
+import static java.util.Objects.isNull;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -248,7 +249,10 @@ public class VisualRepresentation implements Serializable {
 
     @Override
     public String toString() {
-        return "[Id=" + id + "] " + this.mediaType + " : " + this.name + " : " +
-                this.uri;
+        if (!isNull(this.name) || this.name != "") {
+            return this.name + "\\" + this.mediaType + "\\" + this.uri;
+        } else {
+            return this.mediaType + "\\" + this.uri;
+        }
     }
 }
