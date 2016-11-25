@@ -11,8 +11,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Objects;
+import static java.util.Objects.isNull;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -65,6 +68,7 @@ public class VisualRepresentation implements Serializable {
 
     @Column(name = "MediaType")
     @NotNull(message = "Media type must be specified.")
+    @Enumerated(EnumType.STRING)
     private MediaType mediaType;
 
     @Column(name = "Name")
@@ -245,7 +249,10 @@ public class VisualRepresentation implements Serializable {
 
     @Override
     public String toString() {
-        return "[Id=" + id + "] " + this.mediaType + " : " + this.name + " : " +
-                this.uri;
+        if (!isNull(this.name) || this.name != "") {
+            return this.name + "\\" + this.mediaType + "\\" + this.uri;
+        } else {
+            return this.mediaType + "\\" + this.uri;
+        }
     }
 }
