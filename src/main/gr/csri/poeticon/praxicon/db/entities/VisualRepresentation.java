@@ -249,7 +249,7 @@ public class VisualRepresentation implements Serializable {
 
     @Override
     public String toString() {
-        if (isNull(this.name) || this.name == "") {
+        if (isNull(this.name) || this.name.equas("")) {
             return this.mediaType + "\\" + this.uri;
         } else {
             return this.name + "\\" + this.mediaType + "\\" + this.uri;
