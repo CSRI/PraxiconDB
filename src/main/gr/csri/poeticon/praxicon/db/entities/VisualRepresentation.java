@@ -249,10 +249,10 @@ public class VisualRepresentation implements Serializable {
 
     @Override
     public String toString() {
-        if (!isNull(this.name) || this.name != "") {
-            return this.name + "\\" + this.mediaType + "\\" + this.uri;
-        } else {
+        if (isNull(this.name) || this.name == "") {
             return this.mediaType + "\\" + this.uri;
+        } else {
+            return this.name + "\\" + this.mediaType + "\\" + this.uri;
         }
     }
 }
