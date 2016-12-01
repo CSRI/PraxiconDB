@@ -245,7 +245,7 @@ public class RelationSets {
         if (!isNull(relationSet.getMotoricRepresentations())) {
             for (MotoricRepresentation mr : relationSet.
                     getMotoricRepresentations()) {
-                mr.setRelationSet(newRelationSet);
+//                mr.setRelationSet(newRelationSet);
                 //check if already assigned to relationset
                 if (!newRelationSet.getMotoricRepresentations().contains(mr)) {
                     newRelationSet.addMotoricRepresentation(mr);
@@ -256,7 +256,7 @@ public class RelationSets {
         if (!isNull(relationSet.getVisualRepresentations())) {
             for (VisualRepresentation vr : relationSet.
                     getVisualRepresentations()) {
-                vr.setRelationSet(newRelationSet);
+//                vr.setRelationSet(newRelationSet);
                 //check if already assigned to relationset
                 if (!newRelationSet.getVisualRepresentations().contains(vr)) {
                     newRelationSet.addVisualRepresentation(vr);
