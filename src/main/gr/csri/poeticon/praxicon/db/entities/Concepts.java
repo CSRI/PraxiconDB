@@ -66,7 +66,7 @@ public class Concepts {
         // If concept does not exist in the database, store it.
         if (retrievedConcept != null) {
             // Set new concept to retrieved one so as to update it
-            newConcept = retrievedConcept;
+            newConcept = new Concept(retrievedConcept, false, false, false);
         } else {
             newConcept = oldConcept;
         }
