@@ -119,7 +119,7 @@ public class Concepts {
         if (!concept.getMotoricRepresentations().isEmpty()) {
             for (MotoricRepresentation mr : concept.
                     getMotoricRepresentations()) {
-                mr.setConcept(newConcept);
+//                mr.setConcept(newConcept);
                 //check if already assigned to concept
                 if (!newConcept.getMotoricRepresentations().contains(mr)) {
                     newConcept.addMotoricRepresentation(mr);
@@ -130,7 +130,7 @@ public class Concepts {
         // If Visual Representations exist, add them to new concept
         if (!concept.getVisualRepresentations().isEmpty()) {
             for (VisualRepresentation vr : concept.getVisualRepresentations()) {
-                vr.setConcept(newConcept);
+//                vr.setConcept(newConcept);
                 //check if already assigned to concept
                 if (!newConcept.getVisualRepresentations().contains(vr)) {
                     newConcept.addVisualRepresentation(vr);
