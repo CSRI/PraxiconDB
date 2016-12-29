@@ -11,6 +11,8 @@ import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
 import gr.csri.poeticon.praxicon.db.entities.Concept.ConceptType;
 import static java.lang.System.out;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import static javax.persistence.Persistence.createEntityManagerFactory;
@@ -56,7 +58,8 @@ public class ConceptTest {
 
     @Before
     public void setUp() {
-        XmlUtils.importConceptsFromXml("misc/test-fixtures/ConceptsTest.xml");
+        XmlUtils.
+                importConceptsFromXml("misc/test-fixtures/ConceptsSample.xml");
     }
 
     @After
@@ -70,7 +73,7 @@ public class ConceptTest {
     @Test
     public void testGetId() {
         out.println("getId");
-        Concept instance = cDao.getConceptByExternalSourceIdExact("101579028");
+        Concept instance = cDao.getConceptByExternalSourceIdExact("107929519");
         String expResult = "5";
         String result = instance.getId().toString();
         out.println("expResult: " + expResult);
@@ -96,8 +99,8 @@ public class ConceptTest {
     @Test
     public void testGetExternalSourceId() {
         out.println("getExternalSourceId");
-        Concept instance = cDao.getConceptByNameExact("salamander%1:05:00::");
-        String expResult = "101629276";
+        Concept instance = cDao.getConceptByNameExact("cup%1:06:00::");
+        String expResult = "103147509";
         String result = instance.getExternalSourceId();
         out.println("expResult: " + expResult);
         out.println("result: " + expResult);
@@ -111,7 +114,7 @@ public class ConceptTest {
     public void testSetExternalSourceId() {
         out.println("setExternalSourceId");
         String externalSourceId = "testExternalSourceId";
-        Concept instance = cDao.getConceptByExternalSourceIdExact("101629276");
+        Concept instance = cDao.getConceptByExternalSourceIdExact("107850329");
         instance.setExternalSourceId(externalSourceId);
         String result = instance.getExternalSourceId();
         assertEquals(result, externalSourceId);
@@ -123,8 +126,8 @@ public class ConceptTest {
     @Test
     public void testGetName() {
         out.println("getName");
-        Concept instance = cDao.getConceptByExternalSourceIdExact("101670092");
-        String expResult = "tortoise%1:05:00::";
+        Concept instance = cDao.getConceptByExternalSourceIdExact("107929519");
+        String expResult = "coffee%1:13:00::";
         String result = instance.getName();
         assertEquals(expResult, result);
     }
@@ -136,7 +139,7 @@ public class ConceptTest {
     public void testSetName() {
         out.println("setName");
         String name = "testName";
-        Concept instance = cDao.getConceptByExternalSourceIdExact("101670092");
+        Concept instance = cDao.getConceptByExternalSourceIdExact("107929519");
         instance.setName(name);
         String result = instance.getName();
         assertEquals(result, name);
@@ -149,7 +152,7 @@ public class ConceptTest {
     public void testGetConceptType() {
         System.out.println("getConceptType");
         Concept instance = cDao.getConceptByExternalSourceIdExact(
-                "101743605");
+                "105564590");
         Concept.ConceptType expResult = ConceptType.ENTITY;
         Concept.ConceptType result = instance.getConceptType();
         assertEquals(expResult, result);
@@ -163,7 +166,7 @@ public class ConceptTest {
         System.out.println("setConceptType");
         Concept.ConceptType conceptType = ConceptType.MOVEMENT;
         Concept instance = cDao.getConceptByExternalSourceIdExact(
-                "101743605");
+                "201494310");
         instance.setConceptType(conceptType);
         Concept.ConceptType result = instance.getConceptType();
         assertEquals(result, conceptType);
@@ -177,7 +180,7 @@ public class ConceptTest {
         System.out.println("setConceptType");
         String conceptType = "MOVEMENT";
         Concept instance = cDao.getConceptByExternalSourceIdExact(
-                "101743605");
+                "107850329");
         instance.setConceptType(conceptType);
         String result = instance.getConceptType().toString();
         assertEquals(result, conceptType);
@@ -190,7 +193,7 @@ public class ConceptTest {
     public void testGetSpecificityLevel() {
         System.out.println("getSpecificityLevel");
         Concept instance = cDao.getConceptByExternalSourceIdExact(
-                "101743605");
+                "107850329");
         Concept.SpecificityLevel expResult =
                 Concept.SpecificityLevel.BASIC_LEVEL;
         Concept.SpecificityLevel result = instance.getSpecificityLevel();
@@ -206,7 +209,7 @@ public class ConceptTest {
         Concept.SpecificityLevel specificityLevel =
                 Concept.SpecificityLevel.BASIC_LEVEL;
         Concept instance = cDao.getConceptByExternalSourceIdExact(
-                "101743605");
+                "107712382");
         instance.setSpecificityLevel(specificityLevel);
         Concept.SpecificityLevel result = instance.getSpecificityLevel();
         assertEquals(result, specificityLevel);
@@ -221,7 +224,7 @@ public class ConceptTest {
         String specificityLevel = Concept.SpecificityLevel.BASIC_LEVEL.
                 toString();
         Concept instance = cDao.getConceptByExternalSourceIdExact(
-                "101743605");
+                "107712382");
         instance.setSpecificityLevel(specificityLevel);
         String result = instance.getSpecificityLevel().toString();
         assertEquals(result, specificityLevel);
@@ -234,8 +237,8 @@ public class ConceptTest {
     public void testGetStatus() {
         System.out.println("getStatus");
         Concept instance = cDao.getConceptByExternalSourceIdExact(
-                "101743605");
-        Concept.Status expResult = Concept.Status.CONSTANT;
+                "999999999");
+        Concept.Status expResult = Concept.Status.VARIABLE;
         Concept.Status result = instance.getStatus();
         assertEquals(expResult, result);
     }
@@ -248,7 +251,7 @@ public class ConceptTest {
         System.out.println("setStatus");
         Concept.Status status = Concept.Status.CONSTANT;
         Concept instance = cDao.getConceptByExternalSourceIdExact(
-                "101743605");
+                "999999999");
         instance.setStatus(status);
         Concept.Status result = instance.getStatus();
         assertEquals(result, status);
@@ -262,7 +265,7 @@ public class ConceptTest {
         System.out.println("setStatus");
         String status = Concept.Status.CONSTANT.toString();
         Concept instance = cDao.getConceptByExternalSourceIdExact(
-                "101743605");
+                "999999999");
         instance.setStatus(status);
         String result = instance.getStatus().toString();
         assertEquals(result, status);
@@ -275,8 +278,8 @@ public class ConceptTest {
     public void testGetPragmaticStatus() {
         System.out.println("getPragmaticStatus");
         Concept instance = cDao.getConceptByExternalSourceIdExact(
-                "101743605");
-        Concept.PragmaticStatus expResult = Concept.PragmaticStatus.CONCRETE;
+                "107602650");
+        Concept.PragmaticStatus expResult = Concept.PragmaticStatus.ABSTRACT;
         Concept.PragmaticStatus result = instance.getPragmaticStatus();
         assertEquals(expResult, result);
     }
@@ -288,9 +291,9 @@ public class ConceptTest {
     public void testSetPragmaticStatus_ConceptPragmaticStatus() {
         System.out.println("setPragmaticStatus");
         Concept.PragmaticStatus pragmaticStatus =
-                Concept.PragmaticStatus.CONCRETE;
+                Concept.PragmaticStatus.ABSTRACT;
         Concept instance = cDao.getConceptByExternalSourceIdExact(
-                "101743605");
+                "114940386");
         instance.setPragmaticStatus(pragmaticStatus);
         Concept.PragmaticStatus result = instance.getPragmaticStatus();
         assertEquals(result, pragmaticStatus);
@@ -302,9 +305,9 @@ public class ConceptTest {
     @Test
     public void testSetPragmaticStatus_String() {
         System.out.println("setPragmaticStatus");
-        String pragmaticStatus = Concept.PragmaticStatus.CONCRETE.toString();
+        String pragmaticStatus = Concept.PragmaticStatus.ABSTRACT.toString();
         Concept instance = cDao.getConceptByExternalSourceIdExact(
-                "101743605");
+                "107881800");
         instance.setPragmaticStatus(pragmaticStatus);
         String result = instance.getPragmaticStatus().toString();
         assertEquals(result, pragmaticStatus);
@@ -317,79 +320,82 @@ public class ConceptTest {
     public void testGetUniqueInstance() {
         System.out.println("getUniqueInstance");
         Concept instance = cDao.getConceptByExternalSourceIdExact(
-                "101743605");
+                "107602650");
         Concept.UniqueInstance expResult = Concept.UniqueInstance.NO;
         Concept.UniqueInstance result = instance.getUniqueInstance();
         assertEquals(expResult, result);
     }
+
+    /**
+     * Test of setUniqueInstance method, of class Concept.
+     */
+    @Test
+    public void testSetUniqueInstance() {
+        System.out.println("setUniqueInstance");
+        Concept.UniqueInstance uniqueInstance = Concept.UniqueInstance.YES;
+        Concept instance = cDao.getConceptByExternalSourceIdExact(
+                "103247620");
+        instance.setUniqueInstance(uniqueInstance);
+        Concept.UniqueInstance result = instance.getUniqueInstance();
+        assertEquals(result, uniqueInstance);
+    }
+
+    /**
+     * Test of getSource method, of class Concept.
+     */
+    @Test
+    public void testGetSource() {
+        System.out.println("getSource");
+        Concept instance = cDao.getConceptByExternalSourceIdExact(
+                "107602650");
+        String expResult = "WordNet3.0";
+        String result = instance.getSource();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of setSource method, of class Concept.
+     */
+    @Test
+    public void testSetSource() {
+        System.out.println("setSource");
+        String source = "Cognitive";
+        Concept instance = cDao.getConceptByExternalSourceIdExact(
+                "107884567");
+        instance.setSource(source);
+        String result = instance.getSource();
+        assertEquals(result, source);
+    }
+
+    /**
+     * Test of getComment method, of class Concept.
+     */
+    @Test
+    public void testGetComment() {
+        System.out.println("getComment");
+        Concept instance = cDao.getConceptByExternalSourceIdExact(
+                "107884567");
+        String expResult = "TestComment";
+        String result = instance.getComment();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of setComment method, of class Concept.
+     */
+    @Test
+    public void testSetComment() {
+        System.out.println("setComment");
+        String comment = "TestSetComment";
+        Concept instance = cDao.getConceptByExternalSourceIdExact(
+                "107931452");
+        instance.setComment(comment);
+        String result = instance.getComment();
+        assertEquals(result, comment);
+    }
 //
-//    /**
-//     * Test of setUniqueInstance method, of class Concept.
-//     */
-//    @Test
-//    public void testSetUniqueInstance() {
-//        System.out.println("setUniqueInstance");
-//        Concept.UniqueInstance uniqueInstance = null;
-//        Concept instance = new Concept();
-//        instance.setUniqueInstance(uniqueInstance);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of getSource method, of class Concept.
-//     */
-//    @Test
-//    public void testGetSource() {
-//        System.out.println("getSource");
-//        Concept instance = new Concept();
-//        String expResult = "";
-//        String result = instance.getSource();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of setSource method, of class Concept.
-//     */
-//    @Test
-//    public void testSetSource() {
-//        System.out.println("setSource");
-//        String source = "";
-//        Concept instance = new Concept();
-//        instance.setSource(source);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of getComment method, of class Concept.
-//     */
-//    @Test
-//    public void testGetComment() {
-//        System.out.println("getComment");
-//        Concept instance = new Concept();
-//        String expResult = "";
-//        String result = instance.getComment();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of setComment method, of class Concept.
-//     */
-//    @Test
-//    public void testSetComment() {
-//        System.out.println("setComment");
-//        String comment = "";
-//        Concept instance = new Concept();
-//        instance.setComment(comment);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
+
+// TODO: Enable the OntologicalDomains test when there are sufficient data.
 //    /**
 //     * Test of getOntologicalDomains method, of class Concept.
 //     */
@@ -430,21 +436,60 @@ public class ConceptTest {
 //        fail("The test case is a prototype.");
 //    }
 //
-//    /**
-//     * Test of getLanguageRepresentations method, of class Concept.
-//     */
-//    @Test
-//    public void testGetLanguageRepresentations() {
-//        System.out.println("getLanguageRepresentations");
-//        Concept instance = new Concept();
-//        List<LanguageRepresentation> expResult = null;
-//        List<LanguageRepresentation> result =
-//                instance.getLanguageRepresentations();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
+    /**
+     * Test of getLanguageRepresentations method, of class Concept.
+     */
+    @Test
+    public void testGetLanguageRepresentations() {
+        System.out.println("getLanguageRepresentations");
+        String comment = "TestSetComment";
+        Concept instance = cDao.getConceptByExternalSourceIdExact(
+                "103169390");
+        // Create the language representations
+        LanguageRepresentation languageRepresentation1 =
+                new LanguageRepresentation();
+        LanguageRepresentation languageRepresentation2 =
+                new LanguageRepresentation();
+        LanguageRepresentation languageRepresentation3 =
+                new LanguageRepresentation();
+        languageRepresentation1.
+                setLanguage(LanguageRepresentation.Language.EN);
+        languageRepresentation2.
+                setLanguage(LanguageRepresentation.Language.EN);
+        languageRepresentation3.
+                setLanguage(LanguageRepresentation.Language.EN);
+        languageRepresentation1.setUseStatus(
+                LanguageRepresentation.UseStatus.LITERAL);
+        languageRepresentation2.setUseStatus(
+                LanguageRepresentation.UseStatus.LITERAL);
+        languageRepresentation3.setUseStatus(
+                LanguageRepresentation.UseStatus.LITERAL);
+        languageRepresentation1.setPartOfSpeech(
+                LanguageRepresentation.PartOfSpeech.NOUN);
+        languageRepresentation2.setPartOfSpeech(
+                LanguageRepresentation.PartOfSpeech.NOUN);
+        languageRepresentation3.setPartOfSpeech(
+                LanguageRepresentation.PartOfSpeech.NOUN);
+        languageRepresentation1.setOperator(
+                LanguageRepresentation.Operator.NONE);
+        languageRepresentation2.setOperator(
+                LanguageRepresentation.Operator.NONE);
+        languageRepresentation3.setOperator(
+                LanguageRepresentation.Operator.NONE);
+        languageRepresentation1.setText("decoration");
+        languageRepresentation2.setText("ornament");
+        languageRepresentation3.setText("ornamentation");
+        List<LanguageRepresentation> expResult = new ArrayList<>();
+        expResult.add(languageRepresentation1);
+        expResult.add(languageRepresentation2);
+        expResult.add(languageRepresentation3);
+        
+        // Check if they are the same as the retrieved.
+        List<LanguageRepresentation> result =
+                instance.getLanguageRepresentations();
+        assertEquals(expResult, result);
+    }
+
 //    /**
 //     * Test of getConcept_LanguageRepresentation method, of class Concept.
 //     */

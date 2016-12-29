@@ -47,7 +47,7 @@ public class ConceptDaoImplTest {
 
     @Before
     public void setUp() {
-        XmlUtils.importConceptsFromXml("misc/test-fixtures/ConceptsTest.xml");
+        XmlUtils.importConceptsFromXml("misc/test-fixtures/ConceptsSample.xml");
     }
 
     @After
@@ -61,7 +61,7 @@ public class ConceptDaoImplTest {
     public void testGetAllConcepts() {
         System.out.println("getAllConcepts");
         ConceptDaoImpl instance = new ConceptDaoImpl();
-        int expResult = 24;
+        int expResult = 51;
         int result = instance.getAllConcepts().size();
         assertEquals(expResult, result);
     }
@@ -73,47 +73,43 @@ public class ConceptDaoImplTest {
     public void testGetConcept() {
         System.out.println("getConcept");
         Concept concept = new Concept();
+        concept.setExternalSourceId("107695965");
+        concept.setName("sandwich%1:13:00::");
         concept.setConceptType(Concept.ConceptType.ENTITY);
-        concept.setExternalSourceId("101667778");
-        concept.setName("terrapin%1:05:00::");
-        concept.setPragmaticStatus(Concept.PragmaticStatus.UNKNOWN);
-        concept.setSpecificityLevel(Concept.SpecificityLevel.BASIC_LEVEL);
+        concept.setPragmaticStatus(Concept.PragmaticStatus.CONCRETE);
+        concept.setSpecificityLevel(Concept.SpecificityLevel.SUBORDINATE);
         concept.setStatus(Concept.Status.CONSTANT);
         concept.setUniqueInstance(Concept.UniqueInstance.NO);
         ConceptDaoImpl instance = new ConceptDaoImpl();
-        String expResult = "terrapin";
+        String expResult = "sandwich";
         String result = instance.getConcept(concept).
                 getFirstLanguageRepresentationName();
         assertEquals(expResult, result);
     }
-//
-//    /**
-//     * Test of getAllBasicLevelConcepts method, of class ConceptDaoImpl.
-//     */
-//    @Test
-//    public void testGetAllBasicLevelConcepts() {
-//        System.out.println("getAllBasicLevelConcepts");
-//        ConceptDaoImpl instance = new ConceptDaoImpl();
-//        List<Concept> expResult = null;
-//        List<Concept> result = instance.getAllBasicLevelConcepts();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of getAllNonBasicLevelConcepts method, of class ConceptDaoImpl.
-//     */
-//    @Test
-//    public void testGetAllNonBasicLevelConcepts() {
-//        System.out.println("getAllNonBasicLevelConcepts");
-//        ConceptDaoImpl instance = new ConceptDaoImpl();
-//        List<Concept> expResult = null;
-//        List<Concept> result = instance.getAllNonBasicLevelConcepts();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+
+    /**
+     * Test of getAllBasicLevelConcepts method, of class ConceptDaoImpl.
+     */
+    @Test
+    public void testGetAllBasicLevelConcepts() {
+        System.out.println("getAllBasicLevelConcepts");
+        ConceptDaoImpl instance = new ConceptDaoImpl();
+        int expResult = 10;
+        int result = instance.getAllBasicLevelConcepts().size();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getAllNonBasicLevelConcepts method, of class ConceptDaoImpl.
+     */
+    @Test
+    public void testGetAllNonBasicLevelConcepts() {
+        System.out.println("getAllNonBasicLevelConcepts");
+        ConceptDaoImpl instance = new ConceptDaoImpl();
+        int expResult = 41;
+        int result = instance.getAllNonBasicLevelConcepts().size();
+        assertEquals(expResult, result);
+    }
 //
 //    /**
 //     * Test of getConceptByConceptId method, of class ConceptDaoImpl.
