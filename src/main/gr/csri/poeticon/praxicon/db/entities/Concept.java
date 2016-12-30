@@ -731,10 +731,7 @@ public class Concept implements Serializable {
             getConceptLanguageRepresentationsEntries() {
         List<Concept_LanguageRepresentation> languageRepresentationEntries =
                 this.getConcept_LanguageRepresentation();
-        if (!isNull(languageRepresentationEntries)) {
-            if (!languageRepresentationEntries.isEmpty()) {
-                return new ArrayList<>(languageRepresentationEntries);
-            }
+        if (!languageRepresentationEntries.isEmpty()) {
             return new ArrayList<>(languageRepresentationEntries);
         } else {
             return new ArrayList<>();
