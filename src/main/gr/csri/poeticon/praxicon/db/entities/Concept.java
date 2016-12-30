@@ -33,7 +33,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 
 /**
@@ -713,9 +712,8 @@ public class Concept implements Serializable {
      *
      */
     public final List<Concept_LanguageRepresentation>
-            getConceptLanguageRepresentation() {
-        Hibernate.initialize(languageRepresentations);
-        return new ArrayList<>(languageRepresentations);
+            getConcept_LanguageRepresentation() {
+        return languageRepresentations;
     }
 
     public void setConcept_LanguageRepresentation(
@@ -732,12 +730,10 @@ public class Concept implements Serializable {
     public List<Concept_LanguageRepresentation>
             getConceptLanguageRepresentationsEntries() {
         List<Concept_LanguageRepresentation> languageRepresentationEntries =
-                new ArrayList<>();
-        if (!isNull(this.getConceptLanguageRepresentation()) && !this.
-                getConceptLanguageRepresentation().isEmpty()) {
-            for (Concept_LanguageRepresentation languageRepresentation
-                    : this.getConceptLanguageRepresentation()) {
-                languageRepresentationEntries.add(languageRepresentation);
+                this.getConcept_LanguageRepresentation();
+        if (!isNull(languageRepresentationEntries)) {
+            if (!languageRepresentationEntries.isEmpty()) {
+                return new ArrayList<>(languageRepresentationEntries);
             }
             return new ArrayList<>(languageRepresentationEntries);
         } else {
@@ -825,8 +821,6 @@ public class Concept implements Serializable {
      *         Representations of the Concept.
      */
     public List<String> getLanguageRepresentationsAndRepresentative() {
-        EntityManager em = getEntityManager();
-        Session session = em.unwrap(org.hibernate.Session.class);
         List<Concept_LanguageRepresentation> clrs = this.
                 getConceptLanguageRepresentationsEntries();
         List<String> lrNamesAndRepresentative = new ArrayList<>();
@@ -1064,24 +1058,18 @@ public class Concept implements Serializable {
         if (!this.uniqueInstance.equals(other.getUniqueInstance())) {
             return false;
         }
-        /*
-         * TODO: Remember to sort this list before comparing. Maybe in
-         * "getLanguageRepresentations()".
-         * Also, implement the Comparable interface for LanguageRepresentation
-         * to make implementation cleaner.
-         */
-        if (!(this.getConceptLanguageRepresentation().isEmpty()) || (other.
-                getLanguageRepresentationsAndRepresentative().isEmpty())) {
-            if (!this.getLanguageRepresentationsAndRepresentative().toString().
-                    equals(other.getLanguageRepresentationsAndRepresentative().
-                            toString())) {
-                return false;
-            }
+        if (!this.languageRepresentations.equals(other.
+                getConcept_LanguageRepresentation())) {
+            return false;
         }
-
-        /*
-         * TODO: Do the same for Motoric and Visual Representations
-         */
+        if (!this.visualRepresentations.equals(other.
+                getVisualRepresentations())) {
+            return false;
+        }
+        if (!this.motoricRepresentations.equals(other.
+                getMotoricRepresentations())) {
+            return false;
+        }
         if (!this.getOntologicalDomains().toString().equals(other.
                 getOntologicalDomains().toString())) {
             return false;
