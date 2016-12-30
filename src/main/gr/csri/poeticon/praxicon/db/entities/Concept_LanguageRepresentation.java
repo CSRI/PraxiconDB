@@ -118,9 +118,8 @@ public class Concept_LanguageRepresentation implements Serializable {
                 getIsRepresentative()) {
             return false;
         }
-        if (!this.languageRepresentation.getLanguageRepresentations().equals(
-                other.
-                getLanguageRepresentation().getLanguageRepresentations())) {
+        if (!this.languageRepresentation.equals(other.
+                getLanguageRepresentation())) {
             return false;
         }
         return true;

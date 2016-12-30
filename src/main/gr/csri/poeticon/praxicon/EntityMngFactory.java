@@ -1,5 +1,7 @@
 package gr.csri.poeticon.praxicon;
 
+import java.util.Arrays;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -7,7 +9,7 @@ import javax.persistence.EntityManagerFactory;
  *
  * @author dmavroeidis
  *
- * This class administrates everything that have to do with the Entity Manager
+ * This class administrates everything that has to do with the Entity Manager
  */
 public class EntityMngFactory {
 
@@ -21,13 +23,20 @@ public class EntityMngFactory {
      */
     private static EntityManager em = null;
 
-    /**
-     * It was used by the singleton pattern, but we didn't use this pattern
-     * after all
-     */
     private static void createEntityMngFactory() {
+        /*
+         * Check the environment (testing or production) and choose
+         * the appropriate persistence unit.
+         */
+        String persistenceUnit;
+        if (inUnitTest()) {
+            persistenceUnit = Globals.JpaPUDerbyTest;
+        } else {
+            persistenceUnit = Globals.JpaPU;
+        }
+
         emf = javax.persistence.Persistence.createEntityManagerFactory(
-                Globals.JpaPU);
+                persistenceUnit);
         em = emf.createEntityManager();
     }
 
@@ -57,6 +66,23 @@ public class EntityMngFactory {
      * It closes the Entity Manager
      */
     public static void close() {
-        em = null;
+        em.close();
+//        em = null;
+    }
+
+    public static boolean inUnitTest() {
+        /*
+         * Addopted from http://stackoverflow.com/questions/2341943/
+         * how-can-i-find-out-if-code-is-running-inside-a-junit-test-or-not
+         */
+        StackTraceElement[] stackTrace = Thread.currentThread().
+                getStackTrace();
+        List<StackTraceElement> list = Arrays.asList(stackTrace);
+        for (StackTraceElement element : list) {
+            if (element.getClassName().startsWith("org.junit.")) {
+                return true;
+            }
+        }
+        return false;
     }
 }

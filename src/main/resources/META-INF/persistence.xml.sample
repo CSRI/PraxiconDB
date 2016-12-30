@@ -20,4 +20,27 @@
             <property name="javax.persistence.jdbc.password" value=""/>
         </properties>
     </persistence-unit>
+    <persistence-unit name="PraxiconDBPUDerbyTest" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>gr.csri.poeticon.praxicon.db.entities.Concept</class>
+        <class>gr.csri.poeticon.praxicon.db.entities.Concept_LanguageRepresentation</class>
+        <class>gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation</class>
+        <class>gr.csri.poeticon.praxicon.db.entities.MotoricRepresentation</class>
+        <class>gr.csri.poeticon.praxicon.db.entities.OntologicalDomain</class>
+        <class>gr.csri.poeticon.praxicon.db.entities.Relation</class>
+        <class>gr.csri.poeticon.praxicon.db.entities.RelationArgument</class>
+        <class>gr.csri.poeticon.praxicon.db.entities.RelationSet</class>
+        <class>gr.csri.poeticon.praxicon.db.entities.RelationSet_Relation</class>
+        <class>gr.csri.poeticon.praxicon.db.entities.RelationType</class>
+        <class>gr.csri.poeticon.praxicon.db.entities.VisualRepresentation</class>
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:derby:memory:test;create=true"/>
+            <property name="javax.persistence.jdbc.default_schema" value="test"/>
+            <property name="javax.persistence.jdbc.user" value="APP"/>
+            <property name="javax.persistence.jdbc.password" value=""/>
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create" />
+        </properties>
+    </persistence-unit>
 </persistence>

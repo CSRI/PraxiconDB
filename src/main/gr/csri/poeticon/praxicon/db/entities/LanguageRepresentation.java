@@ -357,9 +357,9 @@ public class LanguageRepresentation implements Serializable {
 
     public List<LanguageRepresentation> getLanguageRepresentations() {
         List<LanguageRepresentation> languageRepresentationsList =
-                new ArrayList<>();
+                LanguageRepresentation.languageRepresentations;
         for (LanguageRepresentation languageRepresentation
-                : LanguageRepresentation.languageRepresentations) {
+                : languageRepresentationsList) {
             languageRepresentationsList.add(languageRepresentation);
         }
         return languageRepresentationsList;

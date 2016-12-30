@@ -17,6 +17,7 @@ public class Globals {
      * The JPA persistence unit name
      */
     public static String JpaPU = "PraxiconDBPU";
+    public static String JpaPUDerbyTest = "PraxiconDBPUDerbyTest";
 
     /**
      * Flag to mark if the objects that have been loaded from an xml are going
