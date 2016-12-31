@@ -188,22 +188,28 @@ public class XmlUtils {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
             for (RelationSet item : relationSetsList) {
-                if (!session.contains(item)) {
-                    session.update(item);
+                if (!relationSetsList.contains(item)) {
+                    if (!session.contains(item)) {
+                        session.update(item);
+                    }
+                    relationSets.getRelationSets().add(item);
                 }
-                relationSets.getRelationSets().add(item);
             }
             for (Concept item : conceptsList) {
-                if (!session.contains(item)) {
-                    session.update(item);
+                if (!conceptsList.contains(item)) {
+                    if (!session.contains(item)) {
+                        session.update(item);
+                    }
+                    concepts.getConcepts().add(item);
                 }
-                concepts.getConcepts().add(item);
             }
             for (Relation item : relationsList) {
-                if (!session.contains(item)) {
-                    session.update(item);
+                if (!relationsList.contains(item)) {
+                    if (!session.contains(item)) {
+                        session.update(item);
+                    }
+                    relations.getRelations().add(item);
                 }
-                relations.getRelations().add(item);
             }
 
             collectionOfObjects.getConcepts().add(concepts);
