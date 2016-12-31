@@ -56,10 +56,12 @@ public class XmlUtils {
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             for (Concept item : conceptsList) {
-                if (!session.contains(item)) {
-                    session.update(item);
+                if (!conceptsList.contains(item)) {
+                    if (!session.contains(item)) {
+                        session.update(item);
+                    }
+                    concepts.getConcepts().add(item);
                 }
-                concepts.getConcepts().add(item);
             }
 
             // Export concepts to the xml file
@@ -96,10 +98,12 @@ public class XmlUtils {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
             for (Relation item : relationsList) {
-                if (!session.contains(item)) {
-                    session.update(item);
+                if (!relationsList.contains(item)) {
+                    if (!session.contains(item)) {
+                        session.update(item);
+                    }
+                    relations.getRelations().add(item);
                 }
-                relations.getRelations().add(item);
             }
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
@@ -138,10 +142,12 @@ public class XmlUtils {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
             for (RelationSet item : relationSetsList) {
-                if (!session.contains(item)) {
-                    session.update(item);
+                if (!relationSetsList.contains(item)) {
+                    if (!session.contains(item)) {
+                        session.update(item);
+                    }
+                    relationSets.getRelationSets().add(item);
                 }
-                relationSets.getRelationSets().add(item);
             }
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
