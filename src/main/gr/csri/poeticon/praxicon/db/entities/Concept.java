@@ -1040,22 +1040,24 @@ public class Concept implements Serializable {
         if (!this.uniqueInstance.equals(other.getUniqueInstance())) {
             return false;
         }
-        if (!this.languageRepresentations.equals(other.
-                getConcept_LanguageRepresentation())) {
+        if (!this.getLanguageRepresentationsAndRepresentative().equals(other.
+                getLanguageRepresentationsAndRepresentative())) {
             return false;
         }
-        if (!this.visualRepresentations.equals(other.
-                getVisualRepresentations())) {
-            return false;
-        }
-        if (!this.motoricRepresentations.equals(other.
-                getMotoricRepresentations())) {
-            return false;
-        }
-        if (!this.ontologicalDomains.toString().equals(other.
-                getOntologicalDomains().toString())) {
-            return false;
-        }
+
+//        if (!this.visualRepresentations.equals(other.
+//                getVisualRepresentations())) {
+//            return false;
+//        }
+//        if (!this.motoricRepresentations.equals(other.
+//                getMotoricRepresentations())) {
+//            return false;
+//        }
+        // TODO: Temporarily disabled until true Ontological Domain data 
+//        if (!this.ontologicalDomains.toString().equals(other.
+//                getOntologicalDomains().toString())) {
+//            return false;
+//        }
         return true;
     }
 
