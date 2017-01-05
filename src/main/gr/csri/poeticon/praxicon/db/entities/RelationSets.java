@@ -11,8 +11,10 @@ import gr.csri.poeticon.praxicon.db.dao.RelationSetDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.LanguageRepresentationDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationSetDaoImpl;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import static java.util.Objects.isNull;
+import java.util.Set;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -27,18 +29,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class RelationSets {
 
     @XmlElement(name = "relationSet")
-    List<RelationSet> relationSets = new ArrayList<>();
+    Set<RelationSet> relationSets = new LinkedHashSet<>();
 
-    public List<RelationSet> getRelationSets() {
+    public Set<RelationSet> getRelationSets() {
         return relationSets;
     }
 
-    public void setRelationSets(List<RelationSet> relationSets) {
+    public void setRelationSets(Set<RelationSet> relationSets) {
         this.relationSets = relationSets;
     }
 
     public RelationSets() {
-        relationSets = new ArrayList<>();
+        relationSets = new LinkedHashSet<>();
     }
 
     /**
@@ -75,41 +77,41 @@ public class RelationSets {
          * Algorithm for storing relation sets:
          * ------------------------------------
          * 0. Set both hasRelations and hasLanguageRepresentations flags
-         *    to FALSE.
+         * to FALSE.
          * 1. Check if relation set contains relations. If yes,
-         *    set hasRelations flag to TRUE.
+         * set hasRelations flag to TRUE.
          * 2. Check if relation set contains language representations.
-         *    If yes, set hasLanguageRepresentations flag to TRUE.
+         * If yes, set hasLanguageRepresentations flag to TRUE.
          * 3. Check LRs/VRs/MRs to update new RelationSet.
-         *     3.1. For LRs, keep a list of existing Lrs in the db (used for
-         *         the relationset with no relations.
+         * 3.1. For LRs, keep a list of existing Lrs in the db (used for
+         * the relationset with no relations.
          * 4. If hasRelations==TRUE:
-         *     4.1. Create a new Relation Set.
-         *     4.2. Check if the Relation Set exists in the database.
-         *         4.2.1. If it exists, merge it and return it.
-         *         4.2.2. If it doesn't:
-         *             4.2.2.1. For each relation in the relation set:
-         *                 4.2.2.1.1. Try to retrieve it from the database.
-         *                 4.2.2.1.2. If it exists, merge and add it to the
-         *                            new relation set.
-         *                 4.2.2.1.3. If it doesn't exist, store it and
-         *                            add it to the new relation set.
-         *             4.2.2.2. Get Relation Set Candidates that have
-         *                      first relation of new RelationSet.
-         *             4.2.2.3. Compare each candidate to new RelationSet
-         *                      using contained Relations.
-         *             4.2.2.4. If found same RelationSet,
-         *                      set new Relation Set to retrieved candidate.
+         * 4.1. Create a new Relation Set.
+         * 4.2. Check if the Relation Set exists in the database.
+         * 4.2.1. If it exists, merge it and return it.
+         * 4.2.2. If it doesn't:
+         * 4.2.2.1. For each relation in the relation set:
+         * 4.2.2.1.1. Try to retrieve it from the database.
+         * 4.2.2.1.2. If it exists, merge and add it to the
+         * new relation set.
+         * 4.2.2.1.3. If it doesn't exist, store it and
+         * add it to the new relation set.
+         * 4.2.2.2. Get Relation Set Candidates that have
+         * first relation of new RelationSet.
+         * 4.2.2.3. Compare each candidate to new RelationSet
+         * using contained Relations.
+         * 4.2.2.4. If found same RelationSet,
+         * set new Relation Set to retrieved candidate.
          * 5. If hasRelations==FALSE:
-         *     5.1. If some of the Lrs existed in the database:
-         *         5.1.1. Get Relation Set Candidates that have as Lr one of
-         *                the existing Lrs.
-         *         5.1.2. Check if any of them is a relationSet whithout
-         *                relations.
-         *         5.1.3. If found empty RelationSet,
-         *                set new Relation Set to retrieved candidate.
+         * 5.1. If some of the Lrs existed in the database:
+         * 5.1.1. Get Relation Set Candidates that have as Lr one of
+         * the existing Lrs.
+         * 5.1.2. Check if any of them is a relationSet whithout
+         * relations.
+         * 5.1.3. If found empty RelationSet,
+         * set new Relation Set to retrieved candidate.
          * 6. If RelationSet was retrieved, update it, else save the new
-         *    RelationSet.
+         * RelationSet.
          */
         boolean foundRelations = false;
         boolean foundLanguageRepresentations = false;
@@ -178,9 +180,10 @@ public class RelationSets {
                 newRelationSet.addRelation(newRelation);
             }
 
-            List<RelationSet> relationSetCandidates =
+            Set<RelationSet> relationSetCandidates =
                     rsDao.getRelationSetsByRelation(
-                            newRelationSet.getRelationsList().get(0));
+                            newRelationSet.getRelationsList().iterator().
+                            next());
 
             for (RelationSet rsc : relationSetCandidates) {
                 boolean foundMatch = false;
@@ -216,7 +219,7 @@ public class RelationSets {
         } else {
             for (LanguageRepresentation existingLanguageRepresentation
                     : existingLanguageRepresentations) {
-                List<RelationSet> relationSetCandidates =
+                Set<RelationSet> relationSetCandidates =
                         existingLanguageRepresentation.getRelationSets();
                 for (RelationSet relationSetCandidate : relationSetCandidates) {
                     if (relationSetCandidate.getRelationsList().isEmpty()) {

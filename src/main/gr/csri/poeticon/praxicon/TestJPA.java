@@ -25,6 +25,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.EntityManager;
@@ -138,7 +139,7 @@ public class TestJPA {
             System.out.println("caught URI error");
             System.out.println(Arrays.toString(error_uri.getStackTrace()));
         };
-        visualRepresentation1.setURI(new_uri);
+        visualRepresentation1.setUri(new_uri);
         concept1.addVisualRepresentation(visualRepresentation1);
 
         VisualRepresentation visualRepresentation2 =
@@ -154,7 +155,7 @@ public class TestJPA {
             System.out.println("caught URI error");
             System.out.println(Arrays.toString(error_uri.getStackTrace()));
         };
-        visualRepresentation2.setURI(new_uri);
+        visualRepresentation2.setUri(new_uri);
         concept2.addVisualRepresentation(visualRepresentation2);
 
         /*
@@ -209,8 +210,8 @@ public class TestJPA {
          * Create an ordered RelationSet
          */
         RelationSet relationSet2 = new RelationSet();
-        List<LanguageRepresentation> languageRepresentations2 =
-                new ArrayList<>();
+        Set<LanguageRepresentation> languageRepresentations2 =
+                new LinkedHashSet<>();
         languageRepresentations2.add(languageRepresentation3);
         relationSet2.setLanguageRepresentations(languageRepresentations2);
         relationSet2.setName("NewRelationSet2");

@@ -10,7 +10,7 @@ import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import gr.csri.poeticon.praxicon.db.entities.RelationSet;
-import java.util.List;
+import java.util.Set;
 import javax.persistence.Query;
 
 /**
@@ -21,16 +21,16 @@ public class RelationSetDaoImplXML extends JpaDao<Long, RelationSet>
         implements RelationSetDao {
 
     @Override
-    public List<RelationSet> getRelationSetsByRelationArgument(
+    public Set<RelationSet> getRelationSetsByRelationArgument(
             RelationArgument relationArgument) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public List<RelationSet> getRelationSetsByConcept(Concept concept) {
+    public Set<RelationSet> getRelationSetsByConcept(Concept concept) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public List<RelationSet> getRelationSetsByRelation(Relation relation) {
+    public Set<RelationSet> getRelationSetsByRelation(Relation relation) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -79,13 +79,13 @@ public class RelationSetDaoImplXML extends JpaDao<Long, RelationSet>
     }
 
     @Override
-    public List<RelationSet> getRelationSetsWithRelationArgumentAsRightArgument(
+    public Set<RelationSet> getRelationSetsWithRelationArgumentAsRightArgument(
             RelationArgument relationArgument) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<RelationSet> getRelationSetsWithConceptAsRightArgument(
+    public Set<RelationSet> getRelationSetsWithConceptAsRightArgument(
             Concept concept) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -96,7 +96,7 @@ public class RelationSetDaoImplXML extends JpaDao<Long, RelationSet>
     }
 
     @Override
-    public List<RelationSet> getRelationSetsWithRelationArgumentAsLeftArgument(
+    public Set<RelationSet> getRelationSetsWithRelationArgumentAsLeftArgument(
             RelationArgument relationArgument) {
         throw new UnsupportedOperationException("Not supported yet.");
     }

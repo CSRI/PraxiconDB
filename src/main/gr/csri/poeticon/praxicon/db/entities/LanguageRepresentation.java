@@ -5,10 +5,11 @@
 package gr.csri.poeticon.praxicon.db.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import static java.util.Objects.isNull;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -227,7 +228,7 @@ public class LanguageRepresentation implements Serializable {
 
     @XmlTransient
     @OneToMany(mappedBy = "languageRepresentation")
-    private List<Concept_LanguageRepresentation> concepts;
+    private Set<Concept_LanguageRepresentation> concepts;
 
     @XmlTransient
     @ManyToMany()
@@ -238,7 +239,7 @@ public class LanguageRepresentation implements Serializable {
             inverseJoinColumns = {
                 @JoinColumn(name = "RelationSetId")}
     )
-    private List<RelationSet> relationSets;
+    private Set<RelationSet> relationSets;
 
     public LanguageRepresentation() {
         language = Language.EN;
@@ -355,14 +356,14 @@ public class LanguageRepresentation implements Serializable {
         return false;
     }
 
-    public List<LanguageRepresentation> getLanguageRepresentations() {
+    public Set<LanguageRepresentation> getLanguageRepresentations() {
         List<LanguageRepresentation> languageRepresentationsList =
                 LanguageRepresentation.languageRepresentations;
         for (LanguageRepresentation languageRepresentation
                 : languageRepresentationsList) {
             languageRepresentationsList.add(languageRepresentation);
         }
-        return languageRepresentationsList;
+        return new LinkedHashSet<>(languageRepresentationsList);
     }
 
     public void setLanguageRepresentations(
@@ -371,8 +372,8 @@ public class LanguageRepresentation implements Serializable {
                 languageRepresentations;
     }
 
-    public List<Concept> getConcepts() {
-        List<Concept> languageRepresentationConcepts = new ArrayList<>();
+    public Set<Concept> getConcepts() {
+        Set<Concept> languageRepresentationConcepts = new LinkedHashSet<>();
         for (LanguageRepresentation languageRepresentation
                 : LanguageRepresentation.languageRepresentations) {
             for (Concept concept : languageRepresentation.getConcepts()) {
@@ -384,9 +385,9 @@ public class LanguageRepresentation implements Serializable {
         return languageRepresentationConcepts;
     }
 
-    public List<RelationSet> getRelationSets() {
-        List<RelationSet> languageRepresentationRelationSets =
-                new ArrayList<>();
+    public Set<RelationSet> getRelationSets() {
+        Set<RelationSet> languageRepresentationRelationSets =
+                new LinkedHashSet<>();
         if (!isNull(relationSets)) {
             languageRepresentationRelationSets.addAll(relationSets);
         }

@@ -22,6 +22,7 @@ import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -56,7 +57,7 @@ public class CreateNewBLRelations {
         long startTime = System.nanoTime();
 
         // Get all concepts
-        List<Concept> concepts = cDao.getAllConcepts();
+        Set<Concept> concepts = cDao.getAllConcepts();
         long endTime = System.nanoTime();
         System.out.print("\n\n\nFinished getting concepts in ");
         System.out.print((endTime - startTime) / 1000000000);
@@ -71,7 +72,7 @@ public class CreateNewBLRelations {
         startTime = System.nanoTime();
         // For each concept, get its basic level
         for (Concept concept : concepts) {
-            List<Map.Entry<Concept, ConceptDaoImpl.Direction>> basicLevelConcepts =
+            Set<Map.Entry<Concept, ConceptDaoImpl.Direction>> basicLevelConcepts =
                     cDao.getBasicLevelConceptsOld(concept);
 
             counter += 1;
@@ -135,7 +136,7 @@ public class CreateNewBLRelations {
         // Get concepts from the database
         long startTime = System.nanoTime();
         System.out.println("\n\n\nGetting concepts...");
-        List<Concept> concepts = cDao.getAllConcepts();
+        Set<Concept> concepts = cDao.getAllConcepts();
         long endTime = System.nanoTime();
         System.out.print("\n\n\nFinished getting concepts in ");
         System.out.print((endTime - startTime) / 1000000000);
@@ -144,7 +145,7 @@ public class CreateNewBLRelations {
         // Get relation arguments from the database
         startTime = System.nanoTime();
         System.out.println("\n\n\nGetting relation arguments...");
-        List<RelationArgument> relationArguments = new ArrayList<>();
+        Set<RelationArgument> relationArguments = new LinkedHashSet<>();
         relationArguments = raDao.getAllRelationArguments();
         endTime = System.nanoTime();
         System.out.print("\n\n\nFinished getting relation arguments in ");
@@ -159,7 +160,7 @@ public class CreateNewBLRelations {
         // Get relations from the database
         startTime = System.nanoTime();
         System.out.print("\n\n\nGetting relations...");
-        List<Relation> relationsTypeToken = rDao.getRelationsByRelationType(
+        Set<Relation> relationsTypeToken = rDao.getRelationsByRelationType(
                 RelationType.RelationNameForward.TYPE_TOKEN);
         endTime = System.nanoTime();
         System.out.print("\n\n\nFinished getting relations in ");
@@ -207,7 +208,6 @@ public class CreateNewBLRelations {
         if (cDao.getEntityManager().isOpen()) {
             cDao.close();
         }
-
         if (rDao.getEntityManager().isOpen()) {
             rDao.close();
         }

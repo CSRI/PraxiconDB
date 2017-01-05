@@ -168,7 +168,7 @@ public class Utils {
 
                     VisualRepresentation vr = new VisualRepresentation(
                             VisualRepresentation.MediaType.IMAGE, imageNetId);
-                    vr.setURI(url);
+                    vr.setUri(url);
                     vr.setConcept(concept);
                     vr.setSource("ImageNet_fall_2011");
                     vrDao.merge(vr);

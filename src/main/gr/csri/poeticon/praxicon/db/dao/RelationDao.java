@@ -8,7 +8,7 @@ import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
-import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -20,37 +20,37 @@ public interface RelationDao extends Dao<Long, Relation> {
             RelationArgument rightArgument,
             RelationType.RelationNameForward relationType);
 
-    List<Relation> getAllRelationsOfConcept(Concept concept);
+    Set<Relation> getAllRelationsOfConcept(Concept concept);
 
     boolean areRelated(Concept concept1, Concept concept2);
 
-    List<Relation> getRelationsByConceptRelationType(
+    Set<Relation> getRelationsByConceptRelationType(
             Concept concept, RelationType.RelationNameForward relationType);
 
-    List<Relation> getRelationsByLeftConceptTypeOfRelation(
+    Set<Relation> getRelationsByLeftConceptTypeOfRelation(
             Concept concept, RelationType.RelationNameForward relationType);
 
-    List<Relation> getRelationsByRightConceptTypeOfRelation(
+    Set<Relation> getRelationsByRightConceptTypeOfRelation(
             Concept concept, RelationType.RelationNameForward relationType);
 
-    List<Relation> getRelationsByRelationType(
+    Set<Relation> getRelationsByRelationType(
             RelationType.RelationNameForward relationType);
 
-    List<Relation> getAllRelationsOfRelationArgument(
+    Set<Relation> getAllRelationsOfRelationArgument(
             RelationArgument relationArgument);
 
     boolean areRelated(RelationArgument relationArgument1,
             RelationArgument relationArgument2);
 
-    List<Relation> getRelationsByRelationArgumentRelationType(
+    Set<Relation> getRelationsByRelationArgumentRelationType(
             RelationArgument relationArgument,
             RelationType.RelationNameForward relationType);
 
-    List<Relation> getRelationsByLeftRelationArgumentTypeOfRelation(
+    Set<Relation> getRelationsByLeftRelationArgumentTypeOfRelation(
             RelationArgument relationArgument,
             RelationType.RelationNameForward relationType);
 
-    List<Relation> getRelationsByRightRelationArgumentTypeOfRelation(
+    Set<Relation> getRelationsByRightRelationArgumentTypeOfRelation(
             RelationArgument relationArgument,
             RelationType.RelationNameForward relationType);
 
