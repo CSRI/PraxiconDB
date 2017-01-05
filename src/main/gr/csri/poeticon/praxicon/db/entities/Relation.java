@@ -287,7 +287,7 @@ public class Relation implements Serializable {
             return false;
         }
         final Relation other = (Relation)obj;
-        if (!this.relationType.equals(other.relationType)) {
+        if (!this.getRelationType().equals(other.getRelationType())) {
             return false;
         }
         if (!this.getLeftArgument().equals(other.getLeftArgument())) {
@@ -296,11 +296,11 @@ public class Relation implements Serializable {
         if (!this.getRightArgument().equals(other.getRightArgument())) {
             return false;
         }
-        if (!this.linguisticallySupported.
-                equals(other.linguisticallySupported)) {
+        if (!this.getLinguisticallySupported().
+                equals(other.getLinguisticallySupported())) {
             return false;
         }
-        if (!this.inferred.equals(other.inferred)) {
+        if (!this.getInferred().equals(other.getInferred())) {
             return false;
         }
         return true;

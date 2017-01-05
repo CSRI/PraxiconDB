@@ -36,9 +36,10 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author dmavroeidis
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "concept", namespace = "http://www.csri.gr/concept")
 @Entity
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "concept", namespace =
+        "http://www.csri.gr/concept")
 @NamedQueries({
     @NamedQuery(name = "findAllConcepts", query = "FROM Concept c"),
     @NamedQuery(name = "findConceptsByConceptId", query =
@@ -736,7 +737,8 @@ public class Concept implements Serializable {
      */
     public void addConceptLanguageRepresentation(
             Concept_LanguageRepresentation conceptLanguageRepresentation) {
-        this.languageRepresentations.add(conceptLanguageRepresentation);
+        this.languageRepresentations.
+                add(conceptLanguageRepresentation);
     }
 
     /**
@@ -1014,37 +1016,53 @@ public class Concept implements Serializable {
             return false;
         }
         final Concept other = (Concept)obj;
-        if (!(isNull(this.name) && !isNull(other.getName()))) {
-            if (!this.name.equals(other.getName())) {
+        if (!(isNull(this.getName()) && !isNull(other.getName()))) {
+            if (!this.getName().equals(other.getName())) {
                 return false;
             }
         }
-        if (!(isNull(this.externalSourceId) && !isNull(other.
-                getExternalSourceId()))) {
-            if (!this.externalSourceId.equals(other.getExternalSourceId())) {
+        if (!(isNull(this.getExternalSourceId())) && !isNull(other.
+                getExternalSourceId())) {
+            if (!this.getExternalSourceId().
+                    equals(other.getExternalSourceId())) {
                 return false;
             }
         }
-        if (!this.conceptType.equals(other.getConceptType())) {
+        if (!this.getConceptType().equals(other.getConceptType())) {
             return false;
         }
-        if (!this.specificityLevel.equals(other.getSpecificityLevel())) {
+        if (!this.getSpecificityLevel().equals(other.getSpecificityLevel())) {
             return false;
         }
-        if (!this.status.equals(other.getStatus())) {
+        if (!this.getStatus().equals(other.getStatus())) {
             return false;
         }
-        if (!this.pragmaticStatus.equals(other.getPragmaticStatus())) {
+        if (!this.getPragmaticStatus().equals(other.getPragmaticStatus())) {
             return false;
         }
-        if (!this.uniqueInstance.equals(other.getUniqueInstance())) {
-            return false;
-        }
-        if (!this.getLanguageRepresentationsAndRepresentative().equals(other.
-                getLanguageRepresentationsAndRepresentative())) {
+        if (!this.getUniqueInstance().equals(other.getUniqueInstance())) {
             return false;
         }
 
+        // testPraxicon fails with lazy init OntologicalDomains - 
+        // testEquals fails
+        // testGetAllOffsprings succeeds
+        if (!this.getConcept_LanguageRepresentation().equals(other.
+                getConcept_LanguageRepresentation())) {
+            return false;
+        }
+        // testPraxicon fails - 
+        // testEquals succeeds
+        // 
+//        if (!this.getConceptLanguageRepresentationsEntries().equals(other.
+//                getConceptLanguageRepresentationsEntries())) {
+//            return false;
+//        }
+        // testPraxicon fails lazy init LRs - testEquals succeeds
+//        if (!this.getLanguageRepresentationsAndRepresentative().equals(other.
+//                getLanguageRepresentationsAndRepresentative())) {
+//            return false;
+//        }
 //        if (!this.visualRepresentations.equals(other.
 //                getVisualRepresentations())) {
 //            return false;

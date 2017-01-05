@@ -15,6 +15,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedEntityGraphs;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -28,6 +31,16 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "concept_languagerepresentation", namespace =
         "http://www.csri.gr/concept_languagerepresentation")
+@NamedEntityGraphs({
+    @NamedEntityGraph(name = "graph.Concept_LanguageRepresentation.concepts",
+            attributeNodes = {
+                @NamedAttributeNode(value = "concept")}),
+    @NamedEntityGraph(name =
+            "graph.Concept_LanguageRepresentation.languageRepresentations",
+            attributeNodes = {
+                @NamedAttributeNode(value = "languageRepresentation",
+                        subgraph = "languageRepresentation.Graph")}
+    )})
 @Entity
 @Table(name = "Concepts_LanguageRepresentations")
 public class Concept_LanguageRepresentation implements Serializable {
@@ -118,7 +131,7 @@ public class Concept_LanguageRepresentation implements Serializable {
                 getIsRepresentative()) {
             return false;
         }
-        if (!this.languageRepresentation.equals(other.
+        if (!this.getLanguageRepresentation().equals(other.
                 getLanguageRepresentation())) {
             return false;
         }

@@ -92,7 +92,7 @@ public class RelationSet_Relation implements Serializable {
             return false;
         }
         final RelationSet_Relation other = (RelationSet_Relation)obj;
-        if (!Objects.equals(this.relation, other.relation)) {
+        if (!this.getRelation().equals(other.getRelation())) {
             return false;
         }
         return true;

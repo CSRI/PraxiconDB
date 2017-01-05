@@ -202,13 +202,13 @@ public class MotoricRepresentation implements Serializable {
             return false;
         }
         final MotoricRepresentation other = (MotoricRepresentation)obj;
-        if (this.performingAgent != other.performingAgent) {
+        if (!this.getPerformingAgent().equals(other.getPerformingAgent())) {
             return false;
         }
-        if (!Objects.equals(this.source, other.source)) {
+        if (!this.getSource().equals(other.getSource())) {
             return false;
         }
-        if (!Objects.equals(this.uri, other.uri)) {
+        if (!this.getUri().equals(other.getUri())) {
             return false;
         }
         return true;

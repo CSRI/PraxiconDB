@@ -457,25 +457,25 @@ public class LanguageRepresentation implements Serializable {
             return false;
         }
         final LanguageRepresentation other = (LanguageRepresentation)obj;
-        if (this.language != other.getLanguage()) {
+        if (!this.getLanguage().equals(other.getLanguage())) {
             return false;
         }
-        if (this.useStatus != other.getUseStatus()) {
+        if (!this.getUseStatus().equals(other.getUseStatus())) {
             return false;
         }
-        if (this.partOfSpeech != other.getPartOfSpeech()) {
+        if (!this.getPartOfSpeech().equals(other.getPartOfSpeech())) {
             return false;
         }
-        if (this.productivity != other.getProductivity()) {
+        if (!this.getProductivity().equals(other.getProductivity())) {
             return false;
         }
-        if (!Objects.equals(this.negation, other.getNegation())) {
+        if (!this.getNegation().equals(other.getNegation())) {
             return false;
         }
-        if (this.operator != other.getOperator()) {
+        if (!this.getOperator().equals(other.getOperator())) {
             return false;
         }
-        if (!Objects.equals(this.text, other.getText())) {
+        if (!this.getText().equals(other.getText())) {
             return false;
         }
         return true;
