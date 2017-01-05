@@ -161,15 +161,15 @@ public class VisualRepresentation implements Serializable {
     /**
      * @return the URI of the visual representation. Usually a URL or file path.
      */
-    public URI getURI() {
+    public URI getUri() {
         return uri;
     }
 
-    public void setURI(URI uri) {
+    public void setUri(URI uri) {
         this.uri = uri;
     }
 
-    public void setURI(String uri) throws URISyntaxException,
+    public void setUri(String uri) throws URISyntaxException,
             MalformedURLException {
         String[] schemes = {"http", "https"};
         URL url = null;
@@ -212,7 +212,7 @@ public class VisualRepresentation implements Serializable {
         hash = 47 * hash + Objects.hashCode(this.name);
         hash = 47 * hash + Objects.hashCode(this.source);
         hash = 47 * hash + Objects.hashCode(this.uri);
-        hash = 47 * hash + Objects.hashCode(this.motoricRepresentation);
+//        hash = 47 * hash + Objects.hashCode(this.motoricRepresentation);
         return hash;
     }
 
@@ -228,22 +228,21 @@ public class VisualRepresentation implements Serializable {
             return false;
         }
         final VisualRepresentation other = (VisualRepresentation)obj;
-        if (this.mediaType != other.mediaType) {
+        if (!this.getMediaType().equals(other.getMediaType())) {
             return false;
         }
-        if (!Objects.equals(this.name, other.name)) {
+        if (!this.getName().equals(other.getName())) {
             return false;
         }
-        if (!Objects.equals(this.source, other.source)) {
+        if (!this.getSource().equals(other.getSource())) {
             return false;
         }
-        if (!Objects.equals(this.uri, other.uri)) {
+        if (!this.getUri().equals(other.getUri())) {
             return false;
         }
-        if (!Objects.equals(this.motoricRepresentation,
-                other.motoricRepresentation)) {
-            return false;
-        }
+//        if (!this.motoricRepresentation.equals(other.motoricRepresentation)) {
+//            return false;
+//        }
         return true;
     }
 
