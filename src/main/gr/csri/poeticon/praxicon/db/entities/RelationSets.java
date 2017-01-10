@@ -10,9 +10,7 @@ import gr.csri.poeticon.praxicon.db.dao.LanguageRepresentationDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationSetDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.LanguageRepresentationDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationSetDaoImpl;
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 import static java.util.Objects.isNull;
 import java.util.Set;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -127,10 +125,10 @@ public class RelationSets {
             foundLanguageRepresentations = true;
         }
 
-        List<LanguageRepresentation> retrievedLanguageRepresentations =
-                new ArrayList<>();
-        List<LanguageRepresentation> existingLanguageRepresentations =
-                new ArrayList<>();
+        Set<LanguageRepresentation> retrievedLanguageRepresentations =
+                new LinkedHashSet<>();
+        Set<LanguageRepresentation> existingLanguageRepresentations =
+                new LinkedHashSet<>();
         LanguageRepresentationDao lrDao =
                 new LanguageRepresentationDaoImpl();
         if (foundLanguageRepresentations) {
