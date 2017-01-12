@@ -145,7 +145,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         RelationArgument retrievedRelationArgument = raDao.
                 getRelationArgument(concept);
         if (isNull(retrievedRelationArgument)) {
-            return new LinkedHashSet<>();
+            return null;
         } else {
             return getRelationsByLeftRelationArgumentTypeOfRelation(
                     retrievedRelationArgument, relationType);
@@ -168,7 +168,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         RelationArgument retrievedRelationArgument = raDao.
                 getRelationArgument(concept);
         if (isNull(retrievedRelationArgument)) {
-            return new LinkedHashSet<>();
+            return null;
         } else {
             return getRelationsByRightRelationArgumentTypeOfRelation(
                     retrievedRelationArgument, relationType);
