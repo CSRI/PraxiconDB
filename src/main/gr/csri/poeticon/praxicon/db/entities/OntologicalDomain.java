@@ -128,35 +128,15 @@ public class OntologicalDomain implements Serializable {
             return false;
         }
         final OntologicalDomain other = (OntologicalDomain)obj;
-        if (!Objects.equals(this.domainName, other.domainName)) {
+        if (!Objects.equals(this.domainName, other.getDomainName())) {
             return false;
         }
-        if (!Objects.equals(this.concepts, other.concepts)) {
+        if (!Objects.equals(this.concepts, other.getConcepts())) {
             return false;
         }
         return true;
     }
 
-//    @Override
-//    public int hashCode() {
-//        int hash = 0;
-//        hash += (id != null ? id.hashCode() : 0);
-//        return hash;
-//    }
-//
-//    @Override
-//    public boolean equals(Object object) {
-//        // TODO: Warning - this method won't work in the case the id fields are not set
-//        if (!(object instanceof OntologicalDomain)) {
-//            return false;
-//        }
-//        OntologicalDomain other = (OntologicalDomain)object;
-//        if ((this.id == null && other.id != null) ||
-//                (this.id != null && !this.id.equals(other.id))) {
-//            return false;
-//        }
-//        return true;
-//    }
     @Override
     public String toString() {
         return "gr.csri.poeticon.praxicon.db.entities.OntologicalDomain[ id=" +

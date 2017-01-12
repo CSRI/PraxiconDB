@@ -205,6 +205,23 @@ public class VisualRepresentation implements Serializable {
         }
     }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public MotoricRepresentation getMotoricRepresentation() {
+        return motoricRepresentation;
+    }
+
+    public void setMotoricRepresentation(
+            MotoricRepresentation motoricRepresentation) {
+        this.motoricRepresentation = motoricRepresentation;
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;
@@ -228,16 +245,16 @@ public class VisualRepresentation implements Serializable {
             return false;
         }
         final VisualRepresentation other = (VisualRepresentation)obj;
-        if (!this.getMediaType().equals(other.getMediaType())) {
+        if (!this.mediaType.equals(other.getMediaType())) {
             return false;
         }
-        if (!this.getName().equals(other.getName())) {
+        if (!this.name.equals(other.getName())) {
             return false;
         }
-        if (!this.getSource().equals(other.getSource())) {
+        if (!this.source.equals(other.getSource())) {
             return false;
         }
-        if (!this.getUri().equals(other.getUri())) {
+        if (!this.uri.equals(other.getUri())) {
             return false;
         }
 //        if (!this.motoricRepresentation.equals(other.motoricRepresentation)) {

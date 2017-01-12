@@ -352,6 +352,9 @@ public class Concept implements Serializable {
      * Public Constructor with arguments.
      *
      * @param newConcept
+     * @param keepLanguageRepresentation
+     * @param keepVisualRepresentation
+     * @param keepMotoricRepresentation
      */
     public Concept(Concept newConcept,
             boolean keepLanguageRepresentation,
@@ -879,8 +882,8 @@ public class Concept implements Serializable {
      * @return a list of visual representations
      */
     public final Set<VisualRepresentation> getVisualRepresentationsEntries() {
-        List<VisualRepresentation> visualRepresentationEntries =
-                new ArrayList<>();
+        Set<VisualRepresentation> visualRepresentationEntries =
+                new LinkedHashSet<>();
         for (VisualRepresentation VisualRepresentation
                 : this.visualRepresentations) {
             visualRepresentationEntries.add(VisualRepresentation);
@@ -1002,10 +1005,10 @@ public class Concept implements Serializable {
         hash = 13 * hash + Objects.hashCode(this.status);
         hash = 13 * hash + Objects.hashCode(this.pragmaticStatus);
         hash = 13 * hash + Objects.hashCode(this.uniqueInstance);
-        hash = 13 * hash + Objects.hashCode(this.getOntologicalDomains().
-                toString());
-        hash = 13 * hash + Objects.hashCode(this.
-                getLanguageRepresentationsAndRepresentative().toString());
+        hash = 13 * hash + Objects.hashCode(this.languageRepresentations);
+        hash = 13 * hash + Objects.hashCode(this.visualRepresentations);
+        hash = 13 * hash + Objects.hashCode(this.motoricRepresentations);
+        hash = 13 * hash + Objects.hashCode(this.ontologicalDomains);
         return hash;
     }
 
@@ -1018,66 +1021,49 @@ public class Concept implements Serializable {
             return false;
         }
         final Concept other = (Concept)obj;
-        if (!isNull(this.getName()) && !isNull(other.getName())) {
-            if (!this.getName().equals(other.getName())) {
+        if (!isNull(this.name) && !isNull(other.getName())) {
+            if (!this.name.equals(other.getName())) {
                 return false;
             }
         }
-        if (!isNull(this.getExternalSourceId()) && !isNull(other.
+        if (!isNull(this.externalSourceId) && !isNull(other.
                 getExternalSourceId())) {
-            if (!this.getExternalSourceId().
+            if (!this.externalSourceId.
                     equals(other.getExternalSourceId())) {
                 return false;
             }
         }
-        if (!this.getConceptType().equals(other.getConceptType())) {
+        if (!this.conceptType.equals(other.getConceptType())) {
             return false;
         }
-        if (!this.getSpecificityLevel().equals(other.getSpecificityLevel())) {
+        if (!this.specificityLevel.equals(other.getSpecificityLevel())) {
             return false;
         }
-        if (!this.getStatus().equals(other.getStatus())) {
+        if (!this.status.equals(other.getStatus())) {
             return false;
         }
-        if (!this.getPragmaticStatus().equals(other.getPragmaticStatus())) {
+        if (!this.pragmaticStatus.equals(other.getPragmaticStatus())) {
             return false;
         }
-        if (!this.getUniqueInstance().equals(other.getUniqueInstance())) {
+        if (!this.uniqueInstance.equals(other.getUniqueInstance())) {
             return false;
         }
-
-        // testPraxicon fails with lazy init OntologicalDomains - 
-        // testEquals fails
-        // testGetAllOffsprings succeeds
-        if (!this.getConcept_LanguageRepresentation().equals(other.
+        if (!this.languageRepresentations.equals(other.
                 getConcept_LanguageRepresentation())) {
             return false;
         }
-        // testPraxicon fails - 
-        // testEquals succeeds
-        // 
-//        if (!this.getConceptLanguageRepresentationsEntries().equals(other.
-//                getConceptLanguageRepresentationsEntries())) {
-//            return false;
-//        }
-        // testPraxicon fails lazy init LRs - testEquals succeeds
-//        if (!this.getLanguageRepresentationsAndRepresentative().equals(other.
-//                getLanguageRepresentationsAndRepresentative())) {
-//            return false;
-//        }
-//        if (!this.visualRepresentations.equals(other.
-//                getVisualRepresentations())) {
-//            return false;
-//        }
-//        if (!this.motoricRepresentations.equals(other.
-//                getMotoricRepresentations())) {
-//            return false;
-//        }
-        // TODO: Temporarily disabled until true Ontological Domain data 
-//        if (!this.ontologicalDomains.toString().equals(other.
-//                getOntologicalDomains().toString())) {
-//            return false;
-//        }
+        if (!this.visualRepresentations.equals(other.
+                getVisualRepresentations())) {
+            return false;
+        }
+        if (!this.motoricRepresentations.equals(other.
+                getMotoricRepresentations())) {
+            return false;
+        }
+        if (!this.ontologicalDomains.toString().equals(other.
+                getOntologicalDomains().toString())) {
+            return false;
+        }
         return true;
     }
 

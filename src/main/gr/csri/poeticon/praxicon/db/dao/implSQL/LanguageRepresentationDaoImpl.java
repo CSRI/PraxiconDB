@@ -182,8 +182,6 @@ public class LanguageRepresentationDaoImpl extends
                         toString().toUpperCase()).
                 setParameter("operator", languageRepresentation.getOperator().
                         toString().toUpperCase());
-        System.out.println("Language Representation Text: " +
-                languageRepresentation.getText());
         return query;
     }
 }

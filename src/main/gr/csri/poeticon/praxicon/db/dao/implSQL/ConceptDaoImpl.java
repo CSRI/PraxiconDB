@@ -116,14 +116,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 "findAllNonBasicLevelConcepts");
         Set<Concept> retrievedConceptsList = new LinkedHashSet<>(query.
                 getResultList());
-        if (retrievedConceptsList.isEmpty()) {
-            System.out.println(
-                    "\n\n\ngetAllNonBasicLevelConcepts() returned nothing\n\n\n");
-        }
-        for (Concept item : retrievedConceptsList) {
-            System.out.println(
-                    "Concept from getAllNonBasicLevelConcepts(): " + item);
-        }
         return new LinkedHashSet<Concept>(retrievedConceptsList);
     }
 
@@ -246,7 +238,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         Set<Concept> retrievedConceptsSet = new LinkedHashSet<>(query.
                 getResultList());
         if (retrievedConceptsSet.isEmpty()) {
-            System.out.println("\n\n\nThe concept is NULL.\n\n\n");
             return null;
         }
         return retrievedConceptsSet.iterator().next();
@@ -831,8 +822,6 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 setParameter("type", concept.getStatus()).
                 setParameter("status", concept.getStatus()).
                 setParameter("pragmaticStatus", concept.getPragmaticStatus());
-        System.out.println("Concept externalSourceId: " + concept.
-                getExternalSourceId());
         return query;
     }
 

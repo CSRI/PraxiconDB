@@ -129,7 +129,8 @@ public class Concepts {
         }
 
         // If Visual Representations exist, add them to new concept
-        if (!concept.getVisualRepresentations().isEmpty()) {
+        if (!concept.getVisualRepresentations().isEmpty() &&
+                !isNull(concept.getVisualRepresentations())) {
             for (VisualRepresentation vr : concept.getVisualRepresentations()) {
                 vr.setConcept(newConcept);
                 //check if already assigned to concept

@@ -59,13 +59,13 @@ public class XmlUtils {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             for (Concept item : conceptsList) {
                 if (!newConceptsList.contains(item)) {
+                    Concept tmpConcept = session.get(Concept.class, item.
+                            getId());
+                    // If the concept exists in the session, then don't
+                    // add it, but rather add its found counterpart.
+                    item = new Concept(tmpConcept, true, true, true);
                     newConceptsList.add(item);
                 }
-            }
-
-            System.out.println("List of concepts to be marshalled:\n");
-            for (Concept item : newConceptsList) {
-                System.out.println(item);
             }
 
             // Export concepts to the xml file

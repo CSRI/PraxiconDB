@@ -361,10 +361,10 @@ public class RelationSet implements Serializable {
     public int hashCode() {
         int hash = 5;
         hash = 13 * hash + Objects.hashCode(this.name);
-        hash = 13 * hash + Objects.hashCode(this.getRelationsList());
-        hash = 13 * hash + Objects.hashCode(this.getLanguageRepresentations());
-        hash = 13 * hash + Objects.hashCode(this.getVisualRepresentations());
-        hash = 13 * hash + Objects.hashCode(this.getMotoricRepresentations());
+        hash = 13 * hash + Objects.hashCode(this.relations);
+        hash = 13 * hash + Objects.hashCode(this.languageRepresentations);
+        hash = 13 * hash + Objects.hashCode(this.visualRepresentations);
+        hash = 13 * hash + Objects.hashCode(this.motoricRepresentations);
         return hash;
     }
 
@@ -377,23 +377,23 @@ public class RelationSet implements Serializable {
             return false;
         }
         final RelationSet other = (RelationSet)obj;
-        if (!isNull(this.getName()) && !isNull(other.getName())) {
-            if (!this.getName().equals(other.getName())) {
+        if (!isNull(this.name) && !isNull(other.getName())) {
+            if (!this.name.equals(other.getName())) {
                 return false;
             }
         }
-        if (!this.getRelationsList().equals(other.getRelationsList())) {
+        if (!this.relations.equals(other.getRelationsList())) {
             return false;
         }
-        if (!this.getLanguageRepresentations().
+        if (!this.languageRepresentations.
                 equals(other.getLanguageRepresentations())) {
             return false;
         }
-        if (!this.getVisualRepresentations().
+        if (!this.visualRepresentations.
                 equals(other.getVisualRepresentations())) {
             return false;
         }
-        if (!this.getMotoricRepresentations().
+        if (!this.motoricRepresentations.
                 equals(other.getMotoricRepresentations())) {
             return false;
         }

@@ -287,20 +287,20 @@ public class Relation implements Serializable {
             return false;
         }
         final Relation other = (Relation)obj;
-        if (!this.getRelationType().equals(other.getRelationType())) {
+        if (!this.relationType.equals(other.getRelationType())) {
             return false;
         }
-        if (!this.getLeftArgument().equals(other.getLeftArgument())) {
+        if (!this.leftArgument.equals(other.getLeftArgument())) {
             return false;
         }
-        if (!this.getRightArgument().equals(other.getRightArgument())) {
+        if (!this.rightArgument.equals(other.getRightArgument())) {
             return false;
         }
-        if (!this.getLinguisticallySupported().
+        if (!this.linguisticallySupported.
                 equals(other.getLinguisticallySupported())) {
             return false;
         }
-        if (!this.getInferred().equals(other.getInferred())) {
+        if (!this.inferred.equals(other.getInferred())) {
             return false;
         }
         return true;

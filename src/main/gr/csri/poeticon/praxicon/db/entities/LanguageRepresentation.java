@@ -25,6 +25,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -227,6 +228,7 @@ public class LanguageRepresentation implements Serializable {
     private String comment;
 
     @XmlTransient
+    @Transient
     @OneToMany(mappedBy = "languageRepresentation")
     private Set<Concept_LanguageRepresentation> concepts;
 
