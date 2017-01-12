@@ -54,7 +54,7 @@ public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument>
         Set<RelationArgument> retrievedRelationArgumentsList =
                 new LinkedHashSet<>(query.getResultList());
         if (retrievedRelationArgumentsList.isEmpty()) {
-            return new RelationArgument();
+            return null;
         }
         return retrievedRelationArgumentsList.iterator().next();
     }
