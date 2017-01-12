@@ -22,8 +22,11 @@ import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import static java.util.Objects.isNull;
 import java.util.Set;
+import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import org.hibernate.Session;
 
 /**
  *
@@ -520,10 +523,12 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         Set<Relation> retrievedRelationsList =
                 rDao.getRelationsByLeftConceptTypeOfRelation(concept,
                         TYPE_TOKEN);
-        for (Relation relation : retrievedRelationsList) {
-            if (relation.getRightArgument().isConcept()) {
-                retrievedConceptsList.add(relation.getRightArgument().
-                        getConcept());
+        if (!isNull(retrievedRelationsList)) {
+            for (Relation relation : retrievedRelationsList) {
+                if (relation.getRightArgument().isConcept()) {
+                    retrievedConceptsList.add(relation.getRightArgument().
+                            getConcept());
+                }
             }
         }
         entityManager.clear();
@@ -545,10 +550,12 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         Set<Relation> retrievedRelationsList =
                 rDao.getRelationsByRightConceptTypeOfRelation(concept,
                         TYPE_TOKEN);
-        for (Relation relation : retrievedRelationsList) {
-            if (relation.getLeftArgument().isConcept()) {
-                retrievedConceptsList.add(relation.getLeftArgument().
-                        getConcept());
+        if (!isNull(retrievedRelationsList)) {
+            for (Relation relation : retrievedRelationsList) {
+                if (relation.getLeftArgument().isConcept()) {
+                    retrievedConceptsList.add(relation.getLeftArgument().
+                            getConcept());
+                }
             }
         }
         entityManager.clear();
@@ -565,19 +572,29 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      */
     @Override
     public Set<Concept> getAllAncestors(Concept concept) {
-//        EntityManager em = getEntityManager();
-//        Session session = em.unwrap(org.hibernate.Session.class);
+        EntityManager em = getEntityManager();
+        Session session = em.unwrap(org.hibernate.Session.class);
         Set<Concept> ancestorConcepts = new LinkedHashSet<>();
-
-        Set<Concept> parents = getParents(concept);
-        for (Concept parent : parents) {
-            if (!ancestorConcepts.contains(parent)) {
-                ancestorConcepts.add(parent);
+        if (!isNull(concept)) {
+            Concept tmpConcept = session.get(Concept.class, concept.
+                    getId());
+            // If the concept exists in the session, then don't
+            // add it, but rather add its found counterpart.
+            concept = new Concept(tmpConcept, true, true, true);
+            if (!session.contains(concept)) {
+                session.saveOrUpdate(concept);
             }
-            Set<Concept> ancestors = getAllAncestors(parent);
-            for (Concept ancestor : ancestors) {
-                if (!ancestorConcepts.contains(ancestor)) {
-                    ancestorConcepts.add(ancestor);
+
+            Set<Concept> parents = getParents(concept);
+            for (Concept parent : parents) {
+                if (!ancestorConcepts.contains(parent)) {
+                    ancestorConcepts.add(parent);
+                }
+                Set<Concept> ancestors = getAllAncestors(parent);
+                for (Concept ancestor : ancestors) {
+                    if (!ancestorConcepts.contains(ancestor)) {
+                        ancestorConcepts.add(ancestor);
+                    }
                 }
             }
         }
@@ -594,17 +611,31 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      */
     @Override
     public Set<Concept> getAllOffsprings(Concept concept) {
+        EntityManager em = getEntityManager();
+        Session session = em.unwrap(org.hibernate.Session.class);
         Set<Concept> offspringConcepts = new LinkedHashSet<>();
 
-        Set<Concept> children = getChildren(concept);
-        for (Concept child : children) {
-            if (!offspringConcepts.contains(child)) {
-                offspringConcepts.add(child);
+        if (!java.util.Objects.isNull(concept)) {
+            Concept tmpConcept = session.get(Concept.class, concept.
+                    getId());
+            // If the concept exists in the session, then don't
+            // add it, but rather add its found counterpart.
+            concept = new Concept(tmpConcept, true, true, true);
+
+            if (!session.contains(concept)) {
+                session.saveOrUpdate(concept);
             }
-            Set<Concept> offsprings = getAllOffsprings(child);
-            for (Concept offspring : offsprings) {
-                if (!offspringConcepts.contains(offspring)) {
-                    offspringConcepts.add(offspring);
+
+            Set<Concept> children = getChildren(concept);
+            for (Concept child : children) {
+                if (!offspringConcepts.contains(child)) {
+                    offspringConcepts.add(child);
+                }
+                Set<Concept> offsprings = getAllOffsprings(child);
+                for (Concept offspring : offsprings) {
+                    if (!offspringConcepts.contains(offspring)) {
+                        offspringConcepts.add(offspring);
+                    }
                 }
             }
         }
