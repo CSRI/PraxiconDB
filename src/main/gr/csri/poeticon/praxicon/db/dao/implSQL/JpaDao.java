@@ -124,14 +124,14 @@ public abstract class JpaDao<K, E> implements Dao<K, E> {
         Query q = getEntityManager().createQuery("SELECT h FROM " +
                 entityClass.getName().substring(entityClass.getName().
                         lastIndexOf('.') + 1) + " h order by h.id");
-        return (LinkedHashSet<E>)q.getResultList();
+        return new LinkedHashSet<>(q.getResultList());
     }
 
     @Override
     public E getEntity(E entity) {
         Query q = getEntityQuery(entity);
         if (!isNull(q)) {
-            Set res = (LinkedHashSet<E>)q.getResultList();
+            Set res = new LinkedHashSet<>(q.getResultList());
             if (res.isEmpty()) {
                 return entity;
             }
