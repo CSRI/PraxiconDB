@@ -232,13 +232,13 @@ public class RelationArgument implements Serializable {
         if (this.isConcept()) {
             if (other.isRelationSet()) {
                 return false;
-            } else if (!this.getConcept().equals(other.getConcept())) {
+            } else if (!this.concept.equals(other.getConcept())) {
                 return false;
             }
         } else if (this.isRelationSet()) {
             if (other.isConcept()) {
                 return false;
-            } else if (!this.getRelationSet().equals(other.getRelationSet())) {
+            } else if (!this.relationSet.equals(other.getRelationSet())) {
                 return false;
             }
         }

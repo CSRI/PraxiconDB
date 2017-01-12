@@ -5,10 +5,11 @@
 package gr.csri.poeticon.praxicon.db.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import static java.util.Objects.isNull;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -24,6 +25,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -226,8 +228,9 @@ public class LanguageRepresentation implements Serializable {
     private String comment;
 
     @XmlTransient
+    @Transient
     @OneToMany(mappedBy = "languageRepresentation")
-    private List<Concept_LanguageRepresentation> concepts;
+    private Set<Concept_LanguageRepresentation> concepts;
 
     @XmlTransient
     @ManyToMany()
@@ -238,7 +241,7 @@ public class LanguageRepresentation implements Serializable {
             inverseJoinColumns = {
                 @JoinColumn(name = "RelationSetId")}
     )
-    private List<RelationSet> relationSets;
+    private Set<RelationSet> relationSets;
 
     public LanguageRepresentation() {
         language = Language.EN;
@@ -355,14 +358,14 @@ public class LanguageRepresentation implements Serializable {
         return false;
     }
 
-    public List<LanguageRepresentation> getLanguageRepresentations() {
+    public Set<LanguageRepresentation> getLanguageRepresentations() {
         List<LanguageRepresentation> languageRepresentationsList =
                 LanguageRepresentation.languageRepresentations;
         for (LanguageRepresentation languageRepresentation
                 : languageRepresentationsList) {
             languageRepresentationsList.add(languageRepresentation);
         }
-        return languageRepresentationsList;
+        return new LinkedHashSet<>(languageRepresentationsList);
     }
 
     public void setLanguageRepresentations(
@@ -371,8 +374,8 @@ public class LanguageRepresentation implements Serializable {
                 languageRepresentations;
     }
 
-    public List<Concept> getConcepts() {
-        List<Concept> languageRepresentationConcepts = new ArrayList<>();
+    public Set<Concept> getConcepts() {
+        Set<Concept> languageRepresentationConcepts = new LinkedHashSet<>();
         for (LanguageRepresentation languageRepresentation
                 : LanguageRepresentation.languageRepresentations) {
             for (Concept concept : languageRepresentation.getConcepts()) {
@@ -384,9 +387,9 @@ public class LanguageRepresentation implements Serializable {
         return languageRepresentationConcepts;
     }
 
-    public List<RelationSet> getRelationSets() {
-        List<RelationSet> languageRepresentationRelationSets =
-                new ArrayList<>();
+    public Set<RelationSet> getRelationSets() {
+        Set<RelationSet> languageRepresentationRelationSets =
+                new LinkedHashSet<>();
         if (!isNull(relationSets)) {
             languageRepresentationRelationSets.addAll(relationSets);
         }
@@ -457,25 +460,25 @@ public class LanguageRepresentation implements Serializable {
             return false;
         }
         final LanguageRepresentation other = (LanguageRepresentation)obj;
-        if (this.language != other.getLanguage()) {
+        if (!this.getLanguage().equals(other.getLanguage())) {
             return false;
         }
-        if (this.useStatus != other.getUseStatus()) {
+        if (!this.getUseStatus().equals(other.getUseStatus())) {
             return false;
         }
-        if (this.partOfSpeech != other.getPartOfSpeech()) {
+        if (!this.getPartOfSpeech().equals(other.getPartOfSpeech())) {
             return false;
         }
-        if (this.productivity != other.getProductivity()) {
+        if (!this.getProductivity().equals(other.getProductivity())) {
             return false;
         }
-        if (!Objects.equals(this.negation, other.getNegation())) {
+        if (!this.getNegation().equals(other.getNegation())) {
             return false;
         }
-        if (this.operator != other.getOperator()) {
+        if (!this.getOperator().equals(other.getOperator())) {
             return false;
         }
-        if (!Objects.equals(this.text, other.getText())) {
+        if (!this.getText().equals(other.getText())) {
             return false;
         }
         return true;

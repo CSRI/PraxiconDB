@@ -7,8 +7,8 @@ package gr.csri.poeticon.praxicon.db.dao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Concept.Status;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -17,37 +17,37 @@ import java.util.Map;
  */
 public interface ConceptDao extends Dao<Long, Concept> {
 
-    List<Concept> getAllConcepts();
+    Set<Concept> getAllConcepts();
 
-    List<Concept> getAllBasicLevelConcepts();
+    Set<Concept> getAllBasicLevelConcepts();
 
-    List<Concept> getAllNonBasicLevelConcepts();
+    Set<Concept> getAllNonBasicLevelConcepts();
 
     Concept getConceptByConceptId(long conceptId);
 
     Concept getConcept(Concept concept);
 
-    List<Concept> getConceptsByName(String name);
+    Set<Concept> getConceptsByName(String name);
 
     Concept getConceptByNameExact(String name);
 
-    List<Concept> getConceptsByNameAndStatus(String Name, Status status);
+    Set<Concept> getConceptsByNameAndStatus(String Name, Status status);
 
-    List<Concept> getConceptsByExternalSourceId(String externalSourceId);
+    Set<Concept> getConceptsByExternalSourceId(String externalSourceId);
 
     Concept getConceptByExternalSourceIdExact(String externalSourceId);
 
-    List<Concept> getConceptsByLanguageRepresentation(String queryString);
+    Set<Concept> getConceptsByLanguageRepresentation(String queryString);
 
-    List<Concept> getConceptsByLanguageRepresentationExact(String queryString);
+    Set<Concept> getConceptsByLanguageRepresentationExact(String queryString);
 
-    List<Concept> getConceptsByLanguageRepresentationStartsWith(
+    Set<Concept> getConceptsByLanguageRepresentationStartsWith(
             String queryString);
 
-    List<Concept> getConceptsByLanguageRepresentationEndsWith(
+    Set<Concept> getConceptsByLanguageRepresentationEndsWith(
             String queryString);
 
-    List<Concept> getConceptsByStatus(Status status);
+    Set<Concept> getConceptsByStatus(Status status);
 
     Concept getConceptWithExternalSourceIdOrId(String v);
 
@@ -57,21 +57,21 @@ public interface ConceptDao extends Dao<Long, Concept> {
 
     void update(Concept oldConcept, Concept newConcept);
 
-    List<Concept> getChildren(Concept concept);
+    Set<Concept> getChildren(Concept concept);
 
-    List<Concept> getParents(Concept concept);
+    Set<Concept> getParents(Concept concept);
 
-    List<Concept> getAllAncestors(Concept concept);
+    Set<Concept> getAllAncestors(Concept concept);
 
-    List<Concept> getAllOffsprings(Concept concept);
+    Set<Concept> getAllOffsprings(Concept concept);
 
-    List<Concept> getClassesOfInstance(Concept concept);
+    Set<Concept> getClassesOfInstance(Concept concept);
 
-    List<Concept> getInstancesOf(Concept concept);
+    Set<Concept> getInstancesOf(Concept concept);
 
-    List<Concept> getBasicLevelConcepts(Concept concept);
+    Set<Concept> getBasicLevelConcepts(Concept concept);
 
-    List<Map.Entry<Concept, ConceptDaoImpl.Direction>>
+    Set<Map.Entry<Concept, ConceptDaoImpl.Direction>>
             getBasicLevelConceptsOld(Concept concept);
 
     void clearManager();

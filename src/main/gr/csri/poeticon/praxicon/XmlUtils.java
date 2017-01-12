@@ -13,8 +13,9 @@ import gr.csri.poeticon.praxicon.db.entities.RelationSet;
 import gr.csri.poeticon.praxicon.db.entities.RelationSets;
 import gr.csri.poeticon.praxicon.db.entities.Relations;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -39,10 +40,11 @@ public class XmlUtils {
      * @param conceptsList
      * @param xmlFileName
      */
-    public static void exportConceptsToXML(List<Concept> conceptsList,
+    public static void exportConceptsToXML(Set<Concept> conceptsList,
             String xmlFileName) {
         Concepts concepts = new Concepts();
-        concepts.setConcepts(new ArrayList<>());
+        concepts.setConcepts(new LinkedHashSet<>());
+        Set<Concept> newConceptsList = new LinkedHashSet<>();
 
         try {
             /*
@@ -56,17 +58,26 @@ public class XmlUtils {
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             for (Concept item : conceptsList) {
-                if (!session.contains(item)) {
-                    session.update(item);
+                if (!newConceptsList.contains(item)) {
+                    Concept tmpConcept = session.get(Concept.class, item.
+                            getId());
+                    // If the concept exists in the session, then don't
+                    // add it, but rather add its found counterpart.
+                    item = new Concept(tmpConcept, true, true, true);
+                    newConceptsList.add(item);
                 }
-                concepts.getConcepts().add(item);
             }
 
             // Export concepts to the xml file
+            concepts.setConcepts(newConceptsList);
             marshaller.marshal(concepts, new File(xmlFileName));
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            System.err.println(Arrays.toString(e.getStackTrace()));
+            System.exit(1);
         }
     }
 
@@ -77,11 +88,11 @@ public class XmlUtils {
      * @param relationsList
      * @param xmlFileName
      */
-    public static void exportRelationsToXML(List<Relation> relationsList,
+    public static void exportRelationsToXML(Set<Relation> relationsList,
             String xmlFileName) {
 
         Relations relations = new Relations();
-        relations.setRelations(new ArrayList<Relation>());
+        relations.setRelations(new LinkedHashSet<>());
 
         try {
             /*
@@ -108,6 +119,10 @@ public class XmlUtils {
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            System.err.println(Arrays.toString(e.getStackTrace()));
+            System.exit(1);
         }
     }
 
@@ -119,10 +134,10 @@ public class XmlUtils {
      * @param xmlFileName
      */
     public static void exportRelationSetsToXML(
-            List<RelationSet> relationSetsList, String xmlFileName) {
+            Set<RelationSet> relationSetsList, String xmlFileName) {
 
         RelationSets relationSets = new RelationSets();
-        relationSets.setRelationSets(new ArrayList<>());
+        relationSets.setRelationSets(new LinkedHashSet<>());
 
         try {
             /*
@@ -150,6 +165,10 @@ public class XmlUtils {
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            System.err.println(Arrays.toString(e.getStackTrace()));
+            System.exit(1);
         }
     }
 
@@ -163,16 +182,16 @@ public class XmlUtils {
      * @param xmlFileName
      */
     public static void exportAllObjectsToXML(
-            List<RelationSet> relationSetsList,
-            List<Concept> conceptsList, List<Relation> relationsList,
+            Set<RelationSet> relationSetsList,
+            Set<Concept> conceptsList, Set<Relation> relationsList,
             String xmlFileName) {
         CollectionOfObjects collectionOfObjects = new CollectionOfObjects();
         RelationSets relationSets = new RelationSets();
         Concepts concepts = new Concepts();
         Relations relations = new Relations();
-        relationSets.setRelationSets(new ArrayList<>());
-        concepts.setConcepts(new ArrayList<>());
-        relations.setRelations(new ArrayList<>());
+        relationSets.setRelationSets(new LinkedHashSet<>());
+        concepts.setConcepts(new LinkedHashSet<>());
+        relations.setRelations(new LinkedHashSet<>());
 
         try {
             /*
@@ -180,29 +199,20 @@ public class XmlUtils {
              * update retrieved objects directly to avoid setting EAGER fetch
              * which would criple performance during retrieval from the database.
              */
-            EntityManager em = getEntityManager();
-            Session session = em.unwrap(org.hibernate.Session.class);
             JAXBContext jaxbContext = JAXBContext.
                     newInstance(CollectionOfObjects.class);
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
             for (RelationSet item : relationSetsList) {
-                if (!session.contains(item)) {
-                    session.update(item);
-                }
                 relationSets.getRelationSets().add(item);
             }
             for (Concept item : conceptsList) {
-                if (!session.contains(item)) {
-                    session.update(item);
+                if (!conceptsList.contains(item)) {
+                    concepts.getConcepts().add(item);
                 }
-                concepts.getConcepts().add(item);
             }
             for (Relation item : relationsList) {
-                if (!session.contains(item)) {
-                    session.update(item);
-                }
                 relations.getRelations().add(item);
             }
 
@@ -218,6 +228,10 @@ public class XmlUtils {
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            System.err.println(Arrays.toString(e.getStackTrace()));
+            System.exit(1);
         }
     }
 
@@ -234,6 +248,7 @@ public class XmlUtils {
                     log(Level.SEVERE, null, ex);
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            System.err.println(Arrays.toString(e.getStackTrace()));
             return 1;
         }
         return 0;
@@ -253,6 +268,7 @@ public class XmlUtils {
                     log(Level.SEVERE, null, ex);
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            System.err.println(Arrays.toString(e.getStackTrace()));
             return 1;
         }
         return 0;
@@ -273,6 +289,7 @@ public class XmlUtils {
                     log(Level.SEVERE, null, ex);
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            System.err.println(Arrays.toString(e.getStackTrace()));
             return 1;
         }
         return 0;
@@ -287,20 +304,20 @@ public class XmlUtils {
             File xmlFile = new File(fullPathFileName);
             CollectionOfObjects importedCollectionOfObjects =
                     (CollectionOfObjects)jaxbUnmarshaller.unmarshal(xmlFile);
-            List<Concepts> listOfConcepts = importedCollectionOfObjects.
+            Set<Concepts> listOfConcepts = importedCollectionOfObjects.
                     getConcepts();
             for (Concepts concepts : listOfConcepts) {
                 concepts.storeConcepts();
             }
 
-            List<RelationSets> listOfRelationSets =
+            Set<RelationSets> listOfRelationSets =
                     importedCollectionOfObjects.
                     getRelationSets();
             for (RelationSets relationSets : listOfRelationSets) {
                 relationSets.storeRelationSets();
             }
 
-            List<Relations> listOfRelations = importedCollectionOfObjects.
+            Set<Relations> listOfRelations = importedCollectionOfObjects.
                     getRelations();
             for (Relations relations : listOfRelations) {
                 relations.storeRelations();
@@ -308,11 +325,12 @@ public class XmlUtils {
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            System.err.println(Arrays.toString(e.getStackTrace()));
+            return 1;
         }
-//        catch (Exception e) {
-//            System.err.println(e.getMessage());
-//            return 1;
-//        }
+
         long endTime = System.nanoTime();
         long elapsedTime = endTime - startTime;
         double minutes = (double)((elapsedTime / 1000000000.0) / 60);

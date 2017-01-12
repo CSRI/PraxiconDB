@@ -7,6 +7,7 @@ package gr.csri.poeticon.praxicon.db.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import static java.util.Objects.isNull;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -233,26 +234,27 @@ public class RelationType implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - method won't work in case the id fields are not set
         if (!(object instanceof RelationType)) {
             return false;
         }
         RelationType other = (RelationType)object;
-        if (this.forwardName != null && other.forwardName != null &&
-                this.forwardName.name().equalsIgnoreCase(
-                        other.forwardName.name()) &&
-                this.backwardName != null &&
-                other.backwardName != null &&
-                this.backwardName.name().
-                equalsIgnoreCase(other.backwardName.name())) {
+        if (!isNull(this.getForwardName()) && !isNull(other.getForwardName()) &&
+                this.getForwardName().name().equalsIgnoreCase(
+                        other.getForwardName().name()) &&
+                !isNull(this.getForwardName()) &&
+                !isNull(other.getBackwardName()) &&
+                this.getBackwardName().name().
+                equalsIgnoreCase(other.getBackwardName().name())) {
             return true;
         }
-        if (this.forwardName != null && other.backwardName != null &&
-                this.forwardName.name().
-                equalsIgnoreCase(other.backwardName.name()) &&
-                this.backwardName != null && other.forwardName != null &&
-                this.backwardName.name().equalsIgnoreCase(
-                        other.forwardName.name())) {
+        if (!isNull(this.getBackwardName()) &&
+                !isNull(other.getBackwardName()) &&
+                this.getBackwardName().name().
+                equalsIgnoreCase(other.getBackwardName().name()) &&
+                !isNull(this.getBackwardName()) &&
+                !isNull(other.getForwardName()) &&
+                this.getForwardName().name().equalsIgnoreCase(
+                        other.getForwardName().name())) {
             return true;
         }
 
@@ -266,25 +268,25 @@ public class RelationType implements Serializable {
         };
 
         for (String equalsRelation : equalsRelations) {
-            if (this.forwardName != null && other.forwardName != null &&
-                    this.backwardName != null &&
-                    other.backwardName != null) {
-                if ((equalsRelation.contains(this.forwardName.name()) &&
-                        (equalsRelation.contains(other.forwardName.name()) ||
-                        equalsRelation.contains(other.backwardName.name()))) ||
-                        (equalsRelation.contains(this.backwardName.name()) &&
-                        (equalsRelation.contains(other.forwardName.name()) ||
-                        equalsRelation.contains(other.backwardName.name())))) {
+            if (this.getForwardName() != null && other.getForwardName() != null &&
+                    this.getBackwardName() != null &&
+                    other.getBackwardName() != null) {
+                if ((equalsRelation.contains(this.getForwardName().name()) &&
+                        (equalsRelation.contains(other.getForwardName().name()) ||
+                        equalsRelation.contains(other.getBackwardName().name()))) ||
+                        (equalsRelation.contains(this.getBackwardName().name()) &&
+                        (equalsRelation.contains(other.getForwardName().name()) ||
+                        equalsRelation.contains(other.getBackwardName().name())))) {
                     return true;
                 }
             }
         }
 
-        if ((this.id == null && other.id != null) ||
-                (this.id != null && !this.id.equals(other.id))) {
+        if ((isNull(this.getId()) && !isNull(other.getId())) ||
+                (!isNull(this.getId()) && !this.getId().equals(other.getId()))) {
             return false;
         }
-        if (this.id == null && other.id == null) {
+        if (isNull(this.getId()) && isNull(other.getId())) {
             return false;
         }
 

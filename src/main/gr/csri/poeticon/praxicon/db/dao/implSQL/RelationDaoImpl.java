@@ -11,8 +11,9 @@ import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import static java.util.Objects.isNull;
+import java.util.Set;
 import javax.persistence.Query;
 
 /**
@@ -41,12 +42,12 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
                 setParameter("leftRelationArgument", leftArgument).
                 setParameter("rightRelationArgument", rightArgument).
                 setParameter("relationType", relationType);
-        List<Relation> retrievedRelationsList = (List<Relation>)query.
-                getResultList();
+        Set<Relation> retrievedRelationsList =
+                new LinkedHashSet<>(query.getResultList());
         if (retrievedRelationsList.isEmpty()) {
             return null;
         }
-        return retrievedRelationsList.get(0);
+        return retrievedRelationsList.iterator().next();
     }
 
     /**
@@ -67,12 +68,12 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
                         getRightArgument()).
                 setParameter("relationType", relation.getRelationType().
                         getForwardName());
-        List<Relation> retrievedRelationsList = (List<Relation>)query.
-                getResultList();
+        Set<Relation> retrievedRelationsList =
+                new LinkedHashSet<>(query.getResultList());
         if (retrievedRelationsList.isEmpty()) {
             return null;
         }
-        return retrievedRelationsList.get(0);
+        return retrievedRelationsList.iterator().next();
     }
 
     /**
@@ -83,11 +84,11 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      * @return a list of relations
      */
     @Override
-    public List<Relation> getAllRelationsOfConcept(Concept concept) {
+    public Set<Relation> getAllRelationsOfConcept(Concept concept) {
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
         RelationArgument conceptRelationArgument = raDao.getRelationArgument(
                 concept);
-        return new ArrayList<>(getAllRelationsOfRelationArgument(
+        return new LinkedHashSet<>(getAllRelationsOfRelationArgument(
                 conceptRelationArgument));
     }
 
@@ -119,12 +120,11 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      * @return a list of relations
      */
     @Override
-    public List<Relation> getRelationsByConceptRelationType(
+    public Set<Relation> getRelationsByConceptRelationType(
             Concept concept, RelationType.RelationNameForward relationType) {
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
         RelationArgument retrievedRelationArgument = raDao.
-                getRelationArgument(
-                        concept);
+                getRelationArgument(concept);
         return getRelationsByRelationArgumentRelationType(
                 retrievedRelationArgument, relationType);
     }
@@ -139,13 +139,13 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      * @return a list of relations
      */
     @Override
-    public List<Relation> getRelationsByLeftConceptTypeOfRelation(
+    public Set<Relation> getRelationsByLeftConceptTypeOfRelation(
             Concept concept, RelationType.RelationNameForward relationType) {
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
         RelationArgument retrievedRelationArgument = raDao.
                 getRelationArgument(concept);
-        if (retrievedRelationArgument == null) {
-            return new ArrayList<>();
+        if (isNull(retrievedRelationArgument)) {
+            return null;
         } else {
             return getRelationsByLeftRelationArgumentTypeOfRelation(
                     retrievedRelationArgument, relationType);
@@ -162,13 +162,13 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      * @return a list of relations
      */
     @Override
-    public List<Relation> getRelationsByRightConceptTypeOfRelation(
+    public Set<Relation> getRelationsByRightConceptTypeOfRelation(
             Concept concept, RelationType.RelationNameForward relationType) {
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
         RelationArgument retrievedRelationArgument = raDao.
                 getRelationArgument(concept);
-        if (retrievedRelationArgument == null) {
-            return new ArrayList<>();
+        if (isNull(retrievedRelationArgument)) {
+            return null;
         } else {
             return getRelationsByRightRelationArgumentTypeOfRelation(
                     retrievedRelationArgument, relationType);
@@ -183,13 +183,13 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      * @return a list of relations
      */
     @Override
-    public List<Relation> getRelationsByRelationType(
+    public Set<Relation> getRelationsByRelationType(
             RelationType.RelationNameForward relationType) {
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByRelationType").
                 setParameter("relationType", relationType);
-        List<Relation> retrievedRelationsList = new ArrayList<>();
-        retrievedRelationsList = (List<Relation>)query.getResultList();
+        Set<Relation> retrievedRelationsList =
+                new LinkedHashSet<>(query.getResultList());
         return retrievedRelationsList;
     }
 
@@ -201,13 +201,14 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      * @return a list of relations
      */
     @Override
-    public List<Relation> getAllRelationsOfRelationArgument(
+    public Set<Relation> getAllRelationsOfRelationArgument(
             RelationArgument relationArgument) {
         getEntityManager().clear();
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByRelationArgumentRightArgumentOrLeftArgument").
                 setParameter("relationArgument", relationArgument);
-        List<Relation> retrievedRelationsList = query.getResultList();
+        Set<Relation> retrievedRelationsList =
+                new LinkedHashSet<>(query.getResultList());
         return retrievedRelationsList;
     }
 
@@ -225,7 +226,8 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         Query query = getEntityManager().createNamedQuery("areRelated").
                 setParameter("relationArgument1", relationArgument1).
                 setParameter("relationArgument2", relationArgument2);
-        List<Relation> retrievedRelationsList = query.getResultList();
+        Set<Relation> retrievedRelationsList =
+                new LinkedHashSet<>(query.getResultList());
         return retrievedRelationsList.size() > 0;
     }
 
@@ -239,14 +241,14 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      * @return a list of relations
      */
     @Override
-    public List<Relation> getRelationsByRelationArgumentRelationType(
+    public Set<Relation> getRelationsByRelationArgumentRelationType(
             RelationArgument relationArgument,
             RelationType.RelationNameForward relationType) {
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByRelationArgumentRelationType").
                 setParameter("relationArgument", relationArgument).
                 setParameter("relationType", relationType);
-        return query.getResultList();
+        return new LinkedHashSet<>(query.getResultList());
     }
 
     /**
@@ -260,14 +262,14 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      * @return a list of relations
      */
     @Override
-    public List<Relation> getRelationsByLeftRelationArgumentTypeOfRelation(
+    public Set<Relation> getRelationsByLeftRelationArgumentTypeOfRelation(
             RelationArgument relationArgument,
             RelationType.RelationNameForward relationType) {
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByLeftRelationArgumentRelationType").
                 setParameter("relationArgument", relationArgument).
                 setParameter("relationType", relationType);
-        return query.getResultList();
+        return new LinkedHashSet<>(query.getResultList());
     }
 
     /**
@@ -281,14 +283,14 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
      * @return a list of relations
      */
     @Override
-    public List<Relation> getRelationsByRightRelationArgumentTypeOfRelation(
+    public Set<Relation> getRelationsByRightRelationArgumentTypeOfRelation(
             RelationArgument relationArgument,
             RelationType.RelationNameForward relationType) {
         Query query = getEntityManager().createNamedQuery(
                 "findRelationsByRightRelationArgumentRelationType").
                 setParameter("relationArgument", relationArgument).
                 setParameter("relationType", relationType);
-        return query.getResultList();
+        return new LinkedHashSet<>(query.getResultList());
     }
 
     /**

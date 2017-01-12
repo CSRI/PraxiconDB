@@ -7,9 +7,8 @@ package gr.csri.poeticon.praxicon.db.entities;
 
 import static gr.csri.poeticon.praxicon.db.entities.Concept.Status.VARIABLE;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import static java.util.Objects.isNull;
 import java.util.Set;
@@ -97,7 +96,7 @@ public class RelationSet implements Serializable {
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet")
-    private List<RelationSet_Relation> relations;
+    private Set<RelationSet_Relation> relations;
 
     @XmlElement(name = "languageRepresentation")
     @ManyToMany(cascade = CascadeType.ALL)
@@ -108,23 +107,23 @@ public class RelationSet implements Serializable {
             inverseJoinColumns = {
                 @JoinColumn(name = "LanguageRepresentationId")}
     )
-    private List<LanguageRepresentation> languageRepresentations;
+    private Set<LanguageRepresentation> languageRepresentations;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet")
-    private List<VisualRepresentation> visualRepresentations;
+    private Set<VisualRepresentation> visualRepresentations;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet")
-    private List<MotoricRepresentation> motoricRepresentations;
+    private Set<MotoricRepresentation> motoricRepresentations;
 
     /**
      * Constructor #1.
      */
     public RelationSet() {
         this.name = "";
-        this.relations = new ArrayList<>();
-        this.languageRepresentations = new ArrayList<>();
-        this.visualRepresentations = new ArrayList<>();
-        this.motoricRepresentations = new ArrayList<>();
+        this.relations = new LinkedHashSet<>();
+        this.languageRepresentations = new LinkedHashSet<>();
+        this.visualRepresentations = new LinkedHashSet<>();
+        this.motoricRepresentations = new LinkedHashSet<>();
     }
 
     /**
@@ -137,10 +136,10 @@ public class RelationSet implements Serializable {
      * @param motoricRepresentations
      */
     public RelationSet(String name,
-            List<RelationSet_Relation> relationSetRelationsList,
-            List<LanguageRepresentation> languageRepresentations,
-            List<VisualRepresentation> visualRepresentations,
-            List<MotoricRepresentation> motoricRepresentations) {
+            Set<RelationSet_Relation> relationSetRelationsList,
+            Set<LanguageRepresentation> languageRepresentations,
+            Set<VisualRepresentation> visualRepresentations,
+            Set<MotoricRepresentation> motoricRepresentations) {
         this.name = name;
         this.relations = relationSetRelationsList;
         this.languageRepresentations = languageRepresentations;
@@ -179,9 +178,9 @@ public class RelationSet implements Serializable {
      *
      * @return a list of relations
      */
-    public List<Relation> getRelationsList() {
-        List<RelationSet_Relation> relationSetRelationList = this.relations;
-        List<Relation> relationList = new ArrayList();
+    public Set<Relation> getRelationsList() {
+        Set<RelationSet_Relation> relationSetRelationList = this.relations;
+        Set<Relation> relationList = new LinkedHashSet();
         if (!relationSetRelationList.isEmpty()) {
             for (RelationSet_Relation relationSetRelation
                     : relationSetRelationList) {
@@ -207,7 +206,7 @@ public class RelationSet implements Serializable {
      *
      * @return a List of Relation
      */
-    public List<RelationSet_Relation> getRelations() {
+    public Set<RelationSet_Relation> getRelations() {
         return relations;
     }
 
@@ -216,7 +215,7 @@ public class RelationSet implements Serializable {
      *
      * @param relations
      */
-    public void setRelations(List<RelationSet_Relation> relations) {
+    public void setRelations(Set<RelationSet_Relation> relations) {
         this.relations = relations;
     }
 
@@ -237,7 +236,7 @@ public class RelationSet implements Serializable {
      *
      * @return a list of LanguageRepresentation
      */
-    public List<LanguageRepresentation> getLanguageRepresentations() {
+    public Set<LanguageRepresentation> getLanguageRepresentations() {
         return languageRepresentations;
     }
 
@@ -246,8 +245,8 @@ public class RelationSet implements Serializable {
      *
      * @return a list strings containing the names of language representation
      */
-    public List<String> getLanguageRepresentationsNames() {
-        List<String> languageRepresentationNames = new ArrayList<>();
+    public Set<String> getLanguageRepresentationsNames() {
+        Set<String> languageRepresentationNames = new LinkedHashSet<>();
         for (LanguageRepresentation languageRepresentation
                 : languageRepresentations) {
             languageRepresentationNames.add(
@@ -262,7 +261,7 @@ public class RelationSet implements Serializable {
      * @param languageRepresentations
      */
     public void setLanguageRepresentations(
-            List<LanguageRepresentation> languageRepresentations) {
+            Set<LanguageRepresentation> languageRepresentations) {
         this.languageRepresentations = languageRepresentations;
     }
 
@@ -276,7 +275,7 @@ public class RelationSet implements Serializable {
         this.languageRepresentations.add(languageRepresentation);
     }
 
-    public List<VisualRepresentation> getVisualRepresentations() {
+    public Set<VisualRepresentation> getVisualRepresentations() {
         return visualRepresentations;
     }
 
@@ -286,13 +285,13 @@ public class RelationSet implements Serializable {
     }
 
     public void setVisualRepresentation(
-            List<VisualRepresentation> visualRepresentations) {
+            Set<VisualRepresentation> visualRepresentations) {
         this.visualRepresentations = visualRepresentations;
     }
 
-    public final List<VisualRepresentation> getVisualRepresentationsEntries() {
-        List<VisualRepresentation> visualRepresentationEntries =
-                new ArrayList<>();
+    public final Set<VisualRepresentation> getVisualRepresentationsEntries() {
+        Set<VisualRepresentation> visualRepresentationEntries =
+                new LinkedHashSet<>();
         for (VisualRepresentation VisualRepresentation
                 : this.visualRepresentations) {
             visualRepresentationEntries.add(VisualRepresentation);
@@ -300,13 +299,13 @@ public class RelationSet implements Serializable {
         return visualRepresentationEntries;
     }
 
-    public final List<MotoricRepresentation> getMotoricRepresentations() {
+    public final Set<MotoricRepresentation> getMotoricRepresentations() {
         return motoricRepresentations;
     }
 
-    public List<MotoricRepresentation> getMotoricRepresentationsEntries() {
-        List<MotoricRepresentation> motoricRepresentationEntries =
-                new ArrayList<>();
+    public Set<MotoricRepresentation> getMotoricRepresentationsEntries() {
+        Set<MotoricRepresentation> motoricRepresentationEntries =
+                new LinkedHashSet<>();
         for (MotoricRepresentation MotoricRepresentation
                 : this.motoricRepresentations) {
             motoricRepresentationEntries.add(MotoricRepresentation);
@@ -315,7 +314,7 @@ public class RelationSet implements Serializable {
     }
 
     public void setMotoricRepresentations(
-            List<MotoricRepresentation> motoricRepresentations) {
+            Set<MotoricRepresentation> motoricRepresentations) {
         this.motoricRepresentations = motoricRepresentations;
     }
 
@@ -362,10 +361,10 @@ public class RelationSet implements Serializable {
     public int hashCode() {
         int hash = 5;
         hash = 13 * hash + Objects.hashCode(this.name);
-        hash = 13 * hash + Objects.hashCode(this.getRelationsList());
-        hash = 13 * hash + Objects.hashCode(this.getLanguageRepresentations());
-        hash = 13 * hash + Objects.hashCode(this.getVisualRepresentations());
-        hash = 13 * hash + Objects.hashCode(this.getMotoricRepresentations());
+        hash = 13 * hash + Objects.hashCode(this.relations);
+        hash = 13 * hash + Objects.hashCode(this.languageRepresentations);
+        hash = 13 * hash + Objects.hashCode(this.visualRepresentations);
+        hash = 13 * hash + Objects.hashCode(this.motoricRepresentations);
         return hash;
     }
 
@@ -379,22 +378,22 @@ public class RelationSet implements Serializable {
         }
         final RelationSet other = (RelationSet)obj;
         if (!isNull(this.name) && !isNull(other.getName())) {
-            if (!this.name.equals(other.name)) {
+            if (!this.name.equals(other.getName())) {
                 return false;
             }
         }
-        if (!this.getRelationsList().equals(other.getRelationsList())) {
+        if (!this.relations.equals(other.getRelationsList())) {
             return false;
         }
-        if (!this.getLanguageRepresentations().
+        if (!this.languageRepresentations.
                 equals(other.getLanguageRepresentations())) {
             return false;
         }
-        if (!this.getVisualRepresentations().
+        if (!this.visualRepresentations.
                 equals(other.getVisualRepresentations())) {
             return false;
         }
-        if (!this.getMotoricRepresentations().
+        if (!this.motoricRepresentations.
                 equals(other.getMotoricRepresentations())) {
             return false;
         }
@@ -403,8 +402,8 @@ public class RelationSet implements Serializable {
 
     @Override
     public String toString() {
-        List<Relation> relationsList = this.getRelationsList();
-        List<String> relationsStringsList = new ArrayList<>();
+        Set<Relation> relationsList = this.getRelationsList();
+        Set<String> relationsStringsList = new LinkedHashSet<>();
         String relationsString;
         for (Relation relation : relationsList) {
             relationsStringsList.add(relation.toString());

@@ -35,7 +35,6 @@
         <class>gr.csri.poeticon.praxicon.db.entities.VisualRepresentation</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect" />
             <property name="javax.persistence.jdbc.url" value="jdbc:derby:memory:test;create=true"/>
             <property name="javax.persistence.jdbc.default_schema" value="test"/>
             <property name="javax.persistence.jdbc.user" value="APP"/>

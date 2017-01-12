@@ -8,9 +8,9 @@ package gr.csri.poeticon.praxicon.db.entities;
 
 import gr.csri.poeticon.praxicon.db.dao.RelationArgumentDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationArgumentDaoImpl;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
 import static java.util.Objects.isNull;
+import java.util.Set;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -25,18 +25,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class RelationArguments {
 
     @XmlElement(name = "relationArgument")
-    List<RelationArgument> relationArguments = new ArrayList<>();
+    Set<RelationArgument> relationArguments = new LinkedHashSet<>();
 
-    public List<RelationArgument> getRelationArguments() {
+    public Set<RelationArgument> getRelationArguments() {
         return relationArguments;
     }
 
-    public void setRelationArguments(List<RelationArgument> relationArguments) {
+    public void setRelationArguments(Set<RelationArgument> relationArguments) {
         this.relationArguments = relationArguments;
     }
 
     public RelationArguments() {
-        relationArguments = new ArrayList<>();
+        relationArguments = new LinkedHashSet<>();
     }
 
     /**

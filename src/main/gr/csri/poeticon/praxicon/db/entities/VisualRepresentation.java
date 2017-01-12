@@ -161,15 +161,15 @@ public class VisualRepresentation implements Serializable {
     /**
      * @return the URI of the visual representation. Usually a URL or file path.
      */
-    public URI getURI() {
+    public URI getUri() {
         return uri;
     }
 
-    public void setURI(URI uri) {
+    public void setUri(URI uri) {
         this.uri = uri;
     }
 
-    public void setURI(String uri) throws URISyntaxException,
+    public void setUri(String uri) throws URISyntaxException,
             MalformedURLException {
         String[] schemes = {"http", "https"};
         URL url = null;
@@ -205,6 +205,23 @@ public class VisualRepresentation implements Serializable {
         }
     }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public MotoricRepresentation getMotoricRepresentation() {
+        return motoricRepresentation;
+    }
+
+    public void setMotoricRepresentation(
+            MotoricRepresentation motoricRepresentation) {
+        this.motoricRepresentation = motoricRepresentation;
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;
@@ -212,7 +229,7 @@ public class VisualRepresentation implements Serializable {
         hash = 47 * hash + Objects.hashCode(this.name);
         hash = 47 * hash + Objects.hashCode(this.source);
         hash = 47 * hash + Objects.hashCode(this.uri);
-        hash = 47 * hash + Objects.hashCode(this.motoricRepresentation);
+//        hash = 47 * hash + Objects.hashCode(this.motoricRepresentation);
         return hash;
     }
 
@@ -228,22 +245,21 @@ public class VisualRepresentation implements Serializable {
             return false;
         }
         final VisualRepresentation other = (VisualRepresentation)obj;
-        if (this.mediaType != other.mediaType) {
+        if (!this.mediaType.equals(other.getMediaType())) {
             return false;
         }
-        if (!Objects.equals(this.name, other.name)) {
+        if (!this.name.equals(other.getName())) {
             return false;
         }
-        if (!Objects.equals(this.source, other.source)) {
+        if (!this.source.equals(other.getSource())) {
             return false;
         }
-        if (!Objects.equals(this.uri, other.uri)) {
+        if (!this.uri.equals(other.getUri())) {
             return false;
         }
-        if (!Objects.equals(this.motoricRepresentation,
-                other.motoricRepresentation)) {
-            return false;
-        }
+//        if (!this.motoricRepresentation.equals(other.motoricRepresentation)) {
+//            return false;
+//        }
         return true;
     }
 

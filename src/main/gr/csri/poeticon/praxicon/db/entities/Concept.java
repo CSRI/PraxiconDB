@@ -4,17 +4,17 @@
  */
 package gr.csri.poeticon.praxicon.db.entities;
 
-import static gr.csri.poeticon.praxicon.EntityMngFactory.getEntityManager;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import static java.util.Objects.isNull;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -33,15 +33,15 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.hibernate.Session;
 
 /**
  *
  * @author dmavroeidis
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "concept", namespace = "http://www.csri.gr/concept")
 @Entity
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "concept", namespace =
+        "http://www.csri.gr/concept")
 @NamedQueries({
     @NamedQuery(name = "findAllConcepts", query = "FROM Concept c"),
     @NamedQuery(name = "findConceptsByConceptId", query =
@@ -318,16 +318,16 @@ public class Concept implements Serializable {
             inverseJoinColumns = {
                 @JoinColumn(name = "OntologicalDomainId")}
     )
-    private List<OntologicalDomain> ontologicalDomains;
+    private Set<OntologicalDomain> ontologicalDomains;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "concept")
-    private List<Concept_LanguageRepresentation> languageRepresentations;
+    private Set<Concept_LanguageRepresentation> languageRepresentations;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "concept")
-    private List<VisualRepresentation> visualRepresentations;
+    private Set<VisualRepresentation> visualRepresentations;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "concept")
-    private List<MotoricRepresentation> motoricRepresentations;
+    private Set<MotoricRepresentation> motoricRepresentations;
 
     /**
      * Public Constructor.
@@ -342,16 +342,19 @@ public class Concept implements Serializable {
         uniqueInstance = Concept.UniqueInstance.UNKNOWN;
         source = "";
         comment = "";
-        languageRepresentations = new ArrayList<>();
-        visualRepresentations = new ArrayList<>();
-        motoricRepresentations = new ArrayList<>();
-        ontologicalDomains = new ArrayList<>();
+        languageRepresentations = new LinkedHashSet<>();
+        visualRepresentations = new LinkedHashSet<>();
+        motoricRepresentations = new LinkedHashSet<>();
+        ontologicalDomains = new LinkedHashSet<>();
     }
 
     /**
      * Public Constructor with arguments.
      *
      * @param newConcept
+     * @param keepLanguageRepresentation
+     * @param keepVisualRepresentation
+     * @param keepMotoricRepresentation
      */
     public Concept(Concept newConcept,
             boolean keepLanguageRepresentation,
@@ -366,10 +369,10 @@ public class Concept implements Serializable {
         this.specificityLevel = newConcept.getSpecificityLevel();
         this.status = newConcept.getStatus();
         this.uniqueInstance = newConcept.getUniqueInstance();
-        this.languageRepresentations = new ArrayList<>();
-        this.visualRepresentations = new ArrayList<>();
-        this.motoricRepresentations = new ArrayList<>();
-        this.ontologicalDomains = new ArrayList<>();
+        this.languageRepresentations = new LinkedHashSet<>();
+        this.visualRepresentations = new LinkedHashSet<>();
+        this.motoricRepresentations = new LinkedHashSet<>();
+        this.ontologicalDomains = new LinkedHashSet<>();
 
         if (keepLanguageRepresentation) {
             for (LanguageRepresentation lr : newConcept.
@@ -660,17 +663,17 @@ public class Concept implements Serializable {
      *
      * @return The ontological domain of the concept
      */
-    public List<OntologicalDomain> getOntologicalDomains() {
+    public Set<OntologicalDomain> getOntologicalDomains() {
         return ontologicalDomains;
     }
 
     /**
      * Sets the ontological domain of the concept.
      *
-     * @param ontologicalDomain
+     * @param ontologicalDomains
      */
     public void setOntologicalDomains(
-            List<OntologicalDomain> ontologicalDomains) {
+            Set<OntologicalDomain> ontologicalDomains) {
         this.ontologicalDomains = ontologicalDomains;
     }
 
@@ -688,20 +691,13 @@ public class Concept implements Serializable {
      * @return a list containing the concept's language representations
      *
      */
-    public final List<LanguageRepresentation> getLanguageRepresentations() {
-        EntityManager em = getEntityManager();
-        Session session = em.unwrap(org.hibernate.Session.class);
-        List<LanguageRepresentation> lrs = new ArrayList<>();
+    public final Set<LanguageRepresentation> getLanguageRepresentations() {
+        Set<LanguageRepresentation> lrs = new LinkedHashSet<>();
         for (Concept_LanguageRepresentation clr
                 : getConceptLanguageRepresentationsEntries()) {
-            if (!isNull(clr.getId())) {
-                if (!session.contains(clr)) {
-                    session.update(clr);
-                }
-            }
             lrs.add(clr.getLanguageRepresentation());
         }
-        return new ArrayList<>(lrs);
+        return new LinkedHashSet<>(lrs);
     }
 
     /**
@@ -711,13 +707,13 @@ public class Concept implements Serializable {
      * @return the Concept_LanguageRepresentation instance of the concept
      *
      */
-    public final List<Concept_LanguageRepresentation>
+    public final Set<Concept_LanguageRepresentation>
             getConcept_LanguageRepresentation() {
         return languageRepresentations;
     }
 
     public void setConcept_LanguageRepresentation(
-            List<Concept_LanguageRepresentation> languageRepresentations) {
+            Set<Concept_LanguageRepresentation> languageRepresentations) {
         this.languageRepresentations = languageRepresentations;
     }
 
@@ -727,14 +723,14 @@ public class Concept implements Serializable {
      * @return a list of Concept_LanguageRepresentation instances for the
      *         concept
      */
-    public List<Concept_LanguageRepresentation>
+    public Set<Concept_LanguageRepresentation>
             getConceptLanguageRepresentationsEntries() {
-        List<Concept_LanguageRepresentation> languageRepresentationEntries =
+        Set<Concept_LanguageRepresentation> languageRepresentationEntries =
                 this.getConcept_LanguageRepresentation();
         if (!languageRepresentationEntries.isEmpty()) {
-            return new ArrayList<>(languageRepresentationEntries);
+            return new LinkedHashSet<>(languageRepresentationEntries);
         } else {
-            return new ArrayList<>();
+            return new LinkedHashSet<>();
         }
     }
 
@@ -746,7 +742,8 @@ public class Concept implements Serializable {
      */
     public void addConceptLanguageRepresentation(
             Concept_LanguageRepresentation conceptLanguageRepresentation) {
-        this.languageRepresentations.add(conceptLanguageRepresentation);
+        this.languageRepresentations.
+                add(conceptLanguageRepresentation);
     }
 
     /**
@@ -774,14 +771,14 @@ public class Concept implements Serializable {
      * @return the text of the first Language Representation of the concept.
      */
     public String getFirstLanguageRepresentationName() {
-        List<LanguageRepresentation> lrs = this.getLanguageRepresentations();
+        Set<LanguageRepresentation> lrs = this.getLanguageRepresentations();
         for (LanguageRepresentation lr : lrs) {
             if (lr.getLanguage().name().equalsIgnoreCase("en")) {
                 return lr.getText();
             }
         }
         if (lrs.size() > 0) {
-            return lrs.get(0).getText();
+            return lrs.iterator().next().getText();
         }
         return "noname";
     }
@@ -792,22 +789,17 @@ public class Concept implements Serializable {
      * @return list of strings with all the texts of the Language
      *         Representations of the Concept.
      */
-    public List<String> getLanguageRepresentationsNames() {
-        EntityManager em = getEntityManager();
-        Session session = em.unwrap(org.hibernate.Session.class);
-        List<LanguageRepresentation> lrs = this.getLanguageRepresentations();
+    public Set<String> getLanguageRepresentationsNames() {
+        Set<LanguageRepresentation> lrs = this.getLanguageRepresentations();
         List<String> lrNames = new ArrayList<>();
         if (!lrs.isEmpty()) {
             for (LanguageRepresentation lr : lrs) {
-                if (!session.contains(lr)) {
-                    session.saveOrUpdate(lr);
-                }
                 lrNames.add(lr.getText());
             }
             Collections.sort(lrNames);
-            return new ArrayList<>(lrNames);
+            return new LinkedHashSet<>(lrNames);
         } else {
-            return new ArrayList<>();
+            return new LinkedHashSet<>();
         }
     }
 
@@ -817,8 +809,8 @@ public class Concept implements Serializable {
      * @return list of strings with all the texts of the Language
      *         Representations of the Concept.
      */
-    public List<String> getLanguageRepresentationsAndRepresentative() {
-        List<Concept_LanguageRepresentation> clrs = this.
+    public Set<String> getLanguageRepresentationsAndRepresentative() {
+        Set<Concept_LanguageRepresentation> clrs = this.
                 getConceptLanguageRepresentationsEntries();
         List<String> lrNamesAndRepresentative = new ArrayList<>();
         if (!clrs.isEmpty()) {
@@ -828,9 +820,9 @@ public class Concept implements Serializable {
                 }
             }
             Collections.sort(lrNamesAndRepresentative);
-            return new ArrayList<>(lrNamesAndRepresentative);
+            return new LinkedHashSet<>(lrNamesAndRepresentative);
         } else {
-            return new ArrayList<>();
+            return new LinkedHashSet<>();
         }
     }
 
@@ -860,7 +852,7 @@ public class Concept implements Serializable {
      *
      * @return visual representations construct
      */
-    public List<VisualRepresentation> getVisualRepresentations() {
+    public Set<VisualRepresentation> getVisualRepresentations() {
         return visualRepresentations;
     }
 
@@ -880,7 +872,7 @@ public class Concept implements Serializable {
      * @param visualRepresentations
      */
     public void setVisualRepresentation(
-            List<VisualRepresentation> visualRepresentations) {
+            Set<VisualRepresentation> visualRepresentations) {
         this.visualRepresentations = visualRepresentations;
     }
 
@@ -889,14 +881,14 @@ public class Concept implements Serializable {
      *
      * @return a list of visual representations
      */
-    public final List<VisualRepresentation> getVisualRepresentationsEntries() {
-        List<VisualRepresentation> visualRepresentationEntries =
-                new ArrayList<>();
+    public final Set<VisualRepresentation> getVisualRepresentationsEntries() {
+        Set<VisualRepresentation> visualRepresentationEntries =
+                new LinkedHashSet<>();
         for (VisualRepresentation VisualRepresentation
                 : this.visualRepresentations) {
             visualRepresentationEntries.add(VisualRepresentation);
         }
-        return visualRepresentationEntries;
+        return new LinkedHashSet<>(visualRepresentationEntries);
     }
 
     /**
@@ -921,7 +913,7 @@ public class Concept implements Serializable {
      *
      * @return motoric representation construct
      */
-    public final List<MotoricRepresentation> getMotoricRepresentations() {
+    public final Set<MotoricRepresentation> getMotoricRepresentations() {
         return motoricRepresentations;
     }
 
@@ -930,14 +922,14 @@ public class Concept implements Serializable {
      *
      * @return a list of motoric representations
      */
-    public List<MotoricRepresentation> getMotoricRepresentationsEntries() {
-        List<MotoricRepresentation> motoricRepresentationEntries =
-                new ArrayList<>();
+    public Set<MotoricRepresentation> getMotoricRepresentationsEntries() {
+        Set<MotoricRepresentation> motoricRepresentationEntries =
+                new LinkedHashSet<>();
         for (MotoricRepresentation MotoricRepresentation
                 : this.motoricRepresentations) {
             motoricRepresentationEntries.add(MotoricRepresentation);
         }
-        return motoricRepresentationEntries;
+        return new LinkedHashSet<>(motoricRepresentationEntries);
     }
 
     /**
@@ -946,7 +938,7 @@ public class Concept implements Serializable {
      * @param motoricRepresentations
      */
     public void setMotoricRepresentations(
-            List<MotoricRepresentation> motoricRepresentations) {
+            Set<MotoricRepresentation> motoricRepresentations) {
         this.motoricRepresentations = motoricRepresentations;
     }
 
@@ -1013,10 +1005,10 @@ public class Concept implements Serializable {
         hash = 13 * hash + Objects.hashCode(this.status);
         hash = 13 * hash + Objects.hashCode(this.pragmaticStatus);
         hash = 13 * hash + Objects.hashCode(this.uniqueInstance);
-        hash = 13 * hash + Objects.hashCode(this.getOntologicalDomains().
-                toString());
-        hash = 13 * hash + Objects.hashCode(this.
-                getLanguageRepresentationsAndRepresentative().toString());
+        hash = 13 * hash + Objects.hashCode(this.languageRepresentations);
+        hash = 13 * hash + Objects.hashCode(this.visualRepresentations);
+        hash = 13 * hash + Objects.hashCode(this.motoricRepresentations);
+        hash = 13 * hash + Objects.hashCode(this.ontologicalDomains);
         return hash;
     }
 
@@ -1036,7 +1028,8 @@ public class Concept implements Serializable {
         }
         if (!isNull(this.externalSourceId) && !isNull(other.
                 getExternalSourceId())) {
-            if (!this.externalSourceId.equals(other.getExternalSourceId())) {
+            if (!this.externalSourceId.
+                    equals(other.getExternalSourceId())) {
                 return false;
             }
         }
@@ -1067,7 +1060,7 @@ public class Concept implements Serializable {
                 getMotoricRepresentations())) {
             return false;
         }
-        if (!this.getOntologicalDomains().toString().equals(other.
+        if (!this.ontologicalDomains.toString().equals(other.
                 getOntologicalDomains().toString())) {
             return false;
         }
@@ -1081,14 +1074,15 @@ public class Concept implements Serializable {
             // + " (Entity)";
         } else if (!isNull(this.getConceptLanguageRepresentationsEntries()) &&
                 !this.getConceptLanguageRepresentationsEntries().isEmpty()) {
-            List<Concept_LanguageRepresentation> tmpList =
+            Set<Concept_LanguageRepresentation> tmpList =
                     this.getConceptLanguageRepresentationsEntries();
             if (tmpList.size() > 0) {
                 StringBuilder tmp = new StringBuilder(
-                        tmpList.get(0).getLanguageRepresentation().getText());
-                for (int i = 1; i < tmpList.size(); i++) {
-                    tmp.append("\\").append(tmpList.get(i).
-                            getLanguageRepresentation().getText());
+                        tmpList.iterator().next().getLanguageRepresentation().
+                        getText());
+                for (Concept_LanguageRepresentation item : tmpList) {
+                    tmp.append("\\").append(item.getLanguageRepresentation().
+                            getText());
                 }
                 return tmp.toString();
             } else {
