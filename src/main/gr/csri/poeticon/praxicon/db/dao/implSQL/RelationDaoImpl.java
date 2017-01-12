@@ -12,6 +12,7 @@ import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import java.io.Serializable;
 import java.util.LinkedHashSet;
+import static java.util.Objects.isNull;
 import java.util.Set;
 import javax.persistence.Query;
 
@@ -44,7 +45,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         Set<Relation> retrievedRelationsList =
                 new LinkedHashSet<>(query.getResultList());
         if (retrievedRelationsList.isEmpty()) {
-            return new Relation();
+            return null;
         }
         return retrievedRelationsList.iterator().next();
     }
@@ -70,7 +71,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         Set<Relation> retrievedRelationsList =
                 new LinkedHashSet<>(query.getResultList());
         if (retrievedRelationsList.isEmpty()) {
-            return new Relation();
+            return null;
         }
         return retrievedRelationsList.iterator().next();
     }
@@ -143,7 +144,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
         RelationArgument retrievedRelationArgument = raDao.
                 getRelationArgument(concept);
-        if (retrievedRelationArgument == null) {
+        if (isNull(retrievedRelationArgument)) {
             return new LinkedHashSet<>();
         } else {
             return getRelationsByLeftRelationArgumentTypeOfRelation(
@@ -166,7 +167,7 @@ public class RelationDaoImpl extends JpaDao<Long, Relation> implements
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
         RelationArgument retrievedRelationArgument = raDao.
                 getRelationArgument(concept);
-        if (retrievedRelationArgument == null) {
+        if (isNull(retrievedRelationArgument)) {
             return new LinkedHashSet<>();
         } else {
             return getRelationsByRightRelationArgumentTypeOfRelation(
