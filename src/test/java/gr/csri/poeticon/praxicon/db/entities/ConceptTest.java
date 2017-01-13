@@ -11,8 +11,8 @@ import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
 import gr.csri.poeticon.praxicon.db.entities.Concept.ConceptType;
 import static java.lang.System.out;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import static javax.persistence.Persistence.createEntityManagerFactory;
@@ -76,8 +76,6 @@ public class ConceptTest {
         Concept instance = cDao.getConceptByExternalSourceIdExact("107929519");
         String expResult = "5";
         String result = instance.getId().toString();
-        out.println("expResult: " + expResult);
-        out.println("result: " + expResult);
         assertEquals(expResult, result);
     }
 
@@ -102,8 +100,6 @@ public class ConceptTest {
         Concept instance = cDao.getConceptByNameExact("cup%1:06:00::");
         String expResult = "103147509";
         String result = instance.getExternalSourceId();
-        out.println("expResult: " + expResult);
-        out.println("result: " + expResult);
         assertEquals(expResult, result);
     }
 
@@ -393,9 +389,11 @@ public class ConceptTest {
         String result = instance.getComment();
         assertEquals(result, comment);
     }
-//
 
-// TODO: Enable the OntologicalDomains test when there are sufficient data.
+    /*
+     * TODO: Enable the OntologicalDomains test when there are sufficient
+     * ontological domain data.
+     */
 //    /**
 //     * Test of getOntologicalDomains method, of class Concept.
 //     */
@@ -442,7 +440,6 @@ public class ConceptTest {
     @Test
     public void testGetLanguageRepresentations() {
         System.out.println("getLanguageRepresentations");
-        String comment = "TestSetComment";
         Concept instance = cDao.getConceptByExternalSourceIdExact(
                 "103169390");
         // Create the language representations
@@ -479,31 +476,87 @@ public class ConceptTest {
         languageRepresentation1.setText("decoration");
         languageRepresentation2.setText("ornament");
         languageRepresentation3.setText("ornamentation");
-        List<LanguageRepresentation> expResult = new ArrayList<>();
+        Set<LanguageRepresentation> expResult = new LinkedHashSet<>();
         expResult.add(languageRepresentation1);
         expResult.add(languageRepresentation2);
         expResult.add(languageRepresentation3);
-        
+
         // Check if they are the same as the retrieved.
-        List<LanguageRepresentation> result =
+        Set<LanguageRepresentation> result =
                 instance.getLanguageRepresentations();
         assertEquals(expResult, result);
     }
 
-//    /**
-//     * Test of getConcept_LanguageRepresentation method, of class Concept.
-//     */
-//    @Test
-//    public void testGetConceptLanguageRepresentation() {
-//        System.out.println("getConcept_LanguageRepresentation");
-//        Concept instance = new Concept();
-//        List<Concept_LanguageRepresentation> expResult = null;
-//        List<Concept_LanguageRepresentation> result =
-//                instance.getConcept_LanguageRepresentation();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    /**
+     * Test of getConcept_LanguageRepresentation method, of class Concept.
+     */
+    @Test
+    public void testGetConcept_LanguageRepresentation() {
+        System.out.println("getConcept_LanguageRepresentation");
+        Concept instance = cDao.getConceptByExternalSourceIdExact(
+                "103169390");
+
+        // Create the concept language representations structures
+        LanguageRepresentation languageRepresentation1 =
+                new LanguageRepresentation();
+        LanguageRepresentation languageRepresentation2 =
+                new LanguageRepresentation();
+        LanguageRepresentation languageRepresentation3 =
+                new LanguageRepresentation();
+        languageRepresentation1.
+                setLanguage(LanguageRepresentation.Language.EN);
+        languageRepresentation2.
+                setLanguage(LanguageRepresentation.Language.EN);
+        languageRepresentation3.
+                setLanguage(LanguageRepresentation.Language.EN);
+        languageRepresentation1.setUseStatus(
+                LanguageRepresentation.UseStatus.LITERAL);
+        languageRepresentation2.setUseStatus(
+                LanguageRepresentation.UseStatus.LITERAL);
+        languageRepresentation3.setUseStatus(
+                LanguageRepresentation.UseStatus.LITERAL);
+        languageRepresentation1.setPartOfSpeech(
+                LanguageRepresentation.PartOfSpeech.NOUN);
+        languageRepresentation2.setPartOfSpeech(
+                LanguageRepresentation.PartOfSpeech.NOUN);
+        languageRepresentation3.setPartOfSpeech(
+                LanguageRepresentation.PartOfSpeech.NOUN);
+        languageRepresentation1.setOperator(
+                LanguageRepresentation.Operator.NONE);
+        languageRepresentation2.setOperator(
+                LanguageRepresentation.Operator.NONE);
+        languageRepresentation3.setOperator(
+                LanguageRepresentation.Operator.NONE);
+        languageRepresentation1.setText("decoration");
+        languageRepresentation2.setText("ornament");
+        languageRepresentation3.setText("ornamentation");
+
+        Concept_LanguageRepresentation conceptLanguageRepresentation1 =
+                new Concept_LanguageRepresentation();
+        Concept_LanguageRepresentation conceptLanguageRepresentation2 =
+                new Concept_LanguageRepresentation();
+        Concept_LanguageRepresentation conceptLanguageRepresentation3 =
+                new Concept_LanguageRepresentation();
+        conceptLanguageRepresentation1.setIsRepresentative(false);
+        conceptLanguageRepresentation2.setIsRepresentative(false);
+        conceptLanguageRepresentation3.setIsRepresentative(false);
+        conceptLanguageRepresentation1.setLanguageRepresentation(
+                languageRepresentation1);
+        conceptLanguageRepresentation2.setLanguageRepresentation(
+                languageRepresentation2);
+        conceptLanguageRepresentation3.setLanguageRepresentation(
+                languageRepresentation3);
+        Set<Concept_LanguageRepresentation> expResult = new LinkedHashSet<>();
+        expResult.add(conceptLanguageRepresentation1);
+        expResult.add(conceptLanguageRepresentation2);
+        expResult.add(conceptLanguageRepresentation3);
+
+        // Check if they are the same as the retrieved.
+        Set<Concept_LanguageRepresentation> result =
+                instance.getConcept_LanguageRepresentation();
+        assertEquals(expResult, result);
+    }
+
 //
 //    /**
 //     * Test of setConcept_LanguageRepresentation method, of class Concept.
