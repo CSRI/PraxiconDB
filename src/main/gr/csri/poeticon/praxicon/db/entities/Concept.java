@@ -40,8 +40,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "concept", namespace =
-        "http://www.csri.gr/concept")
+@XmlRootElement(name = "concept", namespace = "http://www.csri.gr/concept")
 @NamedQueries({
     @NamedQuery(name = "findAllConcepts", query = "FROM Concept c"),
     @NamedQuery(name = "findConceptsByConceptId", query =
@@ -688,7 +687,7 @@ public class Concept implements Serializable {
     /**
      * Gets the language representations of the concept.
      *
-     * @return a list containing the concept's language representations
+     * @return a set containing the concept's language representations
      *
      */
     public final Set<LanguageRepresentation> getLanguageRepresentations() {
@@ -718,9 +717,9 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Gets a list of Concept_LanguageRepresentation instances.
+     * Gets a set of Concept_LanguageRepresentation instances.
      *
-     * @return a list of Concept_LanguageRepresentation instances for the
+     * @return a set of Concept_LanguageRepresentation instances for the
      *         concept
      */
     public Set<Concept_LanguageRepresentation>
@@ -738,7 +737,9 @@ public class Concept implements Serializable {
      * Adds a Concept_LanguageRepresentation instance to the concept.
      *
      * @param conceptLanguageRepresentation A structure that contains the
-     *                                      Language representation with information about its representativeness.
+     *                                      Language representation with 
+     *                                      information about its 
+     *                                      representativeness.
      */
     public void addConceptLanguageRepresentation(
             Concept_LanguageRepresentation conceptLanguageRepresentation) {
@@ -751,7 +752,8 @@ public class Concept implements Serializable {
      *
      * @param languageRepresentation a Language representation.
      * @param isRepresentative       whether the Language representation is
-     *                               representative of the concept or not. There can be more than one
+     *                               representative of the concept or not. 
+     *                               There can be more than one
      *                               representative Language representations.
      */
     public final void addLanguageRepresentation(
@@ -784,9 +786,9 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Gets a list of Language representation texts for this concept.
+     * Gets a set of Language representation texts for this concept.
      *
-     * @return list of strings with all the texts of the Language
+     * @return set of strings with all the texts of the Language
      *         Representations of the Concept.
      */
     public Set<String> getLanguageRepresentationsNames() {
@@ -804,9 +806,9 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Gets a list of Language representation texts for this concept.
+     * Gets a set of Language representation texts for this concept.
      *
-     * @return list of strings with all the texts of the Language
+     * @return set of strings with all the texts of the Language
      *         Representations of the Concept.
      */
     public Set<String> getLanguageRepresentationsAndRepresentative() {
@@ -877,9 +879,9 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Gets a list of visual representations for this concept
+     * Gets a set of visual representations for this concept
      *
-     * @return a list of visual representations
+     * @return a set of visual representations
      */
     public final Set<VisualRepresentation> getVisualRepresentationsEntries() {
         Set<VisualRepresentation> visualRepresentationEntries =
@@ -918,9 +920,9 @@ public class Concept implements Serializable {
     }
 
     /**
-     * Gets a list of motoric representations for this concept.
+     * Gets a set of motoric representations for this concept.
      *
-     * @return a list of motoric representations
+     * @return a set of motoric representations
      */
     public Set<MotoricRepresentation> getMotoricRepresentationsEntries() {
         Set<MotoricRepresentation> motoricRepresentationEntries =
@@ -1074,13 +1076,13 @@ public class Concept implements Serializable {
             // + " (Entity)";
         } else if (!isNull(this.getConceptLanguageRepresentationsEntries()) &&
                 !this.getConceptLanguageRepresentationsEntries().isEmpty()) {
-            Set<Concept_LanguageRepresentation> tmpList =
+            Set<Concept_LanguageRepresentation> tmpSet =
                     this.getConceptLanguageRepresentationsEntries();
-            if (tmpList.size() > 0) {
+            if (tmpSet.size() > 0) {
                 StringBuilder tmp = new StringBuilder(
-                        tmpList.iterator().next().getLanguageRepresentation().
+                        tmpSet.iterator().next().getLanguageRepresentation().
                         getText());
-                for (Concept_LanguageRepresentation item : tmpList) {
+                for (Concept_LanguageRepresentation item : tmpSet) {
                     tmp.append("\\").append(item.getLanguageRepresentation().
                             getText());
                 }

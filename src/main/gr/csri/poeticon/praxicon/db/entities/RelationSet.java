@@ -174,9 +174,9 @@ public class RelationSet implements Serializable {
     }
 
     /**
-     * Gets a list of all Relations contained in this RelationSet.
+     * Gets a Set of all Relations contained in this RelationSet.
      *
-     * @return a list of relations
+     * @return a Set of relations
      */
     public Set<Relation> getRelationsList() {
         Set<RelationSet_Relation> relationSetRelationList = this.relations;
@@ -202,7 +202,7 @@ public class RelationSet implements Serializable {
     }
 
     /**
-     * Gets a list of all relations contained in this relation set.
+     * Gets a Set of all relations contained in this relation set.
      *
      * @return a List of Relation
      */
@@ -232,9 +232,9 @@ public class RelationSet implements Serializable {
     }
 
     /**
-     * Retrieves the list of language representations for this relation set.
+     * Retrieves the Set of language representations for this relation set.
      *
-     * @return a list of LanguageRepresentation
+     * @return a Set of LanguageRepresentation
      */
     public Set<LanguageRepresentation> getLanguageRepresentations() {
         return languageRepresentations;
@@ -243,7 +243,7 @@ public class RelationSet implements Serializable {
     /**
      * Retrieves the names of the language representations of this relation set.
      *
-     * @return a list strings containing the names of language representation
+     * @return a Set strings containing the names of language representation
      */
     public Set<String> getLanguageRepresentationsNames() {
         Set<String> languageRepresentationNames = new LinkedHashSet<>();
