@@ -5,7 +5,10 @@
  */
 package gr.csri.poeticon.praxicon;
 
+import gr.csri.poeticon.praxicon.db.entities.CollectionOfObjects;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
+import gr.csri.poeticon.praxicon.db.entities.Relation;
+import gr.csri.poeticon.praxicon.db.entities.RelationSet;
 import java.io.IOException;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -18,18 +21,42 @@ import javax.xml.bind.SchemaOutputResolver;
 public class GeneratePraxiconXSD {
 
     public static SchemaOutputResolver scoure;
-    JAXBContext jaxbContext;
+    JAXBContext jaxbContextConcept;
+    JAXBContext jaxbContextRelation;
+    JAXBContext jaxbContextRelationSet;
+    JAXBContext jaxbContextCollectionOfObjects;
 
     public GeneratePraxiconXSD() throws JAXBException {
-        this.jaxbContext = JAXBContext.newInstance(Concept.class);
+        this.jaxbContextConcept = JAXBContext.newInstance(Concept.class);
+        this.jaxbContextRelation = JAXBContext.newInstance(Relation.class);
+        this.jaxbContextRelationSet = JAXBContext.newInstance(
+                RelationSet.class);
+        this.jaxbContextCollectionOfObjects = JAXBContext.newInstance(
+                CollectionOfObjects.class);
+
     }
 
     public static void main(String args[]) throws JAXBException, IOException {
         SchemaOutputResolver sour;
-        JAXBContext jaxbContext;
+        JAXBContext jaxbContextConcept;
+        JAXBContext jaxbContextRelation;
+        JAXBContext jaxbContextRelationSet;
+        JAXBContext jaxbContextCollectionOfObjects;
         sour = new PraxiconDBOutputResolver();
-        jaxbContext = JAXBContext.newInstance(Concept.class);
-        jaxbContext.generateSchema(sour);
-        sour.createOutput("http://www.csri.gr/concept", "output.xsd");
+        jaxbContextConcept = JAXBContext.newInstance(Concept.class);
+        jaxbContextRelation = JAXBContext.newInstance(Relation.class);
+        jaxbContextRelationSet = JAXBContext.newInstance(RelationSet.class);
+        jaxbContextCollectionOfObjects = JAXBContext.newInstance(
+                CollectionOfObjects.class);
+        jaxbContextConcept.generateSchema(sour);
+        jaxbContextRelation.generateSchema(sour);
+        jaxbContextRelationSet.generateSchema(sour);
+        jaxbContextCollectionOfObjects.generateSchema(sour);
+        sour.createOutput("http://www.csri.gr/concept", "misc/xsd/Concept.xsd");
+        sour.createOutput("http://www.csri.gr/relation", "misc/xsd/Relation.xsd");
+        sour.createOutput("http://www.csri.gr/relationSet",
+                "misc/xsd/RelationSet.xsd");
+        sour.createOutput("http://www.csri.gr/collectionOfObjects",
+                "misc/xsd/CollectionOfObjects.xsd");
     }
 }

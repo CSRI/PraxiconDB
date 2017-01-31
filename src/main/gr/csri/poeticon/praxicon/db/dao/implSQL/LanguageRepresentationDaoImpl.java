@@ -11,8 +11,8 @@ import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.Operator;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.PartOfSpeech;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.Productivity;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.UseStatus;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Query;
 
 /**
@@ -52,8 +52,8 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("productivity", productivity).
                 setParameter("negation", negation).
                 setParameter("operator", operator);
-        Set<LanguageRepresentation> retrievedLanguageRepresentationList =
-                new LinkedHashSet<>(query.getResultList());
+        List<LanguageRepresentation> retrievedLanguageRepresentationList =
+                new ArrayList<>(query.getResultList());
         if (retrievedLanguageRepresentationList.isEmpty()) {
             return null;
         }
@@ -73,7 +73,7 @@ public class LanguageRepresentationDaoImpl extends
      * @return A LanguageRepresentation (null if not found)
      */
     @Override
-    public Set<LanguageRepresentation> getLanguageRepresentations(
+    public List<LanguageRepresentation> getLanguageRepresentations(
             Language language, String text, PartOfSpeech pos,
             UseStatus useStatus) {
         Query query = getEntityManager().createNamedQuery(
@@ -82,8 +82,8 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("language", language).
                 setParameter("pos", pos).
                 setParameter("useStatus", useStatus);
-        Set<LanguageRepresentation> retrievedLanguageRepresentationList =
-                new LinkedHashSet<>(query.getResultList());
+        List<LanguageRepresentation> retrievedLanguageRepresentationList =
+                new ArrayList<>(query.getResultList());
         if (retrievedLanguageRepresentationList.size() > 0) {
             return retrievedLanguageRepresentationList;
         } else {
@@ -101,12 +101,12 @@ public class LanguageRepresentationDaoImpl extends
      * @return A list of LanguageRepresentations
      */
     @Override
-    public Set<LanguageRepresentation> getLanguageRepresentations(
+    public List<LanguageRepresentation> getLanguageRepresentations(
             String text) {
         Query query = getEntityManager().createNamedQuery(
                 "findLanguageRepresentationsByText").
                 setParameter("text", text);
-        return new LinkedHashSet<>(query.getResultList());
+        return new ArrayList<>(query.getResultList());
     }
 
     /**
@@ -132,8 +132,8 @@ public class LanguageRepresentationDaoImpl extends
                 setParameter("language", language).
                 setParameter("pos", pos).
                 setParameter("useStatus", useStatus);
-        Set<LanguageRepresentation> retrievedLanguageRepresentationList =
-                new LinkedHashSet<>(query.getResultList());
+        List<LanguageRepresentation> retrievedLanguageRepresentationList =
+                new ArrayList<>(query.getResultList());
         if (retrievedLanguageRepresentationList.size() > 0) {
             return retrievedLanguageRepresentationList.iterator().next();
         } else {
@@ -148,10 +148,10 @@ public class LanguageRepresentationDaoImpl extends
      * @return A list of LanguageRepresentation Texts
      */
     @Override
-    public Set<String> getAllLanguageRepresentationText() {
+    public List<String> getAllLanguageRepresentationText() {
         Query query = getEntityManager().createNamedQuery(
                 "getAllLanguageRepresentationTextByText");
-        return new LinkedHashSet<>(query.getResultList());
+        return new ArrayList<>(query.getResultList());
     }
 
     /**

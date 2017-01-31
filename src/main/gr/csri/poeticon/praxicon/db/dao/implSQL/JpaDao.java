@@ -7,9 +7,9 @@ package gr.csri.poeticon.praxicon.db.dao.implSQL;
 import gr.csri.poeticon.praxicon.EntityMngFactory;
 import gr.csri.poeticon.praxicon.db.dao.Dao;
 import java.lang.reflect.ParameterizedType;
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
+import java.util.List;
 import static java.util.Objects.isNull;
-import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -120,18 +120,18 @@ public abstract class JpaDao<K, E> implements Dao<K, E> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Set<E> findAll() {
+    public List<E> findAll() {
         Query q = getEntityManager().createQuery("SELECT h FROM " +
                 entityClass.getName().substring(entityClass.getName().
                         lastIndexOf('.') + 1) + " h order by h.id");
-        return new LinkedHashSet<>(q.getResultList());
+        return new ArrayList<>(q.getResultList());
     }
 
     @Override
     public E getEntity(E entity) {
         Query q = getEntityQuery(entity);
         if (!isNull(q)) {
-            Set res = new LinkedHashSet<>(q.getResultList());
+            List res = new ArrayList<>(q.getResultList());
             if (res.isEmpty()) {
                 return entity;
             }

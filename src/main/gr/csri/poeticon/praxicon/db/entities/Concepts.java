@@ -4,9 +4,9 @@ import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
 import gr.csri.poeticon.praxicon.db.dao.LanguageRepresentationDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.LanguageRepresentationDaoImpl;
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
+import java.util.List;
 import static java.util.Objects.isNull;
-import java.util.Set;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -22,18 +22,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Concepts {
 
     @XmlElement(name = "concept")
-    Set<Concept> concepts = new LinkedHashSet<>();
+    List<Concept> concepts = new ArrayList<>();
 
-    public Set<Concept> getConcepts() {
+    public List<Concept> getConcepts() {
         return concepts;
     }
 
-    public void setConcepts(Set<Concept> concepts) {
+    public void setConcepts(List<Concept> concepts) {
         this.concepts = concepts;
     }
 
     public Concepts() {
-        concepts = new LinkedHashSet<>();
+        concepts = new ArrayList<>();
     }
 
     /**

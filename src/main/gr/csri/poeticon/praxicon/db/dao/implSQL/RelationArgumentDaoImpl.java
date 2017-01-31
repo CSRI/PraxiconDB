@@ -8,8 +8,8 @@ import gr.csri.poeticon.praxicon.db.dao.RelationArgumentDao;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import gr.csri.poeticon.praxicon.db.entities.RelationSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Query;
 
 /**
@@ -28,13 +28,13 @@ public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument>
      * @return relationArgument
      */
     @Override
-    public Set<RelationArgument> getAllRelationArguments() {
+    public List<RelationArgument> getAllRelationArguments() {
         Query query = getEntityManager().createNamedQuery(
                 "findAllRelationArguments");
-        Set<RelationArgument> retrievedRelationArgumentsList =
-                new LinkedHashSet<>(query.getResultList());
+        List<RelationArgument> retrievedRelationArgumentsList =
+                new ArrayList<>(query.getResultList());
         if (retrievedRelationArgumentsList.isEmpty()) {
-            return new LinkedHashSet<>();
+            return new ArrayList<>();
         }
         return retrievedRelationArgumentsList;
     }
@@ -51,8 +51,8 @@ public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument>
         Query query = getEntityManager().createNamedQuery(
                 "findRelationArgumentByConcept").
                 setParameter("concept", concept);
-        Set<RelationArgument> retrievedRelationArgumentsList =
-                new LinkedHashSet<>(query.getResultList());
+        List<RelationArgument> retrievedRelationArgumentsList =
+                new ArrayList<>(query.getResultList());
         if (retrievedRelationArgumentsList.isEmpty()) {
             return null;
         }
@@ -72,8 +72,8 @@ public class RelationArgumentDaoImpl extends JpaDao<Long, RelationArgument>
         Query query = getEntityManager().createNamedQuery(
                 "findRelationArgumentByRelationSet").
                 setParameter("relationSet", relationSet);
-        Set<RelationArgument> retrievedRelationArgumentsList =
-                new LinkedHashSet<>(query.getResultList());
+        List<RelationArgument> retrievedRelationArgumentsList =
+                new ArrayList<>(query.getResultList());
         if (retrievedRelationArgumentsList.isEmpty()) {
             return null;
         }
