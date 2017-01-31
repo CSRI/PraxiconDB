@@ -130,18 +130,18 @@ public class Relation implements Serializable {
     @ManyToOne(optional = false)
     private RelationType relationType;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(cascade = {CascadeType.ALL}, optional = false)
     @NotNull(message = "LeftArgument of relation must be specified.")
 //    @JoinColumn(name = "RelationArgumentId")
     private RelationArgument leftArgument;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(cascade = {CascadeType.ALL}, optional = false)
     @NotNull(message = "RightArgument of relation must be specified.")
 //    @JoinColumn(name = "RelationArgumentId")
     private RelationArgument rightArgument;
 
     @XmlTransient
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "relation")
+    @OneToMany(mappedBy = "relation")
     private Set<RelationSet_Relation> relationSet;
 
     @Column(name = "LinguisticallySupported")

@@ -86,7 +86,7 @@ public class MotoricRepresentation implements Serializable {
     @JoinColumn(name = "relationSet_RelationSetId")
     private RelationSet relationSet;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "motoricRepresentation")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "motoricRepresentation")
     private List<VisualRepresentation> visualRepresentations;
 
     public MotoricRepresentation() {

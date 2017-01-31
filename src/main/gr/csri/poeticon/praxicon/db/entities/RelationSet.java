@@ -7,7 +7,7 @@ package gr.csri.poeticon.praxicon.db.entities;
 
 import static gr.csri.poeticon.praxicon.db.entities.Concept.Status.VARIABLE;
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import static java.util.Objects.isNull;
@@ -95,11 +95,11 @@ public class RelationSet implements Serializable {
     @Column(name = "Name")
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "relationSet")
     private Set<RelationSet_Relation> relations;
 
     @XmlElement(name = "languageRepresentation")
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name = "LanguageRepresentation_RelationSet",
             joinColumns = {
@@ -109,10 +109,10 @@ public class RelationSet implements Serializable {
     )
     private Set<LanguageRepresentation> languageRepresentations;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "relationSet")
     private Set<VisualRepresentation> visualRepresentations;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "relationSet")
     private Set<MotoricRepresentation> motoricRepresentations;
 
     /**
@@ -197,7 +197,7 @@ public class RelationSet implements Serializable {
      * @return a set of relations
      */
     public Set<Relation> getRelationsSet() {
-        HashSet<Relation> relationSet = new HashSet<>(this.getRelationsList());
+        LinkedHashSet<Relation> relationSet = new LinkedHashSet<>(this.getRelationsList());
         return relationSet;
     }
 

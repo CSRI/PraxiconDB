@@ -309,7 +309,7 @@ public class Concept implements Serializable {
     @Column(name = "Comment")
     private String comment;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name = "OntologicalDomain_Concept",
             joinColumns = {
@@ -1008,9 +1008,9 @@ public class Concept implements Serializable {
         hash = 13 * hash + Objects.hashCode(this.pragmaticStatus);
         hash = 13 * hash + Objects.hashCode(this.uniqueInstance);
         hash = 13 * hash + Objects.hashCode(this.languageRepresentations);
-        hash = 13 * hash + Objects.hashCode(this.visualRepresentations);
-        hash = 13 * hash + Objects.hashCode(this.motoricRepresentations);
-        hash = 13 * hash + Objects.hashCode(this.ontologicalDomains);
+//        hash = 13 * hash + Objects.hashCode(this.visualRepresentations);
+//        hash = 13 * hash + Objects.hashCode(this.motoricRepresentations);
+//        hash = 13 * hash + Objects.hashCode(this.ontologicalDomains);
         return hash;
     }
 
@@ -1054,18 +1054,18 @@ public class Concept implements Serializable {
                 getConcept_LanguageRepresentation())) {
             return false;
         }
-        if (!this.visualRepresentations.equals(other.
-                getVisualRepresentations())) {
-            return false;
-        }
-        if (!this.motoricRepresentations.equals(other.
-                getMotoricRepresentations())) {
-            return false;
-        }
-        if (!this.ontologicalDomains.toString().equals(other.
-                getOntologicalDomains().toString())) {
-            return false;
-        }
+//        if (!this.visualRepresentations.equals(other.
+//                getVisualRepresentations())) {
+//            return false;
+//        }
+//        if (!this.motoricRepresentations.equals(other.
+//                getMotoricRepresentations())) {
+//            return false;
+//        }
+//        if (!this.ontologicalDomains.toString().equals(other.
+//                getOntologicalDomains().toString())) {
+//            return false;
+//        }
         return true;
     }
 
