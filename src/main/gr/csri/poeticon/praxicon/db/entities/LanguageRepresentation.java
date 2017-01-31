@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import static java.util.Objects.isNull;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -233,7 +234,7 @@ public class LanguageRepresentation implements Serializable {
     private Set<Concept_LanguageRepresentation> concepts;
 
     @XmlTransient
-    @ManyToMany()
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "LanguageRepresentation_RelationSet",
             joinColumns = {
@@ -460,25 +461,25 @@ public class LanguageRepresentation implements Serializable {
             return false;
         }
         final LanguageRepresentation other = (LanguageRepresentation)obj;
-        if (!this.getLanguage().equals(other.getLanguage())) {
+        if (!this.language.equals(other.getLanguage())) {
             return false;
         }
-        if (!this.getUseStatus().equals(other.getUseStatus())) {
+        if (!this.useStatus.equals(other.getUseStatus())) {
             return false;
         }
-        if (!this.getPartOfSpeech().equals(other.getPartOfSpeech())) {
+        if (!this.partOfSpeech.equals(other.getPartOfSpeech())) {
             return false;
         }
-        if (!this.getProductivity().equals(other.getProductivity())) {
+        if (!this.productivity.equals(other.getProductivity())) {
             return false;
         }
-        if (!this.getNegation().equals(other.getNegation())) {
+        if (!this.negation.equals(other.getNegation())) {
             return false;
         }
-        if (!this.getOperator().equals(other.getOperator())) {
+        if (!this.operator.equals(other.getOperator())) {
             return false;
         }
-        if (!this.getText().equals(other.getText())) {
+        if (!this.text.equals(other.getText())) {
             return false;
         }
         return true;
