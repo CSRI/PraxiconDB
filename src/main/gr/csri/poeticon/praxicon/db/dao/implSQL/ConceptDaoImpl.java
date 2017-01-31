@@ -24,9 +24,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import static java.util.Objects.isNull;
 import java.util.Set;
-import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import org.hibernate.Session;
 
 /**
  *
@@ -563,18 +561,21 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      */
     @Override
     public Set<Concept> getAllAncestors(Concept concept) {
-        EntityManager em = getEntityManager();
-        Session session = em.unwrap(org.hibernate.Session.class);
+//        EntityManager em = getEntityManager();
+//        Session session = em.unwrap(org.hibernate.Session.class);
         Set<Concept> ancestorConcepts = new LinkedHashSet<>();
         if (!isNull(concept)) {
-            Concept tmpConcept = session.get(Concept.class, concept.
-                    getId());
-            // If the concept exists in the session, then don't
-            // add it, but rather add its found counterpart.
-            concept = new Concept(tmpConcept, true, true, true);
-            if (!session.contains(concept)) {
-                session.saveOrUpdate(concept);
-            }
+//            if (!Hibernate.isInitialized(concept)) {
+//                Hibernate.initialize(concept);
+//            }
+//            if (!session.contains(concept)) {
+//                Concept tmpConcept = session.get(Concept.class, concept.
+//                        getId());
+//                // If the concept exists in the session, then don't
+//                // add it, but rather add its found counterpart.
+//                concept = new Concept(tmpConcept, true, true, true);
+//                session.update(tmpConcept);
+//            }
 
             Set<Concept> parents = getParents(concept);
             for (Concept parent : parents) {
@@ -602,20 +603,19 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      */
     @Override
     public Set<Concept> getAllOffsprings(Concept concept) {
-        EntityManager em = getEntityManager();
-        Session session = em.unwrap(org.hibernate.Session.class);
+//        EntityManager em = getEntityManager();
+//        Session session = em.unwrap(org.hibernate.Session.class);
         Set<Concept> offspringConcepts = new LinkedHashSet<>();
 
-        if (!java.util.Objects.isNull(concept)) {
-            Concept tmpConcept = session.get(Concept.class, concept.
-                    getId());
-            // If the concept exists in the session, then don't
-            // add it, but rather add its found counterpart.
-            concept = new Concept(tmpConcept, true, true, true);
-
-            if (!session.contains(concept)) {
-                session.saveOrUpdate(concept);
-            }
+        if (!isNull(concept)) {
+//            Concept tmpConcept = session.get(Concept.class, concept.
+//                    getId());
+//            // If the concept exists in the session, then don't
+//            // add it, but rather add its found counterpart.
+//
+//            if (!session.contains(concept)) {
+//                Hibernate.initialize(concept);
+//            }
 
             Set<Concept> children = getChildren(concept);
             for (Concept child : children) {
