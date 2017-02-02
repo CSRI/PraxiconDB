@@ -119,7 +119,7 @@ public class Concept_LanguageRepresentation implements Serializable {
                 getIsRepresentative()) {
             return false;
         }
-        if (!this.getLanguageRepresentation().equals(other.
+        if (!this.languageRepresentation.equals(other.
                 getLanguageRepresentation())) {
             return false;
         }

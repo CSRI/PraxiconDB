@@ -5,9 +5,9 @@
 package gr.csri.poeticon.praxicon.db.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
 import static java.util.Objects.isNull;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -103,21 +103,21 @@ public class RelationType implements Serializable {
 
     @XmlTransient
     @OneToMany(mappedBy = "relationType")
-    private List<Relation> relations;
+    private Set<Relation> relations;
 
     public RelationType() {
-        relations = new ArrayList<>();
+        relations = new LinkedHashSet<>();
     }
 
     public RelationType(String forwardName, String backwardName) {
-        relations = new ArrayList<>();
+        relations = new LinkedHashSet<>();
         this.setForwardName(forwardName);
         this.setBackwardName(backwardName);
     }
 
     public RelationType(RelationNameForward forwardName,
             RelationNameBackward backwardName) {
-        relations = new ArrayList<>();
+        relations = new LinkedHashSet<>();
         this.forwardName = forwardName;
         this.backwardName = backwardName;
     }
@@ -208,11 +208,11 @@ public class RelationType implements Serializable {
         return null;
     }
 
-    public List<Relation> getRelations() {
+    public Set<Relation> getRelations() {
         return relations;
     }
 
-    public void setRelations(List<Relation> relations) {
+    public void setRelations(Set<Relation> relations) {
         this.relations = relations;
     }
 

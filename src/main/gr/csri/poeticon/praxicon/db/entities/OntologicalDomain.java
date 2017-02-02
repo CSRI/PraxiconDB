@@ -94,7 +94,7 @@ public class OntologicalDomain implements Serializable {
     /**
      * Gets the concepts that belong to an ontological domain.
      *
-     * @return a list containing concepts
+     * @return a set containing concepts
      *
      */
     public final List<Concept> getConcepts() {
@@ -104,7 +104,7 @@ public class OntologicalDomain implements Serializable {
     /**
      * Sets the concepts that belong to this ontological domain.
      *
-     * @param concepts a list of concepts
+     * @param concepts a set of concepts
      *
      */
     public void setConcepts(List<Concept> concepts) {
@@ -115,7 +115,7 @@ public class OntologicalDomain implements Serializable {
     public int hashCode() {
         int hash = 5;
         hash = 53 * hash + Objects.hashCode(this.domainName);
-        hash = 53 * hash + Objects.hashCode(this.concepts);
+//        hash = 53 * hash + Objects.hashCode(this.concepts);
         return hash;
     }
 
@@ -128,12 +128,12 @@ public class OntologicalDomain implements Serializable {
             return false;
         }
         final OntologicalDomain other = (OntologicalDomain)obj;
-        if (!Objects.equals(this.domainName, other.getDomainName())) {
+        if (!this.domainName.equals(other.getDomainName())) {
             return false;
         }
-        if (!Objects.equals(this.concepts, other.getConcepts())) {
-            return false;
-        }
+//        if (!this.concepts.equals(other.getConcepts())) {
+//            return false;
+//        }
         return true;
     }
 

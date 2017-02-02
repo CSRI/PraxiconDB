@@ -7,7 +7,7 @@ package gr.csri.poeticon.praxicon.db.entities;
 
 import static gr.csri.poeticon.praxicon.db.entities.Concept.Status.VARIABLE;
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import static java.util.Objects.isNull;
@@ -95,11 +95,11 @@ public class RelationSet implements Serializable {
     @Column(name = "Name")
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "relationSet")
     private Set<RelationSet_Relation> relations;
 
     @XmlElement(name = "languageRepresentation")
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name = "LanguageRepresentation_RelationSet",
             joinColumns = {
@@ -109,10 +109,10 @@ public class RelationSet implements Serializable {
     )
     private Set<LanguageRepresentation> languageRepresentations;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "relationSet")
     private Set<VisualRepresentation> visualRepresentations;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "relationSet")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "relationSet")
     private Set<MotoricRepresentation> motoricRepresentations;
 
     /**
@@ -174,9 +174,9 @@ public class RelationSet implements Serializable {
     }
 
     /**
-     * Gets a list of all Relations contained in this RelationSet.
+     * Gets a Set of all Relations contained in this RelationSet.
      *
-     * @return a list of relations
+     * @return a Set of relations
      */
     public Set<Relation> getRelationsList() {
         Set<RelationSet_Relation> relationSetRelationList = this.relations;
@@ -197,12 +197,12 @@ public class RelationSet implements Serializable {
      * @return a set of relations
      */
     public Set<Relation> getRelationsSet() {
-        HashSet<Relation> relationSet = new HashSet<>(this.getRelationsList());
+        LinkedHashSet<Relation> relationSet = new LinkedHashSet<>(this.getRelationsList());
         return relationSet;
     }
 
     /**
-     * Gets a list of all relations contained in this relation set.
+     * Gets a Set of all relations contained in this relation set.
      *
      * @return a List of Relation
      */
@@ -232,9 +232,9 @@ public class RelationSet implements Serializable {
     }
 
     /**
-     * Retrieves the list of language representations for this relation set.
+     * Retrieves the Set of language representations for this relation set.
      *
-     * @return a list of LanguageRepresentation
+     * @return a Set of LanguageRepresentation
      */
     public Set<LanguageRepresentation> getLanguageRepresentations() {
         return languageRepresentations;
@@ -243,7 +243,7 @@ public class RelationSet implements Serializable {
     /**
      * Retrieves the names of the language representations of this relation set.
      *
-     * @return a list strings containing the names of language representation
+     * @return a Set strings containing the names of language representation
      */
     public Set<String> getLanguageRepresentationsNames() {
         Set<String> languageRepresentationNames = new LinkedHashSet<>();

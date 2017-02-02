@@ -86,7 +86,7 @@ public class MotoricRepresentation implements Serializable {
     @JoinColumn(name = "relationSet_RelationSetId")
     private RelationSet relationSet;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "motoricRepresentation")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "motoricRepresentation")
     private List<VisualRepresentation> visualRepresentations;
 
     public MotoricRepresentation() {
@@ -202,13 +202,13 @@ public class MotoricRepresentation implements Serializable {
             return false;
         }
         final MotoricRepresentation other = (MotoricRepresentation)obj;
-        if (!this.getPerformingAgent().equals(other.getPerformingAgent())) {
+        if (!this.performingAgent.equals(other.getPerformingAgent())) {
             return false;
         }
-        if (!this.getSource().equals(other.getSource())) {
+        if (!this.source.equals(other.getSource())) {
             return false;
         }
-        if (!this.getUri().equals(other.getUri())) {
+        if (!this.uri.equals(other.getUri())) {
             return false;
         }
         return true;

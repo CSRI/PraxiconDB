@@ -53,11 +53,11 @@ public class RelationArgument implements Serializable {
     private Long id;
 
     @Basic(optional = true)
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.ALL})
     private Concept concept;
 
     @Basic(optional = true)
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.ALL})
     private RelationSet relationSet;
 
     /**

@@ -7,6 +7,7 @@ package gr.csri.poeticon.praxicon.db.entities;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,7 +44,7 @@ public class RelationSet_Relation implements Serializable {
     @JoinColumn(name = "RelationSetId")
     private RelationSet relationSet;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(cascade = {CascadeType.ALL}, optional = false)
     @JoinColumn(name = "RelationId")
     private Relation relation;
 

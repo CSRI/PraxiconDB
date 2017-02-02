@@ -93,6 +93,7 @@ public class XmlUtils {
 
         Relations relations = new Relations();
         relations.setRelations(new LinkedHashSet<>());
+        Set<Relation> newRelationsList = new LinkedHashSet<>();
 
         try {
             /*
@@ -107,11 +108,16 @@ public class XmlUtils {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
             for (Relation item : relationsList) {
-                if (!session.contains(item)) {
-                    session.update(item);
+                if (!newRelationsList.contains(item)) {
+                    Relation tmpRelation = session.get(Relation.class, item.
+                            getId());
+                    // If the concept exists in the session, then don't
+                    // add it, but rather add its found counterpart.
+                    item = new Relation(tmpRelation);
+                    newRelationsList.add(item);
                 }
-                relations.getRelations().add(item);
             }
+            relations.setRelations(newRelationsList);
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
             // Export concepts to the xml file
@@ -138,6 +144,7 @@ public class XmlUtils {
 
         RelationSets relationSets = new RelationSets();
         relationSets.setRelationSets(new LinkedHashSet<>());
+        Set<RelationSet> newRelationSetsList = new LinkedHashSet<>();
 
         try {
             /*
@@ -153,11 +160,16 @@ public class XmlUtils {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
             for (RelationSet item : relationSetsList) {
-                if (!session.contains(item)) {
-                    session.update(item);
+                if (!newRelationSetsList.contains(item)) {
+                    RelationSet tmpRelationSet = session.
+                            get(RelationSet.class, item.getId());
+                    // If the concept exists in the session, then don't
+                    // add it, but rather add its found counterpart.
+                    item = new RelationSet(tmpRelationSet);
+                    newRelationSetsList.add(item);
                 }
-                relationSets.getRelationSets().add(item);
             }
+            relationSets.setRelationSets(newRelationSetsList);
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
             // Export relation sets to the xml file
