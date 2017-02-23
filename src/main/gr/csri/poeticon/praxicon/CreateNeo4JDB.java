@@ -5,25 +5,24 @@
  */
 package gr.csri.poeticon.praxicon;
 
-import gr.csri.poeticon.praxicon.db.dao.ConceptDao;
-import gr.csri.poeticon.praxicon.db.dao.RelationArgumentDao;
-import gr.csri.poeticon.praxicon.db.dao.RelationDao;
-import gr.csri.poeticon.praxicon.db.dao.implSQL.ConceptDaoImpl;
-import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationArgumentDaoImpl;
-import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
+import gr.csri.poeticon.praxicon.db.dao.*;
+import gr.csri.poeticon.praxicon.db.dao.implSQL.*;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
+import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
+import gr.csri.poeticon.praxicon.db.entities.MotoricRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
-import gr.csri.poeticon.praxicon.db.entities.RelationType;
+import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
+import gr.csri.poeticon.praxicon.db.entities.RelationSet;
+import gr.csri.poeticon.praxicon.db.entities.VisualRepresentation;
 import java.awt.Frame;
-import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import org.neo4j.graphdb.Direction;
-import org.neo4j.graphdb.DynamicLabel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.io.FileUtils;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
@@ -31,16 +30,19 @@ import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
-import org.neo4j.tooling.GlobalGraphOperations;
+
 
 /**
  *
  * @author dmavroeidis
+ * edit: Lorenzo Gregori
+ * -- based on neo4j 3.0.6
+ * -- representation of RelationSet through Nodes connected with each Relation start node (RS_LEFT) and Relation end node (RS_RIGHT)
  */
 public class CreateNeo4JDB {
 
     private static final String DB_PATH =
-            "/home/dmavroeidis/graph_dbs/praxicon_graph_db";
+            "/home/gionni/Applicazioni/neo4j-community-3.0.6-praxicon-java/data/databases/praxicon.graph.db";
 
     String myString;
     GraphDatabaseService graphDb;
@@ -56,448 +58,279 @@ public class CreateNeo4JDB {
 
     public static void main(final String[] args) {
         CreateNeo4JDB myNeoInstance = new CreateNeo4JDB();
+        myNeoInstance.dropDb();
         myNeoInstance.createGraph();
-        //myNeoInstance.removeData();
         myNeoInstance.shutDown();
-
         System.exit(0);
     }
-
-    private void removeData() {
-//        Transaction tx = graphDb.beginTx();
-//        try {
-//            myFirstNode.getSingleRelationship(RelTypes.TYPE_TOKEN, Direction.OUTGOING);
-//            System.out.println("Removing nodes...");
-//            myFirstNode.delete();
-//            mySecondNode.delete();
-//            tx.success();
-//        } finally {
-//            tx.close();
-//        }
+    
+    private void dropDb()
+    {
+        File f = new File(DB_PATH);
+        
+        if (f.exists() && f.isDirectory())
+        {
+            try {
+                FileUtils.deleteDirectory(f);
+            } catch (IOException ex) {
+                Logger.getLogger(CreateNeo4JDB.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
-
+    
     private void shutDown() {
         graphDb.shutdown();
         System.out.println("graphDB shut down.");
     }
 
-    private static enum RelTypes implements RelationshipType {
-
-        TYPE_TOKEN
-    }
-
-    private void createGraph() {
-
+    private void createGraph()
+    {
         // Create graph
-        graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(DB_PATH);
+        graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(new File(DB_PATH));
         Transaction tx = graphDb.beginTx();
-        Label conceptLabel = DynamicLabel.label("Concept");
 
         ConceptDao cDao = new ConceptDaoImpl();
         RelationDao rDao = new RelationDaoImpl();
-
-        // Get concepts from the database
-        long startTime = System.nanoTime();
+        LanguageRepresentationDao lrDao = new LanguageRepresentationDaoImpl();
+        MotoricRepresentationDao mrDao = new MotoricRepresentationDaoImpl();
+        VisualRepresentationDao vrDao = new VisualRepresentationDaoImpl();
+        RelationArgumentDao raDao = new RelationArgumentDaoImpl();
+        RelationSetDao rsDao = new RelationSetDaoImpl();
+        RelationTypeDao rtDao = new RelationTypeDaoImpl();
+        
+        System.out.println();
+        System.out.println("---- MySQL ----");
+        
+        System.out.print("Downloading Concepts... ");
         Set<Concept> concepts = cDao.getAllConcepts();
-        long endTime = System.nanoTime();
-        System.out.print("\n\n\nFinished getting concepts in ");
-        System.out.print((endTime - startTime) / (1000000000));
-        System.out.println(" seconds!");
-
-        // Get relations from the database
-        startTime = System.nanoTime();
-        //List<Relation> relationsTypeToken = rDao.getAllRelations();
-        Set<Relation> relationsTypeToken = rDao.getRelationsByRelationType(
-                RelationType.RelationNameForward.TYPE_TOKEN);
-        endTime = System.nanoTime();
-        System.out.print("\n\n\nFinished getting relations in ");
-        System.out.print((endTime - startTime) / (1000000000));
-        System.out.println(" seconds!");
-
-        try {
-
-            // Add concepts (vertices) to the graph database
-            startTime = System.nanoTime();
-            for (Concept concept : concepts) {
-
+        System.out.println("" + concepts.size());
+        
+        System.out.print("Downloading LanguageRepresentations... ");
+        Set<LanguageRepresentation> langRepr = lrDao.findAll();
+        System.out.println("" + langRepr.size());
+        
+        System.out.print("Downloading VisualRepresentations... ");
+        Set<VisualRepresentation> visRepr = vrDao.findAll();
+        System.out.println("" + visRepr.size());
+        
+        System.out.print("Downloading MotoricRepresentations... ");
+        Set<MotoricRepresentation> motRepr = mrDao.findAll();
+        System.out.println("" + motRepr.size());
+        
+        System.out.print("Downloading Relations... ");
+        Set<Relation> rels = rDao.findAll();
+        System.out.println("" + rels.size());
+        
+        System.out.print("Downloading RelationSets... ");
+        Set<RelationSet> relsets = rsDao.findAll();
+        System.out.println("" + relsets.size());
+        
+        System.out.println();
+        System.out.println("---- Neo4J ----");
+        try 
+        {
+            System.out.print("Uploading LanguageRepresentations... ");
+            for (LanguageRepresentation repr : langRepr)
+            {
                 conceptNode = graphDb.createNode();
-                conceptNode.setProperty("conceptType", concept.
-                        getConceptType().toString());
-                conceptNode.setProperty("conceptExternalSourceId", concept.
-                        getExternalSourceId());
-                conceptNode.setProperty("conceptId", concept.getId());
-                if (concept.getOntologicalDomains() != null) {
-                    conceptNode.setProperty("conceptOntologicalDomain",
-                            concept.getOntologicalDomains());
-                }
-                conceptNode.setProperty("conceptPragmaticStatus", concept.
-                        getPragmaticStatus().toString());
-                conceptNode.setProperty("conceptSpecificityLevel", concept.
-                        getSpecificityLevel().toString());
-                conceptNode.setProperty("conceptUniqueInstance", concept.
-                        getUniqueInstance().toString());
+                conceptNode.setProperty("id", repr.getId());
+                conceptNode.setProperty("text", repr.getText());
+                conceptNode.setProperty("lang", repr.getLanguage().toString());
+                conceptNode.setProperty("pos", repr.getPartOfSpeech().toString());
+                conceptNode.addLabel(Label.label("LanguageRepresentation"));
+            }
+            System.out.println("OK");
+            System.out.print("Uploading VisualRepresentations... ");
+            for (VisualRepresentation repr : visRepr)
+            {
+                conceptNode = graphDb.createNode();
+                conceptNode.setProperty("id", repr.getId());
+                conceptNode.setProperty("name", repr.getName());
+                conceptNode.setProperty("mediaType", repr.getMediaType().toString());
+                conceptNode.setProperty("source", repr.getSource());
+                conceptNode.setProperty("uri", repr.getUri().toString());
+                conceptNode.addLabel(Label.label("VisualRepresentation"));
+            }
+            System.out.println("OK");
+            System.out.print("Uploading MotoricRepresentations... ");
+            for (MotoricRepresentation repr : motRepr)
+            {
+                conceptNode = graphDb.createNode();
+                conceptNode.setProperty("id", repr.getId());
+                conceptNode.setProperty("performingAgent", repr.getPerformingAgent().toString());
+                conceptNode.setProperty("source", repr.getSource());
+                conceptNode.setProperty("uri", repr.getUri().toString());
+                conceptNode.addLabel(Label.label("MotoricRepresentation"));
+            }
+            System.out.println("OK");
+            System.out.print("Uploading Concepts with Representations... ");
+            int i = 1; int max = concepts.size(); int prevPerc = 0;
+            for (Concept concept : concepts)
+            {
+                conceptNode = graphDb.createNode();
+                conceptNode.setProperty("id", concept.getId());
+                conceptNode.setProperty("name", concept.getName());
+                conceptNode.setProperty("conceptType", concept.getConceptType().toString());
+                conceptNode.setProperty("conceptExternalSourceId", concept.getExternalSourceId());
+                conceptNode.setProperty("conceptPragmaticStatus", concept.getPragmaticStatus().toString());
+                conceptNode.setProperty("conceptSpecificityLevel", concept.getSpecificityLevel().toString());
+                conceptNode.setProperty("conceptUniqueInstance", concept.getUniqueInstance().toString());
                 conceptNode.setProperty("conceptSource", concept.getSource());
-                conceptNode.setProperty("conceptStatus", concept.getStatus().
-                        toString());
-                conceptNode.addLabel(conceptLabel);
-            }
-            endTime = System.nanoTime();
-            System.out.print("\n\n\nFinished adding concepts in ");
-            System.out.print((endTime - startTime) / 1000000000);
-            System.out.println(" seconds!");
-
-            // Add relations (edges) to the graph database
-            startTime = System.nanoTime();
-            for (Relation relation : relationsTypeToken) {
-                // Get left concept
-                Concept leftConcept = new Concept();
-                if (relation.getLeftArgument().isConcept()) {
-                    leftConcept = relation.getLeftArgument().getConcept();
+                conceptNode.setProperty("conceptStatus", concept.getStatus().toString());
+                conceptNode.addLabel(Label.label("Concept")); 
+                Set<LanguageRepresentation> lr = concept.getLanguageRepresentations();
+                for (LanguageRepresentation lrx : lr)
+                {
+                    Node n = graphDb.findNodes(Label.label("LanguageRepresentation"), "id", lrx.getId()).next();
+                    conceptNode.createRelationshipTo(n, RelationshipType.withName("LANGUAGE_REPR"));
                 }
-
-                // Get right concept
-                Concept rightConcept = new Concept();
-                if (relation.getRightArgument().isConcept()) {
-                    rightConcept = relation.getRightArgument().getConcept();
+                Set<VisualRepresentation> vr = concept.getVisualRepresentations();
+                for (VisualRepresentation vrx : vr)
+                {
+                    Node n = graphDb.findNodes(Label.label("VisualRepresentation"), "id", vrx.getId()).next();
+                    conceptNode.createRelationshipTo(n, RelationshipType.withName("VISUAL_REPR"));
                 }
-
-                Node leftNode;
-                Node rightNode;
-
-                leftNode = graphDb.findNodesByLabelAndProperty(conceptLabel,
-                        "conceptExternalSourceId", leftConcept.
-                        getExternalSourceId()).iterator().next();
-                rightNode = graphDb.findNodesByLabelAndProperty(conceptLabel,
-                        "conceptExternalSourceId", rightConcept.
-                        getExternalSourceId()).iterator().next();
-
-//                System.out.println(leftNode.getProperty(
-//                        "conceptExternalSourceId"));
-//                System.out.println(rightNode.getProperty(
-//                        "conceptExternalSourceId"));
-                relationEdge = leftNode.createRelationshipTo(rightNode,
-                        RelTypes.TYPE_TOKEN);
-
-                relationEdge.setProperty("relationship-type", "is_a");
-
-//                myString = (rightNode.getProperty("conceptExternalSourceId").
-//                        toString()) +
-//                        " " + (relationEdge.getProperty("relationship-type").
-//                        toString()) +
-//                        " " + (leftNode.getProperty("conceptExternalSourceId").
-//                        toString());
-//                System.out.println(myString);
+                Set<MotoricRepresentation> mr = concept.getMotoricRepresentations();
+                for (MotoricRepresentation mrx : mr)
+                {
+                    Node n = graphDb.findNodes(Label.label("MotoricRepresentation"), "id", mrx.getId()).next();
+                    conceptNode.createRelationshipTo(n, RelationshipType.withName("MOTORIC_REPR"));
+                }
+                
+                int perc = new Double((i * 1.0 / max) * 100).intValue();
+                if (perc > prevPerc && perc % 5 == 0) { prevPerc = perc; System.out.print(perc + "% ");}
+                i++;
             }
-            endTime = System.nanoTime();
-            System.out.print("\n\n\nFinished adding edges in ");
-            System.out.print((endTime - startTime) / 60000000000L);
-            System.out.println(" Minutes!\n\n\n");
-
-            tx.success();
-
-        } catch (Error e) {
+            System.out.println(" OK");
+            System.out.print("Uploading RelationSets... ");
+            i = 1; max = relsets.size(); prevPerc = 0;
+            for (RelationSet rset : relsets)
+            {
+                conceptNode = graphDb.createNode();
+                conceptNode.setProperty("id", rset.getId());
+                conceptNode.setProperty("name", rset.getName());
+                conceptNode.addLabel(Label.label("RelationSet"));
+                Set<Relation> rxs = rset.getRelationsSet();
+                int ri = 0;
+                for (Relation rx : rxs)
+                {
+                    RelationArgument larg = rx.getLeftArgument();
+                    RelationArgument rarg = rx.getRightArgument();
+                    Long lid, rid;
+                    Node nl = null, nr = null;
+                    if (larg.isConcept())
+                    {
+                        lid = larg.getConcept().getId();
+                        nl = graphDb.findNodes(Label.label("Concept"), "id", lid).next();
+                    }
+                    else if (larg.isRelationSet())
+                    {
+                        lid = larg.getRelationSet().getId();
+                        nl = graphDb.findNodes(Label.label("RelationSet"), "id", lid).next();
+                    }
+                    if (rarg.isConcept())
+                    {
+                        rid = rarg.getConcept().getId();
+                        nr = graphDb.findNodes(Label.label("Concept"), "id", rid).next();
+                    }
+                    else if (rarg.isRelationSet())
+                    {
+                        rid = rarg.getRelationSet().getId();
+                        nr = graphDb.findNodes(Label.label("RelationSet"), "id", rid).next();
+                    }
+                    if (nl != null && nr != null)
+                    {
+                        Relationship rsx = conceptNode.createRelationshipTo(nl, RelationshipType.withName("RS_LEFT"));
+                        rsx.setProperty("n", ri);
+                        Relationship rsx2 = conceptNode.createRelationshipTo(nr, RelationshipType.withName("RS_RIGHT"));
+                        rsx2.setProperty("n", ri);
+                        ri++;
+                    }
+                }
+                int perc = new Double((i * 1.0 / max) * 100).intValue();
+                if (perc > prevPerc && perc % 5 == 0) { prevPerc = perc; System.out.print(perc + "% ");}
+                i++;
+            }
+            System.out.println(" OK");
+            System.out.print("Uploading Relations... ");
+            i = 1; max = rels.size(); prevPerc = 0;
+            for (Relation rel : rels)
+            {
+                RelationArgument larg = rel.getLeftArgument();
+                RelationArgument rarg = rel.getRightArgument();
+                Long lid, rid;
+                Node nl = null, nr = null;
+                if (larg.isConcept())
+                {
+                    lid = larg.getConcept().getId();
+                    nl = graphDb.findNodes(Label.label("Concept"), "id", lid).next();
+                }
+                else if (larg.isRelationSet())
+                {
+                    lid = larg.getRelationSet().getId();
+                    nl = graphDb.findNodes(Label.label("RelationSet"), "id", lid).next();
+                }
+                if (rarg.isConcept())
+                {
+                    rid = rarg.getConcept().getId();
+                    nr = graphDb.findNodes(Label.label("Concept"), "id", rid).next();
+                }
+                else if (rarg.isRelationSet())
+                {
+                    rid = rarg.getRelationSet().getId();
+                    nr = graphDb.findNodes(Label.label("RelationSet"), "id", rid).next();
+                }
+                if (nl != null && nr != null)
+                {
+                    Relationship rx = nl.createRelationshipTo(nr, RelationshipType.withName(rel.getRelationType().getForwardNameString()));
+                    rx.setProperty("linguisticallySupported", rel.getLinguisticallySupported().toString());
+                }
+                
+                int perc = new Double((i * 1.0 / max) * 100).intValue();
+                if (perc > prevPerc && perc % 5 == 0) { prevPerc = perc; System.out.print(perc + "% ");}
+                i++;
+            }
+            System.out.println(" OK");
+        }
+        catch (Error e)
+        {
             System.out.println("Error occured: ");
             System.out.println(e.getMessage());
             System.out.println(Arrays.toString(e.getStackTrace()));
-        } finally {
-            tx.close();
-//            System.exit(1);
         }
+            
+        tx.success();
 
-        // Now insert all BL relations.
-        findBLRelations(graphDb, concepts);
         if (cDao.getEntityManager().isOpen()) {
             cDao.close();
         }
-
         if (rDao.getEntityManager().isOpen()) {
             rDao.close();
+        }
+        if (lrDao.getEntityManager().isOpen()) {
+            lrDao.close();
+        }
+        if (vrDao.getEntityManager().isOpen()) {
+            vrDao.close();
+        }
+        if (mrDao.getEntityManager().isOpen()) {
+            mrDao.close();
+        }
+        if (rDao.getEntityManager().isOpen()) {
+            rDao.close();
+        }
+        if (raDao.getEntityManager().isOpen()) {
+            raDao.close();
+        }
+        if (rsDao.getEntityManager().isOpen()) {
+            rsDao.close();
+        }
+        if (rtDao.getEntityManager().isOpen()) {
+            rtDao.close();
         }
         for (Frame frame : Frame.getFrames()) {
             frame.dispose();
         }
+        tx.close();
     }
-
-    public static void findBLRelations(GraphDatabaseService graphDb,
-            Set<Concept> concepts) {
-
-        RelationDao rDao = new RelationDaoImpl();
-        RelationArgumentDao raDao = new RelationArgumentDaoImpl();
-        Set<Map.Entry<Concept, Concept>> newBasicLevelConnections =
-                new LinkedHashSet<>();
-
-        // Find all leaves.
-        String output = "";
-//        for (Path position : graphDb.traversalDescription().depthFirst().relationships(RelTypes.TYPE_TOKEN).traverse(node)){
-//            output += position;
-//            System.out.println(output);
-//
-//
-//        }
-
-        Iterator<Node> iterGraph = GlobalGraphOperations.at(graphDb).
-                getAllNodes().iterator();
-
-        // Print all nodes
-        while (iterGraph.hasNext()) {
-            System.out.println(iterGraph.next().getProperty(
-                    "conceptExternalSourceId"));
-        }
-
-//        for (Node n : GlobalGraphOperations.at(graphDb).getAllNodes()) {
-//            System.out.println(n.getProperty("conceptExternalSourceId") + ": " +
-//                    IteratorUtil.count(n.getRelationships(Direction.INCOMING)));
-//        }
-        List<Node> islands = new ArrayList<>();
-        List<Node> leaves = new ArrayList<>();
-        List<Node> roots = new ArrayList<>();
-        List<Node> internals = new ArrayList<>();
-        int maxOutDegree = 0;
-        Node maxOutDegreeConcept = null;
-        Node maxInDegreeConcept = null;
-        int maxInDegree = 0;
-        int count0BLPaths = 0;
-        int count1BLPaths = 0;
-        int count2BLPaths = 0;
-        int count3BLPaths = 0;
-        int countPaths = 0;
-
-        iterGraph = GlobalGraphOperations.at(graphDb).getAllNodes().iterator();
-
-        while (iterGraph.hasNext()) {
-            Node node = iterGraph.next();
-            int outDegree = node.getDegree(Direction.OUTGOING);
-            if (outDegree > maxOutDegree) {
-                maxOutDegree = outDegree;
-                maxOutDegreeConcept = node;
-            }
-            int inDegree = node.getDegree(Direction.INCOMING);
-            if (inDegree > maxInDegree) {
-                maxInDegree = inDegree;
-                maxInDegreeConcept = node;
-            }
-            if (outDegree == 0 && inDegree == 0) {
-                islands.add(node);
-            } else if (outDegree == 0 && inDegree > 0) {
-                leaves.add(node);
-            } else if (outDegree > 0 && inDegree == 0) {
-                roots.add(node);
-            } else {
-                internals.add(node);
-            }
-        }
-
-        System.out.println("Totals: ");
-        System.out.println("Islands: " + islands.size());
-        System.out.println("Roots: " + roots.size());
-        System.out.println("Leaves: " + leaves.size());
-        System.out.println("Internals: " + internals.size());
-        System.out.println("MaxOutDegree: " + maxOutDegree + 
-                " for concept: " + maxOutDegreeConcept);
-        System.out.println("MaxInDegree: " + maxInDegree + " for concept: " +
-                maxInDegreeConcept);
-
-        long counter = 0;
-        long rootCount = roots.size();
-        long conceptCountPer100 = rootCount / 100;
-        long countCounts = 1;
-
-//        List<DijkstraShortestPath> allShortestPaths = new ArrayList<>();
-        // For each leaf, we find all paths to each root.
-        long startTime = System.nanoTime();
-        for (Node rootNode : roots) {
-            counter++;
-            if (conceptCountPer100 * countCounts == counter) {
-                System.out.println(countCounts + "%");
-                countCounts += 1;
-            }
-        }
-
-////        for (Concept leaf : leaves) {
-//        for (Concept root : roots) {
-//            counter += 1;
-//            if (conceptCountPer100 * countCounts == counter) {
-//                System.out.println(countCounts + "%");
-//                countCounts += 1;
-//            }
-//            KShortestPaths shortestPathsBF = new KShortestPaths(
-//                    conceptGraph, root, 4);
-//
-//            for (Concept leaf : leaves) {
-//                //for (Concept root : roots) {
-//
-//                DijkstraShortestPath shortestPathDijkstra =
-//                        new DijkstraShortestPath(conceptGraph, root, leaf);
-//
-////                Set<GraphPath> edgeSet = conceptGraph.getAllEdges(root, leaf);
-////                System.out.print("All paths from ");
-////                System.out.print(root);
-////                System.out.print(" to ");
-////                System.out.println(leaf + ":");
-////                for (GraphPath item : edgeSet) {
-////                    System.out.println(item.getEdgeList());
-////                }
-////
-////                FloydWarshallShortestPaths shortestPathsFW = new FloydWarshallShortestPaths(conceptGraph);
-////                int allPaths=shortestPathsFW.getShortestPathsCount();
-////                System.out.print("Count of all paths: ");
-////                System.out.println(allPaths);
-//                // If path exists
-//                if (shortestPathDijkstra.getPathLength() !=
-//                        Double.POSITIVE_INFINITY) {
-//                    countPaths++;
-//
-//                    List shortestPathBFList = shortestPathsBF.getPaths(leaf);
-//
-//                    System.out.print("All paths from ");
-//                    System.out.print(root);
-//                    System.out.print(" to ");
-//                    System.out.println(leaf + ":");
-//                    for (Object pathBF : shortestPathBFList) {
-//                        System.out.println(pathBF);
-//                    }
-//
-//                    //allShortestPaths.add(shortestPathDijkstra);
-//                    GraphPath path = shortestPathDijkstra.getPath();
-//                    List<Concept> pathGraph = Graphs.getPathVertexList(path);
-//
-//                    // Remove first vertex, to avoid connecting roots to themselves
-//                    List<Concept> blConcepts = new ArrayList<>();
-//                    boolean blFound = false;
-//                    // Get basic level concepts in the path
-//                    for (Object vertex : pathGraph) {
-//                        Concept concept = (Concept)vertex;
-//                        if (concept.getSpecificityLevel() ==
-//                                Concept.SpecificityLevel.BASIC_LEVEL ||
-//                                concept.getSpecificityLevel() ==
-//                                Concept.SpecificityLevel.BASIC_LEVEL_EXTENDED) {
-//                            blConcepts.add(concept);
-//                            blFound = true;
-//                        }
-//                    }
-//
-//                    // Start adding relations
-//                    if (blFound) {
-//                        // Reset the switch to use it in this loop
-//                        blFound = false;
-//                        // For each BL concept in the path
-//                        for (Concept blConcept : blConcepts) {
-//                            // For each concept in the path
-//                            // starting from the root
-//                            for (Object vertex : pathGraph) {
-//                                Concept concept = (Concept)vertex;
-//                                // If the concept is not the BL concept
-//                                // under consideration
-//                                if (!blConcept.equals(concept)) {
-//                                    // If the concept is not BL
-//                                    // (this check is needed in case we have
-//                                    // more than 1 BLs in the path).
-//                                    if (concept.getSpecificityLevel() ==
-//                                            Concept.SpecificityLevel.SUBORDINATE ||
-//                                            concept.getSpecificityLevel() ==
-//                                            Concept.SpecificityLevel.SUPERORDINATE ||
-//                                            concept.getSpecificityLevel() ==
-//                                            Concept.SpecificityLevel.UNKNOWN) {
-//                                        // Get relation arguments of concepts
-//                                        RelationArgument relationArgument1 =
-//                                                raDao.
-//                                                getRelationArgument(
-//                                                        concept);
-//                                        RelationArgument relationArgument2 =
-//                                                raDao.
-//                                                getRelationArgument(
-//                                                        blConcept);
-//
-//                                        // Create new relation
-//                                        Relation newRelation = new Relation();
-//                                        RelationType newRelationType =
-//                                                new RelationType(
-//                                                        RelationType.RelationNameForward.TYPE_TOKEN,
-//                                                        RelationType.RelationNameBackward.TOKEN_TYPE);
-//                                        newRelation.setLinguisticSupport(
-//                                                Relation.LinguisticallySupported.UNKNOWN);
-//                                        newRelation.setRelationType(newRelationType);
-//
-//                                        if (!blFound) {
-//                                            newRelation.setLeftArgument(
-//                                                    relationArgument1);
-//                                            newRelation.setRightArgument(
-//                                                    relationArgument2);
-//                                            //System.out.println("DOWN");
-//
-//                                        } else if (blFound) {
-//                                            // if the basic level has been found in path,
-//                                            // reverse the direction of relation.
-//                                            newRelation.setLeftArgument(
-//                                                    relationArgument2);
-//                                            newRelation.setRightArgument(
-//                                                    relationArgument1);
-//                                            //System.out.println("UP");
-//                                        }
-//
-//                                        // If the two relation arguments are not related,
-//                                        // add the relation.
-//                                        if (!rDao.areRelated(relationArgument1,
-//                                                relationArgument2)) {
-////                                            System.out.
-////                                                    print("Relation between ");
-////                                            System.out.print(relationArgument1.
-////                                                    getConcept());
-////                                            System.out.print(" and ");
-////                                            System.out.print(relationArgument2.
-////                                                    getConcept());
-////                                            System.out.println(
-////                                                    " doesn't exist and will be created.");
-//                                            //rDao.persist(newRelation);
-//                                        } else {
-////                                            System.out.
-////                                                    print("Relation between ");
-////                                            System.out.print(relationArgument1.
-////                                                    getConcept());
-////                                            System.out.print(" and ");
-////                                            System.out.print(relationArgument2.
-////                                                    getConcept());
-////                                            System.out.println(
-////                                                    " already exists.");
-//                                        }
-//                                    }
-//                                } else if (blConcept.equals(concept)) {
-//                                    blFound = true;
-//                                }
-//                            }
-//                        }
-//                    }
-//
-//                    if (blConcepts.size() != 1) {
-////                        System.out.println(
-////                                "This path has " + blConcepts.size() +
-////                                " basic level concepts.");
-//                        if (blConcepts.size() == 0) {
-//                            count0BLPaths++;
-//                        } else if (blConcepts.size() == 2) {
-//                            count2BLPaths++;
-//                        } else if (blConcepts.size() >= 3) {
-//                            count3BLPaths++;
-//                        }
-//
-//                    } else {
-//                        count1BLPaths++;
-//                    }
-//                }
-//            }
-//        }
-//
-//        long endTime = System.nanoTime();
-//        System.out.print("\n\n\nFinished adding relations to the database in ");
-//        System.out.print((endTime - startTime) / (60000000000D));
-//        System.out.println(" minutes!\n\n\n");
-//        System.out.println("\n\n\n\n\nFinished execution!\n\n\n");
-//        System.out.println("There are " + countPaths + " paths.");
-//        System.out.println("We found " + count0BLPaths + " paths with no BLs.");
-//        System.out.println("We found " + count1BLPaths + " paths with 1 BL.");
-//        System.out.println("We found " + count2BLPaths + " paths with 2 BLs.");
-//        System.out.println("We found " + count3BLPaths +
-//                " paths with 3 or more BLs.");
-    }
-
 }
