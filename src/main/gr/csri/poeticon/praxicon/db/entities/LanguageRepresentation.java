@@ -6,7 +6,6 @@ package gr.csri.poeticon.praxicon.db.entities;
 
 import java.io.Serializable;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Objects;
 import static java.util.Objects.isNull;
 import java.util.Set;
@@ -98,7 +97,7 @@ import javax.xml.bind.annotation.XmlType;
 public class LanguageRepresentation implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static List<LanguageRepresentation> languageRepresentations;
+    private static Set<LanguageRepresentation> languageRepresentations;
 
     /**
      * Enumeration of the languages.
@@ -359,7 +358,7 @@ public class LanguageRepresentation implements Serializable {
     }
 
     public Set<LanguageRepresentation> getLanguageRepresentations() {
-        List<LanguageRepresentation> languageRepresentationsList =
+        Set<LanguageRepresentation> languageRepresentationsList =
                 LanguageRepresentation.languageRepresentations;
         for (LanguageRepresentation languageRepresentation
                 : languageRepresentationsList) {
@@ -369,7 +368,7 @@ public class LanguageRepresentation implements Serializable {
     }
 
     public void setLanguageRepresentations(
-            List<LanguageRepresentation> languageRepresentations) {
+            Set<LanguageRepresentation> languageRepresentations) {
         LanguageRepresentation.languageRepresentations =
                 languageRepresentations;
     }

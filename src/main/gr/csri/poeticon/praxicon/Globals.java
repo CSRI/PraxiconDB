@@ -3,7 +3,6 @@
  * and open the template in the editor.
  */
 package gr.csri.poeticon.praxicon;
-//import csri.poeticon.praxicon.Constants;
 
 /**
  *

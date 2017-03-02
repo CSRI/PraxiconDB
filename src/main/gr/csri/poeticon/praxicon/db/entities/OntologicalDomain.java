@@ -6,8 +6,8 @@
 package gr.csri.poeticon.praxicon.db.entities;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -53,7 +53,7 @@ public class OntologicalDomain implements Serializable {
             inverseJoinColumns = {
                 @JoinColumn(name = "ConceptId")}
     )
-    private List<Concept> concepts;
+    private Set<Concept> concepts;
 
     /**
      * Gets the id of the OntologicalDomain.
@@ -97,7 +97,7 @@ public class OntologicalDomain implements Serializable {
      * @return a set containing concepts
      *
      */
-    public final List<Concept> getConcepts() {
+    public final Set<Concept> getConcepts() {
         return concepts;
     }
 
@@ -107,7 +107,7 @@ public class OntologicalDomain implements Serializable {
      * @param concepts a set of concepts
      *
      */
-    public void setConcepts(List<Concept> concepts) {
+    public void setConcepts(Set<Concept> concepts) {
         this.concepts = concepts;
     }
 
