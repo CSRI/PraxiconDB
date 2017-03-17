@@ -735,8 +735,8 @@ public class Concept implements Serializable {
      * Adds a Concept_LanguageRepresentation instance to the concept.
      *
      * @param conceptLanguageRepresentation A structure that contains the
-     *                                      Language representation with 
-     *                                      information about its 
+     *                                      Language representation with
+     *                                      information about its
      *                                      representativeness.
      */
     public void addConceptLanguageRepresentation(
@@ -750,7 +750,7 @@ public class Concept implements Serializable {
      *
      * @param languageRepresentation a Language representation.
      * @param isRepresentative       whether the Language representation is
-     *                               representative of the concept or not. 
+     *                               representative of the concept or not.
      *                               There can be more than one
      *                               representative Language representations.
      */
@@ -1006,9 +1006,9 @@ public class Concept implements Serializable {
         hash = 13 * hash + Objects.hashCode(this.pragmaticStatus);
         hash = 13 * hash + Objects.hashCode(this.uniqueInstance);
         hash = 13 * hash + Objects.hashCode(this.languageRepresentations);
-//        hash = 13 * hash + Objects.hashCode(this.visualRepresentations);
-//        hash = 13 * hash + Objects.hashCode(this.motoricRepresentations);
-//        hash = 13 * hash + Objects.hashCode(this.ontologicalDomains);
+        hash = 13 * hash + Objects.hashCode(this.visualRepresentations);
+        hash = 13 * hash + Objects.hashCode(this.motoricRepresentations);
+        hash = 13 * hash + Objects.hashCode(this.ontologicalDomains);
         return hash;
     }
 
@@ -1052,18 +1052,18 @@ public class Concept implements Serializable {
                 getConcept_LanguageRepresentation())) {
             return false;
         }
-//        if (!this.visualRepresentations.equals(other.
-//                getVisualRepresentations())) {
-//            return false;
-//        }
-//        if (!this.motoricRepresentations.equals(other.
-//                getMotoricRepresentations())) {
-//            return false;
-//        }
-//        if (!this.ontologicalDomains.toString().equals(other.
-//                getOntologicalDomains().toString())) {
-//            return false;
-//        }
+        if (!this.visualRepresentations.equals(other.
+                getVisualRepresentations())) {
+            return false;
+        }
+        if (!this.motoricRepresentations.equals(other.
+                getMotoricRepresentations())) {
+            return false;
+        }
+        if (!this.ontologicalDomains.equals(other.
+                getOntologicalDomains())) {
+            return false;
+        }
         return true;
     }
 
