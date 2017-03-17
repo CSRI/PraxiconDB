@@ -15,6 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -29,6 +31,9 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "concept_languagerepresentation", namespace =
         "http://www.csri.gr/concept_languagerepresentation")
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "findAllConcept_LanguageRepresentations", query =
+            "FROM Concept_LanguageRepresentation clr"),})
 @Table(name = "Concepts_LanguageRepresentations")
 public class Concept_LanguageRepresentation implements Serializable {
 

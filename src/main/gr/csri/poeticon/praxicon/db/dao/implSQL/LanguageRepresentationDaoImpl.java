@@ -24,6 +24,20 @@ public class LanguageRepresentationDaoImpl extends
         LanguageRepresentationDao {
 
     /**
+     * Finds all the Language Representations.
+     *
+     * @return a list of all Language Representations in the database
+     */
+    @Override
+    public List<LanguageRepresentation> getAllLanguageRepresentations() {
+        Query query = getEntityManager().createNamedQuery(
+                "findAllLanguageRepresentations");
+        List<LanguageRepresentation> retrievedLanguageRepresentationsList =
+                new ArrayList<>(query.getResultList());
+        return retrievedLanguageRepresentationsList;
+    }
+
+    /**
      * Finds the LanguageRepresentation that has the given Language, Text, Part
      * of Speech, Use Status, Productivity, Negation and Operator.
      * Overloaded.
@@ -87,7 +101,7 @@ public class LanguageRepresentationDaoImpl extends
         if (retrievedLanguageRepresentationList.size() > 0) {
             return retrievedLanguageRepresentationList;
         } else {
-            return null;
+            return new ArrayList<>();
         }
     }
 
