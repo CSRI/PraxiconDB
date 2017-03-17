@@ -10,9 +10,9 @@ import gr.csri.poeticon.praxicon.db.dao.LanguageRepresentationDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationSetDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.LanguageRepresentationDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationSetDaoImpl;
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
+import java.util.List;
 import static java.util.Objects.isNull;
-import java.util.Set;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -27,18 +27,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class RelationSets {
 
     @XmlElement(name = "relationSet")
-    Set<RelationSet> relationSets = new LinkedHashSet<>();
+    List<RelationSet> relationSets = new ArrayList<>();
 
-    public Set<RelationSet> getRelationSets() {
+    public List<RelationSet> getRelationSets() {
         return relationSets;
     }
 
-    public void setRelationSets(Set<RelationSet> relationSets) {
+    public void setRelationSets(List<RelationSet> relationSets) {
         this.relationSets = relationSets;
     }
 
     public RelationSets() {
-        relationSets = new LinkedHashSet<>();
+        relationSets = new ArrayList<>();
     }
 
     /**
@@ -124,10 +124,10 @@ public class RelationSets {
             foundLanguageRepresentations = true;
         }
 
-        Set<LanguageRepresentation> retrievedLanguageRepresentations =
-                new LinkedHashSet<>();
-        Set<LanguageRepresentation> existingLanguageRepresentations =
-                new LinkedHashSet<>();
+        List<LanguageRepresentation> retrievedLanguageRepresentations =
+                new ArrayList<>();
+        List<LanguageRepresentation> existingLanguageRepresentations =
+                new ArrayList<>();
         LanguageRepresentationDao lrDao =
                 new LanguageRepresentationDaoImpl();
         if (foundLanguageRepresentations) {
@@ -177,7 +177,7 @@ public class RelationSets {
                 newRelationSet.addRelation(newRelation);
             }
 
-            Set<RelationSet> relationSetCandidates =
+            List<RelationSet> relationSetCandidates =
                     rsDao.getRelationSetsByRelation(
                             newRelationSet.getRelationsList().iterator().
                             next());
@@ -216,7 +216,7 @@ public class RelationSets {
         } else {
             for (LanguageRepresentation existingLanguageRepresentation
                     : existingLanguageRepresentations) {
-                Set<RelationSet> relationSetCandidates =
+                List<RelationSet> relationSetCandidates =
                         existingLanguageRepresentation.getRelationSets();
                 for (RelationSet relationSetCandidate : relationSetCandidates) {
                     if (relationSetCandidate.getRelationsList().isEmpty()) {

@@ -25,7 +25,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.EntityManager;
@@ -210,8 +209,8 @@ public class TestJPA {
          * Create an ordered RelationSet
          */
         RelationSet relationSet2 = new RelationSet();
-        Set<LanguageRepresentation> languageRepresentations2 =
-                new LinkedHashSet<>();
+        List<LanguageRepresentation> languageRepresentations2 =
+                new ArrayList<>();
         languageRepresentations2.add(languageRepresentation3);
         relationSet2.setLanguageRepresentations(languageRepresentations2);
         relationSet2.setName("NewRelationSet2");

@@ -18,7 +18,7 @@ import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -98,7 +98,7 @@ public class CreateNeo4JDB {
 
         // Get concepts from the database
         long startTime = System.nanoTime();
-        Set<Concept> concepts = cDao.getAllConcepts();
+        List<Concept> concepts = cDao.getAllConcepts();
         long endTime = System.nanoTime();
         System.out.print("\n\n\nFinished getting concepts in ");
         System.out.print((endTime - startTime) / (1000000000));
@@ -107,7 +107,7 @@ public class CreateNeo4JDB {
         // Get relations from the database
         startTime = System.nanoTime();
         //List<Relation> relationsTypeToken = rDao.getAllRelations();
-        Set<Relation> relationsTypeToken = rDao.getRelationsByRelationType(
+        List<Relation> relationsTypeToken = rDao.getRelationsByRelationType(
                 RelationType.RelationNameForward.TYPE_TOKEN);
         endTime = System.nanoTime();
         System.out.print("\n\n\nFinished getting relations in ");
@@ -219,12 +219,12 @@ public class CreateNeo4JDB {
     }
 
     public static void findBLRelations(GraphDatabaseService graphDb,
-            Set<Concept> concepts) {
+            List<Concept> concepts) {
 
         RelationDao rDao = new RelationDaoImpl();
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
-        Set<Map.Entry<Concept, Concept>> newBasicLevelConnections =
-                new LinkedHashSet<>();
+        List<Map.Entry<Concept, Concept>> newBasicLevelConnections =
+                new ArrayList<>();
 
         // Find all leaves.
         String output = "";
@@ -329,7 +329,7 @@ public class CreateNeo4JDB {
 //                DijkstraShortestPath shortestPathDijkstra =
 //                        new DijkstraShortestPath(conceptGraph, root, leaf);
 //
-////                Set<GraphPath> edgeSet = conceptGraph.getAllEdges(root, leaf);
+////                List<GraphPath> edgeSet = conceptGraph.getAllEdges(root, leaf);
 ////                System.out.print("All paths from ");
 ////                System.out.print(root);
 ////                System.out.print(" to ");

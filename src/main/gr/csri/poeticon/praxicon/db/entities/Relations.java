@@ -4,9 +4,9 @@ import gr.csri.poeticon.praxicon.db.dao.RelationDao;
 import gr.csri.poeticon.praxicon.db.dao.RelationTypeDao;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationDaoImpl;
 import gr.csri.poeticon.praxicon.db.dao.implSQL.RelationTypeDaoImpl;
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
+import java.util.List;
 import static java.util.Objects.isNull;
-import java.util.Set;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -22,18 +22,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Relations {
 
     @XmlElement(name = "relation")
-    Set<Relation> relations = new LinkedHashSet<>();
+    List<Relation> relations = new ArrayList<>();
 
-    public Set<Relation> getRelations() {
+    public List<Relation> getRelations() {
         return relations;
     }
 
-    public void setRelations(Set<Relation> relations) {
+    public void setRelations(List<Relation> relations) {
         this.relations = relations;
     }
 
     public Relations() {
-        relations = new LinkedHashSet<>();
+        relations = new ArrayList<>();
     }
 
     /**

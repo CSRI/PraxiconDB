@@ -7,7 +7,7 @@ package gr.csri.poeticon.praxicon.db.dao;
 import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import gr.csri.poeticon.praxicon.db.entities.RelationSet;
-import java.util.Set;
+import java.util.List;
 
 /**
  *
@@ -15,7 +15,7 @@ import java.util.Set;
  */
 public interface RelationArgumentDao extends Dao<Long, RelationArgument> {
 
-    Set<RelationArgument> getAllRelationArguments();
+    List<RelationArgument> getAllRelationArguments();
 
     RelationArgument getRelationArgument(Concept concept);
 

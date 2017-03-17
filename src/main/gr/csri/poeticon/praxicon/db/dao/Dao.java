@@ -4,7 +4,7 @@
  */
 package gr.csri.poeticon.praxicon.db.dao;
 
-import java.util.Set;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -28,7 +28,7 @@ public interface Dao<K, E> {
 
     void resetAutoIncrement();
 
-    Set<E> findAll();
+    List<E> findAll();
 
     void removeAll();
 
