@@ -10,7 +10,7 @@ import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.Operator;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.PartOfSpeech;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.Productivity;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.UseStatus;
-import java.util.Set;
+import java.util.List;
 
 /**
  *
@@ -19,14 +19,16 @@ import java.util.Set;
 public interface LanguageRepresentationDao extends
         Dao<Long, LanguageRepresentation> {
 
+    List<LanguageRepresentation> getAllLanguageRepresentations();
+
     LanguageRepresentation getSingleLanguageRepresentation(
             Language language, String text, PartOfSpeech pos,
             UseStatus useStatus, Productivity productivity, String negation,
             Operator operator);
 
-    Set<LanguageRepresentation> getLanguageRepresentations(String text);
+    List<LanguageRepresentation> getLanguageRepresentations(String text);
 
-    Set<LanguageRepresentation> getLanguageRepresentations(
+    List<LanguageRepresentation> getLanguageRepresentations(
             Language language, String text, PartOfSpeech pos,
             UseStatus useStatus);
 
@@ -34,6 +36,6 @@ public interface LanguageRepresentationDao extends
             Language language, String text, PartOfSpeech pos,
             UseStatus useStatus);
 
-    Set<String> getAllLanguageRepresentationText();
+    List<String> getAllLanguageRepresentationText();
 
 }

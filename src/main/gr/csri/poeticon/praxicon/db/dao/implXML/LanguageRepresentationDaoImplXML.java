@@ -12,9 +12,9 @@ import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.Language;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.PartOfSpeech;
 import gr.csri.poeticon.praxicon.db.entities.LanguageRepresentation.UseStatus;
+import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.List;
 import javax.persistence.Query;
 
 /**
@@ -47,9 +47,9 @@ public class LanguageRepresentationDaoImplXML extends
     }
 
     @Override
-    public Set<LanguageRepresentation> getLanguageRepresentations(
+    public List<LanguageRepresentation> getLanguageRepresentations(
             String searchString) {
-        Set<LanguageRepresentation> res = new LinkedHashSet<>();
+        List<LanguageRepresentation> res = new ArrayList<>();
         Enumeration en = Constants.globalConcepts.elements();
         while (en.hasMoreElements()) {
             Concept concept = (Concept)en.nextElement();
@@ -70,7 +70,7 @@ public class LanguageRepresentationDaoImplXML extends
     }
 
     @Override
-    public Set<LanguageRepresentation> getLanguageRepresentations(
+    public List<LanguageRepresentation> getLanguageRepresentations(
             Language language, String text, PartOfSpeech pos,
             UseStatus pragmaticStatus) {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -86,7 +86,12 @@ public class LanguageRepresentationDaoImplXML extends
     }
 
     @Override
-    public Set<String> getAllLanguageRepresentationText() {
+    public List<String> getAllLanguageRepresentationText() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<LanguageRepresentation> getAllLanguageRepresentations() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

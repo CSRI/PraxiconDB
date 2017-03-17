@@ -8,7 +8,7 @@ import gr.csri.poeticon.praxicon.db.entities.Concept;
 import gr.csri.poeticon.praxicon.db.entities.Relation;
 import gr.csri.poeticon.praxicon.db.entities.RelationArgument;
 import gr.csri.poeticon.praxicon.db.entities.RelationSet;
-import java.util.Set;
+import java.util.List;
 
 /**
  *
@@ -20,20 +20,20 @@ public interface RelationSetDao extends Dao<Long, RelationSet> {
 
     RelationSet getRelationSet(RelationSet relationSet);
 
-    Set<RelationSet> getRelationSetsByRelationArgument(
+    List<RelationSet> getRelationSetsByRelationArgument(
             RelationArgument relationArgument);
 
-    Set<RelationSet> getRelationSetsByRelation(Relation relation);
+    List<RelationSet> getRelationSetsByRelation(Relation relation);
 
-    Set<RelationSet> getRelationSetsByConcept(Concept concept);
+    List<RelationSet> getRelationSetsByConcept(Concept concept);
 
-    Set<RelationSet> getRelationSetsWithRelationArgumentAsLeftArgument(
+    List<RelationSet> getRelationSetsWithRelationArgumentAsLeftArgument(
             RelationArgument relationArgument);
 
-    Set<RelationSet> getRelationSetsWithRelationArgumentAsRightArgument(
+    List<RelationSet> getRelationSetsWithRelationArgumentAsRightArgument(
             RelationArgument relationArgument);
 
-    Set<RelationSet> getRelationSetsWithConceptAsRightArgument(
+    List<RelationSet> getRelationSetsWithConceptAsRightArgument(
             Concept concept);
 
     RelationSet updatedRelationSet(RelationSet relationSet);

@@ -13,9 +13,9 @@ import gr.csri.poeticon.praxicon.db.entities.RelationSet;
 import gr.csri.poeticon.praxicon.db.entities.RelationSets;
 import gr.csri.poeticon.praxicon.db.entities.Relations;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -40,11 +40,11 @@ public class XmlUtils {
      * @param conceptsList
      * @param xmlFileName
      */
-    public static void exportConceptsToXML(Set<Concept> conceptsList,
+    public static void exportConceptsToXML(List<Concept> conceptsList,
             String xmlFileName) {
         Concepts concepts = new Concepts();
-        concepts.setConcepts(new LinkedHashSet<>());
-        Set<Concept> newConceptsList = new LinkedHashSet<>();
+        concepts.setConcepts(new ArrayList<>());
+        List<Concept> newConceptsList = new ArrayList<>();
 
         try {
             /*
@@ -88,12 +88,12 @@ public class XmlUtils {
      * @param relationsList
      * @param xmlFileName
      */
-    public static void exportRelationsToXML(Set<Relation> relationsList,
+    public static void exportRelationsToXML(List<Relation> relationsList,
             String xmlFileName) {
 
         Relations relations = new Relations();
-        relations.setRelations(new LinkedHashSet<>());
-        Set<Relation> newRelationsList = new LinkedHashSet<>();
+        relations.setRelations(new ArrayList<>());
+        List<Relation> newRelationsList = new ArrayList<>();
 
         try {
             /*
@@ -140,11 +140,11 @@ public class XmlUtils {
      * @param xmlFileName
      */
     public static void exportRelationSetsToXML(
-            Set<RelationSet> relationSetsList, String xmlFileName) {
+            List<RelationSet> relationSetsList, String xmlFileName) {
 
         RelationSets relationSets = new RelationSets();
-        relationSets.setRelationSets(new LinkedHashSet<>());
-        Set<RelationSet> newRelationSetsList = new LinkedHashSet<>();
+        relationSets.setRelationSets(new ArrayList<>());
+        List<RelationSet> newRelationSetsList = new ArrayList<>();
 
         try {
             /*
@@ -194,16 +194,16 @@ public class XmlUtils {
      * @param xmlFileName
      */
     public static void exportAllObjectsToXML(
-            Set<RelationSet> relationSetsList,
-            Set<Concept> conceptsList, Set<Relation> relationsList,
+            List<RelationSet> relationSetsList,
+            List<Concept> conceptsList, List<Relation> relationsList,
             String xmlFileName) {
         CollectionOfObjects collectionOfObjects = new CollectionOfObjects();
         RelationSets relationSets = new RelationSets();
         Concepts concepts = new Concepts();
         Relations relations = new Relations();
-        relationSets.setRelationSets(new LinkedHashSet<>());
-        concepts.setConcepts(new LinkedHashSet<>());
-        relations.setRelations(new LinkedHashSet<>());
+        relationSets.setRelationSets(new ArrayList<>());
+        concepts.setConcepts(new ArrayList<>());
+        relations.setRelations(new ArrayList<>());
 
         try {
             /*
@@ -316,20 +316,20 @@ public class XmlUtils {
             File xmlFile = new File(fullPathFileName);
             CollectionOfObjects importedCollectionOfObjects =
                     (CollectionOfObjects)jaxbUnmarshaller.unmarshal(xmlFile);
-            Set<Concepts> listOfConcepts = importedCollectionOfObjects.
+            List<Concepts> listOfConcepts = importedCollectionOfObjects.
                     getConcepts();
             for (Concepts concepts : listOfConcepts) {
                 concepts.storeConcepts();
             }
 
-            Set<RelationSets> listOfRelationSets =
+            List<RelationSets> listOfRelationSets =
                     importedCollectionOfObjects.
                     getRelationSets();
             for (RelationSets relationSets : listOfRelationSets) {
                 relationSets.storeRelationSets();
             }
 
-            Set<Relations> listOfRelations = importedCollectionOfObjects.
+            List<Relations> listOfRelations = importedCollectionOfObjects.
                     getRelations();
             for (Relations relations : listOfRelations) {
                 relations.storeRelations();

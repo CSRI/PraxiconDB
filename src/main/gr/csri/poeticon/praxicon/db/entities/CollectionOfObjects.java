@@ -1,7 +1,7 @@
 package gr.csri.poeticon.praxicon.db.entities;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -18,42 +18,42 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class CollectionOfObjects {
 
     @XmlElement(name = "concepts")
-    Set<Concepts> concepts = new LinkedHashSet<>();
+    List<Concepts> concepts = new ArrayList<>();
 
     @XmlElement(name = "relations")
-    Set<Relations> relations = new LinkedHashSet<>();
+    List<Relations> relations = new ArrayList<>();
 
     @XmlElement(name = "relationSets")
-    Set<RelationSets> relationSets = new LinkedHashSet<>();
+    List<RelationSets> relationSets = new ArrayList<>();
 
-    public Set<Concepts> getConcepts() {
+    public List<Concepts> getConcepts() {
         return concepts;
     }
 
-    public void setConcepts(Set<Concepts> concepts) {
+    public void setConcepts(List<Concepts> concepts) {
         this.concepts = concepts;
     }
 
-    public Set<Relations> getRelations() {
+    public List<Relations> getRelations() {
         return relations;
     }
 
-    public void setRelations(Set<Relations> relations) {
+    public void setRelations(List<Relations> relations) {
         this.relations = relations;
     }
 
-    public Set<RelationSets> getRelationSets() {
+    public List<RelationSets> getRelationSets() {
         return relationSets;
     }
 
-    public void setRelationSets(Set<RelationSets> relationSets) {
+    public void setRelationSets(List<RelationSets> relationSets) {
         this.relationSets = relationSets;
     }
 
     public CollectionOfObjects() {
-        concepts = new LinkedHashSet<>();
-        relations = new LinkedHashSet<>();
-        relationSets = new LinkedHashSet<>();
+        concepts = new ArrayList<>();
+        relations = new ArrayList<>();
+        relationSets = new ArrayList<>();
     }
 
     /**

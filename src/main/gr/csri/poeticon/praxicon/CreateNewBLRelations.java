@@ -22,7 +22,6 @@ import gr.csri.poeticon.praxicon.db.entities.RelationType;
 import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -57,7 +56,7 @@ public class CreateNewBLRelations {
         long startTime = System.nanoTime();
 
         // Get all concepts
-        Set<Concept> concepts = cDao.getAllConcepts();
+        List<Concept> concepts = cDao.getAllConcepts();
         long endTime = System.nanoTime();
         System.out.print("\n\n\nFinished getting concepts in ");
         System.out.print((endTime - startTime) / 1000000000);
@@ -72,7 +71,7 @@ public class CreateNewBLRelations {
         startTime = System.nanoTime();
         // For each concept, get its basic level
         for (Concept concept : concepts) {
-            Set<Map.Entry<Concept, ConceptDaoImpl.Direction>> basicLevelConcepts =
+            List<Map.Entry<Concept, ConceptDaoImpl.Direction>> basicLevelConcepts =
                     cDao.getBasicLevelConceptsOld(concept);
 
             counter += 1;
@@ -127,7 +126,6 @@ public class CreateNewBLRelations {
 
         DirectedGraph<RelationArgument, DefaultEdge> conceptGraph =
                 new DefaultDirectedGraph<>(DefaultEdge.class);
-
         long startTimeTotal = System.nanoTime();
         ConceptDao cDao = new ConceptDaoImpl();
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
@@ -136,22 +134,21 @@ public class CreateNewBLRelations {
         // Get concepts from the database
         long startTime = System.nanoTime();
         System.out.println("\n\n\nGetting concepts...");
-        Set<Concept> concepts = cDao.getAllConcepts();
+        List<Concept> concepts = cDao.getAllConcepts();
         long endTime = System.nanoTime();
         System.out.print("\n\n\nFinished getting concepts in ");
-        System.out.print((endTime - startTime) / 1000000000);
-        System.out.println(" seconds!");
+        System.out.print((endTime - startTime) / 1000000);
+        System.out.println(" miliseconds!");
 
         // Get relation arguments from the database
         startTime = System.nanoTime();
         System.out.println("\n\n\nGetting relation arguments...");
-        Set<RelationArgument> relationArguments = new LinkedHashSet<>();
-        relationArguments = raDao.getAllRelationArguments();
+        List<RelationArgument> relationArguments =
+                raDao.getAllRelationArguments();
         endTime = System.nanoTime();
         System.out.print("\n\n\nFinished getting relation arguments in ");
         System.out.print((endTime - startTime) / 1000000000);
         System.out.println(" seconds!");
-
         // Create a copy of the existing array list to avoid
         // java.util.ConcurrentModificationException
         List<RelationArgument> relationArgumentsNew = new ArrayList<>(
@@ -160,14 +157,14 @@ public class CreateNewBLRelations {
         // Get relations from the database
         startTime = System.nanoTime();
         System.out.print("\n\n\nGetting relations...");
-        Set<Relation> relationsTypeToken = rDao.getRelationsByRelationType(
+        List<Relation> relationsTypeToken = rDao.getRelationsByRelationType(
                 RelationType.RelationNameForward.TYPE_TOKEN);
         endTime = System.nanoTime();
         System.out.print("\n\n\nFinished getting relations in ");
-        System.out.print((endTime - startTime) / 1000000000);
-        System.out.println(" seconds!");
+        System.out.print((endTime - startTime) / 1000000);
+        System.out.println(" miliseconds!");
 
-        // Add concepts (vertices) to the graph
+        // Add relation arguments (vertices) to the graph
         startTime = System.nanoTime();
         System.out.println("\n\n\nAdding vertices...");
         for (RelationArgument relationArgument : relationArgumentsNew) {
@@ -177,18 +174,17 @@ public class CreateNewBLRelations {
         System.out.print("\n\n\nFinished adding vertices in ");
         System.out.print((endTime - startTime) / 1000000000);
         System.out.println(" seconds!");
-
+        
         // Add relations (edges) to the graph
         startTime = System.nanoTime();
         System.out.println("\n\n\nAdding edges...");
         for (Relation relation : relationsTypeToken) {
             // Get left relation argument
-            RelationArgument leftRelationArgument = new RelationArgument();
-            leftRelationArgument = relation.getLeftArgument();
+            RelationArgument leftRelationArgument = relation.getLeftArgument();
 
             // Get right relation argument
-            RelationArgument rightRelationArgument = new RelationArgument();
-            rightRelationArgument = relation.getRightArgument();
+            RelationArgument rightRelationArgument = relation.
+                    getRightArgument();
 
             // Add edges with 2 relation arguments
             conceptGraph.addEdge(leftRelationArgument, rightRelationArgument);
@@ -197,12 +193,13 @@ public class CreateNewBLRelations {
         System.out.print("\n\n\nFinished adding edges in ");
         System.out.print((endTime - startTime) / 1000000);
         System.out.println(" miliseconds!\n\n\n");
-
+        
         long endTimeTotal = System.nanoTime();
         System.out.print("\n\n\nTotal Time: ");
         System.out.print((endTimeTotal - startTimeTotal) / 1000000000);
         System.out.println(" seconds!");
-
+        System.out.print((endTimeTotal - startTimeTotal) / 1000000);
+        System.out.println(" miliseconds!");
         // Now insert all BL relations.
 //        insertBLRelations(conceptGraph, concepts);
         if (cDao.getEntityManager().isOpen()) {
@@ -210,6 +207,9 @@ public class CreateNewBLRelations {
         }
         if (rDao.getEntityManager().isOpen()) {
             rDao.close();
+        }
+        if (raDao.getEntityManager().isOpen()) {
+            raDao.close();
         }
         for (Frame frame : Frame.getFrames()) {
             frame.dispose();
