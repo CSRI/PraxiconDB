@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import static java.util.Objects.isNull;
+import java.util.Stack;
 import javax.persistence.Query;
 
 /**
@@ -512,7 +513,7 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
         List<Relation> retrievedRelationsList =
                 rDao.getRelationsByLeftConceptTypeOfRelation(concept,
                         TYPE_TOKEN);
-        if (!isNull(retrievedRelationsList)) {
+        if (!retrievedRelationsList.isEmpty()) {
             for (Relation relation : retrievedRelationsList) {
                 if (relation.getRightArgument().isConcept()) {
                     retrievedConceptsList.add(relation.getRightArgument().
@@ -547,13 +548,12 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
                 }
             }
         }
-        entityManager.clear();
         return retrievedConceptsList;
     }
 
     /**
      * Finds all retrievedConceptsList that are ancestors (higher in hierarchy)
-     * of a given concept
+     * of a given concept.  Non-recursive implementation with stack.
      *
      * @param concept
      *
@@ -561,41 +561,31 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      */
     @Override
     public List<Concept> getAllAncestors(Concept concept) {
-//        EntityManager em = getEntityManager();
-//        Session session = em.unwrap(org.hibernate.Session.class);
-        List<Concept> ancestorConcepts = new ArrayList<>();
-        if (!isNull(concept)) {
-//            if (!Hibernate.isInitialized(concept)) {
-//                Hibernate.initialize(concept);
-//            }
-//            if (!session.contains(concept)) {
-//                Concept tmpConcept = session.get(Concept.class, concept.
-//                        getId());
-//                // If the concept exists in the session, then don't
-//                // add it, but rather add its found counterpart.
-//                concept = new Concept(tmpConcept, true, true, true);
-//                session.update(tmpConcept);
-//            }
+        Stack<Concept> ancestorsStack = new Stack<>();
+        List<Concept> ancestorsList = new ArrayList<>();
 
-            List<Concept> parents = getParents(concept);
-            for (Concept parent : parents) {
-                if (!ancestorConcepts.contains(parent)) {
-                    ancestorConcepts.add(parent);
-                }
-                List<Concept> ancestors = getAllAncestors(parent);
-                for (Concept ancestor : ancestors) {
-                    if (!ancestorConcepts.contains(ancestor)) {
-                        ancestorConcepts.add(ancestor);
+        ancestorsStack.push(concept);
+
+        while (!ancestorsStack.empty()) {
+            Concept currentConcept = ancestorsStack.pop();
+            List<Concept> parentConcepts = getParents(currentConcept);
+            if (!parentConcepts.isEmpty()) {
+                for (Concept item : parentConcepts) {
+                    if (!ancestorsList.contains(item)) {
+                        ancestorsList.add(item);
+                        ancestorsStack.push(item);
                     }
                 }
+            } else {
+                return ancestorsList;
             }
         }
-        return ancestorConcepts;
+        return new ArrayList<>();
     }
 
     /**
-     * Finds all retrievedConceptsList that are offsprings (lower in hierarchy)
-     * of a given concept
+     * Finds all retrievedConceptsList that are ancestors (higher in hierarchy)
+     * of a given concept. Non-recursive implementation with stack.
      *
      * @param concept
      *
@@ -603,38 +593,31 @@ public class ConceptDaoImpl extends JpaDao<Long, Concept> implements
      */
     @Override
     public List<Concept> getAllOffsprings(Concept concept) {
-//        EntityManager em = getEntityManager();
-//        Session session = em.unwrap(org.hibernate.Session.class);
-        List<Concept> offspringConcepts = new ArrayList<>();
+        Stack<Concept> offspringsStack = new Stack<>();
+        List<Concept> offspringsList = new ArrayList<>();
 
-        if (!isNull(concept)) {
-//            Concept tmpConcept = session.get(Concept.class, concept.
-//                    getId());
-//            // If the concept exists in the session, then don't
-//            // add it, but rather add its found counterpart.
-//
-//            if (!session.contains(concept)) {
-//                Hibernate.initialize(concept);
-//            }
+        offspringsStack.push(concept);
 
-            List<Concept> children = getChildren(concept);
-            for (Concept child : children) {
-                if (!offspringConcepts.contains(child)) {
-                    offspringConcepts.add(child);
-                }
-                List<Concept> offsprings = getAllOffsprings(child);
-                for (Concept offspring : offsprings) {
-                    if (!offspringConcepts.contains(offspring)) {
-                        offspringConcepts.add(offspring);
+        while (!offspringsStack.empty()) {
+            Concept currentConcept = offspringsStack.pop();
+            List<Concept> childrenConcepts = getChildren(currentConcept);
+            if (!childrenConcepts.isEmpty()) {
+                for (Concept item : childrenConcepts) {
+                    if (!offspringsList.contains(item)) {
+                        offspringsList.add(item);
+                        offspringsStack.push(item);
                     }
                 }
+            } else {
+                return offspringsList;
             }
         }
-        return offspringConcepts;
+        return new ArrayList<>();
     }
-
+    
+    
     /**
-     * Finds all the Basic Level retrievedConceptsList for the given concept.
+     * Finds all the Basic Level Concepts of the given concept.
      * New algorithm which takes advantage of the direct basic level TYPE_TOKEN
      * retrievedRelationsList added after the creation of the database: Return
      * all retrievedConceptsList related to the concept and are BASIC_LEVEL.
