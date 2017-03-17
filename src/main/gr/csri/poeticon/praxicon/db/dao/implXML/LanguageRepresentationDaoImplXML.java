@@ -89,4 +89,9 @@ public class LanguageRepresentationDaoImplXML extends
     public List<String> getAllLanguageRepresentationText() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public List<LanguageRepresentation> getAllLanguageRepresentations() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

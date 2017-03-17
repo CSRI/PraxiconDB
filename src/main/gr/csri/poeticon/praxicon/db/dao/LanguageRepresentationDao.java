@@ -19,6 +19,8 @@ import java.util.List;
 public interface LanguageRepresentationDao extends
         Dao<Long, LanguageRepresentation> {
 
+    List<LanguageRepresentation> getAllLanguageRepresentations();
+
     LanguageRepresentation getSingleLanguageRepresentation(
             Language language, String text, PartOfSpeech pos,
             UseStatus useStatus, Productivity productivity, String negation,
