@@ -27,7 +27,7 @@ import org.hibernate.Session;
 
 /**
  * A class that helps serialize any entity of the
- * gr.csri.poeticon.praxicon.db.entities as an XML
+ * gr.csri.poeticon.praxicon.db.entities to XML
  *
  * @author dmavroeidis
  */
@@ -111,7 +111,7 @@ public class XmlUtils {
                 if (!newRelationsList.contains(item)) {
                     Relation tmpRelation = session.get(Relation.class, item.
                             getId());
-                    // If the concept exists in the session, then don't
+                    // If the relation exists in the session, then don't
                     // add it, but rather add its found counterpart.
                     item = new Relation(tmpRelation);
                     newRelationsList.add(item);
@@ -125,10 +125,6 @@ public class XmlUtils {
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            System.err.println(Arrays.toString(e.getStackTrace()));
-            System.exit(1);
         }
     }
 
@@ -163,7 +159,7 @@ public class XmlUtils {
                 if (!newRelationSetsList.contains(item)) {
                     RelationSet tmpRelationSet = session.
                             get(RelationSet.class, item.getId());
-                    // If the concept exists in the session, then don't
+                    // If the relation set exists in the session, then don't
                     // add it, but rather add its found counterpart.
                     item = new RelationSet(tmpRelationSet);
                     newRelationSetsList.add(item);
@@ -177,10 +173,6 @@ public class XmlUtils {
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            System.err.println(Arrays.toString(e.getStackTrace()));
-            System.exit(1);
         }
     }
 
@@ -199,8 +191,11 @@ public class XmlUtils {
             String xmlFileName) {
         CollectionOfObjects collectionOfObjects = new CollectionOfObjects();
         RelationSets relationSets = new RelationSets();
+        List<RelationSet> newRelationSetsList = new ArrayList<>();
         Concepts concepts = new Concepts();
+        List<Concept> newConceptsList = new ArrayList<>();
         Relations relations = new Relations();
+        List<Relation> newRelationsList = new ArrayList<>();
         relationSets.setRelationSets(new ArrayList<>());
         concepts.setConcepts(new ArrayList<>());
         relations.setRelations(new ArrayList<>());
@@ -211,27 +206,53 @@ public class XmlUtils {
              * update retrieved objects directly to avoid setting EAGER fetch
              * which would criple performance during retrieval from the database.
              */
+            EntityManager em = getEntityManager();
+            Session session = em.unwrap(org.hibernate.Session.class);
             JAXBContext jaxbContext = JAXBContext.
                     newInstance(CollectionOfObjects.class);
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
             for (RelationSet item : relationSetsList) {
-                relationSets.getRelationSets().add(item);
-            }
-            for (Concept item : conceptsList) {
-                if (!conceptsList.contains(item)) {
-                    concepts.getConcepts().add(item);
+                if (!newRelationSetsList.contains(item)) {
+                    RelationSet tmpRelationSet = session.
+                            get(RelationSet.class, item.getId());
+                    // If the relation set exists in the session, then don't
+                    // add it, but rather add its found counterpart.
+                    item = new RelationSet(tmpRelationSet);
+                    newRelationSetsList.add(item);
                 }
             }
-            for (Relation item : relationsList) {
-                relations.getRelations().add(item);
+
+            for (Concept item : conceptsList) {
+                if (!newConceptsList.contains(item)) {
+                    Concept tmpConcept = session.get(Concept.class, item.
+                            getId());
+                    // If the concept exists in the session, then don't
+                    // add it, but rather add its found counterpart.
+                    item = new Concept(tmpConcept, true, true, true);
+                    newConceptsList.add(item);
+                }
             }
+
+            for (Relation item : relationsList) {
+                if (!newRelationsList.contains(item)) {
+                    Relation tmpRelation = session.get(Relation.class, item.
+                            getId());
+                    // If the relation exists in the session, then don't
+                    // add it, but rather add its found counterpart.
+                    item = new Relation(tmpRelation);
+                    newRelationsList.add(item);
+                }
+            }
+
+            concepts.setConcepts(newConceptsList);
+            relations.setRelations(newRelationsList);
+            relationSets.setRelationSets(newRelationSetsList);
 
             collectionOfObjects.getConcepts().add(concepts);
             collectionOfObjects.getRelations().add(relations);
             collectionOfObjects.getRelationSets().add(relationSets);
-
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
             // Export all objects to the xml file
@@ -240,10 +261,6 @@ public class XmlUtils {
         } catch (JAXBException ex) {
             Logger.getLogger(XmlUtils.class.getName()).
                     log(Level.SEVERE, null, ex);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            System.err.println(Arrays.toString(e.getStackTrace()));
-            System.exit(1);
         }
     }
 
