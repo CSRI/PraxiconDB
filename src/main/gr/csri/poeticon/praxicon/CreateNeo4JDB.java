@@ -94,7 +94,7 @@ public class CreateNeo4JDB {
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
         RelationSetDao rsDao = new RelationSetDaoImpl();
         RelationTypeDao rtDao = new RelationTypeDaoImpl();
-
+        
         System.out.println();
         System.out.println("---- MySQL ----");
 
@@ -313,43 +313,43 @@ public class CreateNeo4JDB {
             }
             System.out.println(" OK");
         } catch (Error e) {
-            System.out.println("Error occured: ");
-            System.out.println(e.getMessage());
-            System.out.println(Arrays.toString(e.getStackTrace()));
-        }
+                System.out.println("Error occured: ");
+                System.out.println(e.getMessage());
+                System.out.println(Arrays.toString(e.getStackTrace()));
+            }
 
-        tx.success();
-
-        if (cDao.getEntityManager().isOpen()) {
-            cDao.close();
+            tx.success();
+        
+            if (cDao.getEntityManager().isOpen()) {
+                cDao.close();
+            }
+            if (rDao.getEntityManager().isOpen()) {
+                rDao.close();
+            }
+            if (lrDao.getEntityManager().isOpen()) {
+                lrDao.close();
+            }
+            if (vrDao.getEntityManager().isOpen()) {
+                vrDao.close();
+            }
+            if (mrDao.getEntityManager().isOpen()) {
+                mrDao.close();
+            }
+            if (rDao.getEntityManager().isOpen()) {
+                rDao.close();
+            }
+            if (raDao.getEntityManager().isOpen()) {
+                raDao.close();
+            }
+            if (rsDao.getEntityManager().isOpen()) {
+                rsDao.close();
+            }
+            if (rtDao.getEntityManager().isOpen()) {
+                rtDao.close();
+            }
+            for (Frame frame : Frame.getFrames()) {
+                frame.dispose();
+            }
+            tx.close();
         }
-        if (rDao.getEntityManager().isOpen()) {
-            rDao.close();
-        }
-        if (lrDao.getEntityManager().isOpen()) {
-            lrDao.close();
-        }
-        if (vrDao.getEntityManager().isOpen()) {
-            vrDao.close();
-        }
-        if (mrDao.getEntityManager().isOpen()) {
-            mrDao.close();
-        }
-        if (rDao.getEntityManager().isOpen()) {
-            rDao.close();
-        }
-        if (raDao.getEntityManager().isOpen()) {
-            raDao.close();
-        }
-        if (rsDao.getEntityManager().isOpen()) {
-            rsDao.close();
-        }
-        if (rtDao.getEntityManager().isOpen()) {
-            rtDao.close();
-        }
-        for (Frame frame : Frame.getFrames()) {
-            frame.dispose();
-        }
-        tx.close();
     }
-}
