@@ -30,7 +30,6 @@ import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 
-
 /**
  *
  * @author dmavroeidis
@@ -62,30 +61,29 @@ public class CreateNeo4JDB {
         myNeoInstance.shutDown();
         System.exit(0);
     }
-    
-    private void dropDb()
-    {
+
+    private void dropDb() {
         File f = new File(DB_PATH);
-        
-        if (f.exists() && f.isDirectory())
-        {
+
+        if (f.exists() && f.isDirectory()) {
             try {
                 FileUtils.deleteDirectory(f);
             } catch (IOException ex) {
-                Logger.getLogger(CreateNeo4JDB.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CreateNeo4JDB.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
         }
     }
-    
+
     private void shutDown() {
         graphDb.shutdown();
         System.out.println("graphDB shut down.");
     }
 
-    private void createGraph()
-    {
+    private void createGraph() {
         // Create graph
-        graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(new File(DB_PATH));
+        graphDb = new GraphDatabaseFactory().
+                newEmbeddedDatabase(new File(DB_PATH));
         Transaction tx = graphDb.beginTx();
 
         ConceptDao cDao = new ConceptDaoImpl();
@@ -96,208 +94,230 @@ public class CreateNeo4JDB {
         RelationArgumentDao raDao = new RelationArgumentDaoImpl();
         RelationSetDao rsDao = new RelationSetDaoImpl();
         RelationTypeDao rtDao = new RelationTypeDaoImpl();
-        
+
         System.out.println();
         System.out.println("---- MySQL ----");
-        
+
         System.out.print("Downloading Concepts... ");
         List<Concept> concepts = cDao.getAllConcepts();
         System.out.println("" + concepts.size());
-        
+
         System.out.print("Downloading LanguageRepresentations... ");
         List<LanguageRepresentation> langRepr = lrDao.findAll();
         System.out.println("" + langRepr.size());
-        
+
         System.out.print("Downloading VisualRepresentations... ");
         List<VisualRepresentation> visRepr = vrDao.findAll();
         System.out.println("" + visRepr.size());
-        
+
         System.out.print("Downloading MotoricRepresentations... ");
         List<MotoricRepresentation> motRepr = mrDao.findAll();
         System.out.println("" + motRepr.size());
-        
+
         System.out.print("Downloading Relations... ");
         List<Relation> rels = rDao.findAll();
         System.out.println("" + rels.size());
-        
+
         System.out.print("Downloading RelationSets... ");
         List<RelationSet> relsets = rsDao.findAll();
         System.out.println("" + relsets.size());
-        
+
         System.out.println();
         System.out.println("---- Neo4J ----");
-        try 
-        {
+        try {
             System.out.print("Uploading LanguageRepresentations... ");
-            for (LanguageRepresentation repr : langRepr)
-            {
+            for (LanguageRepresentation repr : langRepr) {
                 conceptNode = graphDb.createNode();
                 conceptNode.setProperty("id", repr.getId());
                 conceptNode.setProperty("text", repr.getText());
                 conceptNode.setProperty("lang", repr.getLanguage().toString());
-                conceptNode.setProperty("pos", repr.getPartOfSpeech().toString());
+                conceptNode.setProperty("pos", repr.getPartOfSpeech().
+                        toString());
                 conceptNode.addLabel(Label.label("LanguageRepresentation"));
             }
             System.out.println("OK");
             System.out.print("Uploading VisualRepresentations... ");
-            for (VisualRepresentation repr : visRepr)
-            {
+            for (VisualRepresentation repr : visRepr) {
                 conceptNode = graphDb.createNode();
                 conceptNode.setProperty("id", repr.getId());
                 conceptNode.setProperty("name", repr.getName());
-                conceptNode.setProperty("mediaType", repr.getMediaType().toString());
+                conceptNode.setProperty("mediaType", repr.getMediaType().
+                        toString());
                 conceptNode.setProperty("source", repr.getSource());
                 conceptNode.setProperty("uri", repr.getUri().toString());
                 conceptNode.addLabel(Label.label("VisualRepresentation"));
             }
             System.out.println("OK");
             System.out.print("Uploading MotoricRepresentations... ");
-            for (MotoricRepresentation repr : motRepr)
-            {
+            for (MotoricRepresentation repr : motRepr) {
                 conceptNode = graphDb.createNode();
                 conceptNode.setProperty("id", repr.getId());
-                conceptNode.setProperty("performingAgent", repr.getPerformingAgent().toString());
+                conceptNode.setProperty("performingAgent", repr.
+                        getPerformingAgent().toString());
                 conceptNode.setProperty("source", repr.getSource());
                 conceptNode.setProperty("uri", repr.getUri().toString());
                 conceptNode.addLabel(Label.label("MotoricRepresentation"));
             }
             System.out.println("OK");
             System.out.print("Uploading Concepts with Representations... ");
-            int i = 1; int max = concepts.size(); int prevPerc = 0;
-            for (Concept concept : concepts)
-            {
+            int i = 1;
+            int max = concepts.size();
+            int prevPerc = 0;
+            for (Concept concept : concepts) {
                 conceptNode = graphDb.createNode();
                 conceptNode.setProperty("id", concept.getId());
                 conceptNode.setProperty("name", concept.getName());
-                conceptNode.setProperty("conceptType", concept.getConceptType().toString());
-                conceptNode.setProperty("conceptExternalSourceId", concept.getExternalSourceId());
-                conceptNode.setProperty("conceptPragmaticStatus", concept.getPragmaticStatus().toString());
-                conceptNode.setProperty("conceptSpecificityLevel", concept.getSpecificityLevel().toString());
-                conceptNode.setProperty("conceptUniqueInstance", concept.getUniqueInstance().toString());
+                conceptNode.setProperty("conceptType", concept.
+                        getConceptType().toString());
+                conceptNode.setProperty("conceptExternalSourceId", concept.
+                        getExternalSourceId());
+                conceptNode.setProperty("conceptPragmaticStatus", concept.
+                        getPragmaticStatus().toString());
+                conceptNode.setProperty("conceptSpecificityLevel", concept.
+                        getSpecificityLevel().toString());
+                conceptNode.setProperty("conceptUniqueInstance", concept.
+                        getUniqueInstance().toString());
                 conceptNode.setProperty("conceptSource", concept.getSource());
-                conceptNode.setProperty("conceptStatus", concept.getStatus().toString());
-                conceptNode.addLabel(Label.label("Concept")); 
-                List<LanguageRepresentation> lr = concept.getLanguageRepresentations();
-                for (LanguageRepresentation lrx : lr)
-                {
-                    Node n = graphDb.findNodes(Label.label("LanguageRepresentation"), "id", lrx.getId()).next();
-                    conceptNode.createRelationshipTo(n, RelationshipType.withName("LANGUAGE_REPR"));
+                conceptNode.setProperty("conceptStatus", concept.getStatus().
+                        toString());
+                conceptNode.addLabel(Label.label("Concept"));
+                List<LanguageRepresentation> lr = concept.
+                        getLanguageRepresentations();
+                for (LanguageRepresentation lrx : lr) {
+                    Node n = graphDb.findNodes(Label.label(
+                            "LanguageRepresentation"), "id", lrx.getId()).
+                            next();
+                    conceptNode.createRelationshipTo(n, RelationshipType.
+                            withName("LANGUAGE_REPR"));
                 }
-                List<VisualRepresentation> vr = concept.getVisualRepresentations();
-                for (VisualRepresentation vrx : vr)
-                {
-                    Node n = graphDb.findNodes(Label.label("VisualRepresentation"), "id", vrx.getId()).next();
-                    conceptNode.createRelationshipTo(n, RelationshipType.withName("VISUAL_REPR"));
+                List<VisualRepresentation> vr = concept.
+                        getVisualRepresentations();
+                for (VisualRepresentation vrx : vr) {
+                    Node n = graphDb.findNodes(Label.label(
+                            "VisualRepresentation"), "id", vrx.getId()).next();
+                    conceptNode.createRelationshipTo(n, RelationshipType.
+                            withName("VISUAL_REPR"));
                 }
-                List<MotoricRepresentation> mr = concept.getMotoricRepresentations();
-                for (MotoricRepresentation mrx : mr)
-                {
-                    Node n = graphDb.findNodes(Label.label("MotoricRepresentation"), "id", mrx.getId()).next();
-                    conceptNode.createRelationshipTo(n, RelationshipType.withName("MOTORIC_REPR"));
+                List<MotoricRepresentation> mr = concept.
+                        getMotoricRepresentations();
+                for (MotoricRepresentation mrx : mr) {
+                    Node n = graphDb.findNodes(Label.label(
+                            "MotoricRepresentation"), "id", mrx.getId()).
+                            next();
+                    conceptNode.createRelationshipTo(n, RelationshipType.
+                            withName("MOTORIC_REPR"));
                 }
-                
+
                 int perc = new Double((i * 1.0 / max) * 100).intValue();
-                if (perc > prevPerc && perc % 5 == 0) { prevPerc = perc; System.out.print(perc + "% ");}
+                if (perc > prevPerc && perc % 5 == 0) {
+                    prevPerc = perc;
+                    System.out.print(perc + "% ");
+                }
                 i++;
             }
             System.out.println(" OK");
             System.out.print("Uploading RelationSets... ");
-            i = 1; max = relsets.size(); prevPerc = 0;
-            for (RelationSet rset : relsets)
-            {
+            i = 1;
+            max = relsets.size();
+            prevPerc = 0;
+            for (RelationSet rset : relsets) {
                 conceptNode = graphDb.createNode();
                 conceptNode.setProperty("id", rset.getId());
                 conceptNode.setProperty("name", rset.getName());
                 conceptNode.addLabel(Label.label("RelationSet"));
                 List<Relation> rxs = rset.getRelationsSet();
                 int ri = 0;
-                for (Relation rx : rxs)
-                {
+                for (Relation rx : rxs) {
                     RelationArgument larg = rx.getLeftArgument();
                     RelationArgument rarg = rx.getRightArgument();
                     Long lid, rid;
                     Node nl = null, nr = null;
-                    if (larg.isConcept())
-                    {
+                    if (larg.isConcept()) {
                         lid = larg.getConcept().getId();
-                        nl = graphDb.findNodes(Label.label("Concept"), "id", lid).next();
-                    }
-                    else if (larg.isRelationSet())
-                    {
+                        nl = graphDb.findNodes(Label.label("Concept"), "id",
+                                lid).next();
+                    } else if (larg.isRelationSet()) {
                         lid = larg.getRelationSet().getId();
-                        nl = graphDb.findNodes(Label.label("RelationSet"), "id", lid).next();
+                        nl = graphDb.findNodes(Label.label("RelationSet"),
+                                "id", lid).next();
                     }
-                    if (rarg.isConcept())
-                    {
+                    if (rarg.isConcept()) {
                         rid = rarg.getConcept().getId();
-                        nr = graphDb.findNodes(Label.label("Concept"), "id", rid).next();
-                    }
-                    else if (rarg.isRelationSet())
-                    {
+                        nr = graphDb.findNodes(Label.label("Concept"), "id",
+                                rid).next();
+                    } else if (rarg.isRelationSet()) {
                         rid = rarg.getRelationSet().getId();
-                        nr = graphDb.findNodes(Label.label("RelationSet"), "id", rid).next();
+                        nr = graphDb.findNodes(Label.label("RelationSet"),
+                                "id", rid).next();
                     }
-                    if (nl != null && nr != null)
-                    {
-                        Relationship rsx = conceptNode.createRelationshipTo(nl, RelationshipType.withName("RS_LEFT"));
+                    if (nl != null && nr != null) {
+                        Relationship rsx = conceptNode.
+                                createRelationshipTo(nl, RelationshipType.
+                                        withName("RS_LEFT"));
                         rsx.setProperty("n", ri);
-                        Relationship rsx2 = conceptNode.createRelationshipTo(nr, RelationshipType.withName("RS_RIGHT"));
+                        Relationship rsx2 = conceptNode.createRelationshipTo(
+                                nr, RelationshipType.withName("RS_RIGHT"));
                         rsx2.setProperty("n", ri);
                         ri++;
                     }
                 }
                 int perc = new Double((i * 1.0 / max) * 100).intValue();
-                if (perc > prevPerc && perc % 5 == 0) { prevPerc = perc; System.out.print(perc + "% ");}
+                if (perc > prevPerc && perc % 5 == 0) {
+                    prevPerc = perc;
+                    System.out.print(perc + "% ");
+                }
                 i++;
             }
             System.out.println(" OK");
             System.out.print("Uploading Relations... ");
-            i = 1; max = rels.size(); prevPerc = 0;
-            for (Relation rel : rels)
-            {
+            i = 1;
+            max = rels.size();
+            prevPerc = 0;
+            for (Relation rel : rels) {
                 RelationArgument larg = rel.getLeftArgument();
                 RelationArgument rarg = rel.getRightArgument();
                 Long lid, rid;
                 Node nl = null, nr = null;
-                if (larg.isConcept())
-                {
+                if (larg.isConcept()) {
                     lid = larg.getConcept().getId();
-                    nl = graphDb.findNodes(Label.label("Concept"), "id", lid).next();
-                }
-                else if (larg.isRelationSet())
-                {
+                    nl = graphDb.findNodes(Label.label("Concept"), "id", lid).
+                            next();
+                } else if (larg.isRelationSet()) {
                     lid = larg.getRelationSet().getId();
-                    nl = graphDb.findNodes(Label.label("RelationSet"), "id", lid).next();
+                    nl = graphDb.findNodes(Label.label("RelationSet"), "id",
+                            lid).next();
                 }
-                if (rarg.isConcept())
-                {
+                if (rarg.isConcept()) {
                     rid = rarg.getConcept().getId();
-                    nr = graphDb.findNodes(Label.label("Concept"), "id", rid).next();
-                }
-                else if (rarg.isRelationSet())
-                {
+                    nr = graphDb.findNodes(Label.label("Concept"), "id", rid).
+                            next();
+                } else if (rarg.isRelationSet()) {
                     rid = rarg.getRelationSet().getId();
-                    nr = graphDb.findNodes(Label.label("RelationSet"), "id", rid).next();
+                    nr = graphDb.findNodes(Label.label("RelationSet"), "id",
+                            rid).next();
                 }
-                if (nl != null && nr != null)
-                {
-                    Relationship rx = nl.createRelationshipTo(nr, RelationshipType.withName(rel.getRelationType().getForwardNameString()));
-                    rx.setProperty("linguisticallySupported", rel.getLinguisticallySupported().toString());
+                if (nl != null && nr != null) {
+                    Relationship rx = nl.createRelationshipTo(nr,
+                            RelationshipType.withName(rel.getRelationType().
+                                    getForwardNameString()));
+                    rx.setProperty("linguisticallySupported", rel.
+                            getLinguisticallySupported().toString());
                 }
-                
+
                 int perc = new Double((i * 1.0 / max) * 100).intValue();
-                if (perc > prevPerc && perc % 5 == 0) { prevPerc = perc; System.out.print(perc + "% ");}
+                if (perc > prevPerc && perc % 5 == 0) {
+                    prevPerc = perc;
+                    System.out.print(perc + "% ");
+                }
                 i++;
             }
             System.out.println(" OK");
-        }
-        catch (Error e)
-        {
+        } catch (Error e) {
             System.out.println("Error occured: ");
             System.out.println(e.getMessage());
             System.out.println(Arrays.toString(e.getStackTrace()));
         }
-            
+
         tx.success();
 
         if (cDao.getEntityManager().isOpen()) {
