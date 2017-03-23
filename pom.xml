@@ -263,33 +263,13 @@
         <dependency>
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j</artifactId>
-            <version>3.0.2</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.neo4j</groupId>
-                    <artifactId>neo4j-cypher</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.neo4j</groupId>
-                    <artifactId>neo4j-graph-algo</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.neo4j</groupId>
-                    <artifactId>neo4j-graph-matching</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.neo4j</groupId>
-                    <artifactId>neo4j-jmx</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.neo4j</groupId>
-                    <artifactId>neo4j-lucene-index</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.neo4j</groupId>
-                    <artifactId>neo4j-udc</artifactId>
-                </exclusion>
-            </exclusions>
+            <version>3.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j-kernel</artifactId>
+            <version>3.1.2</version>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
@@ -301,12 +281,6 @@
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream-hibernate</artifactId>
             <version>1.4.9</version>
-        </dependency>
-        <dependency>
-            <groupId>org.neo4j</groupId>
-            <artifactId>neo4j-kernel</artifactId>
-            <version>2.3.1</version>
-            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
@@ -324,6 +298,12 @@
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
             <version>1.1.0.Final</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.5</version>
             <type>jar</type>
         </dependency>
         <dependency>
