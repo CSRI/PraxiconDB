@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import org.apache.commons.lang.builder.EqualsBuilder;
 
 /**
  *
@@ -115,7 +116,6 @@ public class OntologicalDomain implements Serializable {
     public int hashCode() {
         int hash = 5;
         hash = 53 * hash + Objects.hashCode(this.domainName);
-//        hash = 53 * hash + Objects.hashCode(this.concepts);
         return hash;
     }
 
@@ -128,13 +128,9 @@ public class OntologicalDomain implements Serializable {
             return false;
         }
         final OntologicalDomain other = (OntologicalDomain)obj;
-        if (!this.domainName.equals(other.getDomainName())) {
-            return false;
-        }
-//        if (!this.concepts.equals(other.getConcepts())) {
-//            return false;
-//        }
-        return true;
+                EqualsBuilder eb = new EqualsBuilder();
+        eb.append(this.domainName, other.getDomainName());
+        return eb.isEquals();
     }
 
     @Override

@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import org.apache.commons.lang.builder.EqualsBuilder;
 
 /**
  *
@@ -93,10 +94,9 @@ public class RelationSet_Relation implements Serializable {
             return false;
         }
         final RelationSet_Relation other = (RelationSet_Relation)obj;
-        if (!this.relation.equals(other.getRelation())) {
-            return false;
-        }
-        return true;
+        EqualsBuilder eb = new EqualsBuilder();
+        eb.append(this.relation, other.getRelation());
+        return eb.isEquals();
     }
 
     @Override

@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import org.apache.commons.lang.builder.EqualsBuilder;
 
 /**
  *
@@ -202,16 +203,11 @@ public class MotoricRepresentation implements Serializable {
             return false;
         }
         final MotoricRepresentation other = (MotoricRepresentation)obj;
-        if (!this.performingAgent.equals(other.getPerformingAgent())) {
-            return false;
-        }
-        if (!this.source.equals(other.getSource())) {
-            return false;
-        }
-        if (!this.uri.equals(other.getUri())) {
-            return false;
-        }
-        return true;
+        EqualsBuilder eb = new EqualsBuilder();
+        eb.append(this.performingAgent, other.getPerformingAgent());
+        eb.append(this.source, other.getSource());
+        eb.append(this.uri, other.getUri());
+        return eb.isEquals();
     }
 
     @Override
