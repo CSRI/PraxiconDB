@@ -47,7 +47,8 @@ public class ConceptDaoImplTest {
 
     @Before
     public void setUp() {
-        XmlUtils.importConceptsFromXml("misc/test-fixtures/ConceptsSample.xml");
+        XmlUtils.
+                importConceptsFromXml("misc/test-fixtures/ConceptsSample.xml");
     }
 
     @After
@@ -110,52 +111,50 @@ public class ConceptDaoImplTest {
         int result = instance.getAllNonBasicLevelConcepts().size();
         assertEquals(expResult, result);
     }
-//
-//    /**
-//     * Test of getConceptByConceptId method, of class ConceptDaoImpl.
-//     */
-//    @Test
-//    public void testGetConceptByConceptId() {
-//        System.out.println("getConceptByConceptId");
-//        long conceptId = 0L;
-//        ConceptDaoImpl instance = new ConceptDaoImpl();
-//        Concept expResult = null;
-//        Concept result = instance.getConceptByConceptId(conceptId);
+
+    /**
+     * Test of getConceptByConceptId method, of class ConceptDaoImpl.
+     */
+    @Test
+    public void testGetConceptByConceptId() {
+        System.out.println("getConceptByConceptId");
+        long conceptId = 23L;
+        ConceptDaoImpl instance = new ConceptDaoImpl();
+        String expResult = "104035748";
+        Concept result = instance.getConceptByConceptId(conceptId);
+        assertEquals(expResult, result.getExternalSourceId());
+    }
+
+    /**
+     * Test of getConceptsByName method, of class ConceptDaoImpl.
+     */
+    @Test
+    public void testGetConceptsByName() {
+        System.out.println("getConceptsByName");
+        String conceptName = "drug";
+        ConceptDaoImpl instance = new ConceptDaoImpl();
+//        List<String> expResult = new ArrayList();
+//                
+//                ["100003553"];
+        String result = instance.getConceptsByName(conceptName).get(0).
+                getExternalSourceId();
 //        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of getConceptsByName method, of class ConceptDaoImpl.
-//     */
-//    @Test
-//    public void testGetConceptsByName() {
-//        System.out.println("getConceptsByName");
-//        String conceptName = "";
-//        ConceptDaoImpl instance = new ConceptDaoImpl();
-//        List<Concept> expResult = null;
-//        List<Concept> result = instance.getConceptsByName(conceptName);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of getConceptByNameExact method, of class ConceptDaoImpl.
-//     */
-//    @Test
-//    public void testGetConceptByNameExact() {
-//        System.out.println("getConceptByNameExact");
-//        String conceptName = "";
-//        ConceptDaoImpl instance = new ConceptDaoImpl();
-//        Concept expResult = null;
-//        Concept result = instance.getConceptByNameExact(conceptName);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
+    }
+
+    /**
+     * Test of getConceptByNameExact method, of class ConceptDaoImpl.
+     */
+    @Test
+    public void testGetConceptByNameExact() {
+        System.out.println("getConceptByNameExact");
+        String conceptName = "whole%1:03:00::";
+        ConceptDaoImpl instance = new ConceptDaoImpl();
+        String expResult = "100003553";
+        String result = instance.getConceptsByName(conceptName).get(0).
+                getExternalSourceId();
+        assertEquals(expResult, result);
+    }
+
 //    /**
 //     * Test of getConceptsByNameAndStatus method, of class ConceptDaoImpl.
 //     */
@@ -494,5 +493,4 @@ public class ConceptDaoImplTest {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-
 }

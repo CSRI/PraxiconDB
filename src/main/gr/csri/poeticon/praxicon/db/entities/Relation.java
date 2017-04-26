@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import org.apache.commons.lang.builder.EqualsBuilder;
 
 /**
  *
@@ -287,23 +288,14 @@ public class Relation implements Serializable {
             return false;
         }
         final Relation other = (Relation)obj;
-        if (!this.relationType.equals(other.getRelationType())) {
-            return false;
-        }
-        if (!this.leftArgument.equals(other.getLeftArgument())) {
-            return false;
-        }
-        if (!this.rightArgument.equals(other.getRightArgument())) {
-            return false;
-        }
-        if (!this.linguisticallySupported.
-                equals(other.getLinguisticallySupported())) {
-            return false;
-        }
-        if (!this.inferred.equals(other.getInferred())) {
-            return false;
-        }
-        return true;
+        EqualsBuilder eb = new EqualsBuilder();
+        eb.append(this.relationType, other.getRelationType());
+        eb.append(this.leftArgument, other.getLeftArgument());
+        eb.append(this.rightArgument, other.getRightArgument());
+        eb.append(this.linguisticallySupported, other.
+                getLinguisticallySupported());
+        eb.append(this.inferred, other.getInferred());
+        return eb.isEquals();
     }
 
     @Override

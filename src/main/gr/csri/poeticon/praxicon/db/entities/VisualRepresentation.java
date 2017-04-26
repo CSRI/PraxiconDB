@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import org.apache.commons.lang.builder.EqualsBuilder;
 
 /**
  *
@@ -245,22 +246,12 @@ public class VisualRepresentation implements Serializable {
             return false;
         }
         final VisualRepresentation other = (VisualRepresentation)obj;
-        if (!this.mediaType.equals(other.getMediaType())) {
-            return false;
-        }
-        if (!this.name.equals(other.getName())) {
-            return false;
-        }
-        if (!this.source.equals(other.getSource())) {
-            return false;
-        }
-        if (!this.uri.equals(other.getUri())) {
-            return false;
-        }
-//        if (!this.motoricRepresentation.equals(other.motoricRepresentation)) {
-//            return false;
-//        }
-        return true;
+        EqualsBuilder eb = new EqualsBuilder();
+        eb.append(this.mediaType, other.getMediaType());
+        eb.append(this.name, other.getName());
+        eb.append(this.source, other.getSource());
+        eb.append(this.uri, other.getUri());
+        return eb.isEquals();
     }
 
     @Override

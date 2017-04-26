@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -196,7 +197,8 @@ public class RelationSet implements Serializable {
      * @return a set of relations
      */
     public List<Relation> getRelationsSet() {
-        ArrayList<Relation> relationSet = new ArrayList<>(this.getRelationsList());
+        ArrayList<Relation> relationSet = new ArrayList<>(this.
+                getRelationsList());
         return relationSet;
     }
 
@@ -362,8 +364,6 @@ public class RelationSet implements Serializable {
         hash = 13 * hash + Objects.hashCode(this.name);
         hash = 13 * hash + Objects.hashCode(this.relations);
         hash = 13 * hash + Objects.hashCode(this.languageRepresentations);
-        hash = 13 * hash + Objects.hashCode(this.visualRepresentations);
-        hash = 13 * hash + Objects.hashCode(this.motoricRepresentations);
         return hash;
     }
 
@@ -381,22 +381,11 @@ public class RelationSet implements Serializable {
                 return false;
             }
         }
-        if (!this.getRelationsList().equals(other.getRelationsList())) {
-            return false;
-        }
-        if (!this.languageRepresentations.
-                equals(other.getLanguageRepresentations())) {
-            return false;
-        }
-        if (!this.visualRepresentations.
-                equals(other.getVisualRepresentations())) {
-            return false;
-        }
-        if (!this.motoricRepresentations.
-                equals(other.getMotoricRepresentations())) {
-            return false;
-        }
-        return true;
+        EqualsBuilder eb = new EqualsBuilder();
+        eb.append(this.getRelationsList(), other.getRelationsList());
+        eb.append(this.languageRepresentations, other.
+                getLanguageRepresentations());
+        return eb.isEquals();
     }
 
     @Override

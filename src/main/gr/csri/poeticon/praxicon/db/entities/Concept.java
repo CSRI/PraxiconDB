@@ -4,6 +4,7 @@
  */
 package gr.csri.poeticon.praxicon.db.entities;
 
+import static gr.csri.poeticon.praxicon.EntityMngFactory.getEntityManager;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,12 +26,15 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Query;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.hibernate.LazyInitializationException;
 
 /**
  *
@@ -40,6 +44,22 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "concept", namespace = "http://www.csri.gr/concept")
 @NamedQueries({
+    @NamedQuery(name = "getConceptWithLanguageRepresentations", query =
+            "FROM Concept c " +
+            "JOIN FETCH c.languageRepresentations " +
+            "WHERE c.id = :conceptId"),
+    @NamedQuery(name = "getConceptWithOntologicalDomains", query =
+            "FROM Concept c " +
+            "JOIN FETCH c.ontologicalDomains " +
+            "WHERE c.id = :conceptId"),
+    @NamedQuery(name = "getConceptWithVisualRepresentations", query =
+            "FROM Concept c " +
+            "JOIN FETCH c.visualRepresentations " +
+            "WHERE c.id = :conceptId"),
+    @NamedQuery(name = "getConceptWithMotoricRepresentations", query =
+            "FROM Concept c " +
+            "JOIN FETCH c.motoricRepresentations " +
+            "WHERE c.id = :conceptId"),
     @NamedQuery(name = "findAllConcepts", query = "FROM Concept c"),
     @NamedQuery(name = "findConceptsByConceptId", query =
             "FROM Concept c WHERE c.id = :conceptId"),
@@ -189,6 +209,7 @@ import javax.xml.bind.annotation.XmlTransient;
 //            }),}
 )
 //@ConceptConstraint(groups=ConceptGroup.class)
+
 public class Concept implements Serializable {
 
     /**
@@ -661,7 +682,37 @@ public class Concept implements Serializable {
      * @return The ontological domain of the concept
      */
     public List<OntologicalDomain> getOntologicalDomains() {
+        try {
+            this.ontologicalDomains.size();
+        } catch (LazyInitializationException ex) {
+            Query query = getEntityManager().createNamedQuery(
+                    "getConceptWithOntologicalDomains").
+                    setParameter("conceptId", id);
+            List<Concept> conceptsWithIdAndOntDomains =
+                    (List<Concept>)query.getResultList();
+            if (conceptsWithIdAndOntDomains.isEmpty()) {
+                return new ArrayList<>();
+            } else {
+                return conceptsWithIdAndOntDomains.get(0).ontologicalDomains;
+            }
+        }
         return ontologicalDomains;
+    }
+
+    public List getOntologicalDomainsString() {
+        List<OntologicalDomain> ods = this.getOntologicalDomains();
+        List<String> ontologicalDomainsStringList = new ArrayList<>();
+        if (!ods.isEmpty()) {
+            for (OntologicalDomain od : ods) {
+                if (!isNull(od)) {
+                    ontologicalDomainsStringList.add(od.toString());
+                }
+            }
+            Collections.sort(ontologicalDomainsStringList);
+            return new ArrayList<>(ontologicalDomainsStringList);
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     /**
@@ -706,6 +757,20 @@ public class Concept implements Serializable {
      */
     public final List<Concept_LanguageRepresentation>
             getConcept_LanguageRepresentation() {
+        try {
+            this.languageRepresentations.size();
+        } catch (LazyInitializationException ex) {
+            Query query = getEntityManager().createNamedQuery(
+                    "getConceptWithLanguageRepresentations").
+                    setParameter("conceptId", id);
+            List<Concept> conceptsWithIdAndLrs = (List<Concept>)query.
+                    getResultList();
+            if (conceptsWithIdAndLrs.isEmpty()) {
+                return new ArrayList<>();
+            } else {
+                return conceptsWithIdAndLrs.get(0).languageRepresentations;
+            }
+        }
         return languageRepresentations;
     }
 
@@ -1005,10 +1070,10 @@ public class Concept implements Serializable {
         hash = 13 * hash + Objects.hashCode(this.status);
         hash = 13 * hash + Objects.hashCode(this.pragmaticStatus);
         hash = 13 * hash + Objects.hashCode(this.uniqueInstance);
-        hash = 13 * hash + Objects.hashCode(this.languageRepresentations);
-        hash = 13 * hash + Objects.hashCode(this.visualRepresentations);
-        hash = 13 * hash + Objects.hashCode(this.motoricRepresentations);
-        hash = 13 * hash + Objects.hashCode(this.ontologicalDomains);
+        hash = 13 * hash + Objects.hashCode(this.
+                getLanguageRepresentationsAndRepresentative());
+        hash = 13 * hash + Objects.
+                hashCode(this.getOntologicalDomainsString());
         return hash;
     }
 
@@ -1021,50 +1086,19 @@ public class Concept implements Serializable {
             return false;
         }
         final Concept other = (Concept)obj;
-        if (!isNull(this.name) && !isNull(other.getName())) {
-            if (!this.name.equals(other.getName())) {
-                return false;
-            }
-        }
-        if (!isNull(this.externalSourceId) && !isNull(other.
-                getExternalSourceId())) {
-            if (!this.externalSourceId.
-                    equals(other.getExternalSourceId())) {
-                return false;
-            }
-        }
-        if (!this.conceptType.equals(other.getConceptType())) {
-            return false;
-        }
-        if (!this.specificityLevel.equals(other.getSpecificityLevel())) {
-            return false;
-        }
-        if (!this.status.equals(other.getStatus())) {
-            return false;
-        }
-        if (!this.pragmaticStatus.equals(other.getPragmaticStatus())) {
-            return false;
-        }
-        if (!this.uniqueInstance.equals(other.getUniqueInstance())) {
-            return false;
-        }
-        if (!this.languageRepresentations.equals(other.
-                getConcept_LanguageRepresentation())) {
-            return false;
-        }
-        if (!this.visualRepresentations.equals(other.
-                getVisualRepresentations())) {
-            return false;
-        }
-        if (!this.motoricRepresentations.equals(other.
-                getMotoricRepresentations())) {
-            return false;
-        }
-        if (!this.ontologicalDomains.equals(other.
-                getOntologicalDomains())) {
-            return false;
-        }
-        return true;
+        EqualsBuilder eb = new EqualsBuilder();
+        eb.append(this.name, other.getName());
+        eb.append(this.externalSourceId, other.getExternalSourceId());
+        eb.append(this.conceptType, other.getConceptType());
+        eb.append(this.specificityLevel, other.getSpecificityLevel());
+        eb.append(this.status, other.getStatus());
+        eb.append(this.pragmaticStatus, other.getPragmaticStatus());
+        eb.append(this.uniqueInstance, other.getUniqueInstance());
+        eb.append(this.getLanguageRepresentationsAndRepresentative(), other.
+                getLanguageRepresentationsAndRepresentative());
+        eb.append(this.getOntologicalDomainsString(), other.
+                getOntologicalDomainsString());
+        return eb.isEquals();
     }
 
     @Override
