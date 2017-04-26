@@ -375,13 +375,8 @@ public class LanguageRepresentation implements Serializable {
 
     public List<Concept> getConcepts() {
         List<Concept> languageRepresentationConcepts = new ArrayList<>();
-        for (LanguageRepresentation languageRepresentation
-                : LanguageRepresentation.languageRepresentations) {
-            for (Concept concept : languageRepresentation.getConcepts()) {
-                if (!languageRepresentationConcepts.contains(concept)) {
-                    languageRepresentationConcepts.add(concept);
-                }
-            }
+        for (Concept_LanguageRepresentation clr : this.concepts) {
+            languageRepresentationConcepts.add(clr.getConcept());
         }
         return languageRepresentationConcepts;
     }
@@ -440,13 +435,14 @@ public class LanguageRepresentation implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.text);
+        hash = 67 * hash + Objects.hashCode(this.partOfSpeech);
         hash = 67 * hash + Objects.hashCode(this.language);
         hash = 67 * hash + Objects.hashCode(this.useStatus);
-        hash = 67 * hash + Objects.hashCode(this.partOfSpeech);
         hash = 67 * hash + Objects.hashCode(this.productivity);
         hash = 67 * hash + Objects.hashCode(this.negation);
         hash = 67 * hash + Objects.hashCode(this.operator);
-        hash = 67 * hash + Objects.hashCode(this.text);
+
         return hash;
     }
 
@@ -459,13 +455,16 @@ public class LanguageRepresentation implements Serializable {
             return false;
         }
         final LanguageRepresentation other = (LanguageRepresentation)obj;
+        if (!this.text.equals(other.getText())) {
+            return false;
+        }
+        if (!this.partOfSpeech.equals(other.getPartOfSpeech())) {
+            return false;
+        }
         if (!this.language.equals(other.getLanguage())) {
             return false;
         }
         if (!this.useStatus.equals(other.getUseStatus())) {
-            return false;
-        }
-        if (!this.partOfSpeech.equals(other.getPartOfSpeech())) {
             return false;
         }
         if (!this.productivity.equals(other.getProductivity())) {
@@ -475,9 +474,6 @@ public class LanguageRepresentation implements Serializable {
             return false;
         }
         if (!this.operator.equals(other.getOperator())) {
-            return false;
-        }
-        if (!this.text.equals(other.getText())) {
             return false;
         }
         return true;
