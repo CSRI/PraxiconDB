@@ -39,7 +39,7 @@ import org.neo4j.graphdb.factory.GraphDatabaseFactory;
  */
 public class CreateNeo4JDB {
 
-    private static final String DB_PATH =
+    private static String DB_PATH =
             "misc/graph-db/praxicon.graph.db";
 
     String myString;
@@ -55,11 +55,18 @@ public class CreateNeo4JDB {
     Relationship relationEdge;
 
     public static void main(final String[] args) {
+    		if (args[0] != null && args[0].length() > 0)
+    		{
+    			File f = new File(args[0]);
+    			if (f.exists() && f.isDirectory())
+    			{
+    				DB_PATH = args[0];
+    			}
+    		}
         CreateNeo4JDB myNeoInstance = new CreateNeo4JDB();
         myNeoInstance.dropDb();
         myNeoInstance.createGraph();
         myNeoInstance.shutDown();
-        System.exit(0);
     }
 
     private void dropDb() {
