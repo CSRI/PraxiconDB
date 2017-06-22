@@ -33,9 +33,10 @@ import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 /**
  *
  * @author dmavroeidis
- * edit: Lorenzo Gregori
+ * @edit Lorenzo Gregori
  * -- based on neo4j 3.1.2
- * -- representation of RelationSet through Nodes connected with each Relation start node (RS_LEFT) and Relation end node (RS_RIGHT)
+ * -- representation of RelationSet through Nodes connected with each Relation
+ *    start node (RS_LEFT) and Relation end node (RS_RIGHT).
  */
 public class CreateNeo4JDB {
 
@@ -55,18 +56,19 @@ public class CreateNeo4JDB {
     Relationship relationEdge;
 
     public static void main(final String[] args) {
-    		if (args[0] != null && args[0].length() > 0)
-    		{
-    			File f = new File(args[0]);
-    			if (f.exists() && f.isDirectory())
-    			{
-    				DB_PATH = args[0];
-    			}
-    		}
+        if (args.length > 0) {
+            if (args[0] != null && args[0].length() > 0) {
+                File f = new File(args[0]);
+                if (f.exists() && f.isDirectory()) {
+                    DB_PATH = args[0];
+                }
+            }
+        }
         CreateNeo4JDB myNeoInstance = new CreateNeo4JDB();
         myNeoInstance.dropDb();
         myNeoInstance.createGraph();
         myNeoInstance.shutDown();
+        System.exit(0);
     }
 
     private void dropDb() {
