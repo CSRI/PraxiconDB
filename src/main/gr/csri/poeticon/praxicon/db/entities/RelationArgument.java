@@ -247,7 +247,12 @@ public class RelationArgument implements Serializable {
 
     @Override
     public String toString() {
-        return "gr.csri.poeticon.praxicon.db.entities.RelationArgument[ id=" +
-                id + " ]";
+        if (this.isConcept()) {
+            return this.getConcept().toString();
+        } else {
+            return this.getRelationSet().toString();
+        }
+//        return "gr.csri.poeticon.praxicon.db.entities.RelationArgument[ id=" +
+//                id + " ]";
     }
 }
