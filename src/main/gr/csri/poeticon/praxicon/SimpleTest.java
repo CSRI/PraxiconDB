@@ -87,7 +87,7 @@ public class SimpleTest {
                     "        |  |___ ___]  |     ___] |__| |  |  |___ ");
 
             System.out.println("");
-            System.out.println("Please, select make your choice:");
+            System.out.println("Please, make your choice:");
             System.out.println("-------------------------");
             System.out.println("1. Concepts");
             System.out.println("2. Language Representations");
@@ -96,6 +96,8 @@ public class SimpleTest {
             System.out.println("5. Import from XML");
             System.out.println("6. Test concepts equality method");
             System.out.println("7. Test relation sets equality method");
+            System.out.println("8. Test relation sets");
+            System.out.println("9. Custom test");
             System.out.println("q. Exit");
             System.out.println();
             System.out.println("Please enter your choice: ");
@@ -121,6 +123,12 @@ public class SimpleTest {
                     continue;
                 case "7":
                     testRelationSetEquals();
+                    continue;
+                case "8":
+                    testRelationSets();
+                    continue;
+                case "9":
+                    testCustom();
                     continue;
                 case "q":
                     System.exit(0);
@@ -710,6 +718,193 @@ public class SimpleTest {
         XmlUtils.exportConceptsToXML(retrievedConcepts, String.
                 format("misc/export/Concepts_colour_abstract_%s.xml",
                         dateFormat.format(date)));
+    }
+
+    private static void testRelationSets() {
+        System.out.println("Get all Relation Sets and print them:");
+        RelationSetDao rsDao = new RelationSetDaoImpl();
+        List<RelationSet> allRelationSets = rsDao.findAll();
+        for (RelationSet item : allRelationSets){
+            System.out.println(item.toString());
+        }
+
+//        // Get all Concepts with name like βεντάλια
+//        ConceptDao cDao = new ConceptDaoImpl();
+//        List<Concept> fanConcepts = cDao.getConceptsByName("βεντάλια");
+//        for (Concept item : fanConcepts) {
+//            System.out.println(item);
+//            for (LanguageRepresentation lr : item.getLanguageRepresentations()) {
+//                System.out.println(lr);
+//            }
+//
+//        }
+//        Concept concept1 = cDao.getConceptByNameExact(
+//                "fdummy-shape1-βεντάλια1-shape#feature");
+//        List<LanguageRepresentation> lr1 = concept1.getLanguageRepresentations();
+//        LanguageRepresentation lrc1 = new LanguageRepresentation(lr1.get(0));
+//        lrc1.setLanguage(LanguageRepresentation.Language.EN);
+//        lrc1.setText("shape fan");
+//        concept1.addLanguageRepresentation(lrc1, true);
+//        cDao.persist(concept1);
+//
+//        Concept concept2 = cDao.getConceptByNameExact(
+//                "fdummy-sizewidth1-βεντάλια1-sizewidth#feature");
+//        List<LanguageRepresentation> lr2 = concept2.getLanguageRepresentations();
+//        LanguageRepresentation lrc2 = new LanguageRepresentation(lr2.get(0));
+//        lrc2.setLanguage(LanguageRepresentation.Language.EN);
+//        lrc2.setText("size fan");
+//        concept2.addLanguageRepresentation(lrc2, true);
+//        cDao.persist(concept2);
+//
+//        Concept concept3 = cDao.getConceptByNameExact(
+//                "ένα1_βεντάλια1-size#feature");
+//        List<LanguageRepresentation> lr3 = concept1.getLanguageRepresentations();
+//        LanguageRepresentation lrc3 = new LanguageRepresentation(lr3.get(0));
+//        lrc3.setLanguage(LanguageRepresentation.Language.EN);
+//        lrc3.setText("one fan");
+//        concept3.addLanguageRepresentation(lrc3, true);
+//        cDao.persist(concept3);
+//
+//        Concept concept4 = cDao.getConceptByNameExact(
+//                "βεντάλια1#entity");
+//        List<LanguageRepresentation> lr4 = concept1.getLanguageRepresentations();
+//        LanguageRepresentation lrc4 = new LanguageRepresentation(lr4.get(0));
+//        lrc4.setLanguage(LanguageRepresentation.Language.EN);
+//        lrc4.setText("fan");
+//        concept4.addLanguageRepresentation(lrc4, true);
+//        cDao.persist(concept4);
+//
+//        Concept concept5 = cDao.getConceptByNameExact(
+//                "κρατώ1~with~χέρι1~the~βεντάλια1#movement");
+//        List<LanguageRepresentation> lr5 = concept1.getLanguageRepresentations();
+//        LanguageRepresentation lrc5 = new LanguageRepresentation(lr5.get(0));
+//        lrc5.setLanguage(LanguageRepresentation.Language.EN);
+//        lrc5.setText("hold fan with hand");
+//        concept5.addLanguageRepresentation(lrc5, true);
+//        cDao.persist(concept5);
+
+    }
+
+    private static void testCustom() {
+        ConceptDao cDao = new ConceptDaoImpl();
+        RelationDao rDao = new RelationDaoImpl();
+        List<RelationSet> allTheRelationsets = new ArrayList<>();
+        List<Relation> allTheRelations = new ArrayList<>();
+        List<Concept> allTheConcepts = new ArrayList<>();
+
+        List<Concept> coffeeConcepts = cDao.getConceptsByName("coffee");
+        List<Concept> poppyConcepts = cDao.getConceptsByName("poppy");
+        List<Concept> redConcepts = cDao.getConceptsByName("red");
+        List<Concept> brownConcepts = cDao.getConceptsByName("brown");
+        List<Concept> cupConcepts = cDao.getConceptsByName("cup");
+        List<Concept> spoonConcepts = cDao.getConceptsByName("spoon");
+
+        System.out.println("\nConcepts containing string coffee");
+        for (Concept concept : coffeeConcepts) {
+            System.out.println(concept);
+        }
+        System.out.println("\nConcepts containing string poppy");
+        for (Concept concept : poppyConcepts) {
+            System.out.println(concept);
+        }
+        System.out.println("\nConcepts containing string red");
+        for (Concept concept : redConcepts) {
+            System.out.println(concept);
+        }
+        System.out.println("\nConcepts containing string brown");
+        for (Concept concept : brownConcepts) {
+            System.out.println(concept);
+        }
+        System.out.println("\nConcepts containing string cup");
+        for (Concept concept : cupConcepts) {
+            System.out.println(concept);
+        }
+        System.out.println("\nConcepts containing string spoon");
+        for (Concept concept : spoonConcepts) {
+            System.out.println(concept);
+        }
+
+        Concept coffeeConcept = cDao.getConceptByNameExact("coffee%1:13:00::");
+        List<Relation> coffeeRelations = rDao.getAllRelationsOfConcept(
+                coffeeConcept);
+        System.out.println("\nRelations of concept coffee%1:13:00::");
+        for (Relation relation : coffeeRelations) {
+            System.out.println(relation);
+        }
+        Concept poppyConcept = cDao.getConceptByNameExact("poppy%1:20:00::");
+        List<Relation> poppyRelations = rDao.getAllRelationsOfConcept(
+                poppyConcept);
+        System.out.println("\nRelations of concept poppy%1:20:00::");
+        for (Relation relation : poppyRelations) {
+            System.out.println(relation);
+        }
+        Concept redConcept = cDao.getConceptByNameExact("red%1:07:00::");
+        List<Relation> redRelations = rDao.getAllRelationsOfConcept(
+                redConcept);
+        System.out.println("\nRelations of concept red%1:07:00::");
+        for (Relation relation : redRelations) {
+            System.out.println(relation);
+        }
+        Concept brownConcept = cDao.getConceptByNameExact("brown%2:30:00::");
+        List<Relation> brownRelations = rDao.getAllRelationsOfConcept(
+                brownConcept);
+        System.out.println("\nRelations of concept brown%2:30:00::");
+        for (Relation relation : brownRelations) {
+            System.out.println(relation);
+        }
+        Concept coffeCupConcept = cDao.getConceptByNameExact(
+                "coffee_cup%1:06:00::");
+        List<Relation> coffeCupRelations = rDao.getAllRelationsOfConcept(
+                coffeCupConcept);
+        System.out.println("\nRelations of concept coffee_cup%1:06:00::");
+        for (Relation relation : coffeCupRelations) {
+            System.out.println(relation);
+        }
+        Concept spoonConcept = cDao.getConceptByNameExact(
+                "spoon%1:06:00::");
+        List<Relation> spoonRelations = rDao.getAllRelationsOfConcept(
+                spoonConcept);
+        System.out.println("\nRelations of concept spoon%1:06:00::");
+        for (Relation relation : spoonRelations) {
+            System.out.println(relation);
+        }
+
+        
+        RelationArgumentDao raDao = new RelationArgumentDaoImpl();
+        RelationArgument poppyRelationArgument = raDao.getRelationArgument(
+                poppyConcept);
+        System.out.println("poppyRelationArgument: " + poppyRelationArgument.
+                getId());
+        RelationArgument redRelationArgument = raDao.getRelationArgument(
+                redConcept);
+        System.out.
+                println("redRelationArgument: " + redRelationArgument.getId());
+        RelationArgument coffeeRelationArgument = raDao.getRelationArgument(
+                coffeeConcept);
+        System.out.println("coffeeRelationArgument: " + coffeeRelationArgument.
+                getId());
+        RelationArgument brownRelationArgument = raDao.getRelationArgument(
+                brownConcept);
+        System.out.println("brownRelationArgument: " + brownRelationArgument.
+                getId());
+        
+
+        allTheConcepts.add(redConcept);
+        allTheConcepts.add(brownConcept);
+        allTheConcepts.add(coffeeConcept);
+        allTheConcepts.add(poppyConcept);
+        allTheConcepts.add(coffeCupConcept);
+        allTheConcepts.add(spoonConcept);
+
+        allTheRelations.addAll(poppyRelations);
+        allTheRelations.addAll(redRelations);
+        allTheRelations.addAll(brownRelations);
+        allTheRelations.addAll(coffeeRelations);
+        allTheRelations.addAll(coffeCupRelations);
+        allTheRelations.addAll(spoonRelations);
+
+        XmlUtils.exportAllObjectsToXML(allTheRelationsets, allTheConcepts,
+                allTheRelations, "misc/exports/praxicon_sample.xml");
     }
 
 }
