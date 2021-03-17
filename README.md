@@ -43,13 +43,12 @@ Relation Sets and Concepts can be found in the documentation.
 
 Getting the Software
 --------------------
-There are two possible ways to get the PraxiconDB:
+There are two ways to get the PraxiconDB:
 
 1. Get the latest stable release from https://github.com/CSRI/PraxiconDB/tags.
 
 2. Get the latest development version by creating a local fork of the project 
-on your Git account and clone it locally at 
-https://github.com/CSRI/PraxiconDB.git.
+on your Git account and clone it locally (https://github.com/CSRI/PraxiconDB.git).
 
 Installation and Usage
 ----------------------
@@ -63,5 +62,6 @@ https://github.com/CSRI/PraxiconDB/issues.
 
 Development
 -----------
-If you would like to contribute to the project, just fork it, do your magic
-and send pull requests with your changes.
+If you would like to contribute to the project, just fork it, and send 
+pull requests with your changes. If you require assistance, please 
+contact the authors.
